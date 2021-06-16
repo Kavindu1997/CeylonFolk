@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { AppBar,Typography,Button,IconButton,Toolbar,Collapse} from '@material-ui/core';
-import SortIcon from '@material-ui/icons/Sort'
+import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import useStyles from './styles';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
@@ -22,12 +22,11 @@ const Header = () => {
                
                 <Button color="#000" href="/index">Home</Button>
                 <Button color="#000"  href="/shop">Shop</Button>
-                <Button color="#000" href="/about">About</Button>
-                <Button color="#000" href="/contactus">ContactUs</Button>
+                <Button color="#000" href="/contactus">Contact us</Button>
                 <Button color="#000" href="/login">Login</Button>
 
                 <IconButton>
-                       <SortIcon className={classes.icon}/>
+                       <ShoppingCartIcon className={classes.icon}/>
                 </IconButton>
 
               </Toolbar>
@@ -43,9 +42,7 @@ const Header = () => {
                     <ExpandMoreIcon className={classes.goDown}/>
                 </IconButton>
             </div>
-            </Collapse>
-     
-            
+            </Collapse> 
         </div>
     );
 };
