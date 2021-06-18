@@ -1,13 +1,13 @@
 import React from 'react';
 import { CssBaseline } from '@material-ui/core';
-import Header from '../components/Header/Header';
-import useStyles from '../components/Header/styles';
+import CommonNav from '../components/Navbars/CommonNav';
+import Content from '../components/Content';
 const Home = () => {
-    const classes=useStyles();
     return (
-        <div className={classes.base}>        
+        <div>        
           <CssBaseline/>
-          <Header/>
+          <CommonNav/>
+          <Content/>
         </div>
     );
 };

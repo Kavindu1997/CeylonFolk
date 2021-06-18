@@ -6,7 +6,7 @@ import Shop from './pages/Shop';
 import Contactus from './pages/Contactus';
 import Signup from './pages/Signup';
 import Login from './pages/Login';
-
+import AdminDashboard from './pages/AdminDashboard';
 
 const App = () => {
   
@@ -18,6 +18,8 @@ const App = () => {
               <Route path="/contactus" exact render={() => < Contactus/>}/>
               <Route path="/signup" exact render={() => < Signup/>}/>
               <Route path="/login" exact render={() => < Login/>}/>
+
+              <Route path="/admin" exact render={() => <AdminDashboard/>}/>
           </Router>
         </>
     );

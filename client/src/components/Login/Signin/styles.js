@@ -10,7 +10,6 @@ const useStyles = makeStyles((theme) => ({
       backgroundPosition: "center center",
       backgroundSize: "cover",
       backgroundAttachment: "fixed"   
-
     },
     paper: {
       marginTop: theme.spacing(0),
