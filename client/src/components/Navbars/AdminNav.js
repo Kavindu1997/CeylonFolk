@@ -16,7 +16,7 @@ const useStyles=makeStyles((theme)=>({
   },
   icon:{
       color:'#fff',
-      fontSize:'2rem'
+      fontSize:'1.5rem'
   },
   appbarTitle:{
       flexGrow:'1',
@@ -45,7 +45,7 @@ const AdminNav = () => {
                
                 <Button color="inherit" href="#"  style={{textTransform: 'none',fontFamily:'Nunito',fontSize:'15px'}}>Home</Button>
                 <Button color="inherit"  href="/admin"  style={{textTransform: 'none',fontFamily:'Nunito',fontSize:'15px'}}>Control Panel</Button>
-                <Button color="inherit" href="#"  style={{textTransform: 'none',fontFamily:'Nunito',fontSize:'15px'}}>Users</Button>
+                <Button color="inherit" href="/users"  style={{textTransform: 'none',fontFamily:'Nunito',fontSize:'15px'}}>Users</Button>
                 <Button color="inherit" href="#"  style={{textTransform: 'none',fontFamily:'Nunito',fontSize:'15px'}}>Inventory</Button>
                 <Button color="inherit" href="#"  style={{textTransform: 'none',fontFamily:'Nunito',fontSize:'15px'}}>Orders</Button>
                 

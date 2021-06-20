@@ -17,7 +17,7 @@ const useStyles=makeStyles((theme)=>({
     },
     icon:{
         color:'#fff',
-        fontSize:'2rem'
+        fontSize:'1.5rem'
     },
     appbarTitle:{
         flexGrow:'1',

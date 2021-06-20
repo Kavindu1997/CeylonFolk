@@ -7,7 +7,7 @@ import Contactus from './pages/Contactus';
 import Signup from './pages/Signup';
 import Login from './pages/Login';
 import AdminDashboard from './pages/AdminDashboard';
-
+import Users from './pages/Users';
 const App = () => {
   
     return(
@@ -20,6 +20,7 @@ const App = () => {
               <Route path="/login" exact render={() => < Login/>}/>
 
               <Route path="/admin" exact render={() => <AdminDashboard/>}/>
+              <Route path="/users" exact render={() => <Users/>}/>
           </Router>
         </>
     );
