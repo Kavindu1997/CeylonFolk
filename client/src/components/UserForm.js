@@ -56,7 +56,8 @@ const UserForm = () => {
     const handleSubmit=e=>{
       e.preventDefault();
       if(validate()){  
-        window.alert('Please Wait...!');
+         userService.insertUser(values);
+         resetForm();
       }
     }
     return (
