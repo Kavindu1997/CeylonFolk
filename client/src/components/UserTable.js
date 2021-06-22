@@ -11,12 +11,25 @@ const useStyles=makeStyles((theme)=>({
           padding:theme.spacing(3)
       }
 }));
+
+const headCells=[
+    {id:'userType',label:'User Type'},
+    {id:'firstName',label:'First Name'},
+    {id:'lastName',label:'Last Name'},
+    {id:'gender',label:'Gender'},
+    {id:'mobile',label:'Mobile Number'},
+    {id:'email',label:'Email'},
+]
+
 const UserTable = () => {
     const classes=useStyles();
     const [records,setRecords]=useState(userService.getALLUsers());
     const{
-        TblContainer
-    }=useTable();
+        TblContainer,
+        TblHead,
+        TblPagination,
+        recordsAfterPagingAndSorting
+    }=useTable(records,headCells);
 
 
     return (
@@ -27,10 +40,12 @@ const UserTable = () => {
             />
             <Paper className={classes.pageContent}>
                <UserForm/>
+             
                <TblContainer>
+                    <TblHead/>
                     <TableBody>
                         {
-                            records.map(item=>(
+                             recordsAfterPagingAndSorting().map(item=>(
                                 <TableRow key={item.id}>
                                     <TableCell>{item.userType}</TableCell>
                                     <TableCell>{item.firstName}</TableCell>
@@ -43,7 +58,7 @@ const UserTable = () => {
                         }
                     </TableBody>
                </TblContainer>
-
+               <TblPagination/>
             </Paper>
         </div>
     );

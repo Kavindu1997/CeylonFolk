@@ -26,13 +26,14 @@ export function generateUserId(){
 }
 
 export function getALLUsers(){
-    if(localStorage.getItem(KEYS.users)==null)
+    if(localStorage.getItem(KEYS.users)==null){
          localStorage.setItem(KEYS.users,JSON.stringify([]))
-    let users=JSON.parse(localStorage.getItem(KEYS.users));
+    }
+    return JSON.parse(localStorage.getItem(KEYS.users));
     
-    let userTypes=getUserType();
-  return users.map(x=>({
-        ...x,
-        userType: userTypes[x.userType-1].title
-    }))
+    // let userTypes=getUserType();
+    // return users.map(x=>({
+    //     ...x,
+    //     userType: userTypes[x.userType-1].title
+    // }))
 }
