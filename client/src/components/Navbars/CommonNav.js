@@ -10,13 +10,13 @@ const useStyles=makeStyles((theme)=>({
         display:'flex',
         justifyContent:'center',
         alignItems:'center',
-        fontFamily:'Nunito',   
+        fontFamily:'Segoe UI', 
     },
     appbar:{
-        background:'none'
+        background:'#2C2D2D',
     },
     icon:{
-        color:'#fff',
+        color:'white',
         fontSize:'1.5rem'
     },
     appbarTitle:{
@@ -29,7 +29,10 @@ const useStyles=makeStyles((theme)=>({
         color:"black",
     },
     colorText:{
-        color:'black'
+        color:'white'
+    },
+    navbartext:{
+        color: 'white'
     },
   
  }))
@@ -44,11 +47,15 @@ const CommonNav = () => {
                    <h1 className={classes.appbarTitle}>
                          Ceylon<span className={classes.colorText}>Folk</span>   
                    </h1>
+                   <div className={classes.navbartext}>
+                   <Button color="white" href="/index"  style={{textTransform: 'none',fontFamily:'Nunito',fontSize:'15px'}}>Home</Button>
+                <Button color="white"  href="/shop"  style={{textTransform: 'none',fontFamily:'Nunito',fontSize:'15px'}}>Shop</Button>
+                <Button color="white" href="/contactus"  style={{textTransform: 'none',fontFamily:'Nunito',fontSize:'15px'}}>Contact us</Button>
+                <Button color="white" href="/login"  style={{textTransform: 'none',fontFamily:'Nunito',fontSize:'15px'}}>Login</Button>
+
+                   </div>
                
-                <Button color="inherit" href="/index"  style={{textTransform: 'none',fontFamily:'Nunito',fontSize:'15px'}}>Home</Button>
-                <Button color="inherit"  href="/shop"  style={{textTransform: 'none',fontFamily:'Nunito',fontSize:'15px'}}>Shop</Button>
-                <Button color="inherit" href="/contactus"  style={{textTransform: 'none',fontFamily:'Nunito',fontSize:'15px'}}>Contact us</Button>
-                <Button color="inherit" href="/login"  style={{textTransform: 'none',fontFamily:'Nunito',fontSize:'15px'}}>Login</Button>
+                
 
                 <IconButton>
                        <LocalMallSharpIcon className={classes.icon}/>

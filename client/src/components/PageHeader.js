@@ -3,12 +3,12 @@ import {Paper,Card,Typography,makeStyles} from '@material-ui/core';
 
 const useStyles=makeStyles((theme)=>({
     root:{
-        backgroundColor:''
+        backgroundColor:'',
     },
     pageHeader:{
         padding:theme.spacing(4),
         display:'flex',
-        marginBottom:theme.spacing(3)
+        marginBottom:theme.spacing(3),
     },
     pageIcon:{
         display:'inline-block',

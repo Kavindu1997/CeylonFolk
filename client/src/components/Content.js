@@ -39,14 +39,19 @@ const useStyles=makeStyles((theme)=>({
         justifyContent:'left',
         alignItems:'center',
         height:'1000px',
-        fontFamily:'Nunito' ,
+        fontFamily:'Segoe UI' ,
         backgroundImage:`linear-gradient(rgba(0,0,0,0.1),rgba(0,0,0,0.1)),url(${Image})`,
         backgroundRepeat: "no-repeat",
         backgroundPosition: "center",
         backgroundSize: "cover",
         position:'relative',
         padding: '100px',
+        color: 'white'
       
+    },
+    backimage: {
+        marginTop: '70px'
+
     },
     colorText:{
         color:'black',
@@ -94,7 +99,7 @@ const Content = () => {
     },[]);
 
     return (
-        <div>
+        <div className={classes.backimage}>
             <Box className={classes.root} >
             <Collapse in={checked}  {...(checked ? { timeout: 1000 } : {})} collapsedHeight={50}>
             <div className={classes.container}>
