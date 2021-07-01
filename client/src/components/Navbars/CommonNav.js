@@ -13,7 +13,7 @@ const useStyles=makeStyles((theme)=>({
         fontFamily:'Nunito',   
     },
     appbar:{
-        background:'black'
+        background:'none'
     },
     icon:{
         color:'#fff',
@@ -26,10 +26,10 @@ const useStyles=makeStyles((theme)=>({
     appbarWrapper:{
         width:'100%',
         margin:'0 auto',
-        color:"#fff",
+        color:"black",
     },
     colorText:{
-        color:'#052afa'
+        color:'black'
     },
   
  }))

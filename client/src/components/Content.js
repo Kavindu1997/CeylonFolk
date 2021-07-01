@@ -1,35 +1,57 @@
 import React,{ useEffect, useState} from 'react';
-import {Typography,IconButton,Collapse,Box,Button,Container,Grid,Card,CardActionArea,CardActions,CardContent,CardMedia} from '@material-ui/core';
+import {Typography,IconButton,Collapse,Box,Button,Container,Grid,Card,CardActionArea,CardActions,CardContent,CardMedia,createMuiTheme} from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { makeStyles } from '@material-ui/styles';
-import Image from '../images/index.jpg';
+import Image from '../images/cover6.jpg';
 import Collection1 from '../images/collection1.jpg';
 import Collection2 from '../images/collection2.jpg';
 import Collection3 from '../images/collection3.jpg';
 
+
+const theme = createMuiTheme({
+    typography: {
+      fontFamily: [
+        '-apple-system',
+        'BlinkMacSystemFont',
+        '"Segoe UI"',
+        'Roboto',
+        '"Helvetica Neue"',
+        'Arial',
+        'sans-serif',
+        '"Apple Color Emoji"',
+        '"Segoe UI Emoji"',
+        '"Segoe UI Symbol"',
+      ].join(','),
+    },
+  });
+
 const useStyles=makeStyles((theme)=>({
     root:{
         display:'flex',
-        justifyContent:'center',
+        justifyContent:'left',
         alignItems:'center',
-        height:'730px',
+        height:'1000px',
         fontFamily:'Nunito' ,
         backgroundImage:`linear-gradient(rgba(0,0,0,0.1),rgba(0,0,0,0.1)),url(${Image})`,
         backgroundRepeat: "no-repeat",
         backgroundPosition: "center",
         backgroundSize: "cover",
         position:'relative',
+        padding: '100px',
       
     },
     colorText:{
-        color:'#052afa'
+        color:'black',
+        fontSize:'4rem',
     },
     title:{
-     color:'#3d3a3a',
-     fontSize:'3rem'
+     color:'black',
+     fontSize:'3rem',
+     textAlign: 'left',
+     fontFamily:'Segoe UI',
     },
     container:{
-        textAlign:'center'
+        textAlign:'left'
     },
     goDown:{
         color:'#fff',
@@ -39,10 +61,11 @@ const useStyles=makeStyles((theme)=>({
         paddingTop:'24px'
     },
     collectionTitle:{
-        fontWeight:'800',
+        fontWeight:'300',
         paddingBottom:'24px',
         textAlign:'center',
-        fontFamily:'Nunito'
+        fontFamily:'Segoe UI',
+        padding: '50px',
     },
     card:{
         maxWidth:'95%'
@@ -67,8 +90,8 @@ const Content = () => {
             <Collapse in={checked}  {...(checked ? { timeout: 1000 } : {})} collapsedHeight={50}>
             <div className={classes.container}>
                 <h1 className={classes.title}>
-                    Welcome to <br/>Ceylon
-                    <span className={classes.colorText}>Folk</span>   
+                    YOU DECIDE<br/>
+                    <span className={classes.colorText}>WE DESIGN</span>   
                 </h1>
                 <IconButton>
                     <ExpandMoreIcon className={classes.goDown}/>
@@ -77,7 +100,7 @@ const Content = () => {
             </Collapse> 
             </Box>
             <Container className={classes.collectionContainer} maxWidth="lg">
-                <Typography variant="h4" className={classes.collectionTitle}>Top Collections</Typography>
+                <Typography variant="h4" className={classes.collectionTitle}>TOP SELLER</Typography>
          
             <Grid container spacing={0}>
                 <Grid item xs={12} sm={6} md={4}>
