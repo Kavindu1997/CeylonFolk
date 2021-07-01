@@ -6,6 +6,14 @@ import Image from '../images/cover6.jpg';
 import Collection1 from '../images/collection1.jpg';
 import Collection2 from '../images/collection2.jpg';
 import Collection3 from '../images/collection3.jpg';
+import Snap1 from '../images/snap1.jpg'
+import Snap2 from '../images/snap2.jpg'
+import Snap3 from '../images/snap3.jpg'
+import Snap4 from '../images/snap4.jpg'
+import Snap5 from '../images/snap5.jpg'
+
+
+import Carousel from 'react-elastic-carousel';
 
 
 const theme = createMuiTheme({
@@ -83,7 +91,8 @@ const Content = () => {
     const [checked,setChecked]=useState(false);
     useEffect(()=>{
          setChecked(true);
-    },[])
+    },[]);
+
     return (
         <div>
             <Box className={classes.root} >
@@ -160,6 +169,72 @@ const Content = () => {
                                 </CardActions>
                             </Card>
                 </Grid>
+            </Grid>
+            </Container>
+
+
+
+
+            <Container className={classes.collectionContainer} maxWidth="lg">
+                <Typography variant="h4" className={classes.collectionTitle}>Customer Snaps</Typography>
+            <Grid container spacing={0}>
+                        <Carousel>   
+                            <Grid item xs={12} sm={6} md={4}>
+                                    <Card className={classes.card}>
+                                        <CardActionArea>
+                                                <CardMedia
+                                                className={classes.media}
+                                                style={{ backgroundImage:`url(${Snap1})`,height:'450px'}}
+                                                title="Snap1"
+                                                />      
+                                           </CardActionArea>
+                                    </Card>
+                            </Grid>
+                            <Grid item xs={12} sm={6} md={4}>
+                                        <Card className={classes.card}>
+                                            <CardActionArea>
+                                                    <CardMedia
+                                                    className={classes.media}
+                                                    style={{ backgroundImage:`url(${Snap2})`,height:'450px'}}
+                                                    title="Snap2"
+                                                    />
+                                            </CardActionArea>
+                                        </Card>
+                            </Grid>    
+                            <Grid item xs={12} sm={6} md={4}>
+                                        <Card className={classes.card}>
+                                            <CardActionArea>
+                                                    <CardMedia
+                                                    className={classes.media}
+                                                    style={{ backgroundImage:`url(${Snap3})`,height:'450px'}}
+                                                    title="Snap3"
+                                                    />                                          
+                                            </CardActionArea>
+                                        </Card>
+                            </Grid>
+                            <Grid item xs={12} sm={6} md={4}>
+                                        <Card className={classes.card}>
+                                            <CardActionArea>
+                                                    <CardMedia
+                                                    className={classes.media}
+                                                    style={{ backgroundImage:`url(${Snap4})`,height:'450px'}}
+                                                    title="Sanp4"
+                                                    />                                          
+                                            </CardActionArea>
+                                        </Card>
+                            </Grid>
+                            <Grid item xs={12} sm={6} md={4}>
+                                        <Card className={classes.card}>
+                                            <CardActionArea>
+                                                    <CardMedia
+                                                    className={classes.media}
+                                                    style={{ backgroundImage:`url(${Snap5})`,height:'450px'}}
+                                                    title="Snap5"
+                                                    />                                          
+                                            </CardActionArea>
+                                        </Card>
+                            </Grid>
+                        </Carousel>     
             </Grid>
             </Container>
         </div>

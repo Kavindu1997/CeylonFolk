@@ -2,13 +2,25 @@ import React, { useState } from 'react';
 import UserForm from './UserForm';
 import PageHeader from './PageHeader';
 import GroupIcon from '@material-ui/icons/Group';
-import { makeStyles, Paper,TableBody,TableRow,TableCell } from '@material-ui/core';
+import {Search} from '@material-ui/icons';
+import AddIcon from '@material-ui/icons/Add';
+import { makeStyles, Paper,TableBody,TableRow,TableCell,Toolbar, InputAdornment} from '@material-ui/core';
 import useTable from './Reusable/useTable';
 import * as userService from '../services/userService';
+import Controls from './Reusable/Controls';
+import Popup from './Reusable/Popup';
+
 const useStyles=makeStyles((theme)=>({
       pageContent:{
           margin:theme.spacing(5),
           padding:theme.spacing(3)
+      },
+      searchInput:{
+          width:'50%'
+      },
+      newButton:{
+          position:'absolute',
+          right:'10px'
       }
 }));
 
@@ -24,14 +36,26 @@ const headCells=[
 const UserTable = () => {
     const classes=useStyles();
     const [records,setRecords]=useState(userService.getALLUsers());
+    const [filterFn,setFilterFn]=useState({fn:items=>{return items;}});
+    const [openPopup,setOpenPopup]=useState(false);
     const{
         TblContainer,
         TblHead,
         TblPagination,
         recordsAfterPagingAndSorting
-    }=useTable(records,headCells);
+    }=useTable(records,headCells,filterFn);
 
-
+    const handleSearch=e=>{
+           let target=e.target;
+           setFilterFn({
+               fn:items=>{
+                   if(target.value==="")
+                      return items;
+                   else
+                      return items.filter(x=>x.firstName.toLowerCase().includes(target.value)) 
+               }
+           })
+    }
     return (
         <div>
             <PageHeader
@@ -39,8 +63,28 @@ const UserTable = () => {
             icon={< GroupIcon fontSize="large"/>}
             />
             <Paper className={classes.pageContent}>
-               <UserForm/>
-             
+              
+              <Toolbar>
+                  <Controls.Input
+                      label="Search User"
+                      className={classes.searchInput}
+                      InputProps={{
+                          startAdornment:(
+                            <InputAdornment position="start">
+                                  <Search/>
+                            </InputAdornment>)
+                          }
+                      }
+                      onChange={handleSearch}
+                  />
+                  <Controls.Button
+                      text="Add New User"
+                      variant="outlined"
+                      startIcon={<AddIcon/>}
+                      className={classes.newButton}
+                      onClick={()=>setOpenPopup(true)}
+                  />
+              </Toolbar>
                <TblContainer>
                     <TblHead/>
                     <TableBody>
@@ -60,6 +104,14 @@ const UserTable = () => {
                </TblContainer>
                <TblPagination/>
             </Paper>
+
+            <Popup
+            title="Add User Form"
+            openPopup={openPopup}
+            setOpenPopup={setOpenPopup}
+            >
+                  <UserForm/>
+            </Popup>
         </div>
     );
 };
