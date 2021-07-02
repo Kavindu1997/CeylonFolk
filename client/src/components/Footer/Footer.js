@@ -5,7 +5,7 @@ import InstagramIcon from '@material-ui/icons/Instagram';
 
 const useStyles=makeStyles((theme)=>({
      root:{
-         backgroundColor:'black',
+         backgroundColor:'#2C2D2D',
          color:'white',
          marginTop:theme.spacing(8),
          paddingTop:theme.spacing(10),
