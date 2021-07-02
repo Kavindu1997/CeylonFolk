@@ -70,9 +70,9 @@ const CommonNav = () => {
                    </div> 
                    {/* <div className={classes.appbarTitle2}>
                    <CardMedia
-                                        className={classes.media}
-                                        style={{ logo:`url(${cf_logo_long})`}}
-                                        />
+                    className={classes.media}
+                    style={{ logo:`url(${cf_logo_long})`}}
+                    />
 
                    </div> */}
                    
