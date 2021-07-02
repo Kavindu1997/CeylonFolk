@@ -11,6 +11,7 @@ const useStyles=makeStyles((theme)=>({
         justifyContent:'center',
         alignItems:'center',
         fontFamily:'Segoe UI', 
+        color:'white'
     },
     appbar:{
         background:'#2C2D2D',
@@ -32,7 +33,10 @@ const useStyles=makeStyles((theme)=>({
         color:'white'
     },
     navbartext:{
-        color: 'white'
+        color: 'white',
+        fontFamily:'Segoe UI',
+        textTransform: 'none',
+        fontSize:'15px'
     },
   
  }))
@@ -44,18 +48,19 @@ const CommonNav = () => {
         <div className={classes.root}> 
             <AppBar className={classes.appbar} elevation={0}>
                <Toolbar className={classes.appbarWrapper}>
-                   <h1 className={classes.appbarTitle}>
-                         Ceylon<span className={classes.colorText}>Folk</span>   
-                   </h1>
-                   <div className={classes.navbartext}>
-                   <Button color="white" href="/index"  style={{textTransform: 'none',fontFamily:'Nunito',fontSize:'15px'}}>Home</Button>
-                <Button color="white"  href="/shop"  style={{textTransform: 'none',fontFamily:'Nunito',fontSize:'15px'}}>Shop</Button>
-                <Button color="white" href="/contactus"  style={{textTransform: 'none',fontFamily:'Nunito',fontSize:'15px'}}>Contact us</Button>
-                <Button color="white" href="/login"  style={{textTransform: 'none',fontFamily:'Nunito',fontSize:'15px'}}>Login</Button>
-
-                   </div>
-               
-                
+                   <div className={classes.appbarTitle}>
+                    <Button color="white" href="/index"  style={{color:'white',fontFamily:'Segoe UI',textTransform: 'uppercase',fontSize:'15px',fontWeight:'100'}}>Home</Button>
+                    <Button color="white"  href="/shop"  style={{color:'white',fontFamily:'Segoe UI',textTransform: 'uppercase',fontSize:'15px',fontWeight:'100'}}>Shop</Button>
+                    <Button color="white" href="/contactus"  style={{color:'white',fontFamily:'Segoe UI',textTransform: 'uppercase',fontSize:'15px',fontWeight:'100'}}>Contact</Button>
+                    <Button color="white" href="/contactus"  style={{color:'white',fontFamily:'Segoe UI',textTransform: 'uppercase',fontSize:'15px',fontWeight:'100'}}>About us</Button>
+                    <Button color="white" href="/login"  style={{color:'white',fontFamily:'Segoe UI',textTransform: 'uppercase',fontSize:'15px',fontWeight:'100'}}>Login</Button>
+                   </div> 
+                   {/* <div className={classes.navbartext}>
+                    <Button color="white" href="/index"  style={{color:'white',fontFamily:'Segoe UI',textTransform: 'none',fontSize:'15px',fontWeight:'100'}}>Home</Button>
+                    <Button color="white"  href="/shop"  style={{color:'white',fontFamily:'Segoe UI',textTransform: 'none',fontSize:'15px',fontWeight:'100'}}>Shop</Button>
+                    <Button color="white" href="/contactus"  style={{color:'white',fontFamily:'Segoe UI',textTransform: 'none',fontSize:'15px',fontWeight:'100'}}>Contact us</Button>
+                    <Button color="white" href="/login"  style={{color:'white',fontFamily:'Segoe UI',textTransform: 'none',fontSize:'15px',fontWeight:'100'}}>Login</Button>
+                   </div> */}
 
                 <IconButton>
                        <LocalMallSharpIcon className={classes.icon}/>
@@ -63,7 +68,6 @@ const CommonNav = () => {
 
               </Toolbar>
             </AppBar>
-            
         
         </div>
     );

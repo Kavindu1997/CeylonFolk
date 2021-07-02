@@ -21,7 +21,7 @@ const theme = createMuiTheme({
       fontFamily: [
         '-apple-system',
         'BlinkMacSystemFont',
-        '"Segoe UI"',
+        'Segoe UI',
         'Roboto',
         '"Helvetica Neue"',
         'Arial',
@@ -50,7 +50,7 @@ const useStyles=makeStyles((theme)=>({
       
     },
     backimage: {
-        marginTop: '70px'
+        marginTop: '60px'
 
     },
     colorText:{

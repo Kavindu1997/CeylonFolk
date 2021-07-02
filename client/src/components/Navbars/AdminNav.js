@@ -9,7 +9,8 @@ const useStyles=makeStyles((theme)=>({
       display:'flex',
       justifyContent:'center',
       alignItems:'center',
-      fontFamily:'Nunito',   
+      fontFamily:'Segoe UI',
+      color:'white'  
   },
   appbar:{
       background:'black'
@@ -30,6 +31,10 @@ const useStyles=makeStyles((theme)=>({
   colorText:{
       color:'#052afa'
   },
+  navfont:{
+      color:'white',
+      fontFamily:'Segoe UI'
+  }
 
 }))
 const AdminNav = () => {
@@ -42,19 +47,20 @@ const AdminNav = () => {
                    <h1 className={classes.appbarTitle}>
                          Ceylon<span className={classes.colorText}>Folk</span>   
                    </h1>
-               
-                <Button color="inherit" href="#"  style={{textTransform: 'none',fontFamily:'Nunito',fontSize:'15px'}}>Home</Button>
-                <Button color="inherit"  href="/admin"  style={{textTransform: 'none',fontFamily:'Nunito',fontSize:'15px'}}>Control Panel</Button>
-                <Button color="inherit" href="/users"  style={{textTransform: 'none',fontFamily:'Nunito',fontSize:'15px'}}>Users</Button>
-                <Button color="inherit" href="#"  style={{textTransform: 'none',fontFamily:'Nunito',fontSize:'15px'}}>Inventory</Button>
-                <Button color="inherit" href="#"  style={{textTransform: 'none',fontFamily:'Nunito',fontSize:'15px'}}>Orders</Button>
-                
 
-                <IconButton>
-                       < AccountCircleIcon className={classes.icon}/>
-                </IconButton>
+                   <div className={classes.navfont}>
+                    <Button href="#"  style={{textTransform: 'none',fontSize:'15px'}}>Home</Button>
+                    <Button href="/admin"  style={{textTransform: 'none',fontSize:'15px'}}>Control Panel</Button>
+                    <Button href="/users"  style={{textTransform: 'none',fontSize:'15px'}}>Users</Button>
+                    <Button href="#"  style={{textTransform: 'none',fontSize:'15px'}}>Inventory</Button>
+                    <Button href="#"  style={{textTransform: 'none',fontSize:'15px'}}>Orders</Button>
+                   </div>
 
-              </Toolbar>
+                    <IconButton>
+                        < AccountCircleIcon className={classes.icon}/>
+                    </IconButton>
+
+                </Toolbar>
             </AppBar>
             
         
