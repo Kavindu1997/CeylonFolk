@@ -16,22 +16,7 @@ import Snap5 from '../images/snap5.jpg'
 import Carousel from 'react-elastic-carousel';
 
 
-const theme = createMuiTheme({
-    typography: {
-      fontFamily: [
-        '-apple-system',
-        'BlinkMacSystemFont',
-        'Segoe UI',
-        'Roboto',
-        '"Helvetica Neue"',
-        'Arial',
-        'sans-serif',
-        '"Apple Color Emoji"',
-        '"Segoe UI Emoji"',
-        '"Segoe UI Symbol"',
-      ].join(','),
-    },
-  });
+
 
 const useStyles=makeStyles((theme)=>({
     root:{
