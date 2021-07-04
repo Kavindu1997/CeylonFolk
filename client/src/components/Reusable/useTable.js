@@ -15,7 +15,7 @@ const useStyles=makeStyles((theme)=>({
             fontWeight:'300'
         },
         '& tbody tr:hover':{
-            backgroundColor:'#d0e4f7',
+            backgroundColor:'#74b9ff',
             cursor:'pointer'
         },
         '& .MuiTableCell-body':{

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Dialog,DialogTitle,DialogContent, makeStyles,Typography } from '@material-ui/core';
+import CloseIcon from '@material-ui/icons/Close';
 import Controls from './Controls';
 
 const useStyles=makeStyles((theme)=>({
@@ -31,12 +32,12 @@ const Popup = (props) => {
                        {title}
                     </Typography>
 
-                    <Controls.Button
+                    <Controls.ActionButton
                        color="secondary"
-                       text="X"
+                       onClick={()=>{setOpenPopup(false)}}
                     >
-
-                    </Controls.Button>
+                        <CloseIcon/>
+                    </Controls.ActionButton>
                  </div>   
              </DialogTitle>
 

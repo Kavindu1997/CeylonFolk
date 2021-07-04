@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
-    background:'#000'
+    background:'#2C2D2D'
   },
   appBarShift: {
     width: `calc(100% - ${drawerWidth}px)`,
@@ -44,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
     }),
   },
   colorText:{
-    color:'#052afa'
+    color:'#74b9ff'
 },
   menuButton: {
     marginRight: theme.spacing(2),

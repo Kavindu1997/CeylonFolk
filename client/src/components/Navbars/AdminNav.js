@@ -13,7 +13,7 @@ const useStyles=makeStyles((theme)=>({
       color:'white'  
   },
   appbar:{
-      background:'black'
+      background:'#2C2D2D'
   },
   icon:{
       color:'#fff',
@@ -29,7 +29,7 @@ const useStyles=makeStyles((theme)=>({
       color:"#fff",
   },
   colorText:{
-      color:'#052afa'
+      color:'#74b9ff'
   },
   navfont:{
       color:'white',
