@@ -2,7 +2,7 @@ import React,{ useEffect, useState} from 'react';
 import {Typography,IconButton,Collapse,Box,Button,Container,Grid,Card,CardActionArea,CardActions,CardContent,CardMedia,createMuiTheme} from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { makeStyles } from '@material-ui/styles';
-import Image from '../images/cover6.jpg';
+import Image from '../images/ccc.jpg';
 import Collection1 from '../images/collection1.jpg';
 import Collection2 from '../images/collection2.jpg';
 import Collection3 from '../images/collection3.jpg';
@@ -11,9 +11,8 @@ import Snap2 from '../images/snap2.jpg'
 import Snap3 from '../images/snap3.jpg'
 import Snap4 from '../images/snap4.jpg'
 import Snap5 from '../images/snap5.jpg'
-
-
 import Carousel from 'react-elastic-carousel';
+
 
 
 
@@ -35,15 +34,15 @@ const useStyles=makeStyles((theme)=>({
       
     },
     backimage: {
-        marginTop: '60px'
+        marginTop: '30px'
 
     },
     colorText:{
-        color:'black',
+        color:'#31C5EE',
         fontSize:'4rem',
     },
     title:{
-     color:'black',
+     color:'white',
      fontSize:'3rem',
      textAlign: 'left',
      fontFamily:'Segoe UI',
