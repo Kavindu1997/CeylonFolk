@@ -6,6 +6,7 @@ import Shop from './pages/Shop';
 import Contactus from './pages/Contactus';
 import Signup from './pages/Signup';
 import Login from './pages/Login';
+import Auth from './pages/Auth';
 import AdminDashboard from './pages/AdminDashboard';
 import Users from './pages/Users';
 
@@ -76,6 +77,7 @@ const App = () => {
               <Route path="/contactus" exact render={() => < Contactus/>}/>
               <Route path="/signup" exact render={() => < Signup/>}/>
               <Route path="/login" exact render={() => < Login/>}/>
+              <Route path="/auth" exact render={() => < Auth/>}/>
 
               <Route path="/admin" exact render={() => <AdminDashboard/>}/>
               <Route path="/users" exact render={() => <Users/>}/>
