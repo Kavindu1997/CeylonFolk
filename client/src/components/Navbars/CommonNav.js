@@ -67,6 +67,7 @@ const CommonNav = () => {
                     <Button color="white" href="/contactus"  style={{color:'white',fontFamily:'Segoe UI',textTransform: 'uppercase',fontSize:'15px',fontWeight:'100'}}>Contact</Button>
                     <Button color="white" href="/contactus"  style={{color:'white',fontFamily:'Segoe UI',textTransform: 'uppercase',fontSize:'15px',fontWeight:'100'}}>About us</Button>
                     <Button color="white" href="/login"  style={{color:'white',fontFamily:'Segoe UI',textTransform: 'uppercase',fontSize:'15px',fontWeight:'100'}}>Login</Button>
+                    <Button color="white" href="/auth"  style={{color:'white',fontFamily:'Segoe UI',textTransform: 'uppercase',fontSize:'15px',fontWeight:'100'}}>Auth</Button>
                    </div> 
                    <div className={classes.appbarTitle2}>
                       <img src={require('../../images/logo.png').default} alt="CeylonFolk" height="80px"/>
