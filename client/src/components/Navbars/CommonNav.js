@@ -80,23 +80,20 @@ const CommonNav = () => {
                     >
                     Shop
                     </Typography>
-                    </Link>
-                        
-                    <Link href="/contactus">  <Typography color="white" style={{color:'white',position:'relative',textTransform: 'uppercase',fontWeightMedium: '500',fontSize:'15px',paddingLeft:'10px'}}>Contact</Typography></Link>
-                    <Link href="/auth">  <Typography color="white" style={{color:'white',position:'relative',textTransform: 'uppercase',fontWeightMedium: '500',fontSize:'15px',paddingLeft:'10px'}}>Auth</Typography></Link>
-                    <Link href="/contactus">  <Typography color="white" style={{color:'white',position:'relative',textTransform: 'uppercase',fontWeightMedium: '500',fontSize:'15px',paddingLeft:'10px'}}>Auth</Typography></Link>
+                    </Link>                       
+                    <Link href="/contactus"><Typography color="white" style={{color:'white',position:'relative',textTransform: 'uppercase',fontWeightMedium: '500',fontSize:'15px',paddingLeft:'10px'}}>Contact</Typography></Link>
+                    <Link href="#"><Typography color="white" style={{color:'white',position:'relative',textTransform: 'uppercase',fontWeightMedium: '500',fontSize:'15px',paddingLeft:'10px'}}>About Us</Typography></Link>
                    </div> 
                  
                    <div className={classes.appbarTitle2}>
-                      <img src={require('../../images/logo.png').default} alt="CeylonFolk" height="80px"/>
-                   </div>
-                   
-              
+                   <Link href="/index"><img src={require('../../images/logo.png').default} alt="CeylonFolk" height="80px"/></Link>
+                   </div>                  
+             
                 <IconButton>
-                    <SearchOutlinedIcon className={classes.icon}/>
-                    <FavoriteBorderOutlinedIcon className={classes.icon}/>
-                    <LocalMallOutlinedIcon className={classes.icon}/>
-                    <PermIdentityOutlinedIcon className={classes.icon}/>       
+                    <Link href="/auth"><SearchOutlinedIcon className={classes.icon}/></Link>
+                    <Link href="/auth"><FavoriteBorderOutlinedIcon className={classes.icon}/></Link>
+                    <Link href="/auth"><LocalMallOutlinedIcon className={classes.icon}/></Link>
+                    <Link href="/auth"><PermIdentityOutlinedIcon className={classes.icon}/></Link>       
                 </IconButton>
 
               </Toolbar>
