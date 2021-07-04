@@ -1,8 +1,7 @@
 import React from 'react';
-import { AppBar,Typography,Button,IconButton,CardMedia,Toolbar,Box} from '@material-ui/core';
+import { AppBar,Typography,Button,IconButton,Toolbar} from '@material-ui/core';
 import LocalMallSharpIcon from '@material-ui/icons/LocalMallSharp';
 import { makeStyles } from '@material-ui/styles';
-import logo from '../../images/cf_logo_long.png';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 
@@ -29,6 +28,7 @@ const useStyles=makeStyles((theme)=>({
     appbarTitle2:{
         flexGrow:'2',
         color:'#fff',
+        justifyContent:'center'
     },
     appbarWrapper:{
         width:'100%',
@@ -68,8 +68,8 @@ const CommonNav = () => {
                     <Button color="white" href="/contactus"  style={{color:'white',fontFamily:'Segoe UI',textTransform: 'uppercase',fontSize:'15px',fontWeight:'100'}}>About us</Button>
                     <Button color="white" href="/login"  style={{color:'white',fontFamily:'Segoe UI',textTransform: 'uppercase',fontSize:'15px',fontWeight:'100'}}>Login</Button>
                    </div> 
-                   <div>
-            
+                   <div className={classes.appbarTitle2}>
+                      <img src={require('../../images/logo.png').default} alt="CeylonFolk" height="80px"/>
                    </div>
                    
                    {/* <div className={classes.navbartext}>

@@ -2,7 +2,6 @@ import React from 'react';
 import { Container,Box,Grid,Link,Typography,makeStyles,Icon } from '@material-ui/core';
 import FacebookIcon from '@material-ui/icons/Facebook';
 import InstagramIcon from '@material-ui/icons/Instagram';
-
 const useStyles=makeStyles((theme)=>({
      root:{
          backgroundColor:'#2C2D2D',
@@ -53,7 +52,7 @@ const Footer = () => {
 
                          <Grid item xs={12} sm={3}>
                                 <Box>
-                                    <img src="https://scontent.fcmb3-1.fna.fbcdn.net/v/t1.6435-9/72547378_676523962843055_3953570765231620096_n.jpg?_nc_cat=107&ccb=1-3&_nc_sid=973b4a&_nc_ohc=c6AYs5sz7QIAX84XMVA&_nc_ht=scontent.fcmb3-1.fna&oh=5a5a4ceaaf6d3c7d548debfa596ccf6d&oe=60D85E94" alt="CeylonFolk"/>
+                                    <img src={require('../../images/logo.png').default} alt="CeylonFolk" height="100px"/>
                                 </Box>
                                
                          </Grid>
