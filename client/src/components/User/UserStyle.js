@@ -13,6 +13,7 @@ const useStyles = makeStyles((theme) => ({
     form: {
         width: '50%',
         marginTop: theme.spacing(1),
+        fontFamily:'Montserrat',
     },
     submit: {
       margin: theme.spacing(3, 0, 2),
