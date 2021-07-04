@@ -7,7 +7,7 @@ const useStyles=makeStyles((theme)=>({
         '& thead th':{
             fontWeight:'600',
             color:'#fff',
-            backgroundColor:'#0f43ab',
+            backgroundColor:'#2C2D2D',
             fontFamily:'Nunito',
             fontSize:'medium'
         },

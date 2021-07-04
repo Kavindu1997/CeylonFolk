@@ -4,8 +4,6 @@ import { createMuiTheme,ThemeProvider } from '@material-ui/core';
 import Home from './pages/Home';
 import Shop from './pages/Shop';
 import Contactus from './pages/Contactus';
-import Signup from './pages/Signup';
-import Login from './pages/Login';
 import Auth from './pages/Auth';
 import AdminDashboard from './pages/AdminDashboard';
 import Users from './pages/Users';
@@ -13,9 +11,6 @@ import Users from './pages/Users';
 
 const theme = createMuiTheme({
     typography: {
-      // fontFamily: [
-      //   'Work+Sans',
-      // ].join(','),
       fontFamily:'Work Sans',
       fontWeightThin: 100,
       fontWeightThinItalic: 100,
@@ -61,8 +56,10 @@ const theme = createMuiTheme({
     palette:{
         primary:{
             main:"#2C2D2D"
-        }
-
+        },
+        secondary:{
+            main:"#1B9CFC"
+        },
     }
   });
 
@@ -74,9 +71,7 @@ const App = () => {
           <Router>
               <Route path="/index" exact render={() => < Home/>}/>
               <Route path="/shop" exact render={() => < Shop/>}/>
-              <Route path="/contactus" exact render={() => < Contactus/>}/>
-              <Route path="/signup" exact render={() => < Signup/>}/>
-              <Route path="/login" exact render={() => < Login/>}/>
+              <Route path="/contactus" exact render={() => < Contactus/>}/>       
               <Route path="/auth" exact render={() => < Auth/>}/>
 
               <Route path="/admin" exact render={() => <AdminDashboard/>}/>
