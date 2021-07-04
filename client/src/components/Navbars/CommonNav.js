@@ -1,6 +1,7 @@
 import React from 'react';
 import { AppBar,Typography,Button,IconButton,Toolbar,Link} from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
+import logo from '../../images/logo.png';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import PermIdentityOutlinedIcon from '@material-ui/icons/PermIdentityOutlined';
 import LocalMallOutlinedIcon from '@material-ui/icons/LocalMallOutlined';
@@ -30,7 +31,8 @@ const useStyles=makeStyles((theme)=>({
     appbarTitle:{
         flexGrow:'1',
         color:'#fff',
-        display: 'flex'
+        display: 'flex',
+        fontFamily: 'Work Sans'
     },
     appbarTitle2:{
         flexGrow:'1',
@@ -38,9 +40,10 @@ const useStyles=makeStyles((theme)=>({
         justifyContent:'center'
     },
     appbarWrapper:{
-        width:'100%',
-        margin:'0 auto',
-        color:"black",
+        color: 'black',
+    width: '100%',
+    margin: '0 auto',
+    height: '10px'
     },
     colorText:{
         color:'white'
@@ -79,8 +82,9 @@ const CommonNav = () => {
                     </Typography>
                     </Link>
                         
-                 <Link href="/contactus">  <Typography color="white" style={{color:'white',position:'relative',textTransform: 'uppercase',fontWeightMedium: '500',fontSize:'15px',paddingLeft:'10px'}}>Contact</Typography></Link>
-                 <Link href="/auth">  <Typography color="white" style={{color:'white',position:'relative',textTransform: 'uppercase',fontWeightMedium: '500',fontSize:'15px',paddingLeft:'10px'}}>Auth</Typography></Link>
+                    <Link href="/contactus">  <Typography color="white" style={{color:'white',position:'relative',textTransform: 'uppercase',fontWeightMedium: '500',fontSize:'15px',paddingLeft:'10px'}}>Contact</Typography></Link>
+                    <Link href="/auth">  <Typography color="white" style={{color:'white',position:'relative',textTransform: 'uppercase',fontWeightMedium: '500',fontSize:'15px',paddingLeft:'10px'}}>Auth</Typography></Link>
+                    <Link href="/contactus">  <Typography color="white" style={{color:'white',position:'relative',textTransform: 'uppercase',fontWeightMedium: '500',fontSize:'15px',paddingLeft:'10px'}}>Auth</Typography></Link>
                    </div> 
                  
                    <div className={classes.appbarTitle2}>
