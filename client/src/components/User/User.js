@@ -15,7 +15,7 @@ export default function User() {
     return (
         <container>
             <Typography variant="h4" style={{marginTop:'150px',textAlign: 'center'}}> MY ACCOUNT</Typography>
-            <Grid container style={{marginTop:'80px',align:'center'}}>
+            <Grid container style={{marginTop:'80px',align:'center',paddingLeft:'80px'}}>
             <CssBaseline />
             <Grid item md={6} style={{align:'center'}}> 
                 <Typography component="h1" variant="h5" style={{fontFamily:'Montserrat'}}>Sign In</Typography><br></br>
