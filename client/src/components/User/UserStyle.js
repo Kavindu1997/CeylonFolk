@@ -3,15 +3,15 @@ import { Component } from 'react';
 const useStyles = makeStyles((theme) => ({
     root:{
         display:'flex',
-        justifyContent:'left',
+        justifyContent:'center',
         height:'1000px',
-        width:'100%',
         fontFamily:'Montserrat',
         position:'relative',
-        color: 'white'
+        color: 'white',
+        padding: '100px',
     },
     form: {
-        width: '80%',
+        width: '50%',
         marginTop: theme.spacing(1),
     },
     submit: {
