@@ -84,7 +84,7 @@ const CommonNav = () => {
                         
                     <Link href="/contactus">  <Typography color="white" style={{color:'white',position:'relative',textTransform: 'uppercase',fontWeightMedium: '500',fontSize:'15px',paddingLeft:'10px'}}>Contact</Typography></Link>
                     <Link href="/auth">  <Typography color="white" style={{color:'white',position:'relative',textTransform: 'uppercase',fontWeightMedium: '500',fontSize:'15px',paddingLeft:'10px'}}>Auth</Typography></Link>
-                    <Link href="/contactus">  <Typography color="white" style={{color:'white',position:'relative',textTransform: 'uppercase',fontWeightMedium: '500',fontSize:'15px',paddingLeft:'10px'}}>Auth</Typography></Link>
+                    
                    </div> 
                  
                    <div className={classes.appbarTitle2}>
