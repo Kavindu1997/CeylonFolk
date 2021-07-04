@@ -9,15 +9,16 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import useStyles from './UserStyle'; 
 
-
 export default function User() {
     const classes = useStyles();
 
     return (
-        <Grid container style={{margin:'150px'}}>
+        <container>
+            <Typography variant="h4" style={{marginTop:'150px',textAlign: 'center'}}> MY ACCOUNT</Typography>
+            <Grid container style={{marginTop:'80px',align:'center'}}>
             <CssBaseline />
-            <Grid item md={6}  > 
-                <Typography component="h1" variant="h5" style={{fontFamily:'Montserrat'}}>Sign In</Typography>
+            <Grid item md={6} style={{align:'center'}}> 
+                <Typography component="h1" variant="h5" style={{fontFamily:'Montserrat'}}>Sign In</Typography><br></br>
                 <form className={classes.form} noValidate>
                     <TextField
                         variant="outlined"
@@ -54,10 +55,10 @@ export default function User() {
                     >Sign In</Button>
                 </form>
             </Grid> 
-            <Grid item md={6}> 
-                <Typography component="h1" variant="h5" style={{fontFamily:'Montserrat'}}>Sign Up</Typography>
+            <Grid item md={6} style={{align:'center'}}> 
+                <Typography component="h1" variant="h5" style={{fontFamily:'Montserrat'}}>Sign Up</Typography><br></br>
                 <form className={classes.form} noValidate>
-                <Grid container spacing={2}>
+                <Grid container spacing={3}>
                     <Grid item xs={12} sm={6}>
                         <TextField
                             autoComplete="fname"
@@ -127,6 +128,10 @@ export default function User() {
                             autoComplete="confirm-password"
                         />
                     </Grid>
+                    <FormControlLabel
+                        control={<Checkbox value="remember" color="primary" />}
+                        label="Accept Terms & Condition"
+                    />
                     <Button
                         type="submit"
                         fullWidth
@@ -137,6 +142,8 @@ export default function User() {
                 </Grid>
                 </form>
             </Grid> 
-        </Grid>
+            </Grid>
+        </container>
+        
   );
 }
