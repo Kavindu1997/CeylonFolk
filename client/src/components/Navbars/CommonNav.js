@@ -1,5 +1,5 @@
 import React from 'react';
-import { AppBar,Typography,Button,IconButton,Toolbar} from '@material-ui/core';
+import { AppBar,Typography,Button,IconButton,Toolbar,Link} from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import PermIdentityOutlinedIcon from '@material-ui/icons/PermIdentityOutlined';
@@ -66,8 +66,8 @@ const CommonNav = () => {
             <AppBar className={classes.appbar} elevation={0}>
                <Toolbar className={classes.appbarWrapper}>
                    <div className={classes.appbarTitle}>
-                   <a href="/index"> <Typography color="white" style={{color:'white',position:'relative',textTransform: 'uppercase',fontWeightMedium: '500',fontSize:'15px',paddingLeft:'10px'}}>Home</Typography></a>
-                   <a href="/shop"> 
+                   <Link href="/index"> <Typography color="white" style={{color:'white',position:'relative',textTransform: 'uppercase',fontWeightMedium: '500',fontSize:'15px',paddingLeft:'10px'}}>Home</Typography></Link>
+                   <Link href="/shop"> 
                     <Typography 
                     color="white"  
                     style={{color:'white',position:'relative',textTransform: 'uppercase',fontWeightMedium: '500',fontSize:'15px',paddingLeft:'10px'}}
@@ -77,10 +77,10 @@ const CommonNav = () => {
                     >
                     Shop
                     </Typography>
-                    </a>
+                    </Link>
                         
-                 <a href="/contactus">  <Typography color="white" style={{color:'white',position:'relative',textTransform: 'uppercase',fontWeightMedium: '500',fontSize:'15px',paddingLeft:'10px'}}>Contact</Typography></a>
-                 <a href="/auth">  <Typography color="white" style={{color:'white',position:'relative',textTransform: 'uppercase',fontWeightMedium: '500',fontSize:'15px',paddingLeft:'10px'}}>Auth</Typography></a>
+                 <Link href="/contactus">  <Typography color="white" style={{color:'white',position:'relative',textTransform: 'uppercase',fontWeightMedium: '500',fontSize:'15px',paddingLeft:'10px'}}>Contact</Typography></Link>
+                 <Link href="/auth">  <Typography color="white" style={{color:'white',position:'relative',textTransform: 'uppercase',fontWeightMedium: '500',fontSize:'15px',paddingLeft:'10px'}}>Auth</Typography></Link>
                    </div> 
                  
                    <div className={classes.appbarTitle2}>
