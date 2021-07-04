@@ -1,6 +1,5 @@
 import React from 'react';
-import { AppBar,Typography,Button,IconButton,Toolbar} from '@material-ui/core';
-import LocalMallSharpIcon from '@material-ui/icons/LocalMallSharp';
+import { AppBar,Typography,Button,IconButton,Toolbar,Link} from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import logo from '../../images/logo.png';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
@@ -70,34 +69,29 @@ const CommonNav = () => {
             <AppBar className={classes.appbar} elevation={0}>
                <Toolbar className={classes.appbarWrapper}>
                    <div className={classes.appbarTitle}>
-                    <a color="white" href="/index"   style={{color:'white',position:'relative',textTransform: 'uppercase',fontWeightMedium: '500',fontSize:'15px',paddingLeft:'10px',textDecoration:'none',fontFamily: 'Work Sans'}}>Home</a>
-                    <a 
+                   <Link href="/index"> <Typography color="white" style={{color:'white',position:'relative',textTransform: 'uppercase',fontWeightMedium: '500',fontSize:'15px',paddingLeft:'10px'}}>Home</Typography></Link>
+                   <Link href="/shop"> 
+                    <Typography 
                     color="white"  
-                    href="/shop"  
-                    style={{color:'white',position:'relative',textTransform: 'uppercase',fontWeightMedium: '500',fontSize:'15px',paddingLeft:'10px',textDecoration:'none',fontFamily: 'Work Sans'}}
+                    style={{color:'white',position:'relative',textTransform: 'uppercase',fontWeightMedium: '500',fontSize:'15px',paddingLeft:'10px'}}
                     endIcon={<KeyboardArrowDownIcon>
                         fontSize="0.5rem"
                     </KeyboardArrowDownIcon>}
                     >
                     Shop
-                    </a>
+                    </Typography>
+                    </Link>
                         
-                    <a color="white" href="/contactus"  style={{color:'white',position:'relative',textTransform: 'uppercase',fontWeightMedium: '500',fontSize:'15px',paddingLeft:'10px',textDecoration:'none',fontFamily: 'Work Sans'}}>Contact</a>
-                    <a color="white" href="/contactus"  style={{color:'white',position:'relative',textTransform: 'uppercase',fontWeightMedium: '500',fontSize:'15px',paddingLeft:'10px',textDecoration:'none',fontFamily: 'Work Sans'}}>About us</a>
-                    <a color="white" href="/login"  style={{color:'white',position:'relative',textTransform: 'uppercase',fontWeightMedium: '500',fontSize:'15px',paddingLeft:'10px',textDecoration:'none',fontFamily: 'Work Sans'}}>Login</a>
-                    <a color="white" href="/auth"  style={{color:'white',position:'relative',textTransform: 'uppercase',fontWeightMedium: '500',fontSize:'15px',paddingLeft:'10px',textDecoration:'none',fontFamily: 'Work Sans'}}>Auth</a>
+                    <Link href="/contactus">  <Typography color="white" style={{color:'white',position:'relative',textTransform: 'uppercase',fontWeightMedium: '500',fontSize:'15px',paddingLeft:'10px'}}>Contact</Typography></Link>
+                    <Link href="/auth">  <Typography color="white" style={{color:'white',position:'relative',textTransform: 'uppercase',fontWeightMedium: '500',fontSize:'15px',paddingLeft:'10px'}}>Auth</Typography></Link>
+                    <Link href="/contactus">  <Typography color="white" style={{color:'white',position:'relative',textTransform: 'uppercase',fontWeightMedium: '500',fontSize:'15px',paddingLeft:'10px'}}>Auth</Typography></Link>
                    </div> 
+                 
                    <div className={classes.appbarTitle2}>
                       <img src={require('../../images/logo.png').default} alt="CeylonFolk" height="80px"/>
                    </div>
                    
-                   {/* <div className={classes.navbartext}>
-                    <Button color="white" href="/index"  style={{color:'white',fontFamily:'Segoe UI',textTransform: 'none',fontSize:'15px',fontWeight:'100'}}>Home</Button>
-                    <Button color="white"  href="/shop"  style={{color:'white',fontFamily:'Segoe UI',textTransform: 'none',fontSize:'15px',fontWeight:'100'}}>Shop</Button>
-                    <Button color="white" href="/contactus"  style={{color:'white',fontFamily:'Segoe UI',textTransform: 'none',fontSize:'15px',fontWeight:'100'}}>Contact us</Button>
-                    <Button color="white" href="/login"  style={{color:'white',fontFamily:'Segoe UI',textTransform: 'none',fontSize:'15px',fontWeight:'100'}}>Login</Button>
-                   </div> */}
-
+              
                 <IconButton>
                     <SearchOutlinedIcon className={classes.icon}/>
                     <FavoriteBorderOutlinedIcon className={classes.icon}/>

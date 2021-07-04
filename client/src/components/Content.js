@@ -1,5 +1,5 @@
 import React,{ useEffect, useState} from 'react';
-import {Typography,IconButton,Collapse,Box,Button,Container,Grid,Card,CardActionArea,CardActions,CardContent,CardMedia,createMuiTheme} from '@material-ui/core';
+import {Typography,IconButton,Collapse,Box,Button,Container,Grid,Card,CardActionArea,CardActions,CardContent,CardMedia} from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { makeStyles } from '@material-ui/styles';
 import Image from '../images/cover6.jpg';
@@ -12,8 +12,6 @@ import Snap3 from '../images/snap3.jpg'
 import Snap4 from '../images/snap4.jpg'
 import Snap5 from '../images/snap5.jpg'
 import Carousel from 'react-elastic-carousel';
-
-
 
 
 
