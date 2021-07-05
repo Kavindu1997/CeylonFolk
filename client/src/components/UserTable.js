@@ -12,6 +12,7 @@ import * as userService from '../services/userService';
 import Controls from './Reusable/Controls';
 import Popup from './Reusable/Popup';
 import Notification from './Reusable/Notification';
+import ConfirmDialog from './Reusable/ConfirmDialog';
 
 const useStyles=makeStyles((theme)=>({
       pageContent:{
@@ -44,6 +45,7 @@ const UserTable = () => {
     const [filterFn,setFilterFn]=useState({fn:items=>{return items;}});
     const [openPopup,setOpenPopup]=useState(false);
     const [notify,setNotify]=useState({isOpen:false,message:'',type:''});
+    const [confirmDialog,setConfirmDialog]=useState({isOpen:false,title:'',subTitle:''})   
     const{
         TblContainer,
         TblHead,
@@ -85,7 +87,10 @@ const UserTable = () => {
     }
 
     const onDelete=id=>{
-        if(window.confirm('Are you sure to delete this record?')){
+        setConfirmDialog({
+            ...confirmDialog,
+            isOpen:false
+        });
         userService.deleteUser(id);
         setRecords(userService.getALLUsers()); //refresh the records array
         setNotify({
@@ -93,7 +98,7 @@ const UserTable = () => {
             message:'Removed Successfully !',
             type:'error'
         });
-      }
+      
     }
     return (
         <div>
@@ -145,8 +150,15 @@ const UserTable = () => {
                                          </Controls.ActionButton>
                                          <Controls.ActionButton
                                           color="secondary"
-                                          onClick={()=>{onDelete(item.id)}}
-                                          >
+                                          onClick={()=>{
+                                              setConfirmDialog({
+                                                  isOpen:true,
+                                                  title:'Are you sure to delete this?',
+                                                  subTitle:"You can't undo this operation...",
+                                                  onConfirm:()=>{onDelete(item.id)}
+                                                })
+                                            //  onDelete(item.id)
+                                            }}>
                                               <CloseIcon fontSize="small"/>
                                          </Controls.ActionButton>
                                     </TableCell>         
@@ -172,6 +184,11 @@ const UserTable = () => {
             <Notification
             notify={notify}
             setNotify={setNotify}
+            />
+
+            <ConfirmDialog
+            confirmDialog={confirmDialog}
+            setConfirmDialog={setConfirmDialog}
             />
         </div>
     );
