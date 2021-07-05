@@ -1,11 +1,10 @@
 import React from 'react';
-import Sidebar from '../components/Sidebar';
+import AdminPanel from '../components/AdminPanel';
 
 const Users = () => {
     return (
         <div>
-            <Sidebar/>
-         
+            <AdminPanel/>   
         </div>
     );
 };
