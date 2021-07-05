@@ -22,7 +22,8 @@ const initialFvalues={
     password:'',
     confirmPassword:''
 }
-const UserForm = () => {
+const UserForm = (props) => {
+    const {addOrEdit,recordForEdit}=props;
 
     const validate=(fieldValues=values)=>{
         let temp={...errors}
@@ -56,10 +57,16 @@ const UserForm = () => {
     const handleSubmit=e=>{
       e.preventDefault();
       if(validate()){  
-         userService.insertUser(values);
-         resetForm();
+            addOrEdit(values,resetForm);
       }
     }
+
+    useEffect(()=>{
+        if(recordForEdit!=null)
+            setValues({
+                ...recordForEdit
+            })
+    },[recordForEdit])
     return (
         
             <Form onSubmit={handleSubmit}>

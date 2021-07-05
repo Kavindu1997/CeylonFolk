@@ -16,6 +16,13 @@ export function insertUser(data){
     localStorage.setItem(KEYS.users,JSON.stringify(users))
 }
 
+export function updateUser(data){
+    let users=getALLUsers();
+    let recordIndex=users.findIndex(x=>x.id===data.id);
+    users[recordIndex]={...data};
+    localStorage.setItem(KEYS.users,JSON.stringify(users));
+}
+
 export function generateUserId(){
     if(localStorage.getItem(KEYS.usersId)==null){
        localStorage.setItem(KEYS.userId,'0')

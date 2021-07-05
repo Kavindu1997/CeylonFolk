@@ -4,6 +4,8 @@ import PageHeader from './PageHeader';
 import GroupIcon from '@material-ui/icons/Group';
 import {Search} from '@material-ui/icons';
 import AddIcon from '@material-ui/icons/Add';
+import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
+import CloseIcon from '@material-ui/icons/Close';
 import { makeStyles, Paper,TableBody,TableRow,TableCell,Toolbar, InputAdornment} from '@material-ui/core';
 import useTable from './Reusable/useTable';
 import * as userService from '../services/userService';
@@ -31,11 +33,13 @@ const headCells=[
     {id:'gender',label:'Gender'},
     {id:'mobile',label:'Mobile Number',disableSorting:true},
     {id:'email',label:'Email'},
+    {id:'options',label:'Options',disableSorting:true},
 ]
 
 const UserTable = () => {
     const classes=useStyles();
     const [records,setRecords]=useState(userService.getALLUsers());
+    const [recordForEdit,setRecordForEdit]=useState(null)
     const [filterFn,setFilterFn]=useState({fn:items=>{return items;}});
     const [openPopup,setOpenPopup]=useState(false);
     const{
@@ -55,6 +59,22 @@ const UserTable = () => {
                       return items.filter(x=>x.firstName.toLowerCase().includes(target.value)) 
                }
            })
+    }
+
+    const addOrEdit=(user,resetForm)=>{
+      if(user.id===0)  
+        userService.insertUser(user);
+      else
+        userService.updateUser(user);  
+        resetForm();
+        setRecordForEdit(null);
+        setOpenPopup(false);
+        setRecords(userService.getALLUsers());
+    }
+
+    const openInPopup=item=>{
+        setRecordForEdit(item);
+        setOpenPopup(true);
     }
     return (
         <div>
@@ -82,7 +102,7 @@ const UserTable = () => {
                       variant="outlined"
                       startIcon={<AddIcon/>}
                       className={classes.newButton}
-                      onClick={()=>setOpenPopup(true)}
+                      onClick={()=>{setOpenPopup(true);setRecordForEdit(null);}}
                   />
               </Toolbar>
                <TblContainer>
@@ -96,7 +116,20 @@ const UserTable = () => {
                                     <TableCell>{item.lastName}</TableCell>
                                     <TableCell>{item.gender}</TableCell>
                                     <TableCell>{item.mobile}</TableCell>
-                                    <TableCell>{item.email}</TableCell>                
+                                    <TableCell>{item.email}</TableCell>       
+                                    <TableCell>
+                                          <Controls.ActionButton
+                                          color="primary"
+                                          onClick={()=>{openInPopup(item)}}
+                                          >
+                                              <EditOutlinedIcon fontSize="small"/>
+                                         </Controls.ActionButton>
+                                         <Controls.ActionButton
+                                          color="secondary"
+                                          >
+                                              <CloseIcon fontSize="small"/>
+                                         </Controls.ActionButton>
+                                    </TableCell>         
                                 </TableRow>
                             ))
                         }
@@ -110,7 +143,10 @@ const UserTable = () => {
             openPopup={openPopup}
             setOpenPopup={setOpenPopup}
             >
-                  <UserForm/>
+                  <UserForm
+                  recordForEdit={recordForEdit}
+                  addOrEdit={addOrEdit}
+                  />
             </Popup>
         </div>
     );
