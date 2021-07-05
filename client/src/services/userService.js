@@ -23,6 +23,12 @@ export function updateUser(data){
     localStorage.setItem(KEYS.users,JSON.stringify(users));
 }
 
+export function deleteUser(id){
+    let users=getALLUsers();
+    users=users.filter(x=>x.id !== id);
+    localStorage.setItem(KEYS.users,JSON.stringify(users));
+}
+
 export function generateUserId(){
     if(localStorage.getItem(KEYS.usersId)==null){
        localStorage.setItem(KEYS.userId,'0')

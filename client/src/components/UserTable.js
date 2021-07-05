@@ -83,6 +83,18 @@ const UserTable = () => {
         setRecordForEdit(item);
         setOpenPopup(true);
     }
+
+    const onDelete=id=>{
+        if(window.confirm('Are you sure to delete this record?')){
+        userService.deleteUser(id);
+        setRecords(userService.getALLUsers()); //refresh the records array
+        setNotify({
+            isOpen:true,
+            message:'Removed Successfully !',
+            type:'error'
+        });
+      }
+    }
     return (
         <div>
             <PageHeader
@@ -133,6 +145,7 @@ const UserTable = () => {
                                          </Controls.ActionButton>
                                          <Controls.ActionButton
                                           color="secondary"
+                                          onClick={()=>{onDelete(item.id)}}
                                           >
                                               <CloseIcon fontSize="small"/>
                                          </Controls.ActionButton>

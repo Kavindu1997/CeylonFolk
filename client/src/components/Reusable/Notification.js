@@ -31,6 +31,7 @@ const Notification = (props) => {
           onClose={handleClose}
           >
               <Alert
+              variant="filled"
               severity={notify.type}
               onClose={handleClose}
               >
