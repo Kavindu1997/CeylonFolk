@@ -11,6 +11,7 @@ import useTable from './Reusable/useTable';
 import * as userService from '../services/userService';
 import Controls from './Reusable/Controls';
 import Popup from './Reusable/Popup';
+import Notification from './Reusable/Notification';
 
 const useStyles=makeStyles((theme)=>({
       pageContent:{
@@ -42,6 +43,7 @@ const UserTable = () => {
     const [recordForEdit,setRecordForEdit]=useState(null)
     const [filterFn,setFilterFn]=useState({fn:items=>{return items;}});
     const [openPopup,setOpenPopup]=useState(false);
+    const [notify,setNotify]=useState({isOpen:false,message:'',type:''});
     const{
         TblContainer,
         TblHead,
@@ -70,6 +72,11 @@ const UserTable = () => {
         setRecordForEdit(null);
         setOpenPopup(false);
         setRecords(userService.getALLUsers());
+        setNotify({
+            isOpen:true,
+            message:'Added Successfully !',
+            type:'success'
+        });
     }
 
     const openInPopup=item=>{
@@ -148,6 +155,11 @@ const UserTable = () => {
                   addOrEdit={addOrEdit}
                   />
             </Popup>
+
+            <Notification
+            notify={notify}
+            setNotify={setNotify}
+            />
         </div>
     );
 };
