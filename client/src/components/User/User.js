@@ -14,100 +14,27 @@ export default function User() {
 
     return (
         <container>
-            <Typography variant="h4" style={{marginTop:'150px',textAlign: 'center'}}> MY ACCOUNT</Typography>
+            <Typography variant="h4" style={{marginTop:'100px',textAlign: 'center'}}> MY ACCOUNT</Typography>
             <center>
-            <Grid container style={{marginTop:'80px',align:'center'}}>
-            <CssBaseline />
-            <Grid item md={6} style={{align:'center'}}> 
-                <Typography component="h1" variant="h5" style={{fontFamily:'Montserrat'}}>Sign In</Typography><br></br>
-                <form className={classes.form} noValidate>
-                    <TextField
-                        variant="outlined"
-                        margin="normal"
-                        required
-                        fullWidth
-                        id="email"
-                        label="Email Address"
-                        name="email"
-                        autoComplete="email"
-                        autoFocus
-                    />
-                    <TextField
-                        variant="outlined"
-                        margin="normal"
-                        required
-                        fullWidth
-                        name="password"
-                        label="Password"
-                        type="password"
-                        id="password"
-                        autoComplete="current-password"
-                    />
-                    <FormControlLabel
-                        control={<Checkbox value="remember" color="primary" />}
-                        label="Remember me"
-                    />
-                    <Button
-                        type="submit"
-                        fullWidth
-                        variant="contained"
-                        color="primary"
-                        className={classes.submit}
-                    >Sign In</Button>
-                </form>
-            </Grid> 
-            <Grid item md={6} style={{align:'center'}}> 
-                <Typography component="h1" variant="h5" style={{fontFamily:'Montserrat'}}>Sign Up</Typography><br></br>
-                <form className={classes.form} noValidate>
-                <Grid container spacing={3}>
-                    <Grid item xs={12} sm={6}>
-                        <TextField
-                            autoComplete="fname"
-                            name="firstName"
-                            variant="outlined"
-                            required
-                            fullWidth
-                            id="firstName"
-                            label="First Name"
-                            autoFocus
-                        />
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
+                <Grid container style={{marginTop:'80px',align:'center'}}>
+                <CssBaseline />
+                <Grid item md={6} style={{align:'center'}}> 
+                    <Typography component="h1" variant="h5" style={{fontFamily:'Montserrat',textAlign:'center'}}>Already Registered?</Typography><br></br>
+                    <form className={classes.form} noValidate>
                         <TextField
                             variant="outlined"
-                            required
-                            fullWidth
-                            id="lastName"
-                            label="Last Name"
-                            name="lastName"
-                            autoComplete="lname"
-                        />
-                    </Grid>
-                    <Grid item xs={12}>
-                        <TextField
-                            variant="outlined"
+                            margin="normal"
                             required
                             fullWidth
                             id="email"
                             label="Email Address"
                             name="email"
                             autoComplete="email"
+                            autoFocus
                         />
-                    </Grid>
-                    <Grid item xs={12}>
                         <TextField
                             variant="outlined"
-                            required
-                            fullWidth
-                            id="mobileNumber"
-                            label="Mobile Number"
-                            name="mobileNumber"
-                            autoComplete="mobileno"
-                        />
-                    </Grid>
-                    <Grid item xs={12}>
-                        <TextField
-                            variant="outlined"
+                            margin="normal"
                             required
                             fullWidth
                             name="password"
@@ -116,37 +43,111 @@ export default function User() {
                             id="password"
                             autoComplete="current-password"
                         />
-                    </Grid>
-                    <Grid item xs={12}>
-                        <TextField
-                            variant="outlined"
-                            required
+                        <FormControlLabel
+                            control={<Checkbox value="remember" color="primary" />}
+                            label="Remember me"
+                            style={{float:'left'}}/>
+                        <Button
+                            type="submit"
                             fullWidth
-                            name="confirmPassword"
-                            label="Confirm Password"
-                            type="password"
-                            id="confirmPassword"
-                            autoComplete="confirm-password"
-                        />
+                            variant="contained"
+                            color="primary"
+                            className={classes.submit}
+                        >Sign In</Button>
+                    </form>
+                </Grid> 
+                <Grid item md={6} style={{alignItems:'center'}}> 
+                    <Typography component="h1" variant="h5" style={{fontFamily:'Montserrat',textAlign:'center'}}>New Member?</Typography><br></br>
+                    <form className={classes.form} noValidate>
+                    <Grid container spacing={3}>
+                        <Grid item xs={12} sm={6}>
+                            <TextField
+                                autoComplete="fname"
+                                name="firstName"
+                                variant="outlined"
+                                required
+                                fullWidth
+                                id="firstName"
+                                label="First Name"
+                                autoFocus
+                            />
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                            <TextField
+                                variant="outlined"
+                                required
+                                fullWidth
+                                id="lastName"
+                                label="Last Name"
+                                name="lastName"
+                                autoComplete="lname"
+                            />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <TextField
+                                variant="outlined"
+                                required
+                                fullWidth
+                                id="email"
+                                label="Email Address"
+                                name="email"
+                                autoComplete="email"
+                            />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <TextField
+                                variant="outlined"
+                                required
+                                fullWidth
+                                id="mobileNumber"
+                                label="Mobile Number"
+                                name="mobileNumber"
+                                autoComplete="mobileno"
+                            />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <TextField
+                                variant="outlined"
+                                required
+                                fullWidth
+                                name="password"
+                                label="Password"
+                                type="password"
+                                id="password"
+                                autoComplete="current-password"
+                            />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <TextField
+                                variant="outlined"
+                                required
+                                fullWidth
+                                name="confirmPassword"
+                                label="Confirm Password"
+                                type="password"
+                                id="confirmPassword"
+                                autoComplete="confirm-password"
+                            />
+                        </Grid>
+                        <FormControlLabel
+                            control={<Checkbox value="remember" color="primary" />}
+                            label="Accept Terms & Condition"
+                            style={{marginLeft:'6px'}}/>
+                        <Button
+                            type="submit"
+                            fullWidth
+                            variant="contained"
+                            color="primary"
+                            className={classes.submit}
+                        >Sign Up</Button>
                     </Grid>
-                    <FormControlLabel
-                        control={<Checkbox value="remember" color="primary" />}
-                        label="Accept Terms & Condition"
-                    />
-                    <Button
-                        type="submit"
-                        fullWidth
-                        variant="contained"
-                        color="primary"
-                        className={classes.submit}
-                    >Sign Up</Button>
+                    </form>
+                </Grid> 
                 </Grid>
-                </form>
-            </Grid> 
-            </Grid>
             </center>
-            
         </container>
         
   );
 }
+
+// pramuka Seneviratne

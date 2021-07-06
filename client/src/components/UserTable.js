@@ -4,11 +4,15 @@ import PageHeader from './PageHeader';
 import GroupIcon from '@material-ui/icons/Group';
 import {Search} from '@material-ui/icons';
 import AddIcon from '@material-ui/icons/Add';
+import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
+import CloseIcon from '@material-ui/icons/Close';
 import { makeStyles, Paper,TableBody,TableRow,TableCell,Toolbar, InputAdornment} from '@material-ui/core';
 import useTable from './Reusable/useTable';
 import * as userService from '../services/userService';
 import Controls from './Reusable/Controls';
 import Popup from './Reusable/Popup';
+import Notification from './Reusable/Notification';
+import ConfirmDialog from './Reusable/ConfirmDialog';
 
 const useStyles=makeStyles((theme)=>({
       pageContent:{
@@ -31,13 +35,17 @@ const headCells=[
     {id:'gender',label:'Gender'},
     {id:'mobile',label:'Mobile Number',disableSorting:true},
     {id:'email',label:'Email'},
+    {id:'options',label:'Options',disableSorting:true},
 ]
 
 const UserTable = () => {
     const classes=useStyles();
     const [records,setRecords]=useState(userService.getALLUsers());
+    const [recordForEdit,setRecordForEdit]=useState(null)
     const [filterFn,setFilterFn]=useState({fn:items=>{return items;}});
     const [openPopup,setOpenPopup]=useState(false);
+    const [notify,setNotify]=useState({isOpen:false,message:'',type:''});
+    const [confirmDialog,setConfirmDialog]=useState({isOpen:false,title:'',subTitle:''})   
     const{
         TblContainer,
         TblHead,
@@ -55,6 +63,42 @@ const UserTable = () => {
                       return items.filter(x=>x.firstName.toLowerCase().includes(target.value)) 
                }
            })
+    }
+
+    const addOrEdit=(user,resetForm)=>{
+      if(user.id===0)  
+        userService.insertUser(user);
+      else
+        userService.updateUser(user);  
+        resetForm();
+        setRecordForEdit(null);
+        setOpenPopup(false);
+        setRecords(userService.getALLUsers());
+        setNotify({
+            isOpen:true,
+            message:'Added Successfully !',
+            type:'success'
+        });
+    }
+
+    const openInPopup=item=>{
+        setRecordForEdit(item);
+        setOpenPopup(true);
+    }
+
+    const onDelete=id=>{
+        setConfirmDialog({
+            ...confirmDialog,
+            isOpen:false
+        });
+        userService.deleteUser(id);
+        setRecords(userService.getALLUsers()); //refresh the records array
+        setNotify({
+            isOpen:true,
+            message:'Removed Successfully !',
+            type:'error'
+        });
+      
     }
     return (
         <div>
@@ -82,7 +126,7 @@ const UserTable = () => {
                       variant="outlined"
                       startIcon={<AddIcon/>}
                       className={classes.newButton}
-                      onClick={()=>setOpenPopup(true)}
+                      onClick={()=>{setOpenPopup(true);setRecordForEdit(null);}}
                   />
               </Toolbar>
                <TblContainer>
@@ -96,7 +140,28 @@ const UserTable = () => {
                                     <TableCell>{item.lastName}</TableCell>
                                     <TableCell>{item.gender}</TableCell>
                                     <TableCell>{item.mobile}</TableCell>
-                                    <TableCell>{item.email}</TableCell>                
+                                    <TableCell>{item.email}</TableCell>       
+                                    <TableCell>
+                                          <Controls.ActionButton
+                                          color="primary"
+                                          onClick={()=>{openInPopup(item)}}
+                                          >
+                                              <EditOutlinedIcon fontSize="small"/>
+                                         </Controls.ActionButton>
+                                         <Controls.ActionButton
+                                          color="secondary"
+                                          onClick={()=>{
+                                              setConfirmDialog({
+                                                  isOpen:true,
+                                                  title:'Are you sure to delete this?',
+                                                  subTitle:"You can't undo this operation...",
+                                                  onConfirm:()=>{onDelete(item.id)}
+                                                })
+                                            //  onDelete(item.id)
+                                            }}>
+                                              <CloseIcon fontSize="small"/>
+                                         </Controls.ActionButton>
+                                    </TableCell>         
                                 </TableRow>
                             ))
                         }
@@ -110,8 +175,21 @@ const UserTable = () => {
             openPopup={openPopup}
             setOpenPopup={setOpenPopup}
             >
-                  <UserForm/>
+                  <UserForm
+                  recordForEdit={recordForEdit}
+                  addOrEdit={addOrEdit}
+                  />
             </Popup>
+
+            <Notification
+            notify={notify}
+            setNotify={setNotify}
+            />
+
+            <ConfirmDialog
+            confirmDialog={confirmDialog}
+            setConfirmDialog={setConfirmDialog}
+            />
         </div>
     );
 };
