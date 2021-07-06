@@ -21,7 +21,7 @@ export default function User() {
                 <Grid item md={6} style={{align:'center'}}> 
                     <Typography component="h1" variant="h5" style={{fontFamily:'Montserrat',textAlign:'center'}}>Already Registered?</Typography><br></br>
                     <form className={classes.form} noValidate>
-                        {/* <TextField
+                        <TextField
                             variant="outlined"
                             margin="normal"
                             required
@@ -31,7 +31,7 @@ export default function User() {
                             name="email"
                             autoComplete="email"
                             autoFocus
-                        /> */}
+                        />
                         <TextField
                             variant="outlined"
                             margin="normal"
