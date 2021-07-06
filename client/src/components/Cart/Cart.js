@@ -85,7 +85,8 @@ const useStyles = makeStyles((theme) =>({
   component="span"
   m={1}
   className={`${classes.spreadBox} ${classes.box}`}
->    
+>   
+{/* Cart buttons  */}
       <Button
         type="submit"
         variant="contained"
