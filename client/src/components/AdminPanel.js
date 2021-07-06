@@ -21,7 +21,13 @@ const useStyles=makeStyles((theme)=>({
         
     },
     media:{
-        height:'240px',
+        height:'240px'  
+    },
+    gridContainer:{
+        width: '50%',
+    display: 'flex',
+    flexWrap: 'wrap',
+    boxSizing: 'borderBox'
        
     }
 

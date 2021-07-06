@@ -73,7 +73,6 @@ const App = () => {
               <Route path="/shop" exact render={() => < Shop/>}/>
               <Route path="/contactus" exact render={() => < Contactus/>}/>       
               <Route path="/auth" exact render={() => < Auth/>}/>
-
               <Route path="/admin" exact render={() => <AdminDashboard/>}/>
               <Route path="/users" exact render={() => <Users/>}/>
           </Router>
