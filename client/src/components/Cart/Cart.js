@@ -7,56 +7,101 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
+import Box from '@material-ui/core/Box';
+import Checkbox from '@material-ui/core/Checkbox';
+import { DriveEta } from '@material-ui/icons';
 
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) =>({
     table: {
-      minWidth: 650,
+      minWidth: 400,
     },
-  });
+    spreadBox: {
+        justifyContent: "space-around",
+        alignItems: "center",
+      },
+      box: {
+        height: 100,
+        display: "flex",
+        padding: 8
+      },
+  }));
   
-  function createData(name, calories, fat, carbs, protein) {
-    return { name, calories, fat, carbs, protein };
+  function createData(image, name, price, quantity, action, total) {
+    return { image, name, price, quantity, action, total };
   }
   
   const rows = [
-    createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-    createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-    createData('Eclair', 262, 16.0, 24, 6.0),
-    createData('Cupcake', 305, 3.7, 67, 4.3),
-    createData('Gingerbread', 356, 16.0, 49, 3.9),
+    createData('Frozen yoghurt', 159, 6.0, 24, 4.0, 4.0),
+    createData('Ice cream sandwich',237, 9.0, 37, 4.3, 4.0),
+    createData('Eclair', 262, 16.0, 24, 6.0, 4.0),
+    createData('Cupcake', 305, 3.7, 67, 4.3, 4.0),
+    createData('Gingerbread', 356, 16.0, 49, 3.9, 4.0),
   ];
   
   export default function Cart() {
     const classes = useStyles();
   
     return (
-      <TableContainer component={Paper}>
+        <container>
+            <Typography variant="h4" style={{marginTop:'100px',textAlign: 'center'}}> MY CART</Typography>
+      <TableContainer component={Paper} style={{marginTop:'30px',align:'center',marginLeft:'70px',width:'1200px'}}>
         <Table className={classes.table} aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell>Dessert (100g serving)</TableCell>
-              <TableCell align="right">Calories</TableCell>
-              <TableCell align="right">Fat&nbsp;(g)</TableCell>
-              <TableCell align="right">Carbs&nbsp;(g)</TableCell>
-              <TableCell align="right">Protein&nbsp;(g)</TableCell>
+            {/* <TableCell padding="checkbox">
+                        <Checkbox
+                        //   checked={isItemSelected}
+                          inputProps={{ 'aria-labelledby': labelId }}
+                        />
+                      </TableCell> */}
+              <TableCell align="right" style={{ fontWeight: 600 }}>Image</TableCell>
+              <TableCell align="right" style={{ fontWeight: 600 }}>Product Name</TableCell>
+              <TableCell align="right" style={{ fontWeight: 600 }}> Price</TableCell>
+              <TableCell align="right" style={{ fontWeight: 600 }}>Quantity</TableCell>
+              <TableCell align="right" style={{ fontWeight: 600 }}>Action</TableCell>
+              <TableCell align="right" style={{ fontWeight: 600 }}>Total</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {rows.map((row) => (
               <TableRow key={row.name}>
-                <TableCell component="th" scope="row">
-                  {row.name}
-                </TableCell>
-                <TableCell align="right">{row.calories}</TableCell>
-                <TableCell align="right">{row.fat}</TableCell>
-                <TableCell align="right">{row.carbs}</TableCell>
-                <TableCell align="right">{row.protein}</TableCell>
+                {/* <TableCell> 
+                </TableCell> */}
+                <TableCell align="right">{row.image}</TableCell>
+                <TableCell align="right">{row.name}</TableCell>
+                <TableCell align="right">{row.price}</TableCell>
+                <TableCell align="right">{row.quantity}</TableCell>
+                <TableCell align="right">{row.total}</TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
       </TableContainer>
+      <div>
+      <Box
+  component="span"
+  m={1}
+  className={`${classes.spreadBox} ${classes.box}`}
+>    
+      <Button
+        type="submit"
+        variant="contained"
+        color="primary"
+        className={classes.back}
+      >CONTINUE SHOPPING</Button>
+
+      <Button
+        type="submit"
+        variant="contained"
+        color="primary"
+        className={classes.submit}
+      >CHECK OUT</Button>
+      </Box>
+      </div>
+      </container>
     );
   }
 
