@@ -92,7 +92,7 @@ const CommonNav = () => {
                 <IconButton>
                     <Link href="/auth"><SearchOutlinedIcon className={classes.icon}/></Link>
                     <Link href="/auth"><FavoriteBorderOutlinedIcon className={classes.icon}/></Link>
-                    <Link href="/auth"><LocalMallOutlinedIcon className={classes.icon}/></Link>
+                    <Link href="/cart"><LocalMallOutlinedIcon className={classes.icon}/></Link>
                     <Link href="/auth"><PermIdentityOutlinedIcon className={classes.icon}/></Link>       
                 </IconButton>
 
