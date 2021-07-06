@@ -21,7 +21,7 @@ export default function User() {
                 <Grid item md={6} style={{align:'center'}}> 
                     <Typography component="h1" variant="h5" style={{fontFamily:'Montserrat',textAlign:'center'}}>Already Registered?</Typography><br></br>
                     <form className={classes.form} noValidate>
-                        {/* <TextField
+                        <TextField
                             variant="outlined"
                             margin="normal"
                             required
@@ -42,7 +42,7 @@ export default function User() {
                             type="password"
                             id="password"
                             autoComplete="current-password"
-                        /> */}
+                        />
                         <FormControlLabel
                             control={<Checkbox value="remember" color="primary" />}
                             label="Remember me"
