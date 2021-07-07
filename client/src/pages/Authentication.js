@@ -1,21 +1,20 @@
 import React from 'react';
 import { CssBaseline } from '@material-ui/core';
 import CommonNav from '../components/Navbars/CommonNav';
-import User from '../components/User/User';
-import useStyles from '../components/User/UserStyle';
+import Auth from '../components/Auth';
 import Footer from '../components/Footer/Footer';
-const Auth = () => {
-    const classes=useStyles();
+
+const Authentication = () => {
     return (
-        <div className={classes.base}>
+        <div>
             <CssBaseline/> 
             <CommonNav/>
-            <User/>
+            <Auth/>
             <Footer/>
         </div>
     );
 };
 
-export default Auth;
+export default Authentication;
 
-//pramuka seneviratne
+
