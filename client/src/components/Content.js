@@ -16,6 +16,12 @@ import icont from '../images/tshirt.svg'
 import iconk from '../images/kids.svg'
 import iconcp from '../images/croptop.svg'
 import iconh from '../images/hoodie.svg'
+import cs1 from '../images/cs1.jpg'
+import cs2 from '../images/cs2.jpg'
+import cs3 from '../images/cs3.jpg'
+import cs4 from '../images/cs4.jpg'
+import cs5 from '../images/cs5.jpg'
+import cs6 from '../images/cs6.jpg'
 import Carousel from 'react-elastic-carousel';
 
 
@@ -61,11 +67,12 @@ const useStyles=makeStyles((theme)=>({
         paddingTop:'24px'
     },
     collectionTitle:{
-        fontWeight:'450',
-        paddingBottom:'24px',
+        fontWeight:'600',
         textAlign:'center',
+        textTransform: 'uppercase',
         fontFamily:'Montserrat',
-        padding: '50px',
+        padding: '60px',
+        margin:'10px'
     },
     card:{
         maxWidth:'80%'
@@ -98,6 +105,9 @@ const useStyles=makeStyles((theme)=>({
         boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.2)',
 
      },
+     cscontainer: {
+        width: '50%'
+     }
     },
     svgFont:{
         textTransform: 'none',
@@ -121,12 +131,15 @@ const Content = () => {
                 <Collapse in={checked}  {...(checked ? { timeout: 1000 } : {})} collapsedHeight={50}>
                     <div className={classes.container}>
                         <h1 className={classes.title}>
-                            YOU DECIDE<br/>
-                            <span className={classes.colorText}>WE DESIGN</span>   
+                            YOU DESIGN<br/>
+                            <span className={classes.colorText}>WE PRINT</span>   
                         </h1>
-                        <IconButton>
+                        <Button fullWidth
+                            variant="contained"
+                            color="primary">START DESIGNING</Button>
+                        {/* <IconButton>
                             <ExpandMoreIcon className={classes.goDown}/>
-                        </IconButton>
+                        </IconButton> */}
                     </div>
                 </Collapse> 
             </Box>
@@ -238,7 +251,7 @@ const Content = () => {
                 </Grid>
             </Container>
             <Container className={classes.collectionContainer} maxWidth="lg">
-                <Typography variant="h4" className={classes.collectionTitle}>TOP SELLER</Typography>
+                <Typography variant="h4" className={classes.collectionTitle}>SPECIAL OFFERS</Typography>
          
                 <Grid container spacing={0}>
                     <Grid item xs={12} sm={6} md={3}>
@@ -316,7 +329,7 @@ const Content = () => {
 
             <Container className={classes.collectionContainer} maxWidth="lg">
                 <Typography variant="h4" className={classes.collectionTitle}>Customer Snaps</Typography>
-                    <Grid container spacing={0}>
+                    {/* <Grid container spacing={0}>
                         <Carousel>   
                             <Grid item xs={12} sm={6} md={4}>
                                 <Card className={classes.card}>
@@ -374,7 +387,27 @@ const Content = () => {
                                 </Card>
                             </Grid>
                         </Carousel>     
+                    </Grid> */}
+                    <Grid container spacing={0} className={classes.cscontainer}>
+                    <Grid item xs={12} sm={6} md={2} className={classes.svgs}>
+                                <img height={250}src={cs1} style={{width: '100%'}}/>
                     </Grid>
+                    <Grid item xs={12} sm={6} md={2} className={classes.svgs}>
+                                <img height={250} src={cs2} style={{width: '100%'}}/>
+                    </Grid>
+                    <Grid item xs={12} sm={6} md={2} className={classes.svgs}>
+                                <img height={250}src={cs3} style={{width: '100%'}}/>
+                    </Grid>
+                    <Grid item xs={12} sm={6} md={2} className={classes.svgs}>
+                                <img height={250}src={cs4} style={{width: '100%'}}/>
+                    </Grid>
+                    <Grid item xs={12} sm={6} md={2} className={classes.svgs}>
+                                <img height={250}src={cs5} style={{width: '100%'}}/>
+                    </Grid>
+                    <Grid item xs={12} sm={6} md={2} className={classes.svgs}>
+                                <img height={250}src={cs6} style={{width: '100%'}}/>
+                    </Grid>
+                </Grid>
             </Container>
             </center>
 
