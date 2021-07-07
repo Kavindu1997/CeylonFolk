@@ -18,8 +18,7 @@ const useStyles = makeStyles((theme) => ({
         fontFamily:'Montserrat',
         position:'relative',
         color: 'white',
-        padding: '100px',
-       
+        padding: '100px',  
     },
     form: {
         width: '70%',
@@ -36,12 +35,21 @@ const useStyles = makeStyles((theme) => ({
         padding:'10px',
         marginTop:'30px',
         marginBottom:'30px',
-        borderWidth:'medium',
+        borderWidth:'thin',
         borderColor:'black',
         '&:hover': {
             background: 'none',
             borderWidth:'medium',
           }
+      },
+      forgot:{
+        textDecoration:'none',
+        float:'right',
+        marginTop:'10px',
+        '&:hover':{
+            fontWeight:'500',
+            textDecoration:'none',
+        }
       },
   }));
 
@@ -93,6 +101,7 @@ export default function User() {
                             control={<Checkbox value="remember" color="primary" />}
                             label="Remember me"
                             style={{float:'left'}}/>
+                        <Link href="#" className={classes.forgot}>Forgot Password</Link>
                         <Button
                             type="submit"
                             fullWidth
