@@ -3,7 +3,7 @@ import {BrowserRouter as Router,Route} from 'react-router-dom';
 import { createMuiTheme,ThemeProvider } from '@material-ui/core';
 import Home from './pages/Home';
 import Contactus from './pages/Contactus';
-import Auth from './pages/Auth';
+import Authentication from './pages/Authentication';
 import AdminDashboard from './pages/AdminDashboard';
 import Users from './pages/Users';
 import Shop from './pages/Shop';
@@ -73,7 +73,7 @@ const App = () => {
           <Router>
               <Route path="/index" exact render={() => < Home/>}/>
               <Route path="/contactus" exact render={() => < Contactus/>}/>       
-              <Route path="/auth" exact render={() => < Auth/>}/>
+              <Route path="/auth" exact render={() => < Authentication/>}/>
               <Route path="/cart" exact render={() => < Shop/>}/>
               <Route path="/admin" exact render={() => <AdminDashboard/>}/>
               <Route path="/users" exact render={() => <Users/>}/>
