@@ -2,7 +2,7 @@ import React,{ useEffect, useState} from 'react';
 import {Typography,IconButton,Collapse,Box,Button,Container,Grid,Card,CardActionArea,CardActions,CardContent,CardMedia} from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { makeStyles } from '@material-ui/styles';
-import Image from '../images/cover6.jpg';
+import Image from '../images/cccc.jpg';
 import Collection1 from '../images/ts1.jpg';
 import Collection2 from '../images/ts2.jpg';
 import Collection3 from '../images/ts3.jpg';
@@ -43,7 +43,7 @@ const useStyles=makeStyles((theme)=>({
         background: '#fff'
     },
     backimage: {
-        marginTop: '60px',
+        // marginTop: '60px',
         background: '#fff'
     },
     colorText:{
@@ -80,6 +80,7 @@ const useStyles=makeStyles((theme)=>({
     },
     media:{
         height:'240px',
+        width: '100%'
         
     },
     svgs:{
@@ -91,6 +92,12 @@ const useStyles=makeStyles((theme)=>({
     },
     svgContainer:{
         width: '50%',
+    display: 'flex',
+    flexWrap: 'wrap',
+    boxSizing: 'borderBox'
+    },
+    imageContainer:{
+        width: '100%',
     display: 'flex',
     flexWrap: 'wrap',
     boxSizing: 'borderBox'
@@ -126,9 +133,11 @@ const Content = () => {
     },[]);
 
     return (
-        <div>
-            <Box className={classes.root} >
-                <Collapse in={checked}  {...(checked ? { timeout: 1000 } : {})} collapsedHeight={50}>
+        <Container>
+            <Box >
+                <Grid container spacing={0} className={classes.imageContainer}>
+                    <Grid item xs={12} sm={6} md={6} className={classes.svgs}>
+                    <Collapse in={checked}  {...(checked ? { timeout: 1000 } : {})} collapsedHeight={50}>
                     <div className={classes.container}>
                         <h1 className={classes.title}>
                             YOU DESIGN<br/>
@@ -141,7 +150,17 @@ const Content = () => {
                             <ExpandMoreIcon className={classes.goDown}/>
                         </IconButton> */}
                     </div>
-                </Collapse> 
+                </Collapse>
+                    </Grid>
+                    <Grid item xs={12} sm={6} md={6} className={classes.svgs}>
+                       <img height={50} src={iconcp} />
+                        <Typography textDecoration='none' className={classes.svgFont}>Crop Tops</Typography>
+                    </Grid>
+                </Grid>
+                {/* <div>
+                    <img src={Image} style={{width:'100%'}}/>
+                </div> */}
+                 
             </Box>
 
             <center>
@@ -176,13 +195,9 @@ const Content = () => {
                     <Grid item xs={12} sm={6} md={3}>
                         <Card className={classes.card}>
                             <CardActionArea>
-                                <CardMedia
-                                    className={classes.media}
-                                    style={{ backgroundImage:`url(${Collection1})`}}
-                                    // image="CeylonFolk/client/src/images/ts1.jpg"
-                                    // image="/static/images/cards/contemplative-reptile.jpg"
-                                    title="Snowy"
-                                />
+                                <CardMedia>
+                                    <img src={Collection1} style={{width:'100%'}}/>
+                                </CardMedia>
                                 <CardContent>
                                     <Typography gutterBottom variant="h5" component="h2" style={{textAlign:'center'}}>
                                         Snowy
@@ -195,11 +210,10 @@ const Content = () => {
                     <Grid item xs={12} sm={6} md={3}>
                         <Card className={classes.card}>
                             <CardActionArea>
-                                <CardMedia
-                                    className={classes.media}
-                                    style={{ backgroundImage:`url(${Collection2})`}}
-                                    title="Marvel"
-                                />
+                                <CardMedia>
+                                    <img src={Collection2} style={{width:'100%'}}/>
+                                </CardMedia>
+
                                 <CardContent>
                                     <Typography gutterBottom variant="h5" component="h2" style={{textAlign:'center'}}>
                                         Marvel
@@ -212,11 +226,9 @@ const Content = () => {
                     <Grid item xs={12} sm={6} md={3}>
                         <Card className={classes.card}>
                             <CardActionArea>
-                                <CardMedia
-                                    className={classes.media}
-                                    style={{ backgroundImage:`url(${Collection3})`}}
-                                    title="BTS"
-                                />
+                            <CardMedia>
+                                    <img src={Collection3} style={{width:'100%'}}/>
+                                </CardMedia>
                                 <CardContent>
                                     <Typography gutterBottom variant="h5" component="h2" style={{textAlign:'center'}}>
                                             BTS
@@ -230,11 +242,9 @@ const Content = () => {
                     <Grid item xs={12} sm={6} md={3}>
                         <Card className={classes.card}>
                             <CardActionArea>
-                                <CardMedia
-                                    className={classes.media}
-                                    style={{ backgroundImage:`url(${Collection4})`}}
-                                    title="BTS"
-                                />
+                            <CardMedia>
+                                    <img src={Collection4} style={{width:'100%'}}/>
+                                </CardMedia>
                                 <CardContent>
                                     <Typography gutterBottom variant="h5" component="h2" style={{textAlign:'center'}}>
                                             BTS
@@ -416,7 +426,7 @@ const Content = () => {
                 
 
             </div>
-        </div>
+        </Container>
     );
 };
 

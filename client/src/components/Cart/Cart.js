@@ -136,7 +136,7 @@ const useStyles = makeStyles((theme) =>({
         <Table className={classes.table} aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell align="right" style={{ fontFamily: "motesterrat", fontWeight: 600, width: 50, height:50 }}>Image</TableCell>
+              <TableCell align="right" style={{ fontFamily: "Montserrat", fontWeight: 600, width: 50, height:50 }}>Image</TableCell>
               <TableCell align="right" style={{ fontWeight: 600 }}>Product Name</TableCell>
               <TableCell align="right" style={{ fontWeight: 600 }}> Price</TableCell>
               <TableCell align="right" style={{ fontWeight: 600 }}>Quantity</TableCell>
