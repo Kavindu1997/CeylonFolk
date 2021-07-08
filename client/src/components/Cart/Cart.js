@@ -20,6 +20,7 @@ import { DriveEta } from '@material-ui/icons';
 const useStyles = makeStyles((theme) =>({
     table: {
       minWidth: 400,
+      backgroundColor:'#fafafa'
     },
     spreadBox: {
         justifyContent: "space-around",
@@ -129,7 +130,7 @@ const useStyles = makeStyles((theme) =>({
     const classes = useStyles();
     
     return (
-        <container>
+      <container>
             <Typography variant="h4" style={{marginTop:'100px',textAlign: 'center'}}>CART</Typography>
       <TableContainer component={Paper} style={{marginTop:'30px',align:'center',marginLeft:'70px',width:'1200px'}}>
         <Table className={classes.table} aria-label="simple table">
@@ -214,6 +215,7 @@ const useStyles = makeStyles((theme) =>({
         </Button>
       </div>
       </container>
+        
     );
   }
 

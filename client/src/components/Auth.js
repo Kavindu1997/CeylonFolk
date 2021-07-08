@@ -8,6 +8,7 @@ import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/styles'; 
+import google from '../images/google.svg';
 
 const useStyles = makeStyles((theme) => ({
     root:{
@@ -17,8 +18,7 @@ const useStyles = makeStyles((theme) => ({
         fontFamily:'Montserrat',
         position:'relative',
         color: 'white',
-        padding: '100px',
-       
+        padding: '100px',  
     },
     form: {
         width: '70%',
@@ -30,6 +30,27 @@ const useStyles = makeStyles((theme) => ({
       padding:'10px',
       marginTop:'30px',
     },
+    google: {
+        align:'center',
+        padding:'10px',
+        marginTop:'30px',
+        marginBottom:'30px',
+        borderWidth:'thin',
+        borderColor:'black',
+        '&:hover': {
+            background: 'none',
+            borderWidth:'medium',
+          }
+      },
+      forgot:{
+        textDecoration:'none',
+        float:'right',
+        marginTop:'10px',
+        '&:hover':{
+            fontWeight:'500',
+            textDecoration:'none',
+        }
+      },
   }));
 
 export default function User() {
@@ -43,6 +64,16 @@ export default function User() {
             <Grid container style={{marginTop:'50px',align:'center'}}>
                 <Grid item xs={12} sm={12} md={6} lg={6}> 
                     <Typography component="h1" variant="h5" style={{fontFamily:'Montserrat',textAlign:'center'}}>Already Registered?</Typography>
+                    <Grid item xs={6} sm={6} md={6} lg={6}> 
+                        <Button
+                            type="submit"
+                            fullWidth
+                            variant="outlined"
+                            color="primary"
+                            className={classes.google} 
+                        ><img height={30} src={google} style={{marginRight:'20px'}} />Sign In with Google</Button>
+                    </Grid>
+                    <Typography component="h1" variant="h5" style={{fontFamily:'Montserrat',textAlign:'center'}}>OR</Typography>
                     <form className={classes.form} noValidate>
                         <TextField
                             variant="outlined"
@@ -70,6 +101,7 @@ export default function User() {
                             control={<Checkbox value="remember" color="primary" />}
                             label="Remember me"
                             style={{float:'left'}}/>
+                        <Link href="#" className={classes.forgot}>Forgot Password</Link>
                         <Button
                             type="submit"
                             fullWidth
@@ -80,9 +112,19 @@ export default function User() {
                     </form>
                 </Grid>  
                 <Grid item xs={12} sm={12} md={6} lg={6}>
-                    <Typography component="h1" variant="h5" style={{fontFamily:'Montserrat',textAlign:'center'}}>New Member?</Typography> 
+                    <Typography component="h1" variant="h5" style={{fontFamily:'Montserrat',textAlign:'center'}}>New Member?</Typography>
+                    <Grid item xs={6} sm={6} md={6} lg={6}> 
+                        <Button
+                            type="submit"
+                            fullWidth
+                            variant="outlined"
+                            color="primary"
+                            className={classes.google} 
+                        ><img height={30} src={google} style={{marginRight:'20px'}} />Sign Up with Google</Button>
+                    </Grid>
+                    <Typography component="h1" variant="h5" style={{fontFamily:'Montserrat',textAlign:'center'}}>OR</Typography> 
                     <form className={classes.form} noValidate>
-                        <Grid item  xs={12} sm={12} spacing={1}  container>
+                        <Grid item  xs={12} sm={12} spacing={1} container>
                             <Grid item xs={12} sm={6}>
                                 <TextField
                                     variant="outlined"
