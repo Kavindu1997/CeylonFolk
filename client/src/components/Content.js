@@ -126,7 +126,7 @@ const Content = () => {
     },[]);
 
     return (
-        <div className={classes.backimage}>
+        <div>
             <Box className={classes.root} >
                 <Collapse in={checked}  {...(checked ? { timeout: 1000 } : {})} collapsedHeight={50}>
                     <div className={classes.container}>
