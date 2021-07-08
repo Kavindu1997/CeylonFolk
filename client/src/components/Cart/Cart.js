@@ -10,6 +10,9 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import Box from '@material-ui/core/Box';
+import NumericInput from 'react-numeric-input';
+import 'font-awesome/css/font-awesome.min.css';
+import TextField from '@material-ui/core/TextField';
 import Checkbox from '@material-ui/core/Checkbox';
 import { DriveEta } from '@material-ui/icons';
 
@@ -27,6 +30,30 @@ const useStyles = makeStyles((theme) =>({
         display: "flex",
         padding: 8
       },
+      back: {
+        marginTop: 30,
+        alignItems:"center",
+        marginLeft: 600,
+      },
+      submit: {
+        marginTop: 30,
+        alignItems:"center",
+        marginLeft: 600,
+      },
+      coupon: {
+        borderRadius: 20
+      },
+      remove: {
+        color: 'red',
+      },
+      numeric: {
+        borderRadius: '20px 20px 20px 20px'
+        // rounded, 
+        // textColor:'#B0228C', 
+        // // iconStyle={{ color: 'white' }}, 
+        // rightButtonBackgroundColor:'#EA3788', 
+        // leftButtonBackgroundColor:'#E56B70',
+      },
   }));
   
   function createData(image, name, price, quantity, action, total) {
@@ -34,30 +61,81 @@ const useStyles = makeStyles((theme) =>({
   }
   
   const rows = [
-    createData('Frozen yoghurt', 159, 6.0, 24, 4.0, 4.0),
-    createData('Ice cream sandwich',237, 9.0, 37, 4.3, 4.0),
-    createData('Eclair', 262, 16.0, 24, 6.0, 4.0),
-    createData('Cupcake', 305, 3.7, 67, 4.3, 4.0),
-    createData('Gingerbread', 356, 16.0, 49, 3.9, 4.0),
+    createData(
+      <div>
+        <img height={100} src={require('../../images/ts1.jpg').default}/>
+      </div>,
+      'Snowy Tshirt', 159, 
+      <div>
+        <NumericInput mobile min={0} max={100} value={2} size={ 1 }/>
+      </div>, 
+      4.0, 4.0),
+    createData(
+      <div>
+        <img height={100} align="center" src={require('../../images/ts2.jpg').default}/>
+      </div>,
+      'Baby Tshirt',249,
+      <div>
+        <NumericInput mobile min={0} max={100} value={1} size={ 1 }
+        style={{ borderRadius: '20px 20px 20px 20px'
+        //   wrap: {
+        //       background: '#E2E2E2',
+        //       // boxShadow: '0 0 1px 1px #fff inset, 1px 1px 5px -1px #000',
+        //       padding: '2px 2.26ex 2px 2px',
+        //       borderRadius: '20px 20px 20px 20px',
+        //       // fontSize: 32
+        //   },
+        //   input: {
+        //     borderRadius: '20px 20px 20px 20px',
+        //     color: '#988869',
+        //     padding: '0.1ex 1ex',
+        //     // border: '1px solid #ccc',
+        //     marginRight: 4,
+        //     // display: 'block',
+        //     fontWeight: 100,
+        //     // textShadow: 1px 1px 1px rgba(0, 0, 0, 0.1)
+        // }} 
+        }}/>
+      </div>,
+      1000, 1000),
+    createData(
+      <div>
+        <img height={100} align="center" src={require('../../images/ts3.jpg').default}/>
+      </div>,
+      'White Tshirt', 800, 
+      <div>
+        <NumericInput mobile min={0} max={100} value={1} size={ 1 }/>
+      </div>, 
+      6.0, 4.0),
+    createData(
+      <div>
+        <img height={100} align="center" src={require('../../images/ts4.jpg').default}/>
+      </div>,
+      'Friends Tshirt', 3057,
+      <div>
+        <NumericInput mobile min={0} max={100} value={3} size={ 1 }/>
+      </div>, 
+      4.3, 4.0),
   ];
+
+  // function deleteItem(i) {
+  //   const { rows } = this.state;
+  //   rows.splice(i, 1);
+  //   this.setState({ rows });
+  // }
   
   export default function Cart() {
+    
     const classes = useStyles();
-  
+    
     return (
         <container>
-            <Typography variant="h4" style={{marginTop:'100px',textAlign: 'center'}}> MY CART</Typography>
+            <Typography variant="h4" style={{marginTop:'100px',textAlign: 'center'}}>CART</Typography>
       <TableContainer component={Paper} style={{marginTop:'30px',align:'center',marginLeft:'70px',width:'1200px'}}>
         <Table className={classes.table} aria-label="simple table">
           <TableHead>
             <TableRow>
-            {/* <TableCell padding="checkbox">
-                        <Checkbox
-                        //   checked={isItemSelected}
-                          inputProps={{ 'aria-labelledby': labelId }}
-                        />
-                      </TableCell> */}
-              <TableCell align="right" style={{ fontWeight: 600 }}>Image</TableCell>
+              <TableCell align="right" style={{ fontFamily: "motesterrat", fontWeight: 600, width: 50, height:50 }}>Image</TableCell>
               <TableCell align="right" style={{ fontWeight: 600 }}>Product Name</TableCell>
               <TableCell align="right" style={{ fontWeight: 600 }}> Price</TableCell>
               <TableCell align="right" style={{ fontWeight: 600 }}>Quantity</TableCell>
@@ -66,14 +144,19 @@ const useStyles = makeStyles((theme) =>({
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row) => (
-              <TableRow key={row.name}>
-                {/* <TableCell> 
-                </TableCell> */}
+            {rows.map((row,i) => (
+              <TableRow key={`row-${i}`}>
                 <TableCell align="right">{row.image}</TableCell>
                 <TableCell align="right">{row.name}</TableCell>
                 <TableCell align="right">{row.price}</TableCell>
-                <TableCell align="right">{row.quantity}</TableCell>
+                 <TableCell align="right" className={classes.numeric}>{row.quantity}</TableCell>
+                <TableCell align="right">
+                  <Button
+                    className={classes.remove}
+                  >
+                    <i class="fa fa-times" aria-hidden="true"></i>
+                  </Button>
+                </TableCell>
                 <TableCell align="right">{row.total}</TableCell>
               </TableRow>
             ))}
@@ -81,26 +164,54 @@ const useStyles = makeStyles((theme) =>({
         </Table>
       </TableContainer>
       <div>
-      <Box
-  component="span"
-  m={1}
-  className={`${classes.spreadBox} ${classes.box}`}
->   
-{/* Cart buttons  */}
       <Button
         type="submit"
         variant="contained"
         color="primary"
         className={classes.back}
-      >CONTINUE SHOPPING</Button>
+      >Continue Shopping
+      </Button>
 
-      <Button
-        type="submit"
-        variant="contained"
-        color="primary"
-        className={classes.submit}
-      >CHECK OUT</Button>
-      </Box>
+         <Typography variant="h6" style={{marginTop:'50px',marginLeft:'80px',textAlign: 'left',fontWeight: 600}}>Cart Totals</Typography> 
+         <TableContainer style={{marginTop:'20px',marginLeft:'80px',align:'left',width:'600px'}}>
+         <Table aria-label="simple table">
+            <TableRow>
+              <TableCell align="left" style={{ fontWeight: 600 }}>SUB TOTAL</TableCell>
+              <TableCell align="center" style={{ fontWeight: 600 }}> $489</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell align="left" style={{ fontWeight: 600 }}>SHIPPING</TableCell>
+              <TableCell align="center" style={{ fontWeight: 600 }}>$7</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell align="left" style={{ fontWeight: 600 }}>ADD COUPON</TableCell>
+              <TableCell align="center" style={{ fontWeight: 600 }}>
+              <div>
+                <TextField underlineShow={false} label="Coupon ID" style={{width:130, borderRadius: 25}}/>
+                <br />  <br /> 
+                <Button
+                  type="submit"
+                  variant="contained"
+                  color="primary"
+                  className={classes.coupon}
+                >Apply Coupon
+                </Button>
+              </div>
+              </TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell align="left" style={{ fontWeight: 600 }}>TOTAL</TableCell>
+              <TableCell align="center" style={{ fontWeight: 600 }}>$496</TableCell>
+            </TableRow>
+          </Table>     
+        </TableContainer>
+        <Button
+          type="submit"
+          variant="contained"
+          color="primary"
+          className={classes.submit}
+        >Proceed To Checkout
+        </Button>
       </div>
       </container>
     );
