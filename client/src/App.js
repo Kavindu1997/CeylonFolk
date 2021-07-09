@@ -9,8 +9,8 @@ import AdminDashboard from './pages/AdminDashboard';
 import Users from './pages/Users';
 import DetailOfProduct from './components/Product_grid/DetailOfProduct';
 import Collections from './pages/Collections'
-
-
+import MyCart from './pages/MyCart'
+import CheckingOut from './pages/CheckingOut'
 
 const theme = createMuiTheme({
     typography: {
@@ -81,6 +81,8 @@ const App = () => {
               <Route path="/productDetails" exact render={() => <DetailOfProduct/>}/>
               <Route path="/admin" exact render={() => <AdminDashboard/>}/>
               <Route path="/users" exact render={() => <Users/>}/>
+              <Route path="/cart" exact render={() => <MyCart/>}/>
+              <Route path="/checkout" exact render={() => <CheckingOut/>}/>
               <Route path="/collections" exact render={() => <Collections/>}/>
           </Router>
         </ThemeProvider>
