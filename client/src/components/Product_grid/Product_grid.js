@@ -147,10 +147,15 @@ export const Product_grid = () => {
                                     style={{ backgroundImage:`url(${Collection3})`}}
                                     title="BTS"
                                 />
-                                <CardContent>
-                                    <Typography gutterBottom variant="h5" component="h2" style={{textAlign:'center'}}>
-                                            BTS
+                               <CardContent>
+                                    <Typography gutterBottom variant="h9" component="h2" style={{textAlign:'center'}}>
+                                        Butter
                                     </Typography>
+
+                                    <Typography gutterBottom variant="h6" component="h2" style={{textAlign:'center'}}>
+                                        LKR 1,2000.00
+                                    </Typography>
+
                                 </CardContent>
                             </CardActionArea>
                             <CardActions>                   
@@ -165,10 +170,15 @@ export const Product_grid = () => {
                                     style={{ backgroundImage:`url(${Collection4})`}}
                                     title="BTS"
                                 />
-                                <CardContent>
-                                    <Typography gutterBottom variant="h5" component="h2" style={{textAlign:'center'}}>
-                                            BTS
+                               <CardContent>
+                                    <Typography gutterBottom variant="h9" component="h2" style={{textAlign:'center'}}>
+                                        BTS
                                     </Typography>
+
+                                    <Typography gutterBottom variant="h6" component="h2" style={{textAlign:'center'}}>
+                                        LKR 1,500.00
+                                    </Typography>
+
                                 </CardContent>
                             </CardActionArea>
                             <CardActions>                   
@@ -176,7 +186,235 @@ export const Product_grid = () => {
                         </Card>
                     </Grid>
                 </Grid>
+
+
+
+
+
+
+
+
             </Container>
+
+
+
+            <Container className={classes.collectionContainer} maxWidth="lg">
+                {/* <Typography variant="h4" className={classes.collectionTitle}>WORK WEAR</Typography>         */}
+                <Grid container spacing={0} >
+                    <Grid item xs={12} sm={6} md={3}>
+
+                    <Link href="/productDetails">
+                        <Card className={classes.card}>
+                            <CardActionArea>
+                                <CardMedia
+                                    className={classes.media}
+                                    style={{ backgroundImage:`url(${Collection1})`}}
+                                    // image="CeylonFolk/client/src/images/ts1.jpg"
+                                    // image="/static/images/cards/contemplative-reptile.jpg"
+                                    title="Snowy"
+                                />
+                                <CardContent>
+                                    <Typography gutterBottom variant="h9" component="h2" style={{textAlign:'center'}}>
+                                        Snowy
+                                    </Typography>
+
+                                    <Typography gutterBottom variant="h6" component="h2" style={{textAlign:'center'}}>
+                                        LKR 1,500.00
+                                    </Typography>
+
+                                </CardContent>
+                            </CardActionArea>
+                            <CardActions></CardActions>
+                        </Card>
+                        </Link>
+                    </Grid>
+                    <Grid item xs={12} sm={6} md={3}>
+                        <Card className={classes.card}>
+                            <CardActionArea>
+                                <CardMedia
+                                    className={classes.media}
+                                    style={{ backgroundImage:`url(${Collection2})`}}
+                                    title="Marvel"
+                                />
+                                <CardContent>
+                                    <Typography gutterBottom variant="h9" component="h2" style={{textAlign:'center'}}>
+                                        Marvel
+                                    </Typography>
+
+                                    <Typography gutterBottom variant="h6" component="h2" style={{textAlign:'center'}}>
+                                        LKR 1,6500.00
+                                    </Typography>
+
+                                </CardContent>
+                            </CardActionArea>
+                            <CardActions></CardActions>
+                        </Card>
+                    </Grid>
+                    <Grid item xs={12} sm={6} md={3}>
+                        <Card className={classes.card}>
+                            <CardActionArea>
+                                <CardMedia
+                                    className={classes.media}
+                                    style={{ backgroundImage:`url(${Collection3})`}}
+                                    title="BTS"
+                                />
+                               <CardContent>
+                                    <Typography gutterBottom variant="h9" component="h2" style={{textAlign:'center'}}>
+                                        Butter
+                                    </Typography>
+
+                                    <Typography gutterBottom variant="h6" component="h2" style={{textAlign:'center'}}>
+                                        LKR 1,2000.00
+                                    </Typography>
+
+                                </CardContent>
+                            </CardActionArea>
+                            <CardActions>                   
+                            </CardActions>
+                        </Card>
+                    </Grid>
+                    <Grid item xs={12} sm={6} md={3}>
+                        <Card className={classes.card}>
+                            <CardActionArea>
+                                <CardMedia
+                                    className={classes.media}
+                                    style={{ backgroundImage:`url(${Collection4})`}}
+                                    title="BTS"
+                                />
+                               <CardContent>
+                                    <Typography gutterBottom variant="h9" component="h2" style={{textAlign:'center'}}>
+                                        BTS
+                                    </Typography>
+
+                                    <Typography gutterBottom variant="h6" component="h2" style={{textAlign:'center'}}>
+                                        LKR 1,500.00
+                                    </Typography>
+
+                                </CardContent>
+                            </CardActionArea>
+                            <CardActions>                   
+                            </CardActions>
+                        </Card>
+                    </Grid>
+                </Grid>
+
+            </Container>
+            
+
+
+
+            <Container className={classes.collectionContainer} maxWidth="lg">
+                {/* <Typography variant="h4" className={classes.collectionTitle}>WORK WEAR</Typography>         */}
+                <Grid container spacing={0} >
+                    <Grid item xs={12} sm={6} md={3}>
+
+                    <Link href="/productDetails">
+                        <Card className={classes.card}>
+                            <CardActionArea>
+                                <CardMedia
+                                    className={classes.media}
+                                    style={{ backgroundImage:`url(${Collection1})`}}
+                                    // image="CeylonFolk/client/src/images/ts1.jpg"
+                                    // image="/static/images/cards/contemplative-reptile.jpg"
+                                    title="Snowy"
+                                />
+                                <CardContent>
+                                    <Typography gutterBottom variant="h9" component="h2" style={{textAlign:'center'}}>
+                                        Snowy
+                                    </Typography>
+
+                                    <Typography gutterBottom variant="h6" component="h2" style={{textAlign:'center'}}>
+                                        LKR 1,500.00
+                                    </Typography>
+
+                                </CardContent>
+                            </CardActionArea>
+                            <CardActions></CardActions>
+                        </Card>
+                        </Link>
+                    </Grid>
+                    <Grid item xs={12} sm={6} md={3}>
+                        <Card className={classes.card}>
+                            <CardActionArea>
+                                <CardMedia
+                                    className={classes.media}
+                                    style={{ backgroundImage:`url(${Collection2})`}}
+                                    title="Marvel"
+                                />
+                                <CardContent>
+                                    <Typography gutterBottom variant="h9" component="h2" style={{textAlign:'center'}}>
+                                        Marvel
+                                    </Typography>
+
+                                    <Typography gutterBottom variant="h6" component="h2" style={{textAlign:'center'}}>
+                                        LKR 1,6500.00
+                                    </Typography>
+
+                                </CardContent>
+                            </CardActionArea>
+                            <CardActions></CardActions>
+                        </Card>
+                    </Grid>
+                    <Grid item xs={12} sm={6} md={3}>
+                        <Card className={classes.card}>
+                            <CardActionArea>
+                                <CardMedia
+                                    className={classes.media}
+                                    style={{ backgroundImage:`url(${Collection3})`}}
+                                    title="BTS"
+                                />
+                               <CardContent>
+                                    <Typography gutterBottom variant="h9" component="h2" style={{textAlign:'center'}}>
+                                        Butter
+                                    </Typography>
+
+                                    <Typography gutterBottom variant="h6" component="h2" style={{textAlign:'center'}}>
+                                        LKR 1,2000.00
+                                    </Typography>
+
+                                </CardContent>
+                            </CardActionArea>
+                            <CardActions>                   
+                            </CardActions>
+                        </Card>
+                    </Grid>
+                    <Grid item xs={12} sm={6} md={3}>
+                        <Card className={classes.card}>
+                            <CardActionArea>
+                                <CardMedia
+                                    className={classes.media}
+                                    style={{ backgroundImage:`url(${Collection4})`}}
+                                    title="BTS"
+                                />
+                               <CardContent>
+                                    <Typography gutterBottom variant="h9" component="h2" style={{textAlign:'center'}}>
+                                        BTS
+                                    </Typography>
+
+                                    <Typography gutterBottom variant="h6" component="h2" style={{textAlign:'center'}}>
+                                        LKR 1,500.00
+                                    </Typography>
+
+                                </CardContent>
+                            </CardActionArea>
+                            <CardActions>                   
+                            </CardActions>
+                        </Card>
+                    </Grid>
+                </Grid>
+
+
+
+
+
+
+
+
+            </Container>
+            
+
+
+
             
 
 
