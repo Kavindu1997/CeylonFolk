@@ -13,7 +13,7 @@ import { makeStyles } from '@material-ui/styles';
 
 import {Typography,IconButton,Collapse,Box,Container,Card,CardActionArea,CardActions,CardContent,CardMedia} from '@material-ui/core';
 
-const options = ['Create a merge commit', 'Squash and merge', 'Rebase and merge'];
+const options = ['Collection','Snowy', 'Marvel'];
 
 
 const useStyles=makeStyles((theme)=>({
