@@ -8,6 +8,8 @@ import Authentication from './pages/Authentication';
 import AdminDashboard from './pages/AdminDashboard';
 import Users from './pages/Users';
 import DetailOfProduct from './components/Product_grid/DetailOfProduct';
+import Collections from './pages/Collections'
+
 
 
 const theme = createMuiTheme({
@@ -79,9 +81,7 @@ const App = () => {
               <Route path="/productDetails" exact render={() => <DetailOfProduct/>}/>
               <Route path="/admin" exact render={() => <AdminDashboard/>}/>
               <Route path="/users" exact render={() => <Users/>}/>
-
-
-
+              <Route path="/collections" exact render={() => <Collections/>}/>
           </Router>
         </ThemeProvider>
     );

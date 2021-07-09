@@ -103,7 +103,7 @@ const UserTable = () => {
     return (
         <div>
             <PageHeader
-            title="User Management"
+            title="USER MANAGEMENT"
             icon={< GroupIcon fontSize="large"/>}
             />
             <Paper className={classes.pageContent}>
