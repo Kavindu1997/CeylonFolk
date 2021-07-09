@@ -38,8 +38,6 @@ const useStyles=makeStyles((theme)=>({
         marginLeft: '24px',
         marginRight:'10px',
         fontWeight:'300',
-        
-
     },
     appbarTitle:{
         flexGrow:'1',
@@ -123,33 +121,15 @@ const useStyles=makeStyles((theme)=>({
             textDecoration:'none'
         }
     }
-    
-  
+     
  }))
 
 const CommonNav = () => {
     const classes=useStyles();
-    const [navBackground, setNavBackground] = useState('appbar')
-    const navRef = React.useRef()
-    navRef.current = navBackground
-    useEffect(() => {
-        const handleScroll = () => {
-            const show = window.scrollY > 310
-            if (show) {
-                setNavBackground('appbarsolid')
-            } else {
-                setNavBackground('appbar')
-            }
-        }
-        document.addEventListener('scroll', handleScroll)
-        return () => {
-            document.removeEventListener('scroll', handleScroll)
-        }
-    }, [])
  
     return (
         <div className={classes.root}> 
-            <AppBar className={classes[navRef.current]} elevation={0}>
+            <AppBar className={classes.appbar} elevation={0}>
                 <Toolbar className={classes.appbarWrapper}>
                 <div className={classes.appbarLeft}>
                         <Link href="/index" className={classes.appbarlink}> <Typography className={classes.appbarlink2}>Home</Typography></Link>
@@ -169,7 +149,7 @@ const CommonNav = () => {
                    
                  
                    <div className={classes.appbarMiddle}>
-                    <Link href="/index"><img src={require('../../images/logo.png').default} alt="CeylonFolk" height="120px"/></Link>
+                    <Link href="/index"><img src={require('../../images/logo.png').default} alt="CeylonFolk" height="80px"/></Link>
                    </div>                  
              
                 <IconButton style={{paddingLeft:'106px'}}>
