@@ -3,9 +3,13 @@ import {Typography,IconButton,Collapse,Box,Button,Container,Grid,Card,CardAction
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { makeStyles } from '@material-ui/styles';
 import Image from '../../images/cover6.jpg';
-import Collection1 from '../../images/collection1.jpg';
-import Collection2 from '../../images/collection2.jpg';
-import Collection3 from '../../images/collection3.jpg';
+// import Collection1 from '../../images/collection1.jpg';
+// import Collection2 from '../../images/collection2.jpg';
+// import Collection3 from '../../images/collection3.jpg';
+import Collection1 from '../../images/ts1.jpg';
+import Collection2 from '../../images/ts2.jpg';
+import Collection3 from '../../images/ts3.jpg';
+import Collection4 from '../../images/ts4.jpg';
 import Snap1 from '../../images/snap1.jpg'
 import Snap2 from '../../images/snap2.jpg'
 import Snap3 from '../../images/snap3.jpg'
@@ -83,197 +87,97 @@ export const Product_grid = () => {
     return (
         <div className={classes.backimage}>
         
-            <Container className={classes.collectionContainer} maxWidth="lg">
-                {/* <Typography variant="h4" className={classes.collectionTitle}>WORK WEAR</Typography> */}
-         
-            <Grid container spacing={0}>
-                <Grid item xs={12} sm={6} md={4}>
-                        <Link href="/productDetails">
-                         <Card className={classes.card}>
+        <Container className={classes.collectionContainer} maxWidth="lg">
+                {/* <Typography variant="h4" className={classes.collectionTitle}>WORK WEAR</Typography>         */}
+                <Grid container spacing={0} >
+                    <Grid item xs={12} sm={6} md={3}>
+
+                    <Link href="/productDetails">
+                        <Card className={classes.card}>
                             <CardActionArea>
-                                    <CardMedia
+                                <CardMedia
                                     className={classes.media}
                                     style={{ backgroundImage:`url(${Collection1})`}}
+                                    // image="CeylonFolk/client/src/images/ts1.jpg"
+                                    // image="/static/images/cards/contemplative-reptile.jpg"
                                     title="Snowy"
-                                    />
+                                />
+                                <CardContent>
+                                    <Typography gutterBottom variant="h9" component="h2" style={{textAlign:'center'}}>
+                                        Snowy
+                                    </Typography>
 
-                                    <CardContent>
-                                        <Typography gutterBottom variant="h5" component="h2" style={{textAlign:'center'}}>
-                                            Snowy
-                                        </Typography>
-                                    </CardContent>
-                                </CardActionArea>
-                                <CardActions>
-                               
-                                </CardActions>
-                         </Card>
-                         </Link>
-                </Grid>
-                <Grid item xs={12} sm={6} md={4}>
-                            <Card className={classes.card}>
-                                <CardActionArea>
-                                        <CardMedia
-                                        className={classes.media}
-                                        style={{ backgroundImage:`url(${Collection2})`}}
-                                        title="Marvel"
-                                        />
-                                        <CardContent>
-                                            <Typography gutterBottom variant="h5" component="h2" style={{textAlign:'center'}}>
-                                                Marvel
-                                            </Typography>
-                                        </CardContent>
-                                </CardActionArea>
-                                <CardActions>
-                                        
-                                </CardActions>
-                            </Card>
-                </Grid>
-                <Grid item xs={12} sm={6} md={4}>
-                            <Card className={classes.card}>
-                                <CardActionArea>
-                                        <CardMedia
-                                        className={classes.media}
-                                        style={{ backgroundImage:`url(${Collection3})`}}
-                                        title="BTS"
-                                        />
-                                        <CardContent>
-                                            <Typography gutterBottom variant="h5" component="h2" style={{textAlign:'center'}}>
-                                                 BTS
-                                            </Typography>
-                                        </CardContent>
-                                </CardActionArea>
-                                <CardActions>
-                                                    
-                                </CardActions>
-                            </Card>
-                </Grid>
+                                    <Typography gutterBottom variant="h6" component="h2" style={{textAlign:'center'}}>
+                                        LKR 1,500.00
+                                    </Typography>
 
-
-                <Grid item xs={12} sm={6} md={4}>
-                        <Link href="/productDetails">
-                         <Card className={classes.card}>
+                                </CardContent>
+                            </CardActionArea>
+                            <CardActions></CardActions>
+                        </Card>
+                        </Link>
+                    </Grid>
+                    <Grid item xs={12} sm={6} md={3}>
+                        <Card className={classes.card}>
                             <CardActionArea>
-                                    <CardMedia
+                                <CardMedia
                                     className={classes.media}
-                                    style={{ backgroundImage:`url(${Collection1})`}}
-                                    title="Snowy"
-                                    />
+                                    style={{ backgroundImage:`url(${Collection2})`}}
+                                    title="Marvel"
+                                />
+                                <CardContent>
+                                    <Typography gutterBottom variant="h9" component="h2" style={{textAlign:'center'}}>
+                                        Marvel
+                                    </Typography>
 
-                                    <CardContent>
-                                        <Typography gutterBottom variant="h5" component="h2" style={{textAlign:'center'}}>
-                                            Snowy
-                                        </Typography>
-                                    </CardContent>
-                                </CardActionArea>
-                                <CardActions>
-                               
-                                </CardActions>
-                         </Card>
-                         </Link>
-                </Grid>
-                <Grid item xs={12} sm={6} md={4}>
-                            <Card className={classes.card}>
-                                <CardActionArea>
-                                        <CardMedia
-                                        className={classes.media}
-                                        style={{ backgroundImage:`url(${Collection2})`}}
-                                        title="Marvel"
-                                        />
-                                        <CardContent>
-                                            <Typography gutterBottom variant="h5" component="h2" style={{textAlign:'center'}}>
-                                                Marvel
-                                            </Typography>
-                                        </CardContent>
-                                </CardActionArea>
-                                <CardActions>
-                                        
-                                </CardActions>
-                            </Card>
-                </Grid>
-                <Grid item xs={12} sm={6} md={4}>
-                            <Card className={classes.card}>
-                                <CardActionArea>
-                                        <CardMedia
-                                        className={classes.media}
-                                        style={{ backgroundImage:`url(${Collection3})`}}
-                                        title="BTS"
-                                        />
-                                        <CardContent>
-                                            <Typography gutterBottom variant="h5" component="h2" style={{textAlign:'center'}}>
-                                                 BTS
-                                            </Typography>
-                                        </CardContent>
-                                </CardActionArea>
-                                <CardActions>
-                                                    
-                                </CardActions>
-                            </Card>
-                </Grid>
+                                    <Typography gutterBottom variant="h6" component="h2" style={{textAlign:'center'}}>
+                                        LKR 1,6500.00
+                                    </Typography>
 
-                <Grid item xs={12} sm={6} md={4}>
-                        <Link href="/productDetails">
-                         <Card className={classes.card}>
+                                </CardContent>
+                            </CardActionArea>
+                            <CardActions></CardActions>
+                        </Card>
+                    </Grid>
+                    <Grid item xs={12} sm={6} md={3}>
+                        <Card className={classes.card}>
                             <CardActionArea>
-                                    <CardMedia
+                                <CardMedia
                                     className={classes.media}
-                                    style={{ backgroundImage:`url(${Collection1})`}}
-                                    title="Snowy"
-                                    />
-
-                                    <CardContent>
-                                        <Typography gutterBottom variant="h5" component="h2" style={{textAlign:'center'}}>
-                                            Snowy
-                                        </Typography>
-                                    </CardContent>
-                                </CardActionArea>
-                                <CardActions>
-                               
-                                </CardActions>
-                         </Card>
-                         </Link>
+                                    style={{ backgroundImage:`url(${Collection3})`}}
+                                    title="BTS"
+                                />
+                                <CardContent>
+                                    <Typography gutterBottom variant="h5" component="h2" style={{textAlign:'center'}}>
+                                            BTS
+                                    </Typography>
+                                </CardContent>
+                            </CardActionArea>
+                            <CardActions>                   
+                            </CardActions>
+                        </Card>
+                    </Grid>
+                    <Grid item xs={12} sm={6} md={3}>
+                        <Card className={classes.card}>
+                            <CardActionArea>
+                                <CardMedia
+                                    className={classes.media}
+                                    style={{ backgroundImage:`url(${Collection4})`}}
+                                    title="BTS"
+                                />
+                                <CardContent>
+                                    <Typography gutterBottom variant="h5" component="h2" style={{textAlign:'center'}}>
+                                            BTS
+                                    </Typography>
+                                </CardContent>
+                            </CardActionArea>
+                            <CardActions>                   
+                            </CardActions>
+                        </Card>
+                    </Grid>
                 </Grid>
-                <Grid item xs={12} sm={6} md={4}>
-                            <Card className={classes.card}>
-                                <CardActionArea>
-                                        <CardMedia
-                                        className={classes.media}
-                                        style={{ backgroundImage:`url(${Collection2})`}}
-                                        title="Marvel"
-                                        />
-                                        <CardContent>
-                                            <Typography gutterBottom variant="h5" component="h2" style={{textAlign:'center'}}>
-                                                Marvel
-                                            </Typography>
-                                        </CardContent>
-                                </CardActionArea>
-                                <CardActions>
-                                        
-                                </CardActions>
-                            </Card>
-                </Grid>
-                <Grid item xs={12} sm={6} md={4}>
-                            <Card className={classes.card}>
-                                <CardActionArea>
-                                        <CardMedia
-                                        className={classes.media}
-                                        style={{ backgroundImage:`url(${Collection3})`}}
-                                        title="BTS"
-                                        />
-                                        <CardContent>
-                                            <Typography gutterBottom variant="h5" component="h2" style={{textAlign:'center'}}>
-                                                 BTS
-                                            </Typography>
-                                        </CardContent>
-                                </CardActionArea>
-                                <CardActions>
-                                                    
-                                </CardActions>
-                            </Card>
-                </Grid>
-
-
-            </Grid>
             </Container>
+            
 
 
         </div>
