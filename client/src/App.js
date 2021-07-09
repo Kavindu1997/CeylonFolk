@@ -36,7 +36,7 @@ const theme = createMuiTheme({
       padding: '10px'
     },
     button: {
-      fontFamily:'Work+Sans',
+      fontFamily:'Work Sans',
       fontWeightThin: 100,
       fontWeightThinItalic: 100,
       fontWeightExtraLight: 200,
