@@ -60,7 +60,7 @@ const useStyles = makeStyles((theme) =>({
   const rows = [
     createData(
       <div>
-        <img height={100} src={require('../../images/ts1.jpg').default}/>
+        <img height={100} src={require('../images/ts1.jpg').default}/>
       </div>,
       'Snowy Tshirt', 1000, 
       <div>
@@ -69,7 +69,7 @@ const useStyles = makeStyles((theme) =>({
        0,2000),
     createData(
       <div>
-        <img height={100} align="center" src={require('../../images/ts2.jpg').default}/>
+        <img height={100} align="center" src={require('../images/ts2.jpg').default}/>
       </div>,
       'Baby Tshirt',800,
       <div>
@@ -97,7 +97,7 @@ const useStyles = makeStyles((theme) =>({
       1000, 800),
     createData(
       <div>
-        <img height={100} align="center" src={require('../../images/ts3.jpg').default}/>
+        <img height={100} align="center" src={require('../images/ts3.jpg').default}/>
       </div>,
       'White Tshirt', 800, 
       <div>

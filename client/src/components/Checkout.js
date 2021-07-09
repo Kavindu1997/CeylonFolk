@@ -78,12 +78,12 @@ const useStyles = makeStyles((theme) => ({
   const rows = [
     createData(
       <div>
-        <img height={75} src={require('../../images/ts1.jpg').default}/>
+        <img height={75} src={require('../images/ts1.jpg').default}/>
       </div>,
       'Snowy Tshirt',2,2000),
     createData(
       <div>
-        <img height={75} align="center" src={require('../../images/ts2.jpg').default}/>
+        <img height={75} align="center" src={require('../images/ts2.jpg').default}/>
       </div>,
       'Baby Tshirt',1,800),
   ];
@@ -225,7 +225,7 @@ export default function Checkout() {
                                         <FormControlLabel value="bank" control={<Radio />} label="Bank Deposits" />
                                         <FormControlLabel value="online" control={<Radio />} label="Pay online" />
                                         <div>
-                                            <img height={75} src={require('../../images/payment.jpg').default}/> 
+                                            <img height={75} src={require('../images/payment.jpg').default}/> 
                                         </div>
                                     </RadioGroup>
                                     </FormControl>
