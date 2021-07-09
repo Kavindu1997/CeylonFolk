@@ -43,7 +43,7 @@ export const mainListItems = (
       </ListItemIcon>
       <ListItemText primary="Inventory" />
     </ListItem>
-    <ListItem button>
+    <ListItem button component={Link} to="/coupon">
       <ListItemIcon>
         <LoyaltyIcon />
       </ListItemIcon>

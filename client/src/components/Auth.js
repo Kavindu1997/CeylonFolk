@@ -209,6 +209,5 @@ export default function User() {
             </Grid>
             </center>
         </container>
-        
   );
 }

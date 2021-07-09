@@ -1,3 +1,4 @@
+import { Divider } from '@material-ui/core';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
@@ -7,3 +8,6 @@ ReactDOM.render(
       <App/>,
       document.getElementById('root')
 );
+
+
+

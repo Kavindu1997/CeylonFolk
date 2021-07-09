@@ -11,6 +11,7 @@ import DetailOfProduct from './components/Product_grid/DetailOfProduct';
 import Collections from './pages/Collections'
 import MyCart from './pages/MyCart'
 import CheckingOut from './pages/CheckingOut'
+import Coupon from './pages/Coupon';
 
 const theme = createMuiTheme({
     typography: {
@@ -36,7 +37,7 @@ const theme = createMuiTheme({
       padding: '10px'
     },
     button: {
-      fontFamily:'Work+Sans',
+      fontFamily:'Work Sans',
       fontWeightThin: 100,
       fontWeightThinItalic: 100,
       fontWeightExtraLight: 200,
@@ -65,7 +66,10 @@ const theme = createMuiTheme({
             main:"#74b9ff",
             light:"#dff9fb"
         },
-    }
+        background:{
+          default:'#FFFFFF'
+        },
+    },
   });
 
 
@@ -84,6 +88,7 @@ const App = () => {
               <Route path="/cart" exact render={() => <MyCart/>}/>
               <Route path="/checkout" exact render={() => <CheckingOut/>}/>
               <Route path="/collections" exact render={() => <Collections/>}/>
+              <Route path="/coupon" exact render={() => <Coupon/>}/>
           </Router>
         </ThemeProvider>
     );

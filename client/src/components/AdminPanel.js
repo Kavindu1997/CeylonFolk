@@ -23,6 +23,7 @@ import {BrowserRouter as Router,Route} from 'react-router-dom';
 
 import UserTable from './UserTable';
 import CollectionTable from './CollectionTable';
+import CouponTable from './CouponTable';
 
 const drawerWidth = 240;
 
@@ -165,6 +166,7 @@ export default function AdminPanel() {
             <Router>
                     <Route path="/users" exact render={() => <UserTable/>}/>
                     <Route path="/collections" exact render={() => <CollectionTable/>}/>
+                    <Route path="/coupon" exact render={() => <CouponTable/>}/>
              </Router>
       </main>
    

@@ -18,7 +18,6 @@ import Snap5 from '../../images/snap5.jpg'
 import Carousel from 'react-elastic-carousel';
 
 
-
 const useStyles=makeStyles((theme)=>({
     root:{
         display:'flex',
