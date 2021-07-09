@@ -4,7 +4,7 @@ import { createMuiTheme,ThemeProvider } from '@material-ui/core';
 import Home from './pages/Home';
 import Shop from './pages/Shop';
 import Contactus from './pages/Contactus';
-import Auth from './pages/Auth';
+import Authentication from './pages/Authentication';
 import AdminDashboard from './pages/AdminDashboard';
 import Users from './pages/Users';
 import DetailOfProduct from './components/Product_grid/DetailOfProduct';
@@ -75,7 +75,7 @@ const App = () => {
               <Route path="/index" exact render={() => < Home/>}/>
               <Route path="/shop" exact render={() => < Shop/>}/>
               <Route path="/contactus" exact render={() => < Contactus/>}/>       
-              <Route path="/auth" exact render={() => < Auth/>}/>
+              <Route path="/auth" exact render={() => < Authentication/>}/>
               <Route path="/productDetails" exact render={() => <DetailOfProduct/>}/>
               <Route path="/admin" exact render={() => <AdminDashboard/>}/>
               <Route path="/users" exact render={() => <Users/>}/>
