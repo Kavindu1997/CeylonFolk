@@ -21,7 +21,7 @@ const useStyles=makeStyles((theme)=>({
     },
     appbar:{
         display: 'flex',
-    padding: '10px 40px',
+    padding: '10px',
     width: '100%',
     justifyContent: 'spaceBetween',
     alignItems: 'center',
@@ -35,7 +35,7 @@ const useStyles=makeStyles((theme)=>({
     icon:{
         color:'white',
         fontSize:'1.5rem',
-        marginLeft: '10px',
+        marginLeft: '24px',
         marginRight:'10px',
         fontWeight:'300',
         
@@ -97,7 +97,33 @@ const useStyles=makeStyles((theme)=>({
         display: 'flex',
         flexGrow:'1',
         justifyContent:'right',
+    },
+
+    appbarlink:{
+        color:'white',
+        position:'relative',
+        textTransform: 'uppercase',
+        fontWeight: '600',
+        fontSize:'15px',
+        paddingLeft:'10px',
+        textDecoration:'none',
+        '&:hover':{
+            textDecoration:'none'
+        }
+    },
+    appbarlink2:{
+        color:'white',
+        position:'relative',
+        textTransform: 'uppercase',
+        fontWeight: '600',
+        fontSize:'15px',
+        paddingLeft:'10px',
+        textDecoration:'none',
+        '&:hover':{
+            textDecoration:'none'
+        }
     }
+    
   
  }))
 
@@ -126,11 +152,10 @@ const CommonNav = () => {
             <AppBar className={classes[navRef.current]} elevation={0}>
                 <Toolbar className={classes.appbarWrapper}>
                 <div className={classes.appbarLeft}>
-                        <Link href="/index"> <Typography color="white" style={{color:'white',position:'relative',textTransform: 'uppercase',fontWeight: '600',fontSize:'15px',paddingLeft:'10px',textDecoration:'none'}}>Home</Typography></Link>
-                        <Link href="/shop"> 
+                        <Link href="/index" className={classes.appbarlink}> <Typography className={classes.appbarlink2}>Home</Typography></Link>
+                        <Link href="/shop" className={classes.appbarlink}> 
                             <Typography 
-                            color="white"  
-                            style={{color:'white',position:'relative',textTransform: 'uppercase',fontWeight: '600',fontSize:'15px',paddingLeft:'10px', textDecoration:'none'}}
+                            className={classes.appbarlink2}
                             endIcon={<KeyboardArrowDownIcon>
                                 fontSize="0.5rem"
                             </KeyboardArrowDownIcon>}
@@ -138,8 +163,8 @@ const CommonNav = () => {
                             Shop
                             </Typography>
                         </Link>                       
-                        <Link href="/contactus"><Typography color="white" style={{color:'white',position:'relative',textTransform: 'uppercase',fontWeight: '600',fontSize:'15px',paddingLeft:'10px'}}>Contact</Typography></Link>
-                        <Link href="#"><Typography color="white" style={{color:'white',position:'relative',textTransform: 'uppercase',fontWeight: '600',fontSize:'15px',paddingLeft:'10px'}}>About Us</Typography></Link>
+                        <Link href="/contactus" className={classes.appbarlink}><Typography className={classes.appbarlink2}>Contact</Typography></Link>
+                        <Link href="#" className={classes.appbarlink}><Typography className={classes.appbarlink2}>About Us</Typography></Link>
                    </div> 
                    
                  
@@ -147,7 +172,7 @@ const CommonNav = () => {
                     <Link href="/index"><img src={require('../../images/logo.png').default} alt="CeylonFolk" height="120px"/></Link>
                    </div>                  
              
-                <IconButton>
+                <IconButton style={{paddingLeft:'106px'}}>
                     <Link href="/auth"><SearchOutlinedIcon className={classes.icon}/></Link>
                     <Link href="/auth"><FavoriteBorderOutlinedIcon className={classes.icon}/></Link>
                     <Link href="/cart"><LocalMallOutlinedIcon className={classes.icon}/></Link>
