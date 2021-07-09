@@ -208,12 +208,13 @@ const Content = () => {
                                     YOU DESIGN<br/>
                                     <span className={classes.colorText}>WE PRINT</span>   
                                 </h1>
-                                <Typography className={classes.subText} >we do customize tshirt designs we do ustomize tshirt designs <br/>we do customize tshirt designs
-                                we do customize tshirt designss</Typography>
+                                <Typography className={classes.subText} >Get featured in your "favourite obsession" Wear Ceylonfolk 
+                                #ceylonfolk #customtshirts #fashion #tshirts #customizedtshirts  #customtees #customtshirts #tshirts 
+                                #smallbusiness #apparel  #shoplocal #supportsmallbusiness #madeinsrilanka #customizedtshirt</Typography>
                                 <Button 
                                     variant="outlined"
                                     color="white"
-    border-color= "white" className={classes.designbtn}>START DESIGNING</Button>
+                                    border-color= "white" className={classes.designbtn}>START DESIGNING</Button>
                                 {/* <IconButton>
                                     <ExpandMoreIcon className={classes.goDown}/>
                                 </IconButton> */}

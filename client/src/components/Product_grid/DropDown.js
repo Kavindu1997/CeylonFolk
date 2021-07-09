@@ -30,7 +30,6 @@ const useStyles=makeStyles((theme)=>({
       position:'relative',
       padding: '100px',
       color: 'white'
-    
   },
   backimage: {
       marginTop: '60px'
@@ -57,7 +56,7 @@ const useStyles=makeStyles((theme)=>({
       paddingTop:'24px'
   },
   collectionTitle:{
-      marginTop: '30px',
+      marginTop: '80px',
       fontWeight:'300',
       paddingBottom:'24px',
       textAlign:'center',
@@ -71,7 +70,14 @@ const useStyles=makeStyles((theme)=>({
   media:{
       height:'240px',
      
-  }
+  },
+  filter:{
+    display:'flex',
+    justifyContent:'space-between',
+    marginTop:'30px'
+   
+},
+
 
 }));
 
@@ -104,26 +110,135 @@ export const DropDown = () => {
   };
 
   return (
-      <div>
+    <Container>
+    <center>
+      <Typography variant="h4" className={classes.collectionTitle}>WORK WEAR</Typography>
+        <div className={classes.filter}>
+          <ButtonGroup variant="contained" color="primary" ref={anchorRef} aria-label="split button" >
+            <Button onClick={handleClick}>{options[selectedIndex]}</Button>
+                <Button
+                  color="primary"
+                  size="small"
+                  aria-controls={open ? 'split-button-menu' : undefined}
+                  aria-expanded={open ? 'true' : undefined}
+                  aria-label="select merge strategy"
+                  aria-haspopup="menu"
+                  onClick={handleToggle}
+                >
+              <ArrowDropDownIcon />
+            </Button>
+          </ButtonGroup>
+          <ButtonGroup variant="contained" color="primary" ref={anchorRef} aria-label="split button" >
+            <Button onClick={handleClick}>{options[selectedIndex]}</Button>
+                <Button
+                  color="primary"
+                  size="small"
+                  aria-controls={open ? 'split-button-menu' : undefined}
+                  aria-expanded={open ? 'true' : undefined}
+                  aria-label="select merge strategy"
+                  aria-haspopup="menu"
+                  onClick={handleToggle}
+                >
+              <ArrowDropDownIcon />
+            </Button>
+          </ButtonGroup>
+          <ButtonGroup variant="contained" color="primary" ref={anchorRef} aria-label="split button" >
+            <Button onClick={handleClick}>{options[selectedIndex]}</Button>
+                <Button
+                  color="primary"
+                  size="small"
+                  aria-controls={open ? 'split-button-menu' : undefined}
+                  aria-expanded={open ? 'true' : undefined}
+                  aria-label="select merge strategy"
+                  aria-haspopup="menu"
+                  onClick={handleToggle}
+                >
+              <ArrowDropDownIcon />
+            </Button>
+          </ButtonGroup>
+          <ButtonGroup variant="contained" color="primary" ref={anchorRef} aria-label="split button" >
+            <Button onClick={handleClick}>{options[selectedIndex]}</Button>
+                <Button
+                  color="primary"
+                  size="small"
+                  aria-controls={open ? 'split-button-menu' : undefined}
+                  aria-expanded={open ? 'true' : undefined}
+                  aria-label="select merge strategy"
+                  aria-haspopup="menu"
+                  onClick={handleToggle}
+                >
+              <ArrowDropDownIcon />
+            </Button>
+          </ButtonGroup>
+           <ButtonGroup variant="contained" color="primary" ref={anchorRef} aria-label="split button" style={{float:'right'}}>
+            <Button onClick={handleClick}>{options[selectedIndex]}</Button>
+                <Button
+                  color="primary"
+                  size="small"
+                  aria-controls={open ? 'split-button-menu' : undefined}
+                  aria-expanded={open ? 'true' : undefined}
+                  aria-label="select merge strategy"
+                  aria-haspopup="menu"
+                  onClick={handleToggle}
+                >
+              <ArrowDropDownIcon />
+            </Button>
+          </ButtonGroup>
+        </div>
 
-    <Typography variant="h4" className={classes.collectionTitle}>WORK WEAR</Typography>
-            <Grid container direction="column" alignItems="center">
-      <Grid item xs={12}>
-        <ButtonGroup variant="contained" color="primary" ref={anchorRef} aria-label="split button">
-          <Button onClick={handleClick}>{options[selectedIndex]}</Button>
-          <Button
-            color="primary"
-            size="small"
-            aria-controls={open ? 'split-button-menu' : undefined}
-            aria-expanded={open ? 'true' : undefined}
-            aria-label="select merge strategy"
-            aria-haspopup="menu"
-            onClick={handleToggle}
-          >
+
+
+
+
+      {/* <Grid container direction="row" style={{marginLeft:'300px'}} lg={12}>
+        <Grid item xs={6} md={3} lg={9}>
+          <ButtonGroup variant="contained" color="primary" ref={anchorRef} aria-label="split button">
+            <Button onClick={handleClick}>{options[selectedIndex]}</Button>
+                <Button
+                  color="primary"
+                  size="small"
+                  aria-controls={open ? 'split-button-menu' : undefined}
+                  aria-expanded={open ? 'true' : undefined}
+                  aria-label="select merge strategy"
+                  aria-haspopup="menu"
+                  onClick={handleToggle}
+                >
+              <ArrowDropDownIcon />
+            </Button>
+          </ButtonGroup>
+        </Grid>
+        <Grid item xs={6} md={3} lg={6}>
+          <ButtonGroup variant="contained" color="primary" ref={anchorRef} aria-label="split button">
+            <Button onClick={handleClick}>{options[selectedIndex]}</Button>
+            <Button
+              color="primary"
+              size="small"
+              aria-controls={open ? 'split-button-menu' : undefined}
+              aria-expanded={open ? 'true' : undefined}
+              aria-label="select merge strategy"
+              aria-haspopup="menu"
+              onClick={handleToggle}
+            >
             <ArrowDropDownIcon />
-          </Button>
-        </ButtonGroup>
-
+            </Button>
+          </ButtonGroup>
+        </Grid>
+        <Grid item xs={6} md={3} lg={9}>
+          <ButtonGroup variant="contained" color="primary" ref={anchorRef} aria-label="split button">
+            <Button onClick={handleClick}>{options[selectedIndex]}</Button>
+            <Button
+              color="primary"
+              size="small"
+              aria-controls={open ? 'split-button-menu' : undefined}
+              aria-expanded={open ? 'true' : undefined}
+              aria-label="select merge strategy"
+              aria-haspopup="menu"
+              onClick={handleToggle}
+            >
+            <ArrowDropDownIcon />
+            </Button>
+          </ButtonGroup>
+        </Grid> */}
 
 
 
@@ -156,9 +271,8 @@ export const DropDown = () => {
             </Grow>
           )}
         </Popper>
-      </Grid>
-    </Grid>
-    </div>
-  
+      {/* </Grid> */}
+    </center>
+  </Container>
   );
 }
