@@ -170,7 +170,8 @@ export default function AdminPanel() {
         <Divider />
         <List>{mainListItems}</List>
         <Divider />
-        <List>{secondListItems}</List>    
+        <List style={{backgroundColor:'#2C2D2D'}}>{secondListItems}</List> 
+        <Divider />   
       </Drawer>
 
       <main className={classes.content}>

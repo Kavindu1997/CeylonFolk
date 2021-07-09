@@ -14,6 +14,9 @@ import Popup from './Reusable/Popup';
 import Notification from './Reusable/Notification';
 import ConfirmDialog from './Reusable/ConfirmDialog';
 
+import Lottie from 'react-lottie';
+import User from '../images/user.json';
+
 const useStyles=makeStyles((theme)=>({
       pageContent:{
           margin:theme.spacing(5),
@@ -100,12 +103,24 @@ const UserTable = () => {
         });
       
     }
+    const defaultOptions={
+        loop:true,
+        autoplay:true,
+        animationData:User,
+        rendererSettings:{
+          preserveAspectRatio:"xMidYMid slice"
+        }
+      };
+
     return (
         <div>
             <PageHeader
             title="USER MANAGEMENT"
             icon={< GroupIcon fontSize="large"/>}
             />
+
+            <Lottie options={defaultOptions} height={150} width={150} style={{marginTop:'-150px',marginRight:'30px'}} />
+
             <Paper className={classes.pageContent}>
               
               <Toolbar>

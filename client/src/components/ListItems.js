@@ -54,6 +54,6 @@ export const mainListItems = (
 );
 
 export const secondListItems = (
-      <div><img src={require('../images/logodrawer.png').default} alt="CeylonFolk" height="100px" style={{marginTop:'100px'}}/></div>
+      <div><img src={require('../images/logodrawer.png').default} alt="CeylonFolk" height="80px" style={{margin:'30px 0px'}}/></div>
 );
 
