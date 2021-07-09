@@ -2,11 +2,12 @@ import React,{ useEffect, useState} from 'react';
 import {Typography,IconButton,Collapse,Box,Button,Container,Grid,Card,CardActionArea,CardActions,CardContent,CardMedia} from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { makeStyles } from '@material-ui/styles';
-import Image from '../images/cover6.jpg';
+import Image from '../images/tttttt.png';
 import Collection1 from '../images/ts1.jpg';
 import Collection2 from '../images/ts2.jpg';
 import Collection3 from '../images/ts3.jpg';
 import Collection4 from '../images/ts4.jpg';
+import backImage2 from '../images/ttttt.png';
 import Snap1 from '../images/snap1.jpg'
 import Snap2 from '../images/snap2.jpg'
 import Snap3 from '../images/snap3.jpg'
@@ -32,7 +33,7 @@ const useStyles=makeStyles((theme)=>({
         justifyContent:'left',
         alignItems:'center',
         height:'1000px',
-        fontFamily:'Segoe UI' ,
+        fontFamily:'Montserrat' ,
         backgroundImage:`linear-gradient(rgba(0,0,0,0.1),rgba(0,0,0,0.1)),url(${Image})`,
         backgroundRepeat: "no-repeat",
         backgroundPosition: "center",
@@ -42,22 +43,32 @@ const useStyles=makeStyles((theme)=>({
         color: 'white',
         background: '#fff'
     },
-    backimage: {
-        marginTop: '60px',
-        background: '#fff'
+    root2:{
+        
+        minHeight:'100vh',
+        backgroundImage:`url(${Image})`,
+        backgroundRepeat: "no-repeat",
+        backgroundSize: "cover"
     },
     colorText:{
-        color:'black',
-        fontSize:'4rem',
+        color:'white',
+        fontSize:'100px',
+        fontWeight: '600',
+     fontFamily:'Montserrat',
     },
     title:{
-     color:'black',
-     fontSize:'3rem',
+     color:'white',
+     fontSize:'50px',
      textAlign: 'left',
-     fontFamily:'Segoe UI',
+     fontFamily:'Montserrat',
+     fontWeight: '500',
+     marginBottom: '0px'
+     
     },
     container:{
-        textAlign:'left'
+        textAlign:'left',
+        marginTop: '250px',
+     marginLeft: '60px',
     },
     goDown:{
         color:'#fff',
@@ -80,6 +91,7 @@ const useStyles=makeStyles((theme)=>({
     },
     media:{
         height:'240px',
+        width: '100%'
         
     },
     svgs:{
@@ -94,6 +106,14 @@ const useStyles=makeStyles((theme)=>({
     display: 'flex',
     flexWrap: 'wrap',
     boxSizing: 'borderBox'
+    },
+    imageContainer:{
+        width: '100%',
+    display: 'flex',
+    flexWrap: 'wrap',
+    boxSizing: 'borderBox',
+    marginTop: '63px',
+    background: '#fafafa'
     },
     svgBtn:{
         padding: '20px',
@@ -113,7 +133,56 @@ const useStyles=makeStyles((theme)=>({
         textTransform: 'none',
         fontSize: '15px',
         fontWeight: '600'
+    },
+
+    productTitle:{
+    fontFamily: 'Montserrat',
+    fontSize: '16px',
+    color: '#00',
+    textDecoration: 'none',
+    textTransform: 'uppercase',
+    fontWeight: '600',
+    lineHeight: '1.2',
+    letterSpacing: '0.9px'
+    },
+
+    productSubTitle:{
+        display: 'block',
+    fontSize: '16px',
+    marginBottom: '1.2rem',
+    color: '#4a4a4a',
+    letterSpacing: '0.9px',
+    lineHeight: '1.2'
+    },
+
+    subText:{
+        display: 'block',
+    fontSize: '16px',
+    marginBottom: '1.2rem',
+    color: 'white',
+    letterSpacing: '0.9px',
+    lineHeight: '1.2'
+    },
+    subsubText:{
+        display: 'block',
+    fontSize: '16px',
+    marginBottom: '1.2rem',
+    color: 'white',
+    letterSpacing: '0.9px',
+    lineHeight: '1.2',
+    fontWeight: '300'
+    },
+
+
+
+    designbtn:{
+        border: '2px solid rgba(0, 0, 0, 0.23)',
+    padding: '5px 15px',
+    color: 'white',
+    borderColor: 'white',
+    fontSize:'20px'
     }
+
     
 
 }));
@@ -126,23 +195,37 @@ const Content = () => {
     },[]);
 
     return (
-        <div className={classes.backimage}>
-            <Box className={classes.root} >
-                <Collapse in={checked}  {...(checked ? { timeout: 1000 } : {})} collapsedHeight={50}>
-                    <div className={classes.container}>
-                        <h1 className={classes.title}>
-                            YOU DESIGN<br/>
-                            <span className={classes.colorText}>WE PRINT</span>   
-                        </h1>
-                        <Button fullWidth
-                            variant="contained"
-                            color="primary">START DESIGNING</Button>
-                        {/* <IconButton>
-                            <ExpandMoreIcon className={classes.goDown}/>
-                        </IconButton> */}
-                    </div>
-                </Collapse> 
-            </Box>
+        <div>
+            <div className={classes.root2}>
+            <Grid container >
+                <Grid item md={6}>
+                        
+                    </Grid>
+                    <Grid item xs={12} sm={6} md={6} className={classes.svgs}>
+                        <Collapse in={checked}  {...(checked ? { timeout: 1000 } : {})} collapsedHeight={50}>
+                            <div className={classes.container}>
+                                <h1 className={classes.title}>
+                                    YOU DESIGN<br/>
+                                    <span className={classes.colorText}>WE PRINT</span>   
+                                </h1>
+                                <Typography className={classes.subText} >we do customize tshirt designs we do ustomize tshirt designs <br/>we do customize tshirt designs
+                                we do customize tshirt designss</Typography>
+                                <Button 
+                                    variant="outlined"
+                                    color="white"
+    border-color= "white" className={classes.designbtn}>START DESIGNING</Button>
+                                {/* <IconButton>
+                                    <ExpandMoreIcon className={classes.goDown}/>
+                                </IconButton> */}
+                            </div>
+                        </Collapse>
+                    </Grid>
+                    
+
+                 </Grid>
+
+            </div>
+            
 
             <center>
                 <Container className={classes.collectionContainer} maxWidth="lg">
@@ -176,73 +259,70 @@ const Content = () => {
                     <Grid item xs={12} sm={6} md={3}>
                         <Card className={classes.card}>
                             <CardActionArea>
-                                <CardMedia
-                                    className={classes.media}
-                                    style={{ backgroundImage:`url(${Collection1})`}}
-                                    // image="CeylonFolk/client/src/images/ts1.jpg"
-                                    // image="/static/images/cards/contemplative-reptile.jpg"
-                                    title="Snowy"
-                                />
+                                <CardMedia>
+                                    <img src={Collection1} style={{width:'100%'}}/>
+                                </CardMedia>
                                 <CardContent>
-                                    <Typography gutterBottom variant="h5" component="h2" style={{textAlign:'center'}}>
-                                        Snowy
+                                    <Typography gutterBottom variant="h5" component="h2" style={{textAlign:'center'}} className={classes.productTitle}>
+                                        BUTTER
+                                    </Typography>
+                                    <Typography gutterBottom variant="h6" component="h2" style={{textAlign:'center'}} className={classes.productSubTitle}>
+                                        LKR 1300.00
                                     </Typography>
                                 </CardContent>
                             </CardActionArea>
-                            <CardActions></CardActions>
                         </Card>
                     </Grid>
                     <Grid item xs={12} sm={6} md={3}>
                         <Card className={classes.card}>
                             <CardActionArea>
-                                <CardMedia
-                                    className={classes.media}
-                                    style={{ backgroundImage:`url(${Collection2})`}}
-                                    title="Marvel"
-                                />
+                                <CardMedia>
+                                    <img src={Collection2} style={{width:'100%'}}/>
+                                </CardMedia>
+
                                 <CardContent>
-                                    <Typography gutterBottom variant="h5" component="h2" style={{textAlign:'center'}}>
-                                        Marvel
+                                <Typography gutterBottom variant="h5" component="h2" style={{textAlign:'center'}} className={classes.productTitle}>
+                                        FRIENDS
+                                    </Typography>
+                                    <Typography gutterBottom variant="h6" component="h2" style={{textAlign:'center'}} className={classes.productSubTitle}>
+                                        LKR 1300.00
                                     </Typography>
                                 </CardContent>
                             </CardActionArea>
-                            <CardActions></CardActions>
                         </Card>
                     </Grid>
                     <Grid item xs={12} sm={6} md={3}>
                         <Card className={classes.card}>
                             <CardActionArea>
-                                <CardMedia
-                                    className={classes.media}
-                                    style={{ backgroundImage:`url(${Collection3})`}}
-                                    title="BTS"
-                                />
+                            <CardMedia>
+                                    <img src={Collection3} style={{width:'100%'}}/>
+                                </CardMedia>
                                 <CardContent>
-                                    <Typography gutterBottom variant="h5" component="h2" style={{textAlign:'center'}}>
-                                            BTS
+                                <Typography gutterBottom variant="h5" component="h2" style={{textAlign:'center'}} className={classes.productTitle}>
+                                        BUTTER
+                                    </Typography>
+                                    <Typography gutterBottom variant="h6" component="h2" style={{textAlign:'center'}} className={classes.productSubTitle}>
+                                        LKR 1300.00
                                     </Typography>
                                 </CardContent>
                             </CardActionArea>
-                            <CardActions>                   
-                            </CardActions>
                         </Card>
                     </Grid>
                     <Grid item xs={12} sm={6} md={3}>
                         <Card className={classes.card}>
                             <CardActionArea>
-                                <CardMedia
-                                    className={classes.media}
-                                    style={{ backgroundImage:`url(${Collection4})`}}
-                                    title="BTS"
-                                />
+                            <CardMedia>
+                                    <img src={Collection4} style={{width:'100%'}}/>
+                                </CardMedia>
                                 <CardContent>
-                                    <Typography gutterBottom variant="h5" component="h2" style={{textAlign:'center'}}>
-                                            BTS
+                                <Typography gutterBottom variant="h5" component="h2" style={{textAlign:'center'}} className={classes.productTitle}>
+                                        FRIENDS
+                                    </Typography>
+                                    <Typography gutterBottom variant="h6" component="h2" style={{textAlign:'center'}} className={classes.productSubTitle}>
+                                        LKR 1300.00
                                     </Typography>
                                 </CardContent>
                             </CardActionArea>
-                            <CardActions>                   
-                            </CardActions>
                         </Card>
                     </Grid>
                 </Grid>
@@ -260,12 +340,14 @@ const Content = () => {
                                     title="Snowy"
                                 />
                                 <CardContent>
-                                    <Typography gutterBottom variant="h5" component="h2" style={{textAlign:'center'}}>
-                                        Snowy
+                                <Typography gutterBottom variant="h5" component="h2" style={{textAlign:'center'}} className={classes.productTitle}>
+                                        BUTTER
+                                    </Typography>
+                                    <Typography gutterBottom variant="h6" component="h2" style={{textAlign:'center'}} className={classes.productSubTitle}>
+                                        LKR 1300.00
                                     </Typography>
                                 </CardContent>
                             </CardActionArea>
-                            <CardActions></CardActions>
                         </Card>
                     </Grid>
                     <Grid item xs={12} sm={6} md={3}>
@@ -277,12 +359,14 @@ const Content = () => {
                                     title="Marvel"
                                 />
                                 <CardContent>
-                                    <Typography gutterBottom variant="h5" component="h2" style={{textAlign:'center'}}>
-                                        Marvel
+                                <Typography gutterBottom variant="h5" component="h2" style={{textAlign:'center'}} className={classes.productTitle}>
+                                        FRIENDS
+                                    </Typography>
+                                    <Typography gutterBottom variant="h6" component="h2" style={{textAlign:'center'}} className={classes.productSubTitle}>
+                                        LKR 1300.00
                                     </Typography>
                                 </CardContent>
                             </CardActionArea>
-                            <CardActions></CardActions>
                         </Card>
                     </Grid>
                     <Grid item xs={12} sm={6} md={3}>
@@ -294,13 +378,14 @@ const Content = () => {
                                     title="BTS"
                                 />
                                 <CardContent>
-                                    <Typography gutterBottom variant="h5" component="h2" style={{textAlign:'center'}}>
-                                            BTS
+                                <Typography gutterBottom variant="h5" component="h2" style={{textAlign:'center'}} className={classes.productTitle}>
+                                        BUTTER
+                                    </Typography>
+                                    <Typography gutterBottom variant="h6" component="h2" style={{textAlign:'center'}} className={classes.productSubTitle}>
+                                        LKR 1300.00
                                     </Typography>
                                 </CardContent>
                             </CardActionArea>
-                            <CardActions>                   
-                            </CardActions>
                         </Card>
                     </Grid>
                     <Grid item xs={12} sm={6} md={3}>
@@ -312,13 +397,14 @@ const Content = () => {
                                     title="BTS"
                                 />
                                 <CardContent>
-                                    <Typography gutterBottom variant="h5" component="h2" style={{textAlign:'center'}}>
-                                            BTS
+                                <Typography gutterBottom variant="h5" component="h2" style={{textAlign:'center'}} className={classes.productTitle}>
+                                        FRIENDS
+                                    </Typography>
+                                    <Typography gutterBottom variant="h6" component="h2" style={{textAlign:'center'}} className={classes.productSubTitle}>
+                                        LKR 1300.00
                                     </Typography>
                                 </CardContent>
                             </CardActionArea>
-                            <CardActions>                   
-                            </CardActions>
                         </Card>
                     </Grid>
                 </Grid>
