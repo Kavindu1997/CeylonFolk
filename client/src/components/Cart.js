@@ -119,7 +119,7 @@ const useStyles = makeStyles((theme) =>({
     return (
       <container>
         <center>
-            <Typography variant="h4" style={{marginTop:'50px',textAlign: 'center',backgroundColor:'#C6C6C6',padding:'30px',fontFamily:'Montserrat'}}>CART</Typography>
+            <Typography variant="h5" style={{marginTop:'80px',textAlign: 'center',backgroundColor:'#C6C6C6',padding:'30px',fontFamily:'Montserrat'}}>CART</Typography>
       <TableContainer component={Paper} style={{marginTop:'30px',align:'center',width:'1200px'}}>
         <Table className={classes.table} aria-label="simple table">
           <TableHead>
