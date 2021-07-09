@@ -1,15 +1,12 @@
 import React from 'react';
 import AdminPanel from '../components/AdminPanel';
 
-const Users = () => {
+const Collections = () => {
     return (
         <div>
-            <AdminPanel/>   
+            <AdminPanel/>
         </div>
     );
 };
 
-export default Users;
-
-
-
+export default Collections;

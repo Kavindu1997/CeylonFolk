@@ -18,10 +18,11 @@ import Link from '@material-ui/core/Link';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
-import { mainListItems } from './ListItems';
+import { mainListItems,secondListItems } from './ListItems';
 import {BrowserRouter as Router,Route} from 'react-router-dom';
 
 import UserTable from './UserTable';
+import CollectionTable from './CollectionTable';
 
 const drawerWidth = 240;
 
@@ -156,12 +157,14 @@ export default function AdminPanel() {
         </div>
         <Divider />
         <List>{mainListItems}</List>
-        <Divider />    
+        <Divider />
+        <List>{secondListItems}</List>    
       </Drawer>
 
       <main className={classes.content}>
             <Router>
                     <Route path="/users" exact render={() => <UserTable/>}/>
+                    <Route path="/collections" exact render={() => <CollectionTable/>}/>
              </Router>
       </main>
    

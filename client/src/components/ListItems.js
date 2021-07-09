@@ -3,11 +3,13 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import DashboardIcon from '@material-ui/icons/Dashboard';
-import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import PeopleIcon from '@material-ui/icons/People';
-import BarChartIcon from '@material-ui/icons/BarChart';
+import BrushIcon from '@material-ui/icons/Brush';
 import LayersIcon from '@material-ui/icons/Layers';
+import BuildIcon from '@material-ui/icons/Build';
+import LoyaltyIcon from '@material-ui/icons/Loyalty';
 import { Link } from 'react-router-dom';
+
 
 export const mainListItems = (
   <div>
@@ -17,30 +19,41 @@ export const mainListItems = (
       </ListItemIcon>
       <ListItemText primary="Dashboard" />
     </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <ShoppingCartIcon />
-      </ListItemIcon>
-      <ListItemText primary="Orders" />
-    </ListItem>
     <ListItem button component={Link} to="/users">
       <ListItemIcon>
         <PeopleIcon />
       </ListItemIcon>
       <ListItemText primary="Users" />
     </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <BarChartIcon />
-      </ListItemIcon>
-      <ListItemText primary="Reports" />
-    </ListItem>
-    <ListItem button>
+    <ListItem button component={Link} to="/collections">
       <ListItemIcon>
         <LayersIcon />
       </ListItemIcon>
+      <ListItemText primary="Collections" />
+    </ListItem>
+    <ListItem button>
+      <ListItemIcon>
+        <BrushIcon />
+      </ListItemIcon>
+      <ListItemText primary="Designs" />
+    </ListItem>
+    <ListItem button>
+      <ListItemIcon>
+        <BuildIcon />
+      </ListItemIcon>
       <ListItemText primary="Inventory" />
     </ListItem>
+    <ListItem button>
+      <ListItemIcon>
+        <LoyaltyIcon />
+      </ListItemIcon>
+      <ListItemText primary="Coupon" />
+    </ListItem>
+  
   </div>
+);
+
+export const secondListItems = (
+      <div><img src={require('../images/logodrawer.png').default} alt="CeylonFolk" height="100px" style={{marginTop:'100px'}}/></div>
 );
 
