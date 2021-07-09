@@ -2,12 +2,10 @@ import React from 'react';
 import { CssBaseline } from '@material-ui/core';
 import CommonNav from '../components/Navbars/CommonNav';
 import Cart from '../components/Cart/Cart';
-import useStyles from '../components/Cart/Cart-style';
 import Footer from '../components/Footer/Footer';
-const Shop = () => {
-    const classes=useStyles();
+const MyCart = () => {
     return (
-        <div className={classes.base}>
+        <div>
             <CssBaseline/> 
             <CommonNav/>
             <Cart/>
@@ -16,4 +14,4 @@ const Shop = () => {
     );
 };
 
-export default Shop;
+export default MyCart;

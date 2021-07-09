@@ -6,7 +6,8 @@ import Contactus from './pages/Contactus';
 import Authentication from './pages/Authentication';
 import AdminDashboard from './pages/AdminDashboard';
 import Users from './pages/Users';
-import Shop from './pages/Shop';
+import MyCart from './pages/MyCart';
+import CheckingOut from './pages/CheckingOut';
 
 
 const theme = createMuiTheme({
@@ -77,7 +78,8 @@ const App = () => {
               <Route path="/index" exact render={() => < Home/>}/>
               <Route path="/contactus" exact render={() => < Contactus/>}/>       
               <Route path="/auth" exact render={() => < Authentication/>}/>
-              <Route path="/cart" exact render={() => < Shop/>}/>
+              <Route path="/cart" exact render={() => < MyCart/>}/>
+              <Route path="/checkout" exact render={() => < CheckingOut/>}/>
               <Route path="/admin" exact render={() => <AdminDashboard/>}/>
               <Route path="/users" exact render={() => <Users/>}/>
           </Router>

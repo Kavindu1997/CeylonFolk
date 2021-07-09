@@ -9,18 +9,17 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import Box from '@material-ui/core/Box';
 import NumericInput from 'react-numeric-input';
 import 'font-awesome/css/font-awesome.min.css';
 import TextField from '@material-ui/core/TextField';
-import Checkbox from '@material-ui/core/Checkbox';
-import { DriveEta } from '@material-ui/icons';
+import {Link } from "react-router-dom";
 
 
 const useStyles = makeStyles((theme) =>({
     table: {
       minWidth: 400,
-      backgroundColor:'#fafafa'
+      backgroundColor:'#fafafa',
+      fontFamily:'Montserrat'
     },
     spreadBox: {
         justifyContent: "space-around",
@@ -34,18 +33,15 @@ const useStyles = makeStyles((theme) =>({
       back: {
         marginTop: 30,
         alignItems:"center",
-        marginLeft: 600,
+        // marginLeft: 600,
       },
       submit: {
         marginTop: 30,
         alignItems:"center",
-        marginLeft: 600,
+        // marginLeft: 600,
       },
       coupon: {
         borderRadius: 20
-      },
-      remove: {
-        color: 'red',
       },
       numeric: {
         borderRadius: '20px 20px 20px 20px'
@@ -66,16 +62,16 @@ const useStyles = makeStyles((theme) =>({
       <div>
         <img height={100} src={require('../../images/ts1.jpg').default}/>
       </div>,
-      'Snowy Tshirt', 159, 
+      'Snowy Tshirt', 1000, 
       <div>
         <NumericInput mobile min={0} max={100} value={2} size={ 1 }/>
       </div>, 
-      4.0, 4.0),
+       0,2000),
     createData(
       <div>
         <img height={100} align="center" src={require('../../images/ts2.jpg').default}/>
       </div>,
-      'Baby Tshirt',249,
+      'Baby Tshirt',800,
       <div>
         <NumericInput mobile min={0} max={100} value={1} size={ 1 }
         style={{ borderRadius: '20px 20px 20px 20px'
@@ -98,7 +94,7 @@ const useStyles = makeStyles((theme) =>({
         // }} 
         }}/>
       </div>,
-      1000, 1000),
+      1000, 800),
     createData(
       <div>
         <img height={100} align="center" src={require('../../images/ts3.jpg').default}/>
@@ -107,16 +103,7 @@ const useStyles = makeStyles((theme) =>({
       <div>
         <NumericInput mobile min={0} max={100} value={1} size={ 1 }/>
       </div>, 
-      6.0, 4.0),
-    createData(
-      <div>
-        <img height={100} align="center" src={require('../../images/ts4.jpg').default}/>
-      </div>,
-      'Friends Tshirt', 3057,
-      <div>
-        <NumericInput mobile min={0} max={100} value={3} size={ 1 }/>
-      </div>, 
-      4.3, 4.0),
+      6.0, 800),
   ];
 
   // function deleteItem(i) {
@@ -131,36 +118,43 @@ const useStyles = makeStyles((theme) =>({
     
     return (
       <container>
-            <Typography variant="h4" style={{marginTop:'100px',textAlign: 'center'}}>CART</Typography>
-      <TableContainer component={Paper} style={{marginTop:'30px',align:'center',marginLeft:'70px',width:'1200px'}}>
+        <center>
+            <Typography variant="h4" style={{marginTop:'50px',textAlign: 'center',backgroundColor:'#C6C6C6',padding:'30px',fontFamily:'Montserrat'}}>CART</Typography>
+      <TableContainer component={Paper} style={{marginTop:'30px',align:'center',width:'1200px'}}>
         <Table className={classes.table} aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell align="right" style={{ fontFamily: "motesterrat", fontWeight: 600, width: 50, height:50 }}>Image</TableCell>
-              <TableCell align="right" style={{ fontWeight: 600 }}>Product Name</TableCell>
-              <TableCell align="right" style={{ fontWeight: 600 }}> Price</TableCell>
-              <TableCell align="right" style={{ fontWeight: 600 }}>Quantity</TableCell>
-              <TableCell align="right" style={{ fontWeight: 600 }}>Action</TableCell>
-              <TableCell align="right" style={{ fontWeight: 600 }}>Total</TableCell>
+              <TableCell align="center" style={{ fontFamily:'Montserrat', fontWeight: 600}}>Image</TableCell>
+              <TableCell align="right" style={{ fontFamily:'Montserrat',fontWeight: 600 }}>Product Name</TableCell>
+              <TableCell align="right" style={{ fontFamily:'Montserrat',fontWeight: 600 }}> Price</TableCell>
+              <TableCell align="right" style={{ fontFamily:'Montserrat',fontWeight: 600 }}>Quantity</TableCell>
+              <TableCell align="right" style={{ fontFamily:'Montserrat',fontWeight: 600 }}>Action</TableCell>
+              <TableCell align="right" style={{ fontFamily:'Montserrat',fontWeight: 600 }}>Total</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {rows.map((row,i) => (
               <TableRow key={`row-${i}`}>
-                <TableCell align="right">{row.image}</TableCell>
-                <TableCell align="right">{row.name}</TableCell>
-                <TableCell align="right">{row.price}</TableCell>
-                 <TableCell align="right" className={classes.numeric}>{row.quantity}</TableCell>
+                <TableCell align="center"  style={{ fontFamily:'Montserrat'}}>{row.image}</TableCell>
+                <TableCell align="right" style={{ fontFamily:'Montserrat'}}>{row.name}</TableCell>
+                <TableCell align="right" style={{ fontFamily:'Montserrat'}}>{row.price}</TableCell>
+                 <TableCell align="right" className={classes.numeric} style={{ fontFamily:'Montserrat'}}>{row.quantity}</TableCell>
                 <TableCell align="right">
-                  <Button
-                    className={classes.remove}
-                  >
+                  <Button>
                     <i class="fa fa-times" aria-hidden="true"></i>
                   </Button>
                 </TableCell>
-                <TableCell align="right">{row.total}</TableCell>
+                <TableCell align="right" style={{ fontFamily:'Montserrat'}}>{row.total}</TableCell>
               </TableRow>
             ))}
+            <TableRow>
+              <TableCell align="right" colSpan={5} rowSpan={3} style={{ fontFamily:'Montserrat', fontWeight: 600, fontSize: '15pt', height:'100px'}}>
+                Sub Total
+              </TableCell>
+              <TableCell align="right" rowSpan={3} style={{ fontFamily:'Montserrat', fontWeight: 600, fontSize: '15pt'}}>
+                3600
+              </TableCell>
+            </TableRow>
           </TableBody>
         </Table>
       </TableContainer>
@@ -172,21 +166,23 @@ const useStyles = makeStyles((theme) =>({
         className={classes.back}
       >Continue Shopping
       </Button>
-
-         <Typography variant="h6" style={{marginTop:'50px',marginLeft:'80px',textAlign: 'left',fontWeight: 600}}>Cart Totals</Typography> 
+      </div>
+      </center>
+      <div>
+         <Typography variant="h6" style={{marginTop:'50px',marginLeft:'80px',textAlign: 'left',fontWeight: 600, fontFamily:'Montserrat'}}>Cart Totals</Typography> 
          <TableContainer style={{marginTop:'20px',marginLeft:'80px',align:'left',width:'600px'}}>
          <Table aria-label="simple table">
             <TableRow>
-              <TableCell align="left" style={{ fontWeight: 600 }}>SUB TOTAL</TableCell>
-              <TableCell align="center" style={{ fontWeight: 600 }}> $489</TableCell>
+              <TableCell align="left" style={{ fontWeight: 600, fontFamily:'Montserrat' }}>SUB TOTAL</TableCell>
+              <TableCell align="center" style={{ fontWeight: 600, fontFamily:'Montserrat' }}> Rs. 3600</TableCell>
             </TableRow>
             <TableRow>
-              <TableCell align="left" style={{ fontWeight: 600 }}>SHIPPING</TableCell>
-              <TableCell align="center" style={{ fontWeight: 600 }}>$7</TableCell>
+              <TableCell align="left" style={{ fontWeight: 600, fontFamily:'Montserrat' }}>SHIPPING</TableCell>
+              <TableCell align="center" style={{ fontWeight: 600, fontFamily:'Montserrat' }}>Rs. 100</TableCell>
             </TableRow>
             <TableRow>
-              <TableCell align="left" style={{ fontWeight: 600 }}>ADD COUPON</TableCell>
-              <TableCell align="center" style={{ fontWeight: 600 }}>
+              <TableCell align="left" style={{ fontWeight: 600, fontFamily:'Montserrat' }}>ADD COUPON</TableCell>
+              <TableCell align="center" style={{ fontWeight: 600 , fontFamily:'Montserrat'}}>
               <div>
                 <TextField underlineShow={false} label="Coupon ID" style={{width:130, borderRadius: 25}}/>
                 <br />  <br /> 
@@ -201,18 +197,21 @@ const useStyles = makeStyles((theme) =>({
               </TableCell>
             </TableRow>
             <TableRow>
-              <TableCell align="left" style={{ fontWeight: 600 }}>TOTAL</TableCell>
-              <TableCell align="center" style={{ fontWeight: 600 }}>$496</TableCell>
+              <TableCell align="left" style={{ fontWeight: 600, fontFamily:'Montserrat' }}>TOTAL</TableCell>
+              <TableCell align="center" style={{ fontWeight: 600, fontFamily:'Montserrat' }}>Rs. 3700</TableCell>
             </TableRow>
           </Table>     
         </TableContainer>
-        <Button
+        <center>
+        <Link to="/Checkout"><Button
           type="submit"
           variant="contained"
           color="primary"
           className={classes.submit}
         >Proceed To Checkout
         </Button>
+        </Link>
+        </center>
       </div>
       </container>
         
