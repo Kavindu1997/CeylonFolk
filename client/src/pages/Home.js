@@ -1,13 +1,13 @@
 import React from 'react';
 import { CssBaseline } from '@material-ui/core';
-import CommonNav from '../components/Navbars/CommonNav';
+import HomeNav from '../components/Navbars/HomeNav';
 import Content from '../components/Content';
 import Footer from '../components/Footer/Footer';
 const Home = () => {
     return (
         <div>        
           <CssBaseline/>
-          <CommonNav/>
+          <HomeNav/>
           <Content/>
           <Footer/>
         </div>
