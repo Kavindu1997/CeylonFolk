@@ -2,11 +2,12 @@ import React from 'react';
 import {BrowserRouter as Router,Route} from 'react-router-dom';
 import { createMuiTheme,ThemeProvider } from '@material-ui/core';
 import Home from './pages/Home';
+import Shop from './pages/Shop';
 import Contactus from './pages/Contactus';
-import Authentication from './pages/Authentication';
+import Auth from './pages/Auth';
 import AdminDashboard from './pages/AdminDashboard';
 import Users from './pages/Users';
-import Shop from './pages/Shop';
+import DetailOfProduct from './components/Product_grid/DetailOfProduct';
 
 
 const theme = createMuiTheme({
@@ -62,10 +63,7 @@ const theme = createMuiTheme({
             main:"#74b9ff",
             light:"#dff9fb"
         },
-        background:{
-          default:'#ffff'
-        },
-    },
+    }
   });
 
 
@@ -75,11 +73,15 @@ const App = () => {
         <ThemeProvider theme={theme}>
           <Router>
               <Route path="/index" exact render={() => < Home/>}/>
+              <Route path="/shop" exact render={() => < Shop/>}/>
               <Route path="/contactus" exact render={() => < Contactus/>}/>       
-              <Route path="/auth" exact render={() => < Authentication/>}/>
-              <Route path="/cart" exact render={() => < Shop/>}/>
+              <Route path="/auth" exact render={() => < Auth/>}/>
+              <Route path="/productDetails" exact render={() => <DetailOfProduct/>}/>
               <Route path="/admin" exact render={() => <AdminDashboard/>}/>
               <Route path="/users" exact render={() => <Users/>}/>
+
+
+
           </Router>
         </ThemeProvider>
     );
