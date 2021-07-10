@@ -111,7 +111,7 @@ export const DropDown = () => {
 
   return (
     <Container>
-    <center>
+      <center>
       <Typography variant="h4" className={classes.collectionTitle}>WORK WEAR</Typography>
         <div className={classes.filter}>
           <ButtonGroup variant="contained" color="primary" ref={anchorRef} aria-label="split button" >
