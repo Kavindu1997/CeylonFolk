@@ -32,8 +32,8 @@ const useStyles = makeStyles((theme) => ({
         padding: '100px',  
     },
     table: {
-        minWidth: 400,
-        // backgroundColor:'#fafafa',
+        // minWidth: 400,
+        backgroundColor:'#fafafa',
         fontFamily:'Montserrat',
         width: '600px'
         // marginRight: '30px'
@@ -99,7 +99,7 @@ export default function Checkout() {
     return (
         <container>
             <CssBaseline />
-            <Typography variant="h5" style={{marginTop:'50px',textAlign: 'center',backgroundColor:'#C6C6C6',padding:'30px',fontFamily:'Montserrat'}}> CHECKOUT</Typography>
+            <Typography variant="h5" style={{marginTop:'80px',textAlign: 'center',backgroundColor:'#C6C6C6',padding:'30px',fontFamily:'Montserrat'}}> CHECKOUT</Typography>
             <center>
             <Grid container style={{marginTop:'50px',align:'center'}}>
                 <Grid item xs={12} sm={12} md={6} lg={6}> 
@@ -188,7 +188,7 @@ export default function Checkout() {
                                 {rows.map((row,i) => (
                                 <TableRow key={`row-${i}`}>
                                     <TableCell align="left"  style={{ fontFamily:'Montserrat'}}>{row.image}</TableCell>
-                                    <TableCell align="left" style={{ fontFamily:'Montserrat'}}>{row.name}  x  {row.quantity}</TableCell>
+                                    <TableCell align="left" style={{ fontFamily:'Montserrat'}}>{row.name} x {row.quantity}</TableCell>
                                     <TableCell align="left" style={{ fontFamily:'Montserrat'}}>{row.total}</TableCell>
                                 </TableRow>
                                 ))}
@@ -217,15 +217,15 @@ export default function Checkout() {
                                     </TableCell>
                                 </TableRow>
                                 <TableRow>
-                                    <Typography component="h1" variant="h6" style={{fontFamily:'Montserrat',textAlign:'left',marginTop:'15px',marginBottom:'10px'}}>Payment Method</Typography>
+                                    <Typography component="h1" variant="h6" style={{fontFamily:'Montserrat',textAlign:'left',marginTop:'15px',marginBottom:'10px',marginLeft:'30px'}}>Payment Method</Typography>
                                     <FormControl component="fieldset">
                                     {/* <FormLabel component="legend">Gender</FormLabel> */}
-                                    <RadioGroup aria-label="payment" name="payment1" value={value} onChange={handleChange}>
+                                    <RadioGroup aria-label="payment" name="payment1" value={value} onChange={handleChange} style={{marginLeft:'20px'}}>
                                         <FormControlLabel value="cash" control={<Radio />} label="Cash on delivery" />
                                         <FormControlLabel value="bank" control={<Radio />} label="Bank Deposits" />
                                         <FormControlLabel value="online" control={<Radio />} label="Pay online" />
                                         <div>
-                                            <img height={75} src={require('../images/payment.jpg').default}/> 
+                                            <img height={50} src={require('../images/paymentnew.png').default}/> 
                                         </div>
                                     </RadioGroup>
                                     </FormControl>
@@ -233,6 +233,18 @@ export default function Checkout() {
                             </TableBody>
                         </Table>
                     </TableContainer>
+                    <div>
+                        <center>
+                            <Button
+                                type="submit"
+                                fullWidth
+                                variant="contained"
+                                color="primary"
+                                className={classes.submit}
+                            >Checkout
+                            </Button>
+                        </center>
+                    </div>
                     <Box component="span" sx={{ p: 2, border: '1px dashed grey' }}></Box>  
                 </Grid>
                  

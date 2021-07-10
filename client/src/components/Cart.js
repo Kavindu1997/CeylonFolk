@@ -44,7 +44,7 @@ const useStyles = makeStyles((theme) =>({
         borderRadius: 20
       },
       numeric: {
-        borderRadius: '20px 20px 20px 20px'
+        borderRadius: '50%'
         // rounded, 
         // textColor:'#B0228C', 
         // // iconStyle={{ color: 'white' }}, 
@@ -63,7 +63,7 @@ const useStyles = makeStyles((theme) =>({
         <img height={100} src={require('../images/ts1.jpg').default}/>
       </div>,
       'Snowy Tshirt', 1000, 
-      <div>
+      <div style={{borderRadius:'50%'}}>
         <NumericInput mobile min={0} max={100} value={2} size={ 1 }/>
       </div>, 
        0,2000),
@@ -119,39 +119,39 @@ const useStyles = makeStyles((theme) =>({
     return (
       <container>
         <center>
-            <Typography variant="h4" style={{marginTop:'50px',textAlign: 'center',backgroundColor:'#C6C6C6',padding:'30px',fontFamily:'Montserrat'}}>CART</Typography>
+            <Typography variant="h5" style={{marginTop:'80px',textAlign: 'center',backgroundColor:'#C6C6C6',padding:'30px',fontFamily:'Montserrat'}}>CART</Typography>
       <TableContainer component={Paper} style={{marginTop:'30px',align:'center',width:'1200px'}}>
         <Table className={classes.table} aria-label="simple table">
           <TableHead>
             <TableRow>
               <TableCell align="center" style={{ fontFamily:'Montserrat', fontWeight: 600}}>Image</TableCell>
-              <TableCell align="right" style={{ fontFamily:'Montserrat',fontWeight: 600 }}>Product Name</TableCell>
-              <TableCell align="right" style={{ fontFamily:'Montserrat',fontWeight: 600 }}> Price</TableCell>
-              <TableCell align="right" style={{ fontFamily:'Montserrat',fontWeight: 600 }}>Quantity</TableCell>
-              <TableCell align="right" style={{ fontFamily:'Montserrat',fontWeight: 600 }}>Action</TableCell>
-              <TableCell align="right" style={{ fontFamily:'Montserrat',fontWeight: 600 }}>Total</TableCell>
+              <TableCell align="center" style={{ fontFamily:'Montserrat',fontWeight: 600 }}>Product Name</TableCell>
+              <TableCell align="center" style={{ fontFamily:'Montserrat',fontWeight: 600 }}> Price</TableCell>
+              <TableCell align="center" style={{ fontFamily:'Montserrat',fontWeight: 600 }}>Quantity</TableCell>
+              <TableCell align="center" style={{ fontFamily:'Montserrat',fontWeight: 600 }}>Action</TableCell>
+              <TableCell align="center" style={{ fontFamily:'Montserrat',fontWeight: 600 }}>Total</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {rows.map((row,i) => (
               <TableRow key={`row-${i}`}>
                 <TableCell align="center"  style={{ fontFamily:'Montserrat'}}>{row.image}</TableCell>
-                <TableCell align="right" style={{ fontFamily:'Montserrat'}}>{row.name}</TableCell>
-                <TableCell align="right" style={{ fontFamily:'Montserrat'}}>{row.price}</TableCell>
-                 <TableCell align="right" className={classes.numeric} style={{ fontFamily:'Montserrat'}}>{row.quantity}</TableCell>
-                <TableCell align="right">
+                <TableCell align="center" style={{ fontFamily:'Montserrat'}}>{row.name}</TableCell>
+                <TableCell align="center" style={{ fontFamily:'Montserrat'}}>{row.price}</TableCell>
+                 <TableCell align="center" className={classes.numeric} style={{ fontFamily:'Montserrat'}}>{row.quantity}</TableCell>
+                <TableCell align="center">
                   <Button>
                     <i class="fa fa-times" aria-hidden="true"></i>
                   </Button>
                 </TableCell>
-                <TableCell align="right" style={{ fontFamily:'Montserrat'}}>{row.total}</TableCell>
+                <TableCell align="center" style={{ fontFamily:'Montserrat'}}>{row.total}</TableCell>
               </TableRow>
             ))}
             <TableRow>
-              <TableCell align="right" colSpan={5} rowSpan={3} style={{ fontFamily:'Montserrat', fontWeight: 600, fontSize: '15pt', height:'100px'}}>
+              <TableCell align="center" colSpan={5} rowSpan={3} style={{ fontFamily:'Montserrat', fontWeight: 600, fontSize: '15pt', height:'100px'}}>
                 Sub Total
               </TableCell>
-              <TableCell align="right" rowSpan={3} style={{ fontFamily:'Montserrat', fontWeight: 600, fontSize: '15pt'}}>
+              <TableCell align="center" rowSpan={3} style={{ fontFamily:'Montserrat', fontWeight: 600, fontSize: '15pt'}}>
                 3600
               </TableCell>
             </TableRow>
@@ -203,7 +203,7 @@ const useStyles = makeStyles((theme) =>({
           </Table>     
         </TableContainer>
         <center>
-        <Link to="/Checkout"><Button
+        <Link to="/Checkout" style={{textDecoration:'none'}}><Button
           type="submit"
           variant="contained"
           color="primary"
@@ -217,169 +217,3 @@ const useStyles = makeStyles((theme) =>({
         
     );
   }
-
-//     export const Table=()=>{
-//     const data=[
-//         {name: 'Ramesh',age:12},
-//         {name: 'Kumar',age:12},
-//         {name: 'Kamal',age:12},
-//         {name: 'Amal',age:12},
-//     ]
-//     const columns=[
-//         {
-//             title:'Name',field:'name'
-//         },
-//         {
-//             title:'Age',field:'age' 
-//         }
-//     ]
-//     return(<div>
-//         <MaterialTable title="Material Table"
-//         data={data}
-//         column={columns}
-//         />
-//         </div>)
-// }
-
-
- 
-// export default function Cart() {
-//     const classes = useStyles();
-
-//     return (
-//         <container>
-//             <Typography variant="h4" style={{marginTop:'100px',textAlign: 'center'}}> MY CART</Typography>
-//             <center>
-//                 <Grid container style={{marginTop:'80px',align:'center'}}>
-//                 <CssBaseline />
-//                 <Grid item md={6} style={{align:'center'}}> 
-//                     <Typography component="h1" variant="h5" style={{fontFamily:'Montserrat',textAlign:'center'}}>Already Registered?</Typography><br></br>
-//                     <form className={classes.form} noValidate>
-//                         <TextField
-//                             variant="outlined"
-//                             margin="normal"
-//                             required
-//                             fullWidth
-//                             id="email"
-//                             label="Email Address"
-//                             name="email"
-//                             autoComplete="email"
-//                             autoFocus
-//                         />
-//                         <TextField
-//                             variant="outlined"
-//                             margin="normal"
-//                             required
-//                             fullWidth
-//                             name="password"
-//                             label="Password"
-//                             type="password"
-//                             id="password"
-//                             autoComplete="current-password"
-//                         />
-//                         <FormControlLabel
-//                             control={<Checkbox value="remember" color="primary" />}
-//                             label="Remember me"
-//                             style={{float:'left'}}/>
-//                         <Button
-//                             type="submit"
-//                             fullWidth
-//                             variant="contained"
-//                             color="primary"
-//                             className={classes.submit}
-//                         >Sign In</Button>
-//                     </form>
-//                 </Grid> 
-//                 <Grid item md={6} style={{alignItems:'center'}}> 
-//                     <Typography component="h1" variant="h5" style={{fontFamily:'Montserrat',textAlign:'center'}}>New Member?</Typography><br></br>
-//                     <form className={classes.form} noValidate>
-//                     <Grid container spacing={3}>
-//                         <Grid item xs={12} sm={6}>
-//                             <TextField
-//                                 autoComplete="fname"
-//                                 name="firstName"
-//                                 variant="outlined"
-//                                 required
-//                                 fullWidth
-//                                 id="firstName"
-//                                 label="First Name"
-//                                 autoFocus
-//                             />
-//                         </Grid>
-//                         <Grid item xs={12} sm={6}>
-//                             <TextField
-//                                 variant="outlined"
-//                                 required
-//                                 fullWidth
-//                                 id="lastName"
-//                                 label="Last Name"
-//                                 name="lastName"
-//                                 autoComplete="lname"
-//                             />
-//                         </Grid>
-//                         <Grid item xs={12}>
-//                             <TextField
-//                                 variant="outlined"
-//                                 required
-//                                 fullWidth
-//                                 id="email"
-//                                 label="Email Address"
-//                                 name="email"
-//                                 autoComplete="email"
-//                             />
-//                         </Grid>
-//                         <Grid item xs={12}>
-//                             <TextField
-//                                 variant="outlined"
-//                                 required
-//                                 fullWidth
-//                                 id="mobileNumber"
-//                                 label="Mobile Number"
-//                                 name="mobileNumber"
-//                                 autoComplete="mobileno"
-//                             />
-//                         </Grid>
-//                         <Grid item xs={12}>
-//                             <TextField
-//                                 variant="outlined"
-//                                 required
-//                                 fullWidth
-//                                 name="password"
-//                                 label="Password"
-//                                 type="password"
-//                                 id="password"
-//                                 autoComplete="current-password"
-//                             />
-//                         </Grid>
-//                         <Grid item xs={12}>
-//                             <TextField
-//                                 variant="outlined"
-//                                 required
-//                                 fullWidth
-//                                 name="confirmPassword"
-//                                 label="Confirm Password"
-//                                 type="password"
-//                                 id="confirmPassword"
-//                                 autoComplete="confirm-password"
-//                             />
-//                         </Grid>
-//                         <FormControlLabel
-//                             control={<Checkbox value="remember" color="primary" />}
-//                             label="Accept Terms & Condition"
-//                             style={{marginLeft:'6px'}}/>
-//                         <Button
-//                             type="submit"
-//                             fullWidth
-//                             variant="contained"
-//                             color="primary"
-//                             className={classes.submit}
-//                         >Sign Up</Button>
-//                     </Grid>
-//                     </form>
-//                 </Grid> 
-//                 </Grid>
-//             </center>
-//         </container>
-        
-//   );
-// }

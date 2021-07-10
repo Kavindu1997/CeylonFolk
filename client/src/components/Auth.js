@@ -59,7 +59,7 @@ export default function User() {
     return (
         <container>
             <CssBaseline />
-            <Typography variant="h5" style={{marginTop:'50px',textAlign: 'center',backgroundColor:'#C6C6C6',padding:'30px',fontFamily:'Montserrat'}}> MY ACCOUNT</Typography>
+            <Typography variant="h5" style={{marginTop:'80px',textAlign: 'center',backgroundColor:'#C6C6C6',padding:'30px',fontFamily:'Montserrat'}}> MY ACCOUNT</Typography>
             <center>
             <Grid container style={{marginTop:'50px',align:'center'}}>
                 <Grid item xs={12} sm={12} md={6} lg={6}> 

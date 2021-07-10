@@ -5,6 +5,7 @@ import {useForm,Form} from './Reusable/useForm';
 import BusinessIcon from '@material-ui/icons/Business';
 import PhoneInTalkIcon from '@material-ui/icons/PhoneInTalk';
 import StreetviewIcon from '@material-ui/icons/Streetview';
+import CssBaseline from '@material-ui/core/CssBaseline';
 
 const useStyles = makeStyles((theme) => ({
   infoContent:{
@@ -28,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
     textAlign:'center',
     fontSize:'2.5rem',
     '&:hover':{
-      color:'#48dbfb'
+      color:'#48dbfb',
     }
   },
   textStyle:{
@@ -36,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
     color:'#2C2D2D',
   },
   pageContent:{
-    margin:theme.spacing(10),
+    margin:theme.spacing(5),
     padding:theme.spacing(3),
 },
 }));
@@ -45,6 +46,9 @@ export default function ConatactUs() {
   const classes = useStyles();
  
   return (
+  <container>
+    <CssBaseline />
+    <Typography variant="h5" style={{marginTop:'80px',textAlign: 'center',backgroundColor:'#C6C6C6',padding:'30px',fontFamily:'Montserrat'}}> CONTACT US</Typography>
     <Paper className={classes.pageContent}>
         <Typography component="h1" variant="h5" className={classes.headStyle}>
             Get in Touch
@@ -128,6 +132,7 @@ export default function ConatactUs() {
            </Grid>
          </Grid>
     </Paper>
+    </container>
   
   );
 }

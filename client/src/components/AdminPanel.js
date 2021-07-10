@@ -20,6 +20,8 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import { mainListItems,secondListItems } from './ListItems';
 import {BrowserRouter as Router,Route} from 'react-router-dom';
+import Lottie from 'react-lottie';
+import Stat from '../images/stat.json';
 
 import UserTable from './UserTable';
 import CollectionTable from './CollectionTable';
@@ -120,6 +122,15 @@ export default function AdminPanel() {
   };
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
+  const defaultOptions={
+    loop:true,
+    autoplay:true,
+    animationData:Stat,
+    rendererSettings:{
+      preserveAspectRatio:"xMidYMid slice"
+    }
+  };
+
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -159,15 +170,19 @@ export default function AdminPanel() {
         <Divider />
         <List>{mainListItems}</List>
         <Divider />
-        <List>{secondListItems}</List>    
+        <List style={{backgroundColor:'#2C2D2D'}}>{secondListItems}</List> 
+        <Divider />   
       </Drawer>
 
       <main className={classes.content}>
             <Router>
+                    <Route path="/admin" exact render={() => <Lottie options={defaultOptions} height={700} width={700} style={{marginTop:'20px'}} />}/>
                     <Route path="/users" exact render={() => <UserTable/>}/>
                     <Route path="/collections" exact render={() => <CollectionTable/>}/>
                     <Route path="/coupon" exact render={() => <CouponTable/>}/>
              </Router>
+
+         
       </main>
    
     </div>

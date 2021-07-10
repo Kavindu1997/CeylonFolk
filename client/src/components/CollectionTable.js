@@ -13,6 +13,9 @@ import Popup from './Reusable/Popup';
 import Notification from './Reusable/Notification';
 import ConfirmDialog from './Reusable/ConfirmDialog';
 
+import Lottie from 'react-lottie';
+import Collection from '../images/collection.json';
+
 const useStyles=makeStyles((theme)=>({
     pageContent:{
         margin:theme.spacing(5),
@@ -50,12 +53,23 @@ const CollectionTable = () => {
        // setRecordForEdit(item);
         setOpenPopup(true);
     };
+    const defaultOptions={
+        loop:true,
+        autoplay:true,
+        animationData:Collection,
+        rendererSettings:{
+          preserveAspectRatio:"xMidYMid slice"
+        }
+      };
+
     return (
         <div>
             <PageHeader
             title="COLLECTIONS"
             icon={< LayersIcon fontSize="large"/>}
             />
+
+        <Lottie options={defaultOptions} height={150} width={150} style={{marginTop:'-150px',marginRight:'30px'}} />
 
         <Paper className={classes.pageContent}>
          
