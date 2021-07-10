@@ -164,7 +164,7 @@ const CommonNav = () => {
                             </Typography>
                         </Link>                       
                         <Link href="/contactus" className={classes.appbarlink}><Typography className={classes.appbarlink2}>Contact</Typography></Link>
-                        <Link href="#" className={classes.appbarlink}><Typography className={classes.appbarlink2}>About Us</Typography></Link>
+                        <Link href="/aboutUs" className={classes.appbarlink}><Typography className={classes.appbarlink2}>About Us</Typography></Link>
                    </div> 
                    
                  
@@ -174,7 +174,7 @@ const CommonNav = () => {
              
                 <IconButton style={{paddingLeft:'106px'}}>
                     <Link href="/auth"><SearchOutlinedIcon className={classes.icon}/></Link>
-                    <Link href="/auth"><FavoriteBorderOutlinedIcon className={classes.icon}/></Link>
+                    <Link href="/wishlist"><FavoriteBorderOutlinedIcon className={classes.icon}/></Link>
                     <Link href="/cart"><LocalMallOutlinedIcon className={classes.icon}/></Link>
                     <Link href="/auth"><PermIdentityOutlinedIcon className={classes.icon}/></Link>
                 </IconButton>
