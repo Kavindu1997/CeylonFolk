@@ -160,7 +160,7 @@ const useStyles=makeStyles((theme)=>({
                             </ButtonGroup>
 
                             <Button variant="contained" color="primary">
-                                Primary
+                                Filter
                             </Button>
 
 
