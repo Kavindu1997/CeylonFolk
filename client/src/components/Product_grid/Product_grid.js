@@ -91,6 +91,35 @@ const useStyles=makeStyles((theme)=>({
         margin: theme.spacing(5),
       },
 
+      filter:{
+        display:'flex',
+        justifyContent:'space-between',
+        marginTop:'30px',
+        color:'black',
+       
+    },
+
+    rt: {
+        borderBottom: '1px solid white',
+     },
+     icon: {
+        fill: 'white',
+        borderBottom: '10px solid white',
+
+      
+        background: 'light blue',
+        
+        width: '78',
+        height: '78',
+        color: 'black',
+     
+        
+        
+
+
+
+     },
+
 }));
 export const Product_grid = () => {
 
@@ -112,13 +141,13 @@ export const Product_grid = () => {
             <div className="DropDown">
       
          <div className="row">
-           <div className="col-sm-3">
 
-            <Box width="50" flexDirection="column"> 
+         <Box width="50" flexDirection="column"> 
+         <div className={classes.filter}>
           
            <ButtonGroup variant="contained" color="primary" aria-label="split button"> 
              
-    <select class="ui dropdown">
+           <select className={classes.icon}>
       <option value="">Collection</option>
       <option value="1">Snowy</option>
       <option value="0">Marvel</option>
@@ -162,8 +191,10 @@ export const Product_grid = () => {
               
     </ButtonGroup>
     
-    </Box>
+    
            </div>
+
+           </Box>
     
       </div>
     </div>   
