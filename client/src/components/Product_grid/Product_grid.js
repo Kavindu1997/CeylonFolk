@@ -126,7 +126,7 @@ const useStyles=makeStyles((theme)=>({
 
         return (
         <div>
-            {/* <center> */}
+            <center>
             <Typography variant="h4" className={classes.collectionTitle}>WORK WEAR</Typography>
             <Grid item md={6}>    
                 <div className={classes.filter}>
@@ -167,7 +167,7 @@ const useStyles=makeStyles((theme)=>({
                         </div>
             </Grid>
          
-            {/* </center> */}
+            </center>
             
             
 
