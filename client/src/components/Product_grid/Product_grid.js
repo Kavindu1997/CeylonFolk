@@ -17,6 +17,10 @@ import Snap4 from '../../images/snap4.jpg'
 import Snap5 from '../../images/snap5.jpg'
 import Carousel from 'react-elastic-carousel';
 
+import ButtonGroup from '@material-ui/core/ButtonGroup';
+
+// import ButtonGroup from '@material-ui/core/Button';
+
 
 const useStyles=makeStyles((theme)=>({
     root:{
@@ -72,7 +76,20 @@ const useStyles=makeStyles((theme)=>({
     media:{
         height:'240px',
        
-    }
+    },
+
+    collectionTitle:{
+        marginTop: '40px',
+        fontWeight:'300',
+        paddingBottom:'24px',
+        textAlign:'center',
+        fontFamily:'Segoe UI',
+        padding: '50px',
+    },
+
+    DropDown: {
+        margin: theme.spacing(5),
+      },
 
 }));
 export const Product_grid = () => {
@@ -84,6 +101,78 @@ export const Product_grid = () => {
     },[]);
 
     return (
+
+        
+
+
+<grid>
+<Typography variant="h4" className={classes.collectionTitle}>WORK WEAR</Typography>
+
+<Grid item md={4}>
+            <div className="DropDown">
+      
+         <div className="row">
+           <div className="col-sm-3">
+
+            <Box width="50" flexDirection="column"> 
+          
+           <ButtonGroup variant="contained" color="primary" aria-label="split button"> 
+             
+    <select class="ui dropdown">
+      <option value="">Collection</option>
+      <option value="1">Snowy</option>
+      <option value="0">Marvel</option>
+    </select>
+
+    </ButtonGroup>
+   
+
+
+   
+           <ButtonGroup variant="contained" color="primary" aria-label="split button"> 
+    
+    <select class="ui dropdown">
+      <option value="">Material</option>
+      <option value="1">Cotton</option>
+      <option value="0">Wet look</option>
+    </select>
+
+    </ButtonGroup>
+   
+    
+
+    
+           <ButtonGroup variant="contained" color="primary" aria-label="split button"> 
+    <select class="ui dropdown">
+      <option value="">color</option>
+      <option value="1">Black</option>
+      <option value="0">White</option>
+    </select>
+    </ButtonGroup>
+    
+
+
+           
+ <ButtonGroup variant="contained" color="primary" aria-label="split button">    
+    <select class="ui dropdown">
+      <option value="">Size</option>
+      <option value="1">Small</option>
+      <option value="0">Medium</option>
+    </select>
+              
+    </ButtonGroup>
+    
+    </Box>
+           </div>
+    
+      </div>
+    </div>   
+
+    </Grid>
+
+
+
+        
         <div className={classes.backimage}>
         
         <Container className={classes.collectionContainer} maxWidth="lg">
@@ -418,6 +507,9 @@ export const Product_grid = () => {
 
 
         </div>
+
+        </grid>
     );
+   
 };
 

@@ -1,88 +1,8 @@
-import React from 'react';
-import Grid from '@material-ui/core/Grid';
-import Button from '@material-ui/core/Button';
-import ButtonGroup from '@material-ui/core/ButtonGroup';
-import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
-import ClickAwayListener from '@material-ui/core/ClickAwayListener';
-import Grow from '@material-ui/core/Grow';
-import Paper from '@material-ui/core/Paper';
-import Popper from '@material-ui/core/Popper';
-import MenuItem from '@material-ui/core/MenuItem';
-import MenuList from '@material-ui/core/MenuList';
-import { makeStyles } from '@material-ui/styles';
-
-import {Typography,IconButton,Collapse,Box,Container,Card,CardActionArea,CardActions,CardContent,CardMedia} from '@material-ui/core';
-
-const options = ['Collection','Snowy', 'Marvel'];
-
-
-const useStyles=makeStyles((theme)=>({
-  root:{
-      display:'flex',
-      justifyContent:'left',
-      alignItems:'center',
-      height:'1000px',
-      fontFamily:'Segoe UI' ,
-      backgroundImage:`linear-gradient(rgba(0,0,0,0.1),rgba(0,0,0,0.1)),url(${Image})`,
-      backgroundRepeat: "no-repeat",
-      backgroundPosition: "center",
-      backgroundSize: "cover",
-      position:'relative',
-      padding: '100px',
-      color: 'white'
-  },
-  backimage: {
-      marginTop: '60px'
-
-  },
-  colorText:{
-      color:'#31C5EE',
-      fontSize:'4rem',
-  },
-  title:{
-   color:'white',
-   fontSize:'3rem',
-   textAlign: 'left',
-   fontFamily:'Segoe UI',
-  },
-  container:{
-      textAlign:'left'
-  },
-  goDown:{
-      color:'#fff',
-      fontSize:'4rem'
-  },
-  collectionContainer:{
-      paddingTop:'24px'
-  },
-  collectionTitle:{
-      marginTop: '80px',
-      fontWeight:'300',
-      paddingBottom:'24px',
-      textAlign:'center',
-      fontFamily:'Segoe UI',
-      padding: '50px',
-  },
-  card:{
-      maxWidth:'95%'
-      
-  },
-  media:{
-      height:'240px',
-     
-  },
-  filter:{
-    display:'flex',
-    justifyContent:'space-between',
-    marginTop:'30px'
-   
-},
-
-
-}));
-
+import React, { useState, useEffect ,useParams} from "react";
+import axios from "axios";
 
 export const DropDown = () => {
+
   const classes=useStyles();
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef(null);
@@ -275,4 +195,5 @@ export const DropDown = () => {
     </center>
   </Container>
   );
+
 }
