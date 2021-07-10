@@ -11,12 +11,17 @@ import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
 import { makeStyles } from '@material-ui/core/styles';
 
 import { Radio_buttons } from './Radio_buttons';
 import {IconButton,Collapse,CardActions,CardContent} from '@material-ui/core';
 
 import Collection1 from '../../images/ts1.jpg';
+import butter2 from '../../images/butter2.jpg';
+import whiteBox from '../../images/black.jpg';
+
 
 
 import {Card,Container,CardActionArea,CardMedia} from '@material-ui/core';
@@ -73,6 +78,58 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
+  productContainer:{
+    padding: '40px',
+    margin: '80px',
+    width: '90%'
+  },
+  card:{
+    width: '30%',
+    paddingRight: '10px',
+    marginRight: '10px',
+    paddingBottom: '20px',
+    marginBottom: '20px',
+    border: 'none',
+    boxShadow: 'none'
+  },
+  newGrid:{
+    border: 'none',
+    boxShadow: 'none',
+  },
+  goback:{
+    paddingBottom: '20px',
+    marginBottom: '10px',
+    fontFamily: 'Montserrat',
+    fontSize: '15px'
+  },
+  productTitle: {
+    fontSize: '26px',
+    fontWeight: '600',
+    paddingBottom: '10px',
+    marginBottom: '10px',
+    fontFamily: 'Montserrat'
+    
+  },
+  productPrice:{
+    fontSize: '20px',
+    fontWeight: '500',
+    paddingBottom: '10px',
+    marginBottom: '10px',
+    fontFamily: 'Montserrat'
+  },
+  productDetails:{
+    paddingLeft: '30px',
+    marginLeft: '30px',
+    paddingBottom: '20px',
+    marginBottom: '20px'
+  },
+  productColor:{
+    fontSize: '20px',
+    fontWeight: '600',
+    paddingBottom: '10px',
+    marginBottom: '10px',
+    fontFamily: 'Montserrat'
+  }
 }));
 
 export const Product_detail = () => {
@@ -80,134 +137,55 @@ export const Product_detail = () => {
 
   return (
 
+    <Grid container className={classes.productContainer}>
+      <CssBaseline></CssBaseline>
+      <Grid item xs={2} sm={8} md={6} elevation={6} square style={{display:'flex'}} className>
+        <Card className={classes.card}>
+          <CardMedia>
+              <img src={Collection1} style={{width:'100%'}}/>
+          </CardMedia>
+          <CardMedia>
+          <img src={butter2} style={{width:'100%'}}/>
+          </CardMedia>
+        </Card>
+        <Grid Container>
+          <Box>
+          <img src={butter2} style={{width:'100%'}}/>
+          </Box>
+        </Grid>
+      </Grid>
+      
+      <Grid item xs={2} sm={8} md={6} elevation={6} square>
+        <Box className={classes.productDetails}>
+        <Box className={classes.goback}>
+          <Link>GO BACK</Link>
+        </Box>
+        <Box >
+          <Typography className={classes.productTitle}>
+            Butter
+          </Typography>
+          <Typography className={classes.productPrice}>
+            LKR 1300.00
+          </Typography>
+          <Box>
+          <Typography className={classes.productColor}>
+            COLOR
+          </Typography>
+          <Box>
+            {/* <label>
+            <input type="radio"></input>
+              <span style={{ backgroundImage:`url(${whiteBox})`}}></span>
 
-    <Grid container component="main" className={classes.root}>
-      <CssBaseline />
+            </label> */}
+            
+            
+          </Box>
 
-
-  <Grid item xs={2} sm={8} md={6} component={Paper} elevation={6} square>
-
-  <Grid item xs={false} sm={6} md={6} >
-  
-                                    <Card className={classes.card}>
-                                        <CardActionArea>
-                                                <CardMedia
-                                                className={classes.media}
-                                                style={{ backgroundImage:`url(${Collection1})`,height:'450px', alignContent:"center"}}
-                                                title="Snap1"
-                                                />      
-                                           </CardActionArea>
-                                    </Card>
-
-                                    
-                            </Grid>
-
-
-
-
-              
-
-
-                            <Container className={classes.collectionContainer} maxWidth="lg">
-                {/* <Typography variant="h4" className={classes.collectionTitle}>WORK WEAR</Typography>         */}
-                <Grid container spacing={0} >
-                    <Grid item xs={12} sm={6} md={3}>
-
-                        <Card className={classes.card}>
-                            <CardActionArea>
-                                <CardMedia
-                                    className={classes.media}
-                                    style={{ backgroundImage:`url(${Collection1})`}}
-                                    // image="CeylonFolk/client/src/images/ts1.jpg"
-                                    // image="/static/images/cards/contemplative-reptile.jpg"
-                                    title="Snowy"
-                                />
-                                <CardContent>
-                                    <Typography gutterBottom variant="h9" component="h2" style={{textAlign:'center'}}>
-                                        Snowy
-                                    </Typography>
-
-                                </CardContent>
-                            </CardActionArea>
-                            <CardActions></CardActions>
-                        </Card>
-                       
-                    </Grid>
-                    <Grid item xs={12} sm={6} md={3}>
-                        <Card className={classes.card}>
-                            <CardActionArea>
-                                <CardMedia
-                                    className={classes.media}
-                                    style={{ backgroundImage:`url(${Collection1})`}}
-                                    title="Marvel"
-                                />
-                                <CardContent>
-                                    <Typography gutterBottom variant="h9" component="h2" style={{textAlign:'center'}}>
-                                        Marvel
-                                    </Typography>
-
-                                </CardContent>
-                            </CardActionArea>
-                            <CardActions></CardActions>
-                        </Card>
-                    </Grid>
-                    <Grid item xs={12} sm={6} md={3}>
-                        <Card className={classes.card}>
-                            <CardActionArea>
-                                <CardMedia
-                                    className={classes.media}
-                                    style={{ backgroundImage:`url(${Collection1})`}}
-                                    title="BTS"
-                                />
-                               <CardContent>
-                                    <Typography gutterBottom variant="h9" component="h2" style={{textAlign:'center'}}>
-                                        Butter
-                                    </Typography>
-
-                                </CardContent>
-                            </CardActionArea>
-                            <CardActions>                   
-                            </CardActions>
-                        </Card>
-                    </Grid>
-                    <Grid item xs={12} sm={6} md={3}>
-                        <Card className={classes.card}>
-                            <CardActionArea>
-                                <CardMedia
-                                    className={classes.media}
-                                    style={{ backgroundImage:`url(${Collection1})`}}
-                                    title="BTS"
-                                />
-                               <CardContent>
-                                    <Typography gutterBottom variant="h9" component="h2" style={{textAlign:'center'}}>
-                                        BTS
-                                    </Typography>
-
-
-
-                                </CardContent>
-                            </CardActionArea>
-                            <CardActions>                   
-                            </CardActions>
-                        </Card>
-                    </Grid>
-                </Grid>
-            </Container>
-
-
-
-
-
-
-
-
-</Grid>
-
-
-
-
-
-      <Grid item xs={2} sm={8} md={6} component={Paper} elevation={6} square>
+          </Box>
+          
+        </Box>
+          
+        </Box>
         
       </Grid>
     </Grid>
