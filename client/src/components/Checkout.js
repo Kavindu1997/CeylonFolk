@@ -47,6 +47,7 @@ const useStyles = makeStyles((theme) => ({
       align:'center',
       padding:'10px',
       marginTop:'30px',
+      width:'550px'
     },
     google: {
         align:'center',
@@ -90,11 +91,12 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Checkout() {
     const classes = useStyles();
-    const [value, setValue] = React.useState('female');
+    const [value, setValue] = React.useState('payment');
 
   const handleChange = (event) => {
     setValue(event.target.value);
   };
+  
 
     return (
         <container>
@@ -171,7 +173,18 @@ export default function Checkout() {
                             control={<Checkbox value="address" color="primary" />}
                             label="Deliver to a different address"
                             style={{float:'left'}}/>
-                        <Link href="#" className={classes.forgot}>Add New Address</Link>
+                            <div id="addressNew">
+                                <TextField
+                                    variant="outlined"
+                                    margin="normal"
+                                    fullWidth
+                                    id="addnew"
+                                    label="Shipping Address"
+                                    name="addnew"
+                                    autoComplete="addnew"
+                                />    
+                            </div>
+                        {/* <Link href="#" className={classes.forgot}>Add New Address</Link> */}
                     </form>
                 </Grid>  
                 <Grid item xs={12} sm={12} md={6} lg={6}>
