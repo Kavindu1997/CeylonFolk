@@ -5,7 +5,7 @@ import Content from '../components/Content';
 import Footer from '../components/Footer/Footer';
 // import Product_grid from '../components/Product_grid/Product_grid';
 import { Product_grid } from '../components/Product_grid/Product_grid';
-import { DropDown } from '../components/Product_grid/DropDown';
+// import { DropDown } from '../components/Product_grid/DropDown';
 
 
 
@@ -20,7 +20,6 @@ const Shop = () => {
         <div>        
           <CssBaseline/>
           <CommonNav/>
-          <DropDown/>
           <Product_grid/>
           <Footer/> 
         </div>
