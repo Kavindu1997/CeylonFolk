@@ -91,12 +91,12 @@ const useStyles=makeStyles((theme)=>({
         margin: theme.spacing(5),
       },
 
-      filter:{
+    filter:{
         display:'flex',
         justifyContent:'space-between',
         marginTop:'30px',
-        color:'black',
-       
+        color:'black', 
+        boxShadow:'none', 
     },
 
     rt: {
@@ -104,106 +104,68 @@ const useStyles=makeStyles((theme)=>({
      },
      icon: {
         fill: 'white',
-        borderBottom: '10px solid white',
-
-      
+        padding: '8px',
+        borderRadius:'50px',
         background: 'light blue',
-        
-        width: '78',
+        width: '100px',
         height: '78',
         color: 'black',
-     
-        
-        
-
-
+        boxShadow:'none',
 
      },
 
 }));
-export const Product_grid = () => {
 
-    const classes=useStyles();
-    const [checked,setChecked]=useState(false);
-    useEffect(()=>{
-         setChecked(true);
-    },[]);
+    export const Product_grid = () => {
 
-    return (
+        const classes=useStyles();
+        const [checked,setChecked]=useState(false);
+        useEffect(()=>{
+            setChecked(true);
+        },[]);
 
-        
-
-
-<grid>
-<Typography variant="h4" className={classes.collectionTitle}>WORK WEAR</Typography>
-
-<Grid item md={4}>
-            <div className="DropDown">
-      
-         <div className="row">
-
-         <Box width="50" flexDirection="column"> 
-         <div className={classes.filter}>
-          
-           <ButtonGroup variant="contained" color="primary" aria-label="split button"> 
-             
-           <select className={classes.icon}>
-      <option value="">Collection</option>
-      <option value="1">Snowy</option>
-      <option value="0">Marvel</option>
-    </select>
-
-    </ButtonGroup>
-   
-
-
-   
-           <ButtonGroup variant="contained" color="primary" aria-label="split button"> 
-    
-    <select class="ui dropdown">
-      <option value="">Material</option>
-      <option value="1">Cotton</option>
-      <option value="0">Wet look</option>
-    </select>
-
-    </ButtonGroup>
-   
-    
-
-    
-           <ButtonGroup variant="contained" color="primary" aria-label="split button"> 
-    <select class="ui dropdown">
-      <option value="">color</option>
-      <option value="1">Black</option>
-      <option value="0">White</option>
-    </select>
-    </ButtonGroup>
-    
+        return (
+        <div>
+            <center>
+            <Typography variant="h4" className={classes.collectionTitle}>WORK WEAR</Typography>
+            <Grid item md={6}>    
+                <div className={classes.filter}>
+                    <ButtonGroup variant="contained" color="primary" aria-label="split button" style={{boxShadow:'none'}}> 
+                        <select className={classes.icon}>
+                            <option value="">Collection</option>
+                            <option value="1">Snowy</option>
+                            <option value="0">Marvel</option>
+                        </select>
+                    </ButtonGroup>
+                             <ButtonGroup variant="contained" color="primary" aria-label="split button"> 
+                                <select class="ui dropdown">
+                                    <option value="">Material</option>
+                                    <option value="1">Cotton</option>
+                                    <option value="0">Wet look</option>
+                                </select>
+                            </ButtonGroup>
+                            <ButtonGroup variant="contained" color="primary" aria-label="split button"> 
+                                <select class="ui dropdown">
+                                    <option value="">color</option>
+                                    <option value="1">Black</option>
+                                    <option value="0">White</option>
+                                </select>
+                            </ButtonGroup>
+                            <ButtonGroup variant="contained" color="primary" aria-label="split button">    
+                                <select class="ui dropdown">
+                                    <option value="">Size</option>
+                                    <option value="1">Small</option>
+                                    <option value="0">Medium</option>
+                                </select>
+                            </ButtonGroup>
+                        </div>
+            </Grid>
+         
+            </center>
+            
+            
 
 
-           
- <ButtonGroup variant="contained" color="primary" aria-label="split button">    
-    <select class="ui dropdown">
-      <option value="">Size</option>
-      <option value="1">Small</option>
-      <option value="0">Medium</option>
-    </select>
-              
-    </ButtonGroup>
-    
-    
-           </div>
-
-           </Box>
-    
-      </div>
-    </div>   
-
-    </Grid>
-
-
-
-        
         <div className={classes.backimage}>
         
         <Container className={classes.collectionContainer} maxWidth="lg">
@@ -539,7 +501,7 @@ export const Product_grid = () => {
 
         </div>
 
-        </grid>
+        </div>
     );
    
 };
