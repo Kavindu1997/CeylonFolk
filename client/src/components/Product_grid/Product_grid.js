@@ -137,31 +137,39 @@ const useStyles=makeStyles((theme)=>({
                             <option value="0">Marvel</option>
                         </select>
                     </ButtonGroup>
+
                     <ButtonGroup variant="contained" color="primary" aria-label="split button" style={{boxShadow:'none'}}> 
                         <select className={classes.icon}>
+
                                     <option value="">Material</option>
                                     <option value="1">Cotton</option>
                                     <option value="0">Wet look</option>
                                 </select>
                             </ButtonGroup>
+
                             <ButtonGroup variant="contained" color="primary" aria-label="split button" style={{boxShadow:'none'}}> 
                         <select className={classes.icon}>
+
                                     <option value="">color</option>
                                     <option value="1">Black</option>
                                     <option value="0">White</option>
                                 </select>
                             </ButtonGroup>
+
                             <ButtonGroup variant="contained" color="primary" aria-label="split button" style={{boxShadow:'none'}}> 
                         <select className={classes.icon}>
+
                                     <option value="">Size</option>
                                     <option value="1">Small</option>
                                     <option value="0">Medium</option>
                                 </select>
                             </ButtonGroup>
 
+
                             <Button variant="contained" color="primary">
                                 Filter
                             </Button>
+
 
 
                         </div>

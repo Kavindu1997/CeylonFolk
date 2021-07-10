@@ -12,7 +12,6 @@ const DetailOfProduct = () => {
           <CssBaseline/>
           <CommonNav/>
           <Product_detail/>
-      
           <Footer/> 
         </div>
     );
