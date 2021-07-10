@@ -9,9 +9,13 @@ import AdminDashboard from './pages/AdminDashboard';
 import Users from './pages/Users';
 import DetailOfProduct from './components/Product_grid/DetailOfProduct';
 import Collections from './pages/Collections'
+import Inventory from './pages/Inventory';
+import Design from './pages/Design';
 import MyCart from './pages/MyCart'
 import CheckingOut from './pages/CheckingOut'
 import Coupon from './pages/Coupon';
+import Wish from './pages/Wish';
+import About from './pages/About';
 
 const theme = createMuiTheme({
     typography: {
@@ -87,8 +91,12 @@ const App = () => {
               <Route path="/users" exact render={() => <Users/>}/>
               <Route path="/cart" exact render={() => <MyCart/>}/>
               <Route path="/checkout" exact render={() => <CheckingOut/>}/>
+              <Route path="/wishlist" exact render={() => <Wish/>}/>
+              <Route path="/aboutUs" exact render={() => <About/>}/>
               <Route path="/collections" exact render={() => <Collections/>}/>
               <Route path="/coupon" exact render={() => <Coupon/>}/>
+              <Route path="/inventory" exact render={() => <Inventory/>}/>
+              <Route path="/designs" exact render={() => <Design/>}/>
           </Router>
         </ThemeProvider>
     );
