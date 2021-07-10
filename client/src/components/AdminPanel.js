@@ -26,6 +26,8 @@ import Stat from '../images/stat.json';
 import UserTable from './UserTable';
 import CollectionTable from './CollectionTable';
 import CouponTable from './CouponTable';
+import DesignTable from './DesignTable';
+import InventoryTable from './InventoryTable';
 
 const drawerWidth = 240;
 
@@ -179,6 +181,8 @@ export default function AdminPanel() {
                     <Route path="/admin" exact render={() => <Lottie options={defaultOptions} height={700} width={700} style={{marginTop:'20px'}} />}/>
                     <Route path="/users" exact render={() => <UserTable/>}/>
                     <Route path="/collections" exact render={() => <CollectionTable/>}/>
+                    <Route path="/designs" exact render={() => <DesignTable/>}/>
+                    <Route path="/inventory" exact render={() => <InventoryTable/>}/>
                     <Route path="/coupon" exact render={() => <CouponTable/>}/>
              </Router>
 

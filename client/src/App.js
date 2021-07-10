@@ -9,6 +9,8 @@ import AdminDashboard from './pages/AdminDashboard';
 import Users from './pages/Users';
 import DetailOfProduct from './components/Product_grid/DetailOfProduct';
 import Collections from './pages/Collections'
+import Inventory from './pages/Inventory';
+import Design from './pages/Design';
 import MyCart from './pages/MyCart'
 import CheckingOut from './pages/CheckingOut'
 import Coupon from './pages/Coupon';
@@ -93,6 +95,8 @@ const App = () => {
               <Route path="/aboutUs" exact render={() => <About/>}/>
               <Route path="/collections" exact render={() => <Collections/>}/>
               <Route path="/coupon" exact render={() => <Coupon/>}/>
+              <Route path="/inventory" exact render={() => <Inventory/>}/>
+              <Route path="/designs" exact render={() => <Design/>}/>
           </Router>
         </ThemeProvider>
     );
