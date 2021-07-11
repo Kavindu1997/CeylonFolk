@@ -19,7 +19,14 @@ import Carousel from 'react-elastic-carousel';
 
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 
+import FavoriteBorderOutlinedIcon from '@material-ui/icons/FavoriteBorderOutlined';
+
 // import ButtonGroup from '@material-ui/core/Button';
+
+
+import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
+
+
 
 
 const useStyles=makeStyles((theme)=>({
@@ -114,6 +121,16 @@ const useStyles=makeStyles((theme)=>({
 
      },
 
+     icon1:{
+        color:'black',
+        fontSize:'1.5rem',
+        marginLeft: '30px',
+        marginRight:'10px',
+        fontWeight:'300',
+        
+
+    },
+
 }));
 
     export const Product_grid = () => {
@@ -197,14 +214,23 @@ const useStyles=makeStyles((theme)=>({
                                     // image="/static/images/cards/contemplative-reptile.jpg"
                                     title="Snowy"
                                 />
+                               
                                 <CardContent>
                                     <Typography gutterBottom variant="h9" component="h2" style={{textAlign:'center'}}>
                                         Snowy
                                     </Typography>
 
                                     <Typography gutterBottom variant="h6" component="h2" style={{textAlign:'center'}}>
-                                        LKR 1,500.00
-                                    </Typography>
+                                        LKR 1,500.00                                      
+`                                   
+                                           {/* <Link href="/wishlist"> */}
+                                        
+                                  <FavoriteBorderOutlinedIcon className={classes.icon1}/>
+                                        
+                                        {/* </Link> */}
+                                       
+                                        </Typography>`
+                                  
 
                                 </CardContent>
                             </CardActionArea>
