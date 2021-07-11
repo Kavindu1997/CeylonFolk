@@ -82,7 +82,7 @@ const App = () => {
     return(
         <ThemeProvider theme={theme}>
           <Router>
-              <Route path="/index" exact render={() => < Home/>}/>
+              <Route path="/" exact render={() => < Home/>}/>
               <Route path="/shop" exact render={() => < Shop/>}/>
               <Route path="/contactus" exact render={() => < Contactus/>}/>       
               <Route path="/auth" exact render={() => < Authentication/>}/>
