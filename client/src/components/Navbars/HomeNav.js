@@ -152,7 +152,7 @@ const CommonNav = () => {
             <AppBar className={classes[navRef.current]} elevation={0}>
                 <Toolbar className={classes.appbarWrapper}>
                 <div className={classes.appbarLeft}>
-                        <Link href="/index" className={classes.appbarlink}> <Typography className={classes.appbarlink2}>Home</Typography></Link>
+                        <Link href="/" className={classes.appbarlink}> <Typography className={classes.appbarlink2}>Home</Typography></Link>
                         <Link href="/shop" className={classes.appbarlink}> 
                             <Typography 
                             className={classes.appbarlink2}
@@ -169,7 +169,7 @@ const CommonNav = () => {
                    
                  
                    <div className={classes.appbarMiddle}>
-                    <Link href="/index"><img src={require('../../images/logo.png').default} alt="CeylonFolk" height="120px"/></Link>
+                    <Link href="/"><img src={require('../../images/logo.png').default} alt="CeylonFolk" height="120px"/></Link>
                    </div>                  
              
                 <IconButton style={{paddingLeft:'106px'}}>
