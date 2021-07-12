@@ -22,7 +22,7 @@ import UserOrders from './pages/UserOrders';
 
 const theme = createMuiTheme({
     typography: {
-      fontFamily:'Work Sans',
+      fontFamily:'Open Sans',
       fontWeightThin: 100,
       fontWeightThinItalic: 100,
       fontWeightExtraLight: 200,

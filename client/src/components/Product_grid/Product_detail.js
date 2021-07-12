@@ -20,7 +20,6 @@ import {IconButton,Collapse,CardActions,CardContent} from '@material-ui/core';
 
 import Collection1 from '../../images/ts1.jpg';
 import butter2 from '../../images/butter2.jpg';
-import whiteBox from '../../images/black.jpg';
 
 
 
@@ -172,12 +171,15 @@ export const Product_detail = () => {
             COLOR
           </Typography>
           <Box>
-            {/* <label>
-            <input type="radio"></input>
-              <span style={{ backgroundImage:`url(${whiteBox})`}}></span>
+            {/* <RadioGroup row >
+            <Radio style={{color:'red'}}></Radio>
+            <Radio style={{color:'red'}}></Radio>
 
-            </label> */}
-            
+            </RadioGroup> */}
+            <label>
+              <input type="radio"></input>
+
+            </label>
             
           </Box>
 

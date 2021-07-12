@@ -21,11 +21,11 @@ const useStyles=makeStyles((theme)=>({
     },
     appbar:{
         display: 'flex',
-    padding: '10px',
+    padding: '5px',
     width: '100%',
     justifyContent: 'spaceBetween',
     alignItems: 'center',
-    background: '#2D2D2D'
+    background: 'white'
         
     },
     appbarsolid:{
@@ -33,7 +33,7 @@ const useStyles=makeStyles((theme)=>({
 
     },
     icon:{
-        color:'white',
+        color:'black',
         fontSize:'1.5rem',
         marginLeft: '24px',
         marginRight:'10px',
@@ -48,7 +48,7 @@ const useStyles=makeStyles((theme)=>({
     },
     appbarTitle2:{
         flexGrow:'1',
-        color:'#fff',
+        color:'black',
         justifyContent:'center',
         textDecoration: 'none'
     },
@@ -59,10 +59,10 @@ const useStyles=makeStyles((theme)=>({
     height: '10px'
     },
     colorText:{
-        color:'white'
+        color:'black'
     },
     navbartext:{
-        color: 'white',
+        color: 'black',
         fontFamily:'Segoe UI',
         textTransform: 'none',
         fontSize:'15px',
@@ -88,8 +88,7 @@ const useStyles=makeStyles((theme)=>({
         flexGrow:'1',
         color:'#fff',
         justifyContent:'center',
-        textDecoration: 'none',
-        marginTop:'15px'
+        textDecoration: 'none'
     },
     appbarRight:{
         display: 'flex',
@@ -98,7 +97,7 @@ const useStyles=makeStyles((theme)=>({
     },
 
     appbarlink:{
-        color:'white',
+        color:'black',
         position:'relative',
         textTransform: 'uppercase',
         fontWeight: '600',
@@ -110,7 +109,7 @@ const useStyles=makeStyles((theme)=>({
         }
     },
     appbarlink2:{
-        color:'white',
+        color:'black',
         position:'relative',
         textTransform: 'uppercase',
         fontWeight: '600',
@@ -149,7 +148,7 @@ const CommonNav = () => {
                    
                  
                    <div className={classes.appbarMiddle}>
-                    <Link href="/"><img src={require('../../images/logo.png').default} alt="CeylonFolk" height="120px"/></Link>
+                    <Link href="/"><img src={require('../../images/logo.png').default} alt="CeylonFolk" height="30px"/></Link>
                    </div>                  
              
                 <IconButton style={{paddingLeft:'106px'}}>
