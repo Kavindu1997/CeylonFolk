@@ -12,6 +12,7 @@
     "@testing-library/user-event": "^12.8.3",
     "axios": "^0.21.1",
     "font-awesome": "^4.7.0",
+    "formik": "^2.2.9",
     "material-table": "^1.69.3",
     "moment": "^2.29.1",
     "react": "^17.0.2",
@@ -26,7 +27,9 @@
     "redux": "^4.1.0",
     "redux-thunk": "^2.3.0",
     "styled-components": "^5.3.0",
-    "web-vitals": "^1.1.2"
+    "web-vitals": "^1.1.2",
+    "yup": "^0.32.9",
+    "yup-phone": "^1.2.19"
   },
   "scripts": {
     "start": "react-scripts start",

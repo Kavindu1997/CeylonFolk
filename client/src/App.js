@@ -1,5 +1,5 @@
 import React from 'react';
-import {BrowserRouter as Router,Route} from 'react-router-dom';
+import {BrowserRouter as Router,Route, Switch} from 'react-router-dom';
 import { createMuiTheme,ThemeProvider } from '@material-ui/core';
 import Home from './pages/Home';
 import Shop from './pages/Shop';
@@ -82,6 +82,7 @@ const App = () => {
     return(
         <ThemeProvider theme={theme}>
           <Router>
+            <Switch>
               <Route path="/" exact render={() => < Home/>}/>
               <Route path="/shop" exact render={() => < Shop/>}/>
               <Route path="/contactus" exact render={() => < Contactus/>}/>       
@@ -97,6 +98,7 @@ const App = () => {
               <Route path="/coupon" exact render={() => <Coupon/>}/>
               <Route path="/inventory" exact render={() => <Inventory/>}/>
               <Route path="/designs" exact render={() => <Design/>}/>
+            </Switch>
           </Router>
         </ThemeProvider>
     );
