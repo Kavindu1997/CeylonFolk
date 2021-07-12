@@ -119,7 +119,7 @@ const UserTable = () => {
             icon={< GroupIcon fontSize="large"/>}
             />
 
-            <Lottie options={defaultOptions} height={150} width={150} style={{marginTop:'-150px',marginRight:'30px'}} />
+            {/* <Lottie options={defaultOptions} height={150} width={150} style={{marginTop:'-150px',marginRight:'30px'}} /> */}
 
             <Paper className={classes.pageContent}>
               
