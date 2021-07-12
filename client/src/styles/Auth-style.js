@@ -1,4 +1,3 @@
-import { ImportantDevices } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/styles';
 
 const useStyles = makeStyles((theme) => ({
