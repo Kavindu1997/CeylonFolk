@@ -13,3 +13,7 @@ db.sequelize.sync().then(() => {
     });
 });
 
+
+
+
+
