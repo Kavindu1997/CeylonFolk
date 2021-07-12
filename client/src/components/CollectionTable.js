@@ -69,7 +69,7 @@ const CollectionTable = () => {
             icon={< LayersIcon fontSize="large"/>}
             />
 
-        <Lottie options={defaultOptions} height={150} width={150} style={{marginTop:'-150px',marginRight:'30px'}} />
+        {/* <Lottie options={defaultOptions} height={150} width={150} style={{marginRight:'30px'}} />marginTop:'-150px', */}
 
         <Paper className={classes.pageContent}>
          
