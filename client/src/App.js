@@ -16,6 +16,9 @@ import CheckingOut from './pages/CheckingOut'
 import Coupon from './pages/Coupon';
 import Wish from './pages/Wish';
 import About from './pages/About';
+import Profile from './pages/Profile';
+import UserWishlist from './pages/UserWishlist';
+import UserOrders from './pages/UserOrders';
 
 const theme = createMuiTheme({
     typography: {
@@ -94,6 +97,9 @@ const App = () => {
               <Route path="/checkout" exact render={() => <CheckingOut/>}/>
               <Route path="/wishlist" exact render={() => <Wish/>}/>
               <Route path="/aboutUs" exact render={() => <About/>}/>
+              <Route path="/profile" exact render={() => <Profile/>}/>
+              <Route path="/myWishlist" exact render={() => <UserWishlist/>}/>
+              <Route path="/myOrders" exact render={() => <UserOrders/>}/>
               <Route path="/collections" exact render={() => <Collections/>}/>
               <Route path="/coupon" exact render={() => <Coupon/>}/>
               <Route path="/inventory" exact render={() => <Inventory/>}/>

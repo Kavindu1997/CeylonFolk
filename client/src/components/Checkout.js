@@ -49,27 +49,6 @@ const useStyles = makeStyles((theme) => ({
       marginTop:'30px',
       width:'550px'
     },
-    google: {
-        align:'center',
-        padding:'10px',
-        marginTop:'30px',
-        marginBottom:'30px',
-        borderWidth:'thin',
-        borderColor:'black',
-        '&:hover': {
-            background: 'none',
-            borderWidth:'medium',
-          }
-      },
-      forgot:{
-        textDecoration:'none',
-        float:'right',
-        marginTop:'10px',
-        '&:hover':{
-            fontWeight:'500',
-            textDecoration:'none',
-        }
-      },
   }));
 
   function createData(image, name, quantity, total) {
@@ -86,7 +65,7 @@ const useStyles = makeStyles((theme) => ({
       <div>
         <img height={75} align="center" src={require('../images/ts2.jpg').default}/>
       </div>,
-      'Baby Tshirt',1,800),
+      'Baby Tshirt',1,1000),
   ];
 
 export default function Checkout() {
@@ -164,10 +143,10 @@ export default function Checkout() {
                             margin="normal"
                             required
                             fullWidth
-                            id="country"
-                            label="Country"
-                            name="country"
-                            autoComplete="country"
+                            id="city"
+                            label="City"
+                            name="city"
+                            autoComplete="city"
                         />
                         <FormControlLabel
                             control={<Checkbox value="address" color="primary" />}
@@ -189,7 +168,7 @@ export default function Checkout() {
                 </Grid>  
                 <Grid item xs={12} sm={12} md={6} lg={6}>
                     <Typography component="h1" variant="h5" style={{fontFamily:'Montserrat',textAlign:'center'}}>Order Summery</Typography>
-                    <TableContainer style={{marginTop:'30px',align:'center', marginRight:'50px'}}>
+                    <TableContainer style={{marginTop:'30px'}}>
                         <Table className={classes.table} aria-label="simple table">
                             <TableHead>
                                 <TableRow>
@@ -200,7 +179,7 @@ export default function Checkout() {
                             <TableBody>
                                 {rows.map((row,i) => (
                                 <TableRow key={`row-${i}`}>
-                                    <TableCell align="left"  style={{ fontFamily:'Montserrat'}}>{row.image}</TableCell>
+                                    <TableCell align="left"  style={{ fontFamily:'Montserrat'}}>{row.image}  </TableCell>
                                     <TableCell align="left" style={{ fontFamily:'Montserrat'}}>{row.name} x {row.quantity}</TableCell>
                                     <TableCell align="left" style={{ fontFamily:'Montserrat'}}>{row.total}</TableCell>
                                 </TableRow>
@@ -210,7 +189,7 @@ export default function Checkout() {
                                         Sub Total
                                     </TableCell>
                                     <TableCell align="left" style={{ fontFamily:'Montserrat'}}>
-                                        Rs. 2800
+                                        Rs. 3000
                                     </TableCell>
                                 </TableRow>
                                 <TableRow>
@@ -226,7 +205,7 @@ export default function Checkout() {
                                         Total
                                     </TableCell>
                                     <TableCell align="left" colSpan={3} style={{ fontFamily:'Montserrat',fontWeight: 600}}>
-                                        Rs. 3000
+                                        Rs. 3200
                                     </TableCell>
                                 </TableRow>
                                 <TableRow>
@@ -258,11 +237,10 @@ export default function Checkout() {
                             </Button>
                         </center>
                     </div>
-                    <Box component="span" sx={{ p: 2, border: '1px dashed grey' }}></Box>  
                 </Grid>
                  
                 
-                </Grid>
+            </Grid>
             </center>
         </container>
         
