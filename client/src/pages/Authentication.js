@@ -77,7 +77,6 @@ const Authentication = () => {
                                         label="Email Address"
                                         name="loginEmail"
                                         autoComplete="email"
-                                        autoFocus
                                         helperText={<ErrorMessage name="loginEmail" />}
                                     />
                                     <Field as={TextField}
