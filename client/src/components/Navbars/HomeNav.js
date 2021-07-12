@@ -168,7 +168,7 @@ const CommonNav = () => {
                    
                  
                    <div className={classes.appbarMiddle}>
-                    <Link href="/"><img src={require('../../images/logo.png').default} alt="CeylonFolk" height="120px"/></Link>
+                    <Link href="/"><img src={require('../../images/logo.png').default} alt="CeylonFolk" height="36px"/></Link>
                    </div>                  
              
                 <IconButton style={{paddingLeft:'106px'}}>
