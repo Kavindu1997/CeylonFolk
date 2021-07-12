@@ -4,7 +4,6 @@ import Footer from '../components/Footer/Footer';
 import useStyles from '../styles/Auth-style';
 import { CssBaseline, TextField, FormControlLabel, Checkbox, Link, Grid, Typography, Button } from '@material-ui/core';
 import axios from 'axios';
-import { useEffect } from 'react';
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from 'yup';
 import "yup-phone";
@@ -33,9 +32,12 @@ const Authentication = () => {
         confirmPassword: Yup.string().test('passwords-match', 'Passwords must match', function (value) { return this.parent.regPassword === value }),
         terms: Yup.boolean().oneOf([true], "You must accept the terms and conditions"),
     });
-    const onSubmit1 = (values, props) => {
-        console.log(values);
-    }
+
+    const onSubmit1 = (data) => {
+        axios.post("http://localhost:3001/auth/register", data).then(() => {
+            console.log(data);
+        });
+    };
 
     //login form validation
     const initialValues2 = {
@@ -47,15 +49,11 @@ const Authentication = () => {
         loginPassword: Yup.string().required('Password is required').matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
             "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character"),
     });
-    const onSubmit2 = (data, props) => {
-        console.log(data);
-    }
-
-    useEffect(() => {
-        axios.get("http://localhost:3001/auth").then((response) => {
+    const onSubmit2 = (data) => {
+        axios.post("http://localhost:3001/auth/login", data).then((response) => {
             console.log(response.data);
-        })
-    }, []);
+        });
+    }
 
     return (
         <div>
