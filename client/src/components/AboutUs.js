@@ -14,7 +14,7 @@ import 'font-awesome/css/font-awesome.min.css';
 import TextField from '@material-ui/core/TextField';
 import {Link } from "react-router-dom";
 import Box from '@material-ui/core/Box';
-
+import Grid from '@material-ui/core/Grid';
 
 const useStyles = makeStyles((theme) =>({
     table: {
@@ -41,30 +41,26 @@ const useStyles = makeStyles((theme) =>({
         alignItems:"center",
         // marginLeft: 600,
       },
+      image: {
+        marginTop: '30px',
+        // minHeight:'100vh',
+        height:'500px',
+        backgroundPosition: 'center',
+        backgroundRepeat: "no-repeat",
+        backgroundSize: "cover"
+      },
+    subsubText:{
+        display: 'block',
+        fontSize: '16px',
+        // marginBottom: '1.2rem',
+        color: 'white',
+        letterSpacing: '0.9px',
+        lineHeight: '1.2',
+        fontWeight: '300',
+        textAlign: 'flex'
+    },
      
   }));
-  
-  function createData(image, name, price, status, action) {
-    return { image, name, price, status, action };
-  }
-  
-  const rows = [
-    createData(
-      <div>
-        <img height={100} src={require('../images/ts1.jpg').default}/>
-      </div>,
-      'Snowy Tshirt',1000, 'Available'),
-    createData(
-      <div>
-        <img height={100} align="center" src={require('../images/ts2.jpg').default}/>
-      </div>,
-      'Baby Tshirt',800,'Not Available'),
-    createData(
-      <div>
-        <img height={100} align="center" src={require('../images/ts3.jpg').default}/>
-      </div>,
-      'White Tshirt', 800,'Available'),
-  ];
   
   export default function AboutUs() {
     
@@ -73,8 +69,32 @@ const useStyles = makeStyles((theme) =>({
     return (
       <container>
         <center>
-            <Typography variant="h5" style={{marginTop:'80px',textAlign: 'center',backgroundColor:'#C6C6C6',padding:'30px',fontFamily:'Montserrat'}}>WISHLIST</Typography>
-      <TableContainer component={Paper} style={{marginTop:'30px',align:'center',width:'1200px'}}>
+            <Typography variant="h5" style={{marginTop:'80px',textAlign: 'center',backgroundColor:'#C6C6C6',padding:'30px',fontFamily:'Montserrat'}}>ABOUT</Typography>
+            <Grid container>
+            <Grid item xs={12}>
+            <div>
+                <img src={require('../images/cover4.jpg').default} className={classes.image}/>
+            </div>
+            <div>
+            <Typography variant="h5" style={{marginTop:'50px',textAlign: 'center',fontFamily:'Montserrat'}}>COMPANY PROFILE</Typography>
+            <Typography className={classes.subText} style={{marginTop:'20px',marginLeft:'90px',marginRight:'95px',fontFamily:'Montserrat',textAlign:'cebter'}}>
+                Ceylonfolk a young and vibrant company founded by Pasan Ranatunga a graduate of UCSC, University of Colombo was live from 11th October 2019. The founder 
+                himself was motivated by the idea that everyone should be able to express themselves wearing what they truly love. armed with the mission Ceylonfolk was 
+                created, making it a platform for the Sri Lankan customers to get t-shirts printed with what they actually adore. The company's line of business includes the retail and 
+                wholesale customized t-shirts whereas the main product line comprises crew neck t-shirts and hoodies. The crew uses three printing techniques as in heat transfer method,
+                screen printing method, and embroidery service to customerize t-shirts according to the need of the customer. Last but not least Ceylonfolk is a combination of best service, quality
+                products and reasonable price. Delighted customers are the company's utmost wealth.
+            </Typography>
+            </div>
+            {/* <div>
+            <Typography variant="h5" style={{marginTop:'50px',textAlign: 'center',fontFamily:'Montserrat'}}>OUR MISSION</Typography>
+            <Typography className={classes.subText} style={{marginTop:'20px',marginLeft:'90px',marginRight:'95px',fontFamily:'Montserrat',textAlign:'justify'}}>Get featured in your "favourite obsession" Wear Ceylonfolk 
+            #ceylonfolk #customtshirts #fashion #tshirts #customizedtshirts  #customtees #customtshirts #tshirts 
+            #smallbusiness #apparel  #shoplocal #supportsmallbusiness #madeinsrilanka #customizedtshirt</Typography>
+            </div> */}
+            </Grid>
+            </Grid>
+      {/* <TableContainer component={Paper} style={{marginTop:'30px',align:'center',width:'1200px'}}>
         <Table className={classes.table} aria-label="simple table">
           <TableHead>
             <TableRow>
@@ -126,53 +146,8 @@ const useStyles = makeStyles((theme) =>({
       >Proceed to Checkout
       </Button>
       </Box>
-      </div>
-      </center>
-      {/* <div>
-         <Typography variant="h6" style={{marginTop:'50px',marginLeft:'80px',textAlign: 'left',fontWeight: 600, fontFamily:'Montserrat'}}>Cart Totals</Typography> 
-         <TableContainer style={{marginTop:'20px',marginLeft:'80px',align:'left',width:'600px'}}>
-         <Table aria-label="simple table">
-            <TableRow>
-              <TableCell align="left" style={{ fontWeight: 600, fontFamily:'Montserrat' }}>SUB TOTAL</TableCell>
-              <TableCell align="center" style={{ fontWeight: 600, fontFamily:'Montserrat' }}> Rs. 3600</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell align="left" style={{ fontWeight: 600, fontFamily:'Montserrat' }}>SHIPPING</TableCell>
-              <TableCell align="center" style={{ fontWeight: 600, fontFamily:'Montserrat' }}>Rs. 100</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell align="left" style={{ fontWeight: 600, fontFamily:'Montserrat' }}>ADD COUPON</TableCell>
-              <TableCell align="center" style={{ fontWeight: 600 , fontFamily:'Montserrat'}}>
-              <div>
-                <TextField underlineShow={false} label="Coupon ID" style={{width:130, borderRadius: 25}}/>
-                <br />  <br /> 
-                <Button
-                  type="submit"
-                  variant="contained"
-                  color="primary"
-                  className={classes.coupon}
-                >Apply Coupon
-                </Button>
-              </div>
-              </TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell align="left" style={{ fontWeight: 600, fontFamily:'Montserrat' }}>TOTAL</TableCell>
-              <TableCell align="center" style={{ fontWeight: 600, fontFamily:'Montserrat' }}>Rs. 3700</TableCell>
-            </TableRow>
-          </Table>     
-        </TableContainer>
-        <center>
-        <Link to="/Checkout" style={{textDecoration:'none'}}><Button
-          type="submit"
-          variant="contained"
-          color="primary"
-          className={classes.submit}
-        >Proceed To Checkout
-        </Button>
-        </Link>
-        </center>
       </div> */}
+      </center>
       </container>
         
     );

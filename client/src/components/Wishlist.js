@@ -49,21 +49,21 @@ const useStyles = makeStyles((theme) =>({
   }
   
   const rows = [
-    createData(
-      <div>
-        <img height={100} src={require('../images/ts1.jpg').default}/>
-      </div>,
-      'Snowy Tshirt',1000, 'Available'),
+    // createData(
+    //   <div>
+    //     <img height={100} src={require('../images/ts1.jpg').default}/>
+    //   </div>,
+    //   'Snowy Tshirt',1000, 'Available'),
     createData(
       <div>
         <img height={100} align="center" src={require('../images/ts2.jpg').default}/>
       </div>,
-      'Baby Tshirt',800,'Not Available'),
+      'Baby Tshirt',1000,'Not Available'),
     createData(
       <div>
         <img height={100} align="center" src={require('../images/ts3.jpg').default}/>
       </div>,
-      'White Tshirt', 800,'Available'),
+      'White Tshirt', 1300,'Available'),
   ];
   
   export default function Wishlist() {
@@ -73,8 +73,8 @@ const useStyles = makeStyles((theme) =>({
     return (
       <container>
         <center>
-            <Typography variant="h5" style={{marginTop:'80px',textAlign: 'center',backgroundColor:'#C6C6C6',padding:'30px',fontFamily:'Montserrat'}}>WISHLIST</Typography>
-      <TableContainer component={Paper} style={{marginTop:'30px',align:'center',width:'1200px'}}>
+        <Typography variant="h5" style={{marginTop:'80px',textAlign: 'center',backgroundColor:'#C6C6C6',padding:'30px',fontFamily:'Montserrat'}}>WISHLIST</Typography>
+        <TableContainer component={Paper} style={{marginTop:'30px',align:'center',width:'1200px'}}>
         <Table className={classes.table} aria-label="simple table">
           <TableHead>
             <TableRow>
@@ -128,51 +128,7 @@ const useStyles = makeStyles((theme) =>({
       </Box>
       </div>
       </center>
-      {/* <div>
-         <Typography variant="h6" style={{marginTop:'50px',marginLeft:'80px',textAlign: 'left',fontWeight: 600, fontFamily:'Montserrat'}}>Cart Totals</Typography> 
-         <TableContainer style={{marginTop:'20px',marginLeft:'80px',align:'left',width:'600px'}}>
-         <Table aria-label="simple table">
-            <TableRow>
-              <TableCell align="left" style={{ fontWeight: 600, fontFamily:'Montserrat' }}>SUB TOTAL</TableCell>
-              <TableCell align="center" style={{ fontWeight: 600, fontFamily:'Montserrat' }}> Rs. 3600</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell align="left" style={{ fontWeight: 600, fontFamily:'Montserrat' }}>SHIPPING</TableCell>
-              <TableCell align="center" style={{ fontWeight: 600, fontFamily:'Montserrat' }}>Rs. 100</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell align="left" style={{ fontWeight: 600, fontFamily:'Montserrat' }}>ADD COUPON</TableCell>
-              <TableCell align="center" style={{ fontWeight: 600 , fontFamily:'Montserrat'}}>
-              <div>
-                <TextField underlineShow={false} label="Coupon ID" style={{width:130, borderRadius: 25}}/>
-                <br />  <br /> 
-                <Button
-                  type="submit"
-                  variant="contained"
-                  color="primary"
-                  className={classes.coupon}
-                >Apply Coupon
-                </Button>
-              </div>
-              </TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell align="left" style={{ fontWeight: 600, fontFamily:'Montserrat' }}>TOTAL</TableCell>
-              <TableCell align="center" style={{ fontWeight: 600, fontFamily:'Montserrat' }}>Rs. 3700</TableCell>
-            </TableRow>
-          </Table>     
-        </TableContainer>
-        <center>
-        <Link to="/Checkout" style={{textDecoration:'none'}}><Button
-          type="submit"
-          variant="contained"
-          color="primary"
-          className={classes.submit}
-        >Proceed To Checkout
-        </Button>
-        </Link>
-        </center>
-      </div> */}
+
       </container>
         
     );

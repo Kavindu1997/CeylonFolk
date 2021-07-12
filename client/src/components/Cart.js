@@ -63,7 +63,7 @@ const useStyles = makeStyles((theme) =>({
         <img height={100} src={require('../images/ts1.jpg').default}/>
       </div>,
       'Snowy Tshirt', 1000, 
-      <div style={{borderRadius:'50%'}}>
+      <div>
         <NumericInput mobile min={0} max={100} value={2} size={ 1 }/>
       </div>, 
        0,2000),
@@ -169,8 +169,9 @@ const useStyles = makeStyles((theme) =>({
       </div>
       </center>
       <div>
-         <Typography variant="h6" style={{marginTop:'50px',marginLeft:'80px',textAlign: 'left',fontWeight: 600, fontFamily:'Montserrat'}}>Cart Totals</Typography> 
-         <TableContainer style={{marginTop:'20px',marginLeft:'80px',align:'left',width:'600px'}}>
+       
+         <Typography variant="h6" style={{marginTop:'50px',marginLeft:'400px',textAlign: 'left',fontWeight: 600, fontFamily:'Montserrat'}}>Cart Totals</Typography> 
+         <TableContainer style={{marginTop:'20px',marginLeft:'450px',align:'left',width:'600px'}}>
          <Table aria-label="simple table">
             <TableRow>
               <TableCell align="left" style={{ fontWeight: 600, fontFamily:'Montserrat' }}>SUB TOTAL</TableCell>
@@ -202,6 +203,7 @@ const useStyles = makeStyles((theme) =>({
             </TableRow>
           </Table>     
         </TableContainer>
+        
         <center>
         <Link to="/Checkout" style={{textDecoration:'none'}}><Button
           type="submit"
