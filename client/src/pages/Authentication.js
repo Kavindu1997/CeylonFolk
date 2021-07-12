@@ -12,7 +12,9 @@ import "yup-phone";
 
 const Authentication = () => {
     const classes = useStyles();
-    const initialValues = {
+
+    //Registration Form validation
+    const initialValues1 = {
         firstName: '',
         lastName: '',
         regEmail: '',
@@ -21,18 +23,32 @@ const Authentication = () => {
         confirmPassword: '',
         terms: false,
     }
-    const validationSchema = Yup.object().shape({
+    const validationSchema1 = Yup.object().shape({
         firstName: Yup.string().required("First Name is required"),
         lastName: Yup.string().required("Last Name is required"),
         regEmail: Yup.string().email("Email is not valid").required("Email is required"),
         mobileNumber: Yup.string().required("Phone number is required").matches(/^(?:0|94|\+94)?(?:(11|21|23|24|25|26|27|31|32|33|34|35|36|37|38|41|45|47|51|52|54|55|57|63|65|66|67|81|912)(0|2|3|4|5|7|9)|7(0|1|2|4|5|6|7|8)\d)\d{6}$/, "Invalid phone number"),
-        regPassword: Yup.string().required('Password is required'),
+        regPassword: Yup.string().required('Password is required').matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
+            "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character"),
         confirmPassword: Yup.string().test('passwords-match', 'Passwords must match', function (value) { return this.parent.regPassword === value }),
         terms: Yup.boolean().oneOf([true], "You must accept the terms and conditions"),
     });
-    const onSubmit = (values, props) => {
+    const onSubmit1 = (values, props) => {
         console.log(values);
+    }
 
+    //login form validation
+    const initialValues2 = {
+        loginEmail: '',
+        loginPassword: '',
+    }
+    const validationSchema2 = Yup.object().shape({
+        loginEmail: Yup.string().email("Email is not valid").required("Email is required"),
+        loginPassword: Yup.string().required('Password is required').matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
+            "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character"),
+    });
+    const onSubmit2 = (data, props) => {
+        console.log(data);
     }
 
     useEffect(() => {
@@ -50,42 +66,50 @@ const Authentication = () => {
                 <Grid container style={{ marginTop: '50px', align: 'center' }}>
                     <Grid item xs={12} sm={12} md={6} lg={6}>
                         <Typography component="h1" variant="h5" style={{ fontFamily: 'Montserrat', textAlign: 'center' }}>Already Registered?</Typography>
-                        <form className={classes.form} noValidate>
-                            <TextField
-                                variant="outlined"
-                                margin="normal"
-                                required
-                                fullWidth
-                                id="loginEmail"
-                                label="Email Address"
-                                name="loginEmail"
-                                autoComplete="email"
-                                autoFocus
-                            />
-                            <TextField
-                                variant="outlined"
-                                margin="normal"
-                                required
-                                fullWidth
-                                id="loginPassword"
-                                label="Password"
-                                name="loginPassword"
-                                type="password"
-                                autoComplete="current-password"
-                            />
-                            <Link href="#" className={classes.forgot}>Forgot Password</Link>
-                            <Button
-                                type="submit"
-                                fullWidth
-                                variant="contained"
-                                color="primary"
-                                className={classes.submit}
-                            >Login</Button>
-                        </form>
+                        <Formik initialValues={initialValues2} onSubmit={onSubmit2} validationSchema={validationSchema2}>
+                            {(props) => (
+                                <Form className={classes.form}>
+                                    <Field as={TextField}
+                                        className={classes.textField}
+                                        variant="outlined"
+                                        margin="normal"
+                                        required
+                                        fullWidth
+                                        id="loginEmail"
+                                        label="Email Address"
+                                        name="loginEmail"
+                                        autoComplete="email"
+                                        autoFocus
+                                        helperText={<ErrorMessage name="loginEmail" />}
+                                    />
+                                    <Field as={TextField}
+                                        className={classes.textField}
+                                        variant="outlined"
+                                        margin="normal"
+                                        required
+                                        fullWidth
+                                        id="loginPassword"
+                                        label="Password"
+                                        name="loginPassword"
+                                        type="password"
+                                        autoComplete="current-password"
+                                        helperText={<ErrorMessage name="loginPassword" />}
+                                    />
+                                    <Link href="#" className={classes.forgot}>Forgot Password</Link>
+                                    <Button
+                                        type="submit"
+                                        fullWidth
+                                        variant="contained"
+                                        color="primary"
+                                        className={classes.submit}
+                                    >Login</Button>
+                                </Form>
+                            )}
+                        </Formik>
                     </Grid>
                     <Grid item xs={12} sm={12} md={6} lg={6}>
                         <Typography component="h1" variant="h5" style={{ fontFamily: 'Montserrat', textAlign: 'center' }}>New Member?</Typography>
-                        <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={validationSchema}>
+                        <Formik initialValues={initialValues1} onSubmit={onSubmit1} validationSchema={validationSchema1}>
                             {(props) => (
                                 <Form className={classes.form}>
                                     <Grid item xs={12} sm={12} spacing={1} container>
