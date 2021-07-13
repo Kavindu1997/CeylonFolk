@@ -15,6 +15,8 @@ app.use("/auth", usersRouter);
 const contactusRouter = require('./routes/Contactus');
 app.use("/contact", contactusRouter);
 
+const collectionRouter = require('./routes/Collections');
+app.use("/collections", collectionRouter);
 
 db.sequelize.sync().then(() => {
     app.listen(3001, () => {
