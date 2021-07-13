@@ -55,6 +55,10 @@ const Authentication = () => {
         });
     }
 
+    function onLinkClick(event) {
+        console.log('onLinkClick'); // never called
+      }
+
     return (
         <div>
             <CommonNav />
@@ -191,7 +195,19 @@ const Authentication = () => {
                                     />
                                     <Field as={FormControlLabel} name="terms"
                                         control={<Checkbox value="terms" color="primary" />}
-                                        label="Accept Terms & Condition"
+                                        label={
+                                            <span>I have read and agree to the&nbsp;
+                                                <a
+                                                    href="/Termnconditions"
+                                                    // target="_blank"
+                                                    onClick={onLinkClick}
+                                                >
+                                                    Terms and Conditions
+                                                </a>
+                                            </span>
+
+                                        }
+
                                         style={{ float: 'left' }}
                                         helperText={<ErrorMessage name="terms" />}
                                     />
