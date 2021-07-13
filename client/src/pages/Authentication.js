@@ -7,8 +7,6 @@ import { CssBaseline, TextField, FormControlLabel, Checkbox, Link, Grid, Typogra
 import axios from 'axios';
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from 'yup';
-import "yup-phone";
-
 
 const Authentication = () => {
     let history = useHistory();
