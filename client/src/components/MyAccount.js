@@ -186,6 +186,30 @@ export default function MyAccount() {
                                 variant="outlined"
                                 margin="normal"
                             />
+                            <TextField
+                                fullWidth
+                                id="add1"
+                                label="Address Line 1"
+                                defaultValue="No. 21"
+                                variant="outlined"
+                                margin="normal"
+                            />
+                            <TextField
+                                fullWidth
+                                id="add2"
+                                label="Address Line 2"
+                                defaultValue="Araliya Uyana"
+                                variant="outlined"
+                                margin="normal"
+                            />
+                            <TextField
+                                fullWidth
+                                id="city"
+                                label="City"
+                                defaultValue="Koswatta"
+                                variant="outlined"
+                                margin="normal"
+                            />
                             <div>
                                 <br />
                                 <Typography component="h1" variant="h6" style={{ fontFamily: 'Montserrat', textAlign: 'left' }}>Password Change </Typography>
