@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, TextField, CssBaseline, Grid, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Radio, RadioGroup, FormControl, Checkbox } from '@material-ui/core';
+import { Button, TextField, CssBaseline, Grid, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Radio, RadioGroup, FormControl, Checkbox, TextareaAutosize } from '@material-ui/core';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { makeStyles } from '@material-ui/styles';
 
@@ -31,6 +31,9 @@ const useStyles = makeStyles((theme) => ({
         marginTop: '30px',
         width: '550px'
     },
+    note: {
+        height: 50
+      },
 }));
 
 function createData(image, name, quantity, total) {
@@ -135,17 +138,29 @@ export default function Checkout() {
                                 label="Deliver to a different address"
                                 style={{ float: 'left' }} />
                             <div id="addressNew">
-                                <TextField
+                            <TextareaAutosize aria-label="minimum height" minRows={5} placeholder="Shipping Address" style={{width:'480px',height:'60px', textAlign:'justify', padding:'15px', fontFamily:'Montserrat', marginTop:'10px',borderRadius:'5px'}}/>
+                                {/* <TextField
                                     variant="outlined"
                                     margin="normal"
                                     fullWidth
-                                    id="addnew"
+                                    id="addnew1"
                                     label="Shipping Address"
                                     name="addnew"
                                     autoComplete="addnew"
-                                />
+                                /> */}
                             </div>
-                            {/* <Link href="#" className={classes.forgot}>Add New Address</Link> */}
+                            {/* <TextField
+                                    variant="outlined"
+                                    margin="normal"
+                                    fullWidth
+                                    height="60px"
+                                    id="note"
+                                    label="Order Notes (optional)"
+                                    name="note"
+                                    autoComplete="note"
+                                /> */}
+                                <TextareaAutosize aria-label="minimum height" minRows={5} placeholder="Order Notes (optional)" style={{width:'480px',height:'100px', textAlign:'justify', padding:'15px', fontFamily:'Montserrat',marginTop:'30px',borderRadius:'5px'}}/>
+                            
                         </form>
                     </Grid>
                     <Grid item xs={12} sm={12} md={6} lg={6}>
