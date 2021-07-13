@@ -1,4 +1,5 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 import CommonNav from '../components/Navbars/CommonNav';
 import Footer from '../components/Footer/Footer';
 import useStyles from '../styles/Auth-style';
@@ -10,6 +11,7 @@ import "yup-phone";
 
 
 const Authentication = () => {
+    let history = useHistory();
     const classes = useStyles();
 
     //Registration Form validation
@@ -33,10 +35,11 @@ const Authentication = () => {
         terms: Yup.boolean().oneOf([true], "You must accept the terms and conditions"),
     });
 
-    const onSubmit1 = (data) => {
+    const onSubmit1 = (data, props) => {
         axios.post("http://localhost:3001/auth/register", data).then(() => {
             console.log(data);
         });
+        props.resetForm();
     };
 
     //login form validation
@@ -46,13 +49,20 @@ const Authentication = () => {
     }
     const validationSchema2 = Yup.object().shape({
         loginEmail: Yup.string().email("Email is not valid").required("Email is required"),
-        loginPassword: Yup.string().required('Password is required').matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
-            "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character"),
+        loginPassword: Yup.string().required('Password is required'),
     });
-    const onSubmit2 = (data) => {
+    const onSubmit2 = (data, props) => {
         axios.post("http://localhost:3001/auth/login", data).then((response) => {
-            console.log(response.data);
+            if (response.data.error) alert(response.data.error);
+            else history.push('/profile');
+
         });
+        props.resetForm();
+        //history.push('path')
+    }
+
+    function onLinkClick(event) {
+        console.log('onLinkClick'); // never called
     }
 
     return (
@@ -77,7 +87,6 @@ const Authentication = () => {
                                         label="Email Address"
                                         name="loginEmail"
                                         autoComplete="email"
-                                        autoFocus
                                         helperText={<ErrorMessage name="loginEmail" />}
                                     />
                                     <Field as={TextField}
@@ -100,6 +109,7 @@ const Authentication = () => {
                                         variant="contained"
                                         color="primary"
                                         className={classes.submit}
+                                        disabled={!props.isValid}
                                     >Login</Button>
                                 </Form>
                             )}
@@ -192,7 +202,19 @@ const Authentication = () => {
                                     />
                                     <Field as={FormControlLabel} name="terms"
                                         control={<Checkbox value="terms" color="primary" />}
-                                        label="Accept Terms & Condition"
+                                        label={
+                                            <span>I have read and agree to the&nbsp;
+                                                <a
+                                                    href="/Termnconditions"
+                                                    // target="_blank"
+                                                    onClick={onLinkClick}
+                                                >
+                                                    Terms and Conditions
+                                                </a>
+                                            </span>
+
+                                        }
+
                                         style={{ float: 'left' }}
                                         helperText={<ErrorMessage name="terms" />}
                                     />
@@ -202,6 +224,7 @@ const Authentication = () => {
                                         variant="contained"
                                         color="primary"
                                         className={classes.submit}
+                                        disabled={!props.isValid}
                                     >Register</Button>
                                 </Form>
                             )}
