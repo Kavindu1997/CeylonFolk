@@ -2,7 +2,7 @@ import React,{ useEffect, useState} from 'react';
 import {Typography,IconButton,Collapse,Box,Button,Container,Grid,Card,CardActionArea,CardActions,CardContent,CardMedia} from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { makeStyles } from '@material-ui/styles';
-import Image from '../images/tttttt.png';
+import Image from '../images/Cover.png';
 import Collection1 from '../images/ts1.jpg';
 import Collection2 from '../images/ts2.jpg';
 import Collection3 from '../images/ts3.jpg';
@@ -33,7 +33,7 @@ const useStyles=makeStyles((theme)=>({
         justifyContent:'left',
         alignItems:'center',
         height:'1000px',
-        fontFamily:'Montserrat' ,
+        fontFamily:'Open Sans' ,
         backgroundImage:`linear-gradient(rgba(0,0,0,0.1),rgba(0,0,0,0.1)),url(${Image})`,
         backgroundRepeat: "no-repeat",
         backgroundPosition: "center",
@@ -51,16 +51,16 @@ const useStyles=makeStyles((theme)=>({
         backgroundSize: "cover"
     },
     colorText:{
-        color:'white',
+        color:'black',
         fontSize:'100px',
         fontWeight: '600',
-     fontFamily:'Montserrat',
+     fontFamily:'Open Sans',
     },
     title:{
-     color:'white',
+     color:'black',
      fontSize:'50px',
      textAlign: 'left',
-     fontFamily:'Montserrat',
+     fontFamily:'Open Sans',
      fontWeight: '500',
      marginBottom: '0px'
      
@@ -81,7 +81,7 @@ const useStyles=makeStyles((theme)=>({
         fontWeight:'600',
         textAlign:'center',
         textTransform: 'uppercase',
-        fontFamily:'Montserrat',
+        fontFamily:'Open Sans',
         padding: '60px',
         margin:'10px'
     },
@@ -136,7 +136,7 @@ const useStyles=makeStyles((theme)=>({
     },
 
     productTitle:{
-    fontFamily: 'Montserrat',
+    fontFamily: 'Open Sans',
     fontSize: '16px',
     color: '#00',
     textDecoration: 'none',
@@ -161,7 +161,8 @@ const useStyles=makeStyles((theme)=>({
     marginBottom: '1.2rem',
     color: 'white',
     letterSpacing: '0.9px',
-    lineHeight: '1.2'
+    lineHeight: '1.2',
+    color: 'black'
     },
     subsubText:{
         display: 'block',
@@ -178,8 +179,8 @@ const useStyles=makeStyles((theme)=>({
     designbtn:{
         border: '2px solid rgba(0, 0, 0, 0.23)',
     padding: '5px 15px',
-    color: 'white',
-    borderColor: 'white',
+    color: 'black',
+    borderColor: 'black',
     fontSize:'20px'
     }
 
@@ -205,15 +206,14 @@ const Content = () => {
                         <Collapse in={checked}  {...(checked ? { timeout: 1000 } : {})} collapsedHeight={50}>
                             <div className={classes.container}>
                                 <h1 className={classes.title}>
-                                    YOU DESIGN<br/>
-                                    <span className={classes.colorText}>WE PRINT</span>   
+                                    YOU DECIDE<br/>
+                                    <span className={classes.colorText}>WE DESIGN</span>   
                                 </h1>
-                                <Typography className={classes.subText} >Get featured in your "favourite obsession" Wear Ceylonfolk 
-                                #ceylonfolk #customtshirts #fashion #tshirts #customizedtshirts  #customtees #customtshirts #tshirts 
-                                #smallbusiness #apparel  #shoplocal #supportsmallbusiness #madeinsrilanka #customizedtshirt</Typography>
+                                <Typography className={classes.subText} >All about quality products 
+and reasonable price !</Typography>
                                 <Button 
                                     variant="outlined"
-                                    color="white"
+                                    color="black"
                                     border-color= "white" className={classes.designbtn}>START DESIGNING</Button>
                                 {/* <IconButton>
                                     <ExpandMoreIcon className={classes.goDown}/>

@@ -4,8 +4,8 @@ import FacebookIcon from '@material-ui/icons/Facebook';
 import InstagramIcon from '@material-ui/icons/Instagram';
 const useStyles=makeStyles((theme)=>({
      root:{
-         backgroundColor:'#2C2D2D',
-         color:'white',
+         backgroundColor:'#EBF9FD',
+         color:'black',
          marginTop:theme.spacing(8),
          paddingTop:theme.spacing(10),
          paddingBottom:theme.spacing(10)
@@ -52,7 +52,7 @@ const Footer = () => {
 
                          <Grid item xs={12} sm={3}>
                                 <Box>
-                                    <img src={require('../../images/logo.png').default} alt="CeylonFolk" height="100px"/>
+                                    <img src={require('../../images/logo.png').default} alt="CeylonFolk" height="50px"/>
                                 </Box>
                                
                          </Grid>
