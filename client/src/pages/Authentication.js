@@ -206,7 +206,7 @@ const Authentication = () => {
                                                     href="/Termnconditions"
                                                     // target="_blank"
                                                     onClick={onLinkClick}
-                                                >
+                                                    style={{ textDecoration: "none", color: 'black' }}>
                                                     Terms and Conditions
                                                 </a>
                                             </span>
