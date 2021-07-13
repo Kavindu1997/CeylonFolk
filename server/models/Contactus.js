@@ -1,6 +1,6 @@
-module.exports = (sequlize, DataTypes) => {
+module.exports = (sequelize, DataTypes) => {
 
-    const Contactus = sequlize.define("Contactus", {
+    const Contactus = sequelize.define("Contactus", {
         name: {
             type: DataTypes.STRING,
             allowNull: false,
