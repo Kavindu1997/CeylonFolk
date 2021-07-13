@@ -151,12 +151,12 @@ const CommonNav = () => {
                     <Link href="/"><img src={require('../../images/logo.png').default} alt="CeylonFolk" height="30px"/></Link>
                    </div>                  
              
-                <IconButton style={{paddingLeft:'106px'}}>
+                <div style={{paddingLeft:'106px'}}>
                     <Link href="/auth"><SearchOutlinedIcon className={classes.icon}/></Link>
                     <Link href="/wishlist"><FavoriteBorderOutlinedIcon className={classes.icon}/></Link>
                     <Link href="/cart"><LocalMallOutlinedIcon className={classes.icon}/></Link>
                     <Link href="/auth"><PermIdentityOutlinedIcon className={classes.icon}/></Link>
-                </IconButton>
+                </div>
 
                 </Toolbar>
                    

@@ -209,12 +209,11 @@ const Content = () => {
                                     YOU DECIDE<br/>
                                     <span className={classes.colorText}>WE DESIGN</span>   
                                 </h1>
-                                <Typography className={classes.subText} >All about quality products 
-and reasonable price !</Typography>
-                                <Button 
+                                <Typography className={classes.subText} >All about quality products and reasonable price !</Typography>
+                                <a href='../pages/customize'><Button 
                                     variant="outlined"
                                     color="black"
-                                    border-color= "white" className={classes.designbtn}>START DESIGNING</Button>
+                                    border-color= "white" className={classes.designbtn}>START DESIGNING</Button></a>
                                 {/* <IconButton>
                                     <ExpandMoreIcon className={classes.goDown}/>
                                 </IconButton> */}
