@@ -1,8 +1,7 @@
 import React from 'react';
-import { Button, TextField, CssBaseline, Grid, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Radio, RadioGroup, FormControl, Checkbox } from '@material-ui/core';
+import { Button, TextField, CssBaseline, Grid, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Radio, RadioGroup, FormControl, Checkbox, TextareaAutosize } from '@material-ui/core';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { makeStyles } from '@material-ui/styles';
-import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -54,7 +53,7 @@ const rows = [
         'Baby Tshirt', 1, 1000),
 ];
 
-export default function Checkout(props) {
+export default function Checkout() {
     const classes = useStyles();
     const [value, setValue] = React.useState('payment');
 
