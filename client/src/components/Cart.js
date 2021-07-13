@@ -1,17 +1,8 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, Button, TextField } from '@material-ui/core';
 import NumericInput from 'react-numeric-input';
 import 'font-awesome/css/font-awesome.min.css';
-import TextField from '@material-ui/core/TextField';
 import { Link } from "react-router-dom";
 
 
@@ -121,7 +112,7 @@ export default function Cart() {
     <container>
       <center>
         <Typography variant="h5" style={{ marginTop: '80px', textAlign: 'center', backgroundColor: '#C6C6C6', padding: '30px', fontFamily: 'Montserrat' }}>CART</Typography>
-        <TableContainer component={Paper} style={{ marginTop: '30px', align: 'center', width: '1200px' }}>
+        <TableContainer style={{ marginTop: '30px', align: 'center', width: '1200px' }}>
           <Table className={classes.table} aria-label="simple table">
             <TableHead>
               <TableRow>
@@ -171,41 +162,43 @@ export default function Cart() {
       </center>
       <div>
 
-        <Typography variant="h6" style={{ marginTop: '50px', marginLeft: '400px', textAlign: 'left', fontWeight: 600, fontFamily: 'Montserrat' }}>Cart Totals</Typography>
-        <TableContainer style={{ marginTop: '20px', marginLeft: '450px', align: 'left', width: '600px' }}>
-          <Table aria-label="simple table">
-            <TableRow>
-              <TableCell align="left" style={{ fontWeight: 600, fontFamily: 'Montserrat' }}>SUB TOTAL</TableCell>
-              <TableCell align="center" style={{ fontWeight: 600, fontFamily: 'Montserrat' }}> Rs. 3600</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell align="left" style={{ fontWeight: 600, fontFamily: 'Montserrat' }}>SHIPPING</TableCell>
-              <TableCell align="center" style={{ fontWeight: 600, fontFamily: 'Montserrat' }}>Rs. 100</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell align="left" style={{ fontWeight: 600, fontFamily: 'Montserrat' }}>ADD COUPON</TableCell>
-              <TableCell align="center" style={{ fontWeight: 600, fontFamily: 'Montserrat' }}>
-                <div>
-                  <TextField underlineShow={false} label="Coupon ID" style={{ width: 130, borderRadius: 25 }} />
-                  <br />  <br />
-                  <Button
-                    type="submit"
-                    variant="contained"
-                    color="primary"
-                    className={classes.coupon}
-                  >Apply Coupon
-                  </Button>
-                </div>
-              </TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell align="left" style={{ fontWeight: 600, fontFamily: 'Montserrat' }}>TOTAL</TableCell>
-              <TableCell align="center" style={{ fontWeight: 600, fontFamily: 'Montserrat' }}>Rs. 3700</TableCell>
-            </TableRow>
-          </Table>
-        </TableContainer>
-
         <center>
+          <TableContainer style={{ marginTop: '50px', align: 'center', width: '600px' }}>
+            <Table className={classes.table} aria-label="simple table">
+              <Typography variant="h6" style={{ marginTop: '20px', marginLeft: '15px', marginBottom: '20px', textAlign: 'left', fontWeight: 600, fontFamily: 'Montserrat' }}>CART TOTALS</Typography>
+              <TableRow>
+                <TableCell align="left" style={{ fontWeight: 600, fontFamily: 'Montserrat' }}>SUB TOTAL</TableCell>
+                <TableCell align="center" style={{ fontWeight: 600, fontFamily: 'Montserrat' }}> Rs. 3600</TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell align="left" style={{ fontWeight: 600, fontFamily: 'Montserrat' }}>SHIPPING</TableCell>
+                <TableCell align="center" style={{ fontWeight: 600, fontFamily: 'Montserrat' }}>Rs. 100</TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell align="left" style={{ fontWeight: 600, fontFamily: 'Montserrat' }}>ADD COUPON</TableCell>
+                <TableCell align="center" style={{ fontWeight: 600, fontFamily: 'Montserrat' }}>
+                  <div>
+                    {/* <TextField id="outlined-basic" label="Coupon ID" variant="outlined" style={{ width: 130, borderRadius: 100, borderWidth:2 }} /> */}
+                    <TextField underlineShow={false} label="Coupon ID" style={{ width: 130, borderRadius: 25 }} />
+                    <br />  <br />
+                    <Button
+                      type="submit"
+                      variant="contained"
+                      color="primary"
+                      className={classes.coupon}
+                    >Apply Coupon
+                    </Button>
+                  </div>
+                </TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell align="left" style={{ fontWeight: 600, fontFamily: 'Montserrat' }}>TOTAL</TableCell>
+                <TableCell align="center" style={{ fontWeight: 600, fontFamily: 'Montserrat' }}>Rs. 3700</TableCell>
+              </TableRow>
+            </Table>
+          </TableContainer>
+
+
           <Link to="/Checkout" style={{ textDecoration: 'none' }}><Button
             type="submit"
             variant="contained"
