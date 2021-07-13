@@ -1,13 +1,13 @@
 import React from 'react';
 import { makeStyles, IconButton, Typography, Box, Paper, Grid, Divider, TextField, Button } from '@material-ui/core';
 import Controls from './Reusable/Controls';
-import { useForm, Form } from './Reusable/useForm';
+// import { useForm, Form } from './Reusable/useForm';
 import BusinessIcon from '@material-ui/icons/Business';
 import PhoneInTalkIcon from '@material-ui/icons/PhoneInTalk';
 import StreetviewIcon from '@material-ui/icons/Streetview';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import axios from 'axios';
-import { Formik, Field, ErrorMessage } from "formik";
+import { Formik, Field,Form, ErrorMessage } from "formik";
 import * as Yup from 'yup';
 import "yup-phone";
 
@@ -31,7 +31,7 @@ const validationSchema1 = Yup.object().shape({
 
 
 const onSubmit1 = (data) => {
-  axios.post("http://localhost:3001/contact/contactusForm", data).then(() => {
+  axios.post("http://localhost:3001/contact/contactus", data).then(() => {
       console.log(data);
   });
 };
@@ -71,7 +71,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function ConatactUs() {
+export default function ContactUs() {
   const classes = useStyles();
 
   return (
