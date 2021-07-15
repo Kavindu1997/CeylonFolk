@@ -129,11 +129,11 @@ const Shop = () => {
             <CssBaseline />
             <CommonNav />
 
-            <center>
-                <Typography variant="h4" className={classes.collectionTitle}>TERMS AND CONDITIONS</Typography>
+
+            <Typography variant="h4" className={classes.collectionTitle}>TERMS AND CONDITIONS</Typography>
 
 
-
+            <div style={{ paddingLeft: '50px', paddingRight: '50px', justifyContent: 'center' }}>
 
                 <div>
                     <Typography variant="h5" style={{ marginTop: '50px', textAlign: 'left', fontFamily: 'Montserrat' }}>GENERAL CONSIDERATIONS AND SCOPE</Typography>
@@ -190,7 +190,7 @@ const Shop = () => {
                     </Typography>
                 </div>
 
-            </center>
+            </div>
 
             <Footer />
         </div>

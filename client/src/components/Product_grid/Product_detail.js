@@ -23,7 +23,6 @@ import butter2 from '../../images/butter2.jpg';
 import NumericInput from 'react-numeric-input';
 
 
-
 import { Card, Container, CardActionArea, CardMedia } from '@material-ui/core';
 
 // import Collection1 from '../../images/collection1.jpg'
@@ -126,8 +125,8 @@ const useStyles = makeStyles((theme) => ({
   productColor: {
     fontSize: '20px',
     fontWeight: '600',
-    paddingBottom: '10px',
-    marginBottom: '10px',
+    paddingBottom: '5px',
+    marginBottom: '5px',
     fontFamily: 'Montserrat'
   },
   sizeBox: {
@@ -155,6 +154,39 @@ const useStyles = makeStyles((theme) => ({
   },
   tBox: {
     marginBottom: '10px'
+  },
+  spanback: {
+    display: 'inline-block',
+    textIndent: '-9999px',
+    verticalAlign: 'middle',
+    height: '42px',
+    width: '42px',
+    margin: '0 5px 10px 0',
+    boxShadow: 'inset 0 0 0 4px white',
+    border: '1px solid #dcdcdc',
+    borderRadius: '50%',
+    backgroundImage: 'url(http://localhost:3000/static/media/ts1.e7b30a60.jpg)',
+    backgroundSize: 'cover'
+  },
+  spanback2: {
+    display: 'inline-block',
+    textIndent: '-9999px',
+    verticalAlign: 'middle',
+    height: '42px',
+    width: '42px',
+    margin: '0 5px 10px 0',
+    boxShadow: 'inset 0 0 0 4px white',
+    border: '1px solid #dcdcdc',
+    borderRadius: '50%',
+    backgroundImage: 'url(http://localhost:3000/static/media/butter2.c4028f87.jpg)',
+    backgroundSize: 'cover'
+  },
+
+  spaninput: {
+    display: 'none',
+    boxSizing: 'border-box',
+    padding: '0',
+    overflow: 'visible'
   }
 
 }));
@@ -185,7 +217,7 @@ export const Product_detail = () => {
       <Grid item xs={2} sm={8} md={6} elevation={6} square>
         <Box className={classes.productDetails}>
           <Box className={classes.goback}>
-            <Link>GO BACK</Link>
+            <a href="/shop" style={{ color: 'black' }}>GO BACK</a>
           </Box>
           <Box >
             <Typography className={classes.productTitle}>
@@ -205,10 +237,20 @@ export const Product_detail = () => {
             <Radio style={{color:'red'}}></Radio>
 
             </RadioGroup> */}
-              <label>
-                <input type="radio"></input>
+              <Box style={{ display: 'flex' }}>
+                <label style={{ cursor: 'pointer' }}>
+                  <input type="radio" className={classes.spaninput}></input>
+                  <span className={classes.spanback}></span>
 
-              </label>
+                </label>
+                <label style={{ cursor: 'pointer' }}>
+                  <input type="radio" className={classes.spaninput}></input>
+                  <span className={classes.spanback2}></span>
+
+                </label>
+
+              </Box>
+
 
             </Box>
             <Box className={classes.tBox}>

@@ -5,6 +5,8 @@ const bcrypt = require("bcrypt");
 
 router.post("/register", async (req, res) => {
     const { firstName, lastName, regEmail, mobileNumber, regPassword } = req.body;
+
+    const user1 = await Users.findOne({ where: { email: regEmail } });
     bcrypt.hash(regPassword, 10).then((hash) => {
         Users.create({
             firstName: firstName,
@@ -15,6 +17,7 @@ router.post("/register", async (req, res) => {
         })
         res.json("SUCCESS");
     });
+    if ((user1.email == regEmail)) res.json({ error: "Email already Exist!" });
 });
 
 router.post("/login", async (req, res) => {

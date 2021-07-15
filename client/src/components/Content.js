@@ -233,7 +233,7 @@ const Content = () => {
                                     <span className={classes.colorText}>WE DESIGN</span>
                                 </h1>
                                 <Typography className={classes.subText} >All about quality products and reasonable price !</Typography>
-                                <a href='../pages/customize' style={{ textDecoration: 'none' }}><Button
+                                <a href='/customize' style={{ textDecoration: 'none' }}><Button
                                     variant="outlined"
                                     color="black"
                                     border-color="white" className={classes.designbtn}>START DESIGNING</Button></a>

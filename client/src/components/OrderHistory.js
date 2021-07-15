@@ -90,9 +90,9 @@ export default function OrderHistory() {
                             <List style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>
                                 <ListItem>
                                     <ListItemAvatar>
-                                        <Avatar style={{ marginLeft: '130px' }}>TP</Avatar>
+                                        <Avatar style={{ marginLeft: '130px' }}>NB</Avatar>
                                     </ListItemAvatar>
-                                    <ListItemText><Typography component="h1" variant="h5" style={{ fontFamily: 'Montserrat', marginLeft: '15px', fontWeight: 600 }}>Tanya Peries</Typography></ListItemText>
+                                    <ListItemText><Typography component="h1" variant="h5" style={{ fontFamily: 'Montserrat', marginLeft: '15px', fontWeight: 600 }}>Nimal Bandara</Typography></ListItemText>
                                 </ListItem>
                             </List>
                             <br />
