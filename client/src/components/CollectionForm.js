@@ -35,15 +35,9 @@ const CollectionForm = () => {
         resetForm
     } = useForm(initialFvalues, true, validate);
 
-<<<<<<< Updated upstream
-    const handleSubmit = e => {
-=======
-<<<<<<< HEAD
-    const handleSubmit=(e,data)=>{
-=======
-    const handleSubmit = e => {
->>>>>>> 7d403ec0afe0d733f6b8b41ff7e965f91218cba3
->>>>>>> Stashed changes
+
+    const handleSubmit = (e,data) => {
+
         e.preventDefault();
         axios.post("http://localhost:3001/collections/", data).then(() => {
             console.log(data);
