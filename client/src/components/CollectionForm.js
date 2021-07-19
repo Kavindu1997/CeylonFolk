@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Grid } from '@material-ui/core';
 import { useForm, Form } from './Reusable/useForm';
 import Controls from './Reusable/Controls';
+import axios from 'axios';
 
 const initialFvalues = {
     collectionId: '',
@@ -34,8 +35,19 @@ const CollectionForm = () => {
         resetForm
     } = useForm(initialFvalues, true, validate);
 
+<<<<<<< Updated upstream
     const handleSubmit = e => {
+=======
+<<<<<<< HEAD
+    const handleSubmit=(e,data)=>{
+=======
+    const handleSubmit = e => {
+>>>>>>> 7d403ec0afe0d733f6b8b41ff7e965f91218cba3
+>>>>>>> Stashed changes
         e.preventDefault();
+        axios.post("http://localhost:3001/collections/", data).then(() => {
+            console.log(data);
+        });
         // if(validate()){  
         //       addOrEdit(values,resetForm);
         // }
