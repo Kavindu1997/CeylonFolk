@@ -20,6 +20,7 @@ import Profile from './pages/Profile';
 import UserWishlist from './pages/UserWishlist';
 import UserOrders from './pages/UserOrders';
 import Customize from './pages/Customize';
+import Tab from './pages/tab';
 import Termnconditions from './pages/Termnconditions';
 
 
@@ -109,6 +110,7 @@ const App = () => {
           <Route path="/designs" exact render={() => <Design />} />
           <Route path="/customize" exact render={() => <Customize />} />
           <Route path="/termnconditions" exact render={() => <Termnconditions />} />
+          <Route path="/tab" exact render={() => <Tab/>}/>
 
         </Switch>
       </Router>

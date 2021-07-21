@@ -85,9 +85,9 @@ const useStyles = makeStyles((theme) => ({
         padding: '60px',
         margin: '10px'
     },
+
     card: {
         maxWidth: '92%'
-
     },
     media: {
         height: '240px',
@@ -152,6 +152,7 @@ const useStyles = makeStyles((theme) => ({
         color: '#4a4a4a',
         letterSpacing: '0.9px',
         lineHeight: '1.2'
+
     },
 
     subText: {
@@ -172,6 +173,7 @@ const useStyles = makeStyles((theme) => ({
         lineHeight: '1.2',
         fontWeight: '300'
     },
+
 
     designbtn: {
         border: '2px solid rgba(0, 0, 0, 0.23)',
@@ -209,6 +211,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 
+
 }));
 const Content = () => {
 
@@ -233,7 +236,9 @@ const Content = () => {
                                     <span className={classes.colorText}>WE DESIGN</span>
                                 </h1>
                                 <Typography className={classes.subText} >All about quality products and reasonable price !</Typography>
+
                                 <a href='/customize' style={{ textDecoration: 'none' }}><Button
+
                                     variant="outlined"
                                     color="black"
                                     border-color="white" className={classes.designbtn}>START DESIGNING</Button></a>
@@ -248,7 +253,6 @@ const Content = () => {
                 </Grid>
 
             </div>
-
 
             <center>
                 <Container className={classes.collectionContainer} maxWidth="lg">
@@ -538,6 +542,7 @@ const Content = () => {
                         + VIEW MORE
                     </Typography>
                 </Container>
+
 
                 <Container className={classes.collectionContainer} maxWidth="lg">
                     <Typography variant="h4" className={classes.collectionTitle}>Customer Snaps</Typography>

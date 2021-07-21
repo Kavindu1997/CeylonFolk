@@ -16,14 +16,14 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import { makeStyles } from '@material-ui/core/styles';
 
 import { Radio_buttons } from './Radio_buttons';
-import { IconButton, Collapse, CardActions, CardContent } from '@material-ui/core';
+import {IconButton,Collapse,CardActions,CardContent} from '@material-ui/core';
 
 import Collection1 from '../../images/ts1.jpg';
 import butter2 from '../../images/butter2.jpg';
 import NumericInput from 'react-numeric-input';
 
 
-import { Card, Container, CardActionArea, CardMedia } from '@material-ui/core';
+import {Card,Container,CardActionArea,CardMedia} from '@material-ui/core';
 
 // import Collection1 from '../../images/collection1.jpg'
 import Snap1 from '../../images/snap1.jpg'
@@ -77,12 +77,12 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
-  productContainer: {
+  productContainer:{
     padding: '40px',
     margin: '80px',
     width: '90%'
   },
-  card: {
+  card:{
     width: '30%',
     paddingRight: '10px',
     marginRight: '10px',
@@ -91,11 +91,11 @@ const useStyles = makeStyles((theme) => ({
     border: 'none',
     boxShadow: 'none'
   },
-  newGrid: {
+  newGrid:{
     border: 'none',
     boxShadow: 'none',
   },
-  goback: {
+  goback:{
     paddingBottom: '20px',
     marginBottom: '10px',
     fontFamily: 'Montserrat',
@@ -107,29 +107,29 @@ const useStyles = makeStyles((theme) => ({
     paddingBottom: '10px',
     marginBottom: '10px',
     fontFamily: 'Montserrat'
-
+    
   },
-  productPrice: {
+  productPrice:{
     fontSize: '20px',
     fontWeight: '500',
     paddingBottom: '10px',
     marginBottom: '10px',
     fontFamily: 'Montserrat'
   },
-  productDetails: {
+  productDetails:{
     paddingLeft: '30px',
     marginLeft: '30px',
     paddingBottom: '20px',
     marginBottom: '20px'
   },
-  productColor: {
+  productColor:{
     fontSize: '20px',
     fontWeight: '600',
     paddingBottom: '5px',
     marginBottom: '5px',
     fontFamily: 'Montserrat'
   },
-  sizeBox: {
+  sizeBox:{
     width: '60px',
     border: 'ridge',
     borderColor: 'black',
@@ -137,25 +137,25 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: '10px',
     margin: '5px'
   },
-  sizeText: {
+  sizeText:{
     textAlign: 'center',
     padding: '5px',
-    alignItems: 'center'
+    alignItems:'center'
   },
-  designbtn: {
-    color: 'black',
-    fontSize: '10px',
-    padding: '2px',
-    alignItems: 'center',
-    width: '50px',
-    margin: '10px',
+  designbtn:{
+    color:'black',
+    fontSize:'10px',
+    padding:'2px',
+    alignItems:'center',
+    width:'50px',
+    margin:'10px',
     background: '#31c5ee'
 
   },
-  tBox: {
-    marginBottom: '10px'
+  tBox:{
+    marginBottom:'10px'
   },
-  spanback: {
+  spanback:{
     display: 'inline-block',
     textIndent: '-9999px',
     verticalAlign: 'middle',
@@ -168,7 +168,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundImage: 'url(http://localhost:3000/static/media/ts1.e7b30a60.jpg)',
     backgroundSize: 'cover'
   },
-  spanback2: {
+  spanback2:{
     display: 'inline-block',
     textIndent: '-9999px',
     verticalAlign: 'middle',
@@ -181,8 +181,8 @@ const useStyles = makeStyles((theme) => ({
     backgroundImage: 'url(http://localhost:3000/static/media/butter2.c4028f87.jpg)',
     backgroundSize: 'cover'
   },
-
-  spaninput: {
+  
+  spaninput:{
     display: 'none',
     boxSizing: 'border-box',
     padding: '0',
@@ -198,96 +198,96 @@ export const Product_detail = () => {
 
     <Grid container className={classes.productContainer}>
       <CssBaseline></CssBaseline>
-      <Grid item xs={2} sm={8} md={6} elevation={6} square style={{ display: 'flex' }} className>
+      <Grid item xs={2} sm={8} md={6} elevation={6} square style={{display:'flex'}} className>
         <Card className={classes.card}>
           <CardMedia>
-            <img src={Collection1} style={{ width: '100%' }} />
+              <img src={Collection1} style={{width:'100%'}}/>
           </CardMedia>
           <CardMedia>
-            <img src={butter2} style={{ width: '100%' }} />
+          <img src={butter2} style={{width:'100%'}}/>
           </CardMedia>
         </Card>
         <Grid Container>
           <Box>
-            <img src={Collection1} style={{ width: '100%' }} />
+          <img src={Collection1} style={{width:'100%'}}/>
           </Box>
         </Grid>
       </Grid>
-
+      
       <Grid item xs={2} sm={8} md={6} elevation={6} square>
         <Box className={classes.productDetails}>
-          <Box className={classes.goback}>
-            <a href="/shop" style={{ color: 'black' }}>GO BACK</a>
+        <Box className={classes.goback}>
+          <Link>GO BACK</Link>
+        </Box>
+        <Box >
+          <Typography className={classes.productTitle}>
+            Butter
+          </Typography>
+          <Typography className={classes.productPrice}>
+            LKR 1300.00
+          </Typography>
+          <Box>
+          <Typography className={classes.productColor}>
+            COLOR
+          </Typography>
           </Box>
-          <Box >
-            <Typography className={classes.productTitle}>
-              Butter
-            </Typography>
-            <Typography className={classes.productPrice}>
-              LKR 1300.00
-            </Typography>
-            <Box>
-              <Typography className={classes.productColor}>
-                COLOR
-              </Typography>
-            </Box>
-            <Box>
-              {/* <RadioGroup row >
+          <Box>
+            {/* <RadioGroup row >
             <Radio style={{color:'red'}}></Radio>
             <Radio style={{color:'red'}}></Radio>
 
             </RadioGroup> */}
-              <Box style={{ display: 'flex' }}>
-                <label style={{ cursor: 'pointer' }}>
-                  <input type="radio" className={classes.spaninput}></input>
-                  <span className={classes.spanback}></span>
+            <Box style={{display:'flex'}}>
+            <label style={{cursor: 'pointer'}}>
+              <input type="radio" className={classes.spaninput}></input>
+              <span className={classes.spanback}></span>
 
-                </label>
-                <label style={{ cursor: 'pointer' }}>
-                  <input type="radio" className={classes.spaninput}></input>
-                  <span className={classes.spanback2}></span>
+            </label>
+            <label style={{cursor: 'pointer'}}>
+              <input type="radio" className={classes.spaninput}></input>
+              <span className={classes.spanback2}></span>
 
-                </label>
-
-              </Box>
-
+            </label>
 
             </Box>
-            <Box className={classes.tBox}>
-              <Typography className={classes.productColor}>
-                SIZE
-              </Typography>
-              <Box style={{ display: 'flex' }}>
-                <Box className={classes.sizeBox}><Typography className={classes.sizeText}>UK 6</Typography></Box>
-                <Box className={classes.sizeBox}><Typography className={classes.sizeText}>UK 8</Typography></Box>
-                <Box className={classes.sizeBox}><Typography className={classes.sizeText}>UK 10</Typography></Box>
-                <Box className={classes.sizeBox}><Typography className={classes.sizeText}>UK 12</Typography></Box>
-                <Box className={classes.sizeBox}><Typography className={classes.sizeText}>UK 14</Typography></Box>
-                <Box className={classes.sizeBox}><Typography className={classes.sizeText}>UK 16</Typography></Box>
-                <Box className={classes.sizeBox}><Typography className={classes.sizeText}>UK 16</Typography></Box>
-                <center> <a href='../pages/customize' style={{ textDecoration: 'none' }}><Button
-                  variant="outlined"
-                  className={classes.designbtn}>SIZE GUIDE</Button></a></center>
-
-              </Box>
-
-            </Box>
-            <Box className={classes.tBox}>
-              <Typography className={classes.productColor}>
-                QUENTITY
-              </Typography>
-              <div>
-                <NumericInput mobile min={0} max={100} value={1} size={1} />
-              </div>
-            </Box>
-
-            <Button style={{ background: '#2c2d2d', color: 'white' }}>ADD TO CART</Button>
+            
+            
+          </Box>
+          <Box className={classes.tBox}>
+          <Typography className={classes.productColor}>
+            SIZE
+          </Typography>
+          <Box style={{display:'flex'}}>
+            <Box className={classes.sizeBox}><Typography className={classes.sizeText}>UK 6</Typography></Box>
+            <Box className={classes.sizeBox}><Typography className={classes.sizeText}>UK 8</Typography></Box>
+            <Box className={classes.sizeBox}><Typography className={classes.sizeText}>UK 10</Typography></Box>
+            <Box className={classes.sizeBox}><Typography className={classes.sizeText}>UK 12</Typography></Box>
+            <Box className={classes.sizeBox}><Typography className={classes.sizeText}>UK 14</Typography></Box>
+            <Box className={classes.sizeBox}><Typography className={classes.sizeText}>UK 16</Typography></Box>
+            <Box className={classes.sizeBox}><Typography className={classes.sizeText}>UK 16</Typography></Box>
+            <center> <a href='../pages/customize'style={{textDecoration:'none'}}><Button 
+                                    variant="outlined"
+                                     className={classes.designbtn}>SIZE GUIDE</Button></a></center>
+            
           </Box>
 
+          </Box>
+          <Box className={classes.tBox}>
+          <Typography className={classes.productColor}>
+            QUENTITY
+          </Typography>
+          <div>
+        <NumericInput mobile min={0} max={100} value={1} size={ 1 }/>
+      </div>
+          </Box>
+          
+          <Button style={{background:'#2c2d2d',color:'white'}}>ADD TO CART</Button>
         </Box>
-
+          
+        </Box>
+        
       </Grid>
     </Grid>
-
+    
   );
 }
