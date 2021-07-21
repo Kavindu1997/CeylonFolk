@@ -3,6 +3,8 @@ const router = express.Router();
 const { Users } = require('../models/');
 const bcrypt = require("bcrypt");
 
+const {sign} = require('jsonwebtoken')
+
 router.post("/register", async (req, res) => {
     const { firstName, lastName, regEmail, mobileNumber, regPassword } = req.body;
 
@@ -32,9 +34,13 @@ router.post("/login", async (req, res) => {
     bcrypt.compare(loginPassword, user.password).then((match) => {
         if (!match) res.json({ error: "Wrong Email and Password Combination" });
 
-        res.json("You logged in");
-    })
+        const accessToken = sign(
+            {email: user.email, id: user.id},
+            "imporrtantsecret"
+            );
+        res.json(accessToken);
+    });
 });
 
 
-module.exports = router;
+module.exports = router;  

@@ -2,6 +2,8 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography, Button, Box } from '@material-ui/core';
 import 'font-awesome/css/font-awesome.min.css';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
 
 const useStyles = makeStyles((theme) => ({
     table: {
@@ -31,33 +33,67 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
-function createData(image, name, price, status, action) {
-    return { image, name, price, status, action };
-}
+// function createData(name, price, action) {
+//     return { name, price, action };
+// }
 
-const rows = [
-    // createData(
-    //   <div>
-    //     <img height={100} src={require('../images/ts1.jpg').default}/>
-    //   </div>,
-    //   'Snowy Tshirt',1000, 'Available'),
-    createData(
-        <div>
-            <img height={100} align="center" src={require('../images/ts2.jpg').default} />
-        </div>,
-        'Baby Tshirt', 1000, 'Not Available'),
-    createData(
-        <div>
-            <img height={100} align="center" src={require('../images/ts3.jpg').default} />
-        </div>,
-        'White Tshirt', 1300, 'Available'),
-];
+// const rows = [
+//     createData(),
+
+//     // createData(
+//     //     <div>
+//     //         <img height={100} align="center" src={require('../images/ts3.jpg').default} />
+//     //     </div>,
+//     //     'White Tshirt', 1300, 'Available'),
+// ];
 
 export default function Wishlist() {
-
     const classes = useStyles();
 
+
+    const [listOfTshirts, setListOfShirts] = useState([]);
+
+    useEffect(() => {
+
+        axios.get("http://localhost:3001/wishlist").then((response) => {
+            // console.log(response.data);
+            setListOfShirts(response.data);
+        });
+    }, []);
+
+    // const fileReaderInstance = new FileReader();
+    // fileReaderInstance.readAsDataURL(blob); 
+    // fileReaderInstance.onload = () => {
+    // base64data = fileReaderInstance.result;                
+    // console.log(base64data);
+    // }
+
+    // const getList = async () => {
+    //     try {
+    //         const data = await axios.get(
+    //             "http://localhost:3001/wishlist"
+    //         );
+    //         console.log(data.data);
+    //         // const img = new Buffer.from(data).toString("ascii")
+    //         // console.log(img);
+    //         setListOfShirts(data.data);
+    //     } catch (e) {
+    //         console.log(e);
+    //     }
+    // };
+
+    // useEffect(() => {
+    //     getList();
+    // }, []);
+
+    // const base64String = btoa(String.fromCharCode(...new Uint8Array(data)));
+    // console.log(base64String);
+
+   
+    
     return (
+
+
         <container>
             <center>
                 <Typography variant="h5" style={{ marginTop: '80px', textAlign: 'center', backgroundColor: '#C6C6C6', padding: '30px', fontFamily: 'Montserrat' }}>WISHLIST</Typography>
@@ -73,22 +109,29 @@ export default function Wishlist() {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {rows.map((row, i) => (
-                                <TableRow key={`row-${i}`}>
-                                    <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{row.image}</TableCell>
-                                    <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{row.name}</TableCell>
-                                    <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{row.price}</TableCell>
-                                    <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{row.status}</TableCell>
-                                    <TableCell align="center">
-                                        <Button>
-                                            <i class="fa fa-times" aria-hidden="true"></i>
-                                        </Button>
-                                        <Button>
-                                            <i class="fa fa-shopping-cart" aria-hidden="true"></i>
-                                        </Button>
-                                    </TableCell>
-                                </TableRow>
-                            ))}
+                            {listOfTshirts
+                                .map((value) => {
+                                    return (
+                                        <TableRow key={value.id}>
+
+                                            {/* <TableCell align="center" style={{ fontFamily: 'Montserrat' }}> <img src={require({"'" + value.image+"'"}).default} /> </TableCell> */}
+                                            <TableCell align="center" style={{ fontFamily: 'Montserrat' }}> <img height={100} align="center" src={value.image} /> </TableCell>
+                                            <TableCell align="center" style={{ fontFamily: 'Montserrat' }}> {value.name} </TableCell>
+                                            <TableCell align="center" style={{ fontFamily: 'Montserrat' }}> {value.price} </TableCell>
+                                            <TableCell align="center" style={{ fontFamily: 'Montserrat' }}> {value.price} </TableCell>
+                                            <TableCell align="center">
+                                                <Button>
+                                                    <i className="fa fa-times" aria-hidden="true"></i>
+                                                </Button>
+                                                <Button>
+                                                    <i className="fa fa-shopping-cart" aria-hidden="true"></i>
+                                                </Button>
+                                            </TableCell>
+
+                                        </TableRow>
+                                    );
+
+                                })}
                         </TableBody>
                     </Table>
                 </TableContainer>

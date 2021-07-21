@@ -4,6 +4,39 @@ import { makeStyles } from '@material-ui/styles';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import { Link } from "react-router-dom";
+import axios from 'axios';
+import { Formik, Field, Form, ErrorMessage } from "formik";
+import * as Yup from 'yup';
+import "yup-phone";
+
+const initialValues1 = {
+    fullName: '',
+    email: '',
+    mobile: '',
+    add1: '',
+    add2: '',
+    city: '',
+  }
+  
+  const validationSchema1 = Yup.object().shape({
+    fullName: Yup.string().required("First Name is required"),
+    email: Yup.string().email("Email is not valid").required("Email is required"),
+    // mobile: Yup.string().required("Phone number is required").matches(/^(?:0|94|\+94)?(?:(11|21|23|24|25|26|27|31|32|33|34|35|36|37|38|41|45|47|51|52|54|55|57|63|65|66|67|81|912)(0|2|3|4|5|7|9)|7(0|1|2|4|5|6|7|8)\d)\d{6}$/, "Invalid phone number"),
+    // add1: Yup.string().required("Address Line 1 is required"),
+  
+  });
+  
+  
+  const onSubmit1 = (data, props) => {
+    axios.post("http://localhost:3001/profile/customer", data).then((response) => {
+        if (response.data.error) alert(response.data.error);
+        else {
+            alert("Profile Successfully Updated!");
+        }
+    });
+    props.resetForm();
+};
+
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -16,22 +49,18 @@ const useStyles = makeStyles((theme) => ({
         padding: '100px',
     },
     table: {
-        // minWidth: 400,
         backgroundColor: '#fafafa',
         fontFamily: 'Montserrat',
         width: '600px'
-        // marginRight: '30px'
     },
     form: {
         width: '60%',
         marginTop: theme.spacing(2),
         fontFamily: 'Montserrat',
         alignItems: 'center',
-        // backgroundColor:'#fafafa'
     },
     field: {
         width: '800px',
-        // marginTop: theme.spacing(2),
         fontFamily: 'Montserrat',
         alignItems: 'center',
         backgroundColor: '#fafafa'
@@ -45,36 +74,21 @@ const useStyles = makeStyles((theme) => ({
     margin: {
         margin: theme.spacing(2),
         width: '50ch',
-        // marginRight: '50px'
     },
     avatar: {
         align: 'left'
     },
     listItemText: {
-        fontSize: '3.0em',//Insert your required size
+        fontSize: '3.0em',
         marginLeft: '20px',
     },
-    //   withoutLabel: {
-    //     marginTop: theme.spacing(3),
-    //   },
-    //   textField: {
-    //     width: '25ch',
-    //   },
 }));
 
 export default function MyAccount() {
     const classes = useStyles();
-    // const [value, setValue] = React.useState('payment');
-
-    //   const handleChange = (event) => {
-    //     setValue(event.target.value);
-    //   };
 
     const [values, setValues] = React.useState({
-        // amount: '',
         password: '',
-        // weight: '',
-        // weightRange: '',
         showPassword: false,
     });
 
@@ -147,69 +161,82 @@ export default function MyAccount() {
                     </Grid>
                     <Divider orientation="vertical" flexItem />
                     <Grid item xs={12} sm={12} md={7} lg={7}>
-                        <form className={classes.form} noValidate>
-                            <div>
-                                <TextField
-                                    required
-                                    id="name"
-                                    fullWidth
-                                    label="Your Name"
-                                    defaultValue="Nimal Bandara"
-                                    variant="outlined"
-                                    margin="normal"
-                                />
-                            </div>
-                            {/* <TextField
-                                required
-                                fullWidth
-                                id="displayName"
-                                label="Display Name"
-                                defaultValue="Tanya"
+                    <Formik initialValues={initialValues1} onSubmit={onSubmit1} validationSchema={validationSchema1}>
+                        {(props) => (
+                            <Form className={classes.form}>
+                            <Field as={TextField}
+                                className={classes.textField}
                                 variant="outlined"
                                 margin="normal"
-                            /> */}
-                            <TextField
+                                required
+                                fullWidth
+                                id="fullName"
+                                label="Your Name"
+                                name="fullName"
+                                autoComplete="fname"
+                                helperText={<ErrorMessage name="fullName" />}
+                            />
+                             <Field as={TextField}
+                                className={classes.textField}
+                                variant="outlined"
+                                margin="normal"
                                 required
                                 fullWidth
                                 id="email"
-                                label="Email"
-                                defaultValue="nimal@gmail.com"
+                                label="Email Address"
+                                name="email"
+                                autoComplete="email"
+                                helperText={<ErrorMessage name="email" />}
+                            />
+                            <Field as={TextField}
+                                className={classes.textField}
                                 variant="outlined"
                                 margin="normal"
-                            />
-                            <TextField
-                                // required
+                                required
                                 fullWidth
-                                id="number"
-                                label="Phone number"
-                                // defaultValue="071233372"
+                                id="mobile"
+                                label="Contact Number"
+                                name="mobile"
+                                autoComplete="mobileno"
+                                helperText={<ErrorMessage name="mobile" />}
+                            />
+                            <Field as={TextField}
+                                className={classes.textField}
                                 variant="outlined"
                                 margin="normal"
-                            />
-                            <TextField
+                                // required
                                 fullWidth
                                 id="add1"
                                 label="Address Line 1"
-                                // defaultValue="No. 21"
+                                name="add1"
+                                autoComplete="add1"
+                                // helperText={<ErrorMessage name="message" />}
+                            />
+                            <Field as={TextField}
+                                className={classes.textField}
                                 variant="outlined"
                                 margin="normal"
-                            />
-                            <TextField
+                                // required
                                 fullWidth
                                 id="add2"
                                 label="Address Line 2"
-                                // defaultValue="Araliya Uyana"
+                                name="add2"
+                                autoComplete="add2"
+                                // helperText={<ErrorMessage name="message" />}
+                            />
+                            <Field as={TextField}
+                                className={classes.textField}
                                 variant="outlined"
                                 margin="normal"
-                            />
-                            <TextField
+                                // required
                                 fullWidth
                                 id="city"
                                 label="City"
-                                // defaultValue="Koswatta"
-                                variant="outlined"
-                                margin="normal"
+                                name="city"
+                                autoComplete="city"
+                                // helperText={<ErrorMessage name="message" />}
                             />
+                           
                             <div>
                                 <br />
                                 <Typography component="h1" variant="h6" style={{ fontFamily: 'Montserrat', textAlign: 'left' }}>Password Change </Typography>
@@ -294,7 +321,9 @@ export default function MyAccount() {
                                     </Button>
                                 </center>
                             </div>
-                        </form>
+                        </Form>
+                        )}
+                    </Formik>
                     </Grid>
                 </Grid>
             </center>

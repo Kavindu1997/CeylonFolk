@@ -56,9 +56,12 @@ const Authentication = () => {
     });
     const onSubmit2 = (data, props) => {
         axios.post("http://localhost:3001/auth/login", data).then((response) => {
-            if (response.data.error) alert(response.data.error);
-            else history.push('/profile');
-
+            if (response.data.error) {
+                alert(response.data.error);
+            }else {
+                sessionStorage.setItem("accessToken", response.data);
+                // else history.push('/profile');
+            }
         });
         props.resetForm();
         //history.push('path')
