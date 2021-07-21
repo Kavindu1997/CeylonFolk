@@ -19,8 +19,10 @@ import About from './pages/About';
 import Profile from './pages/Profile';
 import UserWishlist from './pages/UserWishlist';
 import UserOrders from './pages/UserOrders';
+
 import Customize from './pages/Customize';
 import Tab from './pages/tab';
+import Termnconditions from './pages/Termnconditions';
 
 
 const theme = createMuiTheme({
@@ -107,8 +109,12 @@ const App = () => {
               <Route path="/coupon" exact render={() => <Coupon/>}/>
               <Route path="/inventory" exact render={() => <Inventory/>}/>
               <Route path="/designs" exact render={() => <Design/>}/>
+
               <Route path="/customize" exact render={() => <Customize/>}/>
               <Route path="/tab" exact render={() => <Tab/>}/>
+
+              <Route path="/termnconditions" exact render={() => <Termnconditions/>}/>
+
             </Switch>
           </Router>
         </ThemeProvider>
