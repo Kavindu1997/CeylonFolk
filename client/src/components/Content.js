@@ -23,7 +23,7 @@ import cs3 from '../images/cs3.jpg'
 import cs4 from '../images/cs4.jpg'
 import cs5 from '../images/cs5.jpg'
 import cs6 from '../images/cs6.jpg'
-import Carousel from 'react-elastic-carousel';
+import FavoriteBorderOutlinedIcon from '@material-ui/icons/FavoriteBorderOutlined';
 
 
 
@@ -86,7 +86,7 @@ const useStyles=makeStyles((theme)=>({
         margin:'10px'
     },
     card:{
-        maxWidth:'80%'
+        maxWidth:'92%'
         
     },
     media:{
@@ -149,7 +149,6 @@ const useStyles=makeStyles((theme)=>({
     productSubTitle:{
         display: 'block',
     fontSize: '16px',
-    marginBottom: '1.2rem',
     color: '#4a4a4a',
     letterSpacing: '0.9px',
     lineHeight: '1.2'
@@ -174,17 +173,41 @@ const useStyles=makeStyles((theme)=>({
     fontWeight: '300'
     },
 
-
-
     designbtn:{
         border: '2px solid rgba(0, 0, 0, 0.23)',
     padding: '5px 15px',
     color: 'black',
     borderColor: 'black',
     fontSize:'20px'
-    }
+    },
 
+    view:{
+        padding: '10px',
+    margin: '20px',
+    float: 'right'
+    },
+    icon1:{
+        color:'black',
+        fontSize:'2rem',
+        marginLeft: '80px',
+        marginRight:'10px',
+        fontWeight:'50',
+        
+
+    },
+    offer:{
+        textAlign: 'left',
+    background: '#31c5ee',
+    marginLeft: '10px',
+    paddingLeft: '10px',
+    marginBottom: '20px',
+    width: '70px',
+    borderRadius: '30px',
+    float: 'left',
+    fontSize: '20px'
+    }
     
+   
 
 }));
 const Content = () => {
@@ -210,7 +233,7 @@ const Content = () => {
                                     <span className={classes.colorText}>WE DESIGN</span>   
                                 </h1>
                                 <Typography className={classes.subText} >All about quality products and reasonable price !</Typography>
-                                <a href='../pages/customize'><Button 
+                                <a href='../pages/customize'style={{textDecoration:'none'}}><Button 
                                     variant="outlined"
                                     color="black"
                                     border-color= "white" className={classes.designbtn}>START DESIGNING</Button></a>
@@ -226,7 +249,6 @@ const Content = () => {
 
             </div>
             
-
             <center>
                 <Container className={classes.collectionContainer} maxWidth="lg">
                     <Typography variant="h4" className={classes.collectionTitle}>IN THE STORE</Typography>
@@ -262,13 +284,24 @@ const Content = () => {
                                 <CardMedia>
                                     <img src={Collection1} style={{width:'100%'}}/>
                                 </CardMedia>
-                                <CardContent>
-                                    <Typography gutterBottom variant="h5" component="h2" style={{textAlign:'center'}} className={classes.productTitle}>
+                                <CardContent style={{display:'flex'}}>
+                                    <div>
+                                    <Typography gutterBottom variant="h5" component="h2" style={{textAlign:'left'}} className={classes.productTitle}>
                                         BUTTER
                                     </Typography>
-                                    <Typography gutterBottom variant="h6" component="h2" style={{textAlign:'center'}} className={classes.productSubTitle}>
+                                    <Typography gutterBottom variant="h6" component="h2" style={{textAlign:'left'}} className={classes.productSubTitle}>
                                         LKR 1300.00
                                     </Typography>
+
+                                    </div>
+                                    <div>
+                                        {/* <Link href="/wishlist"> */}
+                                        
+                                  <FavoriteBorderOutlinedIcon className={classes.icon1}/>
+                                        
+                                        {/* </Link> */}
+                                    </div>
+                                    
                                 </CardContent>
                             </CardActionArea>
                         </Card>
@@ -280,13 +313,25 @@ const Content = () => {
                                     <img src={Collection2} style={{width:'100%'}}/>
                                 </CardMedia>
 
-                                <CardContent>
-                                <Typography gutterBottom variant="h5" component="h2" style={{textAlign:'center'}} className={classes.productTitle}>
+                                <CardContent style={{display:'flex'}}>
+                                    <div>
+                                    <Typography gutterBottom variant="h5" component="h2" style={{textAlign:'left'}} className={classes.productTitle}>
                                         FRIENDS
                                     </Typography>
-                                    <Typography gutterBottom variant="h6" component="h2" style={{textAlign:'center'}} className={classes.productSubTitle}>
+                                    <Typography gutterBottom variant="h6" component="h2" style={{textAlign:'left'}} className={classes.productSubTitle}>
                                         LKR 1300.00
                                     </Typography>
+
+                                    </div>
+                                    <div>
+                                        {/* <Link href="/wishlist"> */}
+                                        
+                                  <FavoriteBorderOutlinedIcon className={classes.icon1}/>
+                                        
+                                        {/* </Link> */}
+
+                                    </div>
+                                
                                 </CardContent>
                             </CardActionArea>
                         </Card>
@@ -297,13 +342,25 @@ const Content = () => {
                             <CardMedia>
                                     <img src={Collection3} style={{width:'100%'}}/>
                                 </CardMedia>
-                                <CardContent>
-                                <Typography gutterBottom variant="h5" component="h2" style={{textAlign:'center'}} className={classes.productTitle}>
+                                <CardContent style={{display:'flex'}}>
+                                    <div>
+                                    <Typography gutterBottom variant="h5" component="h2" style={{textAlign:'left'}} className={classes.productTitle}>
                                         BUTTER
                                     </Typography>
-                                    <Typography gutterBottom variant="h6" component="h2" style={{textAlign:'center'}} className={classes.productSubTitle}>
+                                    <Typography gutterBottom variant="h6" component="h2" style={{textAlign:'left'}} className={classes.productSubTitle}>
                                         LKR 1300.00
                                     </Typography>
+
+                                    </div>
+                                    <div>
+                                        {/* <Link href="/wishlist"> */}
+                                        
+                                  <FavoriteBorderOutlinedIcon className={classes.icon1}/>
+                                        
+                                        {/* </Link> */}
+
+                                    </div>
+                                
                                 </CardContent>
                             </CardActionArea>
                         </Card>
@@ -314,100 +371,171 @@ const Content = () => {
                             <CardMedia>
                                     <img src={Collection4} style={{width:'100%'}}/>
                                 </CardMedia>
-                                <CardContent>
-                                <Typography gutterBottom variant="h5" component="h2" style={{textAlign:'center'}} className={classes.productTitle}>
+                                <CardContent style={{display:'flex'}}>
+                                    <div>
+                                    <Typography gutterBottom variant="h5" component="h2" style={{textAlign:'left'}} className={classes.productTitle}>
                                         FRIENDS
                                     </Typography>
-                                    <Typography gutterBottom variant="h6" component="h2" style={{textAlign:'center'}} className={classes.productSubTitle}>
+                                    <Typography gutterBottom variant="h6" component="h2" style={{textAlign:'left'}} className={classes.productSubTitle}>
                                         LKR 1300.00
                                     </Typography>
+
+                                    </div>
+                                    <div>
+                                        {/* <Link href="/wishlist"> */}
+                                        
+                                  <FavoriteBorderOutlinedIcon className={classes.icon1}/>
+                                        
+                                        {/* </Link> */}
+
+                                    </div>
+                                
                                 </CardContent>
                             </CardActionArea>
                         </Card>
                     </Grid>
                 </Grid>
+                <Typography className={classes.view}>
+                    + VIEW MORE
+                </Typography>
             </Container>
             <Container className={classes.collectionContainer} maxWidth="lg">
                 <Typography variant="h4" className={classes.collectionTitle}>SPECIAL OFFERS</Typography>
          
                 <Grid container spacing={0}>
-                    <Grid item xs={12} sm={6} md={3}>
+                <Grid item xs={12} sm={6} md={3}>
                         <Card className={classes.card}>
                             <CardActionArea>
-                                <CardMedia
-                                    className={classes.media}
-                                    style={{ backgroundImage:`url(${Collection1})`}}
-                                    title="Snowy"
-                                />
-                                <CardContent>
-                                <Typography gutterBottom variant="h5" component="h2" style={{textAlign:'center'}} className={classes.productTitle}>
+                                <CardMedia>
+                                    <img src={Collection1} style={{width:'100%'}}/>
+                                </CardMedia>
+                                <CardContent style={{display:'flex'}}>
+                                    <div>
+                                    <Typography gutterBottom variant="h5" component="h2" style={{textAlign:'left'}} className={classes.productTitle}>
                                         BUTTER
                                     </Typography>
-                                    <Typography gutterBottom variant="h6" component="h2" style={{textAlign:'center'}} className={classes.productSubTitle}>
+                                    <Typography gutterBottom variant="h6" component="h2" style={{textAlign:'left'}} className={classes.productSubTitle}>
                                         LKR 1300.00
                                     </Typography>
+
+                                    </div>
+                                    <div>
+                                        {/* <Link href="/wishlist"> */}
+                                        
+                                  <FavoriteBorderOutlinedIcon className={classes.icon1}/>
+                                        
+                                        {/* </Link> */}
+                                    </div>
+                                    
+                                    
                                 </CardContent>
+                                <Typography gutterBottom variant="h5" component="h2" style={{textAlign:'left', marginLeft: '10px', paddingLeft:'10px', background:'#31c5ee'}} className={classes.offer}>
+                                        10%
+                                    </Typography>
                             </CardActionArea>
                         </Card>
                     </Grid>
                     <Grid item xs={12} sm={6} md={3}>
                         <Card className={classes.card}>
                             <CardActionArea>
-                                <CardMedia
-                                    className={classes.media}
-                                    style={{ backgroundImage:`url(${Collection2})`}}
-                                    title="Marvel"
-                                />
-                                <CardContent>
-                                <Typography gutterBottom variant="h5" component="h2" style={{textAlign:'center'}} className={classes.productTitle}>
+                                <CardMedia>
+                                    <img src={Collection2} style={{width:'100%'}}/>
+                                </CardMedia>
+
+                                <CardContent style={{display:'flex'}}>
+                                    <div>
+                                    <Typography gutterBottom variant="h5" component="h2" style={{textAlign:'left'}} className={classes.productTitle}>
                                         FRIENDS
                                     </Typography>
-                                    <Typography gutterBottom variant="h6" component="h2" style={{textAlign:'center'}} className={classes.productSubTitle}>
+                                    <Typography gutterBottom variant="h6" component="h2" style={{textAlign:'left'}} className={classes.productSubTitle}>
                                         LKR 1300.00
                                     </Typography>
+
+                                    </div>
+                                    <div>
+                                        {/* <Link href="/wishlist"> */}
+                                        
+                                  <FavoriteBorderOutlinedIcon className={classes.icon1}/>
+                                        
+                                        {/* </Link> */}
+
+                                    </div>
+                                
                                 </CardContent>
+                                <Typography gutterBottom variant="h5" component="h2" style={{textAlign:'left', marginLeft: '10px', paddingLeft:'10px', background:'#31c5ee'}} className={classes.offer}>
+                                        20%
+                                    </Typography>
                             </CardActionArea>
                         </Card>
                     </Grid>
                     <Grid item xs={12} sm={6} md={3}>
                         <Card className={classes.card}>
                             <CardActionArea>
-                                <CardMedia
-                                    className={classes.media}
-                                    style={{ backgroundImage:`url(${Collection3})`}}
-                                    title="BTS"
-                                />
-                                <CardContent>
-                                <Typography gutterBottom variant="h5" component="h2" style={{textAlign:'center'}} className={classes.productTitle}>
+                            <CardMedia>
+                                    <img src={Collection3} style={{width:'100%'}}/>
+                                </CardMedia>
+                                <CardContent style={{display:'flex'}}>
+                                    <div>
+                                    <Typography gutterBottom variant="h5" component="h2" style={{textAlign:'left'}} className={classes.productTitle}>
                                         BUTTER
                                     </Typography>
-                                    <Typography gutterBottom variant="h6" component="h2" style={{textAlign:'center'}} className={classes.productSubTitle}>
+                                    <Typography gutterBottom variant="h6" component="h2" style={{textAlign:'left'}} className={classes.productSubTitle}>
                                         LKR 1300.00
                                     </Typography>
+
+                                    </div>
+                                    <div>
+                                        {/* <Link href="/wishlist"> */}
+                                        
+                                  <FavoriteBorderOutlinedIcon className={classes.icon1}/>
+                                        
+                                        {/* </Link> */}
+
+                                    </div>
+                                
                                 </CardContent>
+                                <Typography gutterBottom variant="h5" component="h2" style={{textAlign:'left', marginLeft: '10px', paddingLeft:'10px', background:'#31c5ee'}} className={classes.offer}>
+                                        10%
+                                    </Typography>
                             </CardActionArea>
                         </Card>
                     </Grid>
                     <Grid item xs={12} sm={6} md={3}>
                         <Card className={classes.card}>
                             <CardActionArea>
-                                <CardMedia
-                                    className={classes.media}
-                                    style={{ backgroundImage:`url(${Collection3})`}}
-                                    title="BTS"
-                                />
-                                <CardContent>
-                                <Typography gutterBottom variant="h5" component="h2" style={{textAlign:'center'}} className={classes.productTitle}>
+                            <CardMedia>
+                                    <img src={Collection4} style={{width:'100%'}}/>
+                                </CardMedia>
+                                <CardContent style={{display:'flex'}}>
+                                    <div>
+                                    <Typography gutterBottom variant="h5" component="h2" style={{textAlign:'left'}} className={classes.productTitle}>
                                         FRIENDS
                                     </Typography>
-                                    <Typography gutterBottom variant="h6" component="h2" style={{textAlign:'center'}} className={classes.productSubTitle}>
+                                    <Typography gutterBottom variant="h6" component="h2" style={{textAlign:'left'}} className={classes.productSubTitle}>
                                         LKR 1300.00
                                     </Typography>
+
+                                    </div>
+                                    <div>
+                                        {/* <Link href="/wishlist"> */}
+                                        
+                                  <FavoriteBorderOutlinedIcon className={classes.icon1}/>
+                                        
+                                        {/* </Link> */}
+
+                                    </div>
+                                
                                 </CardContent>
+                                <Typography gutterBottom variant="h5" component="h2" style={{textAlign:'left', marginLeft: '10px', paddingLeft:'10px', background:'#31c5ee'}} className={classes.offer}>
+                                        20%
+                                    </Typography>
                             </CardActionArea>
                         </Card>
                     </Grid>
                 </Grid>
+                <Typography className={classes.view}>
+                    + VIEW MORE
+                </Typography>
             </Container>
 
             <Container className={classes.collectionContainer} maxWidth="lg">

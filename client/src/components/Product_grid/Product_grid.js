@@ -123,13 +123,17 @@ const useStyles=makeStyles((theme)=>({
 
      icon1:{
         color:'black',
-        fontSize:'1.5rem',
-        marginLeft: '30px',
+        fontSize:'2rem',
+        marginLeft: '80px',
         marginRight:'10px',
-        fontWeight:'300',
+        fontWeight:'50',
         
 
     },
+
+    font2:{
+        textAlign:'left'
+    }
 
 }));
 
@@ -144,7 +148,7 @@ const useStyles=makeStyles((theme)=>({
         return (
         <div>
             <center>
-            <Typography variant="h4" className={classes.collectionTitle}>WORK WEAR</Typography>
+            <Typography variant="h4" className={classes.collectionTitle}>SHOP</Typography>
             <Grid item md={6}>    
                 <div className={classes.filter}>
                     <ButtonGroup variant="contained" color="primary" aria-label="split button" style={{boxShadow:'none'}}> 
@@ -215,21 +219,29 @@ const useStyles=makeStyles((theme)=>({
                                     title="Snowy"
                                 />
                                
-                                <CardContent>
-                                    <Typography gutterBottom variant="h9" component="h2" style={{textAlign:'center'}}>
+                                <CardContent style={{display:'flex'}}>
+                                    <div>
+                                    <Typography gutterBottom variant="h9" component="h2" style={{textAlign:'left'}}>
                                         Snowy
                                     </Typography>
 
-                                    <Typography gutterBottom variant="h6" component="h2" style={{textAlign:'center'}}>
+                                    <Typography gutterBottom variant="h6" component="h2" style={{textAlign:'left'}}>
                                         LKR 1,500.00                                      
 `                                   
-                                           {/* <Link href="/wishlist"> */}
+                                           
+                                       
+                                        </Typography>
+                                        
+                                    </div>
+                                    
+
+                                        <div>
+                                            {/* <Link href="/wishlist"> */}
                                         
                                   <FavoriteBorderOutlinedIcon className={classes.icon1}/>
                                         
                                         {/* </Link> */}
-                                       
-                                        </Typography>`
+                                        </div>
                                   
 
                                 </CardContent>
@@ -246,14 +258,25 @@ const useStyles=makeStyles((theme)=>({
                                     style={{ backgroundImage:`url(${Collection2})`}}
                                     title="Marvel"
                                 />
-                                <CardContent>
-                                    <Typography gutterBottom variant="h9" component="h2" style={{textAlign:'center'}}>
+                                <CardContent style={{display:'flex'}}>
+                                    <div>
+                                    <Typography gutterBottom variant="h9" component="h2" style={{textAlign:'left'}}>
                                         Marvel
                                     </Typography>
 
-                                    <Typography gutterBottom variant="h6" component="h2" style={{textAlign:'center'}}>
+                                    <Typography gutterBottom variant="h6" component="h2" style={{textAlign:'left'}}>
                                         LKR 1,6500.00
                                     </Typography>
+                                        
+                                    </div>
+                                    
+                                    <div>
+                                        {/* <Link href="/wishlist"> */}
+                                        
+                                  <FavoriteBorderOutlinedIcon className={classes.icon1}/>
+                                        
+                                        {/* </Link> */}
+                                    </div>
 
                                 </CardContent>
                             </CardActionArea>
@@ -268,14 +291,24 @@ const useStyles=makeStyles((theme)=>({
                                     style={{ backgroundImage:`url(${Collection3})`}}
                                     title="BTS"
                                 />
-                               <CardContent>
-                                    <Typography gutterBottom variant="h9" component="h2" style={{textAlign:'center'}}>
+                               <CardContent style={{display:'flex'}}>
+                                   <div>
+                                   <Typography gutterBottom variant="h9" component="h2" style={{textAlign:'left'}}>
                                         Butter
                                     </Typography>
 
-                                    <Typography gutterBottom variant="h6" component="h2" style={{textAlign:'center'}}>
+                                    <Typography gutterBottom variant="h6" component="h2" style={{textAlign:'left'}}>
                                         LKR 1,2000.00
                                     </Typography>
+                                   </div>
+                                    
+                                    <div>
+                                        {/* <Link href="/wishlist"> */}
+                                        
+                                  <FavoriteBorderOutlinedIcon className={classes.icon1}/>
+                                        
+                                        {/* </Link> */}
+                                    </div>
 
                                 </CardContent>
                             </CardActionArea>
@@ -291,14 +324,23 @@ const useStyles=makeStyles((theme)=>({
                                     style={{ backgroundImage:`url(${Collection4})`}}
                                     title="BTS"
                                 />
-                               <CardContent>
-                                    <Typography gutterBottom variant="h9" component="h2" style={{textAlign:'center'}}>
+                               <CardContent style={{display:'flex'}}>
+                                    <div>
+                                    <Typography gutterBottom variant="h9" component="h2" style={{textAlign:'left'}}>
                                         BTS
                                     </Typography>
 
-                                    <Typography gutterBottom variant="h6" component="h2" style={{textAlign:'center'}}>
+                                    <Typography gutterBottom variant="h6" component="h2" style={{textAlign:'left'}}>
                                         LKR 1,500.00
                                     </Typography>
+                                    </div>
+                                    <div>
+                                        {/* <Link href="/wishlist"> */}
+                                        
+                                  <FavoriteBorderOutlinedIcon className={classes.icon1}/>
+                                        
+                                        {/* </Link> */}
+                                    </div>
 
                                 </CardContent>
                             </CardActionArea>
@@ -334,14 +376,26 @@ const useStyles=makeStyles((theme)=>({
                                     // image="/static/images/cards/contemplative-reptile.jpg"
                                     title="Snowy"
                                 />
-                                <CardContent>
-                                    <Typography gutterBottom variant="h9" component="h2" style={{textAlign:'center'}}>
+                                <CardContent style={{display:'flex'}}>
+                                    <div>
+                                    <Typography gutterBottom variant="h9" component="h2" style={{textAlign:'left'}}>
                                         Snowy
                                     </Typography>
 
-                                    <Typography gutterBottom variant="h6" component="h2" style={{textAlign:'center'}}>
+                                    <Typography gutterBottom variant="h6" component="h2" style={{textAlign:'left'}}>
                                         LKR 1,500.00
                                     </Typography>
+
+                                    </div>
+                                    <div>
+                                        {/* <Link href="/wishlist"> */}
+                                        
+                                  <FavoriteBorderOutlinedIcon className={classes.icon1}/>
+                                        
+                                        {/* </Link> */}
+
+                                    </div>
+                                    
 
                                 </CardContent>
                             </CardActionArea>
@@ -357,14 +411,26 @@ const useStyles=makeStyles((theme)=>({
                                     style={{ backgroundImage:`url(${Collection2})`}}
                                     title="Marvel"
                                 />
-                                <CardContent>
-                                    <Typography gutterBottom variant="h9" component="h2" style={{textAlign:'center'}}>
+                                <CardContent style={{display:'flex'}}>
+                                    <div>
+                                    <Typography gutterBottom variant="h9" component="h2" style={{textAlign:'left'}}>
                                         Marvel
                                     </Typography>
 
-                                    <Typography gutterBottom variant="h6" component="h2" style={{textAlign:'center'}}>
+                                    <Typography gutterBottom variant="h6" component="h2" style={{textAlign:'left'}}>
                                         LKR 1,6500.00
                                     </Typography>
+
+                                    </div>
+                                    <div>
+                                        {/* <Link href="/wishlist"> */}
+                                        
+                                  <FavoriteBorderOutlinedIcon className={classes.icon1}/>
+                                        
+                                        {/* </Link> */}
+
+                                    </div>
+                                    
 
                                 </CardContent>
                             </CardActionArea>
@@ -379,14 +445,26 @@ const useStyles=makeStyles((theme)=>({
                                     style={{ backgroundImage:`url(${Collection3})`}}
                                     title="BTS"
                                 />
-                               <CardContent>
-                                    <Typography gutterBottom variant="h9" component="h2" style={{textAlign:'center'}}>
+                               <CardContent style={{display:'flex'}}>
+                                   <div>
+                                   <Typography gutterBottom variant="h9" component="h2" style={{textAlign:'left'}}>
                                         Butter
                                     </Typography>
 
-                                    <Typography gutterBottom variant="h6" component="h2" style={{textAlign:'center'}}>
+                                    <Typography gutterBottom variant="h6" component="h2" style={{textAlign:'left'}}>
                                         LKR 1,2000.00
                                     </Typography>
+
+                                   </div>
+                                   <div>
+                                       {/* <Link href="/wishlist"> */}
+                                        
+                                  <FavoriteBorderOutlinedIcon className={classes.icon1}/>
+                                        
+                                        {/* </Link> */}
+
+                                   </div>
+                                    
 
                                 </CardContent>
                             </CardActionArea>
@@ -402,14 +480,26 @@ const useStyles=makeStyles((theme)=>({
                                     style={{ backgroundImage:`url(${Collection4})`}}
                                     title="BTS"
                                 />
-                               <CardContent>
-                                    <Typography gutterBottom variant="h9" component="h2" style={{textAlign:'center'}}>
+                               <CardContent style={{display:'flex'}}>
+                                   <div>
+                                   <Typography gutterBottom variant="h9" component="h2" style={{textAlign:'left'}}>
                                         BTS
                                     </Typography>
 
-                                    <Typography gutterBottom variant="h6" component="h2" style={{textAlign:'center'}}>
+                                    <Typography gutterBottom variant="h6" component="h2" style={{textAlign:'left'}}>
                                         LKR 1,500.00
                                     </Typography>
+
+                                   </div>
+                                   <div>
+                                       {/* <Link href="/wishlist"> */}
+                                        
+                                  <FavoriteBorderOutlinedIcon className={classes.icon1}/>
+                                        
+                                        {/* </Link> */}
+
+                                   </div>
+                                    
 
                                 </CardContent>
                             </CardActionArea>
@@ -439,14 +529,26 @@ const useStyles=makeStyles((theme)=>({
                                     // image="/static/images/cards/contemplative-reptile.jpg"
                                     title="Snowy"
                                 />
-                                <CardContent>
-                                    <Typography gutterBottom variant="h9" component="h2" style={{textAlign:'center'}}>
+                                <CardContent style={{display:'flex'}}>
+                                    <div>
+                                    <Typography gutterBottom variant="h9" component="h2" style={{textAlign:'left'}}>
                                         Snowy
                                     </Typography>
 
-                                    <Typography gutterBottom variant="h6" component="h2" style={{textAlign:'center'}}>
+                                    <Typography gutterBottom variant="h6" component="h2" style={{textAlign:'left'}}>
                                         LKR 1,500.00
                                     </Typography>
+
+                                    </div>
+                                    <div>
+                                        {/* <Link href="/wishlist"> */}
+                                        
+                                  <FavoriteBorderOutlinedIcon className={classes.icon1}/>
+                                        
+                                        {/* </Link> */}
+
+                                    </div>
+                                    
 
                                 </CardContent>
                             </CardActionArea>
@@ -462,14 +564,26 @@ const useStyles=makeStyles((theme)=>({
                                     style={{ backgroundImage:`url(${Collection2})`}}
                                     title="Marvel"
                                 />
-                                <CardContent>
-                                    <Typography gutterBottom variant="h9" component="h2" style={{textAlign:'center'}}>
+                                <CardContent style={{display:'flex'}}>
+                                    <div>
+                                    <Typography gutterBottom variant="h9" component="h2" style={{textAlign:'left'}}>
                                         Marvel
                                     </Typography>
 
-                                    <Typography gutterBottom variant="h6" component="h2" style={{textAlign:'center'}}>
+                                    <Typography gutterBottom variant="h6" component="h2" style={{textAlign:'left'}}>
                                         LKR 1,6500.00
                                     </Typography>
+
+                                    </div>
+                                    <div>
+                                        {/* <Link href="/wishlist"> */}
+                                        
+                                  <FavoriteBorderOutlinedIcon className={classes.icon1}/>
+                                        
+                                        {/* </Link> */}
+
+                                    </div>
+                                    
 
                                 </CardContent>
                             </CardActionArea>
@@ -484,14 +598,26 @@ const useStyles=makeStyles((theme)=>({
                                     style={{ backgroundImage:`url(${Collection3})`}}
                                     title="BTS"
                                 />
-                               <CardContent>
-                                    <Typography gutterBottom variant="h9" component="h2" style={{textAlign:'center'}}>
+                               <CardContent style={{display:'flex'}}>
+                                   <div>
+                                   <Typography gutterBottom variant="h9" component="h2" style={{textAlign:'left'}}>
                                         Butter
                                     </Typography>
 
-                                    <Typography gutterBottom variant="h6" component="h2" style={{textAlign:'center'}}>
+                                    <Typography gutterBottom variant="h6" component="h2" style={{textAlign:'left'}}>
                                         LKR 1,2000.00
                                     </Typography>
+
+                                   </div>
+                                   <div>
+                                       {/* <Link href="/wishlist"> */}
+                                        
+                                  <FavoriteBorderOutlinedIcon className={classes.icon1}/>
+                                        
+                                        {/* </Link> */}
+
+                                   </div>
+                                    
 
                                 </CardContent>
                             </CardActionArea>
@@ -507,14 +633,26 @@ const useStyles=makeStyles((theme)=>({
                                     style={{ backgroundImage:`url(${Collection4})`}}
                                     title="BTS"
                                 />
-                               <CardContent>
-                                    <Typography gutterBottom variant="h9" component="h2" style={{textAlign:'center'}}>
+                               <CardContent style={{display:'flex'}}>
+                                   <div>
+                                   <Typography gutterBottom variant="h9" component="h2" style={{textAlign:'left'}}>
                                         BTS
                                     </Typography>
 
-                                    <Typography gutterBottom variant="h6" component="h2" style={{textAlign:'center'}}>
+                                    <Typography gutterBottom variant="h6" component="h2" style={{textAlign:'left'}}>
                                         LKR 1,500.00
                                     </Typography>
+
+                                   </div>
+                                   <div>
+                                       {/* <Link href="/wishlist"> */}
+                                        
+                                  <FavoriteBorderOutlinedIcon className={classes.icon1}/>
+                                        
+                                        {/* </Link> */}
+
+                                   </div>
+                                    
 
                                 </CardContent>
                             </CardActionArea>

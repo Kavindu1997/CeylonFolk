@@ -20,7 +20,7 @@ import {IconButton,Collapse,CardActions,CardContent} from '@material-ui/core';
 
 import Collection1 from '../../images/ts1.jpg';
 import butter2 from '../../images/butter2.jpg';
-
+import NumericInput from 'react-numeric-input';
 
 
 import {Card,Container,CardActionArea,CardMedia} from '@material-ui/core';
@@ -125,10 +125,70 @@ const useStyles = makeStyles((theme) => ({
   productColor:{
     fontSize: '20px',
     fontWeight: '600',
-    paddingBottom: '10px',
-    marginBottom: '10px',
+    paddingBottom: '5px',
+    marginBottom: '5px',
     fontFamily: 'Montserrat'
+  },
+  sizeBox:{
+    width: '60px',
+    border: 'ridge',
+    borderColor: 'black',
+    borderWidth: '2px',
+    borderRadius: '10px',
+    margin: '5px'
+  },
+  sizeText:{
+    textAlign: 'center',
+    padding: '5px',
+    alignItems:'center'
+  },
+  designbtn:{
+    color:'black',
+    fontSize:'10px',
+    padding:'2px',
+    alignItems:'center',
+    width:'50px',
+    margin:'10px',
+    background: '#31c5ee'
+
+  },
+  tBox:{
+    marginBottom:'10px'
+  },
+  spanback:{
+    display: 'inline-block',
+    textIndent: '-9999px',
+    verticalAlign: 'middle',
+    height: '42px',
+    width: '42px',
+    margin: '0 5px 10px 0',
+    boxShadow: 'inset 0 0 0 4px white',
+    border: '1px solid #dcdcdc',
+    borderRadius: '50%',
+    backgroundImage: 'url(http://localhost:3000/static/media/ts1.e7b30a60.jpg)',
+    backgroundSize: 'cover'
+  },
+  spanback2:{
+    display: 'inline-block',
+    textIndent: '-9999px',
+    verticalAlign: 'middle',
+    height: '42px',
+    width: '42px',
+    margin: '0 5px 10px 0',
+    boxShadow: 'inset 0 0 0 4px white',
+    border: '1px solid #dcdcdc',
+    borderRadius: '50%',
+    backgroundImage: 'url(http://localhost:3000/static/media/butter2.c4028f87.jpg)',
+    backgroundSize: 'cover'
+  },
+  
+  spaninput:{
+    display: 'none',
+    boxSizing: 'border-box',
+    padding: '0',
+    overflow: 'visible'
   }
+
 }));
 
 export const Product_detail = () => {
@@ -149,7 +209,7 @@ export const Product_detail = () => {
         </Card>
         <Grid Container>
           <Box>
-          <img src={butter2} style={{width:'100%'}}/>
+          <img src={Collection1} style={{width:'100%'}}/>
           </Box>
         </Grid>
       </Grid>
@@ -170,21 +230,58 @@ export const Product_detail = () => {
           <Typography className={classes.productColor}>
             COLOR
           </Typography>
+          </Box>
           <Box>
             {/* <RadioGroup row >
             <Radio style={{color:'red'}}></Radio>
             <Radio style={{color:'red'}}></Radio>
 
             </RadioGroup> */}
-            <label>
-              <input type="radio"></input>
+            <Box style={{display:'flex'}}>
+            <label style={{cursor: 'pointer'}}>
+              <input type="radio" className={classes.spaninput}></input>
+              <span className={classes.spanback}></span>
 
             </label>
+            <label style={{cursor: 'pointer'}}>
+              <input type="radio" className={classes.spaninput}></input>
+              <span className={classes.spanback2}></span>
+
+            </label>
+
+            </Box>
+            
+            
+          </Box>
+          <Box className={classes.tBox}>
+          <Typography className={classes.productColor}>
+            SIZE
+          </Typography>
+          <Box style={{display:'flex'}}>
+            <Box className={classes.sizeBox}><Typography className={classes.sizeText}>UK 6</Typography></Box>
+            <Box className={classes.sizeBox}><Typography className={classes.sizeText}>UK 8</Typography></Box>
+            <Box className={classes.sizeBox}><Typography className={classes.sizeText}>UK 10</Typography></Box>
+            <Box className={classes.sizeBox}><Typography className={classes.sizeText}>UK 12</Typography></Box>
+            <Box className={classes.sizeBox}><Typography className={classes.sizeText}>UK 14</Typography></Box>
+            <Box className={classes.sizeBox}><Typography className={classes.sizeText}>UK 16</Typography></Box>
+            <Box className={classes.sizeBox}><Typography className={classes.sizeText}>UK 16</Typography></Box>
+            <center> <a href='../pages/customize'style={{textDecoration:'none'}}><Button 
+                                    variant="outlined"
+                                     className={classes.designbtn}>SIZE GUIDE</Button></a></center>
             
           </Box>
 
           </Box>
+          <Box className={classes.tBox}>
+          <Typography className={classes.productColor}>
+            QUENTITY
+          </Typography>
+          <div>
+        <NumericInput mobile min={0} max={100} value={1} size={ 1 }/>
+      </div>
+          </Box>
           
+          <Button style={{background:'#2c2d2d',color:'white'}}>ADD TO CART</Button>
         </Box>
           
         </Box>

@@ -20,6 +20,8 @@ import Profile from './pages/Profile';
 import UserWishlist from './pages/UserWishlist';
 import UserOrders from './pages/UserOrders';
 import Customize from './pages/Customize';
+import Tab from './pages/tab';
+
 
 const theme = createMuiTheme({
     typography: {
@@ -106,6 +108,7 @@ const App = () => {
               <Route path="/inventory" exact render={() => <Inventory/>}/>
               <Route path="/designs" exact render={() => <Design/>}/>
               <Route path="/customize" exact render={() => <Customize/>}/>
+              <Route path="/tab" exact render={() => <Tab/>}/>
             </Switch>
           </Router>
         </ThemeProvider>
