@@ -1,13 +1,11 @@
 import React from 'react';
-import { makeStyles, IconButton, Typography, Box, Paper, Grid, Divider, TextField, Button } from '@material-ui/core';
-import Controls from './Reusable/Controls';
-import { useForm, Form } from './Reusable/useForm';
+import { makeStyles, IconButton, Typography, Box, Paper, Grid, TextField, Button } from '@material-ui/core';
 import BusinessIcon from '@material-ui/icons/Business';
 import PhoneInTalkIcon from '@material-ui/icons/PhoneInTalk';
 import StreetviewIcon from '@material-ui/icons/Streetview';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import axios from 'axios';
-import { Formik, Field, ErrorMessage } from "formik";
+import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from 'yup';
 import "yup-phone";
 
@@ -17,9 +15,7 @@ const initialValues1 = {
   mobile: '',
   email: '',
   message: '',
- 
 }
-
 
 const validationSchema1 = Yup.object().shape({
   fullName: Yup.string().required("First Name is required"),
@@ -30,10 +26,11 @@ const validationSchema1 = Yup.object().shape({
 });
 
 
-const onSubmit1 = (data) => {
-  axios.post("http://localhost:3001/contact/contactusForm", data).then(() => {
-      console.log(data);
+const onSubmit1 = (data, props) => {
+  axios.post("http://localhost:3001/contact/contactus", data).then(() => {
+    console.log(data);
   });
+  props.resetForm();
 };
 
 const useStyles = makeStyles((theme) => ({
@@ -69,9 +66,19 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(5),
     padding: theme.spacing(3),
   },
+  submit: {
+    align: 'center',
+    padding: '10px',
+    marginTop: '20px',
+  },
+  textField: {
+    '& p': {
+      color: 'red'
+    }
+  },
 }));
 
-export default function ConatactUs() {
+export default function ContactUs() {
   const classes = useStyles();
 
   return (
@@ -79,12 +86,8 @@ export default function ConatactUs() {
       <CssBaseline />
       <Typography variant="h5" style={{ marginTop: '80px', textAlign: 'center', backgroundColor: '#C6C6C6', padding: '30px', fontFamily: 'Montserrat' }}> CONTACT US</Typography>
       <Paper className={classes.pageContent}>
-        <Typography component="h1" variant="h5" className={classes.headStyle}>
-          Get in Touch
-        </Typography>
-        <Divider variant="middle" />
         <Grid container style={{ marginTop: '20px' }}>
-          <Grid item md={6}>
+          <Grid item md={6} style={{ paddingLeft: '100px', paddingRight: '100px' }}>
             <Typography component="h1" variant="subtitle2" className={classes.textStyle}>
               Please contact us using one of the option below. <br />You will recieve a response within 24 hours by email.
             </Typography>
@@ -141,15 +144,13 @@ export default function ConatactUs() {
                     autoComplete="lname"
                     helperText={<ErrorMessage name="message" />}
                   />
-                  <Box style={{ marginLeft: '120px' }}>
-                    <Button
-                      type="submit"
-                      fullWidth
-                      variant="contained"
-                      color="primary"
-                      className={classes.submit}
-                    >Send Message</Button>
-                  </Box>
+                  <Button
+                    type="submit"
+                    fullWidth
+                    variant="contained"
+                    color="primary"
+                    className={classes.submit}
+                  >Send Message</Button>
                 </Form>
               )}
             </Formik>

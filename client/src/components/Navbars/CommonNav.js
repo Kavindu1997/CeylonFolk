@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { AppBar,Typography,Button,IconButton,Toolbar,Link} from '@material-ui/core';
+import { AppBar, Typography, Button, IconButton, Toolbar, Link } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import logo from '../../images/logo.png';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
@@ -10,158 +10,158 @@ import SearchOutlinedIcon from '@material-ui/icons/SearchOutlined';
 
 
 
-const useStyles=makeStyles((theme)=>({
-    root:{
-        display:'flex',
-        justifyContent:'center',
-        alignItems:'center',
-        fontFamily:'Segoe UI', 
-        color:'white',
+const useStyles = makeStyles((theme) => ({
+    root: {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        fontFamily: 'Segoe UI',
+        color: 'white',
         textDecoration: 'none'
     },
-    appbar:{
+    appbar: {
         display: 'flex',
-    padding: '5px',
-    width: '100%',
-    justifyContent: 'spaceBetween',
-    alignItems: 'center',
-    background: 'white'
-        
+        padding: '5px',
+        width: '100%',
+        justifyContent: 'spaceBetween',
+        alignItems: 'center',
+        background: 'white'
+
     },
-    appbarsolid:{
+    appbarsolid: {
         backgroundColor: 'black'
 
     },
-    icon:{
-        color:'black',
-        fontSize:'1.5rem',
+    icon: {
+        color: 'black',
+        fontSize: '1.5rem',
         marginLeft: '24px',
-        marginRight:'10px',
-        fontWeight:'300',
+        marginRight: '10px',
+        fontWeight: '300',
     },
-    appbarTitle:{
-        flexGrow:'1',
-        color:'#fff',
+    appbarTitle: {
+        flexGrow: '1',
+        color: '#fff',
         display: 'flex',
         fontFamily: 'Work Sans',
         textDecoration: 'none'
     },
-    appbarTitle2:{
-        flexGrow:'1',
-        color:'black',
-        justifyContent:'center',
+    appbarTitle2: {
+        flexGrow: '1',
+        color: 'black',
+        justifyContent: 'center',
         textDecoration: 'none'
     },
-    appbarWrapper:{
+    appbarWrapper: {
         color: 'black',
-    width: '100%',
-    margin: '0 auto',
-    height: '10px'
+        width: '100%',
+        margin: '0 auto',
+        height: '10px'
     },
-    colorText:{
-        color:'black'
+    colorText: {
+        color: 'black'
     },
-    navbartext:{
+    navbartext: {
         color: 'black',
-        fontFamily:'Segoe UI',
+        fontFamily: 'Segoe UI',
         textTransform: 'none',
-        fontSize:'15px',
-        textDecoration:'none'
+        fontSize: '15px',
+        textDecoration: 'none'
     },
-    goDown:{
-        color:'#fff',
-        fontSize:'1rem',
+    goDown: {
+        color: '#fff',
+        fontSize: '1rem',
     },
 
-    appbarLeft:{
+    appbarLeft: {
         display: 'flex',
-        color:'black',
-        fontColor:'black',
+        color: 'black',
+        fontColor: 'black',
         fontFamily: 'Work Sans',
         textDecoration: 'none',
         marginLeft: '10px',
         marginRight: '10px'
     },
 
-    appbarMiddle:{
+    appbarMiddle: {
         display: 'flex',
-        flexGrow:'1',
-        color:'#fff',
-        justifyContent:'center',
+        flexGrow: '1',
+        color: '#fff',
+        justifyContent: 'center',
         textDecoration: 'none'
     },
-    appbarRight:{
+    appbarRight: {
         display: 'flex',
-        flexGrow:'1',
-        justifyContent:'right',
+        flexGrow: '1',
+        justifyContent: 'right',
     },
 
-    appbarlink:{
-        color:'black',
-        position:'relative',
+    appbarlink: {
+        color: 'black',
+        position: 'relative',
         textTransform: 'uppercase',
         fontWeight: '600',
-        fontSize:'15px',
-        paddingLeft:'10px',
-        textDecoration:'none',
-        '&:hover':{
-            textDecoration:'none'
+        fontSize: '15px',
+        paddingLeft: '10px',
+        textDecoration: 'none',
+        '&:hover': {
+            textDecoration: 'none'
         }
     },
-    appbarlink2:{
-        color:'black',
-        position:'relative',
+    appbarlink2: {
+        color: 'black',
+        position: 'relative',
         textTransform: 'uppercase',
         fontWeight: '600',
-        fontSize:'15px',
-        paddingLeft:'10px',
-        textDecoration:'none',
-        '&:hover':{
-            textDecoration:'none'
+        fontSize: '15px',
+        paddingLeft: '10px',
+        textDecoration: 'none',
+        '&:hover': {
+            textDecoration: 'none'
         }
     }
-     
- }))
+
+}))
 
 const CommonNav = () => {
-    const classes=useStyles();
- 
+    const classes = useStyles();
+
     return (
-        <div className={classes.root}> 
+        <div className={classes.root}>
             <AppBar className={classes.appbar} elevation={0}>
                 <Toolbar className={classes.appbarWrapper}>
-                <div className={classes.appbarLeft}>
+                    <div className={classes.appbarLeft}>
                         <Link href="/" className={classes.appbarlink}> <Typography className={classes.appbarlink2}>Home</Typography></Link>
-                        <Link href="/shop" className={classes.appbarlink}> 
-                            <Typography 
-                            className={classes.appbarlink2}
-                            endIcon={<KeyboardArrowDownIcon>
-                                fontSize="0.5rem"
-                            </KeyboardArrowDownIcon>}
+                        <Link href="/shop" className={classes.appbarlink}>
+                            <Typography
+                                className={classes.appbarlink2}
+                                endIcon={<KeyboardArrowDownIcon>
+                                    fontSize="0.5rem"
+                                </KeyboardArrowDownIcon>}
                             >
-                            Shop
+                                Shop
                             </Typography>
-                        </Link>                       
+                        </Link>
                         <Link href="/contactus" className={classes.appbarlink}><Typography className={classes.appbarlink2}>Contact</Typography></Link>
                         <Link href="/aboutUs" className={classes.appbarlink}><Typography className={classes.appbarlink2}>About Us</Typography></Link>
-                   </div> 
-                   
-                 
-                   <div className={classes.appbarMiddle}>
-                    <Link href="/"><img src={require('../../images/logo.png').default} alt="CeylonFolk" height="30px"/></Link>
-                   </div>                  
-             
-                <div style={{paddingLeft:'106px'}}>
-                    <Link href="/auth"><SearchOutlinedIcon className={classes.icon}/></Link>
-                    <Link href="/wishlist"><FavoriteBorderOutlinedIcon className={classes.icon}/></Link>
-                    <Link href="/cart"><LocalMallOutlinedIcon className={classes.icon}/></Link>
-                    <Link href="/auth"><PermIdentityOutlinedIcon className={classes.icon}/></Link>
-                </div>
+                    </div>
+
+
+                    <div className={classes.appbarMiddle}>
+                        <Link href="/"><img src={require('../../images/logo.png').default} alt="CeylonFolk" height="30px" /></Link>
+                    </div>
+
+                    <div style={{ paddingLeft: '106px' }}>
+                        <Link href="/shop"><SearchOutlinedIcon className={classes.icon} /></Link>
+                        <Link href="/wishlist"><FavoriteBorderOutlinedIcon className={classes.icon} /></Link>
+                        <Link href="/cart"><LocalMallOutlinedIcon className={classes.icon} /></Link>
+                        <Link href="/auth"><PermIdentityOutlinedIcon className={classes.icon} /></Link>
+                    </div>
 
                 </Toolbar>
-                   
+
             </AppBar>
-        
+
         </div>
     );
 };

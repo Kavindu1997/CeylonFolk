@@ -2,6 +2,7 @@ import React from 'react';
 import { Button, TextField, CssBaseline, Grid, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Radio, RadioGroup, FormControl, Checkbox, TextareaAutosize } from '@material-ui/core';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { makeStyles } from '@material-ui/styles';
+import { Formik, Form, Field, ErrorMessage } from "formik";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -33,8 +34,12 @@ const useStyles = makeStyles((theme) => ({
     },
     note: {
         height: 50
-      },
+    },
 }));
+
+function onLinkClick(event) {
+    console.log('onLinkClick'); // never called
+}
 
 function createData(image, name, quantity, total) {
     return { image, name, quantity, total };
@@ -138,7 +143,7 @@ export default function Checkout() {
                                 label="Deliver to a different address"
                                 style={{ float: 'left' }} />
                             <div id="addressNew">
-                            <TextareaAutosize aria-label="minimum height" minRows={5} placeholder="Shipping Address" style={{width:'480px',height:'60px', textAlign:'justify', padding:'15px', fontFamily:'Montserrat', marginTop:'10px',borderRadius:'5px'}}/>
+                                <TextareaAutosize aria-label="minimum height" minRows={5} placeholder="Shipping Address" style={{ width: '480px', height: '60px', textAlign: 'justify', padding: '15px', fontFamily: 'Montserrat', marginTop: '10px', borderRadius: '5px' }} />
                                 {/* <TextField
                                     variant="outlined"
                                     margin="normal"
@@ -159,8 +164,8 @@ export default function Checkout() {
                                     name="note"
                                     autoComplete="note"
                                 /> */}
-                                <TextareaAutosize aria-label="minimum height" minRows={5} placeholder="Order Notes (optional)" style={{width:'480px',height:'100px', textAlign:'justify', padding:'15px', fontFamily:'Montserrat',marginTop:'30px',borderRadius:'5px'}}/>
-                            
+                            <TextareaAutosize aria-label="minimum height" minRows={5} placeholder="Order Notes (optional)" style={{ width: '480px', height: '100px', textAlign: 'justify', padding: '15px', fontFamily: 'Montserrat', marginTop: '30px', borderRadius: '5px' }} />
+
                         </form>
                     </Grid>
                     <Grid item xs={12} sm={12} md={6} lg={6}>
@@ -221,9 +226,26 @@ export default function Checkout() {
                                     </TableRow>
                                 </TableBody>
                             </Table>
+                            <FormControlLabel
+                                control={<Checkbox value="accept" color="primary" />}
+                                label={
+                                    <span>I have read and agree to the&nbsp;
+                                        <a
+                                            href="/Termnconditions"
+                                            // target="_blank"
+                                            onClick={onLinkClick}
+                                        >
+                                            Terms and Conditions
+                                        </a>
+                                    </span>
+
+                                }
+                                // label="I've read and accept terms and conditions*"
+                                style={{ float: 'left', marginLeft: '30px', marginTop: '10px' }} />
                         </TableContainer>
                         <div>
                             <center>
+
                                 <Button
                                     type="submit"
                                     fullWidth

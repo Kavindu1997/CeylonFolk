@@ -103,9 +103,9 @@ export default function MyAccount() {
                             <List style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>
                                 <ListItem>
                                     <ListItemAvatar>
-                                        <Avatar style={{ marginLeft: '130px' }}>TP</Avatar>
+                                        <Avatar style={{ marginLeft: '130px' }}>NB</Avatar>
                                     </ListItemAvatar>
-                                    <ListItemText><Typography component="h1" variant="h5" style={{ fontFamily: 'Montserrat', marginLeft: '15px', fontWeight: 600 }}>Tanya Peries</Typography></ListItemText>
+                                    <ListItemText><Typography component="h1" variant="h5" style={{ fontFamily: 'Montserrat', marginLeft: '15px', fontWeight: 600 }}>Nimal Bandara</Typography></ListItemText>
                                 </ListItem>
                             </List>
                             <br />
@@ -154,12 +154,12 @@ export default function MyAccount() {
                                     id="name"
                                     fullWidth
                                     label="Your Name"
-                                    defaultValue="Tanya Peries"
+                                    defaultValue="Nimal Bandara"
                                     variant="outlined"
                                     margin="normal"
                                 />
                             </div>
-                            <TextField
+                            {/* <TextField
                                 required
                                 fullWidth
                                 id="displayName"
@@ -167,22 +167,22 @@ export default function MyAccount() {
                                 defaultValue="Tanya"
                                 variant="outlined"
                                 margin="normal"
-                            />
+                            /> */}
                             <TextField
                                 required
                                 fullWidth
                                 id="email"
                                 label="Email"
-                                defaultValue="tanya@gmail.com"
+                                defaultValue="nimal@gmail.com"
                                 variant="outlined"
                                 margin="normal"
                             />
                             <TextField
-                                required
+                                // required
                                 fullWidth
                                 id="number"
                                 label="Phone number"
-                                defaultValue="071233372"
+                                // defaultValue="071233372"
                                 variant="outlined"
                                 margin="normal"
                             />
@@ -190,7 +190,7 @@ export default function MyAccount() {
                                 fullWidth
                                 id="add1"
                                 label="Address Line 1"
-                                defaultValue="No. 21"
+                                // defaultValue="No. 21"
                                 variant="outlined"
                                 margin="normal"
                             />
@@ -198,7 +198,7 @@ export default function MyAccount() {
                                 fullWidth
                                 id="add2"
                                 label="Address Line 2"
-                                defaultValue="Araliya Uyana"
+                                // defaultValue="Araliya Uyana"
                                 variant="outlined"
                                 margin="normal"
                             />
@@ -206,7 +206,7 @@ export default function MyAccount() {
                                 fullWidth
                                 id="city"
                                 label="City"
-                                defaultValue="Koswatta"
+                                // defaultValue="Koswatta"
                                 variant="outlined"
                                 margin="normal"
                             />

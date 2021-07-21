@@ -11,10 +11,14 @@ const db = require('./models');
 const usersRouter = require('./routes/Users');
 app.use("/auth", usersRouter);
 
-//Router for Contactus
 const contactusRouter = require('./routes/Contactus');
 app.use("/contact", contactusRouter);
 
+const collectionRouter = require('./routes/Collections');
+app.use("/collections", collectionRouter);
+
+const inventoryRouter = require('./routes/Inventory');
+app.use("/invent",inventoryRouter);
 
 db.sequelize.sync().then(() => {
     app.listen(3001, () => {
