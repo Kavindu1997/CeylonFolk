@@ -6,14 +6,6 @@ import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import text from '../images/text.svg'
-import image from '../images/image.svg'
-import upload from '../images/upload.svg'
-import tshirt from '../images/tshirt.svg'
-import color from '../images/drop.svg'
-import mockup from '../images/mockup.png'
-import front from '../images/front.png'
-import back from '../images/back.png'
-import TextFieldsIcon from '@material-ui/icons/TextFields';
 import ImageIcon from '@material-ui/icons/Image';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 
@@ -78,13 +70,13 @@ export default function VerticalTabs() {
         aria-label="Vertical tabs example"
         className={classes.tabs}
       >
-        <Tab img height={50} src={text}><img height={50} src={text} /></Tab>
-        <Tab icon ={<ImageIcon/>} label="Add image" {...a11yProps(1)}></Tab>
-        <Tab icon ={<CloudUploadIcon/>} label="Item Three" {...a11yProps(2)} ></Tab>
-        <Tab icon ={<ImageIcon/>} label="Item Four" {...a11yProps(3)}></Tab>
-        <Tab icon ={<ImageIcon/>} label="Item Five" {...a11yProps(4)}></Tab>
-        <Tab icon ={<ImageIcon/>} label="Item Six" {...a11yProps(5)}></Tab>
-        <Tab icon ={<ImageIcon/>} label="Item Seven" {...a11yProps(6)} ></Tab>
+        <Tab img height={50} src={text}><img height={50} src={text} alt="" /></Tab>
+        <Tab icon={<ImageIcon />} label="Add image" {...a11yProps(1)}></Tab>
+        <Tab icon={<CloudUploadIcon />} label="Item Three" {...a11yProps(2)} ></Tab>
+        <Tab icon={<ImageIcon />} label="Item Four" {...a11yProps(3)}></Tab>
+        <Tab icon={<ImageIcon />} label="Item Five" {...a11yProps(4)}></Tab>
+        <Tab icon={<ImageIcon />} label="Item Six" {...a11yProps(5)}></Tab>
+        <Tab icon={<ImageIcon />} label="Item Seven" {...a11yProps(6)} ></Tab>
       </Tabs>
       <TabPanel value={value} index={0}>
         Item One

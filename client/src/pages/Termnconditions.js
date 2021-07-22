@@ -1,18 +1,8 @@
 import React from 'react';
-import { CssBaseline } from '@material-ui/core';
+import { CssBaseline, Typography } from '@material-ui/core';
 import CommonNav from '../components/Navbars/CommonNav';
-import Content from '../components/Content';
 import Footer from '../components/Footer/Footer';
-// import Product_grid from '../components/Product_grid/Product_grid';
-import { Product_grid } from '../components/Product_grid/Product_grid';
-// import { DropDown } from '../components/Product_grid/DropDown';
-import { Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
-
-
-
-
-import SplitButton from '../components/Product_grid/Product_grid';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -55,13 +45,6 @@ const useStyles = makeStyles((theme) => ({
     collectionContainer: {
         paddingTop: '24px'
     },
-    collectionTitle: {
-        fontWeight: '300',
-        paddingBottom: '24px',
-        textAlign: 'center',
-        fontFamily: 'Segoe UI',
-        padding: '50px',
-    },
     card: {
         maxWidth: '95%'
 
@@ -70,7 +53,6 @@ const useStyles = makeStyles((theme) => ({
         height: '240px',
 
     },
-
     collectionTitle: {
         marginTop: '40px',
         fontWeight: '300',
@@ -79,7 +61,6 @@ const useStyles = makeStyles((theme) => ({
         fontFamily: 'Segoe UI',
         padding: '50px',
     },
-
     DropDown: {
         margin: theme.spacing(5),
     },

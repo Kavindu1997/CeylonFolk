@@ -70,12 +70,12 @@ export default function ProfileWishlist() {
     const rows = [
         createData(
             <div>
-                <img height={100} align="center" src={require('../images/ts2.jpg').default} />
+                <img height={100} align="center" src={require('../images/ts2.jpg').default} alt="" />
             </div>,
             'Baby Tshirt', 1000, 'Not Available'),
         createData(
             <div>
-                <img height={100} align="center" src={require('../images/ts3.jpg').default} />
+                <img height={100} align="center" src={require('../images/ts3.jpg').default} alt="" />
             </div>,
             'White Tshirt', 1300, 'Available'),
     ];
