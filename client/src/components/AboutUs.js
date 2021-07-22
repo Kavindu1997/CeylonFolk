@@ -81,7 +81,7 @@ export default function AboutUs() {
             </div> */}
                     </Grid>
                 </Grid>
-            
+
             </center>
         </container>
 

@@ -89,8 +89,8 @@ export default function Wishlist() {
     // const base64String = btoa(String.fromCharCode(...new Uint8Array(data)));
     // console.log(base64String);
 
-   
-    
+
+
     return (
 
 
@@ -115,7 +115,7 @@ export default function Wishlist() {
                                         <TableRow key={value.id}>
 
                                             {/* <TableCell align="center" style={{ fontFamily: 'Montserrat' }}> <img src={require({"'" + value.image+"'"}).default} /> </TableCell> */}
-                                            <TableCell align="center" style={{ fontFamily: 'Montserrat' }}> <img height={100} align="center" src={value.image} /> </TableCell>
+                                            <TableCell align="center" style={{ fontFamily: 'Montserrat' }}> <img height={100} align="center" src={value.image} alt="" /> </TableCell>
                                             <TableCell align="center" style={{ fontFamily: 'Montserrat' }}> {value.name} </TableCell>
                                             <TableCell align="center" style={{ fontFamily: 'Montserrat' }}> {value.price} </TableCell>
                                             <TableCell align="center" style={{ fontFamily: 'Montserrat' }}> {value.price} </TableCell>
