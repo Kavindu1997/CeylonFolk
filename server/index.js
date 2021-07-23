@@ -19,8 +19,11 @@ app.use("/collections", collectionRouter);
 
 const inventoryRouter = require('./routes/Inventory');
 app.use("/invent",inventoryRouter);
+
 const wishlistRouter = require('./routes/Wishlist');
 app.use("/wishlist", wishlistRouter);
+
+
 
 
 db.sequelize.sync().then(() => {

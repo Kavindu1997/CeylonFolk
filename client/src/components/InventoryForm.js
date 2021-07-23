@@ -86,6 +86,7 @@ const InventoryForm = () => {
 
     const classes = useStyles();
 
+
     // const validate=(fieldValues=values)=>{
     //     let temp={...errors}
     //     if('collectionId' in fieldValues)
@@ -123,7 +124,7 @@ const InventoryForm = () => {
 
                     <Grid container>
 
-                    <Grid item md={6} style={{ paddingLeft: '100px', paddingRight: '100px' }}>
+                        <Grid item md={6} style={{ paddingLeft: '100px', paddingRight: '100px' }}>
 
 
                             <Field as={TextField}
@@ -163,13 +164,7 @@ const InventoryForm = () => {
                                 helperText={<ErrorMessage name="size" />}
                             />
 
-<Button
-                            type="submit"
-                            fullWidth
-                            variant="contained"
-                            color="primary"
-                            className={classes.submit}
-                        >Add to the Inventory</Button>
+
 
                         </Grid>
                         <Grid item md={6} style={{ paddingLeft: '100px', paddingRight: '100px' }}>
@@ -210,8 +205,19 @@ const InventoryForm = () => {
                                 helperText={<ErrorMessage name="margin" />}
                             />
                         </Grid>
+                        <Grid item md={6} style={{ paddingLeft: '100px', paddingRight: '100px' }}>
 
-                      
+
+                            <Button
+                                type="submit"
+                                fullWidth
+                                variant="contained"
+                                color="primary"
+                                className={classes.submit}
+                            >Add to the inventory</Button>
+                        </Grid>
+
+
                     </Grid>
 
                 </Form>
