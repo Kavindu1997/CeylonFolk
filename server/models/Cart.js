@@ -1,43 +1,37 @@
 module.exports = (sequelize, DataTypes) => {
 
-    const Customers = sequelize.define("Customers", {
-        customerId: {
+    const Cart = sequelize.define("Cart", {
+        id: {
             type: DataTypes.INTEGER,
-            primaryKey: true,
-            allowNull: false,
-        },
-        cartId: {
-            type: DataTypes.INTEGER,
-            unique: true,
             autoIncrement: true,
             allowNull: false,
+            primaryKey: true,
         },
-        name: {
-            type: DataTypes.STRING,
-            allowNull: false,
-        },
-        email: {
-            type: DataTypes.STRING,
-            allowNull: false,
-        },
-        phoneNo: {
+        customerId: {
             type: DataTypes.INTEGER,
             allowNull: false,
-        }, 
-        addLine1: {
+        },
+        itemId: {
             type: DataTypes.STRING,
             allowNull: false,
         },
-        addLine2: {
+        quantity: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+        },
+        size: {
             type: DataTypes.STRING,
             allowNull: false,
         },
-        city: {
-            type: DataTypes.STRING,
+        isDeleted: {
+            type: DataTypes.INTEGER,
             allowNull: false,
         },
-      
+        isBought: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+        },
     });
 
-    return Customers;
+    return Cart;
 }

@@ -14,6 +14,8 @@ import Typography from '@material-ui/core/Typography';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import { makeStyles } from '@material-ui/core/styles';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
 
 import { Radio_buttons } from './Radio_buttons';
 import {IconButton,Collapse,CardActions,CardContent} from '@material-ui/core';
@@ -194,6 +196,43 @@ const useStyles = makeStyles((theme) => ({
 export const Product_detail = () => {
   const classes = useStyles();
 
+  const [itemDetails, setOfItems] = useState([]);
+  const [totalDetails, setOftotals] = useState([]); 
+  const addToCart = () => {
+    var uid = localStorage.getItem("userId");
+    console.log("point2")
+    if (uid > 0) {
+      console.log("point3")
+      alert("Product successfully added to cart");
+      const url = "http://localhost:3001/check/addToCart/"
+      const dummyItem = {productId:'ID007', quantity:2, userId:1, size:'M'}
+      axios.post(url,dummyItem).then((response) => {
+        if (response.data.error) alert(response.data.error);
+        else {
+          const url1 = "http://localhost:3001/check/items/" + uid;
+          axios.get(url1).then((response) => {
+            setOfItems(response.data);
+          });
+          const url2 = "http://localhost:3001/check/total/" + uid;
+          axios.get(url2).then((response) => {
+            setOftotals(response.data);
+          });
+        }
+      });
+      alert("Product successfully added to cart");
+    }
+    else {
+      //TODO Update the local storage
+      const dummyItem = {image: "https://5.imimg.com/data5/CR/OL/NO/ANDROID-36904487/img-20181220-wa0001-jpg-500x500.jpg", name: "Snowy", price: 1200, quantity: 10, itemId: "ID007", size: "S"}
+      var cart = [];
+      cart = JSON.parse(localStorage.getItem("cart"));
+      console.log("point 1")
+      cart.push(dummyItem);
+      localStorage.setItem("cart", JSON.stringify(cart));
+    }
+  };
+
+
   return (
 
     <Grid container className={classes.productContainer}>
@@ -281,7 +320,7 @@ export const Product_detail = () => {
       </div>
           </Box>
           
-          <Button style={{background:'#2c2d2d',color:'white'}}>ADD TO CART</Button>
+          <Button style={{background:'#2c2d2d',color:'white'}} onClick={addToCart}>ADD TO CART</Button>
         </Box>
           
         </Box>

@@ -24,9 +24,10 @@ router.post("/register", async (req, res) => {
 
 router.post("/login", async (req, res) => {
     const { loginEmail, loginPassword } = req.body;
-
+   
+    
     const user = await Users.findOne({ where: { email: loginEmail } });
-
+    
     if (!(user.email == loginEmail)) res.json({ error: "Email doesn't Exist" });
 
     if (!user) res.json({ error: "Email doesn't Exist" });
@@ -36,9 +37,10 @@ router.post("/login", async (req, res) => {
 
         const accessToken = sign(
             {email: user.email, id: user.id},
-            "imporrtantsecret"
+            "importantsecret"
             );
-        res.json(accessToken);
+            user['token']  = accessToken;
+        res.json(user);
     });
 });
 

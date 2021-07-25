@@ -23,6 +23,8 @@ app.use("/invent",inventoryRouter);
 const wishlistRouter = require('./routes/Wishlist');
 app.use("/wishlist", wishlistRouter);
 
+const checkoutRouter = require('./routes/Checkout');
+app.use("/check", checkoutRouter);
 
 
 

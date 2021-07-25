@@ -4,6 +4,9 @@ import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typog
 import NumericInput from 'react-numeric-input';
 import 'font-awesome/css/font-awesome.min.css';
 import { Link } from "react-router-dom";
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -48,65 +51,102 @@ function createData(image, name, price, quantity, action, total) {
   return { image, name, price, quantity, action, total };
 }
 
-const rows = [
-  createData(
-    <div>
-      <img height={100} src={require('../images/ts1.jpg').default} />
-    </div>,
-    'Snowy Tshirt', 1000,
-    <div>
-      <NumericInput mobile min={0} max={100} value={2} size={1} />
-    </div>,
-    0, 2000),
-  createData(
-    <div>
-      <img height={100} align="center" src={require('../images/ts2.jpg').default} />
-    </div>,
-    'Baby Tshirt', 800,
-    <div>
-      <NumericInput mobile min={0} max={100} value={1} size={1}
-        style={{
-          borderRadius: '20px 20px 20px 20px'
-          //   wrap: {
-          //       background: '#E2E2E2',
-          //       // boxShadow: '0 0 1px 1px #fff inset, 1px 1px 5px -1px #000',
-          //       padding: '2px 2.26ex 2px 2px',
-          //       borderRadius: '20px 20px 20px 20px',
-          //       // fontSize: 32
-          //   },
-          //   input: {
-          //     borderRadius: '20px 20px 20px 20px',
-          //     color: '#988869',
-          //     padding: '0.1ex 1ex',
-          //     // border: '1px solid #ccc',
-          //     marginRight: 4,
-          //     // display: 'block',
-          //     fontWeight: 100,
-          //     // textShadow: 1px 1px 1px rgba(0, 0, 0, 0.1)
-          // }} 
-        }} />
-    </div>,
-    1000, 800),
-  createData(
-    <div>
-      <img height={100} align="center" src={require('../images/ts3.jpg').default} />
-    </div>,
-    'White Tshirt', 800,
-    <div>
-      <NumericInput mobile min={0} max={100} value={1} size={1} />
-    </div>,
-    6.0, 800),
-];
-
-// function deleteItem(i) {
-//   const { rows } = this.state;
-//   rows.splice(i, 1);
-//   this.setState({ rows });
-// }
 
 export default function Cart() {
 
+  let history = useHistory();
+
+  function onProceed() {
+    var id = localStorage.getItem("userId");
+    if (id > 0) {
+      history.push('/Checkout');
+    }
+    else {
+      localStorage.setItem("fromTheCart", true);
+      history.push('/auth');
+    }
+  }
+
+  const onRemove = (id) => { //'Itom007'
+    var uid = localStorage.getItem("userId");
+    if (uid > 0) {
+      const url = "http://localhost:3001/check/remove/"
+      const data = {userId:uid, itemId:id}
+      axios.put(url,data).then((response) => {
+        if (response.data.error) alert(response.data.error);
+        else {
+          const url1 = "http://localhost:3001/check/items/" + uid;
+          axios.get(url1).then((response) => {
+            console.log(response.data)
+            setOfItems(response.data);
+          });
+          const url2 = "http://localhost:3001/check/total/" + uid;
+          axios.get(url2).then((response) => {
+            setOftotals(response.data);
+          });
+        }
+      });
+    }
+    else {
+      //TODO Update the local storage
+      var cart = [];
+      var selectedId; 
+      cart = JSON.parse(localStorage.getItem("cart"));
+      for (let i = 0;i<cart.length;i++){
+        if(cart[i].itemId=id){
+          selectedId = i;
+
+        }
+
+      }
+      cart = cart.splice(0, selectedId);
+      if(cart == null){
+        cart = [];
+      }
+      setOfItems(cart);
+      localStorage.setItem("cart", JSON.stringify(cart));
+    }
+  };
+
+
   const classes = useStyles();
+  var totalvalue = 0;
+  const [itemDetails, setOfItems] = useState([]);
+  useEffect(() => {
+    var id = localStorage.getItem("userId");
+    if(id > 0){
+      const url = "http://localhost:3001/check/items/" + id;
+      axios.get(url).then((response) => {
+      setOfItems(response.data);
+    });
+    }else{
+      var cart = JSON.parse(localStorage.getItem("cart"));
+      setOfItems(cart);
+    }
+    
+  }, []);
+
+  const [totalDetails, setOftotals] = useState([]);
+  useEffect(() => {
+    var id = localStorage.getItem("userId");
+    const url = "http://localhost:3001/check/total/" + id;
+    axios.get(url).then((response) => {
+      setOftotals(response.data);
+
+    });
+  }, []);
+
+  function onLogout() {
+    var cart = []
+    localStorage.setItem("userId", null);
+    localStorage.setItem("userName", 0);
+    localStorage.setItem("cart", JSON.stringify(cart));
+  }
+
+
+  //console.log(totalDetails[0]['total'])
+
+  // var totalvalue = Number(totalDetails[0].total) + 200
 
   return (
     <container>
@@ -125,28 +165,36 @@ export default function Cart() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows.map((row, i) => (
-                <TableRow key={`row-${i}`}>
-                  <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{row.image}</TableCell>
-                  <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{row.name}</TableCell>
-                  <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{row.price}</TableCell>
-                  <TableCell align="center" className={classes.numeric} style={{ fontFamily: 'Montserrat' }}>{row.quantity}</TableCell>
-                  <TableCell align="center">
-                    <Button>
-                      <i class="fa fa-times" aria-hidden="true"></i>
-                    </Button>
-                  </TableCell>
-                  <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{row.total}</TableCell>
-                </TableRow>
-              ))}
-              <TableRow>
-                <TableCell align="center" colSpan={5} rowSpan={3} style={{ fontFamily: 'Montserrat', fontWeight: 600, fontSize: '15pt', height: '100px' }}>
-                  Sub Total
-                </TableCell>
-                <TableCell align="center" rowSpan={3} style={{ fontFamily: 'Montserrat', fontWeight: 600, fontSize: '15pt' }}>
-                  3600
-                </TableCell>
-              </TableRow>
+              {itemDetails
+                .map((value) => {
+                  return (
+                    <TableRow key={value.customerId}>
+                      <TableCell align="center" style={{ fontFamily: 'Montserrat' }}><img height={100} align="center" src={value.image} /></TableCell>
+                      <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.name}</TableCell>
+                      <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>Rs. {value.price}</TableCell>
+                      <TableCell align="center" className={classes.numeric} style={{ fontFamily: 'Montserrat' }}>{value.quantity}</TableCell>
+                      <TableCell align="center">
+                        <Button name="remove" onClick={() => onRemove(value.itemId)}>
+                          <i className="fa fa-times" aria-hidden="true"></i>
+                        </Button>
+                      </TableCell>
+                      <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>Rs. {value.totals}</TableCell>
+                    </TableRow>
+                  );
+                })}
+              {totalDetails
+                .map((value) => {
+                  return (
+                    <TableRow key={value.customerId}>
+                      <TableCell align="center" colSpan={5} rowSpan={3} style={{ fontFamily: 'Montserrat', fontWeight: 600, fontSize: '15pt', height: '100px' }}>
+                        Sub Total
+                      </TableCell>
+                      <TableCell align="center" rowSpan={3} style={{ fontFamily: 'Montserrat', fontWeight: 600, fontSize: '15pt' }}>
+                        Rs. {value.total}
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
             </TableBody>
           </Table>
         </TableContainer>
@@ -166,13 +214,18 @@ export default function Cart() {
           <TableContainer style={{ marginTop: '50px', align: 'center', width: '600px' }}>
             <Table className={classes.table} aria-label="simple table">
               <Typography variant="h6" style={{ marginTop: '20px', marginLeft: '15px', marginBottom: '20px', textAlign: 'left', fontWeight: 600, fontFamily: 'Montserrat' }}>CART TOTALS</Typography>
-              <TableRow>
-                <TableCell align="left" style={{ fontWeight: 600, fontFamily: 'Montserrat' }}>SUB TOTAL</TableCell>
-                <TableCell align="center" style={{ fontWeight: 600, fontFamily: 'Montserrat' }}> Rs. 3600</TableCell>
-              </TableRow>
+              {totalDetails
+                .map((value) => {
+                  return (
+                    <TableRow key={value.cartId}>
+                      <TableCell align="left" style={{ fontWeight: 600, fontFamily: 'Montserrat' }}>SUB TOTAL</TableCell>
+                      <TableCell align="center" style={{ fontWeight: 600, fontFamily: 'Montserrat' }}>Rs. {value.total}</TableCell>
+                    </TableRow>
+                  );
+                })}
               <TableRow>
                 <TableCell align="left" style={{ fontWeight: 600, fontFamily: 'Montserrat' }}>SHIPPING</TableCell>
-                <TableCell align="center" style={{ fontWeight: 600, fontFamily: 'Montserrat' }}>Rs. 100</TableCell>
+                <TableCell align="center" style={{ fontWeight: 600, fontFamily: 'Montserrat' }}>Rs. 200</TableCell>
               </TableRow>
               <TableRow>
                 <TableCell align="left" style={{ fontWeight: 600, fontFamily: 'Montserrat' }}>ADD COUPON</TableCell>
@@ -191,22 +244,37 @@ export default function Cart() {
                   </div>
                 </TableCell>
               </TableRow>
-              <TableRow>
-                <TableCell align="left" style={{ fontWeight: 600, fontFamily: 'Montserrat' }}>TOTAL</TableCell>
-                <TableCell align="center" style={{ fontWeight: 600, fontFamily: 'Montserrat' }}>Rs. 3700</TableCell>
-              </TableRow>
+              {totalDetails
+                .map((value) => {
+                  return (
+                    <TableRow key={value.cartId}>
+                      <TableCell align="left" style={{ fontWeight: 600, fontFamily: 'Montserrat' }}>TOTAL</TableCell>
+                      <TableCell align="center" style={{ fontWeight: 600, fontFamily: 'Montserrat' }}>Rs. {Number(value.total) + 200}</TableCell>
+                    </TableRow>
+                  );
+                })}
             </Table>
           </TableContainer>
 
 
-          <Link to="/Checkout" style={{ textDecoration: 'none' }}><Button
+          <Button
             type="submit"
+            onClick={onProceed}
             variant="contained"
             color="primary"
             className={classes.submit}
           >Proceed To Checkout
           </Button>
-          </Link>
+
+          <Button
+            type="submit"
+            onClick={onLogout}
+            variant="contained"
+            color="primary"
+            className={classes.submit}
+          >Logout
+          </Button>
+
         </center>
       </div>
     </container>
