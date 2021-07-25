@@ -1,9 +1,10 @@
 import React from 'react';
-import { Button, TextField, CssBaseline, Grid, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Radio, RadioGroup, FormControl, Checkbox, TextareaAutosize } from '@material-ui/core';
+import { Button, TextField, CssBaseline, Grid, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Radio, RadioGroup, FormControl, Checkbox, TextareaAutosize, useScrollTrigger } from '@material-ui/core';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { makeStyles } from '@material-ui/styles';
 import { Formik, Form, Field, ErrorMessage } from "formik";
-
+import axios from 'axios';
+import { useEffect, useState } from 'react';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -42,25 +43,37 @@ function onLinkClick(event) {
     console.log('onLinkClick'); // never called
 }
 
-function createData(image, name, quantity, total) {
-    return { image, name, quantity, total };
-}
-
-const rows = [
-    createData(
-        <div>
-            <img height={75} src={require('../images/ts1.jpg').default} />
-        </div>,
-        'Snowy Tshirt', 2, 2000),
-    createData(
-        <div>
-            <img height={75} align="center" src={require('../images/ts2.jpg').default} />
-        </div>,
-        'Baby Tshirt', 1, 1000),
-];
-
 export default function Checkout() {
     const classes = useStyles();
+
+    const [customerDetails, setOfDetails] = useState([]);
+    useEffect(() => {
+        var id = localStorage.getItem("userId");
+        const url = "http://localhost:3001/check/customer/"+id;
+        axios.get(url).then((response) => {
+            console.log(response.data);
+            setOfDetails(response.data);
+        });
+    }, []);
+
+    const [itemDetails, setOfItems] = useState([]);
+    useEffect(() => {
+        var id = localStorage.getItem("userId");
+        const url = "http://localhost:3001/check/items/"+id;
+        axios.get(url).then((response) => {
+            setOfItems(response.data);
+        }); 
+    }, []);
+
+    const [totalDetails, setOftotals] = useState([]);
+    useEffect(() => {
+        var id = localStorage.getItem("userId");
+        const url = "http://localhost:3001/check/total/"+id;
+        axios.get(url).then((response) => {
+            setOftotals(response.data);
+        });
+    }, []);
+
     const [value, setValue] = React.useState('payment');
 
     const handleChange = (event) => {
@@ -76,98 +89,94 @@ export default function Checkout() {
                 <Grid container style={{ marginTop: '50px', align: 'center' }}>
                     <Grid item xs={12} sm={12} md={6} lg={6}>
                         <Typography component="h1" variant="h5" style={{ fontFamily: 'Montserrat', textAlign: 'center' }}>Billing Details</Typography>
-                        <form className={classes.form} noValidate>
-                            <TextField
-                                variant="outlined"
-                                margin="normal"
-                                required
-                                fullWidth
-                                id="name"
-                                label="Your Name"
-                                name="name"
-                                autoComplete="name"
-                                autoFocus
-                            />
-                            <TextField
-                                variant="outlined"
-                                margin="normal"
-                                required
-                                fullWidth
-                                id="email"
-                                label="Email Address"
-                                name="email"
-                                type="email"
-                                autoComplete="email"
-                            />
-                            <TextField
-                                variant="outlined"
-                                margin="normal"
-                                required
-                                fullWidth
-                                id="number"
-                                label="Phone Number(for delivery)"
-                                name="number"
-                                autoComplete="number"
-                            />
-                            <TextField
-                                variant="outlined"
-                                margin="normal"
-                                required
-                                fullWidth
-                                id="add1"
-                                label="Address Line 1"
-                                name="add1"
-                                autoComplete="add1"
-                            />
-                            <TextField
-                                variant="outlined"
-                                margin="normal"
-                                required
-                                fullWidth
-                                id="add2"
-                                label="Address Line 2"
-                                name="add2"
-                                autoComplete="add1"
-                            />
-                            <TextField
-                                variant="outlined"
-                                margin="normal"
-                                required
-                                fullWidth
-                                id="city"
-                                label="City"
-                                name="city"
-                                autoComplete="city"
-                            />
-                            <FormControlLabel
-                                control={<Checkbox value="address" color="primary" />}
-                                label="Deliver to a different address"
-                                style={{ float: 'left' }} />
-                            <div id="addressNew">
-                                <TextareaAutosize aria-label="minimum height" minRows={5} placeholder="Shipping Address" style={{ width: '480px', height: '60px', textAlign: 'justify', padding: '15px', fontFamily: 'Montserrat', marginTop: '10px', borderRadius: '5px' }} />
-                                {/* <TextField
-                                    variant="outlined"
-                                    margin="normal"
-                                    fullWidth
-                                    id="addnew1"
-                                    label="Shipping Address"
-                                    name="addnew"
-                                    autoComplete="addnew"
-                                /> */}
-                            </div>
-                            {/* <TextField
-                                    variant="outlined"
-                                    margin="normal"
-                                    fullWidth
-                                    height="60px"
-                                    id="note"
-                                    label="Order Notes (optional)"
-                                    name="note"
-                                    autoComplete="note"
-                                /> */}
-                            <TextareaAutosize aria-label="minimum height" minRows={5} placeholder="Order Notes (optional)" style={{ width: '480px', height: '100px', textAlign: 'justify', padding: '15px', fontFamily: 'Montserrat', marginTop: '30px', borderRadius: '5px' }} />
 
-                        </form>
+                        {customerDetails
+                            .map((value) => {
+                                return (
+                                <form className={classes.form} noValidate key={value.customerId}>
+                                    <TextField
+                                        variant="outlined"
+                                        margin="normal"
+                                        required
+                                        fullWidth
+                                        id="name"
+                                        label="Your Name"
+                                        name="name"
+                                        defaultValue={value.firstName}
+                                        autoComplete="name"
+                                        autoFocus
+                                    />
+                                    <TextField
+                                        variant="outlined"
+                                        margin="normal"
+                                        required
+                                        fullWidth
+                                        id="email"
+                                        label="Email Address"
+                                        name="email"
+                                        defaultValue={value.email}
+                                        type="email"
+                                        autoComplete="email"
+                                    />
+                                    <TextField
+                                        variant="outlined"
+                                        margin="normal"
+                                        required
+                                        fullWidth
+                                        id="number"
+                                        label="Phone Number(for delivery)"
+                                        name="number"
+                                        defaultValue={value.phoneNo}
+                                        autoComplete="number"
+                                    />
+                                    <TextField
+                                        variant="outlined"
+                                        margin="normal"
+                                        required
+                                        fullWidth
+                                        id="add1"
+                                        label="Address Line 1"
+                                        name="add1"
+                                        defaultValue={value.addLine1}
+                                        autoComplete="add1"
+                                    />
+                                    <TextField
+                                        variant="outlined"
+                                        margin="normal"
+                                        required
+                                        fullWidth
+                                        id="add2"
+                                        label="Address Line 2"
+                                        name="add2"
+                                        defaultValue={value.addLine2}
+                                        autoComplete="add1"
+                                    />
+                                    <TextField
+                                        variant="outlined"
+                                        margin="normal"
+                                        required
+                                        fullWidth
+                                        id="city"
+                                        label="City"
+                                        name="city"
+                                        defaultValue={value.city}
+                                        autoComplete="city"
+                                    />
+
+                                    <FormControlLabel
+                                        control={<Checkbox value="address" color="primary" />}
+                                        label="Deliver to a different address"
+                                        style={{ float: 'left' }} />
+                                    <div id="addressNew">
+                                        <TextareaAutosize aria-label="minimum height" placeholder="Shipping Address" style={{ width: '480px', height: '60px', textAlign: 'justify', padding: '15px', fontFamily: 'Montserrat', marginTop: '10px', borderRadius: '5px' }} />
+                                    </div>
+                                    <TextareaAutosize aria-label="minimum height"  placeholder="Order Notes (optional)" style={{ width: '480px', height: '100px', textAlign: 'justify', padding: '15px', fontFamily: 'Montserrat', marginTop: '30px', borderRadius: '5px' }} />
+
+                                </form>
+                            );
+                        })}
+
+
                     </Grid>
                     <Grid item xs={12} sm={12} md={6} lg={6}>
                         <Typography component="h1" variant="h5" style={{ fontFamily: 'Montserrat', textAlign: 'center' }}>Order Summery</Typography>
@@ -180,21 +189,29 @@ export default function Checkout() {
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {rows.map((row, i) => (
-                                        <TableRow key={`row-${i}`}>
-                                            <TableCell align="left" style={{ fontFamily: 'Montserrat' }}>{row.image}  </TableCell>
-                                            <TableCell align="left" style={{ fontFamily: 'Montserrat' }}>{row.name} x {row.quantity}</TableCell>
-                                            <TableCell align="left" style={{ fontFamily: 'Montserrat' }}>{row.total}</TableCell>
+                                {itemDetails
+                                    .map((value) => {
+                                        return (
+                                        <TableRow key={value.cartId}>
+                                            <TableCell align="left" style={{ fontFamily: 'Montserrat' }}><img height={100} align="center" src={value.image} /></TableCell>
+                                            <TableCell align="left" style={{ fontFamily: 'Montserrat' }}>{value.name} x {value.quantity}</TableCell>
+                                            <TableCell align="left" style={{ fontFamily: 'Montserrat' }}>{value.totals}</TableCell>
                                         </TableRow>
-                                    ))}
-                                    <TableRow>
+                                        );
+                                        })}
+                                     {totalDetails
+                                        .map((value) => {
+                                            return (
+                                    <TableRow key={value.cartId}>
                                         <TableCell align="left" colSpan={2} style={{ fontFamily: 'Montserrat', fontWeight: 600, height: '60px' }}>
                                             Sub Total
                                         </TableCell>
                                         <TableCell align="left" style={{ fontFamily: 'Montserrat' }}>
-                                            Rs. 3000
+                                            Rs.{value.total}
                                         </TableCell>
                                     </TableRow>
+                                     );
+                                    })}
                                     <TableRow>
                                         <TableCell align="left" colSpan={2} style={{ fontFamily: 'Montserrat', fontWeight: 600, height: '60px' }}>
                                             Shipping
@@ -203,14 +220,19 @@ export default function Checkout() {
                                             Rs. 200
                                         </TableCell>
                                     </TableRow>
-                                    <TableRow>
+                                    {totalDetails
+                                        .map((value) => {
+                                            return (
+                                    <TableRow key={value.cartId}>
                                         <TableCell align="left" colSpan={2} style={{ fontFamily: 'Montserrat', fontWeight: 600, height: '60px' }}>
                                             Total
                                         </TableCell>
                                         <TableCell align="left" colSpan={3} style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>
-                                            Rs. 3200
+                                            Rs. {Number(value.total)+200}
                                         </TableCell>
                                     </TableRow>
+                                    );
+                                })}
                                     <TableRow>
                                         <Typography component="h1" variant="h6" style={{ fontFamily: 'Montserrat', textAlign: 'left', marginTop: '15px', marginBottom: '10px', marginLeft: '30px' }}>Payment Method</Typography>
                                         <FormControl component="fieldset">
