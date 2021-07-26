@@ -14,9 +14,6 @@ import Popup from './Reusable/Popup';
 import Notification from './Reusable/Notification';
 import ConfirmDialog from './Reusable/ConfirmDialog';
 
-import Lottie from 'react-lottie';
-import User from '../images/user.json';
-
 const useStyles = makeStyles((theme) => ({
     pageContent: {
         margin: theme.spacing(5),
@@ -103,14 +100,14 @@ const UserTable = () => {
         });
 
     }
-    const defaultOptions = {
-        loop: true,
-        autoplay: true,
-        animationData: User,
-        rendererSettings: {
-            preserveAspectRatio: "xMidYMid slice"
-        }
-    };
+    // const defaultOptions = {
+    //     loop: true,
+    //     autoplay: true,
+    //     animationData: User,
+    //     rendererSettings: {
+    //         preserveAspectRatio: "xMidYMid slice"
+    //     }
+    // };
 
     return (
         <div>

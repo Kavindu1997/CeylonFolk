@@ -23,8 +23,13 @@ app.use("/invent",inventoryRouter);
 const wishlistRouter = require('./routes/Wishlist');
 app.use("/wishlist", wishlistRouter);
 
+
 const couponRouter = require('./routes/Coupons');
 app.use("/coupons", couponRouter);
+
+const checkoutRouter = require('./routes/Checkout');
+app.use("/check", checkoutRouter);
+
 
 
 db.sequelize.sync().then(() => {
