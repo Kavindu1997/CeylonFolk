@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core';
 import Home from './pages/Home';
 import Shop from './pages/Shop';
-import Contactus from './pages/Contactus';
+import Contactus from './pages/ContactUs';
 import Authentication from './pages/Authentication';
 import AdminDashboard from './pages/AdminDashboard';
 import Users from './pages/Users';
@@ -15,13 +15,13 @@ import MyCart from './pages/MyCart'
 import CheckingOut from './pages/CheckingOut'
 import Coupon from './pages/Coupon';
 import Wish from './pages/Wish';
-import About from './pages/About';
+import About from './pages/AboutUs';
 import Profile from './pages/Profile';
 import UserWishlist from './pages/UserWishlist';
 import UserOrders from './pages/UserOrders';
 import Customize from './pages/Customize';
 import Tab from './pages/tab';
-import Termnconditions from './pages/Termnconditions';
+import Termnconditions from './pages/TermsAndConditions';
 
 
 const theme = createMuiTheme({
@@ -110,7 +110,7 @@ const App = () => {
           <Route path="/designs" exact render={() => <Design />} />
           <Route path="/customize" exact render={() => <Customize />} />
           <Route path="/termnconditions" exact render={() => <Termnconditions />} />
-          <Route path="/tab" exact render={() => <Tab/>}/>
+          <Route path="/tab" exact render={() => <Tab />} />
 
         </Switch>
       </Router>
