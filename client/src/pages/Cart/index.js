@@ -1,54 +1,20 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, Button, TextField } from '@material-ui/core';
+import CommonNav from '../../components/Navbars/CommonNav';
+import Footer from '../../components/Footer/Footer';
+import { CssBaseline,Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, Button, TextField } from '@material-ui/core';
 import NumericInput from 'react-numeric-input';
 import 'font-awesome/css/font-awesome.min.css';
 import { Link } from "react-router-dom";
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import useStyles from './style';
 
-
-const useStyles = makeStyles((theme) => ({
-  table: {
-    minWidth: 400,
-    backgroundColor: '#fafafa',
-    fontFamily: 'Montserrat'
-  },
-  spreadBox: {
-    justifyContent: "space-around",
-    alignItems: "center",
-  },
-  box: {
-    height: 100,
-    display: "flex",
-    padding: 8
-  },
-  back: {
-    marginTop: 30,
-    alignItems: "center",
-    // marginLeft: 600,
-  },
-  submit: {
-    marginTop: 30,
-    alignItems: "center",
-    // marginLeft: 600,
-  },
-  coupon: {
-    borderRadius: 20
-  },
-  numeric: {
-    borderRadius: '50%'
-    // rounded, 
-    // textColor:'#B0228C', 
-    // // iconStyle={{ color: 'white' }}, 
-    // rightButtonBackgroundColor:'#EA3788', 
-    // leftButtonBackgroundColor:'#E56B70',
-  },
-}));
 
 export default function Cart() {
 
+    const classes = useStyles();
   let history = useHistory();
 
   function onProceed() {
@@ -103,8 +69,6 @@ export default function Cart() {
     }
   };
 
-
-  const classes = useStyles();
   var totalvalue = 0;
   const [itemDetails, setOfItems] = useState([]);
   useEffect(() => {
@@ -144,6 +108,9 @@ export default function Cart() {
   // var totalvalue = Number(totalDetails[0].total) + 200
 
   return (
+      <div>
+          <CommonNav />
+            <CssBaseline />
     <container>
       <center>
         <Typography variant="h5" style={{ marginTop: '80px', textAlign: 'center', backgroundColor: '#C6C6C6', padding: '30px', fontFamily: 'Montserrat' }}>CART</Typography>
@@ -275,6 +242,8 @@ export default function Cart() {
         </center>
       </div>
     </container>
+    <Footer />
+    </div>
 
   );
 }
