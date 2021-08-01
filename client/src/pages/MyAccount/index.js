@@ -1,4 +1,6 @@
 import React from 'react';
+import UserNav from '../../components/Navbars/UserNav';
+import Footer from '../../components/Footer/Footer';
 import { Button, CssBaseline, TextField, Grid, Typography, FormControl, IconButton, OutlinedInput, InputLabel, InputAdornment, Divider, Avatar, List, ListItem, ListItemAvatar, ListItemText } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import Visibility from '@material-ui/icons/Visibility';
@@ -8,6 +10,7 @@ import axios from 'axios';
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from 'yup';
 import "yup-phone";
+import useStyles from './style';
 
 const initialValues1 = {
     fullName: '',
@@ -38,53 +41,9 @@ const initialValues1 = {
 };
 
 
-const useStyles = makeStyles((theme) => ({
-    root: {
-        display: 'flex',
-        justifyContent: 'center',
-        height: '1000px',
-        fontFamily: 'Montserrat',
-        position: 'relative',
-        color: 'white',
-        padding: '100px',
-    },
-    table: {
-        backgroundColor: '#fafafa',
-        fontFamily: 'Montserrat',
-        width: '600px'
-    },
-    form: {
-        width: '60%',
-        marginTop: theme.spacing(2),
-        fontFamily: 'Montserrat',
-        alignItems: 'center',
-    },
-    field: {
-        width: '800px',
-        fontFamily: 'Montserrat',
-        alignItems: 'center',
-        backgroundColor: '#fafafa'
-    },
-    submit: {
-        align: 'center',
-        padding: '10px',
-        marginTop: '30px',
-        width: '450px'
-    },
-    margin: {
-        margin: theme.spacing(2),
-        width: '50ch',
-    },
-    avatar: {
-        align: 'left'
-    },
-    listItemText: {
-        fontSize: '3.0em',
-        marginLeft: '20px',
-    },
-}));
 
-export default function MyAccount() {
+
+export default function Profile() {
     const classes = useStyles();
 
     const [values, setValues] = React.useState({
@@ -106,8 +65,10 @@ export default function MyAccount() {
 
 
     return (
-        <container>
+        <div>
+          <UserNav />
             <CssBaseline />
+        <container>
             <Typography variant="h5" style={{ marginTop: '80px', textAlign: 'center', backgroundColor: '#C6C6C6', padding: '30px', fontFamily: 'Montserrat' }}> MY ACCOUNT</Typography>
             <center>
                 <Grid container style={{ marginTop: '50px', align: 'center' }}>
@@ -328,6 +289,8 @@ export default function MyAccount() {
                 </Grid>
             </center>
         </container>
+        <Footer />
+        </div>
 
     );
 }

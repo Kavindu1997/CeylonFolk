@@ -16,7 +16,7 @@ import Checkout from './pages/Checkout'
 import Coupon from './pages/Coupon';
 import Wishlist from './pages/Wishlist';
 import About from './pages/AboutUs';
-import Profile from './pages/Profile';
+import Profile from './pages/MyAccount';
 import ProfileWishlist from './pages/Wishlist/userWishlist';
 import UserOrders from './pages/UserOrders';
 import Customize from './pages/Customize';
