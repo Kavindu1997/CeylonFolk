@@ -1,5 +1,5 @@
 import { makeStyles } from '@material-ui/styles';
-import cfCover from '../images/cfCover.png';
+import cfCover from '../../images/cfCover.png';
 
 const useStyles = makeStyles((theme) => ({
     root: {

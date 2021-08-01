@@ -1,15 +1,16 @@
 import { React, useState } from 'react';
-import CommonNav from '../components/Navbars/CommonNav';
-import useStyles from '../styles/customize_stlyes';
+import CommonNav from '../../components/Navbars/CommonNav';
+import Footer from '../../components/Footer/Footer';
+import useStyles from './style';
 import { CssBaseline, Box, Typography, Grid, Button } from '@material-ui/core';
-import text from '../images/text.svg'
-import image from '../images/image.svg'
-import upload from '../images/upload.svg'
-import tshirt from '../images/tshirt.svg'
-import color from '../images/drop.svg'
-import mockup from '../images/mockup.png'
-import front from '../images/front.png'
-import back from '../images/back.png'
+import text from '../../images/text.svg'
+import image from '../../images/image.svg'
+import upload from '../../images/upload.svg'
+import tshirt from '../../images/tshirt.svg'
+import color from '../../images/drop.svg'
+import mockup from '../../images/mockup.png'
+import front from '../../images/front.png'
+import back from '../../images/back.png'
 
 const Customize = () => {
 
@@ -200,6 +201,7 @@ const Customize = () => {
 
 
             </div>
+            <Footer />
         </div>
 
     );
