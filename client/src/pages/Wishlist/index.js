@@ -1,37 +1,13 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography, Button, Box } from '@material-ui/core';
+import { CssBaseline,Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography, Button, Box } from '@material-ui/core';
 import 'font-awesome/css/font-awesome.min.css';
+import CommonNav from '../../components/Navbars/CommonNav';
+import Footer from '../../components/Footer/Footer';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import useStyles from './style';
 
-const useStyles = makeStyles((theme) => ({
-    table: {
-        minWidth: 400,
-        backgroundColor: '#fafafa',
-        fontFamily: 'Montserrat'
-    },
-    spreadBox: {
-        justifyContent: "space-around",
-        alignItems: "center",
-    },
-    box: {
-        height: 100,
-        display: "flex",
-        padding: 8
-    },
-    back: {
-        marginTop: 30,
-        alignItems: "center",
-        // marginLeft: 600,
-    },
-    submit: {
-        marginTop: 30,
-        alignItems: "center",
-        // marginLeft: 600,
-    },
-
-}));
 
 // function createData(name, price, action) {
 //     return { name, price, action };
@@ -92,7 +68,9 @@ export default function Wishlist() {
 
 
     return (
-
+        <div>
+          <CommonNav />
+            <CssBaseline />
 
         <container>
             <center>
@@ -160,6 +138,7 @@ export default function Wishlist() {
             </center>
 
         </container>
-
+        <Footer />
+        </div>
     );
 }

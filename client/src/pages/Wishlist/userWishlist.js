@@ -2,7 +2,8 @@ import React from 'react';
 import { Button, CssBaseline, Grid, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Box, Divider, Avatar, List, ListItem, ListItemAvatar, ListItemText } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import { Link } from "react-router-dom";
-
+import Footer from '../../components/Footer/Footer';
+import UserNav from '../../components/Navbars/UserNav';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -70,18 +71,21 @@ export default function ProfileWishlist() {
     const rows = [
         createData(
             <div>
-                <img height={100} align="center" src={require('../images/ts2.jpg').default} alt="" />
+                <img height={100} align="center" src={require('../../images/ts2.jpg').default} alt="" />
             </div>,
             'Baby Tshirt', 1000, 'Not Available'),
         createData(
             <div>
-                <img height={100} align="center" src={require('../images/ts3.jpg').default} alt="" />
+                <img height={100} align="center" src={require('../../images/ts3.jpg').default} alt="" />
             </div>,
             'White Tshirt', 1300, 'Available'),
     ];
     return (
-        <container>
+        <div>
+          <UserNav />
             <CssBaseline />
+
+        <container>
             <Typography variant="h5" style={{ marginTop: '80px', textAlign: 'center', backgroundColor: '#C6C6C6', padding: '30px', fontFamily: 'Montserrat' }}> MY WISHLIST</Typography>
             <center>
                 <Grid container style={{ marginTop: '50px', align: 'center' }}>
@@ -192,6 +196,8 @@ export default function ProfileWishlist() {
                 </Grid>
             </center>
         </container>
+        <Footer />
+        </div>
 
     );
 }
