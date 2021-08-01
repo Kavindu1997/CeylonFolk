@@ -2,57 +2,9 @@ import React from 'react';
 import { Button, CssBaseline, Grid, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Box, Divider, Avatar, List, ListItem, ListItemAvatar, ListItemText } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import { Link } from "react-router-dom";
-
-const useStyles = makeStyles((theme) => ({
-    root: {
-        display: 'flex',
-        justifyContent: 'center',
-        height: '1000px',
-        fontFamily: 'Montserrat',
-        position: 'relative',
-        color: 'white',
-        padding: '100px',
-    },
-    table: {
-        // minWidth: 400,
-        // backgroundColor:'#fafafa',
-        fontFamily: 'Montserrat',
-        // alignItems:'center',
-        width: '700px',
-        marginLeft: '60px'
-    },
-    spreadBox: {
-        justifyContent: "space-around",
-        alignItems: "center",
-    },
-    box: {
-        height: 100,
-        display: "flex",
-        padding: 8
-    },
-    back: {
-        marginTop: 30,
-        alignItems: "center",
-        // marginLeft: 600,
-    },
-    submit: {
-        marginTop: 30,
-        alignItems: "center",
-        // marginLeft: 600,
-    },
-    margin: {
-        margin: theme.spacing(2),
-        width: '50ch',
-        // marginRight: '50px'
-    },
-    avatar: {
-        align: 'left'
-    },
-    listItemText: {
-        fontSize: '3.0em',//Insert your required size
-        marginLeft: '20px',
-    },
-}));
+import UserNav from '../../components/Navbars/UserNav';
+import Footer from '../../components/Footer/Footer';
+import useStyles from './style';
 
 export default function OrderHistory() {
     const classes = useStyles();
@@ -69,18 +21,20 @@ export default function OrderHistory() {
     const rows = [
         createData(1212, '12.06.2021',
             <div>
-                <img height={100} align="center" src={require('../images/ts2.jpg').default} />
+                <img height={100} align="center" src={require('../../images/ts2.jpg').default} />
             </div>,
             'Baby Tshirt', 1000, 'Printing'),
         createData(1213, '10.06.2021',
             <div>
-                <img height={100} align="center" src={require('../images/ts3.jpg').default} />
+                <img height={100} align="center" src={require('../../images/ts3.jpg').default} />
             </div>,
             'White Tshirt', 1300, 'Dispatched'),
     ];
     return (
+        <div>
+        <UserNav />
+          <CssBaseline />
         <container>
-            <CssBaseline />
             <Typography variant="h5" style={{ marginTop: '80px', textAlign: 'center', backgroundColor: '#C6C6C6', padding: '30px', fontFamily: 'Montserrat' }}> ORDER HISTORY</Typography>
             <center>
                 <Grid container style={{ marginTop: '50px', align: 'center' }}>
@@ -192,6 +146,8 @@ export default function OrderHistory() {
                 </Grid>
             </center>
         </container>
+        <Footer />
+        </div>
 
     );
 }

@@ -18,7 +18,7 @@ import Wishlist from './pages/Wishlist';
 import About from './pages/AboutUs';
 import Profile from './pages/MyAccount';
 import ProfileWishlist from './pages/Wishlist/userWishlist';
-import UserOrders from './pages/UserOrders';
+import OrderHistory from './pages/MyOrders';
 import Customize from './pages/Customize';
 import Tab from './pages/tab';
 import Termnconditions from './pages/TermsAndConditions';
@@ -106,7 +106,7 @@ const App = () => {
           <Route path="/aboutUs" exact render={() => <About />} />
           <Route path="/profile" exact render={() => <Profile />} />
           <Route path="/myWishlist" exact render={() => <ProfileWishlist />} />
-          <Route path="/myOrders" exact render={() => <UserOrders />} />
+          <Route path="/myOrders" exact render={() => <OrderHistory />} />
           <Route path="/collections" exact render={() => <Collections />} />
           <Route path="/coupon" exact render={() => <Coupon />} />
           <Route path="/inventory" exact render={() => <Inventory />} />
