@@ -285,11 +285,8 @@ export const Product_detail = () => {
             <label style={{cursor: 'pointer'}}>
               <input type="radio" className={classes.spaninput}></input>
               <span className={classes.spanback2}></span>
-
             </label>
-
             </Box>
-            
             
           </Box>
           <Box className={classes.tBox}>

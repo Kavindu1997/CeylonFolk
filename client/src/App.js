@@ -22,6 +22,9 @@ import UserOrders from './pages/UserOrders';
 import Customize from './pages/Customize';
 import Tab from './pages/tab';
 import Termnconditions from './pages/TermsAndConditions';
+import CreateForm from './pages/CreateForm';
+import ProductD from './pages/ProductD';
+import MyCanvas from './pages/MyCanvas';
 
 
 const theme = createMuiTheme({
@@ -110,7 +113,10 @@ const App = () => {
           <Route path="/designs" exact render={() => <Design />} />
           <Route path="/customize" exact render={() => <Customize />} />
           <Route path="/termnconditions" exact render={() => <Termnconditions />} />
-          <Route path="/tab" exact render={() => <Tab />} />
+          <Route path="/tab" exact render={() => <Tab/>}/>
+          <Route path="/form" exact render={() => <CreateForm/>}/>
+          <Route path="/productD" exact render={() => <ProductD/>}/>
+          <Route path="/canvas" exact render={() => <MyCanvas/>}/>
 
         </Switch>
       </Router>

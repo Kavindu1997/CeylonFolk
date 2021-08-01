@@ -20,6 +20,7 @@ import cs4 from '../../images/cs4.jpg'
 import cs5 from '../../images/cs5.jpg'
 import cs6 from '../../images/cs6.jpg'
 import FavoriteBorderOutlinedIcon from '@material-ui/icons/FavoriteBorderOutlined';
+import mockup from '../../images/tmockup.png'
 
 
 
@@ -261,6 +262,9 @@ const Home = () => {
                             <a href="/contactus"><button className={classes.svgBtn}><img height={50} src={icont} />
                                 <Typography textDecoration='none' className={classes.svgFont}>T-Shirts</Typography></button></a>
                         </Grid>
+                        {/* <Grid md={5} style={{marginLeft:'100px'}}>
+                    <img src={mockup} style={{width:'100%'}}/>
+                </Grid> */}
                         <Grid item xs={12} sm={6} md={3} className={classes.svgs}>
                             <a href="/contactus"><button className={classes.svgBtn}><img height={50} src={iconcp} />
                                 <Typography textDecoration='none' className={classes.svgFont}>Crop Tops</Typography></button></a>
