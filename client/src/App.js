@@ -11,8 +11,8 @@ import DetailOfProduct from './components/Product_grid/DetailOfProduct';
 import Collections from './pages/Collections'
 import Inventory from './pages/Inventory';
 import Design from './pages/Design';
-import MyCart from './pages/MyCart'
-import CheckingOut from './pages/CheckingOut'
+import MyCart from './pages/Cart'
+import Checkout from './pages/Checkout'
 import Coupon from './pages/Coupon';
 import Wish from './pages/Wish';
 import About from './pages/AboutUs';
@@ -101,7 +101,7 @@ const App = () => {
           <Route path="/admin" exact render={() => <AdminDashboard />} />
           <Route path="/users" exact render={() => <Users />} />
           <Route path="/cart" exact render={() => <MyCart />} />
-          <Route path="/checkout" exact render={() => <CheckingOut />} />
+          <Route path="/checkout" exact render={() => <Checkout />} />
           <Route path="/wishlist" exact render={() => <Wish />} />
           <Route path="/aboutUs" exact render={() => <About />} />
           <Route path="/profile" exact render={() => <Profile />} />
