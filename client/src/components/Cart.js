@@ -47,11 +47,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function createData(image, name, price, quantity, action, total) {
-  return { image, name, price, quantity, action, total };
-}
-
-
 export default function Cart() {
 
   let history = useHistory();
@@ -138,7 +133,7 @@ export default function Cart() {
 
   function onLogout() {
     var cart = []
-    localStorage.setItem("userId", null);
+    localStorage.setItem("userId", 0);
     localStorage.setItem("userName", 0);
     localStorage.setItem("cart", JSON.stringify(cart));
   }
@@ -159,6 +154,7 @@ export default function Cart() {
                 <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Image</TableCell>
                 <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Product Name</TableCell>
                 <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}> Price</TableCell>
+                <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Size</TableCell>
                 <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Quantity</TableCell>
                 <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Action</TableCell>
                 <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Total</TableCell>
@@ -172,6 +168,7 @@ export default function Cart() {
                       <TableCell align="center" style={{ fontFamily: 'Montserrat' }}><img height={100} align="center" src={value.image} /></TableCell>
                       <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.name}</TableCell>
                       <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>Rs. {value.price}</TableCell>
+                      <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.size}</TableCell>
                       <TableCell align="center" className={classes.numeric} style={{ fontFamily: 'Montserrat' }}>{value.quantity}</TableCell>
                       <TableCell align="center">
                         <Button name="remove" onClick={() => onRemove(value.itemId)}>
