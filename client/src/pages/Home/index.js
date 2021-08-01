@@ -1,28 +1,24 @@
 import React, { useEffect, useState } from 'react';
-import { Typography, IconButton, Collapse, Box, Button, Container, Grid, Card, CardActionArea, CardActions, CardContent, CardMedia } from '@material-ui/core';
+import { CssBaseline, Typography, IconButton, Collapse, Box, Button, Container, Grid, Card, CardActionArea, CardActions, CardContent, CardMedia } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { makeStyles } from '@material-ui/styles';
-import Image from '../images/Cover.png';
-import Collection1 from '../images/ts1.jpg';
-import Collection2 from '../images/ts2.jpg';
-import Collection3 from '../images/ts3.jpg';
-import Collection4 from '../images/ts4.jpg';
-import backImage2 from '../images/ttttt.png';
-import Snap1 from '../images/snap1.jpg'
-import Snap2 from '../images/snap2.jpg'
-import Snap3 from '../images/snap3.jpg'
-import Snap4 from '../images/snap4.jpg'
-import Snap5 from '../images/snap5.jpg'
-import icont from '../images/tshirt.svg'
-import iconk from '../images/kids.svg'
-import iconcp from '../images/croptop.svg'
-import iconh from '../images/hoodie.svg'
-import cs1 from '../images/cs1.jpg'
-import cs2 from '../images/cs2.jpg'
-import cs3 from '../images/cs3.jpg'
-import cs4 from '../images/cs4.jpg'
-import cs5 from '../images/cs5.jpg'
-import cs6 from '../images/cs6.jpg'
+import Footer from '../../components/Footer/Footer';
+import HomeNav from '../../components/Navbars/HomeNav';
+import Image from '../../images/Cover.png';
+import Collection1 from '../../images/ts1.jpg';
+import Collection2 from '../../images/ts2.jpg';
+import Collection3 from '../../images/ts3.jpg';
+import Collection4 from '../../images/ts4.jpg';
+import icont from '../../images/tshirt.svg'
+import iconk from '../../images/kids.svg'
+import iconcp from '../../images/croptop.svg'
+import iconh from '../../images/hoodie.svg'
+import cs1 from '../../images/cs1.jpg'
+import cs2 from '../../images/cs2.jpg'
+import cs3 from '../../images/cs3.jpg'
+import cs4 from '../../images/cs4.jpg'
+import cs5 from '../../images/cs5.jpg'
+import cs6 from '../../images/cs6.jpg'
 import FavoriteBorderOutlinedIcon from '@material-ui/icons/FavoriteBorderOutlined';
 
 
@@ -213,7 +209,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 }));
-const Content = () => {
+const Home = () => {
 
     const classes = useStyles();
     const [checked, setChecked] = useState(false);
@@ -223,6 +219,8 @@ const Content = () => {
 
     return (
         <div>
+            <HomeNav />
+            <CssBaseline />
             <div className={classes.root2}>
                 <Grid container >
                     <Grid item md={6}>
@@ -636,8 +634,9 @@ const Content = () => {
 
 
             </div>
+            <Footer />
         </div>
     );
 };
 
-export default Content;
+export default Home;

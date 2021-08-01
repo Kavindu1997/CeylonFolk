@@ -1,7 +1,7 @@
 import React from 'react';
 import { CssBaseline, Typography } from '@material-ui/core';
-import CommonNav from '../components/Navbars/CommonNav';
-import Footer from '../components/Footer/Footer';
+import CommonNav from '../../components/Navbars/CommonNav';
+import Footer from '../../components/Footer/Footer';
 import { makeStyles } from '@material-ui/styles';
 
 
@@ -101,7 +101,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const Shop = () => {
+const TermsAndConditions = () => {
 
     const classes = useStyles();
 
@@ -178,4 +178,4 @@ const Shop = () => {
     );
 };
 
-export default Shop;
+export default TermsAndConditions;
