@@ -59,8 +59,29 @@ const Authentication = () => {
             if (response.data.error) {
                 alert(response.data.error);
             } else {
-                sessionStorage.setItem("accessToken", response.data);
-                // else history.push('/profile');
+                var uid = localStorage.getItem("userId");
+                var cart = [];
+        
+                cart = JSON.parse(localStorage.getItem("cart"));
+             
+                if (uid == 0 && cart.length > 0) {
+                    const url = "http://localhost:3001/check/addToCartBatchwise/"
+                    var data = {uid:response.data.id , cart: cart };
+                    axios.post(url, data).then((response) => {
+                        if (response.data.error) alert(response.data.error);
+                       
+                    });
+                }
+
+                localStorage.setItem("userId", response.data.id);
+                localStorage.setItem("userName", response.data.firstName);
+
+                if (localStorage.getItem("fromTheCart") == "true") {
+                    history.push("/cart");
+                    localStorage.setItem("fromTheCart", false);
+                } else {
+                    //TODO navigate to profile
+                }
             }
         });
         props.resetForm();

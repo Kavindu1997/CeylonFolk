@@ -74,6 +74,22 @@ export default function Checkout() {
         });
     }, []);
 
+  const placeOrders = () => {
+    var uid = localStorage.getItem("userId");
+    if (uid > 0) {
+
+      const url = "http://localhost:3001/check/cashOn/"
+      const dummyItem = {userId:uid, payment: "cashon", status: "placed"}
+      axios.post(url,dummyItem).then((response) => {
+        if (response.data.error) {
+            alert(response.data.error);
+        }
+      });
+      alert("Product successfully added to cart");
+    }
+      
+    };
+
     const [value, setValue] = React.useState('payment');
 
     const handleChange = (event) => {
@@ -93,6 +109,7 @@ export default function Checkout() {
                         {customerDetails
                             .map((value) => {
                                 return (
+                                    
                                 <form className={classes.form} noValidate key={value.customerId}>
                                     <TextField
                                         variant="outlined"
@@ -173,6 +190,7 @@ export default function Checkout() {
                                     <TextareaAutosize aria-label="minimum height"  placeholder="Order Notes (optional)" style={{ width: '480px', height: '100px', textAlign: 'justify', padding: '15px', fontFamily: 'Montserrat', marginTop: '30px', borderRadius: '5px' }} />
 
                                 </form>
+                               
                             );
                         })}
 
@@ -184,7 +202,7 @@ export default function Checkout() {
                             <Table className={classes.table} aria-label="simple table">
                                 <TableHead>
                                     <TableRow>
-                                        <TableCell align="left" colSpan={2} style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Product</TableCell>
+                                        <TableCell align="left" colSpan={3} style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Product</TableCell>
                                         <TableCell align="left" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Total</TableCell>
                                     </TableRow>
                                 </TableHead>
@@ -192,9 +210,10 @@ export default function Checkout() {
                                 {itemDetails
                                     .map((value) => {
                                         return (
-                                        <TableRow key={value.cartId}>
+                                        <TableRow key={value.customerId}>
                                             <TableCell align="left" style={{ fontFamily: 'Montserrat' }}><img height={100} align="center" src={value.image} /></TableCell>
                                             <TableCell align="left" style={{ fontFamily: 'Montserrat' }}>{value.name} x {value.quantity}</TableCell>
+                                            <TableCell align="left" style={{ fontFamily: 'Montserrat' }}>{value.size}</TableCell>
                                             <TableCell align="left" style={{ fontFamily: 'Montserrat' }}>{value.totals}</TableCell>
                                         </TableRow>
                                         );
@@ -202,8 +221,8 @@ export default function Checkout() {
                                      {totalDetails
                                         .map((value) => {
                                             return (
-                                    <TableRow key={value.cartId}>
-                                        <TableCell align="left" colSpan={2} style={{ fontFamily: 'Montserrat', fontWeight: 600, height: '60px' }}>
+                                    <TableRow key={value.customerId}>
+                                        <TableCell align="left" colSpan={3} style={{ fontFamily: 'Montserrat', fontWeight: 600, height: '60px' }}>
                                             Sub Total
                                         </TableCell>
                                         <TableCell align="left" style={{ fontFamily: 'Montserrat' }}>
@@ -213,7 +232,7 @@ export default function Checkout() {
                                      );
                                     })}
                                     <TableRow>
-                                        <TableCell align="left" colSpan={2} style={{ fontFamily: 'Montserrat', fontWeight: 600, height: '60px' }}>
+                                        <TableCell align="left" colSpan={3} style={{ fontFamily: 'Montserrat', fontWeight: 600, height: '60px' }}>
                                             Shipping
                                         </TableCell>
                                         <TableCell align="left" colSpan={3} style={{ fontFamily: 'Montserrat' }}>
@@ -223,8 +242,8 @@ export default function Checkout() {
                                     {totalDetails
                                         .map((value) => {
                                             return (
-                                    <TableRow key={value.cartId}>
-                                        <TableCell align="left" colSpan={2} style={{ fontFamily: 'Montserrat', fontWeight: 600, height: '60px' }}>
+                                    <TableRow key={value.customerId}>
+                                        <TableCell align="left" colSpan={3} style={{ fontFamily: 'Montserrat', fontWeight: 600, height: '60px' }}>
                                             Total
                                         </TableCell>
                                         <TableCell align="left" colSpan={3} style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>
@@ -270,6 +289,7 @@ export default function Checkout() {
                             <center>
 
                                 <Button
+                                    onClick={placeOrders}
                                     type="submit"
                                     fullWidth
                                     variant="contained"

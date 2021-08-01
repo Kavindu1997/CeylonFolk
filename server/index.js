@@ -45,7 +45,8 @@ app.use("/coupons", couponRouter);
 const checkoutRouter = require('./routes/Checkout');
 app.use("/check", checkoutRouter);
 
-
+const ordersRouter = require('./routes/Orders');
+app.use("/placeOrder", ordersRouter);
 
 db.sequelize.sync().then(() => {
     app.listen(3001, () => {
