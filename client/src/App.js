@@ -14,10 +14,10 @@ import Design from './pages/Design';
 import MyCart from './pages/Cart'
 import Checkout from './pages/Checkout'
 import Coupon from './pages/Coupon';
-import Wish from './pages/Wish';
+import Wishlist from './pages/Wishlist';
 import About from './pages/AboutUs';
 import Profile from './pages/Profile';
-import UserWishlist from './pages/UserWishlist';
+import ProfileWishlist from './pages/Wishlist/userWishlist';
 import UserOrders from './pages/UserOrders';
 import Customize from './pages/Customize';
 import Tab from './pages/tab';
@@ -102,10 +102,10 @@ const App = () => {
           <Route path="/users" exact render={() => <Users />} />
           <Route path="/cart" exact render={() => <MyCart />} />
           <Route path="/checkout" exact render={() => <Checkout />} />
-          <Route path="/wishlist" exact render={() => <Wish />} />
+          <Route path="/wishlist" exact render={() => <Wishlist />} />
           <Route path="/aboutUs" exact render={() => <About />} />
           <Route path="/profile" exact render={() => <Profile />} />
-          <Route path="/myWishlist" exact render={() => <UserWishlist />} />
+          <Route path="/myWishlist" exact render={() => <ProfileWishlist />} />
           <Route path="/myOrders" exact render={() => <UserOrders />} />
           <Route path="/collections" exact render={() => <Collections />} />
           <Route path="/coupon" exact render={() => <Coupon />} />
