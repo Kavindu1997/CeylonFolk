@@ -6,6 +6,8 @@ const nodemailer = require('nodemailer');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 
+// const bodyParser = require('body-parser');
+
 app.use(express.json());
 app.use(cors());
 const db = require('./models');
@@ -28,23 +30,26 @@ app.use("/auth", usersRouter);
 const contactusRouter = require('./routes/Contactus');
 app.use("/contact", contactusRouter);
 
-const collectionRouter = require('./routes/Collections');
-app.use("/collections", collectionRouter);
-
 const inventoryRouter = require('./routes/Inventory');
 app.use("/invent",inventoryRouter);
 
 const wishlistRouter = require('./routes/Wishlist');
 app.use("/wishlist", wishlistRouter);
+
+const collectionRouter = require("./routes/Collections");
+app.use("/collect", collectionRouter);
 const productDetailsRouter = require('./routes/ProductDetails');
 app.use("/ProductDetails", productDetailsRouter);
 
-const couponRouter = require('./routes/Coupons');
-app.use("/coupons", couponRouter);
+// const couponRouter = require('./routes/Coupons');
+// app.use("/coupons", couponRouter);
 
-const checkoutRouter = require('./routes/Checkout');
-app.use("/check", checkoutRouter);
+// const checkoutRouter = require('./routes/Checkout');
+// app.use("/check", checkoutRouter);
 
+
+const inventorySearchRouter = require("./routes/Inventory.route");
+app.use("/inventSearch", inventorySearchRouter);
 const ordersRouter = require('./routes/Orders');
 app.use("/placeOrder", ordersRouter);
 
