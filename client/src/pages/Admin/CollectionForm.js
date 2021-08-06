@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Grid } from '@material-ui/core';
-import { useForm, Form } from './Reusable/useForm';
-import Controls from './Reusable/Controls';
+import { useForm, Form } from '../../components/Reusable/useForm';
+import Controls from '../../components/Reusable/Controls';
 import axios from 'axios';
 
 const initialFvalues = {
@@ -36,7 +36,7 @@ const CollectionForm = () => {
     } = useForm(initialFvalues, true, validate);
 
 
-    const handleSubmit = (e,data) => {
+    const handleSubmit = (e, data) => {
 
         e.preventDefault();
         axios.post("http://localhost:3001/collections/", data).then(() => {
@@ -78,13 +78,13 @@ const CollectionForm = () => {
                         onChange={handleInputChange}
                         error={errors.collectionName}
                     />
-                     <Controls.Input
-                    variant="outlined"
-                    label="Cover Image"
-                    name="collectionName"
-                    value={values.collectionName}
-                    onChange={handleInputChange}
-                    error={errors.collectionName}
+                    <Controls.Input
+                        variant="outlined"
+                        label="Cover Image"
+                        name="collectionName"
+                        value={values.collectionName}
+                        onChange={handleInputChange}
+                        error={errors.collectionName}
                     />
                 </Grid>
                 <Grid item xs={12}>

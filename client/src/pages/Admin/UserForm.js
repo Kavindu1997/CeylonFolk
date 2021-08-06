@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { Grid } from '@material-ui/core';
-import { useForm, Form } from './Reusable/useForm';
-import Controls from './Reusable/Controls';
-import * as userService from '../services/userService';
+import { useForm, Form } from '../../components/Reusable/useForm';
+import Controls from '../../components/Reusable/Controls';
+import * as userService from '../../services/userService';
 
 
 const genderItems = [

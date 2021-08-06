@@ -12,14 +12,14 @@ import {
     Toolbar,
     InputAdornment,
 } from "@material-ui/core";
-import useTable from "./Reusable/useTable";
-import Controls from "./Reusable/Controls";
-import Popup from "./Reusable/Popup";
-import Notification from "./Reusable/Notification";
-import ConfirmDialog from "./Reusable/ConfirmDialog";
+import useTable from "../../components/Reusable/useTable";
+import Controls from "../../components/Reusable/Controls";
+import Popup from "../../components/Reusable/Popup";
+import Notification from "../../components/Reusable/Notification";
+import ConfirmDialog from "../../components/Reusable/ConfirmDialog";
 
 import Lottie from "react-lottie";
-import Collection from "../images/collection.json";
+import Collection from "../../images/collection.json";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography, Button, Box } from '@material-ui/core';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
@@ -158,7 +158,7 @@ const InventoryTable = () => {
                                                     <TableCell align="center" style={{ fontFamily: 'Montserrat' }}> {value.quantity} </TableCell>
                                                     <TableCell align="center" style={{ fontFamily: 'Montserrat' }}> {value.margin} </TableCell>
                                                     <TableCell align="center">
-                                                    <Grid item md={6} style={{ paddingLeft: '10px', paddingRight: '10px' }}>
+                                                        <Grid item md={6} style={{ paddingLeft: '10px', paddingRight: '10px' }}>
                                                             <Button
                                                                 type="submit"
                                                                 fullWidth
@@ -166,11 +166,11 @@ const InventoryTable = () => {
                                                                 color="primary"
                                                                 className={classes.submit}
                                                             >Edit</Button>
-                                                     </Grid> 
+                                                        </Grid>
                                                     </TableCell>
 
                                                     <TableCell align="center">
-                                                    <Grid item md={6} style={{ paddingLeft: '10px', paddingRight: '10px' }}>
+                                                        <Grid item md={6} style={{ paddingLeft: '10px', paddingRight: '10px' }}>
                                                             <Button
                                                                 type="submit"
                                                                 fullWidth
@@ -178,7 +178,7 @@ const InventoryTable = () => {
                                                                 color="primary"
                                                                 className={classes.submit}
                                                             >Remove</Button>
-                                                     </Grid> 
+                                                        </Grid>
                                                     </TableCell>
 
 
