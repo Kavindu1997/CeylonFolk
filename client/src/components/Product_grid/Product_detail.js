@@ -200,12 +200,9 @@ export const Product_detail = () => {
   const [totalDetails, setOftotals] = useState([]); 
   const addToCart = () => {
     var uid = localStorage.getItem("userId");
-    console.log("point2")
     if (uid > 0) {
-      console.log("point3")
-      alert("Product successfully added to cart");
       const url = "http://localhost:3001/check/addToCart/"
-      const dummyItem = {productId:'ID007', quantity:2, userId:1, size:'M'}
+      const dummyItem = {productId:'ID007', quantity:2, userId:uid, size:'M'}
       axios.post(url,dummyItem).then((response) => {
         if (response.data.error) alert(response.data.error);
         else {
@@ -229,6 +226,7 @@ export const Product_detail = () => {
       console.log("point 1")
       cart.push(dummyItem);
       localStorage.setItem("cart", JSON.stringify(cart));
+      alert("Product successfully added to cart");
     }
   };
 
@@ -285,11 +283,8 @@ export const Product_detail = () => {
             <label style={{cursor: 'pointer'}}>
               <input type="radio" className={classes.spaninput}></input>
               <span className={classes.spanback2}></span>
-
             </label>
-
             </Box>
-            
             
           </Box>
           <Box className={classes.tBox}>

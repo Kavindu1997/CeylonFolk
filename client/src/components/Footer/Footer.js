@@ -9,9 +9,7 @@ const useStyles=makeStyles((theme)=>({
          marginTop:theme.spacing(8),
          paddingTop:theme.spacing(10),
          paddingBottom:theme.spacing(10)
-     },
-      
-     
+     },   
 }));
 
 const Footer = () => {
