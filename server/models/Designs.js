@@ -1,21 +1,21 @@
 module.exports = (sequelize, DataTypes) => {
 
-    const Inventory = sequelize.define("Inventory", {
-        inventoryId: {
+    const Designs = sequelize.define("Designs", {
+        designId: {
             type: DataTypes.INTEGER,
             autoIncrement: true,
             allowNull: false,
             primaryKey: true,
         },
         code: {
-            type: DataTypes.INTEGER,
-            allowNull: false,
-        },
-        colour: {
             type: DataTypes.STRING,
             allowNull: false,
         },
-        size: {
+        designName: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
+        color: {
             type: DataTypes.STRING,
             allowNull: false,
         },
@@ -23,18 +23,20 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false,
         },
-       
-        quantity: {
-            type: DataTypes.INTEGER,
+        designImage: {
+            type: DataTypes.STRING,
             allowNull: false,
         },
-        margin: {
-            type: DataTypes.INTEGER,
+        price: {
+            type: DataTypes.STRING,
             allowNull: false,
         },
-        
-      
+        collectionId: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            foreignkey : ''
+        },
     });
 
-    return Inventory;
+    return Designs;
 }

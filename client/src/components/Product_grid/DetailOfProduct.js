@@ -5,7 +5,6 @@ import Footer from '../Footer/Footer';
 import { Product_detail } from './Product_detail';
 // import { Corousel_img } from './Corousel_img';
 
-
 const DetailOfProduct = () => {
     return (
         <div>        

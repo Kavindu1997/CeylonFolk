@@ -97,7 +97,7 @@ const App = () => {
           <Route path="/shop" exact render={() => < Shop />} />
           <Route path="/contactus" exact render={() => < Contactus />} />
           <Route path="/auth" exact render={() => < Authentication />} />
-          <Route path="/productDetails" exact render={() => <DetailOfProduct />} />
+          <Route path="/productDetails/:id" exact render={() => <DetailOfProduct />} />
           <Route path="/admin" exact render={() => <AdminDashboard />} />
           <Route path="/users" exact render={() => <Users />} />
           <Route path="/cart" exact render={() => <MyCart />} />
