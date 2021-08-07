@@ -1,34 +1,34 @@
-import React,{useState,useEffect} from 'react';
-import {Grid} from '@material-ui/core';
+import React, { useState, useEffect } from 'react';
+import { Grid } from '@material-ui/core';
 // import {useForm,Form} from './Reusable/useForm';
-import Controls from './Reusable/Controls';
+import Controls from '../../components/Reusable/Controls';
 import axios from 'axios';
-import { Formik,Form,Field,ErrorMessage } from 'formik';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import { makeStyles,TextField, Button } from '@material-ui/core';
+import { makeStyles, TextField, Button } from '@material-ui/core';
 
-const initialFvalues={
-    couponId:'',
-    couponTitle:'',
+const initialFvalues = {
+    couponId: '',
+    couponTitle: '',
 }
 
 const validationSchema = Yup.object().shape({
     couponId: Yup.string().required(),
     couponTitle: Yup.string().required(),
-  });
+});
 
-const onSubmit=(data)=>{
+const onSubmit = (data) => {
     // e.preventDefault();
-   // console.log(data);
+    // console.log(data);
     axios.post("http://localhost:3001/coupons/add", data).then(() => {
-       console.log(data);
-      });
+        console.log(data);
+    });
     // if(validate()){  
     //       addOrEdit(values,resetForm);
     // }
-  }
+}
 
-  const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles((theme) => ({
 
     submit: {
         align: 'center',
@@ -113,14 +113,14 @@ const CouponForm = () => {
         //     </Forum>
         //  )}  
         // </Formik> 
-       
+
         <Formik initialValues={initialFvalues} onSubmit={onSubmit} validationSchema={validationSchema}>
             {(props) => (
                 <Form>
 
                     <Grid container>
 
-                    <Grid item md={6} style={{ paddingLeft: '100px', paddingRight: '100px' }}>
+                        <Grid item md={6} style={{ paddingLeft: '100px', paddingRight: '100px' }}>
 
 
                             <Field as={TextField}
@@ -134,8 +134,8 @@ const CouponForm = () => {
                                 name="couponId"
                                 helperText={<ErrorMessage name="couponId" />}
                             />
-                   
-                     
+
+
 
                         </Grid>
                         <Grid item md={6} style={{ paddingLeft: '100px', paddingRight: '100px' }}>
@@ -150,7 +150,7 @@ const CouponForm = () => {
                                 name="couponTitle"
                                 helperText={<ErrorMessage name="couponTitle" />}
                             />
-                           
+
                         </Grid>
                         <Button
                             type="submit"
@@ -159,7 +159,7 @@ const CouponForm = () => {
                             color="primary"
                             className={classes.submit}
                         >Add Coupon</Button>
- 
+
                     </Grid>
 
                 </Form>

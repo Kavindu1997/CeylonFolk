@@ -1,28 +1,14 @@
 import React from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Drawer from '@material-ui/core/Drawer';
-import Box from '@material-ui/core/Box';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import List from '@material-ui/core/List';
-import Typography from '@material-ui/core/Typography';
-import Divider from '@material-ui/core/Divider';
-import IconButton from '@material-ui/core/IconButton';
-import Badge from '@material-ui/core/Badge';
-import Container from '@material-ui/core/Container';
-import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
-import Link from '@material-ui/core/Link';
+import { CssBaseline, Drawer, Box, AppBar, Toolbar, List, Typography, Divider, IconButton, Badge, Container, Grid, Paper, Link, } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
-import { mainListItems,secondListItems } from './ListItems';
-import {BrowserRouter as Router,Route} from 'react-router-dom';
+import { mainListItems, secondListItems } from './ListItems';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import Lottie from 'react-lottie';
-import Stat from '../images/stat.json';
-
+import Stat from '../../images/stat.json';
 import UserTable from './UserTable';
 import CollectionTable from './CollectionTable';
 import CouponTable from './CouponTable';
@@ -69,9 +55,9 @@ const useStyles = makeStyles((theme) => ({
   title: {
     flexGrow: 1,
   },
-  colorText:{
-    color:'#74b9ff'
-},
+  colorText: {
+    color: '#74b9ff'
+  },
   drawerPaper: {
     position: 'relative',
     whiteSpace: 'nowrap',
@@ -124,12 +110,12 @@ export default function AdminPanel() {
   };
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
-  const defaultOptions={
-    loop:true,
-    autoplay:true,
-    animationData:Stat,
-    rendererSettings:{
-      preserveAspectRatio:"xMidYMid slice"
+  const defaultOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: Stat,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice"
     }
   };
 
@@ -147,8 +133,8 @@ export default function AdminPanel() {
           >
             <MenuIcon />
           </IconButton>
-          <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title} style={{fontFamily:'Nunito',fontSize:'2rem'}}>
-                Ceylon<span className={classes.colorText}>Folk</span> 
+          <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title} style={{ fontFamily: 'Nunito', fontSize: '2rem' }}>
+            Ceylon<span className={classes.colorText}>Folk</span>
           </Typography>
           <IconButton color="inherit">
             <Badge badgeContent={4} color="secondary">
@@ -172,23 +158,23 @@ export default function AdminPanel() {
         <Divider />
         <List>{mainListItems}</List>
         <Divider />
-        <List style={{backgroundColor:'#2C2D2D'}}>{secondListItems}</List> 
-        <Divider />   
+        <List style={{ backgroundColor: '#2C2D2D' }}>{secondListItems}</List>
+        <Divider />
       </Drawer>
 
       <main className={classes.content}>
-            <Router>
-                    <Route path="/admin" exact render={() => <Lottie options={defaultOptions} height={700} width={700} style={{marginTop:'20px'}} />}/>
-                    <Route path="/users" exact render={() => <UserTable/>}/>
-                    <Route path="/collections" exact render={() => <CollectionTable/>}/>
-                    <Route path="/designs" exact render={() => <DesignTable/>}/>
-                    <Route path="/inventory" exact render={() => <InventoryTable/>}/>
-                    <Route path="/coupon" exact render={() => <CouponTable/>}/>
-             </Router>
+        <Router>
+          <Route path="/admin" exact render={() => <Lottie options={defaultOptions} height={700} width={700} style={{ marginTop: '20px' }} />} />
+          <Route path="/users" exact render={() => <UserTable />} />
+          <Route path="/collections" exact render={() => <CollectionTable />} />
+          <Route path="/designs" exact render={() => <DesignTable />} />
+          <Route path="/inventory" exact render={() => <InventoryTable />} />
+          <Route path="/coupon" exact render={() => <CouponTable />} />
+        </Router>
 
-         
+
       </main>
-   
+
     </div>
   );
 }

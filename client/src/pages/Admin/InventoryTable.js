@@ -1,33 +1,28 @@
-
 // import React, { useState } from "react";
 import PageHeader from "./PageHeader";
 import LayersIcon from "@material-ui/icons/Layers";
-import { Grid, TextField } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 import { Search } from "@material-ui/icons";
 import AddIcon from "@material-ui/icons/Add";
 import CloseIcon from "@material-ui/icons/Close";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 import InventoryForm from "./InventoryForm";
-import InventoryEdit from "../pages/Admin/InventoryEdit";
 import {
     makeStyles,
     Toolbar,
     InputAdornment,
 } from "@material-ui/core";
-import useTable from "./Reusable/useTable";
-import Controls from "./Reusable/Controls";
-import Popup from "./Reusable/Popup";
-import Notification from "./Reusable/Notification";
-import ConfirmDialog from "./Reusable/ConfirmDialog";
+import useTable from "../../components/Reusable/useTable";
+import Controls from "../../components/Reusable/Controls";
+import Popup from "../../components/Reusable/Popup";
+import Notification from "../../components/Reusable/Notification";
+import ConfirmDialog from "../../components/Reusable/ConfirmDialog";
 
 import Lottie from "react-lottie";
-import Collection from "../images/collection.json";
+import Collection from "../../images/collection.json";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography, Button, Box } from '@material-ui/core';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import InventorySearch from '../pages/Admin/InventorySearch';
-
-// import SearchBar from "material-ui-search-bar";
 
 
 
@@ -76,8 +71,6 @@ const InventoryTable = () => {
 
 
     const [openPopup, setOpenPopup] = useState(false);
-    const [openPopup1, setOpenPopup1] = useState(false);
-
     const [notify, setNotify] = useState({
         isOpen: false,
         message: "",
@@ -93,13 +86,6 @@ const InventoryTable = () => {
         // setRecordForEdit(item);
         setOpenPopup(true);
     };
-
-    const openInPopup1 = (item) => {
-        // setRecordForEdit(item);
-        setOpenPopup1(true);
-    };
-
-
     const defaultOptions = {
         loop: true,
         autoplay: true,
@@ -109,14 +95,6 @@ const InventoryTable = () => {
         },
     };
 
-    // const handleSearch = {
-
-
-    //  text: "dddd",
-
-
-    // }
-
     return (
         <div>
             <PageHeader title="INVENTORY MANAGEMENT" icon={<LayersIcon fontSize="large" />} />
@@ -125,38 +103,18 @@ const InventoryTable = () => {
 
             <Paper className={classes.pageContent}>
                 <Toolbar>
-
-
-               
-
-                                {/* <Controls.Input
-                                    label="Search Collection"
-                                    className={classes.searchInput}
-                                    InputProps={{
-                                        startAdornment: (
-                                            <InputAdornment position="start">
-                                                <Search />
-                                            </InputAdornment>
-                                        ),
-                                    }}
-                                onChange={handleSearch}
-                                /> */}
-                        
-
-                       <InventorySearch/>
-
-
-
-
-
-                    {/* 
-<SearchBar
-    value={this.state.value}
-    onChange={(newValue) => this.setState({ value: newValue })}
-    // onRequestSearch={() => doSomethingWith(this.state.value)}
-  /> */}
-
-
+                    <Controls.Input
+                        label="Search Collection"
+                        className={classes.searchInput}
+                        InputProps={{
+                            startAdornment: (
+                                <InputAdornment position="start">
+                                    <Search />
+                                </InputAdornment>
+                            ),
+                        }}
+                    //onChange={handleSearch}
+                    />
                     <Controls.Button
                         text="Add new item to the Inventory"
                         variant="outlined"
@@ -171,9 +129,9 @@ const InventoryTable = () => {
 
 
                 <container>
-                    {/* <center>
-                        <Typography variant="h5" style={{ marginTop: '80px', textAlign: 'center', backgroundColor: '#C6C6C6', padding: '30px', fontFamily: 'Montserrat' }}>INVENTORY</Typography> */}
-                        {/* <TableContainer component={Paper} style={{ marginTop: '30px', align: 'center', width: '1200px' }}>
+                    <center>
+                        <Typography variant="h5" style={{ marginTop: '80px', textAlign: 'center', backgroundColor: '#C6C6C6', padding: '30px', fontFamily: 'Montserrat' }}>INVENTORY</Typography>
+                        <TableContainer component={Paper} style={{ marginTop: '30px', align: 'center', width: '1200px' }}>
                             <Table className={classes.table} aria-label="simple table">
                                 <TableHead>
                                     <TableRow>
@@ -191,6 +149,8 @@ const InventoryTable = () => {
                                             return (
                                                 <TableRow key={value.id}>
 
+                                                    {/* <TableCell align="center" style={{ fontFamily: 'Montserrat' }}> <img src={require({"'" + value.image+"'"}).default} /> </TableCell> */}
+                                                    {/* <TableCell align="center" style={{ fontFamily: 'Montserrat' }}> <img height={100} align="center" src={value.image} alt="" /> </TableCell> */}
                                                     <TableCell align="center" style={{ fontFamily: 'Montserrat' }}> {value.code} </TableCell>
                                                     <TableCell align="center" style={{ fontFamily: 'Montserrat' }}> {value.colour} </TableCell>
                                                     <TableCell align="center" style={{ fontFamily: 'Montserrat' }}> {value.size} </TableCell>
@@ -199,13 +159,13 @@ const InventoryTable = () => {
                                                     <TableCell align="center" style={{ fontFamily: 'Montserrat' }}> {value.margin} </TableCell>
                                                     <TableCell align="center">
                                                         <Grid item md={6} style={{ paddingLeft: '10px', paddingRight: '10px' }}>
-                                                            <Controls.Button
-                                                                text="Edit"
-                                                             
-                                                                onClick={() => {
-                                                                    setOpenPopup1(true);
-                                                                }}
-                                                            />
+                                                            <Button
+                                                                type="submit"
+                                                                fullWidth
+                                                                variant="contained"
+                                                                color="primary"
+                                                                className={classes.submit}
+                                                            >Edit</Button>
                                                         </Grid>
                                                     </TableCell>
 
@@ -230,9 +190,9 @@ const InventoryTable = () => {
                                         })}
                                 </TableBody>
                             </Table>
-                        </TableContainer> */}
+                        </TableContainer>
 
-                    {/* </center> */}
+                    </center>
 
                 </container>
             </Paper>
@@ -243,14 +203,6 @@ const InventoryTable = () => {
                 setOpenPopup={setOpenPopup}
             >
                 <InventoryForm />
-            </Popup>
-
-            <Popup
-                title="Add Inventory Form"
-                openPopup={openPopup1}
-                setOpenPopup={setOpenPopup1}
-            >
-                <InventoryEdit />
             </Popup>
 
             <Notification notify={notify} setNotify={setNotify} />
@@ -264,4 +216,3 @@ const InventoryTable = () => {
 };
 
 export default InventoryTable;
-

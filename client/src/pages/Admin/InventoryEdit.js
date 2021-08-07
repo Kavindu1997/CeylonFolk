@@ -82,7 +82,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const InventoryForm = () => {
+const InventoryEdit = () => {
 
     const classes = useStyles();
 
@@ -214,7 +214,7 @@ const InventoryForm = () => {
                                 variant="contained"
                                 color="primary"
                                 className={classes.submit}
-                            >Add to the inventory</Button>
+                            >Update</Button>
                         </Grid>
 
 
@@ -227,4 +227,4 @@ const InventoryForm = () => {
     );
 };
 
-export default InventoryForm;
+export default InventoryEdit;
