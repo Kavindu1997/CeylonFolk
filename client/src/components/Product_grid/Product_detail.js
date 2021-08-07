@@ -16,16 +16,23 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import { makeStyles } from '@material-ui/core/styles';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import {useDispatch, useSelector} from "react-redux";
 
 import { Radio_buttons } from './Radio_buttons';
-import {IconButton,Collapse,CardActions,CardContent} from '@material-ui/core';
+import { IconButton, Collapse, CardActions, CardContent } from '@material-ui/core';
+import CommonNav from '../../components/Navbars/CommonNav';
 
 import Collection1 from '../../images/ts1.jpg';
 import butter2 from '../../images/butter2.jpg';
 import NumericInput from 'react-numeric-input';
+import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
+import PermIdentityOutlinedIcon from '@material-ui/icons/PermIdentityOutlined';
+import LocalMallOutlinedIcon from '@material-ui/icons/LocalMallOutlined';
+import FavoriteBorderOutlinedIcon from '@material-ui/icons/FavoriteBorderOutlined';
+import SearchOutlinedIcon from '@material-ui/icons/SearchOutlined';
 
 
-import {Card,Container,CardActionArea,CardMedia} from '@material-ui/core';
+import { AppBar, Toolbar, Card, Container, CardActionArea, CardMedia } from '@material-ui/core';
 
 // import Collection1 from '../../images/collection1.jpg'
 import Snap1 from '../../images/snap1.jpg'
@@ -52,6 +59,126 @@ function Copyright() {
 
 const useStyles = makeStyles((theme) => ({
   root: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    fontFamily: 'Segoe UI',
+    color: 'white',
+    textDecoration: 'none'
+},
+appbar: {
+    display: 'flex',
+    padding: '5px',
+    width: '100%',
+    justifyContent: 'spaceBetween',
+    alignItems: 'center',
+    background: 'white'
+
+},
+appbarsolid: {
+    backgroundColor: 'black'
+
+},
+icon: {
+    color: 'black',
+    fontSize: '1.5rem',
+    marginLeft: '24px',
+    marginRight: '10px',
+    fontWeight: '300',
+},
+appbarTitle: {
+    flexGrow: '1',
+    color: '#fff',
+    display: 'flex',
+    fontFamily: 'Work Sans',
+    textDecoration: 'none'
+},
+appbarTitle2: {
+    flexGrow: '1',
+    color: 'black',
+    justifyContent: 'center',
+    textDecoration: 'none'
+},
+appbarWrapper: {
+    color: 'black',
+    width: '100%',
+    margin: '0 auto',
+    height: '10px'
+},
+colorText: {
+    color: 'black'
+},
+navbartext: {
+    color: 'black',
+    fontFamily: 'Segoe UI',
+    textTransform: 'none',
+    fontSize: '15px',
+    textDecoration: 'none'
+},
+goDown: {
+    color: '#fff',
+    fontSize: '1rem',
+},
+
+appbarLeft: {
+    display: 'flex',
+    color: 'black',
+    fontColor: 'black',
+    fontFamily: 'Work Sans',
+    textDecoration: 'none',
+    marginLeft: '10px',
+    marginRight: '10px'
+},
+
+appbarMiddle: {
+    display: 'flex',
+    flexGrow: '1',
+    color: '#fff',
+    justifyContent: 'center',
+    textDecoration: 'none'
+},
+appbarRight: {
+    display: 'flex',
+    flexGrow: '1',
+    justifyContent: 'right',
+},
+
+appbarlink: {
+    color: 'black',
+    position: 'relative',
+    textTransform: 'uppercase',
+    fontWeight: '600',
+    fontSize: '15px',
+    paddingLeft: '10px',
+    textDecoration: 'none',
+    '&:hover': {
+        textDecoration: 'none'
+    }
+},
+appbarlink2: {
+    color: 'black',
+    position: 'relative',
+    textTransform: 'uppercase',
+    fontWeight: '600',
+    fontSize: '15px',
+    paddingLeft: '10px',
+    textDecoration: 'none',
+    '&:hover': {
+        textDecoration: 'none'
+    }
+},
+
+count: {
+    background: 'cornflowerblue',
+    padding: '5px',
+    margin: '3px',
+    borderRadius: '8px',
+    position: 'absolute',
+    top: '0%',
+    right: '5.5%'
+},
+
+  root1: {
     height: '100vh',
   },
   image: {
@@ -79,12 +206,12 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
-  productContainer:{
+  productContainer: {
     padding: '40px',
     margin: '80px',
     width: '90%'
   },
-  card:{
+  card: {
     width: '30%',
     paddingRight: '10px',
     marginRight: '10px',
@@ -93,11 +220,11 @@ const useStyles = makeStyles((theme) => ({
     border: 'none',
     boxShadow: 'none'
   },
-  newGrid:{
+  newGrid: {
     border: 'none',
     boxShadow: 'none',
   },
-  goback:{
+  goback: {
     paddingBottom: '20px',
     marginBottom: '10px',
     fontFamily: 'Montserrat',
@@ -109,29 +236,29 @@ const useStyles = makeStyles((theme) => ({
     paddingBottom: '10px',
     marginBottom: '10px',
     fontFamily: 'Montserrat'
-    
+
   },
-  productPrice:{
+  productPrice: {
     fontSize: '20px',
     fontWeight: '500',
     paddingBottom: '10px',
     marginBottom: '10px',
     fontFamily: 'Montserrat'
   },
-  productDetails:{
+  productDetails: {
     paddingLeft: '30px',
     marginLeft: '30px',
     paddingBottom: '20px',
     marginBottom: '20px'
   },
-  productColor:{
+  productColor: {
     fontSize: '20px',
     fontWeight: '600',
     paddingBottom: '5px',
     marginBottom: '5px',
     fontFamily: 'Montserrat'
   },
-  sizeBox:{
+  sizeBox: {
     width: '60px',
     border: 'ridge',
     borderColor: 'black',
@@ -139,25 +266,25 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: '10px',
     margin: '5px'
   },
-  sizeText:{
+  sizeText: {
     textAlign: 'center',
     padding: '5px',
-    alignItems:'center'
+    alignItems: 'center'
   },
-  designbtn:{
-    color:'black',
-    fontSize:'10px',
-    padding:'2px',
-    alignItems:'center',
-    width:'50px',
-    margin:'10px',
+  designbtn: {
+    color: 'black',
+    fontSize: '10px',
+    padding: '2px',
+    alignItems: 'center',
+    width: '50px',
+    margin: '10px',
     background: '#31c5ee'
 
   },
-  tBox:{
-    marginBottom:'10px'
+  tBox: {
+    marginBottom: '10px'
   },
-  spanback:{
+  spanback: {
     display: 'inline-block',
     textIndent: '-9999px',
     verticalAlign: 'middle',
@@ -170,7 +297,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundImage: 'url(http://localhost:3000/static/media/ts1.e7b30a60.jpg)',
     backgroundSize: 'cover'
   },
-  spanback2:{
+  spanback2: {
     display: 'inline-block',
     textIndent: '-9999px',
     verticalAlign: 'middle',
@@ -183,8 +310,8 @@ const useStyles = makeStyles((theme) => ({
     backgroundImage: 'url(http://localhost:3000/static/media/butter2.c4028f87.jpg)',
     backgroundSize: 'cover'
   },
-  
-  spaninput:{
+
+  spaninput: {
     display: 'none',
     boxSizing: 'border-box',
     padding: '0',
@@ -195,133 +322,171 @@ const useStyles = makeStyles((theme) => ({
 
 export const Product_detail = () => {
   const classes = useStyles();
+  var  count =[];
+  const cartcount = useSelector(state => state.cartcount)
+  const dispatch = useDispatch();
+ 
 
-  const [itemDetails, setOfItems] = useState([]);
-  const [totalDetails, setOftotals] = useState([]); 
+  const [countDetails, countOfItems] = useState([]);
+  useEffect(() => {
+    var id = localStorage.getItem("userId");
+    if(id!="0"){
+        const url = "http://localhost:3001/check/count/" + id;
+      axios.get(url).then((response) => {
+        countOfItems(response.data);
+    });
+    }else{
+        var cart = [];
+        cart = JSON.parse(localStorage.getItem("cart"));
+        var count = 0;
+        var countArray = [];
+        for (let i = 0; i < cart.length; i++) {
+        count++;
+      }
+      countArray.push({count:count});
+      countOfItems(countArray);
+    }
+      
+  }, []);
+
+
   const addToCart = () => {
+
+   
     var uid = localStorage.getItem("userId");
-    if (uid > 0) {
+    if (uid != '0') {
+      dispatch({type: "INCREMENT_CART_NO"});
+      dispatch({type: "ADD_TO_CART"});
       const url = "http://localhost:3001/check/addToCart/"
-      const dummyItem = {productId:'ID007', quantity:2, userId:uid, size:'M'}
-      axios.post(url,dummyItem).then((response) => {
+      const dummyItem = { productId: 'ID007', quantity: 2, userId: uid, size: 'S' }
+      axios.post(url, dummyItem).then((response) => {
         if (response.data.error) alert(response.data.error);
-        else {
-          const url1 = "http://localhost:3001/check/items/" + uid;
-          axios.get(url1).then((response) => {
-            setOfItems(response.data);
-          });
-          const url2 = "http://localhost:3001/check/total/" + uid;
-          axios.get(url2).then((response) => {
-            setOftotals(response.data);
-          });
-        }
-      });
-      alert("Product successfully added to cart");
+        alert("Product successfully added to cart");
+      const url1 = "http://localhost:3001/check/count/" + uid;
+      axios.get(url1).then((response) => {
+      countOfItems(response.data);
+    });
+      });  
     }
     else {
-      //TODO Update the local storage
-      const dummyItem = {image: "https://5.imimg.com/data5/CR/OL/NO/ANDROID-36904487/img-20181220-wa0001-jpg-500x500.jpg", name: "Snowy", price: 1200, quantity: 10, itemId: "ID007", size: "S"}
+      //Update the local storage
+      const dummyItem = { image: "https://5.imimg.com/data5/CR/OL/NO/ANDROID-36904487/img-20181220-wa0001-jpg-500x500.jpg", name: "Snowy", price: 1400, quantity: 2, itemId: "ID007", size: "S", totals: "" }
       var cart = [];
-      cart = JSON.parse(localStorage.getItem("cart"));
-      console.log("point 1")
+      console.log("ffdafsdf")
+      dispatch({type: "INCREMENT_CART_NO"});
+      dispatch({type: "ADD_TO_CART",dummy:"cart",todo:JSON.stringify(dummyItem)});
+    
+      dummyItem.totals=dummyItem.price*dummyItem.quantity;
       cart.push(dummyItem);
+      var amount = 0;
+      var count = 0;
+      var countArray = [];
+      for (let i = 0; i < cart.length; i++) {
+        amount = amount + cart[i].price * cart[i].quantity
+        count++;
+      }
+      countArray.push({count:count});
+      countOfItems(countArray);
+      localStorage.setItem("totalDetails", JSON.stringify(amount));
       localStorage.setItem("cart", JSON.stringify(cart));
       alert("Product successfully added to cart");
     }
   };
 
-
   return (
-
+    <div>
+       <CommonNav />
+            <CssBaseline />
     <Grid container className={classes.productContainer}>
       <CssBaseline></CssBaseline>
-      <Grid item xs={2} sm={8} md={6} elevation={6} square style={{display:'flex'}} className>
+      <Grid item xs={2} sm={8} md={6} elevation={6} square style={{ display: 'flex' }} className>
         <Card className={classes.card}>
           <CardMedia>
-              <img src={Collection1} style={{width:'100%'}}/>
+            <img src={Collection1} style={{ width: '100%' }} />
           </CardMedia>
           <CardMedia>
-          <img src={butter2} style={{width:'100%'}}/>
+            <img src={butter2} style={{ width: '100%' }} />
           </CardMedia>
         </Card>
         <Grid Container>
           <Box>
-          <img src={Collection1} style={{width:'100%'}}/>
+            <img src={Collection1} style={{ width: '100%' }} />
           </Box>
         </Grid>
       </Grid>
-      
+
       <Grid item xs={2} sm={8} md={6} elevation={6} square>
         <Box className={classes.productDetails}>
-        <Box className={classes.goback}>
-          <Link>GO BACK</Link>
-        </Box>
-        <Box >
-          <Typography className={classes.productTitle}>
-            Butter
-          </Typography>
-          <Typography className={classes.productPrice}>
-            LKR 1300.00
-          </Typography>
-          <Box>
-          <Typography className={classes.productColor}>
-            COLOR
-          </Typography>
+          <Box className={classes.goback}>
+            <Link>GO BACK</Link>
           </Box>
-          <Box>
-            {/* <RadioGroup row >
+          <Box >
+            <Typography className={classes.productTitle}>
+              Butter
+            </Typography>
+            <Typography className={classes.productPrice}>
+              LKR 1300.00
+            </Typography>
+            <Box>
+              <Typography className={classes.productColor}>
+                COLOR
+              </Typography>
+            </Box>
+            <Box>
+              {/* <RadioGroup row >
             <Radio style={{color:'red'}}></Radio>
             <Radio style={{color:'red'}}></Radio>
 
             </RadioGroup> */}
-            <Box style={{display:'flex'}}>
-            <label style={{cursor: 'pointer'}}>
-              <input type="radio" className={classes.spaninput}></input>
-              <span className={classes.spanback}></span>
+              <Box style={{ display: 'flex' }}>
+                <label style={{ cursor: 'pointer' }}>
+                  <input type="radio" className={classes.spaninput}></input>
+                  <span className={classes.spanback}></span>
 
-            </label>
-            <label style={{cursor: 'pointer'}}>
-              <input type="radio" className={classes.spaninput}></input>
-              <span className={classes.spanback2}></span>
-            </label>
+                </label>
+                <label style={{ cursor: 'pointer' }}>
+                  <input type="radio" className={classes.spaninput}></input>
+                  <span className={classes.spanback2}></span>
+                </label>
+              </Box>
+
             </Box>
-            
-          </Box>
-          <Box className={classes.tBox}>
-          <Typography className={classes.productColor}>
-            SIZE
-          </Typography>
-          <Box style={{display:'flex'}}>
-            <Box className={classes.sizeBox}><Typography className={classes.sizeText}>UK 6</Typography></Box>
-            <Box className={classes.sizeBox}><Typography className={classes.sizeText}>UK 8</Typography></Box>
-            <Box className={classes.sizeBox}><Typography className={classes.sizeText}>UK 10</Typography></Box>
-            <Box className={classes.sizeBox}><Typography className={classes.sizeText}>UK 12</Typography></Box>
-            <Box className={classes.sizeBox}><Typography className={classes.sizeText}>UK 14</Typography></Box>
-            <Box className={classes.sizeBox}><Typography className={classes.sizeText}>UK 16</Typography></Box>
-            <Box className={classes.sizeBox}><Typography className={classes.sizeText}>UK 16</Typography></Box>
-            <center> <a href='../pages/customize'style={{textDecoration:'none'}}><Button 
-                                    variant="outlined"
-                                     className={classes.designbtn}>SIZE GUIDE</Button></a></center>
-            
+            <Box className={classes.tBox}>
+              <Typography className={classes.productColor}>
+                SIZE
+              </Typography>
+              <Box style={{ display: 'flex' }}>
+                <Box className={classes.sizeBox}><Typography className={classes.sizeText}>UK 6</Typography></Box>
+                <Box className={classes.sizeBox}><Typography className={classes.sizeText}>UK 8</Typography></Box>
+                <Box className={classes.sizeBox}><Typography className={classes.sizeText}>UK 10</Typography></Box>
+                <Box className={classes.sizeBox}><Typography className={classes.sizeText}>UK 12</Typography></Box>
+                <Box className={classes.sizeBox}><Typography className={classes.sizeText}>UK 14</Typography></Box>
+                <Box className={classes.sizeBox}><Typography className={classes.sizeText}>UK 16</Typography></Box>
+                <Box className={classes.sizeBox}><Typography className={classes.sizeText}>UK 16</Typography></Box>
+                <center> <a href='../pages/customize' style={{ textDecoration: 'none' }}><Button
+                  variant="outlined"
+                  className={classes.designbtn}>SIZE GUIDE</Button></a></center>
+
+              </Box>
+
+            </Box>
+            <Box className={classes.tBox}>
+              <Typography className={classes.productColor}>
+                QUENTITY
+              </Typography>
+              <div>
+                <NumericInput mobile min={0} max={100} value={1} size={1} />
+              </div>
+            </Box>
+
+            <Button style={{ background: '#2c2d2d', color: 'white' }} onClick={addToCart}>ADD TO CART</Button>
           </Box>
 
-          </Box>
-          <Box className={classes.tBox}>
-          <Typography className={classes.productColor}>
-            QUENTITY
-          </Typography>
-          <div>
-        <NumericInput mobile min={0} max={100} value={1} size={ 1 }/>
-      </div>
-          </Box>
-          
-          <Button style={{background:'#2c2d2d',color:'white'}} onClick={addToCart}>ADD TO CART</Button>
         </Box>
-          
-        </Box>
-        
+
       </Grid>
     </Grid>
-    
+    </div>
+
   );
 }

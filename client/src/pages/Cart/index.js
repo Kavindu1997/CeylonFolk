@@ -10,12 +10,14 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import useStyles from './style';
-
+import {useDispatch, useSelector} from "react-redux";
 
 export default function Cart() {
 
     const classes = useStyles();
   let history = useHistory();
+  const cartcount = useSelector(state => state.cartCount)
+  const dispatch = useDispatch();
 
   function onProceed() {
     var id = localStorage.getItem("userId");
@@ -60,20 +62,29 @@ export default function Cart() {
         }
 
       }
+      var deletedItem = cart[selectedId];
+      var total = Number(localStorage.getItem("totalDetails"));
+      total = total - Number(deletedItem.totals)
+      localStorage.setItem("totalDetails", JSON.stringify(total));
       cart = cart.splice(0, selectedId);
       if(cart == null){
         cart = [];
       }
       setOfItems(cart);
       localStorage.setItem("cart", JSON.stringify(cart));
+      var carttotal =[];
+            carttotal.push({total:total})
+            setOftotals(carttotal);
     }
   };
 
   var totalvalue = 0;
+  const [totalDetails, setOftotals] = useState([]);
   const [itemDetails, setOfItems] = useState([]);
   useEffect(() => {
     var id = localStorage.getItem("userId");
-    if(id > 0){
+    dispatch({type: "INCREMENT"});
+    if(id != '0'){
       const url = "http://localhost:3001/check/items/" + id;
       axios.get(url).then((response) => {
       setOfItems(response.data);
@@ -85,14 +96,25 @@ export default function Cart() {
     
   }, []);
 
-  const [totalDetails, setOftotals] = useState([]);
+
+  
   useEffect(() => {
     var id = localStorage.getItem("userId");
-    const url = "http://localhost:3001/check/total/" + id;
-    axios.get(url).then((response) => {
-      setOftotals(response.data);
-
-    });
+    if (id != '0') {
+      const url = "http://localhost:3001/check/total/" + id;
+      axios.get(url).then((response) => {
+        setOftotals(response.data);
+        console.log(response.data)
+      });
+    }else{
+      var cart = JSON.parse(localStorage.getItem("cart"));
+      setOfItems(cart);
+      var total = JSON.parse(localStorage.getItem("totalDetails"));
+            var carttotal =[];
+            carttotal.push({total:total})
+            setOftotals(carttotal);
+    }
+  
   }, []);
 
   function onLogout() {
@@ -100,6 +122,7 @@ export default function Cart() {
     localStorage.setItem("userId", 0);
     localStorage.setItem("userName", 0);
     localStorage.setItem("cart", JSON.stringify(cart));
+    localStorage.setItem("totalDetails", 0);
   }
 
 
@@ -142,7 +165,7 @@ export default function Cart() {
                           <i className="fa fa-times" aria-hidden="true"></i>
                         </Button>
                       </TableCell>
-                      <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>Rs. {value.totals}</TableCell>
+                  <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>Rs.{value.totals}</TableCell>
                     </TableRow>
                   );
                 })}

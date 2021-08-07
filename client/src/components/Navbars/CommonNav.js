@@ -7,8 +7,8 @@ import PermIdentityOutlinedIcon from '@material-ui/icons/PermIdentityOutlined';
 import LocalMallOutlinedIcon from '@material-ui/icons/LocalMallOutlined';
 import FavoriteBorderOutlinedIcon from '@material-ui/icons/FavoriteBorderOutlined';
 import SearchOutlinedIcon from '@material-ui/icons/SearchOutlined';
-
-
+import axios from 'axios';
+import {useDispatch, useSelector} from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -119,12 +119,45 @@ const useStyles = makeStyles((theme) => ({
         '&:hover': {
             textDecoration: 'none'
         }
+    },
+
+    count: {
+        background: 'cornflowerblue',
+        padding: '5px',
+        margin: '3px',
+        borderRadius: '8px',
+        position: 'absolute',
+        top: '0%',
+        right: '5.5%'
     }
 
 }))
 
-const CommonNav = () => {
+const CommonNav = (props) => {
     const classes = useStyles();
+    const cartcount = useSelector(state => state.cartCount)
+  const dispatch = useDispatch();
+    const [countDetails, countOfItems] = useState([]);
+    useEffect(() => {
+    var id = localStorage.getItem("userId");
+    if(id!='0'){
+        const url = "http://localhost:3001/check/count/" + id;
+        axios.get(url).then((response) => {
+        countOfItems(response.data);
+    });
+    }else{
+        var cart = [];
+        cart = JSON.parse(localStorage.getItem("cart"));
+        var count = 0;
+        var countArray = [];
+        for (let i = 0; i < cart.length; i++) {
+        count++;
+      }
+      countArray.push({count:count});
+      countOfItems(countArray);
+    }
+      
+  }, []);
 
     return (
         <div className={classes.root}>
@@ -154,7 +187,10 @@ const CommonNav = () => {
                     <div style={{ paddingLeft: '106px' }}>
                         <Link href="/shop"><SearchOutlinedIcon className={classes.icon} /></Link>
                         <Link href="/wishlist"><FavoriteBorderOutlinedIcon className={classes.icon} /></Link>
-                        <Link href="/cart"><LocalMallOutlinedIcon className={classes.icon} /></Link>
+                        
+                        <Link href="/cart"><LocalMallOutlinedIcon className={classes.icon} /><span className={classes.count}>
+                       {cartcount}</span>
+                    </Link>
                         <Link href="/auth"><PermIdentityOutlinedIcon className={classes.icon} /></Link>
                     </div>
 
