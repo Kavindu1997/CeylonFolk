@@ -5,20 +5,20 @@ import Home from './pages/Home';
 import Shop from './pages/Shop';
 import Contactus from './pages/ContactUs';
 import Authentication from './pages/Authentication';
-import AdminDashboard from './pages/AdminDashboard';
-import Users from './pages/Users';
+import AdminPanel from './pages/Admin';
+import Users from './pages/Admin/UserTable';
 import DetailOfProduct from './components/Product_grid/DetailOfProduct';
-import Collections from './pages/Collections'
-import Inventory from './pages/Inventory';
-import Design from './pages/Design';
-import MyCart from './pages/MyCart'
-import CheckingOut from './pages/CheckingOut'
-import Coupon from './pages/Coupon';
-import Wish from './pages/Wish';
+//import Collections from './pages/Collections'
+//import Inventory from './pages/Inventory';
+//import Design from './pages/Design';
+import MyCart from './pages/Cart'
+import Checkout from './pages/Checkout'
+//import Coupon from './pages/Coupon';
+import Wishlist from './pages/Wishlist';
 import About from './pages/AboutUs';
-import Profile from './pages/Profile';
-import UserWishlist from './pages/UserWishlist';
-import UserOrders from './pages/UserOrders';
+import Profile from './pages/MyAccount';
+import ProfileWishlist from './pages/Wishlist/userWishlist';
+import OrderHistory from './pages/MyOrders';
 import Customize from './pages/Customize';
 import Tab from './pages/tab';
 import Termnconditions from './pages/TermsAndConditions';
@@ -97,26 +97,31 @@ const App = () => {
           <Route path="/shop" exact render={() => < Shop />} />
           <Route path="/contactus" exact render={() => < Contactus />} />
           <Route path="/auth" exact render={() => < Authentication />} />
+
           <Route path="/productDetails/:id" exact render={() => <DetailOfProduct />} />
-          <Route path="/admin" exact render={() => <AdminDashboard />} />
+          
+
+          
+          <Route path="/admin" exact render={() => <AdminPanel />} />
+
           <Route path="/users" exact render={() => <Users />} />
           <Route path="/cart" exact render={() => <MyCart />} />
-          <Route path="/checkout" exact render={() => <CheckingOut />} />
-          <Route path="/wishlist" exact render={() => <Wish />} />
+          <Route path="/checkout" exact render={() => <Checkout />} />
+          <Route path="/wishlist" exact render={() => <Wishlist />} />
           <Route path="/aboutUs" exact render={() => <About />} />
           <Route path="/profile" exact render={() => <Profile />} />
-          <Route path="/myWishlist" exact render={() => <UserWishlist />} />
-          <Route path="/myOrders" exact render={() => <UserOrders />} />
-          <Route path="/collections" exact render={() => <Collections />} />
+          <Route path="/myWishlist" exact render={() => <ProfileWishlist />} />
+          <Route path="/myOrders" exact render={() => <OrderHistory />} />
+          {/* <Route path="/collections" exact render={() => <Collections />} />
           <Route path="/coupon" exact render={() => <Coupon />} />
           <Route path="/inventory" exact render={() => <Inventory />} />
-          <Route path="/designs" exact render={() => <Design />} />
+          <Route path="/designs" exact render={() => <Design />} />  */}
           <Route path="/customize" exact render={() => <Customize />} />
           <Route path="/termnconditions" exact render={() => <Termnconditions />} />
-          <Route path="/tab" exact render={() => <Tab/>}/>
-          <Route path="/form" exact render={() => <CreateForm/>}/>
-          <Route path="/productD" exact render={() => <ProductD/>}/>
-          <Route path="/canvas" exact render={() => <MyCanvas/>}/>
+          <Route path="/tab" exact render={() => <Tab />} />
+          <Route path="/form" exact render={() => <CreateForm />} />
+          <Route path="/productD" exact render={() => <ProductD />} />
+          <Route path="/canvas" exact render={() => <MyCanvas />} />
 
         </Switch>
       </Router>
