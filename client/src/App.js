@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core';
 import Home from './pages/Home';
 import Shop from './pages/Shop';
@@ -25,6 +25,13 @@ import Termnconditions from './pages/TermsAndConditions';
 import CreateForm from './pages/CreateForm';
 import ProductD from './pages/ProductD';
 import MyCanvas from './pages/MyCanvas';
+import { Component } from 'react';
+import { Class } from '@material-ui/icons';
+import { render } from 'react-dom';
+import CommonNav from './components/Navbars/HomeNav';
+import {Provider} from 'react-redux';
+import {createStore } from 'redux';
+import rootReducer from './reducers/rootReducer';
 
 
 const theme = createMuiTheme({
@@ -86,21 +93,25 @@ const theme = createMuiTheme({
   },
 });
 
+export const  store = createStore(rootReducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
 
-const App = () => {
-
+class App extends Component {
+  render() {
   return (
     <ThemeProvider theme={theme}>
-      <Router>
+      <Provider store={store}>
+      <BrowserRouter>
+        <CommonNav/>
         <Switch>
-          <Route path="/" exact render={() => < Home />} />
-          <Route path="/shop" exact render={() => < Shop />} />
-          <Route path="/contactus" exact render={() => < Contactus />} />
+
+          <Route exact path={"/"}  component = {Home} />
+          <Route exact path="/shop" component = {Shop} />
+          <Route exact path="/contactus" component = {Contactus} />
           <Route path="/auth" exact render={() => < Authentication />} />
-          <Route path="/productDetails" exact render={() => <DetailOfProduct />} />
+          <Route exact path={"/productDetails"}  component = {DetailOfProduct} />
           <Route path="/admin" exact render={() => <AdminDashboard />} />
           <Route path="/users" exact render={() => <Users />} />
-          <Route path="/cart" exact render={() => <MyCart />} />
+          <Route exact path={"/cart"} component = {MyCart} />
           <Route path="/checkout" exact render={() => <Checkout />} />
           <Route path="/wishlist" exact render={() => <Wishlist />} />
           <Route path="/aboutUs" exact render={() => <About />} />
@@ -119,9 +130,11 @@ const App = () => {
           <Route path="/canvas" exact render={() => <MyCanvas/>}/>
 
         </Switch>
-      </Router>
+      </BrowserRouter>
+      </Provider>
     </ThemeProvider>
   );
+}
 }
 
 export default App;

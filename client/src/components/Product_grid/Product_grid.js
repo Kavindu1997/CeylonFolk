@@ -8,6 +8,7 @@ import Collection3 from '../../images/ts3.jpg';
 import Collection4 from '../../images/ts4.jpg';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import FavoriteBorderOutlinedIcon from '@material-ui/icons/FavoriteBorderOutlined';
+import { NavLink } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -300,7 +301,7 @@ export const Product_grid = () => {
 
                 <Grid container spacing={0} >
                     <Grid item xs={12} sm={6} md={3}>
-                        <Link href="/productDetails">
+                        <NavLink to={"/productDetails"}>
                             <Card className={classes.card}>
                                 <CardActionArea>
                                     <CardMedia
@@ -328,7 +329,7 @@ export const Product_grid = () => {
                                     </CardContent>
                                 </CardActionArea>
                             </Card>
-                        </Link>
+                        </NavLink>
                     </Grid>
                     <Grid item xs={12} sm={6} md={3}>
                         <Card className={classes.card}>

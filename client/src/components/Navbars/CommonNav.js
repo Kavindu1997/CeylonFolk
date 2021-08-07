@@ -9,6 +9,7 @@ import FavoriteBorderOutlinedIcon from '@material-ui/icons/FavoriteBorderOutline
 import SearchOutlinedIcon from '@material-ui/icons/SearchOutlined';
 import axios from 'axios';
 import {useDispatch, useSelector} from "react-redux";
+import { NavLink } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -145,16 +146,6 @@ const CommonNav = (props) => {
         axios.get(url).then((response) => {
         countOfItems(response.data);
     });
-    }else{
-        var cart = [];
-        cart = JSON.parse(localStorage.getItem("cart"));
-        var count = 0;
-        var countArray = [];
-        for (let i = 0; i < cart.length; i++) {
-        count++;
-      }
-      countArray.push({count:count});
-      countOfItems(countArray);
     }
       
   }, []);
@@ -164,8 +155,8 @@ const CommonNav = (props) => {
             <AppBar className={classes.appbar} elevation={0}>
                 <Toolbar className={classes.appbarWrapper}>
                     <div className={classes.appbarLeft}>
-                        <Link href="/" className={classes.appbarlink}> <Typography className={classes.appbarlink2}>Home</Typography></Link>
-                        <Link href="/shop" className={classes.appbarlink}>
+                        <NavLink to={"/"} className={classes.appbarlink}> <Typography className={classes.appbarlink2}>Home</Typography></NavLink>
+                        <NavLink to={"/shop"} className={classes.appbarlink}>
                             <Typography
                                 className={classes.appbarlink2}
                                 endIcon={<KeyboardArrowDownIcon>
@@ -174,24 +165,24 @@ const CommonNav = (props) => {
                             >
                                 Shop
                             </Typography>
-                        </Link>
-                        <Link href="/contactus" className={classes.appbarlink}><Typography className={classes.appbarlink2}>Contact</Typography></Link>
-                        <Link href="/aboutUs" className={classes.appbarlink}><Typography className={classes.appbarlink2}>About Us</Typography></Link>
+                        </NavLink>
+                        <NavLink to={"/contactus"} className={classes.appbarlink}><Typography className={classes.appbarlink2}>Contact</Typography></NavLink>
+                        <NavLink to={"/aboutUs"} className={classes.appbarlink}><Typography className={classes.appbarlink2}>About Us</Typography></NavLink>
                     </div>
 
 
                     <div className={classes.appbarMiddle}>
-                        <Link href="/"><img src={require('../../images/logo.png').default} alt="CeylonFolk" height="30px" /></Link>
+                        <NavLink to={"/"}><img src={require('../../images/logo.png').default} alt="CeylonFolk" height="30px" /></NavLink>
                     </div>
 
                     <div style={{ paddingLeft: '106px' }}>
-                        <Link href="/shop"><SearchOutlinedIcon className={classes.icon} /></Link>
-                        <Link href="/wishlist"><FavoriteBorderOutlinedIcon className={classes.icon} /></Link>
+                        <NavLink to={"/shop"}><SearchOutlinedIcon className={classes.icon} /></NavLink>
+                        <NavLink to={"/wishlist"}><FavoriteBorderOutlinedIcon className={classes.icon} /></NavLink>
                         
-                        <Link href="/cart"><LocalMallOutlinedIcon className={classes.icon} /><span className={classes.count}>
+                        <NavLink to={"/cart"}><LocalMallOutlinedIcon className={classes.icon} /><span className={classes.count}>
                        {cartcount}</span>
-                    </Link>
-                        <Link href="/auth"><PermIdentityOutlinedIcon className={classes.icon} /></Link>
+                        </NavLink>
+                        <NavLink to={"/auth"}><PermIdentityOutlinedIcon className={classes.icon} /></NavLink>
                     </div>
 
                 </Toolbar>

@@ -30,6 +30,8 @@ import PermIdentityOutlinedIcon from '@material-ui/icons/PermIdentityOutlined';
 import LocalMallOutlinedIcon from '@material-ui/icons/LocalMallOutlined';
 import FavoriteBorderOutlinedIcon from '@material-ui/icons/FavoriteBorderOutlined';
 import SearchOutlinedIcon from '@material-ui/icons/SearchOutlined';
+import {actionAddToCart} from '../../actions/index';
+import {actionGetTotal} from '../../actions/index';
 
 
 import { AppBar, Toolbar, Card, Container, CardActionArea, CardMedia } from '@material-ui/core';
@@ -335,32 +337,21 @@ export const Product_detail = () => {
       axios.get(url).then((response) => {
         countOfItems(response.data);
     });
-    }else{
-        var cart = [];
-        cart = JSON.parse(localStorage.getItem("cart"));
-        var count = 0;
-        var countArray = [];
-        for (let i = 0; i < cart.length; i++) {
-        count++;
-      }
-      countArray.push({count:count});
-      countOfItems(countArray);
     }
       
   }, []);
 
 
   const addToCart = () => {
-
    
     var uid = localStorage.getItem("userId");
     if (uid != '0') {
-      dispatch({type: "INCREMENT_CART_NO"});
-      dispatch({type: "ADD_TO_CART"});
       const url = "http://localhost:3001/check/addToCart/"
-      const dummyItem = { productId: 'ID007', quantity: 2, userId: uid, size: 'S' }
+      const dummyItem = { image: "https://5.imimg.com/data5/CR/OL/NO/ANDROID-36904487/img-20181220-wa0001-jpg-500x500.jpg",productId: 'ID007', quantity: 2, userId: uid, size: 'S' }
       axios.post(url, dummyItem).then((response) => {
         if (response.data.error) alert(response.data.error);
+        dispatch({type: "INCREMENT_CART_NO"});
+        dispatch(actionAddToCart(dummyItem));
         alert("Product successfully added to cart");
       const url1 = "http://localhost:3001/check/count/" + uid;
       axios.get(url1).then((response) => {
@@ -372,23 +363,11 @@ export const Product_detail = () => {
       //Update the local storage
       const dummyItem = { image: "https://5.imimg.com/data5/CR/OL/NO/ANDROID-36904487/img-20181220-wa0001-jpg-500x500.jpg", name: "Snowy", price: 1400, quantity: 2, itemId: "ID007", size: "S", totals: "" }
       var cart = [];
-      console.log("ffdafsdf")
-      dispatch({type: "INCREMENT_CART_NO"});
-      dispatch({type: "ADD_TO_CART",dummy:"cart",todo:JSON.stringify(dummyItem)});
-    
       dummyItem.totals=dummyItem.price*dummyItem.quantity;
-      cart.push(dummyItem);
-      var amount = 0;
-      var count = 0;
-      var countArray = [];
-      for (let i = 0; i < cart.length; i++) {
-        amount = amount + cart[i].price * cart[i].quantity
-        count++;
-      }
-      countArray.push({count:count});
-      countOfItems(countArray);
-      localStorage.setItem("totalDetails", JSON.stringify(amount));
-      localStorage.setItem("cart", JSON.stringify(cart));
+      
+      dispatch({type: "INCREMENT_CART_NO"});
+      dispatch(actionAddToCart(dummyItem));
+      dispatch(actionGetTotal(dummyItem.totals));
       alert("Product successfully added to cart");
     }
   };
@@ -472,7 +451,7 @@ export const Product_detail = () => {
             </Box>
             <Box className={classes.tBox}>
               <Typography className={classes.productColor}>
-                QUENTITY
+                QUANTITY
               </Typography>
               <div>
                 <NumericInput mobile min={0} max={100} value={1} size={1} />
