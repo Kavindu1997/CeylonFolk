@@ -28,8 +28,9 @@ import useStyles from './style';
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import { useHistory } from 'react-router';
 import * as Yup from 'yup';
-
-
+import {actionAddToCart} from '../../actions/index';
+import {actionGetTotal} from '../../actions/index';
+import {useDispatch, useSelector} from "react-redux";
 
 // import { Corousel_img } from './Corousel_img';
 
@@ -51,14 +52,19 @@ function Copyright() {
 
 
 
-const DetailOfProduct = () => {
+export default function Product_detail() {
+
+  var  count =[];
+  const cartcount = useSelector(state => state.cartcount)
+  const dispatch = useDispatch();
+
   const classes = useStyles();
 
   const [itemDetails, setOfItems] = useState([]);
   const [totalDetails, setOftotals] = useState([]);
 
   let { id } = useParams();
-  let history = useHistory()
+  let history = useHistory();
 
   const [productObject, setProductObject] = useState([]);
   const [product, setProduct] = useState({});
@@ -100,6 +106,7 @@ const DetailOfProduct = () => {
     });
 
   }, []);
+
 
   // const [mapSize,setMapSize] = useState();
 
@@ -168,40 +175,61 @@ const DetailOfProduct = () => {
 
 
 
+  const [countDetails, countOfItems] = useState([]);
+  useEffect(() => {
+    var id = localStorage.getItem("userId");
+    if(id!="0"){
+        const url = "http://localhost:3001/check/count/" + id;
+        axios.get(url).then((response) => {
+        countOfItems(response.data);
+    });
+    }
+      
+  }, []);
+
 
   const addToCart = () => {
+    console.log(product)
     var uid = localStorage.getItem("userId");
-    if (uid > 0) {
-      const url = "http://localhost:3001/check/addToCart/"
-      const dummyItem = { productId: 'ID007', quantity: 2, userId: uid, size: 'M' }
+    if (uid != '0') {
+      console.log("user")
+      const url = "http://localhost:3001/check/addToCart/" 
+      var dummyItem = { 
+                        image: product.designImage,
+                        productId: product.code, 
+                        quantity: 5, 
+                        userId: uid, 
+                        size: 'S' ,
+                        price: product.price,
+                        totals: 1300
+                        } 
+      console.log(dummyItem)
       axios.post(url, dummyItem).then((response) => {
-        if (response.data.error) alert(response.data.error);
-        else {
-          const url1 = "http://localhost:3001/check/items/" + uid;
-          axios.get(url1).then((response) => {
-            setOfItems(response.data);
-          });
-          const url2 = "http://localhost:3001/check/total/" + uid;
-          axios.get(url2).then((response) => {
-            setOftotals(response.data);
-
-          });
+        if (response.data.error) {
+          alert(response.data.error);
         }
-      });
-      alert("Product successfully added to cart");
+        console.log("iam here")
+        dispatch({type: "INCREMENT_CART_NO"});
+        dispatch(actionAddToCart(dummyItem));
+        alert("Product successfully added to cart");
+      const url1 = "http://localhost:3001/check/count/" + uid;
+      axios.get(url1).then((response) => {
+      countOfItems(response.data);
+    });
+      });  
     }
     else {
-      //TODO Update the local storage
-      const dummyItem = { image: "https://5.imimg.com/data5/CR/OL/NO/ANDROID-36904487/img-20181220-wa0001-jpg-500x500.jpg", name: "Snowy", price: 1200, quantity: 10, itemId: "ID007", size: "S" }
+      //Update the local storage
+      const dummyItem = { image: "https://5.imimg.com/data5/CR/OL/NO/ANDROID-36904487/img-20181220-wa0001-jpg-500x500.jpg", name: "Snowy", price: 1400, quantity: 2, itemId: "ID007", size: "S", totals: "" }
       var cart = [];
-      cart = JSON.parse(localStorage.getItem("cart"));
-      console.log("point 1")
-      cart.push(dummyItem);
-      localStorage.setItem("cart", JSON.stringify(cart));
+      dummyItem.totals=dummyItem.price*dummyItem.quantity;
+      
+      dispatch({type: "INCREMENT_CART_NO"});
+      dispatch(actionAddToCart(dummyItem));
+      dispatch(actionGetTotal(dummyItem.totals));
       alert("Product successfully added to cart");
     }
   };
-
 
   return (
     <div>
@@ -348,5 +376,3 @@ const DetailOfProduct = () => {
     </div>
   );
 };
-
-export default DetailOfProduct;

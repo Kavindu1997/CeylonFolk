@@ -12,7 +12,7 @@ import Designs from './pages/Admin/DesignTable';
 import Inventory from './pages/Admin/InventoryTable';
 import Coupon from './pages/Admin/CouponTable';
 
-import DetailOfProduct from './pages/Shop/DetailOfProduct';
+import Product_detail from './pages/Shop/Product_detail';
 //import Collections from './pages/Collections'
 //import Inventory from './pages/Inventory';
 //import Design from './pages/Design';
@@ -117,7 +117,7 @@ class App extends Component {
           <Route exact path={"/cart"} component = {MyCart} />
 
 
-          <Route path="/productDetails/:id" exact render={() => <DetailOfProduct />} />
+          <Route exact path={"/productDetails/:id"} component = {Product_detail} />
           
 
           

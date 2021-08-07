@@ -92,9 +92,11 @@ export default function Cart() {
     axios.get(url).then((response) => {
       if (response.data.length > 0) {
         setOfItems(response.data);
+        console.log(itemDetails)
         //todo calling from action
       } else {
         setOfItems(productCart);
+        console.log(itemDetails)
       }
 
     });
