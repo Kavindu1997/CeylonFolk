@@ -7,8 +7,13 @@ import { CssBaseline, TextField, FormControlLabel, Checkbox, Link, Grid, Typogra
 import axios from 'axios';
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from 'yup';
+import {useDispatch, useSelector} from "react-redux";
 
 const Authentication = () => {
+
+    var cart = [];
+    cart = useSelector(state => state.cart);
+
     let history = useHistory();
     const classes = useStyles();
 
@@ -60,10 +65,9 @@ const Authentication = () => {
                 alert(response.data.error);
             } else {
                 var uid = localStorage.getItem("userId");
-                var cart = [];
-        
-                cart = JSON.parse(localStorage.getItem("cart"));
-             
+                
+                console.log(cart)
+
                 if (uid == 0 && cart.length > 0) {
                     const url = "http://localhost:3001/check/addToCartBatchwise/"
                     var data = {uid:response.data.id , cart: cart };

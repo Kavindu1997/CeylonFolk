@@ -7,8 +7,8 @@ import PermIdentityOutlinedIcon from '@material-ui/icons/PermIdentityOutlined';
 import LocalMallOutlinedIcon from '@material-ui/icons/LocalMallOutlined';
 import FavoriteBorderOutlinedIcon from '@material-ui/icons/FavoriteBorderOutlined';
 import SearchOutlinedIcon from '@material-ui/icons/SearchOutlined';
-
-
+import { NavLink } from 'react-router-dom';
+import {useDispatch, useSelector} from "react-redux";
 
 const useStyles=makeStyles((theme)=>({
     root:{
@@ -121,12 +121,25 @@ const useStyles=makeStyles((theme)=>({
         '&:hover':{
             textDecoration:'none'
         }
+    },
+
+    count: {
+        background: 'cornflowerblue',
+        padding: '5px',
+        margin: '3px',
+        borderRadius: '8px',
+        position: 'absolute',
+        top: '0%',
+        right: '5.5%'
     }
     
   
  }))
 
 const CommonNav = () => {
+    const cartcount = useSelector(state => state.cartCount)
+  const dispatch = useDispatch();
+
     const classes=useStyles();
     const [navBackground, setNavBackground] = useState('appbar')
     const navRef = React.useRef()
@@ -151,8 +164,8 @@ const CommonNav = () => {
             <AppBar className={classes[navRef.current]} elevation={0}>
                 <Toolbar className={classes.appbarWrapper}>
                 <div className={classes.appbarLeft}>
-                        <Link href="/" className={classes.appbarlink}> <Typography className={classes.appbarlink2}>Home</Typography></Link>
-                        <Link href="/shop" className={classes.appbarlink}> 
+                        <NavLink to={"/"} className={classes.appbarlink}> <Typography className={classes.appbarlink2}>Home</Typography></NavLink>
+                        <NavLink to={"/shop"} className={classes.appbarlink}> 
                             <Typography 
                             className={classes.appbarlink2}
                             endIcon={<KeyboardArrowDownIcon>
@@ -161,21 +174,23 @@ const CommonNav = () => {
                             >
                             Shop
                             </Typography>
-                        </Link>                       
-                        <Link href="/contactus" className={classes.appbarlink}><Typography className={classes.appbarlink2}>Contact</Typography></Link>
-                        <Link href="/aboutUs" className={classes.appbarlink}><Typography className={classes.appbarlink2}>About Us</Typography></Link>
+                        </NavLink>                       
+                        <NavLink to={"/contactus"} className={classes.appbarlink}><Typography className={classes.appbarlink2}>Contact</Typography></NavLink>
+                        <NavLink to={"/aboutUs"} className={classes.appbarlink}><Typography className={classes.appbarlink2}>About Us</Typography></NavLink>
                    </div> 
                    
                  
                    <div className={classes.appbarMiddle}>
-                    <Link href="/"><img src={require('../../images/logo.png').default} alt="CeylonFolk" height="36px"/></Link>
+                    <NavLink to={"/"}><img src={require('../../images/logo.png').default} alt="CeylonFolk" height="36px"/></NavLink>
                    </div>                  
              
                 <div style={{paddingLeft:'106px' ,transition:'none', overflow:'hidden', borderRadius:'0px'}}>
-                    <Link href="/auth"><SearchOutlinedIcon className={classes.icon}/></Link>
-                    <Link href="/wishlist"><FavoriteBorderOutlinedIcon className={classes.icon}/></Link>
-                    <Link href="/cart"><LocalMallOutlinedIcon className={classes.icon}/></Link>
-                    <Link href="/auth"><PermIdentityOutlinedIcon className={classes.icon}/></Link>
+                    <NavLink to={"/auth"}><SearchOutlinedIcon className={classes.icon}/></NavLink>
+                    <NavLink to={"/wishlist"}><FavoriteBorderOutlinedIcon className={classes.icon}/></NavLink>
+                    <NavLink to={"/cart"}><LocalMallOutlinedIcon className={classes.icon} /><span className={classes.count}>
+                       {cartcount}</span>
+                        </NavLink>
+                    <NavLink to={"/auth"}><PermIdentityOutlinedIcon className={classes.icon}/></NavLink>
                 </div>
 
                 </Toolbar>

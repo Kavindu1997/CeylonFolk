@@ -60,9 +60,16 @@ router.post("/addToCartBatchwise", async (req,res) => {
 
 router.get("/items/:id", async (req,res) => {
     const id = req.params.id;
-    const query = "SELECT carts.customerId,items.name,carts.quantity,items.image, items.price, carts.itemId,carts.size, SUM(carts.quantity*items.price) as totals FROM `items` INNER JOIN `carts` ON items.itemID=carts.itemId INNER JOIN `users` ON users.id=carts.customerId WHERE carts.isDeleted=0 And carts.isBought=0 And users.id='" + id + "' GROUP BY carts.size,carts.itemId"; 
+    const query = "SELECT carts.customerId,items.name,SUM(carts.quantity) AS quantity,items.image, items.price, carts.itemId,carts.size, SUM(carts.quantity*items.price) as totals FROM `items` INNER JOIN `carts` ON items.itemID=carts.itemId INNER JOIN `users` ON users.id=carts.customerId WHERE carts.isDeleted=0 And carts.isBought=0 And users.id='" + id + "' GROUP BY carts.size,carts.itemId"; 
     const itemDetails = await sequelize.query(query, {type: sequelize.QueryTypes.SELECT});
     res.json(itemDetails);
+});
+
+router.get("/count/:id", async (req,res) => {
+    const id = req.params.id;
+    const query = "SELECT COUNT( * ) AS count FROM `carts` WHERE carts.isDeleted=0 And carts.isBought=0 And carts.customerId='" + id + "' GROUP BY carts.size,carts.itemId"; 
+    const countDetails = await sequelize.query(query, {type: sequelize.QueryTypes.SELECT});
+    res.json(countDetails);
 });
 
 router.get("/total/:id", async (req,res) => {
@@ -76,13 +83,6 @@ router.get("/total/:id", async (req,res) => {
     
 });
 
-// router.post("/", async (req, res) => {
-//     const post = req.body;
-//     await Wishlist.create(post);
-//     res.json(post);
-      
-   
-// });
 
 
 

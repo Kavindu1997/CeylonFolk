@@ -32,6 +32,7 @@ export default function Checkout() {
         const url = "http://localhost:3001/check/items/"+id;
         axios.get(url).then((response) => {
             setOfItems(response.data);
+            console.log(response.data)
         }); 
     }, []);
 
