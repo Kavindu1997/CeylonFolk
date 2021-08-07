@@ -8,7 +8,7 @@ import AddIcon from "@material-ui/icons/Add";
 import CloseIcon from "@material-ui/icons/Close";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 import InventoryForm from "./InventoryForm";
-import InventoryEdit from "./InventoryEdit";
+import InventoryEdit from "../pages/Admin/InventoryEdit";
 import {
     makeStyles,
     Toolbar,
@@ -25,7 +25,7 @@ import Collection from "../images/collection.json";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography, Button, Box } from '@material-ui/core';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import InventorySearch from './InventorySearch';
+import InventorySearch from '../pages/Admin/InventorySearch';
 
 // import SearchBar from "material-ui-search-bar";
 

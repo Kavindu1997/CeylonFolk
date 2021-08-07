@@ -7,6 +7,11 @@ import Contactus from './pages/ContactUs';
 import Authentication from './pages/Authentication';
 import AdminPanel from './pages/Admin';
 import Users from './pages/Admin/UserTable';
+import Collections from './pages/Admin/CollectionTable';
+import Designs from './pages/Admin/DesignTable';
+import Inventory from './pages/Admin/InventoryTable';
+import Coupon from './pages/Admin/CouponTable';
+
 import DetailOfProduct from './pages/Shop/DetailOfProduct';
 //import Collections from './pages/Collections'
 //import Inventory from './pages/Inventory';
@@ -105,6 +110,11 @@ const App = () => {
           <Route path="/admin" exact render={() => <AdminPanel />} />
 
           <Route path="/users" exact render={() => <Users />} />
+          <Route path="/collections" exact render={() => <Collections />} />
+          <Route path="/designs" exact render={() => <Designs />} />
+          <Route path="/inventory" exact render={() => <Inventory />} />
+          <Route path="/coupon" exact render={() => <Coupon />} />
+
           <Route path="/cart" exact render={() => <MyCart />} />
           <Route path="/checkout" exact render={() => <Checkout />} />
           <Route path="/wishlist" exact render={() => <Wishlist />} />
