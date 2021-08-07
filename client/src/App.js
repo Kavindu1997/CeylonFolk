@@ -7,7 +7,7 @@ import Contactus from './pages/ContactUs';
 import Authentication from './pages/Authentication';
 import AdminPanel from './pages/Admin';
 import Users from './pages/Admin/UserTable';
-import DetailOfProduct from './components/Product_grid/DetailOfProduct';
+import DetailOfProduct from './pages/Shop/DetailOfProduct';
 //import Collections from './pages/Collections'
 //import Inventory from './pages/Inventory';
 //import Design from './pages/Design';
