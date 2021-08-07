@@ -47,6 +47,9 @@ app.use("/ProductDetails", productDetailsRouter);
 // const checkoutRouter = require('./routes/Checkout');
 // app.use("/check", checkoutRouter);
 
+const shopRouter = require('./routes/Shop');
+app.use("/shop", shopRouter);
+
 
 const inventorySearchRouter = require("./routes/Inventory.route");
 app.use("/inventSearch", inventorySearchRouter);

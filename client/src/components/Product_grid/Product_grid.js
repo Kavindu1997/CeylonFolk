@@ -8,6 +8,8 @@ import Collection3 from '../../images/ts3.jpg';
 import Collection4 from '../../images/ts4.jpg';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import FavoriteBorderOutlinedIcon from '@material-ui/icons/FavoriteBorderOutlined';
+import axios from 'axios';
+import { useHistory } from 'react-router';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -120,8 +122,19 @@ export const Product_grid = () => {
         setChecked(true);
     }, []);
 
+    const [listOfDesigns, setListOfDesigns] = useState([]);
+
+    useEffect(() => {
+        axios.get("http://localhost:3001/shop").then((response) => {
+            setListOfDesigns(response.data);
+        });
+    },[]);
+
+    let history = useHistory()
+
     return (
         <div>
+            
             <center>
                 <Typography variant="h4" className={classes.collectionTitle}>SHOP</Typography>
                 <Grid item md={6}>
@@ -162,258 +175,45 @@ export const Product_grid = () => {
             </center>
 
             <Container className={classes.collectionContainer} maxWidth="lg">
-                {/* <Typography variant="h4" className={classes.collectionTitle}>WORK WEAR</Typography>         */}
                 <Grid container spacing={0} >
-                    <Grid item xs={12} sm={6} md={3}>
-                        <Link href="/productDetails">
+
+                {listOfDesigns.map((value) => {
+                return(
+
+                    <Grid item xs={12} sm={6} md={3} onClick={() => {
+                        history.push(`/productDetails/${value.designId}`);
+                    }}>
+                        <Link>
                             <Card className={classes.card}>
                                 <CardActionArea>
                                     <CardMedia
                                         className={classes.media}
-                                        style={{ backgroundImage: `url(${Collection1})` }}
-                                        // image="CeylonFolk/client/src/images/ts1.jpg"
-                                        // image="/static/images/cards/contemplative-reptile.jpg"
+                                        style={{ backgroundImage: `url(${value.designImage})` }}
                                         title="Snowy"
                                     />
 
                                     <CardContent style={{ display: 'flex' }}>
                                         <div>
-                                            <Typography gutterBottom variant="h9" component="h2" style={{ textAlign: 'left' }}>Snowy</Typography>
-                                            <Typography gutterBottom variant="h6" component="h2" style={{ textAlign: 'left' }}>LKR 1,500.00</Typography>
+                                            <Typography gutterBottom variant="h9" component="h2" style={{ textAlign: 'left' }}>{value.designName}</Typography>
+                                            <Typography gutterBottom variant="h6" component="h2" style={{ textAlign: 'left' }}>{"LKR "+value.price}</Typography>
                                         </div>
-                                        <div>
-                                            {/* <Link href="/wishlist"> */}
-                                            <FavoriteBorderOutlinedIcon className={classes.icon1} />
-                                            {/* </Link> */}
-                                        </div>
-
-
+                                        <div><FavoriteBorderOutlinedIcon className={classes.icon1} /></div>
                                     </CardContent>
                                 </CardActionArea>
                                 <CardActions></CardActions>
                             </Card>
                         </Link>
                     </Grid>
-                    <Grid item xs={12} sm={6} md={3}>
-                        <Card className={classes.card}>
-                            <CardActionArea>
-                                <CardMedia
-                                    className={classes.media}
-                                    style={{ backgroundImage: `url(${Collection2})` }}
-                                    title="Marvel"
-                                />
-                                <CardContent style={{ display: 'flex' }}>
-                                    <div>
-                                        <Typography gutterBottom variant="h9" component="h2" style={{ textAlign: 'left' }}>
-                                            Marvel
-                                        </Typography>
 
-                                        <Typography gutterBottom variant="h6" component="h2" style={{ textAlign: 'left' }}>
-                                            LKR 1,6500.00
-                                        </Typography>
-
-                                    </div>
-
-                                    <div>
-                                        {/* <Link href="/wishlist"> */}
-
-                                        <FavoriteBorderOutlinedIcon className={classes.icon1} />
-
-                                        {/* </Link> */}
-                                    </div>
-
-                                </CardContent>
-                            </CardActionArea>
-                            <CardActions></CardActions>
-                        </Card>
-                    </Grid>
-                    <Grid item xs={12} sm={6} md={3}>
-                        <Card className={classes.card}>
-                            <CardActionArea>
-                                <CardMedia
-                                    className={classes.media}
-                                    style={{ backgroundImage: `url(${Collection3})` }}
-                                    title="BTS"
-                                />
-                                <CardContent style={{ display: 'flex' }}>
-                                    <div>
-                                        <Typography gutterBottom variant="h9" component="h2" style={{ textAlign: 'left' }}>
-                                            Butter
-                                        </Typography>
-
-                                        <Typography gutterBottom variant="h6" component="h2" style={{ textAlign: 'left' }}>
-                                            LKR 1,2000.00
-                                        </Typography>
-                                    </div>
-
-                                    <div>
-                                        {/* <Link href="/wishlist"> */}
-
-                                        <FavoriteBorderOutlinedIcon className={classes.icon1} />
-
-                                        {/* </Link> */}
-                                    </div>
-
-                                </CardContent>
-                            </CardActionArea>
-                            <CardActions>
-                            </CardActions>
-                        </Card>
-                    </Grid>
-                    <Grid item xs={12} sm={6} md={3}>
-                        <Card className={classes.card}>
-                            <CardActionArea>
-                                <CardMedia
-                                    className={classes.media}
-                                    style={{ backgroundImage: `url(${Collection4})` }}
-                                    title="BTS"
-                                />
-                                <CardContent style={{ display: 'flex' }}>
-                                    <div>
-                                        <Typography gutterBottom variant="h9" component="h2" style={{ textAlign: 'left' }}>
-                                            BTS
-                                        </Typography>
-
-                                        <Typography gutterBottom variant="h6" component="h2" style={{ textAlign: 'left' }}>
-                                            LKR 1,500.00
-                                        </Typography>
-                                    </div>
-                                    <div>
-                                        {/* <Link href="/wishlist"> */}
-
-                                        <FavoriteBorderOutlinedIcon className={classes.icon1} />
-
-                                        {/* </Link> */}
-                                    </div>
-
-                                </CardContent>
-                            </CardActionArea>
-                            <CardActions>
-                            </CardActions>
-                        </Card>
-                    </Grid>
+                );
+            })}
+                    
+                    
                 </Grid>
 
             </Container>
 
-            <Container className={classes.collectionContainer} maxWidth="lg">
-
-                <Grid container spacing={0} >
-                    <Grid item xs={12} sm={6} md={3}>
-                        <Link href="/productDetails">
-                            <Card className={classes.card}>
-                                <CardActionArea>
-                                    <CardMedia
-                                        className={classes.media}
-                                        style={{ backgroundImage: `url(${Collection1})` }}
-                                        // image="CeylonFolk/client/src/images/ts1.jpg"
-                                        // image="/static/images/cards/contemplative-reptile.jpg"
-                                        title="Snowy"
-                                    />
-                                    <CardContent style={{ display: 'flex' }}>
-                                        <div>
-                                            <Typography gutterBottom variant="h9" component="h2" style={{ textAlign: 'left' }}>
-                                                Snowy
-                                            </Typography>
-
-                                            <Typography gutterBottom variant="h6" component="h2" style={{ textAlign: 'left' }}>
-                                                LKR 1,500.00
-                                            </Typography>
-                                        </div>
-                                        <div>
-                                            {/* <Link href="/wishlist"> */}
-                                            <FavoriteBorderOutlinedIcon className={classes.icon1} />
-                                            {/* </Link> */}
-                                        </div>
-                                    </CardContent>
-                                </CardActionArea>
-                            </Card>
-                        </Link>
-                    </Grid>
-                    <Grid item xs={12} sm={6} md={3}>
-                        <Card className={classes.card}>
-                            <CardActionArea>
-                                <CardMedia
-                                    className={classes.media}
-                                    style={{ backgroundImage: `url(${Collection2})` }}
-                                    title="Marvel"
-                                />
-                                <CardContent style={{ display: 'flex' }}>
-                                    <div>
-                                        <Typography gutterBottom variant="h9" component="h2" style={{ textAlign: 'left' }}>
-                                            Marvel
-                                        </Typography>
-
-                                        <Typography gutterBottom variant="h6" component="h2" style={{ textAlign: 'left' }}>
-                                            LKR 1,6500.00
-                                        </Typography>
-                                    </div>
-                                    <div>
-                                        {/* <Link href="/wishlist"> */}
-                                        <FavoriteBorderOutlinedIcon className={classes.icon1} />
-                                        {/* </Link> */}
-                                    </div>
-                                </CardContent>
-                            </CardActionArea>
-                        </Card>
-                    </Grid>
-                    <Grid item xs={12} sm={6} md={3}>
-                        <Card className={classes.card}>
-                            <CardActionArea>
-                                <CardMedia
-                                    className={classes.media}
-                                    style={{ backgroundImage: `url(${Collection3})` }}
-                                    title="BTS"
-                                />
-                                <CardContent style={{ display: 'flex' }}>
-                                    <div>
-                                        <Typography gutterBottom variant="h9" component="h2" style={{ textAlign: 'left' }}>
-                                            Butter
-                                        </Typography>
-
-                                        <Typography gutterBottom variant="h6" component="h2" style={{ textAlign: 'left' }}>
-                                            LKR 1,2000.00
-                                        </Typography>
-                                    </div>
-                                    <div>
-                                        {/* <Link href="/wishlist"> */}
-                                        <FavoriteBorderOutlinedIcon className={classes.icon1} />
-                                        {/* </Link> */}
-                                    </div>
-                                </CardContent>
-                            </CardActionArea>
-                        </Card>
-                    </Grid>
-                    <Grid item xs={12} sm={6} md={3}>
-                        <Card className={classes.card}>
-                            <CardActionArea>
-                                <CardMedia
-                                    className={classes.media}
-                                    style={{ backgroundImage: `url(${Collection4})` }}
-                                    title="BTS"
-                                />
-                                <CardContent style={{ display: 'flex' }}>
-                                    <div>
-                                        <Typography gutterBottom variant="h9" component="h2" style={{ textAlign: 'left' }}>
-                                            BTS
-                                        </Typography>
-
-                                        <Typography gutterBottom variant="h6" component="h2" style={{ textAlign: 'left' }}>
-                                            LKR 1,500.00
-                                        </Typography>
-                                    </div>
-                                    <div>
-                                        {/* <Link href="/wishlist"> */}
-                                        <FavoriteBorderOutlinedIcon className={classes.icon1} />
-                                        {/* </Link> */}
-                                    </div>
-                                </CardContent>
-                            </CardActionArea>
-                        </Card>
-                    </Grid>
-
-                </Grid>
-            </Container>
+            
         </div>
     );
 
