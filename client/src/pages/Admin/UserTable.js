@@ -14,20 +14,9 @@ import Popup from '../../components/Reusable/Popup';
 import Notification from '../../components/Reusable/Notification';
 import ConfirmDialog from '../../components/Reusable/ConfirmDialog';
 import AdminPanel from './index';
+import useStyles from './style';
 
-const useStyles = makeStyles((theme) => ({
-    pageContent: {
-        margin: theme.spacing(5),
-        padding: theme.spacing(3)
-    },
-    searchInput: {
-        width: '50%'
-    },
-    newButton: {
-        position: 'absolute',
-        right: '10px'
-    }
-}));
+
 
 const headCells = [
     { id: 'userType', label: 'User Type' },
