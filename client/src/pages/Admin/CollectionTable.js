@@ -23,6 +23,7 @@ import ConfirmDialog from "../../components/Reusable/ConfirmDialog";
 
 import Lottie from "react-lottie";
 import Collection from "../../images/collection.json";
+// import AdminNav from "../../components/Reusable/AdminNav"
 
 const useStyles = makeStyles((theme) => ({
     pageContent: {
@@ -74,7 +75,10 @@ const CollectionTable = () => {
     };
 
     return (
+
         <div>
+
+
             <PageHeader title="COLLECTIONS" icon={<LayersIcon fontSize="large" />} />
 
             {/* <Lottie options={defaultOptions} height={150} width={150} style={{marginRight:'30px'}} />marginTop:'-150px', */}

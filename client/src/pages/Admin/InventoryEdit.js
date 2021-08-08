@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Grid } from '@material-ui/core';
-import { useForm } from './Reusable/useForm';
-import Controls from './Reusable/Controls';
+import { useForm } from '../../components/Reusable/useForm';
+import Controls from '../../components/Reusable/Controls';
 import axios from 'axios';
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from 'yup';
