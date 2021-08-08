@@ -15,20 +15,9 @@ import ConfirmDialog from '../../components/Reusable/ConfirmDialog';
 
 import Lottie from 'react-lottie';
 import Coupon from '../../images/coupon.json';
+import useStyles from './style';
 
-const useStyles = makeStyles((theme) => ({
-    pageContent: {
-        margin: theme.spacing(5),
-        padding: theme.spacing(3)
-    },
-    searchInput: {
-        width: '50%'
-    },
-    newButton: {
-        position: 'absolute',
-        right: '10px'
-    }
-}));
+
 
 const headCells = [
     { id: 'couponId', label: 'Coupon Id' },

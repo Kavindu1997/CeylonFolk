@@ -40,28 +40,9 @@ import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper
 // } from "@material-ui/core";
 import { Grid, TextField } from '@material-ui/core';
 // import Controls from "../../components/Reusable/Controls";
+import useStyles from './style';
 
 
-const useStyles = makeStyles((theme) => ({
-    pageContent: {
-        margin: theme.spacing(5),
-        padding: theme.spacing(3),
-    },
-    searchInput: {
-        width: "50%",
-    },
-    newButton: {
-        position: "absolute",
-        right: "100px",
-
-
-    },
-    submit: {
-        align: 'center',
-        padding: '5px',
-        marginTop: '20px',
-    },
-}));
 
 // const headCells = [
 //     { id: "code", label: "Code" },
