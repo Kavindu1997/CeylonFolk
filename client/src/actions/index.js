@@ -1,25 +1,43 @@
-export const ADD_TO_CART = 'ADD_TO_CART';
-export const GET_TOTAL = 'GET_TOTAL';
-export const DELETE_ITEM = 'DELETE_ITEM';
+import {CART_CONSTS} from './actionTypes';
 
 export const actionAddToCart = product => {
     return {
-        type: ADD_TO_CART,
+        type: CART_CONSTS.ADD_TO_CART,
         payload: product
     }
 };
 
 export const actionGetTotal = total => {
     return {
-        type: GET_TOTAL,
+        type: CART_CONSTS.GET_TOTAL,
         payload: total
     }
 };
 
-export const actionDeleteItem = item => {
+/*export const actionGetTotalDeduct = total => {
     return {
-        type: DELETE_ITEM,
-        payload: item
+        type: CART_CONSTS.GET_TOTAL_DEDUCT,
+        payload: total
+    }
+};*/
+
+export const actionDeleteItem = id => {
+    return {
+        type: CART_CONSTS.DELETE_ITEM,
+        payload: id
     }
 };
+
+export const incrementCartCount = () => {
+    return {
+        type: CART_CONSTS.INCREMENT_CART_NO,
+    }
+};
+
+export const decrementCartCount = () => {
+    return {
+        type: CART_CONSTS.DECREMENT_CART_NO,
+    }
+};
+
 

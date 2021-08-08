@@ -30,6 +30,7 @@ import { useHistory } from 'react-router';
 import * as Yup from 'yup';
 import {actionAddToCart} from '../../actions/index';
 import {actionGetTotal} from '../../actions/index';
+import {incrementCartCount} from '../../actions/index';
 import {useDispatch, useSelector} from "react-redux";
 
 // import { Corousel_img } from './Corousel_img';
@@ -209,7 +210,7 @@ export default function Product_detail() {
           alert(response.data.error);
         }
         console.log("iam here")
-        dispatch({type: "INCREMENT_CART_NO"});
+        dispatch(incrementCartCount());
         dispatch(actionAddToCart(dummyItem));
         alert("Product successfully added to cart");
       const url1 = "http://localhost:3001/check/count/" + uid;
@@ -224,7 +225,7 @@ export default function Product_detail() {
       var cart = [];
       dummyItem.totals=dummyItem.price*dummyItem.quantity;
       
-      dispatch({type: "INCREMENT_CART_NO"});
+      dispatch(incrementCartCount());
       dispatch(actionAddToCart(dummyItem));
       dispatch(actionGetTotal(dummyItem.totals));
       alert("Product successfully added to cart");

@@ -1,31 +1,58 @@
+import {CART_CONSTS} from '../actions/actionTypes';
+
 const initState = {
-    counter: 234,
     cart: [],
     cartCount: 0,
     totalAmount: 0,
+    totalAmountDeduct: 0,
 }
 
 const rootReducer = (state = initState, action) => {
+    let updatedCart;
+    let updatedItemIndex;
+    
     switch (action.type) {
-        case 'ADD_TO_CART':
+        case CART_CONSTS.ADD_TO_CART:
             console.log(state);
             console.log(action)
             return {
                 ...state,
                 cart: [...state.cart, action.payload]
             };
-        case 'GET_TOTAL':
+
+        case CART_CONSTS.DELETE_ITEM:
+            updatedCart = [...state.cart];
+            updatedItemIndex = updatedCart.findIndex(
+                item => item.itemId === action.payload
+            );
+            console.log(updatedItemIndex)
+            updatedCart.splice(updatedItemIndex, 1);
+            return {...state, cart: updatedCart};
+
+        case CART_CONSTS.GET_TOTAL:
             return {
                 ...state,
                 totalAmount: state.totalAmount + action.payload
             };
-        case 'INCREMENT_CART_NO':
+
+        /*case CART_CONSTS.GET_TOTAL_DEDUCT:
+            return {
+                ...state.totalAmount,
+                totalAmountDeduct: state.totalAmount - action.payload
+            };*/
+
+        case CART_CONSTS.INCREMENT_CART_NO:
             return {
                 ...state,
                 cartCount: state.cartCount + 1
             };
-        case 'DECREMENT':
-            return { counter: state.counter - 1 };
+
+        case CART_CONSTS.DECREMENT_CART_NO:
+            return { 
+                ...state,
+                cartCount: state.cartCount - 1 
+            };
+            
         default:
             return state;
 

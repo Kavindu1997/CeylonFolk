@@ -12,6 +12,8 @@ import { useHistory } from 'react-router-dom';
 import useStyles from './style';
 import { useDispatch, useSelector } from "react-redux";
 import { connect } from 'react-redux';
+import {actionDeleteItem} from '../../actions/index';
+import {decrementCartCount} from '../../actions/index';
 
 export default function Cart() {
 
@@ -21,7 +23,7 @@ export default function Cart() {
   const dispatch = useDispatch();
   const productCart = useSelector(state => state.cart)
   const cartTotal = useSelector(state => state.totalAmount)
-
+  
   function onProceed() {
     var id = localStorage.getItem("userId");
     if (id > 0) {
@@ -35,7 +37,10 @@ export default function Cart() {
 
   const onRemove = (id) => { //'Itom007'
     var uid = localStorage.getItem("userId");
+    console.log(id)
     if (uid > 0) {
+      dispatch(actionDeleteItem(id));
+      dispatch(decrementCartCount());
       const url = "http://localhost:3001/check/remove/"
       const data = { userId: uid, itemId: id }
       axios.put(url, data).then((response) => {
@@ -55,29 +60,15 @@ export default function Cart() {
     }
     else {
       //TODO Update the local storage
-      var cart = [];
-      var selectedId;
-      cart = JSON.parse(localStorage.getItem("cart"));
-      for (let i = 0; i < cart.length; i++) {
-        if (cart[i].itemId = id) {
-          selectedId = i;
-
-        }
-
-      }
-      var deletedItem = cart[selectedId];
-      var total = Number(localStorage.getItem("totalDetails"));
-      total = total - Number(deletedItem.totals)
-      localStorage.setItem("totalDetails", JSON.stringify(total));
-      cart = cart.splice(0, selectedId);
-      if (cart == null) {
-        cart = [];
-      }
-      setOfItems(cart);
-      localStorage.setItem("cart", JSON.stringify(cart));
-      var carttotal = [];
-      carttotal.push({ total: total })
-      setOftotals(carttotal);
+      dispatch(actionDeleteItem(id));
+      console.log(id)
+      dispatch(decrementCartCount());
+      setOfItems(productCart);
+      var totalDetails = [];
+      console.log("here")
+        totalDetails.push({customerId:id,total:cartTotal});
+        setOftotals(totalDetails);
+        
     }
   };
 
@@ -123,7 +114,6 @@ export default function Cart() {
       }
 
     });
-
     }, []);
   
 
