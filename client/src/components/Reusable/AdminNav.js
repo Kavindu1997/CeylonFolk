@@ -5,15 +5,11 @@ import { CssBaseline, Drawer, Box, AppBar, Toolbar, List, Typography, Divider, I
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
-import { mainListItems, secondListItems } from './ListItems';
+import { mainListItems, secondListItems } from '../../pages/Admin/ListItems';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import Lottie from 'react-lottie';
 import Stat from '../../images/stat.json';
-import UserTable from './UserTable';
-import CollectionTable from './CollectionTable';
-import CouponTable from './CouponTable';
-import DesignTable from './DesignTable';
-import InventoryTable from './InventoryTable';
+
 
 const drawerWidth = 240;
 

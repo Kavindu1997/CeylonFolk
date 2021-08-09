@@ -15,7 +15,7 @@ import Notification from '../../components/Reusable/Notification';
 import ConfirmDialog from '../../components/Reusable/ConfirmDialog';
 import AdminPanel from './index';
 import useStyles from './style';
-
+import AdminNav from "../../components/Reusable/AdminNav"
 
 
 const headCells = [
@@ -100,8 +100,10 @@ const UserTable = () => {
     // };
 
     return (
-        <div>
-            <div>
+        <div style={{display:"flex"}}>
+        <AdminNav/>
+
+        <main className={classes.content}>
                 <PageHeader
                     title="USER HANDLING"
                     icon={< GroupIcon fontSize="large" />}
@@ -193,8 +195,8 @@ const UserTable = () => {
                     confirmDialog={confirmDialog}
                     setConfirmDialog={setConfirmDialog}
                 />
-            </div>
-        </div >
+            </main>
+        </div>
     );
 };
 

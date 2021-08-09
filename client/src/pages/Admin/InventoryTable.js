@@ -41,7 +41,7 @@ import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper
 import { Grid, TextField } from '@material-ui/core';
 // import Controls from "../../components/Reusable/Controls";
 import useStyles from './style';
-
+import AdminNav from "../../components/Reusable/AdminNav"
 
 
 // const headCells = [
@@ -165,7 +165,11 @@ const InventoryTable = () => {
     // }
 
     return (
-        <div>
+        
+        <div style={{display:"flex"}}>
+        <AdminNav/>
+
+        <main className={classes.content}>
             <PageHeader title="INVENTORY MANAGEMENT" icon={<LayersIcon fontSize="large" />} />
 
             {/* <Lottie options={defaultOptions} height={150} width={150} style={{marginRight:'30px'}} />marginTop:'-150px', */}
@@ -271,6 +275,7 @@ const InventoryTable = () => {
                 confirmDialog={confirmDialog}
                 setConfirmDialog={setConfirmDialog}
             />
+        </main>
         </div>
     );
 };

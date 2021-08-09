@@ -106,7 +106,7 @@ class App extends Component {
     <ThemeProvider theme={theme}>
       <Provider store={store}>
       <BrowserRouter>
-        <CommonNav/>
+     
         <Switch>
 
           <Route exact path={"/"}  component = {Home} />

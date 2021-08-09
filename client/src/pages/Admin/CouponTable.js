@@ -16,7 +16,7 @@ import ConfirmDialog from '../../components/Reusable/ConfirmDialog';
 import Lottie from 'react-lottie';
 import Coupon from '../../images/coupon.json';
 import useStyles from './style';
-
+import AdminNav from "../../components/Reusable/AdminNav"
 
 
 const headCells = [
@@ -52,7 +52,13 @@ const CouponTable = () => {
     };
 
     return (
-        <div>
+        
+        <div style={{display:"flex"}}>
+        <AdminNav/>
+
+        <main className={classes.content}>
+
+
             <PageHeader
                 title="COUPONS"
                 icon={<LoyaltyIcon fontSize="large" />}
@@ -136,6 +142,7 @@ const CouponTable = () => {
                 confirmDialog={confirmDialog}
                 setConfirmDialog={setConfirmDialog}
             />
+         </main>
         </div>
     );
 };
