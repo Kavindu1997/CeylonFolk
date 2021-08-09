@@ -15,6 +15,8 @@ import ConfirmDialog from '../../components/Reusable/ConfirmDialog';
 
 import Lottie from 'react-lottie';
 import Design from '../../images/design.json';
+import AdminNav from "../../components/Reusable/AdminNav"
+import useStyles from './style';
 
 const defaultOptions = {
   loop: true,
@@ -26,15 +28,22 @@ const defaultOptions = {
 };
 
 const DesignTable = () => {
+
+  const classes = useStyles();
+
   return (
-    <div>
+    <div style={{display:"flex"}}>
+    <AdminNav/>
+
+    <main className={classes.content}>
       <PageHeader
         title="DESIGN CREATIONS"
         icon={<BrushIcon fontSize="large" />}
       />
 
       {/* <Lottie options={defaultOptions} height={150} width={150} style={{marginTop:'-150px',marginRight:'30px'}} /> */}
-    </div>
+      </main>
+        </div>
   );
 };
 

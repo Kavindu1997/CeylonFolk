@@ -17,9 +17,6 @@ import InventoryTable from './InventoryTable';
 import useStyles from './style';
 
 
-
-
-
 export default function AdminPanel() {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
