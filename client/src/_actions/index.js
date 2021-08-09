@@ -1,4 +1,4 @@
-import {CART_CONSTS} from './actionTypes';
+import { CART_CONSTS } from "../_constants";
 
 export const actionAddToCart = product => {
     return {

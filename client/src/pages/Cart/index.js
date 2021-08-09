@@ -12,8 +12,7 @@ import { useHistory } from 'react-router-dom';
 import useStyles from './style';
 import { useDispatch, useSelector } from "react-redux";
 import { connect } from 'react-redux';
-import {actionDeleteItem} from '../../actions/index';
-import {decrementCartCount} from '../../actions/index';
+import {actionDeleteItem,decrementCartCount} from '../../_actions/index';
 
 export default function Cart() {
 

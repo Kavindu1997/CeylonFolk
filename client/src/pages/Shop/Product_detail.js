@@ -28,9 +28,9 @@ import useStyles from './style';
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import { useHistory } from 'react-router';
 import * as Yup from 'yup';
-import {actionAddToCart} from '../../actions/index';
-import {actionGetTotal} from '../../actions/index';
-import {incrementCartCount} from '../../actions/index';
+import {actionAddToCart} from '../../_actions/index';
+import {actionGetTotal} from '../../_actions/index';
+import {incrementCartCount} from '../../_actions/index';
 import {useDispatch, useSelector} from "react-redux";
 
 // import { Corousel_img } from './Corousel_img';

@@ -1,4 +1,4 @@
-import {CART_CONSTS} from '../actions/actionTypes';
+import {CART_CONSTS} from '../_actions/actionTypes';
 
 const initState = {
     cart: [],
