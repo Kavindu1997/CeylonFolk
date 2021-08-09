@@ -1,29 +1,10 @@
 import React from 'react';
 import {Paper,Card,Typography,makeStyles} from '@material-ui/core';
+import useStyles1 from './style1';
 
-const useStyles=makeStyles((theme)=>({
-    root:{
-        backgroundColor:'',
-        marginTop:'100px'
-    },
-    pageHeader:{
-        padding:theme.spacing(4),
-        display:'flex',
-        marginBottom:theme.spacing(3),
-    },
-    pageIcon:{
-        display:'inline-block',
-        padding:theme.spacing(2),
-        color:''
-    },
-    pageTitle:{
-         padding:theme.spacing(1),
-         
-    }
 
-}));
 const PageHeader = (props) => {
-    const classes=useStyles();
+    const classes=useStyles1();
     const {title,icon}=props;
     return (
         <Paper elevation={0} square className={classes.root}>

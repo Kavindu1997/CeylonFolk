@@ -40,28 +40,9 @@ import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper
 // } from "@material-ui/core";
 import { Grid, TextField } from '@material-ui/core';
 // import Controls from "../../components/Reusable/Controls";
+import useStyles from './style';
+import AdminNav from "../../components/Reusable/AdminNav"
 
-
-const useStyles = makeStyles((theme) => ({
-    pageContent: {
-        margin: theme.spacing(5),
-        padding: theme.spacing(3),
-    },
-    searchInput: {
-        width: "50%",
-    },
-    newButton: {
-        position: "absolute",
-        right: "100px",
-
-
-    },
-    submit: {
-        align: 'center',
-        padding: '5px',
-        marginTop: '20px',
-    },
-}));
 
 // const headCells = [
 //     { id: "code", label: "Code" },
@@ -184,7 +165,11 @@ const InventoryTable = () => {
     // }
 
     return (
-        <div>
+        
+        <div style={{display:"flex"}}>
+        <AdminNav/>
+
+        <main className={classes.content}>
             <PageHeader title="INVENTORY MANAGEMENT" icon={<LayersIcon fontSize="large" />} />
 
             {/* <Lottie options={defaultOptions} height={150} width={150} style={{marginRight:'30px'}} />marginTop:'-150px', */}
@@ -290,6 +275,7 @@ const InventoryTable = () => {
                 confirmDialog={confirmDialog}
                 setConfirmDialog={setConfirmDialog}
             />
+        </main>
         </div>
     );
 };

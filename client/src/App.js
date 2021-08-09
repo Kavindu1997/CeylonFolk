@@ -110,6 +110,7 @@ class App extends Component {
     <ThemeProvider theme={theme}>
       
       <BrowserRouter>
+
         <Switch>
 
           <Route exact path={"/"}  component = {Home} />
