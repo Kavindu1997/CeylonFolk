@@ -31,8 +31,8 @@ import PermIdentityOutlinedIcon from '@material-ui/icons/PermIdentityOutlined';
 import LocalMallOutlinedIcon from '@material-ui/icons/LocalMallOutlined';
 import FavoriteBorderOutlinedIcon from '@material-ui/icons/FavoriteBorderOutlined';
 import SearchOutlinedIcon from '@material-ui/icons/SearchOutlined';
-import {actionAddToCart} from '../../actions/index';
-import {actionGetTotal} from '../../actions/index';
+import {actionAddToCart} from '../../_actions/index';
+import {actionGetTotal} from '../../_actions/index';
 
 
 import { AppBar, Toolbar, Card, Container, CardActionArea, CardMedia } from '@material-ui/core';

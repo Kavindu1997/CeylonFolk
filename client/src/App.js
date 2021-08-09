@@ -36,7 +36,10 @@ import { render } from 'react-dom';
 import CommonNav from './components/Navbars/HomeNav';
 import {Provider} from 'react-redux';
 import {createStore } from 'redux';
-import rootReducer from './reducers/rootReducer';
+import {cart} from './_reducers/cart.reducer';
+import gateway from './pages/Checkout/gateway';
+import { StoreProvider } from "./_util";
+
 
 
 const theme = createMuiTheme({
@@ -98,38 +101,30 @@ const theme = createMuiTheme({
   },
 });
 
-export const  store = createStore(rootReducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
+//export const  store = createStore(cart, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
 
 class App extends Component {
   render() {
   return (
+   <StoreProvider>
     <ThemeProvider theme={theme}>
-      <Provider store={store}>
+      
       <BrowserRouter>
-        <CommonNav/>
         <Switch>
 
           <Route exact path={"/"}  component = {Home} />
           <Route exact path="/shop" component = {Shop} />
           <Route exact path="/contactus" component = {Contactus} />
           <Route path="/auth" exact render={() => < Authentication />} />
-
           <Route exact path={"/cart"} component = {MyCart} />
-
-
           <Route exact path={"/productDetails/:id"} component = {Product_detail} />
-          
-
-          
+          <Route exact path={"gateway"} component = {gateway} />
           <Route path="/admin" exact render={() => <AdminPanel />} />
-
           <Route path="/users" exact render={() => <Users />} />
           <Route path="/collections" exact render={() => <Collections />} />
           <Route path="/designs" exact render={() => <Designs />} />
           <Route path="/inventory" exact render={() => <Inventory />} />
           <Route path="/coupon" exact render={() => <Coupon />} />
-
-
           <Route path="/checkout" exact render={() => <Checkout />} />
           <Route path="/wishlist" exact render={() => <Wishlist />} />
           <Route path="/aboutUs" exact render={() => <About />} />
@@ -149,8 +144,10 @@ class App extends Component {
 
         </Switch>
       </BrowserRouter>
-      </Provider>
+      
     </ThemeProvider>
+    </StoreProvider>
+   
   );
 }
 }

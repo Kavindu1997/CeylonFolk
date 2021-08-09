@@ -16,6 +16,7 @@ router.post("/cashOn", async (req, res) => {
     const uid = req.body.userId;
     const pmt = req.body.payment;
     const stu = req.body.status;
+    const itmes= req.body.itemarray;
     const query = "INSERT INTO orders (customerId,fullAmount,PaymentMethod,status) VALUES ('" + uid + "',(SELECT SUM(carts.quantity*items.price) as total FROM `items` INNER JOIN `carts` ON items.itemID=carts.itemId INNER JOIN `users` ON users.id=carts.customerId WHERE  carts.isDeleted=0 And carts.isBought=0 and users.id='" + uid + "'),'" + pmt + "','" + stu + "')";
     const cashOnOrder = await sequelize.query(query, {type: sequelize.QueryTypes.INSERT});
     res.json(cashOnOrder);   
