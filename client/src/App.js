@@ -30,6 +30,8 @@ import Termnconditions from './pages/TermsAndConditions';
 import CreateForm from './pages/CreateForm';
 import ProductD from './pages/ProductD';
 import MyCanvas from './pages/MyCanvas';
+import MyLayers from './pages/Customize/MyLayer';
+import MyLayers2 from './pages/Customize/MyLayers2';
 
 
 const theme = createMuiTheme({
@@ -132,6 +134,9 @@ const App = () => {
           <Route path="/form" exact render={() => <CreateForm />} />
           <Route path="/productD" exact render={() => <ProductD />} />
           <Route path="/canvas" exact render={() => <MyCanvas />} />
+          <Route path="/myLayers" exact render={() => <MyLayers />} />
+          <Route path="/myLayers2" exact render={() => <MyLayers2 />} />
+          
 
         </Switch>
       </Router>
