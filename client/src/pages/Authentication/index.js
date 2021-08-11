@@ -66,11 +66,14 @@ const Authentication = () => {
             } else {
                 var uid = localStorage.getItem("userId");
                 
-                console.log(cart)
+                console.log(uid)
+                console.log(cart.cart)
+                console.log(cart.cart.length)
 
-                if (uid == 0 && cart.length > 0) {
+                if (uid == '0' && cart.cart.length > 0) {
+                    console.log("login")
                     const url = "http://localhost:3001/check/addToCartBatchwise/"
-                    var data = {uid:response.data.id , cart: cart };
+                    var data = {uid:response.data.id , cart: cart.cart };
                     axios.post(url, data).then((response) => {
                         if (response.data.error) alert(response.data.error);
                        

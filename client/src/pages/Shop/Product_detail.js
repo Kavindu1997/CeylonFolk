@@ -56,7 +56,7 @@ function Copyright() {
 export default function Product_detail() {
 
   var  count =[];
-  const cartcount = useSelector(state => state.cartcount)
+  const cartcount = useSelector(state => state.cart.cartcount)
   const dispatch = useDispatch();
 
   const classes = useStyles();
