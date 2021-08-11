@@ -1,5 +1,5 @@
 import React, { useState, useEffect, Component } from "react";
-import "./App.css";
+import "./MyLayerStyles.css";
 import { Stage, Layer, Image, Text, Transformer } from "react-konva";
 import { Button , TextField, Switch, FormControl} from "@material-ui/core";
 import { CirclePicker } from "react-color";
@@ -15,13 +15,11 @@ const MyLayer = ({ shapeProps, isSelected, onSelect, onChange }) => {
     const [textColor, setTextColor] = useState('');
     const [textScale, setTextScale] = useState([]);
     const [clothing, setClothing] = useState('tshirt');
-    console.log(color)
     const [textLayerColors, setTextLayerColors] = useState(["#ffffff","#000000","#f44336","#e91e63","#9c27b0","#673ab7","#3f51b5","#2196f3","#03a9f4",
     "#00bcd4","#009688","#4caf50","#8bc34a","#cddc39","#ffeb3b","#ffc107","#ff9800","#ff5722","#795548","#607d8b","#C0C0C0","#C9AE5D"]);
     // const [itemColor, setItemColor] = useState(itemColor);
     const [circleSize, setCircleSize] = useState(35);
     const [tshirt, setTshirt] = useState(["#ffffff", "#000000", "#ff0000", "	#008000"]);
-    console.log(tshirt)
     const [sweater, setSweater] = useState(["#ffffff", "#000000", "#ffff00", "#ff69b4"]);
     const [images, setImage] = useState('');
     const [selectedShapeName, setSelectedShapeName] = useState('');
