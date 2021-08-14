@@ -18,10 +18,10 @@ export default function Cart() {
 
   const classes = useStyles();
   let history = useHistory();
-  const cartcount = useSelector(state => state.cartCount)
+  const cartcount = useSelector(state => state.cart.cartCount)
   const dispatch = useDispatch();
-  const productCart = useSelector(state => state.cart)
-  const cartTotal = useSelector(state => state.totalAmount)
+  const productCart = useSelector(state => state.cart.cart)
+  const cartTotal = useSelector(state => state.cart.totalAmount)
   
   function onProceed() {
     var id = localStorage.getItem("userId");
