@@ -1,20 +1,21 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
+import axios from 'axios';
 //import './payment_modal.css'
 
-const PaymentModal = ({ orderId, name, amount }) => {
+const PaymentModal = (paymentDetail) => {
   let history = useHistory();
-    
+  console.log(paymentDetail)
   // Put the payment variables here
   var payment = {
     sandbox: true, // if the account is sandbox or real
     merchant_id: '1218255', // Replace your Merchant ID
-    return_url: 'http://localhost:3000/Checkout',
+    return_url: 'https://support.payhere.lk/faq/sandbox-and-testing',
     cancel_url: 'http://sample.com/cancel',
     notify_url: 'http://sample.com/notify',
-    order_id: orderId,
-    items: name,
-    amount: amount, 
+    order_id: paymentDetail.orderId,
+    items: "",
+    amount: paymentDetail.totalAmount,
     currency: 'LKR',
     first_name: 'Saman',
     last_name: 'Perera',
@@ -29,13 +30,15 @@ const PaymentModal = ({ orderId, name, amount }) => {
     custom_1: '', // optional field
     custom_2: '', // optional field
   };
-    
+
   // Called when user completed the payment. It can be a successful payment or failure
   window.payhere.onCompleted = function onCompleted(orderId) {
     console.log("Payment completed. OrderID:" + orderId);
-    //history.push("/Checkout");
+    history.push("/Checkout");
     //Note: validate the payment and show success or failure page to the customer
   };
+
+ 
 
   // Called when user closes the payment without completing
   window.payhere.onDismissed = function onDismissed() {
@@ -46,10 +49,10 @@ const PaymentModal = ({ orderId, name, amount }) => {
   // Called when error happens when initializing payment such as invalid parameters
   window.payhere.onError = function onError(error) {
     // Note: show an error page
-    console.log("Error:"  + error);
+    console.log("Error:" + error);
   };
 
-  function pay(){
+  function pay() {
     window.payhere.startPayment(payment);
     console.log(payment)
   }

@@ -37,7 +37,7 @@ import CommonNav from './components/Navbars/HomeNav';
 import {Provider} from 'react-redux';
 import {createStore } from 'redux';
 import {cart} from './_reducers/cart.reducer';
-import gateway from './pages/Checkout/gateway';
+import Gateway from './pages/Checkout/gateway';
 import { StoreProvider } from "./_util";
 
 
@@ -118,7 +118,7 @@ class App extends Component {
           <Route path="/auth" exact render={() => < Authentication />} />
           <Route exact path={"/cart"} component = {MyCart} />
           <Route exact path={"/productDetails/:id"} component = {Product_detail} />
-          <Route exact path={"gateway"} component = {gateway} />
+          <Route exact path={"/gateway"} component = {Gateway} />
           <Route path="/admin" exact render={() => <AdminPanel />} />
           <Route path="/users" exact render={() => <Users />} />
           <Route path="/collections" exact render={() => <Collections />} />

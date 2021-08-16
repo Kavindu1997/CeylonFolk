@@ -10,7 +10,7 @@ const initState = {
 export const cart = (state = initState, action) => {
     let updatedCart;
     let updatedItemIndex;
-    
+ 
     switch (action.type) {
         case CART_CONSTS.ADD_TO_CART:
             console.log(state);

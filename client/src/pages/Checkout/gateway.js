@@ -1,17 +1,18 @@
 import React from 'react';
 import PaymentModal from '../../components/PaymentModal/PaymentModal';
+import { useDispatch, useSelector } from "react-redux";
 
-function gateway() {
+function Gateway() {
+  const paymentDetail = useSelector(state => state.checkout.detail)
+  console.log(paymentDetail)
   return (
     <div className="App">
       <PaymentModal
 	// Use a unique value for the orderId
-	orderId={45896588}
-	name="Just For You Mom Ribbon Cake"
-	amount="4500"
+	paymentDetail = {paymentDetail} 
       />
     </div>
   );
 }
 
-export default gateway;
+export default Gateway;

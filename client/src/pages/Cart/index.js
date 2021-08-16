@@ -18,7 +18,6 @@ export default function Cart() {
 
   const classes = useStyles();
   let history = useHistory();
-  const cartcount = useSelector(state => state.cart.cartCount)
   const dispatch = useDispatch();
   const productCart = useSelector(state => state.cart.cart)
   const cartTotal = useSelector(state => state.cart.totalAmount)
@@ -35,8 +34,7 @@ export default function Cart() {
   }
 
   const onRemove = (id) => { //'Itom007'
-    var uid = localStorage.getItem("userId");
-    console.log(id)
+    var uid = localStorage.getItem("userId")
     if (uid > 0) {
       dispatch(actionDeleteItem(id));
       dispatch(decrementCartCount());
@@ -47,7 +45,6 @@ export default function Cart() {
         else {
           const url1 = "http://localhost:3001/check/items/" + uid;
           axios.get(url1).then((response) => {
-            console.log(response.data)
             setOfItems(response.data);
           });
           const url2 = "http://localhost:3001/check/total/" + uid;
@@ -60,14 +57,11 @@ export default function Cart() {
     else {
       //TODO Update the local storage
       dispatch(actionDeleteItem(id));
-      console.log(id)
       dispatch(decrementCartCount());
       setOfItems(productCart);
       var totalDetails = [];
-      console.log("here")
-        totalDetails.push({customerId:id,total:cartTotal});
-        setOftotals(totalDetails);
-        
+      totalDetails.push({customerId:id,total:cartTotal});
+      setOftotals(totalDetails);    
     }
   };
 
