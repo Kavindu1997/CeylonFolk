@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core';
 import Home from './pages/Home';
 import Shop from './pages/Shop';
@@ -12,7 +12,7 @@ import Designs from './pages/Admin/DesignTable';
 import Inventory from './pages/Admin/InventoryTable';
 import Coupon from './pages/Admin/CouponTable';
 
-import DetailOfProduct from './pages/Shop/DetailOfProduct';
+import Product_detail from './pages/Shop/Product_detail';
 //import Collections from './pages/Collections'
 //import Inventory from './pages/Inventory';
 //import Design from './pages/Design';
@@ -30,8 +30,21 @@ import Termnconditions from './pages/TermsAndConditions';
 import CreateForm from './pages/CreateForm';
 import ProductD from './pages/ProductD';
 import MyCanvas from './pages/MyCanvas';
+
 import MyLayers from './pages/Customize/MyLayer';
 import MyLayers2 from './pages/Customize/MyLayers2';
+
+import { Component } from 'react';
+import { Class } from '@material-ui/icons';
+import { render } from 'react-dom';
+import CommonNav from './components/Navbars/HomeNav';
+import {Provider} from 'react-redux';
+import {createStore } from 'redux';
+import {cart} from './_reducers/cart.reducer';
+import Gateway from './pages/Checkout/gateway';
+import { StoreProvider } from "./_util";
+
+
 
 
 const theme = createMuiTheme({
@@ -93,31 +106,30 @@ const theme = createMuiTheme({
   },
 });
 
+//export const  store = createStore(cart, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
 
-const App = () => {
-
+class App extends Component {
+  render() {
   return (
+   <StoreProvider>
     <ThemeProvider theme={theme}>
-      <Router>
+      
+      <BrowserRouter>
         <Switch>
-          <Route path="/" exact render={() => < Home />} />
-          <Route path="/shop" exact render={() => < Shop />} />
-          <Route path="/contactus" exact render={() => < Contactus />} />
+
+          <Route exact path={"/"}  component = {Home} />
+          <Route exact path="/shop" component = {Shop} />
+          <Route exact path="/contactus" component = {Contactus} />
           <Route path="/auth" exact render={() => < Authentication />} />
-
-          <Route path="/productDetails/:id" exact render={() => <DetailOfProduct />} />
-          
-
-          
+          <Route exact path={"/cart"} component = {MyCart} />
+          <Route exact path={"/productDetails/:id"} component = {Product_detail} />
+          <Route exact path={"/gateway"} component = {Gateway} />
           <Route path="/admin" exact render={() => <AdminPanel />} />
-
           <Route path="/users" exact render={() => <Users />} />
           <Route path="/collections" exact render={() => <Collections />} />
           <Route path="/designs" exact render={() => <Designs />} />
           <Route path="/inventory" exact render={() => <Inventory />} />
           <Route path="/coupon" exact render={() => <Coupon />} />
-
-          <Route path="/cart" exact render={() => <MyCart />} />
           <Route path="/checkout" exact render={() => <Checkout />} />
           <Route path="/wishlist" exact render={() => <Wishlist />} />
           <Route path="/aboutUs" exact render={() => <About />} />
@@ -139,9 +151,13 @@ const App = () => {
           
 
         </Switch>
-      </Router>
+      </BrowserRouter>
+     
     </ThemeProvider>
+    </StoreProvider>
+   
   );
+}
 }
 
 export default App;

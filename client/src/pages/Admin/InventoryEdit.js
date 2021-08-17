@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Grid } from '@material-ui/core';
-import { useForm } from './Reusable/useForm';
-import Controls from './Reusable/Controls';
+import { useForm } from '../../components/Reusable/useForm';
+import Controls from '../../components/Reusable/Controls';
 import axios from 'axios';
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from 'yup';
 import "yup-phone";
 import { makeStyles, TextField, Button } from '@material-ui/core';
+import useStyles from './style';
+
 
 const initialValues1 = {
     code: '',
@@ -36,51 +38,6 @@ const onSubmit1 = (data, props) => {
 };
 
 
-
-const useStyles = makeStyles((theme) => ({
-    infoContent: {
-        backgroundColor: '#f5f6fa',
-        textAlign: 'center',
-        padding: theme.spacing(5),
-        '& .MuiTypography-h5': {
-            fontFamily: 'Segoe UI',
-        },
-        '& .MuiIconButton-root': {
-            color: '#1e272e',
-        },
-        '& .MuiTypography-subtitle1': {
-            fontFamily: 'Nunito',
-            color: '#596275'
-        },
-    },
-    headStyle: {
-        fontFamily: 'Nunito',
-        color: '#222f3e',
-        textAlign: 'center',
-        fontSize: '2.5rem',
-        '&:hover': {
-            color: '#48dbfb',
-        }
-    },
-    textStyle: {
-        fontFamily: 'Segoe UI',
-        color: '#2C2D2D',
-    },
-    pageContent: {
-        margin: theme.spacing(5),
-        padding: theme.spacing(3),
-    },
-    submit: {
-        align: 'center',
-        padding: '10px',
-        marginTop: '20px',
-    },
-    textField: {
-        '& p': {
-            color: 'red'
-        }
-    },
-}));
 
 const InventoryEdit = () => {
 

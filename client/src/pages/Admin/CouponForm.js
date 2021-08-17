@@ -6,6 +6,8 @@ import axios from 'axios';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { makeStyles, TextField, Button } from '@material-ui/core';
+import useStyles from './style';
+
 
 const initialFvalues = {
     couponId: '',
@@ -28,19 +30,7 @@ const onSubmit = (data) => {
     // }
 }
 
-const useStyles = makeStyles((theme) => ({
 
-    submit: {
-        align: 'center',
-        padding: '10px',
-        marginTop: '20px',
-    },
-    textField: {
-        '& p': {
-            color: 'red'
-        }
-    },
-}));
 
 const CouponForm = () => {
     const classes = useStyles();

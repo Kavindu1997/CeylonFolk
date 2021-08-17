@@ -23,20 +23,11 @@ import ConfirmDialog from "../../components/Reusable/ConfirmDialog";
 
 import Lottie from "react-lottie";
 import Collection from "../../images/collection.json";
+import AdminNav from "../../components/Reusable/AdminNav"
+import useStyles from './style';
 
-const useStyles = makeStyles((theme) => ({
-    pageContent: {
-        margin: theme.spacing(5),
-        padding: theme.spacing(3),
-    },
-    searchInput: {
-        width: "50%",
-    },
-    newButton: {
-        position: "absolute",
-        right: "10px",
-    },
-}));
+
+
 
 const headCells = [
     { id: "collectionId", label: "Collection Id" },
@@ -74,7 +65,14 @@ const CollectionTable = () => {
     };
 
     return (
-        <div>
+
+        <div style={{display:"flex"}}>
+        <AdminNav/>
+
+        <main className={classes.content}>
+
+
+
             <PageHeader title="COLLECTIONS" icon={<LayersIcon fontSize="large" />} />
 
             {/* <Lottie options={defaultOptions} height={150} width={150} style={{marginRight:'30px'}} />marginTop:'-150px', */}
@@ -151,6 +149,7 @@ const CollectionTable = () => {
                 confirmDialog={confirmDialog}
                 setConfirmDialog={setConfirmDialog}
             />}
+        </main>
         </div>
     );
 };
