@@ -2,42 +2,194 @@ import React, { useState, useEffect } from 'react';
 import CommonNav from '../../components/Navbars/CommonNav';
 import Footer from '../../components/Footer/Footer';
 import useStyles from './style';
-import { CssBaseline, Box, Typography, Container, Grid, Button, Tabs, Tab } from '@material-ui/core';
-import text from '../../images/text.svg'
+import { CssBaseline, Box, Typography, Container, Grid, Button, Tabs, Tab, TextField, Switch, FormControl } from '@material-ui/core';
+import addText from '../../images/text.svg'
 import image from '../../images/image.svg'
 import upload from '../../images/upload.svg'
-import tshirt from '../../images/tshirt.svg'
-import color from '../../images/drop.svg'
+import addTshirt from '../../images/tshirt.svg'
+import addColor from '../../images/drop.svg'
 import mockup from '../../images/mockup.png'
 import front from '../../images/front.png'
 import back from '../../images/back.png'
-import { Image } from "react-konva";
 import { fabric } from 'fabric';
-import { Stage, Layer, Rect, Circle } from 'react-konva';
+import "./MyLayerStyles.css";
+import { Stage, Layer, Image, Text, Transformer } from "react-konva";
+import { CirclePicker } from "react-color";
+import { Divider, Upload, Icon, Modal } from "antd";
 import Konva from "konva";
+import mockup2 from '../../images/mockup2.png';
+
 
 const Customize = () => {
 
     const classes = useStyles();
     const [toggleState, setToggleState] = useState(0);
     const [canvas, setCanvas] = useState('');
-    const [images, setImage] = useState('');
-
+    // const [images, setImage] = useState('');
     // const stageRef = React.useRef();
     const stageRef = React.useRef(null);
+
+    const [color, setColor] = useState(["#ffffff"]);
+    const [textOn, setTextOn] = useState(false);
+    const [text, setText] = useState('');
+    const [textColor, setTextColor] = useState('');
+    const [textScale, setTextScale] = useState([]);
+    const [clothing, setClothing] = useState('tshirt');
+    const [textLayerColors, setTextLayerColors] = useState(["#ffffff","#000000","#f44336","#e91e63","#9c27b0","#673ab7","#3f51b5","#2196f3","#03a9f4",
+    "#00bcd4","#009688","#4caf50","#8bc34a","#cddc39","#ffeb3b","#ffc107","#ff9800","#ff5722","#795548","#607d8b","#C0C0C0","#C9AE5D"]);
+    // const [itemColor, setItemColor] = useState(itemColor);
+    const [circleSize, setCircleSize] = useState(35);
+    const [tshirt, setTshirt] = useState(["#ffffff", "#000000", "#ff0000", "	#008000"]);
+    const [sweater, setSweater] = useState(["#ffffff", "#000000", "#ffff00", "#ff69b4"]);
+    const [images, setImage] = useState('');
+    const [selectedShapeName, setSelectedShapeName] = useState('');
+    const shirtRef = React.useRef();
+    const transformer = React.useRef();
+    const shapeRef = React.useRef();
+    const [textEdited, setTextEdited] = useState(false); 
+    const [textPos, setTextPos] = useState({ x: 300, y: 300 }); 
+    const [imageUrl, setImageUrl] = useState('');
+    const [textArray,setTextArray] = useState([]);
 
     useEffect(() => {
         setCanvas(initCanvas());
         setImage(getImage());
     }, []);
 
+    useEffect(() => {
+        setImage(getImage());
+        
+    }, []);
+
     const getImage = () => {
         const MyImage = new window.Image()
-        MyImage.src = mockup;
+        MyImage.src = mockup2;
         MyImage.onload = () => {
-            setImage(MyImage)
-        };
+        setImage(MyImage)
+      };
     }
+
+    const onDragEnd = () => {
+      setTextEdited(true)
+      console.log('hello edited')
+    };
+
+    const onDragMove = (env) => {
+      const txtPos = env.target._lastPos;
+      console.log(txtPos)
+      setTextPos(txtPos)
+    };
+     
+    // const trRef = React.useRef();
+    // useEffect(() => {  
+    //   if (isSelected) {  
+    //     trRef.current.setNode(shapeRef.current);  
+    //     trRef.current.getLayer().batchDraw();  
+    //   }  
+    // }, [isSelected]);
+    
+  var  changeTextColor = (e) => {
+    setTextLayerColors(e.target.value)
+  };
+
+  //Handle text change as user input
+  var handleTextChange = (e) => {
+    console.log('hello text')
+    console.log(e.target.value)
+    setText(e.target.value)
+  };
+
+  //Check if adding text is on or off, when user turns it off
+  //color goes back to default and so user doesn't see the $3 charge
+  const handleTextChecked = (event) => {
+    if (textOn) {
+    console.log(event.target.name)
+    setTextOn({ ...textOn, [event.target.name]: event.target.checked });
+    } else {
+      setTextOn({ ...textOn, [event.target.name]: event.target.checked });
+    }
+  };
+
+  //Returns the type of clothing that user chooses
+ const changeClothing = (clothing) => {
+    if (clothing === "tshirt") {
+      console.log('hrlloooo')
+      return <Button>ttt</Button>;
+    } else if (clothing === "sweater") {
+      // return <Sweater color={this.state.color} />;
+    }
+  };
+
+  //Handles change of clothing type and sets color to default
+  var changeCloth = (e) => {
+    const {value} = e.target;
+    console.log(value)
+    console.log(clothing)
+    if (value !== clothing) {
+      setClothing(value);
+      setColor("#ffffff");
+    }
+    console.log(clothing)
+  };
+
+  //When user clicks on logo or text, it will show the transformer
+  const handleStageMouseDown = (e) => {
+    if (e.target === e.target.getStage()) {
+      setSelectedShapeName('');
+      return;
+    }
+    const clickedOnTransformer =
+      e.target.getParent().className === "Transformer";
+    if (clickedOnTransformer) {
+      return;
+    }
+
+    const name = e.target.name();
+    if (name) {
+      setSelectedShapeName(name);
+    } else {
+      setSelectedShapeName("");
+    }
+  };
+
+  //The text object gets transformed as user scale
+  const handleTextTransform = (index, newProps) => {
+    const text = textScale.concat();
+    console.log('hello text');
+    console.log(textScale[index]);
+    text[index] = {
+      ...text[index],
+      ...newProps
+    };
+    setTextScale({
+      textScale: text
+    });
+  };
+
+  const handleChange = (e) => {
+    const shape = e.target;
+    this.props.onTransform({
+      x: shape.x(),
+      y: shape.y(),
+      width: shape.width() * shape.scaleX(),
+      height: shape.height() * shape.scaleY(),
+      rotation: shape.rotation()
+    });
+  };
+
+
+    
+
+    // const getImage = () => {
+    //     const MyImage = new window.Image()
+    //     MyImage.src = mockup;
+    //     MyImage.onload = () => {
+    //         setImage(MyImage)
+    //     };
+    // }
+
+
+    // image download
 
     const handleExportClick = () => {
         const uri = stageRef.current.toDataURL();
@@ -110,7 +262,7 @@ const Customize = () => {
                             <Grid item md={2.4} style={{ width: '100%' }}>
                                 <a href="#"><button
                                     className={toggleState === 1 ? classes.activeTabs : classes.tabs}
-                                    onClick={() => toggleTab(1)}><img height={50} src={text} />
+                                    onClick={() => toggleTab(1)}><img height={50} src={addText} />
                                     <Typography textDecoration='none' className={classes.barFont}>ADD TEXT</Typography></button></a>
                             </Grid>
                         </Box>
@@ -143,7 +295,7 @@ const Customize = () => {
                                         className={toggleState === 4 ? classes.activeTabs : classes.tabs}
                                         onClick={() => toggleTab(4)}
                                     >
-                                        <img height={50} src={tshirt} />
+                                        <img height={50} src={addTshirt} />
                                         <Typography textDecoration='none' className={classes.barFont}>TYPE</Typography></button></a>
                             </Grid>
                         </Box>
@@ -158,7 +310,7 @@ const Customize = () => {
                                         className={toggleState === 5 ? classes.activeTabs : classes.tabs}
                                         onClick={() => toggleTab(5)}
                                     >
-                                        <img height={50} src={color} />
+                                        <img height={50} src={addColor} />
                                         <Typography textDecoration='none' className={classes.barFont}>COLOR</Typography></button></a>
                             </Grid>
                         </Box>
@@ -167,7 +319,7 @@ const Customize = () => {
                         <Box className={toggleState === 0 ? classes.activeContent : classes.content}>
                             <Grid Container className={classes.bar3} >
                                 <Grid item md={2.4} style={{ width: '100%' }}>
-                                    <a href="#"><button className={classes.barBtn2}><img height={50} src={text} />
+                                    <a href="#"><button className={classes.barBtn2}><img height={50} src={addText} />
                                         <Typography textDecoration='none' className={classes.barFont}>ADD TEXT</Typography></button></a>
                                 </Grid>
                                 <Grid item xs={12} sm={6} md={2.4} >
@@ -181,13 +333,13 @@ const Customize = () => {
                                         <Typography textDecoration='none' className={classes.barFont}>UPLOAD</Typography></button></a>
                                 </Grid>
                                 <Grid item xs={12} sm={6} md={2.4} >
-                                    <a href="#"><button className={classes.barBtn2}><img height={50} src={tshirt} />
+                                    <a href="#"><button className={classes.barBtn2}><img height={50} src={addTshirt} />
                                         <Typography textDecoration='none' className={classes.barFont}>SELECT TYPE</Typography></button></a>
                                 </Grid>
                             </Grid>
                         </Box>
                         <Box className={toggleState === 1 ? classes.activeContent : classes.content}>
-                            <Grid Container className={classes.bar3} >
+                            {/* <Grid Container className={classes.bar3} >
                                 <Grid item md={2.4} style={{ width: '100%' }}>
                                     <a href="#"><button className={classes.barBtn2}><img height={50} src={text} />
                                         <Typography textDecoration='none' className={classes.barFont}>ADD TEXT</Typography></button></a>
@@ -196,7 +348,34 @@ const Customize = () => {
                                     <a href="#"><button className={classes.barBtn2}><img height={50} src={image} />
                                         <Typography textDecoration='none' className={classes.barFont}>ADD IMAGE</Typography></button></a>
                                 </Grid>
-                            </Grid>
+                            </Grid> */}
+
+
+<div className="text-container">
+          <span>
+            <TextField
+              autoFocus
+              margin="dense"
+              label="Add your custom text here"
+              type="text"
+              fullWidth
+              value={text}
+              onChange={handleTextChange}
+            />
+            <Button>Add To Design</Button>
+            <Box>Change Font Color</Box>
+            <CirclePicker
+              colors={textLayerColors}
+              onChange={textLColors => {
+                setTextColor(textLColors.hex);
+              }}
+              border="black"
+              borderColor='black'
+              stroke="black"
+              width="max-width"
+            />
+          </span>
+      </div>
                         </Box>
                         <Box className={toggleState === 3 ? classes.activeContent : classes.content}>
                             <Grid Container className={classes.bar3} >
@@ -210,6 +389,37 @@ const Customize = () => {
                                 </Grid>
                             </Grid>
                         </Box>
+
+                        
+                        <Box className={toggleState === 5 ? classes.activeContent : classes.content}>
+                            <Grid Container className={classes.bar3} >
+                            <div className="color-picker">
+            {clothing === "tshirt" ? (
+              <CirclePicker
+                id="circle-picker"
+                width="max-content"
+                circleSize={circleSize}
+                colors={tshirt}
+                onChange={color => {
+                  setColor(color.hex);;
+                  console.log(color.hex)
+                }}
+              />
+            ) : (
+              <CirclePicker
+                id="circle-picker"
+                width="max-content"
+                circleSize={circleSize}
+                colors={sweater}
+                onChange={color => {
+                  setColor(color.rgb);;
+                }}
+              />
+            )}
+          </div>
+                            </Grid>
+                        </Box>
+
                         <Box className={classes.content}>
                             <Grid Container className={classes.bar3} >
                                 <Grid item md={2.4} style={{ width: '100%' }}>
@@ -237,13 +447,46 @@ const Customize = () => {
                     </Grid>
                 </Grid>
                 <Grid md={5} className={classes.tshirtDiv}>
-                    <button onClick={() => addRect(canvas)}>Rectangle</button>
+                    {/* <button onClick={() => addRect(canvas)}>Rectangle</button>
                     <img src={mockup} style={{ width: '100%', verticalAlign: 'middle' }} />
                     <center>
                         <div className={classes.drawImage}>
                             <canvas id="canvas" />
                         </div>
-                    </center>
+                    </center> */}
+
+
+<div className="clothes" style={{backgroundColor: color, width:'460px'}}>
+          <Stage
+            width={500}
+            height={500}
+            onMouseDown={handleStageMouseDown}
+            >
+            <Layer>{clothing === 'tshirt' ? 
+              <Image
+                // filters={[Konva.Filters.RGB]}
+                image={images}
+                x={0}
+                y={0}
+                width={500}
+                height={500}
+                // ref={shirtRef}
+              />:<></>}
+            </Layer>
+            <Layer>
+              <Text text={text}  offset={{x: -150,y: -150}} width={200} wrap="char" align="center" fontSize={30} fill={textColor} 
+              fontFamily="Calibri" opacity={1} draggable={true}
+              />
+              <Transformer
+                selectedShapeName={selectedShapeName}
+              />
+            </Layer>
+          </Stage>
+        </div>
+
+
+
+                    
                 </Grid>
                 <Grid style={{ marginLeft: '100px' }}>
                     <Grid item md={3} className={classes.bar4}>
@@ -278,8 +521,8 @@ const Customize = () => {
                         //   shirt = node;
                         // }}
                         />
-                        <Rect width={50} height={50} fill="red" />
-                        <Circle x={200} y={200} stroke="black" radius={50} />
+                        {/* <Rect width={50} height={50} fill="red" />
+                        <Circle x={200} y={200} stroke="black" radius={50} /> */}
                     </Layer>
                 </Stage>
                 <Button onClick={() => handleExportClick()}>Download</Button>

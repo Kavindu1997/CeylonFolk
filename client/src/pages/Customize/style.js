@@ -29,9 +29,10 @@ const useStyles = makeStyles((theme) => ({
         marginLeft:'5px',
         marginBottom:'5px',
         justifyContent:'space-between'
+
     },
     bar2:{
-        background:'white',
+        background:'#e5f3f8',
         padding:'50px',
         marginTop:'5px',
         marginRight:'5px',
@@ -81,7 +82,8 @@ const useStyles = makeStyles((theme) => ({
 
     },
     barContainer:{
-        display:'flex'
+        display:'flex',
+        background:'#e5f3f8'
     },
     slevebtn:{
         background:'#2C2D2D',

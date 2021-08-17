@@ -1,7 +1,9 @@
 import React, { useState, useEffect, Component } from "react";
+import CommonNav from '../../components/Navbars/CommonNav';
+import Footer from '../../components/Footer/Footer';
 import "./MyLayerStyles.css";
 import { Stage, Layer, Image, Text, Transformer } from "react-konva";
-import { Button , TextField, Switch, FormControl} from "@material-ui/core";
+import { Button , TextField, Switch, FormControl, CssBaseline} from "@material-ui/core";
 import { CirclePicker } from "react-color";
 import { Divider, Upload, Icon, Modal } from "antd";
 import Konva from "konva";
@@ -171,7 +173,13 @@ const MyLayer = ({ shapeProps, isSelected, onSelect, onChange }) => {
   // }
 
     return (
+      <div>
+        <CommonNav />
+            <CssBaseline />
+
+      
       <div className="container">
+        
         <div className="clothes" style={{backgroundColor: color}}>
           <Stage
             width={500}
@@ -291,6 +299,7 @@ const MyLayer = ({ shapeProps, isSelected, onSelect, onChange }) => {
               </div>
             </FormControl> */}
         </div>
+      </div>
       </div>
     );
   }
