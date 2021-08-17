@@ -30,6 +30,10 @@ import Termnconditions from './pages/TermsAndConditions';
 import CreateForm from './pages/CreateForm';
 import ProductD from './pages/ProductD';
 import MyCanvas from './pages/MyCanvas';
+
+import MyLayers from './pages/Customize/MyLayer';
+import MyLayers2 from './pages/Customize/MyLayers2';
+
 import { Component } from 'react';
 import { Class } from '@material-ui/icons';
 import { render } from 'react-dom';
@@ -39,6 +43,7 @@ import {createStore } from 'redux';
 import {cart} from './_reducers/cart.reducer';
 import Gateway from './pages/Checkout/gateway';
 import { StoreProvider } from "./_util";
+
 
 
 
@@ -141,6 +146,9 @@ class App extends Component {
           <Route path="/form" exact render={() => <CreateForm />} />
           <Route path="/productD" exact render={() => <ProductD />} />
           <Route path="/canvas" exact render={() => <MyCanvas />} />
+          <Route path="/myLayers" exact render={() => <MyLayers />} />
+          <Route path="/myLayers2" exact render={() => <MyLayers2 />} />
+          
 
         </Switch>
       </BrowserRouter>
