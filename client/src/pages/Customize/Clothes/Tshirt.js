@@ -11,8 +11,6 @@ const Tshirt = () => {
     const [shirt, setShirt] = useState('');
     const shirtRef = React.useRef();
 
-    
-
     useEffect(() => {
         setImage(getImage());
         // setShirt(getShirt());

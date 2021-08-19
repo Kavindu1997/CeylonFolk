@@ -113,10 +113,8 @@ class App extends Component {
   return (
    <StoreProvider>
     <ThemeProvider theme={theme}>
-      
       <BrowserRouter>
         <Switch>
-
           <Route exact path={"/"}  component = {Home} />
           <Route exact path="/shop" component = {Shop} />
           <Route exact path="/contactus" component = {Contactus} />
@@ -148,11 +146,8 @@ class App extends Component {
           <Route path="/canvas" exact render={() => <MyCanvas />} />
           <Route path="/myLayers" exact render={() => <MyLayers />} />
           <Route path="/myLayers2" exact render={() => <MyLayers2 />} />
-          
-
         </Switch>
       </BrowserRouter>
-     
     </ThemeProvider>
     </StoreProvider>
    
