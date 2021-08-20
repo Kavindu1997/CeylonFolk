@@ -6,7 +6,7 @@ const path = require('path');
 const multer = require('multer');
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, './public')
+        cb(null, './public/collections')
     },
     filename: (req, file, cb) => {
         console.log(file);
@@ -32,7 +32,7 @@ const upload = multer({
 
 router.post("/", upload.single('photo'), (req, res) => {
     const { collectionName } = req.body;
-    const imagePath = 'public/' + req.file.filename;
+    const imagePath = 'public/collections/' + req.file.filename;
     Collections.create({
         collection_name: collectionName,
         coverImage: imagePath

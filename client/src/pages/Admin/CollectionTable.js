@@ -97,7 +97,7 @@ const CollectionTable = () => {
 
                     <container>
                         <center>
-                            <Typography variant="h5" style={{ marginTop: '80px', textAlign: 'center', backgroundColor: '#C6C6C6', padding: '30px', fontFamily: 'Montserrat' }}>CART</Typography>
+                            <Typography variant="h5" style={{ marginTop: '80px', textAlign: 'center', backgroundColor: '#C6C6C6', padding: '30px', fontFamily: 'Montserrat' }}>COLLECTIONS</Typography>
                             <TableContainer style={{ marginTop: '30px', align: 'center', width: '1200px' }}>
                                 <Table className={classes.table} aria-label="simple table">
                                     <TableHead>
@@ -114,6 +114,11 @@ const CollectionTable = () => {
                                                     <TableRow>
                                                         <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.collection_name}</TableCell>
                                                         <TableCell align="center" style={{ fontFamily: 'Montserrat' }}><img height={100} align="center" src={'http://localhost:3001/' + value.coverImage} alt=""></img></TableCell>
+                                                        {/* <TableCell align="center">
+                                                            <Button name="remove" onClick={() => onRemove(value.itemId)}>
+                                                                <i className="fa fa-times" aria-hidden="true"></i>
+                                                            </Button>
+                                                        </TableCell> */}
                                                     </TableRow>
                                                 );
                                             })}
