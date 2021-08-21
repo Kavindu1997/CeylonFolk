@@ -11,7 +11,6 @@ import useStyles from './style';
 
 
 const initialValues1 = {
-    code: '',
     colour: '',
     size: '',
     type: '',
@@ -21,7 +20,6 @@ const initialValues1 = {
 }
 
 const validationSchema1 = Yup.object().shape({
-    code: Yup.string().required("Code is required"),
     colour: Yup.string().required("Colour is required"),
     size: Yup.string().required("Size is required"),
     type: Yup.string().required("Type is required"),
@@ -81,19 +79,6 @@ const InventoryForm = () => {
 
                         <Grid item md={6} style={{ paddingLeft: '100px', paddingRight: '100px' }}>
 
-
-                            <Field as={TextField}
-                                className={classes.textField}
-                                variant="outlined"
-                                margin="normal"
-                                required
-                                fullWidth
-                                id="code"
-                                label="Code"
-                                name="code"
-                                autoComplete="code"
-                                helperText={<ErrorMessage name="code" />}
-                            />
                             <Field as={TextField}
                                 className={classes.textField}
                                 variant="outlined"
@@ -119,10 +104,6 @@ const InventoryForm = () => {
                                 helperText={<ErrorMessage name="size" />}
                             />
 
-
-
-                        </Grid>
-                        <Grid item md={6} style={{ paddingLeft: '100px', paddingRight: '100px' }}>
                             <Field as={TextField}
                                 className={classes.textField}
                                 variant="outlined"
@@ -135,6 +116,11 @@ const InventoryForm = () => {
                                 autoComplete="type"
                                 helperText={<ErrorMessage name="type" />}
                             />
+
+
+                        </Grid>
+                        <Grid item md={6} style={{ paddingLeft: '100px', paddingRight: '100px' }}>
+                           
                             <Field as={TextField}
                                 className={classes.textField}
                                 variant="outlined"
