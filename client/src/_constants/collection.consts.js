@@ -1,0 +1,6 @@
+export const COLLECTION_CONSTS = {
+ 
+    DELETE_COLLECTION: 'DELETE_COLLECTION',
+ 
+  };
+  

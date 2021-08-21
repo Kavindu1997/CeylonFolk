@@ -3,13 +3,13 @@ import { Grid } from '@material-ui/core';
 import { useForm, Form } from '../../components/Reusable/useForm';
 import Controls from '../../components/Reusable/Controls';
 import axios from 'axios';
+import { useHistory } from 'react-router-dom';
 
 const CollectionForm = () => {
 
     const [file, setfile] = useState(null);
     const [collectionName, setCollectionName] = useState([]);
-
-
+    let history = useHistory();
 
     const onFormSubmit = (e, data) => {
 
@@ -24,8 +24,13 @@ const CollectionForm = () => {
             },
         };
 
+
+
         axios.post("http://localhost:3001/collection", formData, config).then((response) => {
             alert('Image upload Successfull');
+            history.push('/collections');
+
+
         }).catch((err) => {
             console.log('err', err);
         })

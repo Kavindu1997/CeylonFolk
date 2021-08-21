@@ -1,6 +1,7 @@
 module.exports = (sequelize, DataTypes) => {
 
     const Collections = sequelize.define("Collections", {
+
         collection_name: {
             type: DataTypes.STRING,
             allowNull: true,
