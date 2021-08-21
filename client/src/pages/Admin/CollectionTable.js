@@ -16,14 +16,9 @@ import Collection from "../../images/collection.json";
 import AdminNav from "../../components/Reusable/AdminNav"
 import useStyles from './style';
 import axios from 'axios';
+import { actionDeleteCollection } from '../../_actions/collections';
+import { useDispatch, useSelector } from "react-redux";
 
-
-
-// const headCells = [
-//     { id: "collectionId", label: "Collection Id" },
-//     { id: "collectionName", label: "Collection Name" },
-//     { id: "options", label: "Options", disableSorting: true },
-// ];
 
 const CollectionTable = () => {
     const classes = useStyles();
@@ -38,6 +33,8 @@ const CollectionTable = () => {
         title: "",
         subTitle: "",
     });
+    const dispatch = useDispatch();
+
     // const { TblContainer, TblHead, TblPagination, recordsAfterPagingAndSorting } =
     //     useTable("", headCells, "");
 
@@ -62,6 +59,44 @@ const CollectionTable = () => {
             setListOfCollections(response.data);
         })
     }, []);
+
+
+    const onRemove = (id) => {
+
+
+        dispatch(actionDeleteCollection(id));
+
+        //   const url = "http://localhost:3001/check/remove/"
+        const data = { id: id }
+        //   axios.put(url, data).then((response) => {
+        //     if (response.data.error) alert(response.data.error);
+        //     else {
+        //       const url1 = "http://localhost:3001/check/items/" + uid;
+        //       axios.get(url1).then((response) => {
+        //         setOfItems(response.data);
+        //       });
+        //       const url2 = "http://localhost:3001/check/total/" + uid;
+        //       axios.get(url2).then((response) => {
+        //         setOftotals(response.data);
+        //       });
+        //     }
+        //   });
+
+        axios.delete(`http://localhost:3001/collection/remove/`, { data }).then((response) => {
+
+            axios.get("http://localhost:3001/collection").then((response) => {
+                console.log(response.data);
+                setListOfCollections(response.data);
+            });
+
+        });
+
+
+
+    };
+
+
+
 
     return (
 
@@ -104,7 +139,8 @@ const CollectionTable = () => {
                                         <TableRow>
                                             <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Collection Name</TableCell>
                                             <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Image</TableCell>
-                                            <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Action</TableCell>
+                                            <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Update</TableCell>
+                                            <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Delete</TableCell>
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
@@ -114,11 +150,16 @@ const CollectionTable = () => {
                                                     <TableRow>
                                                         <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.collection_name}</TableCell>
                                                         <TableCell align="center" style={{ fontFamily: 'Montserrat' }}><img height={100} align="center" src={'http://localhost:3001/' + value.coverImage} alt=""></img></TableCell>
-                                                        {/* <TableCell align="center">
-                                                            <Button name="remove" onClick={() => onRemove(value.itemId)}>
+                                                        <TableCell align="center">
+                                                            <Button name="remove" onClick={() => onRemove(value.id)}>
                                                                 <i className="fa fa-times" aria-hidden="true"></i>
                                                             </Button>
-                                                        </TableCell> */}
+                                                        </TableCell>
+                                                        <TableCell align="center">
+                                                            <Button name="remove" onClick={() => onRemove(value.id)}>
+                                                                <i className="fa fa-times" aria-hidden="true"></i>
+                                                            </Button>
+                                                        </TableCell>
                                                     </TableRow>
                                                 );
                                             })}

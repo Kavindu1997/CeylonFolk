@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const { Collections } = require('../models/');
+const { Collections,sequelize } = require('../models/');
+
 const path = require('path');
 
 const multer = require('multer');
@@ -45,6 +46,16 @@ router.post("/", upload.single('photo'), (req, res) => {
 router.get("/", async (req, res) => {
     const listOfCollections = await Collections.findAll();
     res.json(listOfCollections);
+});
+
+router.delete("/remove", async (req,res) => {
+  
+    console.log(req.body);
+    const id = req.body.id;
+    const query = "DELETE FROM collections WHERE collections.id='" + id + "' ";
+
+    const collectionRemove = await sequelize.query(query, {type: sequelize.QueryTypes.DELETE});
+    res.json(collectionRemove);
 });
 
 module.exports = router;
