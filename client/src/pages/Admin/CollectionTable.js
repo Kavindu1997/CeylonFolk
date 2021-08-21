@@ -18,6 +18,7 @@ import useStyles from './style';
 import axios from 'axios';
 import { actionDeleteCollection } from '../../_actions/collections';
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from 'react-router-dom';
 
 
 const CollectionTable = () => {
@@ -52,6 +53,7 @@ const CollectionTable = () => {
     };
 
     const [listOfCollections, setListOfCollections] = useState([]);
+
 
     useEffect(() => {
         axios.get("http://localhost:3001/collection").then((response) => {
@@ -95,7 +97,13 @@ const CollectionTable = () => {
 
     };
 
+    // function onProceed() {
+        
 
+    //       history.push('/collections');
+        
+    
+    //   }
 
 
     return (
@@ -140,6 +148,7 @@ const CollectionTable = () => {
                                             <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Collection Name</TableCell>
                                             <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Image</TableCell>
                                             <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Update</TableCell>
+                                            <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Add Designs</TableCell>
                                             <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Delete</TableCell>
                                         </TableRow>
                                     </TableHead>
@@ -155,6 +164,17 @@ const CollectionTable = () => {
                                                                 <i className="fa fa-times" aria-hidden="true"></i>
                                                             </Button>
                                                         </TableCell>
+
+                                                        <TableCell align="center">
+                                                            <Button
+                                                               component={Link} to="/designs" 
+                                                               variant="contained"
+                                                               color="primary"
+                                                            >Add Designs
+                                                            </Button>
+                                                        </TableCell>
+
+
                                                         <TableCell align="center">
                                                             <Button name="remove" onClick={() => onRemove(value.id)}>
                                                                 <i className="fa fa-times" aria-hidden="true"></i>
