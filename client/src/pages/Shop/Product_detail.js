@@ -84,6 +84,7 @@ export default function Product_detail() {
   useEffect(() => {
     axios.get(`http://localhost:3001/ProductDetails/byId/${id}`).then((response) => {
       setProductO(response.data);
+      console.log('hello from product')
       console.log(response.data)
       console.log('hello from product')
     });
@@ -259,6 +260,7 @@ export default function Product_detail() {
             {/* <Box>{imagePreview && <img src={imagePreview[index].designImage} style={{ width: '100%' }} />}</Box> */}
           </Grid>
         </Grid>
+
         <Grid item xs={2} sm={8} md={6} elevation={6} square>
           <Formik>
             <Box className={classes.productDetails}>
@@ -269,44 +271,34 @@ export default function Product_detail() {
                 <Box><Typography className={classes.productColor}>COLOR</Typography></Box>
                 <Box>
                   <Box style={{ display: 'flex' }}>
-
                     <label style={{ cursor: 'pointer' }}>
                       <input type="radio" className={classes.spaninput} onClick={() => handleTab(index)}></input>
                       <Card className={classes.card}>
-
                         {imageArray.map((value, index) => {
                           return (
-
                             <CardMedia style={{ marginRight: '10px' }} onClick={() => handleTab(index)}>
                               <Link to={'http://localhost:3000/productDetails/' + designId}>
                                 <img src={value.designImage} key={index} style={{ width: '100%' }} />
                               </Link>
-
                             </CardMedia>
-
-
-
                           );
                         })}
                         {/* <CardMedia><img src={butter2} style={{width:'100%'}}/></CardMedia> */}
-
                       </Card>
                       {/* <Box className={classes.spanback}><img src={Collection1} style={{width:'100%'}}/></Box> */}
                     </label>
-
                   </Box>
                 </Box>
+
                 <Box className={classes.tBox}>
                   <Typography className={classes.productColor}>SIZE</Typography>
-
                   {/* <select value={sizet} onChange={setSizet} options={sizeOptions} />
-            <select
-              value={colort}
-              onChange={setColort}
-              options={colorOptions}
-              isDisabled={!sizet}
-            /> */}
-
+                    <select
+                      value={colort}
+                      onChange={setColort}
+                      options={colorOptions}
+                      isDisabled={!sizet}
+                    /> */}
                   <Box style={{ display: 'flex' }}>
                     {productO.map((value,index) => {
                       return (
@@ -315,14 +307,15 @@ export default function Product_detail() {
                             <label style={{ cursor: 'pointer' }}>
                               <div>
                                 <div style={{ paddingBottom: '10px' }} onClick={() => toggleTab(1)}>
+
                                   <input type="radio" onClick={setSize} name="size" className={classes.sizeOption} value={value.size} checked />
+
                                   <span className={classes.swatchVisible} onClick={() => handleTab1(index)}>{value.size}</span>
                                 </div>
                                 {/* <div key={value.inventoryId}className={toggleState === 1 ? classes.activeQuantity : classes.quantity}><span className={classes.swatchVisible}>{value.quantity}</span></div> */}
                               </div>
                               {/* <input type="radio" name="size" className={classes.sizeOption} dataOptionId="2" value="UK6" checked  onClick={() => toggleTab(value.designId)}/>
                           <span className={classes.swatchVisible}>S</span> */}
-
                             </label>
                           </li>
                         </ul>
@@ -335,17 +328,22 @@ export default function Product_detail() {
                       <a href='../pages/customize' style={{ textDecoration: 'none' }}><Button variant="outlined" className={classes.designbtn}>SIZE GUIDE</Button></a>
                     </center>
                   </Box>
-                  <div className={toggleState === 1 ? classes.activeQuantity : classes.quantity}>{quantity && <span>{quantity[index1].quantity + " in stock"}</span>}</div>
+                  <div className={toggleState === 1 ? classes.activeQuantity : classes.quantity}>{quantity && <span>{quantity[index1].quantity + " in stock"}</span>}</div>               
                 </Box>
+
                 <Box className={classes.tBox}>
                   <Typography className={classes.productColor}>QUENTITY</Typography>
                   <div>{quantity && <NumericInput mobile min={0} max={quantity[index1].quantity} value={1} size={1} onChange={getQty} />}</div>
                 </Box>
-                {quantity && <Box className={quantity[index1].quantity > 0 ? classes.activeQuantity : classes.quantity}>
+
+                {quantity && 
+                <Box className={quantity[index1].quantity > 0 ? classes.activeQuantity : classes.quantity}>
                   <Button style={{ background: '#2c2d2d', color: 'white' }} onClick={addToCart}>ADD TO CART</Button>
 
                 </Box>}
-                {quantity && <Box className={quantity[index1].quantity === 0 ? classes.activeQuantity : classes.quantity}>
+
+                {quantity && 
+                <Box className={quantity[index1].quantity === 0 ? classes.activeQuantity : classes.quantity}>
                   <Formik initialValues={initialValues} validationSchema={validationSchema}>
                     {(props) => (
                       <Form>
@@ -372,7 +370,7 @@ export default function Product_detail() {
                     )}
                   </Formik>
 
-                </Box>}
+              </Box>}
 
               </Box>
             </Box>
