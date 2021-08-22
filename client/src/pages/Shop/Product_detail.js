@@ -316,7 +316,7 @@ export default function Product_detail() {
                       isDisabled={!sizet}
                     /> */}
                   <Box style={{ display: 'flex' }}>
-                    {productO.map((value) => {
+                    {productO.map((value,index) => {
                       return (
                         <ul className={classes.clrsboxSize}>
                           <li className={classes.lbl}>
@@ -324,7 +324,7 @@ export default function Product_detail() {
                               <div>
                                 <div style={{ paddingBottom: '10px' }} onClick={() => toggleTab(1)}>
                                   <input type="radio" name="size" className={classes.sizeOption} value={value.size} checked />
-                                  <span className={classes.swatchVisible} onClick={() => handleTab1(value.inventoryId)}>{value.size}</span>
+                                  <span className={classes.swatchVisible} onClick={() => handleTab1(index)}>{value.size}</span>
                                 </div>
                                 {/* <div key={value.inventoryId}className={toggleState === 1 ? classes.activeQuantity : classes.quantity}><span className={classes.swatchVisible}>{value.quantity}</span></div> */}
                               </div>
