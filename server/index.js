@@ -55,6 +55,7 @@ app.use("/shop", shopRouter);
 
 const inventorySearchRouter = require("./routes/Inventory.route");
 app.use("/inventSearch", inventorySearchRouter);
+
 const ordersRouter = require('./routes/Orders');
 app.use("/placeOrder", ordersRouter);
 

@@ -2,7 +2,7 @@
 var dbConn  = require('../config/db.config');
  
 var InventorySearch = function(inventory){
-    this.code     =   inventory.code;
+  
     this.colour     =   inventory.colour;
     this.size        =   inventory.size;
 
@@ -10,6 +10,7 @@ var InventorySearch = function(inventory){
     // this.salary         =   employee.salary;
     // this.emp_image         =    employee.image;
 }
+
  
 // get all employees
 InventorySearch.getAllInventory = (result) =>{
@@ -23,6 +24,7 @@ InventorySearch.getAllInventory = (result) =>{
         }
     })
 }
+
  
 // get employee by Name for Search Data by name 
 InventorySearch.getInventoryByName = (colour, result)=>{
