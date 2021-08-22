@@ -10,6 +10,14 @@ exports.getInventorySearchList = (req, res)=> {
         console.log('Inventories', Inventory);
         res.send(Inventory)
     })
+
+    // InventorySearchModel.getAllColors((err, Colors) =>{
+    //     console.log('We are here');
+    //     if(err)
+    //     res.send(err);
+    //     console.log('Inventories', Colors);
+    //     res.send(Colors)
+    // })
 }
  
 // get employee by Name for earch by Name 
@@ -18,7 +26,7 @@ exports.getInventoryByName = (req, res)=>{
     InventorySearchModel.getInventoryByName(req.params.colour, (err, inventory)=>{
         if(err)
         res.send(err);
-        console.log('single employee data',inventory);
+        console.log('single inventory data',inventory);
         res.send(inventory);
     })
 }

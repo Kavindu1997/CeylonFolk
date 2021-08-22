@@ -3,31 +3,26 @@ const router = express.Router();
 const { Inventory, sequelize } = require('../models/');
 
 router.get("/inventory", async (req,res) => {
-    const listOfItems = await Inventory.findAll();
+    // const listOfItems = await Inventory.findAll();
+
+    // const query1= "SELECT color FROM colors ";
+    // const colour = await sequelize.query(query1, {type: sequelize.QueryTypes.SELECT});
+    // res.json(colour_id.colors.id);
+    // console.log(colour_id[0].id);
+    // const id1 = colour_id[0].id;
+
+
+    // const query1= "SELECT inventories.quantity, inventories.margin, colors.color, sizes.size, types.types FROM `inventories` INNER JOIN `colors ` on inventories.colour_id = colors.id INNER JOIN `sizes` on inventories.size_id= sizes.id INNER JOIN `types` on inventories.type_id=types.id  ";
+   
+    // const allInvent= await sequelize.query(query4, {type: sequelize.QueryTypes.SELECT});
+
+    // const query1= "SELECT inventories.quantity, inventories.margin, colors.color FROM `inventories` INNER JOIN `colors ` on inventories.colour_id = colors.id  ";
+    const query1= "SELECT inventories.quantity, inventories.margin, colors.color, sizes.size, types.types FROM `inventories` INNER JOIN `colors` on inventories.colour_id=colors.id INNER JOIN `sizes` on inventories.size_id=sizes.id INNER JOIN `types` on inventories.type_id=types.id ";
+    const listOfItems = await sequelize.query(query1, {type: sequelize.QueryTypes.SELECT});
+
     res.json(listOfItems);
 });
 
-// router.post("/inventory", (req, res) => {
-//     const { colour, size, type, quantity, margin } = req.body;
-      
-
-//         const query= "SELECT id FROM colors WHERE colors.color='" + colour + "' ";
-//         const ddd = await sequelize.query(query, {type: sequelize.QueryTypes.get});
-
-//         console.log(ddd);
-
-//         Inventory.create({
-        
-//             colour:colour ,
-//             size:size,
-//             type: type,
-//             quantity: quantity,
-//             margin: margin,
-           
-//         })
-//         res.json("SUCCESS");
-   
-// });
 
 router.post("/inventory", async (req,res) => {
   
@@ -60,5 +55,7 @@ router.post("/inventory", async (req,res) => {
   
 
 });
+
+
 
 module.exports = router;
