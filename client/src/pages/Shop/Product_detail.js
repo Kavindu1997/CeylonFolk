@@ -27,11 +27,10 @@ import useStyles from './style';
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import { useHistory } from 'react-router';
 import * as Yup from 'yup';
-import {actionAddToCart} from '../../_actions/index';
-import {actionGetTotal} from '../../_actions/index';
-import {incrementCartCount} from '../../_actions/index';
+import {actionAddToCart,actionGetTotal,incrementCartCount,sendProductsToDB} from '../../_actions/index';
 import {useDispatch, useSelector} from "react-redux";
 import {selectedProduct, fetchProduct, removeSelectedProduct} from '../../_actions/productAction'
+
 
 function Copyright() {
   return (
@@ -48,16 +47,10 @@ function Copyright() {
 
 export default function Product_detail() {
 
-  var  count =[];
-  const cartcount = useSelector(state => state.cart.cartcount)
   const dispatch = useDispatch();
   const classes = useStyles();
-  const [itemDetails, setOfItems] = useState([]);
-  const [totalDetails, setOftotals] = useState([]);
   let { id } = useParams();
-  let history = useHistory();
   const [productO, setProductO] = useState([]);
-  const [product, setProduct] = useState({});
   const [imageArray, setImageArray] = useState([]);
   const [imagePreview, setImagePreview] = useState();
   const [mapSize, setMapSize] = useState();
@@ -65,6 +58,7 @@ export default function Product_detail() {
   const oneProduct = useSelector((state)=>state.selectProductReducer)
   const {designImage,designName,designId,price} = oneProduct;  
   console.log(designName)
+  const [productSize,setProductSize] = useState();
   
   // console.log('hello from redux')
   // console.log(products)
@@ -117,7 +111,7 @@ export default function Product_detail() {
 
     axios.get(`http://localhost:3001/ProductDetails/quantity/${id}`).then((response) => {
       setQuantity(response.data);
-      // console.log(response)
+      console.log(response.data)
     });
 
   }, []);
@@ -193,55 +187,45 @@ export default function Product_detail() {
 
   });
 
+  const setSize = (event) => {
+    setProductSize(event.target.value);
+  }
 
-
-  const [countDetails, countOfItems] = useState([]);
-  useEffect(() => {
-    var id = localStorage.getItem("userId");
-    if(id!="0"){
-        const url = "http://localhost:3001/check/count/" + id;
-        axios.get(url).then((response) => {
-        countOfItems(response.data);
-    });
-    }
-      
-  }, []);
-
+  var itemQuantity = 1
+  const getQty = (event) => {
+    itemQuantity = event   
+  }
 
   const addToCart = () => {
-    console.log(product)
     var uid = localStorage.getItem("userId");
     if (uid != '0') {
-      console.log("user")
-      const url = "http://localhost:3001/check/addToCart/" 
       var dummyItem = { 
-                        image: product.designImage,
-                        productId: product.code, 
-                        quantity: 5, 
+                        image: designImage,
+                        productId: designId, 
+                        quantity: itemQuantity, 
                         userId: uid, 
-                        size: 'S' ,
-                        price: product.price,
-                        totals: 1300
+                        size: productSize ,
+                        price: price,
+                        totals: quantity*price
                         } 
-      console.log(dummyItem)
-      axios.post(url, dummyItem).then((response) => {
-        if (response.data.error) {
-          alert(response.data.error);
-        }
-        console.log("iam here")
-        dispatch(incrementCartCount());
-        dispatch(actionAddToCart(dummyItem));
-        alert("Product successfully added to cart");
-      const url1 = "http://localhost:3001/check/count/" + uid;
-      axios.get(url1).then((response) => {
-      countOfItems(response.data);
-    });
-      });  
+        var result = dispatch(sendProductsToDB(dummyItem))   
+        if(result == 0){
+          alert("Not Added to Cart")
+        }else{
+          alert("Product successfully added to cart");
+        }            
     }
     else {
-      //Update the local storage
-      const dummyItem = { image: "https://5.imimg.com/data5/CR/OL/NO/ANDROID-36904487/img-20181220-wa0001-jpg-500x500.jpg", name: "Snowy", price: 1400, quantity: 2, itemId: "ID007", size: "S", totals: "" }
-      var cart = [];
+      var dummyItem = { 
+        name: designName,
+        image: designImage,
+        productId: designId, 
+        quantity: itemQuantity, 
+        userId: uid, 
+        size: productSize ,
+        price: price,
+        totals: quantity*price
+        } 
       dummyItem.totals=dummyItem.price*dummyItem.quantity;
       
       dispatch(incrementCartCount());
@@ -323,7 +307,9 @@ export default function Product_detail() {
                             <label style={{ cursor: 'pointer' }}>
                               <div>
                                 <div style={{ paddingBottom: '10px' }} onClick={() => toggleTab(1)}>
-                                  <input type="radio" name="size" className={classes.sizeOption} value={value.size} checked />
+
+                                  <input type="radio" onClick={setSize} name="size" className={classes.sizeOption} value={value.size} checked />
+
                                   <span className={classes.swatchVisible} onClick={() => handleTab1(index)}>{value.size}</span>
                                 </div>
                                 {/* <div key={value.inventoryId}className={toggleState === 1 ? classes.activeQuantity : classes.quantity}><span className={classes.swatchVisible}>{value.quantity}</span></div> */}
@@ -347,7 +333,7 @@ export default function Product_detail() {
 
                 <Box className={classes.tBox}>
                   <Typography className={classes.productColor}>QUENTITY</Typography>
-                  <div>{quantity && <NumericInput mobile min={0} max={quantity[index1].quantity} value={1} size={1} />}</div>
+                  <div>{quantity && <NumericInput mobile min={0} max={quantity[index1].quantity} value={1} size={1} onChange={getQty} />}</div>
                 </Box>
 
                 {quantity && 

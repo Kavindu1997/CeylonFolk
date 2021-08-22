@@ -64,11 +64,8 @@ const Authentication = () => {
             if (response.data.error) {
                 alert(response.data.error);
             } else {
+                console.log(response.data)
                 var uid = localStorage.getItem("userId");
-
-                console.log(uid)
-                console.log(cart.cart)
-                console.log(cart.cart.length)
 
                 if (uid == '0' && cart.cart.length > 0) {
                     console.log("login")
@@ -79,7 +76,7 @@ const Authentication = () => {
 
                     });
                 }
-
+                
                 localStorage.setItem("userId", response.data.id);
                 localStorage.setItem("userName", response.data.firstName);
 

@@ -60,7 +60,9 @@ router.get("/mapSize/:id", async (req,res) => {
 
 router.get("/quantity/:id", async (req,res) => {
     const id = req.params.id
-    const query1 = "SELECT inventories.quantity FROM designs INNER JOIN inventories ON designs.color=inventories.colour WHERE inventories.colour=(SELECT designs.color FROM designs WHERE designs.designId='"+id+"') AND  designs.designId='"+id+"'";
+
+    const query1 = "SELECT inventories.quantity FROM `designs` INNER JOIN `inventories` ON designs.color=inventories.colour WHERE inventories.colour=(SELECT designs.color FROM `designs` WHERE designs.designId='"+id+"') AND  designs.designId='"+id+"'";
+
     const designSizeList = await sequelize.query(query1, {type: sequelize.QueryTypes.SELECT});
     res.json(designSizeList);
 });

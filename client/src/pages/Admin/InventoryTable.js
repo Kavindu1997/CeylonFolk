@@ -221,7 +221,7 @@ const InventoryTable = () => {
                                             <Table className={classes.table} aria-label="simple table">
                                                 <thead>
                                                     <tr>
-                                                        <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Code</TableCell>
+                                                        
                                                         <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Colour</TableCell>
                                                         <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Size</TableCell>
                                                         <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Type</TableCell>
@@ -233,7 +233,7 @@ const InventoryTable = () => {
 
                                                     {record.map((value) =>
                                                         <tr>
-                                                            <td align="center" style={{ fontFamily: 'Montserrat' }}>{value.code}</td>
+                                                           
                                                             <td align="center" style={{ fontFamily: 'Montserrat' }}>{value.colour}</td>
                                                             <td align="center" style={{ fontFamily: 'Montserrat' }}>{value.size}</td>
                                                             <td align="center" style={{ fontFamily: 'Montserrat' }}>{value.type}</td>
