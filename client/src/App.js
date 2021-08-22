@@ -33,6 +33,7 @@ import MyCanvas from './pages/MyCanvas';
 
 import MyLayers from './pages/Customize/MyLayer';
 import MyLayers2 from './pages/Customize/MyLayers2';
+import TransformText from './pages/Customize/TransformText';
 
 import { Component } from 'react';
 import { Class } from '@material-ui/icons';
@@ -146,6 +147,7 @@ class App extends Component {
           <Route path="/canvas" exact render={() => <MyCanvas />} />
           <Route path="/myLayers" exact render={() => <MyLayers />} />
           <Route path="/myLayers2" exact render={() => <MyLayers2 />} />
+          <Route path="/tText" exact render={() => <TransformText />} />
         </Switch>
       </BrowserRouter>
     </ThemeProvider>
