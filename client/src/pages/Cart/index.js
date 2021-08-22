@@ -1,21 +1,15 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
 import CommonNav from '../../components/Navbars/CommonNav';
 import Footer from '../../components/Footer/Footer';
 import { CssBaseline, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, Button, TextField } from '@material-ui/core';
-import NumericInput from 'react-numeric-input';
 import 'font-awesome/css/font-awesome.min.css';
-import { Link } from "react-router-dom";
-import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import useStyles from './style';
 import { useDispatch, useSelector } from "react-redux";
-import { connect } from 'react-redux';
-import {actionDeleteItem,decrementCartCount} from '../../_actions/index';
+import {actionDeleteItem,decrementCartCount,getCart,getTotal,deleteCartUsingID} from '../../_actions/index';
 
 export default function Cart() {
-
   const classes = useStyles();
   let history = useHistory();
   const dispatch = useDispatch();
@@ -33,95 +27,27 @@ export default function Cart() {
     }
   }
 
-  const onRemove = (id) => { //'Itom007'
+  const onRemove = (id) => { 
     var uid = localStorage.getItem("userId")
     if (uid > 0) {
-      dispatch(actionDeleteItem(id));
-      dispatch(decrementCartCount());
-      const url = "http://localhost:3001/check/remove/"
-      const data = { userId: uid, itemId: id }
-      axios.put(url, data).then((response) => {
-        if (response.data.error) alert(response.data.error);
-        else {
-          const url1 = "http://localhost:3001/check/items/" + uid;
-          axios.get(url1).then((response) => {
-            setOfItems(response.data);
-          });
-          const url2 = "http://localhost:3001/check/total/" + uid;
-          axios.get(url2).then((response) => {
-            setOftotals(response.data);
-          });
-        }
-      });
+      dispatch(deleteCartUsingID(id))
     }
     else {
-      //TODO Update the local storage
       dispatch(actionDeleteItem(id));
-      dispatch(decrementCartCount());
-      setOfItems(productCart);
-      var totalDetails = [];
-      totalDetails.push({customerId:id,total:cartTotal});
-      setOftotals(totalDetails);    
+      dispatch(decrementCartCount()); 
     }
   };
 
-  var totalvalue = 0;
-  const [totalDetails, setOftotals] = useState([]);
-  const [itemDetails, setOfItems] = useState([]);
   useEffect(() => {
-    var id = localStorage.getItem("userId");
-    console.log(productCart)
-
-    const url = "http://localhost:3001/check/items/" + id;
-    axios.get(url).then((response) => {
-      if (response.data.length > 0) {
-        setOfItems(response.data);
-        console.log(itemDetails)
-        //todo calling from action
-      } else {
-        setOfItems(productCart);
-        console.log(itemDetails)
-      }
-
-    });
-
-
-
-
+    dispatch(getCart())
+    dispatch(getTotal())
   }, []);
 
 
-
-  useEffect(() => {
-    var id = localStorage.getItem("userId");
-
-    const url = "http://localhost:3001/check/total/" + id;
-    axios.get(url).then((response) => {
-      if (id > 0) {
-        setOftotals(response.data);
-        console.log(response.data)
-      } else {
-        var totalDetails = [];
-        totalDetails.push({customerId:id,total:cartTotal});
-        setOftotals(totalDetails);
-      }
-
-    });
-    }, []);
-  
-
     function onLogout() {
-      var cart = []
       localStorage.setItem("userId", 0);
       localStorage.setItem("userName", 0);
-      localStorage.setItem("cart", JSON.stringify(cart));
-      localStorage.setItem("totalDetails", 0);
     }
-
-
-    //console.log(totalDetails[0]['total'])
-
-    // var totalvalue = Number(totalDetails[0].total) + 200
 
     return (
       <div>
@@ -144,7 +70,7 @@ export default function Cart() {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {itemDetails
+                  {productCart
                     .map((value) => {
                       return (
                         <TableRow key={value.customerId}>
@@ -154,7 +80,7 @@ export default function Cart() {
                           <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.size}</TableCell>
                           <TableCell align="center" className={classes.numeric} style={{ fontFamily: 'Montserrat' }}>{value.quantity}</TableCell>
                           <TableCell align="center">
-                            <Button name="remove" onClick={() => onRemove(value.itemId)}>
+                            <Button name="remove" onClick={() => onRemove(value.id)}>
                               <i className="fa fa-times" aria-hidden="true"></i>
                             </Button>
                           </TableCell>
@@ -162,19 +88,16 @@ export default function Cart() {
                         </TableRow>
                       );
                     })}
-                  {totalDetails
-                    .map((value) => {
-                      return (
-                        <TableRow key={value.customerId}>
+
+                        <TableRow>
                           <TableCell align="center" colSpan={5} rowSpan={3} style={{ fontFamily: 'Montserrat', fontWeight: 600, fontSize: '15pt', height: '100px' }}>
                             Sub Total
                           </TableCell>
                           <TableCell align="center" rowSpan={3} style={{ fontFamily: 'Montserrat', fontWeight: 600, fontSize: '15pt' }}>
-                            Rs. {value.total}
+                            Rs. {cartTotal}
                           </TableCell>
                         </TableRow>
-                      );
-                    })}
+
                 </TableBody>
               </Table>
             </TableContainer>
@@ -194,15 +117,12 @@ export default function Cart() {
               <TableContainer style={{ marginTop: '50px', align: 'center', width: '600px' }}>
                 <Table className={classes.table} aria-label="simple table">
                   <Typography variant="h6" style={{ marginTop: '20px', marginLeft: '15px', marginBottom: '20px', textAlign: 'left', fontWeight: 600, fontFamily: 'Montserrat' }}>CART TOTALS</Typography>
-                  {totalDetails
-                    .map((value) => {
-                      return (
-                        <TableRow key={value.cartId}>
+
+                        <TableRow>
                           <TableCell align="left" style={{ fontWeight: 600, fontFamily: 'Montserrat' }}>SUB TOTAL</TableCell>
-                          <TableCell align="center" style={{ fontWeight: 600, fontFamily: 'Montserrat' }}>Rs. {value.total}</TableCell>
+                          <TableCell align="center" style={{ fontWeight: 600, fontFamily: 'Montserrat' }}>Rs. {cartTotal}</TableCell>
                         </TableRow>
-                      );
-                    })}
+
                   <TableRow>
                     <TableCell align="left" style={{ fontWeight: 600, fontFamily: 'Montserrat' }}>SHIPPING</TableCell>
                     <TableCell align="center" style={{ fontWeight: 600, fontFamily: 'Montserrat' }}>Rs. 200</TableCell>
@@ -224,15 +144,10 @@ export default function Cart() {
                       </div>
                     </TableCell>
                   </TableRow>
-                  {totalDetails
-                    .map((value) => {
-                      return (
-                        <TableRow key={value.cartId}>
+                        <TableRow>
                           <TableCell align="left" style={{ fontWeight: 600, fontFamily: 'Montserrat' }}>TOTAL</TableCell>
-                          <TableCell align="center" style={{ fontWeight: 600, fontFamily: 'Montserrat' }}>Rs. {Number(value.total) + 200}</TableCell>
+                          <TableCell align="center" style={{ fontWeight: 600, fontFamily: 'Montserrat' }}>Rs. {Number(cartTotal) + 200}</TableCell>
                         </TableRow>
-                      );
-                    })}
                 </Table>
               </TableContainer>
 

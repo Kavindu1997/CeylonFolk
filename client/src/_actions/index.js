@@ -1,4 +1,6 @@
 import { CART_CONSTS } from "../_constants";
+import ceylonforkapi from "../api/index";
+
 
 export const actionAddToCart = product => {
     return {
@@ -13,13 +15,6 @@ export const actionGetTotal = total => {
         payload: total
     }
 };
-
-/*export const actionGetTotalDeduct = total => {
-    return {
-        type: CART_CONSTS.GET_TOTAL_DEDUCT,
-        payload: total
-    }
-};*/
 
 export const actionDeleteItem = id => {
     return {
@@ -38,6 +33,52 @@ export const decrementCartCount = () => {
     return {
         type: CART_CONSTS.DECREMENT_CART_NO,
     }
+};
+
+export const getCart = () => async (dispatch) => {
+    var id = localStorage.getItem("userId");
+    if (id != '0') {
+        const response = await ceylonforkapi.get("/check/items/"+ id)
+        dispatch({ type: CART_CONSTS.GET_CART, payload: response.data })
+    }
+
+
+};
+export const deleteCartUsingID = (id) => async (dispatch) => {
+    var uid = localStorage.getItem("userId")
+    if (uid > 0) {
+      const data = { userId: uid, itemId: id }
+        await ceylonforkapi.put("/check/remove/",data).then((response) => {
+        if (response.data.error) alert(response.data.error);
+        else {
+            dispatch(getCart())
+            dispatch(getTotal())
+            dispatch(decrementCartCount());
+        }
+      });
+    }
+};
+
+export const getTotal = () => async (dispatch) => {
+    var id = localStorage.getItem("userId");
+    if (id != '0') {
+        const response = await ceylonforkapi.get("/check/total/"+ id)
+        dispatch({ type: CART_CONSTS.GET_CART_TOTAL, payload: response.data })
+    }
+};
+
+export const sendProductsToDB = (product) => async (dispatch) => {
+        await ceylonforkapi.post("/check/addToCart/",product).then((response) => {
+            if (response.data.error) {
+                alert(response.data.error);
+                return 0;
+            }
+            else {
+                dispatch(incrementCartCount());
+                dispatch(actionAddToCart(product));
+                return 1;
+            }
+          });    
 };
 
 
