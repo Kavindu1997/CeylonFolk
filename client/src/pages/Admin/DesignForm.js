@@ -5,10 +5,19 @@ import Controls from '../../components/Reusable/Controls';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
 
-const CollectionForm = () => {
+var collection_id = localStorage.getItem("collection_id");
+console.log(collection_id);
+
+
+const DesignForm = () => {
 
     const [file, setfile] = useState(null);
-    const [collectionName, setCollectionName] = useState([]);
+    const [designName, setDesignName] = useState([]);
+    const [colour, setColour] = useState([]);
+    const [types, setTypes] = useState([]);
+    const [price, setPrice] = useState([]);
+
+
     let history = useHistory();
 
     const onFormSubmit = (e, data) => {
@@ -17,7 +26,11 @@ const CollectionForm = () => {
 
         const formData = new FormData();
         formData.append('photo', file);
-        formData.append('collectionName', collectionName);
+        formData.append('designName', designName);
+        formData.append('colour', colour);
+        formData.append('types', types);
+        formData.append('price', price);
+        formData.append('collection_id',collection_id);
         const config = {
             headers: {
                 'content-type': 'multipart/form-data',
@@ -25,10 +38,12 @@ const CollectionForm = () => {
         };
 
 
+        console.log("check");
+        console.log(formData);
 
-        axios.post("http://localhost:3001/collection", formData, config).then((response) => {
+        axios.post("http://localhost:3001/designs", formData, config).then((response) => {
             alert('Image upload Successfull');
-            history.push('/collections');
+            history.push('/designs');
 
 
         }).catch((err) => {
@@ -40,43 +55,85 @@ const CollectionForm = () => {
         setfile(e.target.files[0])
     };
 
-    const changeCollection = (e) => {
-        setCollectionName(e.target.value);
+    const changeCollectionDesign = (e) => {
+        setDesignName(e.target.value);
         console.log(e.target.value);
     };
 
+    const changeCollectionColour = (e) => {
+        setColour(e.target.value);
+        console.log(e.target.value);
+    };
+
+    const changeCollectionTypes = (e) => {
+        setTypes(e.target.value);
+        console.log(e.target.value);
+    };
+
+    const changeCollectionPrice = (e) => {
+        setPrice(e.target.value);
+        console.log(e.target.value);
+    };
 
     return (
         <div>
             <div>
                 <form onSubmit={onFormSubmit}>
+
+
                     <Grid container>
-                        <Grid item xs={6}>
+
+                        <Grid item md={6} style={{ paddingLeft: '100px', paddingRight: '100px' }}>
+
                             <Controls.Input
                                 variant="outlined"
-                                label="Collection Name"
-                                name="collectionName"
-                                onChange={changeCollection}
+                                label="Design Name"
+                                name="designName"
+                                onChange={changeCollectionDesign}
                             />
-                        </Grid>
-                        <Grid item xs={6}>
+                           
 
+                            <Controls.Input
+                                variant="outlined"
+                                label="Colour"
+                                name="colour"
+                                onChange={changeCollectionColour}
+                            />
                             <Controls.Input
                                 variant="outlined"
                                 name="photo"
                                 type="file"
                                 onChange={onInputChange}
                             />
+
                         </Grid>
-                        {/* <input type='file' name='photo' onChange={onInputChange} /> */}
+                        <Grid item md={6} style={{ paddingLeft: '100px', paddingRight: '100px' }}>
+
+                            <Controls.Input
+                                variant="outlined"
+                                label="Type"
+                                name="types"
+                                onChange={changeCollectionTypes}
+                            />
+                            <Controls.Input
+                                variant="outlined"
+                                label="Price"
+                                name="price"
+                                onChange={changeCollectionPrice}
+                            />
+                        </Grid>
+                        <Grid item md={6} style={{ paddingLeft: '100px', paddingRight: '100px' }}>
 
 
-                        {/* <button type='submit'> Upload </button> */}
-                        <Controls.Button
-                            type="submit"
-                            text="Add New Collection"
-                        />
-                    </Grid>
+                            <Controls.Button
+                                type="submit"
+                                text="Add New Design"
+                            />
+                        </Grid>
+
+
+                    </Grid>  
+
 
                 </form>
             </div>
@@ -140,4 +197,4 @@ const CollectionForm = () => {
     );
 };
 
-export default CollectionForm;
+export default DesignForm;

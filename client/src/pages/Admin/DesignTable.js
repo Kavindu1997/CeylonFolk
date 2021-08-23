@@ -5,7 +5,7 @@ import { Search } from "@material-ui/icons";
 import AddIcon from "@material-ui/icons/Add";
 import CloseIcon from "@material-ui/icons/Close";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
-import CollectionForm from "./CollectionForm";
+import DesignForm from "./DesignForm";
 import { makeStyles, Paper, TableBody, TableRow, TableCell, Toolbar, InputAdornment, Typography, Table, TableContainer, TableHead, Button } from "@material-ui/core";
 import useTable from "../../components/Reusable/useTable";
 import Controls from "../../components/Reusable/Controls";
@@ -20,6 +20,9 @@ import { actionDeleteCollection } from '../../_actions/collections';
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from 'react-router-dom';
 
+
+var cid = localStorage.getItem("cid");
+console.log(cid);
 
 const DesignTable = () => {
     const classes = useStyles();
@@ -98,21 +101,21 @@ const DesignTable = () => {
 
     };
 
-    function onProceed() {
-        // var id = localStorage.getItem("userId");
+    // function onProceed() {
+    //     // var id = localStorage.getItem("userId");
 
-          history.push('/inventory');
-        
-    
-      }
+    //       history.push('/inventory');
+
+
+    //   }
 
 
     return (
 
         <div style={{ display: "flex" }}>
             <AdminNav />
-
             <main className={classes.content}>
+
                 <PageHeader title="DESIGNS" icon={<LayersIcon fontSize="large" />} />
                 <Paper className={classes.pageContent}>
                     <Toolbar>
@@ -129,7 +132,7 @@ const DesignTable = () => {
                         //onChange={handleSearch}
                         />
                         <Controls.Button
-                            text="Add New Collection"
+                            text="Add New Design"
                             variant="outlined"
                             startIcon={<AddIcon />}
                             className={classes.newButton}
@@ -141,7 +144,12 @@ const DesignTable = () => {
 
                     <container>
                         <center>
-                            <Typography variant="h5" style={{ marginTop: '80px', textAlign: 'center', backgroundColor: '#C6C6C6', padding: '30px', fontFamily: 'Montserrat' }}>COLLECTIONS</Typography>
+                        {listOfCollections
+                    .map((value) => {
+                        return (
+                            <Typography variant="h5" style={{ marginTop: '80px', textAlign: 'center', backgroundColor: '#C6C6C6', padding: '30px', fontFamily: 'Montserrat' }}>DESIGNS for {value.collection_name} </Typography>
+                        );
+                    })}
                             <TableContainer style={{ marginTop: '30px', align: 'center', width: '1200px' }}>
                                 <Table className={classes.table} aria-label="simple table">
                                     <TableHead>
@@ -181,11 +189,11 @@ const DesignTable = () => {
 
 
                     <Popup
-                        title="Add Collection Form"
+                        title="Add Design Form"
                         openPopup={openPopup}
                         setOpenPopup={setOpenPopup}
                     >
-                        <CollectionForm />
+                        <DesignForm />
                     </Popup>
 
                     <Notification notify={notify} setNotify={setNotify} />
