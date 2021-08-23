@@ -3,7 +3,7 @@ const router = express.Router();
 const { Designs } = require('../models');
 
 router.get("/", async (req,res) => {
-    const listOfDesigns = await  Designs.findAll({group:['designName']});
+    const listOfDesigns = await  Designs.findAll({group:['design_name']});
     res.json(listOfDesigns);
     // res.render("upload");
 });

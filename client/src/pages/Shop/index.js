@@ -111,23 +111,24 @@ const Shop = () => {
                     <Grid container spacing={0} >
 
                         {products.map((product) => {
-                            const{designId, designImage, designName, price}=product;
+                            const{id, coverImage, design_name, price}=product;
                             return (
                                 <Grid item xs={12} sm={6} md={3} onClick={() => {
-                                    history.push(`/productDetails/${designId}`);
+                                    history.push(`/productDetails/${id}`);
                                 }}>
                                     <Link>
                                         <Card className={classes.card}>
                                             <CardActionArea>
                                                 <CardMedia
                                                     className={classes.media}
-                                                    style={{ backgroundImage: `url(${designImage})` }}
+                                                    style={{ backgroundImage: `url('http://localhost:3001/${coverImage}')`
+                                                }}
                                                     title="Snowy"
                                                 />
 
                                                 <CardContent style={{ display: 'flex' }}>
                                                     <div>
-                                                        <Typography gutterBottom variant="h9" component="h2" style={{ textAlign: 'left' }}>{designName}</Typography>
+                                                        <Typography gutterBottom variant="h9" component="h2" style={{ textAlign: 'left' }}>{design_name}</Typography>
                                                         <Typography gutterBottom variant="h6" component="h2" style={{ textAlign: 'left' }}>{"LKR " + price}</Typography>
                                                     </div>
                                                     <div><FavoriteBorderOutlinedIcon className={classes.icon1} /></div>
