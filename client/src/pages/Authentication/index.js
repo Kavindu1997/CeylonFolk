@@ -7,7 +7,7 @@ import { CssBaseline, TextField, FormControlLabel, Checkbox, Link, Grid, Typogra
 import axios from 'axios';
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from 'yup';
-import {useDispatch, useSelector} from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const Authentication = () => {
 
@@ -69,19 +69,19 @@ const Authentication = () => {
             if (response.data.error) {
                 alert(response.data.error);
             } else {
+                console.log(response.data)
                 var uid = localStorage.getItem("userId");
-                
-                console.log(cart)
 
-                if (uid == 0 && cart.length > 0) {
+                if (uid == '0' && cart.cart.length > 0) {
+                    console.log("login")
                     const url = "http://localhost:3001/check/addToCartBatchwise/"
-                    var data = {uid:response.data.id , cart: cart };
+                    var data = { uid: response.data.id, cart: cart.cart };
                     axios.post(url, data).then((response) => {
                         if (response.data.error) alert(response.data.error);
-                       
+
                     });
                 }
-
+                
                 localStorage.setItem("userId", response.data.id);
                 localStorage.setItem("userName", response.data.firstName);
 
@@ -235,6 +235,12 @@ const Authentication = () => {
                                         id="confirmPassword"
                                         autoComplete="confirm-password"
                                         helperText={<ErrorMessage name="confirmPassword" />}
+                                    />
+                                    <Field as={TextField}
+                                        className={classes.textField}
+                                        name="userType"
+                                        type="hidden"
+                                        id="userType"
                                     />
                                     <Field as={FormControlLabel} name="terms"
                                         control={<Checkbox value="terms" color="primary" />}

@@ -10,11 +10,9 @@ const initState = {
 export const cart = (state = initState, action) => {
     let updatedCart;
     let updatedItemIndex;
-    
+
     switch (action.type) {
         case CART_CONSTS.ADD_TO_CART:
-            console.log(state);
-            console.log(action)
             return {
                 ...state,
                 cart: [...state.cart, action.payload]
@@ -25,9 +23,8 @@ export const cart = (state = initState, action) => {
             updatedItemIndex = updatedCart.findIndex(
                 item => item.itemId === action.payload
             );
-            console.log(updatedItemIndex)
             updatedCart.splice(updatedItemIndex, 1);
-            return {...state, cart: updatedCart};
+            return { ...state, cart: updatedCart };
 
         case CART_CONSTS.GET_TOTAL:
             return {
@@ -48,11 +45,29 @@ export const cart = (state = initState, action) => {
             };
 
         case CART_CONSTS.DECREMENT_CART_NO:
-            return { 
+            return {
                 ...state,
-                cartCount: state.cartCount - 1 
+                cartCount: state.cartCount - 1
             };
-            
+
+        case CART_CONSTS.GET_CART:
+            return {
+                ...state,
+                cart: action.payload
+            };
+
+        case CART_CONSTS.GET_CART_TOTAL:
+            return {
+                ...state,
+                totalAmount: action.payload[0].total
+            };
+
+        case CART_CONSTS.REMOVE_CART_ITEM:
+            return{
+                ...state,
+                cart: action.payload
+            };
+
         default:
             return state;
 

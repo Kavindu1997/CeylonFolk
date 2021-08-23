@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { AppBar, Typography, Button, IconButton, Toolbar, Link } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
-import logo from '../../images/logo.png';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import PermIdentityOutlinedIcon from '@material-ui/icons/PermIdentityOutlined';
 import LocalMallOutlinedIcon from '@material-ui/icons/LocalMallOutlined';
 import FavoriteBorderOutlinedIcon from '@material-ui/icons/FavoriteBorderOutlined';
 import SearchOutlinedIcon from '@material-ui/icons/SearchOutlined';
 import axios from 'axios';
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
 import { NavLink } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
@@ -136,9 +135,8 @@ const useStyles = makeStyles((theme) => ({
 
 const CommonNav = (props) => {
     const classes = useStyles();
-    const cartcount = useSelector(state => state.cartCount)
+    const cartcount = useSelector(state => state.cart.cartCount)
     console.log(cartcount)
-  const dispatch = useDispatch();
     const [countDetails, countOfItems] = useState([]);
     useEffect(() => {
     var id = localStorage.getItem("userId");

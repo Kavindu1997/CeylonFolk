@@ -2,10 +2,8 @@ module.exports = (sequelize, DataTypes) => {
 
     const Orders = sequelize.define("Orders", {
         orderId: {
-            type: DataTypes.INTEGER,
-            autoIncrement: true,
+            type: DataTypes.STRING,
             allowNull: false,
-            primaryKey: true,
         },
         customerId: {
             type: DataTypes.INTEGER,
@@ -23,14 +21,23 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false,
         },
-     /*   deliveryAddress: {
+        deliveryAddress: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
+        contactNo: {
             type: DataTypes.STRING,
             allowNull: false,
         },
         placedDate: {
             type: DataTypes.DATE,
             allowNull: false,
-        },*/
+        },
+        createdAt: {
+            allowNull: false,
+            type: DataTypes.DATE,
+            defaultValue: sequelize.literal('CURRENT_TIMESTAMP')
+          },
     });
 
     return Orders;

@@ -18,24 +18,44 @@ import FavoriteBorderOutlinedIcon from '@material-ui/icons/FavoriteBorderOutline
 import axios from 'axios';
 import { useHistory } from 'react-router';
 import useStyles1 from './style1';
+import {setProducts, fetchProducts} from '../../_actions/productAction'
+import {useDispatch, useSelector} from "react-redux";
 
 
 const Shop = () => {
 
-
     const classes = useStyles1();
     const [checked, setChecked] = useState(false);
+
+    const products = useSelector((state)=>state.productReducer.productObject)
+    const dispatch = useDispatch();
+
+    // const fetchProducts = async () =>{
+    //     axios.get('http://localhost:3001/shop').then((response) => {
+    //       // setProductObject(response.data);
+    //       console.log(response.data[0])
+    //       console.log('hello from response from server')
+    //       dispatch(setProducts(response.data))
+    //     });
+    
+    //   }
+
     useEffect(() => {
+        dispatch(fetchProducts());
         setChecked(true);
     }, []);
 
+    console.log('hello from product store')
+
+   console.log(products)
+
     const [listOfDesigns, setListOfDesigns] = useState([]);
 
-    useEffect(() => {
-        axios.get("http://localhost:3001/shop").then((response) => {
-            setListOfDesigns(response.data);
-        });
-    }, []);
+    // useEffect(() => {
+    //     axios.get("http://localhost:3001/shop").then((response) => {
+    //         setListOfDesigns(response.data);
+    //     });
+    // }, []);
 
     let history = useHistory()
 
@@ -90,25 +110,26 @@ const Shop = () => {
                 <Container className={classes.collectionContainer} maxWidth="lg">
                     <Grid container spacing={0} >
 
-                        {listOfDesigns.map((value) => {
+                        {products.map((product) => {
+                            const{id, coverImage, design_name, price}=product;
                             return (
-
                                 <Grid item xs={12} sm={6} md={3} onClick={() => {
-                                    history.push(`/productDetails/${value.designId}`);
+                                    history.push(`/productDetails/${id}`);
                                 }}>
                                     <Link>
                                         <Card className={classes.card}>
                                             <CardActionArea>
                                                 <CardMedia
                                                     className={classes.media}
-                                                    style={{ backgroundImage: `url(${value.designImage})` }}
+                                                    style={{ backgroundImage: `url('http://localhost:3001/${coverImage}')`
+                                                }}
                                                     title="Snowy"
                                                 />
 
                                                 <CardContent style={{ display: 'flex' }}>
                                                     <div>
-                                                        <Typography gutterBottom variant="h9" component="h2" style={{ textAlign: 'left' }}>{value.designName}</Typography>
-                                                        <Typography gutterBottom variant="h6" component="h2" style={{ textAlign: 'left' }}>{"LKR " + value.price}</Typography>
+                                                        <Typography gutterBottom variant="h9" component="h2" style={{ textAlign: 'left' }}>{design_name}</Typography>
+                                                        <Typography gutterBottom variant="h6" component="h2" style={{ textAlign: 'left' }}>{"LKR " + price}</Typography>
                                                     </div>
                                                     <div><FavoriteBorderOutlinedIcon className={classes.icon1} /></div>
                                                 </CardContent>
@@ -120,16 +141,9 @@ const Shop = () => {
 
                             );
                         })}
-
-
                     </Grid>
-
                 </Container>
-
-
             </div>
-
-
             <Footer />
         </div>
     );

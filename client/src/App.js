@@ -31,6 +31,11 @@ import Termnconditions from './pages/TermsAndConditions';
 import CreateForm from './pages/CreateForm';
 import ProductD from './pages/ProductD';
 import MyCanvas from './pages/MyCanvas';
+
+import MyLayers from './pages/Customize/MyLayer';
+import MyLayers2 from './pages/Customize/MyLayers2';
+import TransformText from './pages/Customize/TransformText';
+
 import { Component } from 'react';
 import { Class } from '@material-ui/icons';
 import { render } from 'react-dom';
@@ -38,8 +43,8 @@ import CommonNav from './components/Navbars/HomeNav';
 import {Provider} from 'react-redux';
 import {createStore } from 'redux';
 import {cart} from './_reducers/cart.reducer';
-import gateway from './pages/Checkout/gateway';
 import { StoreProvider } from "./_util";
+import Deposit from './pages/Checkout/deposit';
 
 
 
@@ -110,18 +115,15 @@ class App extends Component {
   return (
    <StoreProvider>
     <ThemeProvider theme={theme}>
-      
       <BrowserRouter>
-
         <Switch>
-
           <Route exact path={"/"}  component = {Home} />
           <Route exact path="/shop" component = {Shop} />
           <Route exact path="/contactus" component = {Contactus} />
           <Route path="/auth" exact render={() => < Authentication />} />
           <Route exact path={"/cart"} component = {MyCart} />
           <Route exact path={"/productDetails/:id"} component = {Product_detail} />
-          <Route exact path={"gateway"} component = {gateway} />
+          <Route exact path={"/deposit"} component = {Deposit} />
           <Route path="/admin" exact render={() => <AdminPanel />} />
           <Route path="/users" exact render={() => <Users />} />
           <Route path="/collections" exact render={() => <Collections />} />
@@ -145,9 +147,11 @@ class App extends Component {
           <Route path="/productD" exact render={() => <ProductD />} />
           <Route path="/canvas" exact render={() => <MyCanvas />} />
           <Route path="/*" exact render={() => <NotFound />} />
+          <Route path="/myLayers" exact render={() => <MyLayers />} />
+          <Route path="/myLayers2" exact render={() => <MyLayers2 />} />
+          <Route path="/tText" exact render={() => <TransformText />} />
         </Switch>
       </BrowserRouter>
-      
     </ThemeProvider>
     </StoreProvider>
    

@@ -1,6 +1,7 @@
 import { makeStyles } from '@material-ui/styles';
 import cfCover from '../../images/cfCover.png';
 import mockup from '../../images/mockup.png';
+// import mockup from '../../images/tttmockup.png';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -28,9 +29,10 @@ const useStyles = makeStyles((theme) => ({
         marginLeft:'5px',
         marginBottom:'5px',
         justifyContent:'space-between'
+
     },
     bar2:{
-        background:'white',
+        background:'#e5f3f8',
         padding:'50px',
         marginTop:'5px',
         marginRight:'5px',
@@ -80,7 +82,8 @@ const useStyles = makeStyles((theme) => ({
 
     },
     barContainer:{
-        display:'flex'
+        display:'flex',
+        background:'#e5f3f8'
     },
     slevebtn:{
         background:'#2C2D2D',
@@ -131,6 +134,24 @@ const useStyles = makeStyles((theme) => ({
       spanback2:{
         backgroundImage: `linear-gradient(rgba(0,0,0,0.1),rgba(0,0,0,0.1)),url(${mockup})`
       },
+      style2 : {
+        backgroundImage: `url(${mockup})`,
+        width:'100%'
+        
+      },
+      tshirtDiv:{
+        width: '530px',
+        height: '630px',
+        position: 'relative'
+      },
+      drawImage:{
+        position: 'absolute',
+        top: '100px',
+        zIndex: '10',
+        width: '200px',
+        height: '400px',
+        marginLeft: '49px'
+      }
 }));
 
 export default useStyles;

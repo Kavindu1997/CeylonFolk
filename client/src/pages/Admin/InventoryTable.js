@@ -65,18 +65,18 @@ const InventoryTable = () => {
 
 
     // On Page load display all records 
-    const loadInventoryDetail = async () => {
-        var response = fetch('http://localhost:3001/inventSearch')
-            .then(function (response) {
-                return response.json();
-            })
-            .then(function (myJson) {
-                setRecord(myJson);
-            });
-    }
-    useEffect(() => {
-        loadInventoryDetail();
-    }, []);
+    // const loadInventoryDetail = async () => {
+    //     var response = fetch('http://localhost:3001/inventSearch')
+    //         .then(function (response) {
+    //             return response.json();
+    //         })
+    //         .then(function (myJson) {
+    //             setRecord(myJson);
+    //         });
+    // }
+    // useEffect(() => {
+    //     loadInventoryDetail();
+    // }, []);
 
     // Search Records here 
     const searchRecords = () => {
@@ -112,13 +112,13 @@ const InventoryTable = () => {
 
     const [listOfItems, setListOfItems] = useState([]);
 
-    // useEffect(() => {
+    useEffect(() => {
 
-    //     axios.get("http://localhost:3001/invent/inventory").then((response) => {
-    //         // console.log(response.data);
-    //         setListOfItems(response.data);
-    //     });
-    // }, []);
+        axios.get("http://localhost:3001/invent/inventory").then((response) => {
+            // console.log(response.data);
+            setListOfItems(response.data);
+        });
+    }, []);
 
 
 
@@ -221,7 +221,7 @@ const InventoryTable = () => {
                                             <Table className={classes.table} aria-label="simple table">
                                                 <thead>
                                                     <tr>
-                                                        <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Code</TableCell>
+                                                        
                                                         <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Colour</TableCell>
                                                         <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Size</TableCell>
                                                         <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Type</TableCell>
@@ -231,12 +231,12 @@ const InventoryTable = () => {
                                                 </thead>
                                                 <tbody>
 
-                                                    {record.map((value) =>
+                                                    {listOfItems.map((value) =>
                                                         <tr>
-                                                            <td align="center" style={{ fontFamily: 'Montserrat' }}>{value.code}</td>
-                                                            <td align="center" style={{ fontFamily: 'Montserrat' }}>{value.colour}</td>
+                                                           
+                                                            <td align="center" style={{ fontFamily: 'Montserrat' }}>{value.color}</td>
                                                             <td align="center" style={{ fontFamily: 'Montserrat' }}>{value.size}</td>
-                                                            <td align="center" style={{ fontFamily: 'Montserrat' }}>{value.type}</td>
+                                                            <td align="center" style={{ fontFamily: 'Montserrat' }}>{value.types}</td>
                                                             <td align="center" style={{ fontFamily: 'Montserrat' }}>{value.quantity}</td>
                                                             <td align="center" style={{ fontFamily: 'Montserrat' }}>{value.margin}</td>
 

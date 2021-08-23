@@ -3,106 +3,140 @@ import { Grid } from '@material-ui/core';
 import { useForm, Form } from '../../components/Reusable/useForm';
 import Controls from '../../components/Reusable/Controls';
 import axios from 'axios';
-
-const initialFvalues = {
-    collectionId: '',
-    collectionName: '',
-}
-
-
+import { useHistory } from 'react-router-dom';
 
 const CollectionForm = () => {
 
-    const validate = (fieldValues = values) => {
-        let temp = { ...errors }
-        if ('collectionId' in fieldValues)
-            temp.collectionId = fieldValues.collectionId ? "" : "This field is required"
-        if ('collectionName' in fieldValues)
-            temp.collectionName = fieldValues.collectionName ? "" : "This field is required"
-        setErrors({
-            ...temp
-        })
+    const [file, setfile] = useState(null);
+    const [collectionName, setCollectionName] = useState([]);
+    let history = useHistory();
 
-        if (fieldValues === values)
-            return Object.values(temp).every(x => x === "");            //temp<- error messages
-    }
-    const {
-        values,
-        setValues,
-        errors,
-        setErrors,
-        handleInputChange,
-        resetForm
-    } = useForm(initialFvalues, true, validate);
-
-
-    const handleSubmit = (e, data) => {
+    const onFormSubmit = (e, data) => {
 
         e.preventDefault();
-        axios.post("http://localhost:3001/collections/", data).then(() => {
-            console.log(data);
-        });
-        // if(validate()){  
-        //       addOrEdit(values,resetForm);
-        // }
-    }
+
+        const formData = new FormData();
+        formData.append('photo', file);
+        formData.append('collectionName', collectionName);
+        const config = {
+            headers: {
+                'content-type': 'multipart/form-data',
+            },
+        };
+
+
+
+        axios.post("http://localhost:3001/collection", formData, config).then((response) => {
+            alert('Image upload Successfull');
+            history.push('/collections');
+
+
+        }).catch((err) => {
+            console.log('err', err);
+        })
+    };
+
+    const onInputChange = (e) => {
+        setfile(e.target.files[0])
+    };
+
+    const changeCollection = (e) => {
+        setCollectionName(e.target.value);
+        console.log(e.target.value);
+    };
+
 
     return (
-        <Form onSubmit={handleSubmit}>
-            <Grid container>
-                <Grid item xs={6}>
-                    <Controls.Input
-                        variant="outlined"
-                        label="Collection Name"
-                        name="collectionId"
-                        value={values.collectionId}
-                        onChange={handleInputChange}
-                        error={errors.collectionId}
-                    />
+        <div>
+            <div>
+                <form onSubmit={onFormSubmit}>
+                    <Grid container>
+                        <Grid item xs={6}>
+                            <Controls.Input
+                                variant="outlined"
+                                label="Collection Name"
+                                name="collectionName"
+                                onChange={changeCollection}
+                            />
+                        </Grid>
+                        <Grid item xs={6}>
 
-                    <Controls.Input
-                        variant="outlined"
-                        label="Colour"
-                        name="collectionName"
-                        value={values.collectionName}
-                        onChange={handleInputChange}
-                        error={errors.collectionName}
-                    />
-                </Grid>
-                <Grid item xs={6}>
-                    <Controls.Input
-                        variant="outlined"
-                        label="Collection Type"
-                        name="collectionName"
-                        value={values.collectionName}
-                        onChange={handleInputChange}
-                        error={errors.collectionName}
-                    />
-                    <Controls.Input
-                        variant="outlined"
-                        label="Cover Image"
-                        name="collectionName"
-                        value={values.collectionName}
-                        onChange={handleInputChange}
-                        error={errors.collectionName}
-                    />
-                </Grid>
-                <Grid item xs={12}>
-                    <div style={{ paddingTop: '20px' }}>
+                            <Controls.Input
+                                variant="outlined"
+                                name="photo"
+                                type="file"
+                                onChange={onInputChange}
+                            />
+                        </Grid>
+                        {/* <input type='file' name='photo' onChange={onInputChange} /> */}
+
+
+                        {/* <button type='submit'> Upload </button> */}
                         <Controls.Button
                             type="submit"
                             text="Add New Collection"
                         />
+                    </Grid>
 
-                        <Controls.Button
-                            color="default"
-                            text="Reset"
-                            onClick={resetForm}
-                        />
-                    </div>
-                </Grid>
-            </Grid>
-        </Form>
+                </form>
+            </div>
+        </div >
+        // {/* <Form onSubmit={handleSubmit}>
+        //     <Grid container>
+        //         <Grid item xs={6}>
+        //             <Controls.Input
+        //                 variant="outlined"
+        //                 label="Collection Name"
+        //                 name="collectionId"
+        //                 value={values.collectionId}
+        //                 onChange={handleInputChange}
+        //                 error={errors.collectionId}
+        //             />
+
+        //             <Controls.Input
+        //                 variant="outlined"
+        //                 label="Colour"
+        //                 name="collectionName"
+        //                 value={values.collectionName}
+        //                 onChange={handleInputChange}
+        //                 error={errors.collectionName}
+        //             />
+        //         </Grid>
+        //         <Grid item xs={6}>
+        //             <Controls.Input
+        //                 variant="outlined"
+        //                 label="Collection Type"
+        //                 name="collectionName"
+        //                 value={values.collectionName}
+        //                 onChange={handleInputChange}
+        //                 error={errors.collectionName}
+        //             />
+        //             <Controls.Input
+        //                 variant="outlined"
+        //                 label="Cover Image"
+        //                 name="collectionName"
+        //                 value={values.collectionName}
+        //                 onChange={handleInputChange}
+        //                 error={errors.collectionName}
+        //             />
+        //         </Grid>
+        //         <Grid item xs={12}>
+        //             <div style={{ paddingTop: '20px' }}>
+        //                 <Controls.Button
+        //                     type="submit"
+        //                     text="Add New Collection"
+        //                 />
+
+        //                 <Controls.Button
+        //                     color="default"
+        //                     text="Reset"
+        //                     onClick={resetForm}
+        //                 />
+        //             </div>
+        //         </Grid>
+        //     </Grid>
+        // </Form> */}
+
     );
 };
 

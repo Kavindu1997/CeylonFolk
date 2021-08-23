@@ -13,8 +13,8 @@ app.use(cors());
 const db = require('./models');
 
 //view engine setup
-app.engine('handlebars',exphbs());
-app.set('view engine','handlebars');
+app.engine('handlebars', exphbs());
+app.set('view engine', 'handlebars');
 
 //static folder
 // app.use('/public',express.static(path.join(_dirname,'public')));
@@ -31,13 +31,19 @@ const contactusRouter = require('./routes/Contactus');
 app.use("/contact", contactusRouter);
 
 const inventoryRouter = require('./routes/Inventory');
-app.use("/invent",inventoryRouter);
+app.use("/invent", inventoryRouter);
 
 const wishlistRouter = require('./routes/Wishlist');
 app.use("/wishlist", wishlistRouter);
 
 const collectionRouter = require("./routes/Collections");
 app.use("/collect", collectionRouter);
+app.use("/collection", collectionRouter);
+app.use('/public', express.static('public'));
+
+const designRouter = require("./routes/Designs");
+app.use("/designs", designRouter);
+app.use('/public', express.static('public'));
 
 const productDetailsRouter = require('./routes/ProductDetails');
 app.use("/ProductDetails", productDetailsRouter);
