@@ -21,6 +21,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from 'react-router-dom';
 
 
+
 const CollectionTable = () => {
     const classes = useStyles();
     const [openPopup, setOpenPopup] = useState(false);
@@ -106,6 +107,13 @@ const CollectionTable = () => {
     //   }
 
 
+    const onSetId = (id) => { //'Itom007'
+        localStorage.setItem("collection_id",id);
+      
+    
+      };
+
+
     return (
 
         <div style={{ display: "flex" }}>
@@ -147,8 +155,8 @@ const CollectionTable = () => {
                                         <TableRow>
                                             <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Collection Name</TableCell>
                                             <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Image</TableCell>
+                                            <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>View Designs</TableCell>
                                             <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Update</TableCell>
-                                            <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Add Designs</TableCell>
                                             <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Delete</TableCell>
                                         </TableRow>
                                     </TableHead>
@@ -159,21 +167,21 @@ const CollectionTable = () => {
                                                     <TableRow>
                                                         <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.collection_name}</TableCell>
                                                         <TableCell align="center" style={{ fontFamily: 'Montserrat' }}><img height={100} align="center" src={'http://localhost:3001/' + value.coverImage} alt=""></img></TableCell>
-                                                        <TableCell align="center">
-                                                            <Button name="remove" onClick={() => onRemove(value.id)}>
-                                                                <i className="fa fa-times" aria-hidden="true"></i>
-                                                            </Button>
-                                                        </TableCell>
-
+                                                        
                                                         <TableCell align="center">
                                                             <Button
                                                                component={Link} to="/designs" 
                                                                variant="contained"
                                                                color="primary"
-                                                            >Add Designs
+                                                               onClick={() => onSetId(value.id)}
+                                                            >View Designs
                                                             </Button>
                                                         </TableCell>
-
+                                                        <TableCell align="center">
+                                                            <Button name="remove" onClick={() => onRemove(value.id)}>
+                                                                <i className="fa fa-times" aria-hidden="true"></i>
+                                                            </Button>
+                                                        </TableCell>
 
                                                         <TableCell align="center">
                                                             <Button name="remove" onClick={() => onRemove(value.id)}>

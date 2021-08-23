@@ -40,6 +40,10 @@ const collectionRouter = require("./routes/Collections");
 app.use("/collection", collectionRouter);
 app.use('/public', express.static('public'));
 
+const designRouter = require("./routes/Designs");
+app.use("/designs", designRouter);
+app.use('/public', express.static('public'));
+
 const productDetailsRouter = require('./routes/ProductDetails');
 app.use("/ProductDetails", productDetailsRouter);
 

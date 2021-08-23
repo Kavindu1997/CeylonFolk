@@ -14,6 +14,7 @@ import CollectionTable from './CollectionTable';
 import CouponTable from './CouponTable';
 import DesignTable from './DesignTable';
 import InventoryTable from './InventoryTable';
+import ViewDesignTable from './ViewDesignTable';
 import useStyles from './style';
 
 
@@ -86,6 +87,7 @@ export default function AdminPanel() {
           <Route path="/users" exact render={() => <UserTable />} />
           <Route path="/collections" exact render={() => <CollectionTable />} />
           <Route path="/designs" exact render={() => <DesignTable />} />
+          <Route path="/viewDesigns" exact render={() => <ViewDesignTable />} />
           <Route path="/inventory" exact render={() => <InventoryTable />} />
           <Route path="/coupon" exact render={() => <CouponTable />} />
         </Router>

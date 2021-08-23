@@ -1,40 +1,35 @@
 module.exports = (sequelize, DataTypes) => {
 
     const Designs = sequelize.define("Designs", {
-        designId: {
+
+        collection_id: {
             type: DataTypes.INTEGER,
-            autoIncrement: true,
-            allowNull: false,
-            primaryKey: true,
+            allowNull: true,
         },
-        code: {
+
+        design_name: {
             type: DataTypes.STRING,
-            allowNull: false,
+            allowNull: true,
         },
-        designName: {
+
+        color_id: {
+            type: DataTypes.INTEGER,
+            allowNull: true,
+        },
+
+        type_id: {
+            type: DataTypes.INTEGER,
+            allowNull: true,
+        },
+
+        coverImage: {
             type: DataTypes.STRING,
-            allowNull: false,
+            allowNull: true,
         },
-        color: {
-            type: DataTypes.STRING,
-            allowNull: false,
-        },
-        type: {
-            type: DataTypes.STRING,
-            allowNull: false,
-        },
-        designImage: {
-            type: DataTypes.STRING,
-            allowNull: false,
-        },
+        
         price: {
-            type: DataTypes.STRING,
-            allowNull: false,
-        },
-        collectionId: {
             type: DataTypes.INTEGER,
-            allowNull: false,
-            foreignkey : ''
+            allowNull: true,
         },
     });
 
