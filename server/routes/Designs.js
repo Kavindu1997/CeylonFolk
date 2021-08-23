@@ -36,7 +36,6 @@ router.post("/", upload.single('photo'), async(req, res) => {
 
  
     const { designName,colour,types,price,collection_id } = req.body;
-    console.log("my serveruuuu");
 
     
     const imagePath = 'public/designs/' + req.file.filename;
@@ -65,9 +64,22 @@ router.post("/", upload.single('photo'), async(req, res) => {
     })
 });
 
-router.get("/", async (req, res) => {
-    const listOfCollections = await Collections.findAll();
-    res.json(listOfCollections);
+// router.get("/", async (req, res) => {
+//     const listOfCollections = await Collections.findAll();
+//     res.json(listOfCollections);
+// });
+
+router.get("/:collection_id", async (req,res) => {
+
+    const collection_id = req.params.collection_id
+
+// console.log(collection_id);
+
+    const query= "SELECT designs.design_name, designs.coverImage, designs.price, colors.color, types.types, collections.collection_name from `designs` INNER JOIN `colors` ON designs.color_id= colors.id INNER JOIN `types` ON designs.type_id= types.id INNER JOIN `collections` ON designs.collection_id=collections.id WHERE designs.collection_id='" + collection_id + "'";
+    // const query="SELECT * from `designs`";
+    const listOfDesigns = await sequelize.query(query, {type: sequelize.QueryTypes.SELECT});
+
+    res.json(listOfDesigns);
 });
 
 router.delete("/remove", async (req,res) => {

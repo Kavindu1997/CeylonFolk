@@ -21,8 +21,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from 'react-router-dom';
 
 
-var cid = localStorage.getItem("cid");
-console.log(cid);
+var collection_id = localStorage.getItem("collection_id");
+console.log(collection_id);
 
 const DesignTable = () => {
     const classes = useStyles();
@@ -55,14 +55,14 @@ const DesignTable = () => {
         },
     };
 
-    const [listOfCollections, setListOfCollections] = useState([]);
+    const [listOfDesigns, setListOfDesigns] = useState([]);
 
     let history = useHistory();
 
     useEffect(() => {
-        axios.get("http://localhost:3001/collection").then((response) => {
+        axios.get(`http://localhost:3001/designs/${collection_id}`).then((response) => {
             console.log(response.data);
-            setListOfCollections(response.data);
+            setListOfDesigns(response.data);
         })
     }, []);
 
@@ -92,7 +92,7 @@ const DesignTable = () => {
 
             axios.get("http://localhost:3001/collection").then((response) => {
                 console.log(response.data);
-                setListOfCollections(response.data);
+                setListOfDesigns(response.data);
             });
 
         });
@@ -144,7 +144,7 @@ const DesignTable = () => {
 
                     <container>
                         <center>
-                        {listOfCollections
+                        {listOfDesigns
                     .map((value) => {
                         return (
                             <Typography variant="h5" style={{ marginTop: '80px', textAlign: 'center', backgroundColor: '#C6C6C6', padding: '30px', fontFamily: 'Montserrat' }}>DESIGNS for {value.collection_name} </Typography>
@@ -154,19 +154,25 @@ const DesignTable = () => {
                                 <Table className={classes.table} aria-label="simple table">
                                     <TableHead>
                                         <TableRow>
-                                            <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Collection Name</TableCell>
+                                            <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Design Name</TableCell>
                                             <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Image</TableCell>
+                                            <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Colour</TableCell>
+                                            <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Type</TableCell>
+                                            <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Price</TableCell>
                                             <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Update</TableCell>
                                             <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Delete</TableCell>
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                        {listOfCollections
+                                        {listOfDesigns
                                             .map((value) => {
                                                 return (
                                                     <TableRow>
-                                                        <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.collection_name}</TableCell>
+                                                        <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.design_name}</TableCell>
                                                         <TableCell align="center" style={{ fontFamily: 'Montserrat' }}><img height={100} align="center" src={'http://localhost:3001/' + value.coverImage} alt=""></img></TableCell>
+                                                        <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.color}</TableCell>
+                                                        <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.types}</TableCell>
+                                                        <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.price}</TableCell>
                                                         <TableCell align="center">
                                                             <Button name="remove" onClick={() => onRemove(value.id)}>
                                                                 <i className="fa fa-times" aria-hidden="true"></i>
