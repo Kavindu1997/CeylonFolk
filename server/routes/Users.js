@@ -6,20 +6,20 @@ const bcrypt = require("bcrypt");
 // const {sign} = require('jsonwebtoken')
 
 router.post("/register", async (req, res) => {
-    const { firstName, lastName, regEmail, mobileNumber, regPassword } = req.body;
+    const { firstName, lastName, email, mobile, password } = req.body;
 
-    const user1 = await Users.findOne({ where: { email: regEmail } });
-    bcrypt.hash(regPassword, 10).then((hash) => {
+    const user1 = await Users.findOne({ where: { email: email } });
+    bcrypt.hash(password, 10).then((hash) => {
         Users.create({
             firstName: firstName,
             lastName: lastName,
-            email: regEmail,
-            contactNo: mobileNumber,
+            email: email,
+            contactNo: mobile,
             password: hash,
         })
         res.json("SUCCESS");
     });
-    if ((user1.email == regEmail)) res.json({ error: "Email already Exist!" });
+    if ((user1.email == email)) res.json({ error: "Email already Exist!" });
 });
 
 router.post("/login", async (req, res) => {
@@ -43,6 +43,5 @@ router.post("/login", async (req, res) => {
         res.json(user);
     });
 });
-
 
 module.exports = router;  

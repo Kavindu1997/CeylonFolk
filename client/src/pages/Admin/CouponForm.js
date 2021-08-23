@@ -7,6 +7,8 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { makeStyles, TextField, Button } from '@material-ui/core';
 import useStyles from './style';
+import {useDispatch} from 'react-redux';
+//import { createCoupon } from '../../actions/Coupons';
 
 
 const initialFvalues = {
@@ -19,21 +21,26 @@ const validationSchema = Yup.object().shape({
     couponTitle: Yup.string().required(),
 });
 
-const onSubmit = (data) => {
-    // e.preventDefault();
-    // console.log(data);
-    axios.post("http://localhost:3001/coupons/add", data).then(() => {
-        console.log(data);
-    });
-    // if(validate()){  
-    //       addOrEdit(values,resetForm);
-    // }
-}
+
 
 
 
 const CouponForm = () => {
     const classes = useStyles();
+    const dispatch=useDispatch();
+    const onSubmit = (data) => {
+        //e.preventDefault();
+       // dispatch(createCoupon(data));
+     
+        // axios.post("http://localhost:3001/coupons/", data).then(() => {
+        //    console.log(data);
+        // });
+       // if(validate()){  
+       //       addOrEdit(values,resetForm);
+       // }
+   }
+
+
     // const validate=(fieldValues=values)=>{
     //     let temp={...errors}
     //     if('couponId' in fieldValues)
@@ -159,3 +166,4 @@ const CouponForm = () => {
 };
 
 export default CouponForm;
+

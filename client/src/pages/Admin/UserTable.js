@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import UserForm from './UserForm';
 import PageHeader from './PageHeader';
 import GroupIcon from '@material-ui/icons/Group';
@@ -16,21 +16,29 @@ import ConfirmDialog from '../../components/Reusable/ConfirmDialog';
 import AdminPanel from './index';
 import useStyles from './style';
 import AdminNav from "../../components/Reusable/AdminNav"
+import Lottie from 'react-lottie';
+import User from '../../images/user.json';
+import axios from 'axios';
 
 
 const headCells = [
-    { id: 'userType', label: 'User Type' },
-    { id: 'firstName', label: 'First Name' },
-    { id: 'lastName', label: 'Last Name' },
+    { id: 'user_type', label: 'User Type' },
+    { id: 'first_name', label: 'First Name' },
+    { id: 'last_name', label: 'Last Name' },
     { id: 'gender', label: 'Gender' },
-    { id: 'mobile', label: 'Mobile Number', disableSorting: true },
+    { id: 'mobile_no', label: 'Mobile Number', disableSorting: true },
     { id: 'email', label: 'Email' },
     { id: 'options', label: 'Options', disableSorting: true },
 ]
 
 const UserTable = () => {
     const classes = useStyles();
-    const [records, setRecords] = useState(userService.getALLUsers());
+    const [records, setRecords] = useState([]);
+    useEffect(()=>{
+        axios.get("http://localhost:3001/users/").then((response)=>{
+                  setRecords(response.data);
+        });
+    },[]);
     const [recordForEdit, setRecordForEdit] = useState(null)
     const [filterFn, setFilterFn] = useState({ fn: items => { return items; } });
     const [openPopup, setOpenPopup] = useState(false);
@@ -50,20 +58,26 @@ const UserTable = () => {
                 if (target.value === "")
                     return items;
                 else
-                    return items.filter(x => x.firstName.toLowerCase().includes(target.value))
+                    return items.filter(x => x.first_name.toLowerCase().includes(target.value))
             }
         })
     }
 
-    const addOrEdit = (user, resetForm) => {
-        if (user.id === 0)
-            userService.insertUser(user);
+    const addOrEdit = (data, resetForm) => {
+        if (data.id === 0)
+            axios.post("http://localhost:3001/users/", data).then(() => {
+                axios.get("http://localhost:3001/users/").then((response)=>{
+                    setRecords(response.data);
+                });
+         });
         else
-            userService.updateUser(user);
+          //  userService.updateUser(user);
         resetForm();
         setRecordForEdit(null);
         setOpenPopup(false);
-        setRecords(userService.getALLUsers());
+        axios.get("http://localhost:3001/users/").then((response)=>{
+        setRecords(response.data);
+        });
         setNotify({
             isOpen: true,
             message: 'Added Successfully !',
@@ -72,7 +86,11 @@ const UserTable = () => {
     }
 
     const openInPopup = item => {
-        setRecordForEdit(item);
+        axios.get(`http://localhost:3001/users/${item.id}`).then((response)=>{
+         //  console.log(response.data);   
+           setRecordForEdit(response.data);
+        });
+      
         setOpenPopup(true);
     }
 
@@ -81,8 +99,11 @@ const UserTable = () => {
             ...confirmDialog,
             isOpen: false
         });
-        userService.deleteUser(id);
-        setRecords(userService.getALLUsers()); //refresh the records array
+        axios.delete(`http://localhost:3001/users/${id}`).then(()=>{
+            axios.get("http://localhost:3001/users/").then((response)=>{
+            setRecords(response.data);
+        }); //refresh the records array
+        });
         setNotify({
             isOpen: true,
             message: 'Removed Successfully !',
@@ -90,14 +111,14 @@ const UserTable = () => {
         });
 
     }
-    // const defaultOptions = {
-    //     loop: true,
-    //     autoplay: true,
-    //     animationData: User,
-    //     rendererSettings: {
-    //         preserveAspectRatio: "xMidYMid slice"
-    //     }
-    // };
+    const defaultOptions = {
+        loop: true,
+        autoplay: true,
+        animationData: User,
+        rendererSettings: {
+            preserveAspectRatio: "xMidYMid slice"
+        }
+    };
 
     return (
         <div style={{display:"flex"}}>
@@ -109,7 +130,7 @@ const UserTable = () => {
                     icon={< GroupIcon fontSize="large" />}
                 />
 
-                {/* <Lottie options={defaultOptions} height={150} width={150} style={{marginTop:'-150px',marginRight:'30px'}} /> */}
+                <Lottie options={defaultOptions} height={150} width={150} style={{marginTop:'-150px',marginRight:'30px'}} />
 
                 <Paper className={classes.pageContent}>
 
@@ -140,13 +161,15 @@ const UserTable = () => {
                             {
                                 recordsAfterPagingAndSorting().map(item => (
                                     <TableRow key={item.id}>
-                                        <TableCell>{item.userType}</TableCell>
-                                        <TableCell>{item.firstName}</TableCell>
-                                        <TableCell>{item.lastName}</TableCell>
+                                        <TableCell>{item.user_type}</TableCell>
+                                        <TableCell>{item.first_name}</TableCell>
+                                        <TableCell>{item.last_name}</TableCell>
                                         <TableCell>{item.gender}</TableCell>
-                                        <TableCell>{item.mobile}</TableCell>
+                                        <TableCell>{item.mobile_no}</TableCell>
                                         <TableCell>{item.email}</TableCell>
                                         <TableCell>
+                                            
+                                         
                                             <Controls.ActionButton
                                                 color="primary"
                                                 onClick={() => { openInPopup(item) }}
@@ -201,3 +224,5 @@ const UserTable = () => {
 };
 
 export default UserTable;
+
+

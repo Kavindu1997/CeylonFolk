@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
+import { useHistory } from 'react-router';
 import PageHeader from './PageHeader';
 import LoyaltyIcon from '@material-ui/icons/Loyalty';
 import { Search } from '@material-ui/icons';
@@ -12,11 +13,11 @@ import Controls from '../../components/Reusable/Controls';
 import Popup from '../../components/Reusable/Popup';
 import Notification from '../../components/Reusable/Notification';
 import ConfirmDialog from '../../components/Reusable/ConfirmDialog';
-
 import Lottie from 'react-lottie';
 import Coupon from '../../images/coupon.json';
 import useStyles from './style';
 import AdminNav from "../../components/Reusable/AdminNav"
+import axios from 'axios';
 
 
 const headCells = [
@@ -28,6 +29,8 @@ const headCells = [
 
 const CouponTable = () => {
     const classes = useStyles();
+    let history =useHistory();
+    const [records,setRecords]=useState([]);
     const [openPopup, setOpenPopup] = useState(false);
     const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' });
     const [confirmDialog, setConfirmDialog] = useState({ isOpen: false, title: '', subTitle: '' })
@@ -42,6 +45,25 @@ const CouponTable = () => {
         // setRecordForEdit(item);
         setOpenPopup(true);
     };
+
+    const onDelete = id => {
+        setConfirmDialog({
+            ...confirmDialog,
+            isOpen: false
+        });
+        axios.delete(`http://localhost:3001/coupons/${id}`).then(()=>{
+            axios.get("http://localhost:3001/coupons/").then((response)=>{
+            setRecords(response.data);
+        }); //refresh the records array
+        });
+        setNotify({
+            isOpen: true,
+            message: 'Removed Successfully !',
+            type: 'error'
+        });
+    }
+
+
     const defaultOptions = {
         loop: true,
         autoplay: true,
@@ -50,6 +72,12 @@ const CouponTable = () => {
             preserveAspectRatio: "xMidYMid slice"
         }
     };
+
+    useEffect(()=>{
+        axios.get("http://localhost:3001/coupons/").then((response)=>{
+                  setRecords(response.data);
+        });
+    },[]);
 
     return (
         
@@ -94,12 +122,12 @@ const CouponTable = () => {
                     <TblHead />
                     <TableBody>
                         {
-
-                            <TableRow key={headCells.couponId}>
-                                <TableCell>{headCells.couponId}</TableCell>
-                                <TableCell>{headCells.couponTitle}</TableCell>
+                           records.map(item => (
+                            <TableRow key={item.coupon_id}>
+                                <TableCell>{item.coupon_id}</TableCell>
+                                <TableCell>{item.coupon_title}</TableCell>
                                 <TableCell>
-                                    {/* <Controls.ActionButton
+                                    <Controls.ActionButton
                                           color="primary"
                                           //onClick={()=>{openInPopup(item)}}
                                           >
@@ -112,15 +140,15 @@ const CouponTable = () => {
                                                   isOpen:true,
                                                   title:'Are you sure to delete this?',
                                                   subTitle:"You can't undo this operation...",
-                                                  //onConfirm:()=>{onDelete(item.id)}
+                                                  onConfirm:()=>{onDelete(item.coupon_id)}
                                                 })
                                             }}>
                                               <CloseIcon fontSize="small"/>
-                                         </Controls.ActionButton> */}
+                                         </Controls.ActionButton>
                                 </TableCell>
                             </TableRow>
 
-                        }
+                              ))}
                     </TableBody>
                 </TblContainer>
             </Paper>

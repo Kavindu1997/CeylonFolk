@@ -38,11 +38,12 @@ app.use("/wishlist", wishlistRouter);
 
 const collectionRouter = require("./routes/Collections");
 app.use("/collect", collectionRouter);
+
 const productDetailsRouter = require('./routes/ProductDetails');
 app.use("/ProductDetails", productDetailsRouter);
 
-// const couponRouter = require('./routes/Coupons');
-// app.use("/coupons", couponRouter);
+ const couponRouter = require('./routes/Coupons');
+ app.use("/coupons", couponRouter);
 
 const checkoutRouter = require('./routes/Checkout');
 app.use("/check", checkoutRouter);
@@ -50,14 +51,18 @@ app.use("/check", checkoutRouter);
 const shopRouter = require('./routes/Shop');
 app.use("/shop", shopRouter);
 
-
 const inventorySearchRouter = require("./routes/Inventory.route");
 app.use("/inventSearch", inventorySearchRouter);
+
 const ordersRouter = require('./routes/Orders');
 app.use("/placeOrder", ordersRouter);
+
+const userManageRouter = require('./routes/UserManage');
+app.use("/users", userManageRouter);
 
 db.sequelize.sync().then(() => {
     app.listen(3001, () => {
         console.log("Server running on port 3001");
     });
 });
+

@@ -29,7 +29,7 @@ const useStyles=makeStyles((theme)=>({
 const useTable = (records,headCells,filterFn) => {
     const classes=useStyles();
 
-    const pages=[2,10,25];
+    const pages=[3,10,25];
     const [page,setPage]=useState(0);
     const [rowsPerPage,setRowsPerPage]=useState(pages[page]);
     const [order,setOrder]=useState();

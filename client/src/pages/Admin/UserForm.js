@@ -11,13 +11,19 @@ const genderItems = [
     { id: 'other', title: 'Other' }
 ]
 
+const userTypes=[
+    {id:'1',title:'Admin'},
+    {id:'2',title:'Manager'},
+    {id:'3',title:'Assistant'}
+]
+
 const initialFvalues = {
     id: 0,
     firstName: '',
     lastName: '',
     email: '',
     mobile: '',
-    gender: 'male',
+    gender: '',
     userType: '',
     password: '',
     confirmPassword: ''
@@ -28,13 +34,13 @@ const UserForm = (props) => {
     const validate = (fieldValues = values) => {
         let temp = { ...errors }
         if ('firstName' in fieldValues)
-            temp.firstName = fieldValues.firstName ? "" : "This field is required"
+            temp.firstName = fieldValues.firstName ? "" : "First Name is required"
         if ('lastName' in fieldValues)
-            temp.lastName = fieldValues.lastName ? "" : "This field is required"
+            temp.lastName = fieldValues.lastName ? "" : "Last Name is required"
         if ('email' in fieldValues)
-            temp.email = (/$^|.+@.+..+/).test(fieldValues.email) ? "" : "Email is not valid"
+            temp.email =(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/).test(fieldValues.email) ? "" : "Email is not valid"
         if ('mobile' in fieldValues)
-            temp.mobile = fieldValues.mobile.length > 9 ? "" : "Minimum 10 numbers required"
+            temp.mobile = (/^(?:0|94|\+94)?(?:(11|21|23|24|25|26|27|31|32|33|34|35|36|37|38|41|45|47|51|52|54|55|57|63|65|66|67|81|912)(0|2|3|4|5|7|9)|7(0|1|2|4|5|6|7|8)\d)\d{6}$/).test(fieldValues.mobile) ? "" : "Please Enter a valid Moblie Number"
         if ('userType' in fieldValues)
             temp.userType = fieldValues.userType.length !== 0 ? "" : "This field is required"
         setErrors({
@@ -76,6 +82,7 @@ const UserForm = (props) => {
                         variant="outlined"
                         label="First Name"
                         name="firstName"
+                        id="firstName"
                         value={values.firstName}
                         onChange={handleInputChange}
                         error={errors.firstName}
@@ -86,6 +93,7 @@ const UserForm = (props) => {
                         variant="outlined"
                         label="Last Name"
                         name="lastName"
+                        id="lastName"
                         value={values.lastName}
                         onChange={handleInputChange}
                         error={errors.lastName}
@@ -96,6 +104,7 @@ const UserForm = (props) => {
                         variant="outlined"
                         label="Email"
                         name="email"
+                        id="email"
                         value={values.email}
                         onChange={handleInputChange}
                         error={errors.email}
@@ -106,6 +115,7 @@ const UserForm = (props) => {
                         variant="outlined"
                         label="Mobile Number"
                         name="mobile"
+                        id="mobile"
                         value={values.mobile}
                         onChange={handleInputChange}
                         error={errors.mobile}
@@ -114,6 +124,7 @@ const UserForm = (props) => {
                 <Grid item xs={4}>
                     <Controls.RadioGroup
                         name="gender"
+                        id="gender"
                         label="Gender"
                         value={values.gender}
                         onChange={handleInputChange}
@@ -124,10 +135,11 @@ const UserForm = (props) => {
                 <Grid item xs={4}>
                     <Controls.Select
                         name="userType"
+                        id="userType"
                         label="User Type"
                         value={values.userType}
                         onChange={handleInputChange}
-                        options={userService.getUserType()}
+                        options={userTypes}
                         error={errors.userType}
                     />
 
@@ -137,6 +149,7 @@ const UserForm = (props) => {
                         variant="outlined"
                         label="Password"
                         name="password"
+                        id="password"
                         value={values.password}
                         onChange={handleInputChange}
                         type="password"
@@ -148,6 +161,7 @@ const UserForm = (props) => {
                         variant="outlined"
                         label="Confirm Password"
                         name="confirmPassword"
+                        id="confirmPassword"
                         value={values.confirmPassword}
                         onChange={handleInputChange}
                         type="password"
@@ -176,3 +190,7 @@ const UserForm = (props) => {
 };
 
 export default UserForm;
+
+
+
+// (/$^|.+@.+..+/)

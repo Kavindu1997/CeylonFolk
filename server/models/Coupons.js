@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
 
-    const Coupons = sequelize.define("Coupons", {
+    const Coupon= sequelize.define("Coupon", {
         coupon_id: {
             type: DataTypes.STRING,
             allowNull: false,
@@ -11,5 +11,6 @@ module.exports = (sequelize, DataTypes) => {
         },
      });
 
-    return Coupons;
-}
+    return Coupon;
+ }
+

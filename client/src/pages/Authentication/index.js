@@ -21,20 +21,22 @@ const Authentication = () => {
     const initialValues1 = {
         firstName: '',
         lastName: '',
-        regEmail: '',
-        mobileNumber: '',
-        regPassword: '',
+        email: '',
+        mobile: '',
+        password: '',
         confirmPassword: '',
         terms: false,
+        userType:'Customer',
+        gender:''
     }
     const validationSchema1 = Yup.object().shape({
         firstName: Yup.string().required("First Name is required"),
         lastName: Yup.string().required("Last Name is required"),
-        regEmail: Yup.string().email("Email is not valid").required("Email is required"),
-        mobileNumber: Yup.string().required('Mobile Number is required').matches(/^(?:0|94|\+94)?(?:(11|21|23|24|25|26|27|31|32|33|34|35|36|37|38|41|45|47|51|52|54|55|57|63|65|66|67|81|912)(0|2|3|4|5|7|9)|7(0|1|2|4|5|6|7|8)\d)\d{6}$/, "Invalid phone number"),
-        regPassword: Yup.string().required('Password is required').matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
+        email: Yup.string().email("Email is not valid").required("Email is required"),
+        mobile: Yup.string().required('Mobile Number is required').matches(/^(?:0|94|\+94)?(?:(11|21|23|24|25|26|27|31|32|33|34|35|36|37|38|41|45|47|51|52|54|55|57|63|65|66|67|81|912)(0|2|3|4|5|7|9)|7(0|1|2|4|5|6|7|8)\d)\d{6}$/, "Invalid phone number"),
+        password: Yup.string().required('Password is required').matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
             "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character"),
-        confirmPassword: Yup.string().test('passwords-match', 'Passwords must match', function (value) { return this.parent.regPassword === value }),
+        confirmPassword: Yup.string().test('passwords-match', 'Passwords must match', function (value) { return this.parent.password === value }),
         terms: Yup.boolean().oneOf([true], "You must accept the terms and conditions"),
     });
 
@@ -42,8 +44,11 @@ const Authentication = () => {
         axios.post("http://localhost:3001/auth/register", data).then((response) => {
             if (response.data.error) alert(response.data.error);
             else {
-                alert("Registration Successful! Now you can Login");
+                axios.post("http://localhost:3001/users/", data).then((response) => {
+                    alert("Registration Successful! Now you can Login");
 
+             });
+               
                 history.push('/profile');
             }
         });
@@ -187,11 +192,11 @@ const Authentication = () => {
                                         margin="normal"
                                         required
                                         fullWidth
-                                        id="regEmail"
+                                        id="email"
                                         label="Email Address"
-                                        name="regEmail"
+                                        name="email"
                                         autoComplete="off"
-                                        helperText={<ErrorMessage name="regEmail" />}
+                                        helperText={<ErrorMessage name="email" />}
                                     />
                                     <Field as={TextField}
                                         className={classes.textField}
@@ -199,11 +204,11 @@ const Authentication = () => {
                                         margin="normal"
                                         required
                                         fullWidth
-                                        id="mobileNumber"
+                                        id="mobile"
                                         label="Mobile Number"
-                                        name="mobileNumber"
+                                        name="mobile"
                                         autoComplete="mobileno"
-                                        helperText={<ErrorMessage name="mobileNumber" />}
+                                        helperText={<ErrorMessage name="mobile" />}
                                     />
                                     <Field as={TextField}
                                         className={classes.textField}
@@ -211,12 +216,12 @@ const Authentication = () => {
                                         margin="normal"
                                         required
                                         fullWidth
-                                        name="regPassword"
+                                        name="password"
                                         label="Password"
                                         type="password"
-                                        id="regPassword"
+                                        id="password"
                                         autoComplete="current-password"
-                                        helperText={<ErrorMessage name="regPassword" />}
+                                        helperText={<ErrorMessage name="password" />}
                                     />
                                     <Field as={TextField}
                                         className={classes.textField}

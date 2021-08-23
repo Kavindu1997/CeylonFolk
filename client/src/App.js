@@ -11,6 +11,7 @@ import Collections from './pages/Admin/CollectionTable';
 import Designs from './pages/Admin/DesignTable';
 import Inventory from './pages/Admin/InventoryTable';
 import Coupon from './pages/Admin/CouponTable';
+import NotFound from './pages/404/notfound';
 
 import Product_detail from './pages/Shop/Product_detail';
 //import Collections from './pages/Collections'
@@ -39,6 +40,7 @@ import {createStore } from 'redux';
 import {cart} from './_reducers/cart.reducer';
 import gateway from './pages/Checkout/gateway';
 import { StoreProvider } from "./_util";
+
 
 
 
@@ -142,7 +144,7 @@ class App extends Component {
           <Route path="/form" exact render={() => <CreateForm />} />
           <Route path="/productD" exact render={() => <ProductD />} />
           <Route path="/canvas" exact render={() => <MyCanvas />} />
-
+          <Route path="/*" exact render={() => <NotFound />} />
         </Switch>
       </BrowserRouter>
       
