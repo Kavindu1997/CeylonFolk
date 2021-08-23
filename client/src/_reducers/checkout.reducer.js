@@ -11,7 +11,7 @@ export const checkout = (state = initState, action) => {
         case CHECKOUT_CONSTS.GET_DETAILS:
             return {
                 ...state,
-                detail: [...state.detail,action.payload]
+                detail: action.payload,
             };
             default:
                 return state;

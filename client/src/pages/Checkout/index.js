@@ -10,6 +10,9 @@ import { useHistory } from 'react-router-dom';
 import moment from 'moment';
 import { setPayment } from './payment';
 import {GLOBAL_URLS} from '../../_constants/globalVariable';
+import {useDispatch, useSelector} from "react-redux";
+import {actionGetCustomerDetails,actionSendToDB} from '../../_actions/checkout.action';
+import {getCart,getTotal} from '../../_actions';
 
 function onLinkClick(event) {
     console.log('onLinkClick'); // never called
@@ -18,6 +21,8 @@ function onLinkClick(event) {
 export default function Checkout() {
     let history = useHistory();
     const classes = useStyles();
+
+    const dispatch = useDispatch();
 
     const [cutomerAddress1, setOfAddress1] = useState([]);
     const [cutomerAddress2, setOfAddress2] = useState([]);
@@ -28,38 +33,21 @@ export default function Checkout() {
     const [paymentMethod, setPaymentMethod] = useState([]);
     const [customerEmail, setCustomerEmail] = useState([]);
     const [checkedTermsCondition, setCheckedTermsCondition] = useState([]);
-    const [customerDetails, setOfDetails] = useState([]);
     const [customerName, setCustomerName] = useState([]);
     const [value, setValue] = React.useState('payment');
     let paymentItem;
+    const customerDetails = useSelector((state)=>state.checkout.detail)
+    const itemDetails = useSelector((state)=>state.cart.cart)
+    const totalDetails = useSelector(state => state.cart.totalAmount)
 
+    
     useEffect(() => {
-        var id = localStorage.getItem("userId");
-        const url = GLOBAL_URLS.CHECKOUT_CUSTOMERDETAIL_URL + id;
-        axios.get(url).then((response) => {
-            setOfDetails(response.data);
-            setOfPhoneNumber(response.data[0].contactNo) 
-        });
+        dispatch(actionGetCustomerDetails())
+        dispatch(getCart())
+        dispatch(getTotal())
     }, []);
 
-    const [itemDetails, setOfItems] = useState([]);
-    useEffect(() => {
-        var id = localStorage.getItem("userId");
-        const url = GLOBAL_URLS.CHECKOUT_ITEMS_URL + id;
-        axios.get(url).then((response) => {
-            setOfItems(response.data);
-        });
-
-    }, []);
-
-    const [totalDetails, setOftotals] = useState([]);
-    useEffect(() => {
-        var id = localStorage.getItem("userId");
-        const url = GLOBAL_URLS.CHECKOUT_ITEMTOTAL_URL + id;
-        axios.get(url).then((response) => {
-            setOftotals(response.data);
-        });
-    }, []);
+ 
 
     const setAddress1 = (event) => {
         setOfAddress1(event.target.value)
@@ -98,10 +86,10 @@ export default function Checkout() {
         if (uid != '0' && checkedTermsCondition == true) {
             if (paymentMethod == "cash") {
                 paymentItem = createPaymentDetails("cash on delivery",uid);
-                sendToDB(paymentItem);
+                dispatch(actionSendToDB(paymentItem))
             } else if (paymentMethod == "bank") {
                 paymentItem = createPaymentDetails("bank deposit",uid);
-                sendToDB(paymentItem);
+                dispatch(actionSendToDB(paymentItem))
             } else if (paymentMethod == "online") {
                 paymentItem = createPaymentDetails("online payment",uid);
                 let payment = setPayment(paymentItem);
@@ -114,7 +102,7 @@ export default function Checkout() {
         let orderId = new Date().getTime();
 
         var date = moment().utcOffset('+05:30').format('YYYY-MM-DD hh:mm:ss a');
-        var total = Number(totalDetails[0].total) + 200;
+        var total = Number(totalDetails) + 200;
         var address = "";
         if (isDeliveryDiffAdd != true) {
             address = cutomerAddress1 + ' ' + cutomerAddress2 + ' ' + cutomerAddress3;
@@ -129,13 +117,13 @@ export default function Checkout() {
                      itemArray: itemDetails, 
                      delivery: address, 
                      placedDate: date, 
-                     phoneNo: cutomerPhoneNumber, 
+                     phoneNo: cutomerPhoneNumber==0 ?  customerDetails[0].contactNo : cutomerPhoneNumber, 
                      email: customerEmail, 
                      name:customerName }  
         return item;
     }
 
-    const sendToDB = (item) => {
+   /* const sendToDB = (item) => {
         const url = GLOBAL_URLS.CHECKOUT_SENDTODB_URL
         axios.post(url, item).then((response) => {
             if (response.data.error) {
@@ -150,12 +138,12 @@ export default function Checkout() {
                 alert("Product successfully added to cart");
             }
         });
-    }
+    }*/
 
     window.payhere.onCompleted = function onCompleted(orderId) {
         console.log("Payment completed. OrderID:" + orderId);
         history.push("/Checkout");
-        sendToDB(paymentItem);
+        dispatch(actionSendToDB(paymentItem))
         //Note: validate the payment and show success or failure page to the customer
     };
 
@@ -292,9 +280,9 @@ export default function Checkout() {
                                     </TableHead>
                                     <TableBody>
                                         {itemDetails
-                                            .map((value) => {
+                                            .map((value,index) => {
                                                 return (
-                                                    <TableRow key={value.customerId}>
+                                                    <TableRow key={index}>
                                                         <TableCell align="left" style={{ fontFamily: 'Montserrat' }}><img height={100} align="center" src={value.image} /></TableCell>
                                                         <TableCell align="left" style={{ fontFamily: 'Montserrat' }}>{value.name} x {value.quantity}</TableCell>
                                                         <TableCell align="left" style={{ fontFamily: 'Montserrat' }}>{value.size}</TableCell>
@@ -302,19 +290,16 @@ export default function Checkout() {
                                                     </TableRow>
                                                 );
                                             })}
-                                        {totalDetails
-                                            .map((value) => {
-                                                return (
-                                                    <TableRow key={value.customerId}>
+                                       
+                                                    <TableRow>
                                                         <TableCell align="left" colSpan={3} style={{ fontFamily: 'Montserrat', fontWeight: 600, height: '60px' }}>
                                                             Sub Total
                                                         </TableCell>
                                                         <TableCell align="left" style={{ fontFamily: 'Montserrat' }}>
-                                                            Rs.{value.total}
+                                                            Rs.{totalDetails}
                                                         </TableCell>
                                                     </TableRow>
-                                                );
-                                            })}
+                                              
                                         <TableRow>
                                             <TableCell align="left" colSpan={3} style={{ fontFamily: 'Montserrat', fontWeight: 600, height: '60px' }}>
                                                 Shipping
@@ -323,19 +308,16 @@ export default function Checkout() {
                                                 Rs. 200
                                             </TableCell>
                                         </TableRow>
-                                        {totalDetails
-                                            .map((value) => {
-                                                return (
-                                                    <TableRow key={value.customerId}>
+                    
+                                                    <TableRow>
                                                         <TableCell align="left" colSpan={3} style={{ fontFamily: 'Montserrat', fontWeight: 600, height: '60px' }}>
                                                             Total
                                                         </TableCell>
                                                         <TableCell align="left" colSpan={3} style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>
-                                                            Rs. {Number(value.total) + 200}
+                                                            Rs. {Number(totalDetails) + 200}
                                                         </TableCell>
                                                     </TableRow>
-                                                );
-                                            })}
+                                             
                                         <TableRow>
                                             <Typography component="h1" variant="h6" style={{ fontFamily: 'Montserrat', textAlign: 'left', marginTop: '15px', marginBottom: '10px', marginLeft: '30px' }}>Payment Method</Typography>
                                             <FormControl component="fieldset">

@@ -26,7 +26,7 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false,
         },
         contactNo: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.STRING,
             allowNull: false,
         },
         placedDate: {

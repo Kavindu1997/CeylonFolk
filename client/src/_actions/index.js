@@ -40,6 +40,7 @@ export const getCart = () => async (dispatch) => {
     if (id != '0') {
         const response = await ceylonforkapi.get("/check/items/"+ id)
         dispatch({ type: CART_CONSTS.GET_CART, payload: response.data })
+        console.log(response.data)
     }
 
 

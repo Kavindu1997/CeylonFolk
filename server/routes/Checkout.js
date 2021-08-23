@@ -24,15 +24,26 @@ router.post("/cashOn", async (req, res) => {
     const contactNo = req.body.phoneNo;
     const query = "INSERT INTO orders (orderId,customerId,fullAmount,PaymentMethod,status, deliveryAddress,contactNo, placedDate) VALUES ('" + oid + "','" + uid + "','" + total + "','" + pmt + "','" + stu + "','" + add + "','" + contactNo + "','" + date + "')";
     const cashOnOrder = await sequelize.query(query, {type: sequelize.QueryTypes.INSERT});
-    console.log(query)
-    res.json(cashOnOrder);   
+    res.json(cashOnOrder);  
     for(let i=0;i<items.length;i++){
         const query1 = "INSERT INTO orderitems (orderId, itemId, quantity, size) VALUES ('" + oid + "','" + items[i].itemId + "','" + items[i].quantity + "','" + items[i].size + "')";
-        const cashOrderItem = await sequelize.query(query1, {type: sequelize.QueryTypes.INSERT});
-        
+        const cashOrderItem = await sequelize.query(query1, {type: sequelize.QueryTypes.INSERT});        
     }
-    res.json(cashOrderItem); 
+    updateInventory(items)
+    res.json(cashOrderItem);  
+    
 });
+
+
+async function updateInventory(items){
+    for(let i=0;i<items.length;i++){
+        const query = "SELECT inventories.inventoryId FROM inventories INNER JOIN designs ON designs.color=inventories.colour AND  designs.type=inventories.type  WHERE inventories.colour=(SELECT designs.color FROM  designs WHERE  designs.designId='" + items[i].itemId + "') AND inventories.type=(SELECT designs.type FROM  designs WHERE  designs.designId='" + items[i].itemId + "')  AND inventories.size='" + items[i].size + "'";
+        const inventoryId = await sequelize.query(query, {type: sequelize.QueryTypes.SELECT});  
+        const updateQuery = "UPDATE inventories SET quantity=quantity-" + items[i].quantity + " WHERE inventoryId='" +inventoryId[0].inventoryId+"'" ; 
+        const quantityUpdate = await sequelize.query(updateQuery, {type: sequelize.QueryTypes.UPDATE});  
+    
+    }
+}
 
 router.put("/deleteCart", async (req,res) => {
     const uid = req.body.userId;
