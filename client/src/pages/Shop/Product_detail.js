@@ -56,8 +56,8 @@ export default function Product_detail() {
   const [mapSize, setMapSize] = useState();
   const [quantity, setQuantity] = useState();
   const oneProduct = useSelector((state)=>state.selectProductReducer)
-  const {designImage,designName,designId,price} = oneProduct;  
-  console.log(designName)
+  const {coverImage,design_name,price} = oneProduct;  
+  // console.log(designName)
   const [productSize,setProductSize] = useState();
   
   // console.log('hello from redux')
@@ -200,8 +200,8 @@ export default function Product_detail() {
     var uid = localStorage.getItem("userId");
     if (uid != '0') {
       var dummyItem = { 
-                        image: designImage,
-                        productId: designId, 
+                        image: coverImage,
+                        productId: id, 
                         quantity: itemQuantity, 
                         userId: uid, 
                         size: productSize ,
@@ -217,9 +217,9 @@ export default function Product_detail() {
     }
     else {
       var dummyItem = { 
-        name: designName,
-        image: designImage,
-        productId: designId, 
+        name: design_name,
+        image: coverImage,
+        productId: id, 
         quantity: itemQuantity, 
         userId: uid, 
         size: productSize ,
@@ -256,7 +256,7 @@ export default function Product_detail() {
               style={{ backgroundImage: `url(${designImage})` }}
               title="Snowy"
           /> */}
-            <Box><img src={designImage} style={{width:'100%'}}/></Box>
+            <Box><img src={'http://localhost:3001/' + coverImage} style={{width:'100%'}}/></Box>
             {/* <Box>{imagePreview && <img src={imagePreview[index].designImage} style={{ width: '100%' }} />}</Box> */}
           </Grid>
         </Grid>
@@ -266,7 +266,7 @@ export default function Product_detail() {
             <Box className={classes.productDetails}>
               <Box className={classes.goback}><Link>GO BACK</Link></Box>
               <Box>
-                <Typography className={classes.productTitle}>{designName}</Typography>
+                <Typography className={classes.productTitle}>{design_name}</Typography>
                 <Typography className={classes.productPrice}>{"LKR " + price + '.00'}</Typography>
                 <Box><Typography className={classes.productColor}>COLOR</Typography></Box>
                 <Box>
@@ -277,7 +277,7 @@ export default function Product_detail() {
                         {imageArray.map((value, index) => {
                           return (
                             <CardMedia style={{ marginRight: '10px' }} onClick={() => handleTab(index)}>
-                              <Link to={'http://localhost:3000/productDetails/' + designId}>
+                              <Link to={'http://localhost:3000/productDetails/' + id}>
                                 <img src={value.designImage} key={index} style={{ width: '100%' }} />
                               </Link>
                             </CardMedia>
@@ -332,7 +332,7 @@ export default function Product_detail() {
                 </Box>
 
                 <Box className={classes.tBox}>
-                  <Typography className={classes.productColor}>QUENTITY</Typography>
+                  <Typography className={classes.productColor}>QUANTITY</Typography>
                   <div>{quantity && <NumericInput mobile min={0} max={quantity[index1].quantity} value={1} size={1} onChange={getQty} />}</div>
                 </Box>
 
