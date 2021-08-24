@@ -59,7 +59,7 @@ const Rectangle = ({ shapeProps, isSelected, onSelect, onChange }) => {
           });
         }}
       >
-        <Tag fill={shapeProps.fill} />
+        {/* <Tag fill={shapeProps.fill} /> */}
         <Text
           text={shapeProps.text}
           width={shapeProps.width}

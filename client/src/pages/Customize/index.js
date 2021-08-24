@@ -18,6 +18,8 @@ import { CirclePicker } from "react-color";
 import { Divider, Upload, Icon, Modal } from "antd";
 import Konva from "konva";
 import mockup2 from '../../images/mockup2.png';
+import {Formik, Form, Field} from "formik"
+import UploadBar from "./UploadBar";
 
 const Customize = () => {
 
@@ -44,13 +46,30 @@ const Customize = () => {
     const [textEdited, setTextEdited] = useState(false); 
     const [textPos, setTextPos] = useState({ x: 300, y: 300 }); 
     const [imageUrl, setImageUrl] = useState('');
-    const [textArray,setTextArray] = useState([]);
+    const [textTArray,setTextTArray] = useState([]);
+    const [imageSrc,setImageSrc] = useState('');
+    
 
     useEffect(() => {
         setCanvas(initCanvas());
         setImage(getImage());
         
     }, []);
+
+    const setLogo = (imgSrc) => {
+      setImageSrc(imgSrc)
+    };
+
+
+    const addTextArray = (data,props) => {
+      setTextTArray(data)
+      console.log('add to desing')
+      console.log(data)
+      console.log('add to desing')
+      console.log(textTArray)
+      props.resetForm();
+
+    }
 
     const getImage = () => {
         const MyImage = new window.Image()
@@ -72,44 +91,39 @@ const Customize = () => {
     };
      
     const trRef = React.useRef();
-    // useEffect(() => {  
-    //   if (isSelected) {  
-    //     trRef.current.setNode(shapeRef.current);  
-    //     trRef.current.getLayer().batchDraw();  
-    //   }  
-    // }, [isSelected]);
+    const stageText = React.useRef();
     
-  var  changeTextColor = (e) => {
-    setTextLayerColors(e.target.value)
-  };
+    var  changeTextColor = (e) => {
+      setTextLayerColors(e.target.value)
+    };
 
-  //Handle text change as user input
-  var handleTextChange = (e) => {
-    console.log('hello text')
-    console.log(e.target.value)
-    setText(e.target.value)
-  };
+    //Handle text change as user input
+    var handleTextChange = (e) => {
+      console.log('hello text')
+      console.log(e.target.value)
+      setText(e.target.value)
+    };
 
-  //Check if adding text is on or off, when user turns it off
-  //color goes back to default and so user doesn't see the $3 charge
-  const handleTextChecked = (event) => {
-    if (textOn) {
-    console.log(event.target.name)
-    setTextOn({ ...textOn, [event.target.name]: event.target.checked });
-    } else {
+    //Check if adding text is on or off, when user turns it off
+    //color goes back to default and so user doesn't see the $3 charge
+    const handleTextChecked = (event) => {
+      if (textOn) {
+      console.log(event.target.name)
       setTextOn({ ...textOn, [event.target.name]: event.target.checked });
-    }
-  };
+      } else {
+        setTextOn({ ...textOn, [event.target.name]: event.target.checked });
+      }
+    };
 
-  //Returns the type of clothing that user chooses
- const changeClothing = (clothing) => {
-    if (clothing === "tshirt") {
-      console.log('hrlloooo')
-      return <Button>ttt</Button>;
-    } else if (clothing === "sweater") {
-      // return <Sweater color={this.state.color} />;
-    }
-  };
+    //Returns the type of clothing that user chooses
+  const changeClothing = (clothing) => {
+      if (clothing === "tshirt") {
+        console.log('hrlloooo')
+        return <Button>ttt</Button>;
+      } else if (clothing === "sweater") {
+        // return <Sweater color={this.state.color} />;
+      }
+    };
 
   //Handles change of clothing type and sets color to default
   var changeCloth = (e) => {
@@ -145,389 +159,375 @@ const Customize = () => {
 
   //The text object gets transformed as user scale
   const handleTextTransform = (index, newProps) => {
-    const text = textScale.concat();
-    console.log('hello text');
+    const textT = textScale.concat();
+    console.log('hello texttrans');
     console.log(textScale[index]);
-    text[index] = {
-      ...text[index],
+    textT[index] = {
+      ...textT[index],
       ...newProps
     };
     setTextScale({
-      textScale: text
+      textScale: textT
     });
   };
+
+  // const handleChange = (e) => {
+  //   const shape = e.target;
+  //   text.onTransform({
+  //     x: shape.x(),
+  //     y: shape.y(),
+  //     width: shape.width() * shape.scaleX(),
+  //     height: shape.height() * shape.scaleY(),
+  //     rotation: shape.rotation()
+  //   });
+  // };
+
+  const handleExportClick = () => {
+      const uri = stageRef.current.toDataURL();
+      console.log(uri);
+      downloadURI(uri, "tshirt.jpg");
+  }
 
   const handleChange = (e) => {
     const shape = e.target;
-    this.props.onTransform({
-      x: shape.x(),
-      y: shape.y(),
-      width: shape.width() * shape.scaleX(),
-      height: shape.height() * shape.scaleY(),
-      rotation: shape.rotation()
-    });
+    // {textScale
+    //   x: shape.x(),
+    //   y: shape.y(),
+    //   width: shape.width() * shape.scaleX(),
+    //   height: shape.height() * shape.scaleY(),
+    //   rotation: shape.rotation()
+    // };
   };
 
+  const downloadURI = (uri, name) => {
+      const link = window.document.createElement("a");
+      link.download = name;
+      link.href = uri;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+  }
 
-    
+  const initCanvas = () => (
+      new fabric.Canvas('canvas', {
+          height: 500,
+          width: 500,
+          //   backgroundColor:'pink'
+      })
+  )
 
-    // const getImage = () => {
-    //     const MyImage = new window.Image()
-    //     MyImage.src = mockup;
-    //     MyImage.onload = () => {
-    //         setImage(MyImage)
-    //     };
-    // }
+  const addRect = canvi => {
+      const rect = new fabric.Rect({
+          height: 280,
+          width: 200,
+          fill: 'yellow'
+      });
+      canvi.add(rect);
+      canvi.renderAll();
+  }
 
+  const toggleTab = (index) => {
+      setToggleState(index);
+  };
 
-    // image download
+  return (
 
-    const handleExportClick = () => {
-        const uri = stageRef.current.toDataURL();
-        console.log(uri);
-        downloadURI(uri, "tshirt.jpg");
-    }
+    <div>
+      <CommonNav />
+      <CssBaseline />
+      <div className={classes.photoContainer} styles={{ marginTop: '200px' }}>
+        <Grid md={4} className={classes.barContainer}>
+          <Grid item md={3} className={classes.bar}>
+            <Box >
+              <Grid item md={2.4} style={{ width: '100%' }}>
+                <a href="#">
+                  <button className={toggleState === 1 ? classes.activeTabs : classes.tabs} onClick={() => toggleTab(1)}><img height={50} src={addText} />
+                    <Typography textDecoration='none' className={classes.barFont}>ADD TEXT</Typography>
+                    </button>
+                </a>
+              </Grid>
+              </Box>
+            <Box >
+              <Grid item xs={12} sm={6} md={2.4} >
+                <a href="#">
+                  <button className={toggleState === 2 ? classes.activeTabs : classes.tabs} onClick={() => toggleTab(2)}>
+                    <img height={50} src={image} />
+                    <Typography textDecoration='none' className={classes.barFont}>ADD IMAGE</Typography>
+                  </button>
+                </a>
+              </Grid>
+            </Box>
+            <Box >
+              <Grid item xs={12} sm={6} md={2.4} >
+                <a href="#">
+                  <button className={toggleState === 3 ? classes.activeTabs : classes.tabs} onClick={() => toggleTab(3)}>
+                    <img height={50} src={upload} />
+                    <Typography textDecoration='none' className={classes.barFont}>UPLOAD</Typography>
+                  </button>
+                </a>
+              </Grid>
+            </Box>
+            <Box >
+              <Grid item xs={12} sm={6} md={2.4} >
+                <a href="#">
+                  <button className={toggleState === 4 ? classes.activeTabs : classes.tabs} onClick={() => toggleTab(4)}>
+                    <img height={50} src={addTshirt} />
+                    <Typography textDecoration='none' className={classes.barFont}>TYPE</Typography>
+                  </button>
+                </a>
+              </Grid>
+            </Box>
+            <Box className={classes.tabs}>
+              <Grid item xs={12} sm={6} md={2.4} >
+                <a href="#">
+                  <button className={toggleState === 5 ? classes.activeTabs : classes.tabs} onClick={() => toggleTab(5)}>
+                    <img height={50} src={addColor} />
+                    <Typography textDecoration='none' className={classes.barFont}>COLOR</Typography>
+                  </button>
+                </a>
+              </Grid>
+            </Box>
+          </Grid>
+          <Grid item className={classes.bar2}>
+            <Box className={toggleState === 0 ? classes.activeContent : classes.content}>
+              <Grid Container className={classes.bar3} >
+                  <Grid item md={2.4} style={{ width: '100%' }}>
+                    <a href="#">
+                      <button className={classes.barBtn2}><img height={50} src={addText} />
+                        <Typography textDecoration='none' className={classes.barFont}>ADD TEXT</Typography>
+                      </button>
+                    </a>
+                  </Grid>
+                  <Grid item xs={12} sm={6} md={2.4} >
+                    <a href="#">
+                      <button className={classes.barBtn2}><img height={50} src={image} />
+                        <Typography textDecoration='none' className={classes.barFont}>ADD IMAGE</Typography>
+                      </button>
+                    </a>
+                  </Grid>
+              </Grid>
+              <Grid Container className={classes.bar3} >
+                <Grid item md={2.4} style={{ width: '100%' }}>
+                    <a href="#">
+                      <button className={classes.barBtn2}>
+                        <img height={50} src={upload} />
+                        <Typography textDecoration='none' className={classes.barFont}>UPLOAD</Typography>
+                      </button>
+                    </a>
+                </Grid>
+                <Grid item xs={12} sm={6} md={2.4} >
+                  <a href="#">
+                    <button className={classes.barBtn2}>
+                      <img height={50} src={addTshirt} />
+                      <Typography textDecoration='none' className={classes.barFont}>SELECT TYPE</Typography>
+                    </button>
+                  </a>
+                </Grid>
+              </Grid>
+            </Box>
+            <Box className={toggleState === 1 ? classes.activeContent : classes.content}>
+              <div className="text-container">
+                <span>
+                  <Formik onSubmit={addTextArray} initialValues=''>
+                  {(props) => (
+                    <Form>
+                    <TextField
+                    autoFocus
+                    margin="dense"
+                    label="Add your custom text here"
+                    type="text"
+                    fullWidth
+                    value={text}
+                    onChange={handleTextChange}
+                    />
+                  <Button type="submit">Add To Design</Button>
+                  </Form>
+                  )}
+                  </Formik>
+                  <Box>Change Font Color</Box>
+                  <CirclePicker
+                    border="black" borderColor='black' stroke="black" width="max-width"
+                    colors={textLayerColors}
+                    onChange={textLColors => {
+                      setTextColor(textLColors.hex);
+                    }}
+                  />
+                </span>
+              </div>
+            </Box>
+            <Box className={toggleState === 3 ? classes.activeContent : classes.content}>
+              <Grid Container className={classes.bar3} >
+                <Grid item md={2.4} style={{ width: '100%' }}>
+                  <a href="#">
+                    <button className={classes.barBtn2}>
+                      <img height={50} src={upload} />
+                      <Typography textDecoration='none' className={classes.barFont}>UPLOAD</Typography>
+                    </button>
+                  </a>
+                </Grid>
+                <Grid item xs={12} sm={6} md={2.4} >
+                    <a href="#">
+                      <button className={classes.barBtn2}>
+                        <img height={50} src={tshirt} />
+                        <Typography textDecoration='none' className={classes.barFont}>SELECT TYPE</Typography>
+                      </button>
+                    </a>
+                </Grid>
+              </Grid>
+            </Box>
+            <Box className={toggleState === 5 ? classes.activeContent : classes.content}>
+              <Grid Container className={classes.bar3} >
+                <div className="color-picker">
+                  {clothing === "tshirt" ? (
+                  <CirclePicker id="circle-picker" width="max-content"
+                    circleSize={circleSize}
+                    colors={tshirt}
+                    onChange={color => {
+                      setColor(color.hex);;
+                      console.log(color.hex)
+                    }}
+                  />
+                  ) : (
+                  <CirclePicker id="circle-picker" width="max-content"
+                    circleSize={circleSize}
+                    colors={sweater}
+                    onChange={color => {
+                      setColor(color.rgb);;
+                    }}
+                  />
+                  )}
+                </div>
+              </Grid>
+            </Box>
+            <Box className={classes.content}>
+              <Grid Container className={classes.bar3} >
+                <Grid item md={2.4} style={{ width: '100%' }}>
+                  <a href="#">
+                    <button className={classes.barBtn2}>
+                      <img height={50} src={text} />
+                        <Typography textDecoration='none' className={classes.barFont}>ADD TEXT</Typography>
+                      </button>
+                    </a>
+                </Grid>
+                <Grid item xs={12} sm={6} md={2.4} >
+                  <a href="#">
+                    <button className={classes.barBtn2}>
+                      <img height={50} src={image} />
+                      <Typography textDecoration='none' className={classes.barFont}>ADD IMAGE</Typography>
+                    </button>
+                  </a>
+                </Grid>
+              </Grid>
+            </Box>
+            <Box className={classes.content}>
+              <Grid Container className={classes.bar3} >
+                <Grid item md={2.4} style={{ width: '100%' }}>
+                  <a href="#">
+                    <button className={classes.barBtn2}>
+                      <img height={50} src={upload} />
+                      <Typography textDecoration='none' className={classes.barFont}>UPLOAD</Typography>
+                    </button>
+                  </a>
+                </Grid>
+                <Grid item xs={12} sm={6} md={2.4} >
+                  <a href="#">
+                    <button className={classes.barBtn2}>
+                      <img height={50} src={tshirt} />
+                      <Typography textDecoration='none' className={classes.barFont}>SELECT TYPE</Typography>
+                    </button>
+                  </a>
+                </Grid>
+              </Grid>
+            </Box>
+          </Grid>
+        </Grid>
+        <Grid md={5} className={classes.tshirtDiv}>
+          <div className="clothes" style={{backgroundColor: color, width:'460px'}}>
+            <Stage width={500} height={500} onMouseDown={handleStageMouseDown}>
+              <Layer>
+                {clothing === 'tshirt' ? 
+                <Image
+                  image={images}
+                  x={0}
+                  y={0}
+                  width={500}
+                  height={500}
+                />:<></>
+                }
+              </Layer>
+              <Layer>
+                <Text text={text}  offset={{x: -150,y: -150}} width={200} wrap="char" align="center" fontSize={30} fill={textColor} 
+                fontFamily="Calibri" opacity={1} draggable={true} name="stageText"
+                ref={stageText}
+                // onDragEnd={handleChange}
+                onTransform={newProps => {
+                      handleTextTransform(newProps);
+                    }}
+                    onDragEnd={handleChange}
 
-    const downloadURI = (uri, name) => {
-        const link = window.document.createElement("a");
-        link.download = name;
-        link.href = uri;
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-    }
-
-    // var componentDidUpdate = () => {
-    //     //image needs to be cached to display changes
-    //     shirt.cache();
-    //     shirt.blue(props.color.b);
-    //     shirt.red(props.color.r);
-    //     shirt.green(props.color.g);
-    //   }
-
-    const initCanvas = () => (
-        new fabric.Canvas('canvas', {
-            height: 500,
-            width: 500,
-            //   backgroundColor:'pink'
-        })
-    )
-
-    //   fabric.Image.fromURL('http://localhost:3000/static/media/tmockup.63c115d9.png',(img) => {
-    //         canvas.backgroundImage = img
-    //         canvas.renderAll();
-    //     })
-
-    // const setBackground = (url,canvas) => {
-    //     fabric.Image.fromURL(url,(img) => {
-    //         canvas.backgroundImage = img
-    //         canvas.renderAll()  
-    //     })
-    //   }
-
-    // setBackground('http://localhost:3000/static/media/tmockup.63c115d9.png',canvas);
-
-    const addRect = canvi => {
-        const rect = new fabric.Rect({
-            height: 280,
-            width: 200,
-            fill: 'yellow'
-        });
-        canvi.add(rect);
-        canvi.renderAll();
-    }
-
-    const toggleTab = (index) => {
-        setToggleState(index);
-    };
-
-
-
-    return (
-
-        <div>
-            <CommonNav />
-            <CssBaseline />
-            <div className={classes.photoContainer} styles={{ marginTop: '200px' }}>
-                <Grid md={4} className={classes.barContainer}>
-                    <Grid item md={3} className={classes.bar}>
-                        <Box >
-                            <Grid item md={2.4} style={{ width: '100%' }}>
-                                <a href="#"><button
-                                    className={toggleState === 1 ? classes.activeTabs : classes.tabs}
-                                    onClick={() => toggleTab(1)}><img height={50} src={addText} />
-                                    <Typography textDecoration='none' className={classes.barFont}>ADD TEXT</Typography></button></a>
-                            </Grid>
-                        </Box>
-                        <Box >
-                            <Grid item xs={12} sm={6} md={2.4} >
-                                <a href="#">
-                                    <button
-                                        className={toggleState === 2 ? classes.activeTabs : classes.tabs}
-                                        onClick={() => toggleTab(2)}
-                                    >
-                                        <img height={50} src={image} />
-                                        <Typography textDecoration='none' className={classes.barFont}>ADD IMAGE</Typography></button></a>
-                            </Grid>
-                        </Box>
-                        <Box >
-                            <Grid item xs={12} sm={6} md={2.4} >
-                                <a href="#">
-                                    <button
-                                        className={toggleState === 3 ? classes.activeTabs : classes.tabs}
-                                        onClick={() => toggleTab(3)}
-                                    >
-                                        <img height={50} src={upload} />
-                                        <Typography textDecoration='none' className={classes.barFont}>UPLOAD</Typography></button></a>
-                            </Grid>
-                        </Box>
-                        <Box >
-                            <Grid item xs={12} sm={6} md={2.4} >
-                                <a href="#">
-                                    <button
-                                        className={toggleState === 4 ? classes.activeTabs : classes.tabs}
-                                        onClick={() => toggleTab(4)}
-                                    >
-                                        <img height={50} src={addTshirt} />
-                                        <Typography textDecoration='none' className={classes.barFont}>TYPE</Typography></button></a>
-                            </Grid>
-                        </Box>
-                        {/* <canvs style={{backgroundColor:'red',width:'800',height:'800'}}></canvs> */}
-
-                        {/* </Tab>
-                            <Tab> */}
-                        <Box className={classes.tabs}>
-                            <Grid item xs={12} sm={6} md={2.4} >
-                                <a href="#">
-                                    <button
-                                        className={toggleState === 5 ? classes.activeTabs : classes.tabs}
-                                        onClick={() => toggleTab(5)}
-                                    >
-                                        <img height={50} src={addColor} />
-                                        <Typography textDecoration='none' className={classes.barFont}>COLOR</Typography></button></a>
-                            </Grid>
-                        </Box>
-                    </Grid>
-                    <Grid item className={classes.bar2}>
-                        <Box className={toggleState === 0 ? classes.activeContent : classes.content}>
-                            <Grid Container className={classes.bar3} >
-                                <Grid item md={2.4} style={{ width: '100%' }}>
-                                    <a href="#"><button className={classes.barBtn2}><img height={50} src={addText} />
-                                        <Typography textDecoration='none' className={classes.barFont}>ADD TEXT</Typography></button></a>
-                                </Grid>
-                                <Grid item xs={12} sm={6} md={2.4} >
-                                    <a href="#"><button className={classes.barBtn2}><img height={50} src={image} />
-                                        <Typography textDecoration='none' className={classes.barFont}>ADD IMAGE</Typography></button></a>
-                                </Grid>
-                            </Grid>
-                            <Grid Container className={classes.bar3} >
-                                <Grid item md={2.4} style={{ width: '100%' }}>
-                                    <a href="#"><button className={classes.barBtn2}><img height={50} src={upload} />
-                                        <Typography textDecoration='none' className={classes.barFont}>UPLOAD</Typography></button></a>
-                                </Grid>
-                                <Grid item xs={12} sm={6} md={2.4} >
-                                    <a href="#"><button className={classes.barBtn2}><img height={50} src={addTshirt} />
-                                        <Typography textDecoration='none' className={classes.barFont}>SELECT TYPE</Typography></button></a>
-                                </Grid>
-                            </Grid>
-                        </Box>
-                        <Box className={toggleState === 1 ? classes.activeContent : classes.content}>
-                            {/* <Grid Container className={classes.bar3} >
-                                <Grid item md={2.4} style={{ width: '100%' }}>
-                                    <a href="#"><button className={classes.barBtn2}><img height={50} src={text} />
-                                        <Typography textDecoration='none' className={classes.barFont}>ADD TEXT</Typography></button></a>
-                                </Grid>
-                                <Grid item xs={12} sm={6} md={2.4} >
-                                    <a href="#"><button className={classes.barBtn2}><img height={50} src={image} />
-                                        <Typography textDecoration='none' className={classes.barFont}>ADD IMAGE</Typography></button></a>
-                                </Grid>
-                            </Grid> */}
-
-
-<div className="text-container">
-          <span>
-            <TextField
-              autoFocus
-              margin="dense"
-              label="Add your custom text here"
-              type="text"
-              fullWidth
-              value={text}
-              onChange={handleTextChange}
-            />
-            <Button>Add To Design</Button>
-            <Box>Change Font Color</Box>
-            <CirclePicker
-              colors={textLayerColors}
-              onChange={textLColors => {
-                setTextColor(textLColors.hex);
-              }}
-              border="black"
-              borderColor='black'
-              stroke="black"
-              width="max-width"
-            />
-          </span>
-      </div>
-                        </Box>
-                        <Box className={toggleState === 3 ? classes.activeContent : classes.content}>
-                            <Grid Container className={classes.bar3} >
-                                <Grid item md={2.4} style={{ width: '100%' }}>
-                                    <a href="#"><button className={classes.barBtn2}><img height={50} src={upload} />
-                                        <Typography textDecoration='none' className={classes.barFont}>UPLOAD</Typography></button></a>
-                                </Grid>
-                                <Grid item xs={12} sm={6} md={2.4} >
-                                    <a href="#"><button className={classes.barBtn2}><img height={50} src={tshirt} />
-                                        <Typography textDecoration='none' className={classes.barFont}>SELECT TYPE</Typography></button></a>
-                                </Grid>
-                            </Grid>
-                        </Box>
-
-                        
-                        <Box className={toggleState === 5 ? classes.activeContent : classes.content}>
-                            <Grid Container className={classes.bar3} >
-                            <div className="color-picker">
-            {clothing === "tshirt" ? (
-              <CirclePicker
-                id="circle-picker"
-                width="max-content"
-                circleSize={circleSize}
-                colors={tshirt}
-                onChange={color => {
-                  setColor(color.hex);;
-                  console.log(color.hex)
-                }}
-              />
-            ) : (
-              <CirclePicker
-                id="circle-picker"
-                width="max-content"
-                circleSize={circleSize}
-                colors={sweater}
-                onChange={color => {
-                  setColor(color.rgb);;
-                }}
-              />
-            )}
+                />
+                <Transformer
+                  ref={trRef}
+                  selectedShapeName={selectedShapeName}
+                />
+              </Layer>
+            </Stage>
           </div>
-                            </Grid>
-                        </Box>
-
-                        <Box className={classes.content}>
-                            <Grid Container className={classes.bar3} >
-                                <Grid item md={2.4} style={{ width: '100%' }}>
-                                    <a href="#"><button className={classes.barBtn2}><img height={50} src={text} />
-                                        <Typography textDecoration='none' className={classes.barFont}>ADD TEXT</Typography></button></a>
-                                </Grid>
-                                <Grid item xs={12} sm={6} md={2.4} >
-                                    <a href="#"><button className={classes.barBtn2}><img height={50} src={image} />
-                                        <Typography textDecoration='none' className={classes.barFont}>ADD IMAGE</Typography></button></a>
-                                </Grid>
-                            </Grid>
-                        </Box>
-                        <Box className={classes.content}>
-                            <Grid Container className={classes.bar3} >
-                                <Grid item md={2.4} style={{ width: '100%' }}>
-                                    <a href="#"><button className={classes.barBtn2}><img height={50} src={upload} />
-                                        <Typography textDecoration='none' className={classes.barFont}>UPLOAD</Typography></button></a>
-                                </Grid>
-                                <Grid item xs={12} sm={6} md={2.4} >
-                                    <a href="#"><button className={classes.barBtn2}><img height={50} src={tshirt} />
-                                        <Typography textDecoration='none' className={classes.barFont}>SELECT TYPE</Typography></button></a>
-                                </Grid>
-                            </Grid>
-                        </Box>
-                    </Grid>
-                </Grid>
-                <Grid md={5} className={classes.tshirtDiv}>
-                    {/* <button onClick={() => addRect(canvas)}>Rectangle</button>
-                    <img src={mockup} style={{ width: '100%', verticalAlign: 'middle' }} />
-                    <center>
-                        <div className={classes.drawImage}>
-                            <canvas id="canvas" />
-                        </div>
-                    </center> */}
-
-
-<div className="clothes" style={{backgroundColor: color, width:'460px'}}>
-          <Stage
-            width={500}
-            height={500}
-            onMouseDown={handleStageMouseDown}
-            >
-            <Layer>{clothing === 'tshirt' ? 
-              <Image
-                // filters={[Konva.Filters.RGB]}
-                image={images}
-                x={0}
-                y={0}
-                width={500}
-                height={500}
-                // ref={shirtRef}
-              />:<></>}
-            </Layer>
+        </Grid>
+        <Grid style={{ marginLeft: '100px' }}>
+          <Grid item md={3} className={classes.bar4}>
+            <Grid item md={2.4} style={{ width: '100%' }}>
+              <a href="#">
+                <button className={classes.barBtn3}>
+                  <img height={50} src={front} />
+                  <Typography textDecoration='none' className={classes.barFont}>FRONT</Typography>
+                </button>
+              </a>
+            </Grid>
+            <Grid item xs={12} sm={6} md={2.4} >
+              <a href="#">
+                <button className={classes.barBtn3}>
+                  <img height={50} src={back} />
+                  <Typography textDecoration='none' className={classes.barFont}>BACK</Typography>
+                </button>
+              </a>
+            </Grid>
+            <Grid item xs={12} sm={6} md={2.4} >
+              <a href="#"><Button className={classes.slevebtn}>SLEAVE DESIGNING</Button></a>
+            </Grid>
+            <Box>
+                <Button className={classes.slevebtn}>GET PRICE</Button>
+            </Box>
+          </Grid>
+        </Grid>
+      </div>
+      <div>
+        <Stage width={window.innerWidth} height={window.innerHeight} ref={stageRef}>
             <Layer>
-              <Text text={text}  offset={{x: -150,y: -150}} width={200} wrap="char" align="center" fontSize={30} fill={textColor} 
-              fontFamily="Calibri" opacity={1} draggable={true}
-              />
-              <Transformer
-                ref={trRef}
-                selectedShapeName={selectedShapeName}
-              />
-              {/* <Transformer
-                selectedShapeName={selectedShapeName}
-              /> */}
+                <Image
+                    image={images}
+                    x={0}
+                    y={0}
+                    width={500}
+                    height={500}
+                // ref={node => {
+                //   shirt = node;
+                // }}
+                />
+                {/* <Rect width={50} height={50} fill="red" />
+                <Circle x={200} y={200} stroke="black" radius={50} /> */}
             </Layer>
-          </Stage>
-        </div>
+        </Stage>
+        {/* <UploadBar
+        setLogo={setLogo}>
 
+        </UploadBar> */}
+        <Button onClick={() => handleExportClick()}>Download</Button>
+      </div>
+      <Footer />
+    </div>
 
-
-                    
-                </Grid>
-                <Grid style={{ marginLeft: '100px' }}>
-                    <Grid item md={3} className={classes.bar4}>
-                        <Grid item md={2.4} style={{ width: '100%' }}>
-                            <a href="#"><button className={classes.barBtn3}><img height={50} src={front} />
-                                <Typography textDecoration='none' className={classes.barFont}>FRONT</Typography></button></a>
-                        </Grid>
-                        <Grid item xs={12} sm={6} md={2.4} >
-                            <a href="#"><button className={classes.barBtn3}><img height={50} src={back} />
-                                <Typography textDecoration='none' className={classes.barFont}>BACK</Typography></button></a>
-                        </Grid>
-                        <Grid item xs={12} sm={6} md={2.4} >
-                            <a href="#"><Button className={classes.slevebtn}>SLEAVE DESIGNING</Button></a>
-                        </Grid>
-                        <Box>
-                            <Button className={classes.slevebtn}>GET PRICE</Button>
-                        </Box>
-                    </Grid>
-                </Grid>
-            </div>
-
-            <div>
-                <Stage width={window.innerWidth} height={window.innerHeight} ref={stageRef}>
-                    <Layer>
-                        <Image
-                            image={images}
-                            x={0}
-                            y={0}
-                            width={500}
-                            height={500}
-                        // ref={node => {
-                        //   shirt = node;
-                        // }}
-                        />
-                        {/* <Rect width={50} height={50} fill="red" />
-                        <Circle x={200} y={200} stroke="black" radius={50} /> */}
-                    </Layer>
-                </Stage>
-                <Button onClick={() => handleExportClick()}>Download</Button>
-            </div>
-            <Footer />
-        </div>
-
-    );
+  );
 }
 
 export default Customize;
