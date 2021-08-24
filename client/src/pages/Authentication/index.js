@@ -41,12 +41,14 @@ const Authentication = () => {
     });
 
     const register = (data, props) => {
-        console.log(data);
         axios.post("http://localhost:3001/auth/register", data).then((response) => {
-            if (response.data.error) alert(response.data.error);
+            if (response.data.error) {
+                alert(response.data.error);
+                window.location.reload(true);
+            }
             else {
                 alert("Registration Successful! Now you can Login");
-                history.push("/auth");
+                window.location.reload(true);
             }
         });
         props.resetForm();

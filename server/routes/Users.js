@@ -7,9 +7,8 @@ const bcrypt = require("bcrypt");
 
 router.post("/register", async (req, res) => {
     const { firstName, lastName, email, mobile, password, userType } = req.body;
-    console.log(req.body);
     const user1 = await Users.findOne({ where: { email: email } });
-    if ((user1.email == email)) res.json({ error: "You Have been already registered under this email..please Login!" });
+    if ((user1)) res.json({ error: "You Have been already registered under this email..please Login!" });
     else {
         bcrypt.hash(password, 10).then((hash) => {
             Users.create({
@@ -23,8 +22,6 @@ router.post("/register", async (req, res) => {
             res.json("SUCCESS");
         });
     }
-
-
 });
 
 router.post("/login", async (req, res) => {
