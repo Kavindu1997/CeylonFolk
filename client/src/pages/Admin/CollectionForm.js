@@ -5,6 +5,7 @@ import Controls from '../../components/Reusable/Controls';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
 
+
 const CollectionForm = () => {
 
     const [file, setfile] = useState(null);
