@@ -37,9 +37,10 @@ router.post("/cashOn", async (req, res) => {
 
 async function updateInventory(items){
     for(let i=0;i<items.length;i++){
-        const query = "SELECT inventories.inventoryId FROM inventories INNER JOIN designs ON designs.color=inventories.colour AND  designs.type=inventories.type  WHERE inventories.colour=(SELECT designs.color FROM  designs WHERE  designs.designId='" + items[i].itemId + "') AND inventories.type=(SELECT designs.type FROM  designs WHERE  designs.designId='" + items[i].itemId + "')  AND inventories.size='" + items[i].size + "'";
-        const inventoryId = await sequelize.query(query, {type: sequelize.QueryTypes.SELECT});  
-        const updateQuery = "UPDATE inventories SET quantity=quantity-" + items[i].quantity + " WHERE inventoryId='" +inventoryId[0].inventoryId+"'" ; 
+        const query = "SELECT inventories.id FROM inventories INNER JOIN designs on designs.color_id=inventories.colour_id AND designs.type_id=inventories.type_id INNER JOIN sizes ON sizes.id=inventories.size_id WHERE designs.id='" + items[i].itemId + "' AND sizes.size='" + items[i].size + "'";
+        const inventoryId = await sequelize.query(query, {type: sequelize.QueryTypes.SELECT}); 
+        console.log(inventoryId) 
+        const updateQuery = "UPDATE inventories SET quantity=quantity-" + items[i].quantity + " WHERE id='" +inventoryId[0].id+"'" ; 
         const quantityUpdate = await sequelize.query(updateQuery, {type: sequelize.QueryTypes.UPDATE});  
     
     }
@@ -94,7 +95,7 @@ router.post("/addToCartBatchwise", async (req,res) => {
 
 router.get("/items/:id", async (req,res) => {
     const id = req.params.id;
-    const query = "SELECT carts.id,carts.customerId,designs.designName AS name,SUM(carts.quantity) AS quantity,designs.designImage AS image, designs.price, carts.itemId,carts.size, SUM(carts.quantity*designs.price) as totals FROM `designs` INNER JOIN `carts` ON designs.designId=carts.itemId INNER JOIN `users` ON users.id=carts.customerId WHERE carts.isDeleted=0 And carts.isBought=0 And users.id='" + id + "' GROUP BY carts.id"; 
+    const query = "SELECT carts.id,carts.customerId,designs.design_name AS name,SUM(carts.quantity) AS quantity,designs.coverImage AS image, designs.price, carts.itemId,carts.size, SUM(carts.quantity*designs.price) as totals FROM `designs` INNER JOIN `carts` ON designs.id=carts.itemId INNER JOIN `users` ON users.id=carts.customerId WHERE carts.isDeleted=0 And carts.isBought=0 And users.id='" + id + "' GROUP BY carts.id"; 
     const itemDetails = await sequelize.query(query, {type: sequelize.QueryTypes.SELECT});
     res.json(itemDetails);
 });
@@ -108,7 +109,7 @@ router.get("/count/:id", async (req,res) => {
 
 router.get("/total/:id", async (req,res) => {
     const id = req.params.id;
-    const query   = "SELECT carts.customerId, SUM(carts.quantity*designs.price) as total FROM `designs` INNER JOIN `carts` ON designs.designId=carts.itemId INNER JOIN `users` ON users.id=carts.customerId WHERE  carts.isDeleted=0 And carts.isBought=0 and users.id= "+ id;
+    const query   = "SELECT carts.customerId, SUM(carts.quantity*designs.price) as total FROM `designs` INNER JOIN `carts` ON designs.id=carts.itemId INNER JOIN `users` ON users.id=carts.customerId WHERE  carts.isDeleted=0 And carts.isBought=0 and users.id= "+ id;
     console.log(query);
     const totalDetails = await sequelize.query( query, 
     {
