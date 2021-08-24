@@ -239,8 +239,6 @@ export default function Product_detail() {
     <div>
       <CssBaseline />
       <CommonNav />
-
-
       <Grid container className={classes.productContainer}>
         <CssBaseline></CssBaseline>
         {Object.keys(oneProduct).length == 0 ?(<div>Loading...</div>) : (
