@@ -283,7 +283,7 @@ export default function Checkout() {
                                             .map((value,index) => {
                                                 return (
                                                     <TableRow key={index}>
-                                                        <TableCell align="left" style={{ fontFamily: 'Montserrat' }}><img height={100} align="center" src={value.image} /></TableCell>
+                                                        <TableCell align="left" style={{ fontFamily: 'Montserrat' }}><img height={100} align="center" src={'http://localhost:3001/' + value.image} /></TableCell>
                                                         <TableCell align="left" style={{ fontFamily: 'Montserrat' }}>{value.name} x {value.quantity}</TableCell>
                                                         <TableCell align="left" style={{ fontFamily: 'Montserrat' }}>{value.size}</TableCell>
                                                         <TableCell align="left" style={{ fontFamily: 'Montserrat' }}>{value.totals}</TableCell>
