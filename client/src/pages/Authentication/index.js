@@ -18,7 +18,7 @@ const Authentication = () => {
     const classes = useStyles();
 
     //Registration Form validation
-    const initialValues1 = {
+    const initialRegValues = {
         firstName: '',
         lastName: '',
         email: '',
@@ -26,10 +26,10 @@ const Authentication = () => {
         password: '',
         confirmPassword: '',
         terms: false,
-        userType:'Customer',
-        gender:''
+        userType: '2',
     }
-    const validationSchema1 = Yup.object().shape({
+
+    const regValidation = Yup.object().shape({
         firstName: Yup.string().required("First Name is required"),
         lastName: Yup.string().required("Last Name is required"),
         email: Yup.string().email("Email is not valid").required("Email is required"),
@@ -40,31 +40,30 @@ const Authentication = () => {
         terms: Yup.boolean().oneOf([true], "You must accept the terms and conditions"),
     });
 
-    const onSubmit1 = (data, props) => {
+    const register = (data, props) => {
+        console.log(data);
         axios.post("http://localhost:3001/auth/register", data).then((response) => {
             if (response.data.error) alert(response.data.error);
             else {
-                axios.post("http://localhost:3001/users/", data).then((response) => {
-                    alert("Registration Successful! Now you can Login");
-
-             });
-               
-                history.push('/profile');
+                alert("Registration Successful! Now you can Login");
+                history.push("/auth");
             }
         });
         props.resetForm();
     };
 
     //login form validation
-    const initialValues2 = {
+    const initialLoginValues = {
         loginEmail: '',
         loginPassword: '',
     }
-    const validationSchema2 = Yup.object().shape({
+
+    const loginValidation = Yup.object().shape({
         loginEmail: Yup.string().email("Email is not valid").required("Email is required"),
         loginPassword: Yup.string().required('Password is required'),
     });
-    const onSubmit2 = (data, props) => {
+
+    const login = (data, props) => {
         axios.post("http://localhost:3001/auth/login", data).then((response) => {
             if (response.data.error) {
                 alert(response.data.error);
@@ -81,7 +80,7 @@ const Authentication = () => {
 
                     });
                 }
-                
+
                 localStorage.setItem("userId", response.data.id);
                 localStorage.setItem("userName", response.data.firstName);
 
@@ -110,7 +109,7 @@ const Authentication = () => {
                 <Grid container style={{ marginTop: '50px', align: 'center' }}>
                     <Grid item xs={12} sm={12} md={6} lg={6}>
                         <Typography component="h1" variant="h5" style={{ fontFamily: 'Montserrat', textAlign: 'center' }}>Already Registered?</Typography>
-                        <Formik initialValues={initialValues2} onSubmit={onSubmit2} validationSchema={validationSchema2}>
+                        <Formik initialValues={initialLoginValues} onSubmit={login} validationSchema={loginValidation}>
                             {(props) => (
                                 <Form className={classes.form}>
                                     <Field as={TextField}
@@ -153,7 +152,7 @@ const Authentication = () => {
                     </Grid>
                     <Grid item xs={12} sm={12} md={6} lg={6}>
                         <Typography component="h1" variant="h5" style={{ fontFamily: 'Montserrat', textAlign: 'center' }}>New Member?</Typography>
-                        <Formik initialValues={initialValues1} onSubmit={onSubmit1} validationSchema={validationSchema1}>
+                        <Formik initialValues={initialRegValues} onSubmit={register} validationSchema={regValidation}>
                             {(props) => (
                                 <Form className={classes.form}>
                                     <Grid item xs={12} sm={12} spacing={1} container>
@@ -248,17 +247,13 @@ const Authentication = () => {
                                             <span>I have read and agree to the&nbsp;
                                                 <a
                                                     href="/Termnconditions"
-                                                    // target="_blank"
-                                                    onClick={onLinkClick}
-                                                    style={{ textDecoration: "none", color: 'black' }}>
+                                                    //onClick={onLinkClick}
+                                                    style={{ textDecoration: "none", color: 'black', fontWeight: "bold" }}>
                                                     Terms and Conditions
                                                 </a>
                                             </span>
-
                                         }
-
                                         style={{ float: 'left' }}
-                                        helperText={<ErrorMessage name="terms" />}
                                     />
                                     <Button
                                         type="submit"

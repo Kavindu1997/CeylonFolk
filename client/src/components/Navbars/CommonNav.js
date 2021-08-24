@@ -7,7 +7,7 @@ import LocalMallOutlinedIcon from '@material-ui/icons/LocalMallOutlined';
 import FavoriteBorderOutlinedIcon from '@material-ui/icons/FavoriteBorderOutlined';
 import SearchOutlinedIcon from '@material-ui/icons/SearchOutlined';
 import axios from 'axios';
-import {useSelector} from "react-redux";
+import { useSelector } from "react-redux";
 import { NavLink } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
@@ -139,15 +139,15 @@ const CommonNav = (props) => {
     console.log(cartcount)
     const [countDetails, countOfItems] = useState([]);
     useEffect(() => {
-    var id = localStorage.getItem("userId");
-    if(id!='0'){
-        const url = "http://localhost:3001/check/count/" + id;
-        axios.get(url).then((response) => {
-        countOfItems(response.data);
-    });
-    }
-      
-  }, []);
+        var id = localStorage.getItem("userId");
+        if (id != '0') {
+            const url = "http://localhost:3001/check/count/" + id;
+            axios.get(url).then((response) => {
+                countOfItems(response.data);
+            });
+        }
+
+    }, []);
 
     return (
         <div className={classes.root}>
@@ -158,7 +158,8 @@ const CommonNav = (props) => {
                         <NavLink to={"/shop"} className={classes.appbarlink}>
                             <Typography
                                 className={classes.appbarlink2}
-                                endIcon={<KeyboardArrowDownIcon>
+                                //change "endIcon to "endicon" for remove the warning - pramuka (check it)
+                                endicon={<KeyboardArrowDownIcon>
                                     fontSize="0.5rem"
                                 </KeyboardArrowDownIcon>}
                             >
@@ -177,9 +178,9 @@ const CommonNav = (props) => {
                     <div style={{ paddingLeft: '106px' }}>
                         <NavLink to={"/shop"}><SearchOutlinedIcon className={classes.icon} /></NavLink>
                         <NavLink to={"/wishlist"}><FavoriteBorderOutlinedIcon className={classes.icon} /></NavLink>
-                        
+
                         <NavLink to={"/cart"}><LocalMallOutlinedIcon className={classes.icon} /><span className={classes.count}>
-                       {cartcount}</span>
+                            {cartcount}</span>
                         </NavLink>
                         <NavLink to={"/auth"}><PermIdentityOutlinedIcon className={classes.icon} /></NavLink>
                     </div>
