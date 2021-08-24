@@ -39,26 +39,26 @@ router.get("/byPid/:id", async (req,res) => {
 //     res.json(sizeList);
 // });
 
-router.get("/byIdImages/:id", async (req,res) => {
-    const id = req.params.id
-    const query2 = "SELECT designs.id AS designId,designs.design_name AS designName,designs.color,designs.coverImage AS designImage FROM `designs`  WHERE designs.design_name=(SELECT designs.design_name FROM `designs` WHERE designs.id='"+id+"')";
-    const imageList = await sequelize.query(query2, {type: sequelize.QueryTypes.SELECT});
-    res.json(imageList);
-});
+// router.get("/byIdImages/:id", async (req,res) => {
+//     const id = req.params.id
+//     const query2 = "SELECT designs.id AS designId,designs.design_name AS designName,designs.color,designs.coverImage AS designImage FROM `designs`  WHERE designs.design_name=(SELECT designs.design_name FROM `designs` WHERE designs.id='"+id+"')";
+//     const imageList = await sequelize.query(query2, {type: sequelize.QueryTypes.SELECT});
+//     res.json(imageList);
+// });
 
-router.get("/imagesArray/:id", async (req,res) => {
-    const id = req.params.id
-    const query2 = "SELECT designs.id,designs.coverImage AS designImage FROM `designs`  WHERE designs.coverImage=(SELECT designs.coverImage FROM `designs` WHERE designs.id='"+id+"')";
-    const imageList = await sequelize.query(query2, {type: sequelize.QueryTypes.SELECT});
-    res.json(imageList);
-});
+// router.get("/imagesArray/:id", async (req,res) => {
+//     const id = req.params.id
+//     const query2 = "SELECT designs.id,designs.coverImage AS designImage FROM `designs`  WHERE designs.coverImage=(SELECT designs.coverImage FROM `designs` WHERE designs.id='"+id+"')";
+//     const imageList = await sequelize.query(query2, {type: sequelize.QueryTypes.SELECT});
+//     res.json(imageList);
+// });
 
-router.get("/mapSize/:id", async (req,res) => {
-    const id = req.params.id
-    const query1 = "SELECT designs.id AS designId,designs.color_id AS color,designs.design_name AS designName,designs.coverImage AS designImage,inventories.size_id AS size,inventories.quantity,inventories.id AS inventoryId FROM `designs` INNER JOIN `inventories` ON designs.color_id=inventories.colour_id WHERE designs.design_name=(SELECT designs.design_name FROM `designs` WHERE designs.id='"+id+"') ";
-    const designSizeList = await sequelize.query(query1, {type: sequelize.QueryTypes.SELECT});
-    res.json(designSizeList);
-});
+// router.get("/mapSize/:id", async (req,res) => {
+//     const id = req.params.id
+//     const query1 = "SELECT designs.id AS designId,designs.color_id AS color,designs.design_name AS designName,designs.coverImage AS designImage,inventories.size_id AS size,inventories.quantity,inventories.id AS inventoryId FROM `designs` INNER JOIN `inventories` ON designs.color_id=inventories.colour_id WHERE designs.design_name=(SELECT designs.design_name FROM `designs` WHERE designs.id='"+id+"') ";
+//     const designSizeList = await sequelize.query(query1, {type: sequelize.QueryTypes.SELECT});
+//     res.json(designSizeList);
+// });
 
 router.get("/quantity/:id", async (req,res) => {
     const id = req.params.id
