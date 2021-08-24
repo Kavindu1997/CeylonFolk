@@ -9,6 +9,7 @@ import LayersIcon from '@material-ui/icons/Layers';
 import BuildIcon from '@material-ui/icons/Build';
 import LoyaltyIcon from '@material-ui/icons/Loyalty';
 import { Link } from 'react-router-dom';
+import PaletteIcon from '@material-ui/icons/Palette';
 
 
 export const mainListItems = (
@@ -48,6 +49,12 @@ export const mainListItems = (
         <LoyaltyIcon />
       </ListItemIcon>
       <ListItemText primary="Coupon" />
+    </ListItem>
+    <ListItem button component={Link} to="/availableColors">
+      <ListItemIcon>
+        <PaletteIcon />
+      </ListItemIcon>
+      <ListItemText primary="Available Colors" />
     </ListItem>
   
   </div>

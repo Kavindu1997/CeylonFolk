@@ -28,6 +28,7 @@ const Shop = () => {
     const [checked, setChecked] = useState(false);
 
     const products = useSelector((state)=>state.productReducer.productObject)
+    console.log(products)
     const dispatch = useDispatch();
 
     // const fetchProducts = async () =>{
@@ -126,12 +127,14 @@ const Shop = () => {
                                                     title="Snowy"
                                                 />
 
-                                                <CardContent style={{ display: 'flex' }}>
+                                                <CardContent>
                                                     <div>
-                                                        <Typography gutterBottom variant="h9" component="h2" style={{ textAlign: 'left' }}>{design_name}</Typography>
-                                                        <Typography gutterBottom variant="h6" component="h2" style={{ textAlign: 'left' }}>{"LKR " + price}</Typography>
+                                                        <Typography gutterBottom variant="h9" component="h2" style={{ textAlign: 'left', fontSize:'20px'}}>{design_name}</Typography>
+                                                        
                                                     </div>
-                                                    <div><FavoriteBorderOutlinedIcon className={classes.icon1} /></div>
+                                                    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                                                    <Typography gutterBottom variant="h6" component="h2" style={{ textAlign: 'left', fontSize:'20px'}}>{"LKR " + price}</Typography>
+                                                        <FavoriteBorderOutlinedIcon className={classes.icon1} /></div>
                                                 </CardContent>
                                             </CardActionArea>
                                             <CardActions></CardActions>

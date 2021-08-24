@@ -124,6 +124,31 @@ const useStyles = makeStyles((theme) => ({
             color: '#596275'
         },
     },
+    clrsboxSize:{
+      listStyle: 'none',
+      padding: '0',
+      margin: '0',
+      display: 'flex',
+  },
+
+  lbl:{
+    paddingRight: '10px',
+
+  },
+  
+    swatchVisible:{
+      textIndent: 'inherit',
+      borderRadius: '50%',
+      width: '45px',
+      height: '45px',
+      padding: '0.8rem 0',
+      lineHeight: '1',
+      textAlign: 'center',
+      fontSize: '14px',
+      fontWeight: '600',
+      color: '#000',
+      display: 'inline-block',
+    },
     headStyle: {
         fontFamily: 'Nunito',
         color: '#222f3e',
@@ -132,6 +157,12 @@ const useStyles = makeStyles((theme) => ({
         '&:hover': {
             color: '#48dbfb',
         }
+    },
+    tBox:{
+      marginBottom:'10px'
+    },
+    sizeOption:{
+      display:'none'
     },
     textStyle: {
         fontFamily: 'Segoe UI',

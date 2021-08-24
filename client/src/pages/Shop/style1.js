@@ -56,7 +56,8 @@ const useStyles1 = makeStyles((theme) => ({
     },
 
     card: {
-        maxWidth: '95%'
+        maxWidth: '95%',
+        marginBottom: '20px'
     },
 
     media: {
