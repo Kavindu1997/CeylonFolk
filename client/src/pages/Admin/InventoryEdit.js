@@ -10,8 +10,12 @@ import { makeStyles, TextField, Button } from '@material-ui/core';
 import useStyles from './style';
 
 
+var inventory_id = localStorage.getItem("inventory_id");
+console.log(inventory_id);
+
+
+
 const initialValues1 = {
-    code: '',
     colour: '',
     size: '',
     type: '',
@@ -21,7 +25,6 @@ const initialValues1 = {
 }
 
 const validationSchema1 = Yup.object().shape({
-    code: Yup.string().required("Code is required"),
     colour: Yup.string().required("Colour is required"),
     size: Yup.string().required("Size is required"),
     type: Yup.string().required("Type is required"),
@@ -31,7 +34,7 @@ const validationSchema1 = Yup.object().shape({
 });
 
 const onSubmit1 = (data, props) => {
-    axios.post("http://localhost:3001/invent/inventory", data).then(() => {
+    axios.put(`http://localhost:3001/invent/inventory/${inventory_id}`, data).then(() => {
         console.log(data);
     });
     props.resetForm();
@@ -42,6 +45,14 @@ const onSubmit1 = (data, props) => {
 const InventoryEdit = () => {
 
     const classes = useStyles();
+    const [listOfInventory, setListOfInventory] = useState([]);
+
+    useEffect(() => {
+        axios.get(`http://localhost:3001/invent/inventoryEdit/${inventory_id}`).then((response) => {
+            console.log(response.data);
+            setListOfInventory(response.data);
+        })
+    }, []);
 
 
     // const validate=(fieldValues=values)=>{
@@ -78,104 +89,103 @@ const InventoryEdit = () => {
         <Formik initialValues={initialValues1} onSubmit={onSubmit1} validationSchema={validationSchema1}>
             {(props) => (
                 <Form>
+                    {listOfInventory
+                        .map((value) => {
+                            return (
+                                <Grid container>
 
-                    <Grid container>
+                                    <Grid item md={6} style={{ paddingLeft: '100px', paddingRight: '100px' }}>
 
-                        <Grid item md={6} style={{ paddingLeft: '100px', paddingRight: '100px' }}>
+                                         <Field as={TextField}
+                                            className={classes.textField}
+                                            variant="outlined"
+                                            margin="normal"
+                                            required
+                                            fullWidth
+                                            id="colour"
+                                            name="colour"
+                                            label="Colour"
+                                            // defaultValue="Default Value"
+                                            autoComplete="colour"
+                                            helperText={<ErrorMessage name="colour" />}
+                                        /> 
+                                        <Field as={TextField}
+                                            className={classes.textField}
+                                            variant="outlined"
+                                            margin="normal"
+                                            required
+                                            fullWidth
+                                            id="size"
+                                            label="Size"
+                                            name="size"
+                                            autoComplete="size"
 
+                                            helperText={<ErrorMessage name="size" />}
+                                        />
 
-                            <Field as={TextField}
-                                className={classes.textField}
-                                variant="outlined"
-                                margin="normal"
-                                required
-                                fullWidth
-                                id="code"
-                                label="Code"
-                                name="code"
-                                autoComplete="code"
-                                helperText={<ErrorMessage name="code" />}
-                            />
-                            <Field as={TextField}
-                                className={classes.textField}
-                                variant="outlined"
-                                margin="normal"
-                                required
-                                fullWidth
-                                id="colour"
-                                label="Colour"
-                                name="colour"
-                                autoComplete="colour"
-                                helperText={<ErrorMessage name="colour" />}
-                            />
-                            <Field as={TextField}
-                                className={classes.textField}
-                                variant="outlined"
-                                margin="normal"
-                                required
-                                fullWidth
-                                id="size"
-                                label="Size"
-                                name="size"
-                                autoComplete="size"
-                                helperText={<ErrorMessage name="size" />}
-                            />
+                                        <Field as={TextField}
+                                            className={classes.textField}
+                                            variant="outlined"
+                                            margin="normal"
+                                            required
+                                            fullWidth
+                                            id="type"
+                                            label="Type"
+                                            name="type"
+                                            autoComplete="type"
 
-
-
-                        </Grid>
-                        <Grid item md={6} style={{ paddingLeft: '100px', paddingRight: '100px' }}>
-                            <Field as={TextField}
-                                className={classes.textField}
-                                variant="outlined"
-                                margin="normal"
-                                required
-                                fullWidth
-                                id="type"
-                                label="Type"
-                                name="type"
-                                autoComplete="type"
-                                helperText={<ErrorMessage name="type" />}
-                            />
-                            <Field as={TextField}
-                                className={classes.textField}
-                                variant="outlined"
-                                margin="normal"
-                                required
-                                fullWidth
-                                id="quantity"
-                                label="Quantity"
-                                name="quantity"
-                                autoComplete="quantity"
-                                helperText={<ErrorMessage name="quantity" />}
-                            />
-                            <Field as={TextField}
-                                className={classes.textField}
-                                variant="outlined"
-                                margin="normal"
-                                required
-                                fullWidth
-                                id="margin"
-                                label="Margin"
-                                name="margin"
-                                autoComplete="margin"
-                                helperText={<ErrorMessage name="margin" />}
-                            />
-                        </Grid>
-                        <Grid item md={6} style={{ paddingLeft: '100px', paddingRight: '100px' }}>
+                                            helperText={<ErrorMessage name="type" />}
+                                        />
 
 
-                            <Button
-                                type="submit"
-                                fullWidth
-                                variant="contained"
-                                color="primary"
-                                className={classes.submit}
-                            >Update</Button>
-                        </Grid>
+                                    </Grid>
+                                    <Grid item md={6} style={{ paddingLeft: '100px', paddingRight: '100px' }}>
+
+                                        <Field as={TextField}
+                                            className={classes.textField}
+                                            variant="outlined"
+                                            margin="normal"
+                                            required
+                                            fullWidth
+                                            id="quantity"
+                                            label="Quantity"
+                                            name="quantity"
+                                            autoComplete="quantity"
+
+                                            helperText={<ErrorMessage name="quantity" />}
+                                        />
+                                        <Field as={TextField}
+                                            className={classes.textField}
+                                            variant="outlined"
+                                            margin="normal"
+                                            required
+                                            fullWidth
+                                            id="margin"
+                                            label="Margin"
+                                            name="margin"
+                                            autoComplete="margin"
+
+                                            helperText={<ErrorMessage name="margin" />}
+                                        />
+                                    </Grid>
+
+                                    <Grid item md={6} style={{ paddingLeft: '100px', paddingRight: '100px' }}>
 
 
-                    </Grid>
+                                        <Button
+                                            type="submit"
+                                            fullWidth
+                                            variant="contained"
+                                            color="primary"
+                                            className={classes.submit}
+                                        >Update</Button>
+                                    </Grid>
+
+
+                                </Grid>
+
+                            );
+                        })}
 
                 </Form>
             )}
