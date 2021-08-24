@@ -227,7 +227,7 @@ export default function Product_detail() {
         totals: quantity*price
         } 
       dummyItem.totals=dummyItem.price*dummyItem.quantity;
-      
+      console.log(dummyItem)
       dispatch(incrementCartCount());
       dispatch(actionAddToCart(dummyItem));
       dispatch(actionGetTotal(dummyItem.totals));

@@ -84,7 +84,7 @@ router.post("/addToCartBatchwise", async (req,res) => {
     var uid = req.body.uid;
     for(let i = 0; i<cart.length ; i++){
         try{
-            var query = "INSERT INTO carts (customerId,itemId,quantity,size) VALUES('" + uid + "','" + cart[i].itemId + "','" + cart[i].quantity + "','" + cart[i].size + "')";
+            var query = "INSERT INTO carts (customerId,itemId,quantity,size) VALUES('" + uid + "','" + cart[i].productId + "','" + cart[i].quantity + "','" + cart[i].size + "')";
             var addCart = await sequelize.query(query, {type: sequelize.QueryTypes.INSERT});
         }catch(e){
 
