@@ -18,8 +18,8 @@ import FavoriteBorderOutlinedIcon from '@material-ui/icons/FavoriteBorderOutline
 import axios from 'axios';
 import { useHistory } from 'react-router';
 import useStyles1 from './style1';
-import {setProducts, fetchProducts} from '../../_actions/productAction'
-import {useDispatch, useSelector} from "react-redux";
+import { setProducts, fetchProducts } from '../../_actions/productAction'
+import { useDispatch, useSelector } from "react-redux";
 
 
 const Shop = () => {
@@ -27,7 +27,7 @@ const Shop = () => {
     const classes = useStyles1();
     const [checked, setChecked] = useState(false);
 
-    const products = useSelector((state)=>state.productReducer.productObject)
+    const products = useSelector((state) => state.productReducer.productObject)
     console.log(products)
     const dispatch = useDispatch();
 
@@ -38,7 +38,7 @@ const Shop = () => {
     //       console.log('hello from response from server')
     //       dispatch(setProducts(response.data))
     //     });
-    
+
     //   }
 
     useEffect(() => {
@@ -48,7 +48,7 @@ const Shop = () => {
 
     console.log('hello from product store')
 
-   console.log(products)
+    console.log(products)
 
     const [listOfDesigns, setListOfDesigns] = useState([]);
 
@@ -112,7 +112,7 @@ const Shop = () => {
                     <Grid container spacing={0} >
 
                         {products.map((product) => {
-                            const{id, coverImage, design_name, price}=product;
+                            const { id, coverImage, design_name, price } = product;
                             return (
                                 <Grid item xs={12} sm={6} md={3} onClick={() => {
                                     history.push(`/productDetails/${id}`);
@@ -120,20 +120,22 @@ const Shop = () => {
                                     <Link>
                                         <Card className={classes.card}>
                                             <CardActionArea>
-                                                <CardMedia
+                                                {/* <CardMedia
                                                     className={classes.media}
-                                                    style={{ backgroundImage: `url('http://localhost:3001/${coverImage}')`
-                                                }}
+                                                    style={{
+                                                        backgroundImage: `url('http://localhost:3001/${coverImage}')`
+                                                    }}
                                                     title="Snowy"
-                                                />
+                                                /> */}
+                                                <img style={{ width: '100%', overflow:'hidden', objectFit:'cover', hight:'100px' }} src={'http://localhost:3001/' + coverImage} alt=""></img>
 
                                                 <CardContent>
                                                     <div>
-                                                        <Typography gutterBottom variant="h9" component="h2" style={{ textAlign: 'left', fontSize:'20px'}}>{design_name}</Typography>
-                                                        
+                                                        <Typography gutterBottom variant="h9" component="h2" style={{ textAlign: 'left', fontSize: '16px' }}>{design_name}</Typography>
+
                                                     </div>
                                                     <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                                                    <Typography gutterBottom variant="h6" component="h2" style={{ textAlign: 'left', fontSize:'20px'}}>{"LKR " + price}</Typography>
+                                                        <Typography gutterBottom variant="h6" component="h2" style={{ textAlign: 'left', fontSize: '16px' }}>{"LKR " + price}</Typography>
                                                         <FavoriteBorderOutlinedIcon className={classes.icon1} /></div>
                                                 </CardContent>
                                             </CardActionArea>

@@ -1,23 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { Grid, Typography, Box } from '@material-ui/core';
-import { useForm } from '../../components/Reusable/useForm';
 import Controls from '../../components/Reusable/Controls';
 import axios from 'axios';
-import { Formik, Field, Form, ErrorMessage } from "formik";
-import * as Yup from 'yup';
 import "yup-phone";
-import { makeStyles, TextField, Button } from '@material-ui/core';
 import useStyles from './style';
 import { CirclePicker } from "react-color";
-import {useDispatch, useSelector} from "react-redux";
-import {fetchColors} from '../../_actions/colorActions'
-
+import { useDispatch, useSelector } from "react-redux";
+import { fetchColors } from '../../_actions/colorActions'
 
 const InventoryForm = () => {
 
     const classes = useStyles();
-    
-    const [tshirt, setTshirt] = useState(["#fafafa","#ffffff"]);
+
+    const [tshirt, setTshirt] = useState(["#fafafa", "#ffffff"]);
     const [circleSize, setCircleSize] = useState(35);
     const [color, setColor] = useState(["#ffffff"]);
     const [size, setSize] = useState('');
@@ -25,13 +20,13 @@ const InventoryForm = () => {
     const [quantity, setQuantity] = useState('');
     const [margin, setMargin] = useState('');
     const [pickerColorArray, setPickerColorArray] = useState([]);
+
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(fetchColors());
     }, []);
 
-
-    const pickedItemColors = useSelector((state)=>state.colorReducer.pickerColor)
+    const pickedItemColors = useSelector((state) => state.colorReducer.pickerColor)
     console.log('hello')
     console.log(pickedItemColors)
     console.log('hello')
@@ -58,7 +53,6 @@ const InventoryForm = () => {
         console.log(e.target.value)
     }
 
-
     const sendItem = (e) => {
 
         e.preventDefault();
@@ -70,7 +64,7 @@ const InventoryForm = () => {
             quantity: quantity,
             color: color
         }
-        
+
         console.log(Data);
         axios.post("http://localhost:3001/invent/inventory", Data).then(() => {
             alert('Item Inserted Successfully')
@@ -79,7 +73,6 @@ const InventoryForm = () => {
     };
 
     return (
-
         <div>
             <form onSubmit={sendItem}>
                 <Grid container>
@@ -138,30 +131,26 @@ const InventoryForm = () => {
                         />
                     </Grid>
                     <Box className={classes.tBox}>
-                    <Typography>Select Color</Typography>
-                    <Box style={{display:'flex'}}>
-                        {pickedItemColors.map((pickColor) => {
-                            const{color}=pickColor;
-                            return (
-                                <ul className={classes.clrsboxSize}>
-                          <li className={classes.lbl}>
-                                <label style={{ cursor: 'pointer' }} >
-                                <div style={{ paddingBottom: '10px' }} >
-                                    <input type="radio"  onClick={setCol} name="size" className={classes.sizeOption} value={color} checked />
-                                    <span className={classes.swatchVisible} style={{backgroundColor:color }}></span>
-                                </div>
-                                </label>
-                                </li>
-                        </ul>
-                                
-                            // setPickerColorArray([...pickerColorArray, color])
-                            );
-                        })}
+                        <Typography>Select Color</Typography>
+                        <Box style={{ display: 'flex' }}>
+                            {pickedItemColors.map((pickColor) => {
+                                const { color } = pickColor;
+                                return (
+                                    <ul className={classes.clrsboxSize}>
+                                        <li className={classes.lbl}>
+                                            <label style={{ cursor: 'pointer' }} >
+                                                <div style={{ paddingBottom: '10px' }} >
+                                                    <input type="radio" onClick={setCol} name="size" className={classes.sizeOption} value={color} checked />
+                                                    <span className={classes.swatchVisible} style={{ backgroundColor: color }}></span>
+                                                </div>
+                                            </label>
+                                        </li>
+                                    </ul>
+                                    // setPickerColorArray([...pickerColorArray, color])
+                                );
+                            })}
 
-
-
-                        
-                        {/* <CirclePicker id="circle-picker" width="max-content"
+                            {/* <CirclePicker id="circle-picker" width="max-content"
                             circleSize={circleSize}
                             colors={tshirt}
                             onChange={color => {
@@ -169,21 +158,17 @@ const InventoryForm = () => {
                                 console.log(color.hex)
                             }}
                         /> */}
+                        </Box>
                     </Box>
-                    </Box>
-                    
-                    
                 </Grid>
                 <Box>
                     <Controls.Button
                         type="submit"
                         text="Add To Inventory"
                     />
-                    </Box>
-
+                </Box>
             </form>
         </div>
-
     );
 };
 

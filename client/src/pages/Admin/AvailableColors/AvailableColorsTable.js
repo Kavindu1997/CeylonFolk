@@ -16,7 +16,7 @@ import axios from 'axios';
 // import { actionDeleteCollection } from '../../../_actions/collections';
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from 'react-router-dom';
-import {fetchColors} from '../../../_actions/colorActions'
+import { fetchColors } from '../../../_actions/colorActions'
 
 
 const CollectionTable = () => {
@@ -48,8 +48,8 @@ const CollectionTable = () => {
     };
 
     const addOrEdit = (data, resetForm) => {
-        
-          //  userService.updateUser(user);
+
+        //  userService.updateUser(user);
         resetForm();
         // setRecordForEdit(null);
         setOpenPopup(false);
@@ -67,38 +67,18 @@ const CollectionTable = () => {
         dispatch(fetchColors());
     }, []);
 
-    const [listOfCollections, setListOfCollections] = useState([]);
+    const pickedItemColors = useSelector((state) => state.colorReducer.pickerColor)
 
-    // useEffect(() => {
-    //     axios.get("http://localhost:3001/collection").then((response) => {
-    //         console.log(response.data);
-    //         setListOfCollections(response.data);
-    //     })
-    // }, []);
+    dispatch(fetchColors());
 
     const onRemove = (id) => {
         // dispatch(actionDeleteCollection(id));
-
         const data = { id: id }
-        
-
-        // axios.delete(`http://localhost:3001/collection/remove/`, { data }).then((response) => {
-
-        //     axios.get("http://localhost:3001/collection").then((response) => {
-        //         console.log(response.data);
-        //         setListOfCollections(response.data);
-        //     });
-
-        //}
-       
-
-
-
     };
 
     const onSetId = (id) => { //'Itom007'
-        localStorage.setItem("collection_id",id);
-      };
+        localStorage.setItem("collection_id", id);
+    };
 
     return (
         <div style={{ display: "flex" }}>
@@ -140,40 +120,42 @@ const CollectionTable = () => {
                                             <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>COLOR ID</TableCell>
                                             <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>COLOR</TableCell>
                                             <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>PRICE</TableCell>
+                                            <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>EDIT COLOR</TableCell>
+                                            <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>DELETE COLOR</TableCell>
                                         </TableRow>
                                     </TableHead>
-                                    {/* <TableBody>
-                                        {listOfCollections
-                                            .map((value) => {
-                                                return (
-                                                    <TableRow>
-                                                        <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.collection_name}</TableCell>
-                                                        <TableCell align="center" style={{ fontFamily: 'Montserrat' }}><img height={100} align="center" src={'http://localhost:3001/' + value.coverImage} alt=""></img></TableCell>
-                                                        
-                                                        <TableCell align="center">
-                                                            <Button
-                                                               component={Link} to="/designs" 
-                                                               variant="contained"
-                                                               color="primary"
-                                                               onClick={() => onSetId(value.id)}
-                                                            >View Designs
-                                                            </Button>
-                                                        </TableCell>
-                                                        <TableCell align="center">
-                                                            <Button name="remove" onClick={() => onRemove(value.id)}>
-                                                                <i className="fa fa-times" aria-hidden="true"></i>
-                                                            </Button>
-                                                        </TableCell>
+                                    <TableBody>
+                                        {pickedItemColors.map((pickColor) => {
+                                            const { id, color, price } = pickColor;
+                                            return (
+                                                <TableRow>
+                                                    <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{id}</TableCell>
+                                                    <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>
+                                                        {/* <img height={100} align="center" src={'http://localhost:3001/' + value.coverImage} alt=""></img> */}
 
-                                                        <TableCell align="center">
-                                                            <Button name="remove" onClick={() => onRemove(value.id)}>
-                                                                <i className="fa fa-times" aria-hidden="true"></i>
-                                                            </Button>
-                                                        </TableCell>
-                                                    </TableRow>
-                                                );
-                                            })}
-                                    </TableBody> */}
+                                                        <span className={classes.swatchVisible} style={{ backgroundColor: color }}></span>
+
+                                                    </TableCell>
+                                                    <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{price}</TableCell>
+                                                    <TableCell align="center">
+                                                        <Button name="remove"
+                                                        // onClick={() => onRemove(value.id)}
+                                                        >
+                                                            <i className="fa fa-times" aria-hidden="true"></i>
+                                                        </Button>
+                                                    </TableCell>
+
+                                                    <TableCell align="center">
+                                                        <Button name="remove"
+                                                        // onClick={() => onRemove(value.id)}
+                                                        >
+                                                            <i className="fa fa-times" aria-hidden="true"></i>
+                                                        </Button>
+                                                    </TableCell>
+                                                </TableRow>
+                                            );
+                                        })}
+                                    </TableBody>
                                 </Table>
                             </TableContainer>
                         </center>
@@ -185,8 +167,8 @@ const CollectionTable = () => {
                         openPopup={openPopup}
                         setOpenPopup={setOpenPopup}
                     >
-                        <AvailableColorsForm 
-                        addOrEdit={addOrEdit}
+                        <AvailableColorsForm
+                            addOrEdit={addOrEdit}
                         />
                     </Popup>
 
