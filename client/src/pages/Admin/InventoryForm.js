@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Grid } from '@material-ui/core';
+import { Grid, Typography, Box } from '@material-ui/core';
 import { useForm } from '../../components/Reusable/useForm';
 import Controls from '../../components/Reusable/Controls';
 import axios from 'axios';
@@ -8,162 +8,181 @@ import * as Yup from 'yup';
 import "yup-phone";
 import { makeStyles, TextField, Button } from '@material-ui/core';
 import useStyles from './style';
+import { CirclePicker } from "react-color";
+import {useDispatch, useSelector} from "react-redux";
+import {fetchColors} from '../../_actions/colorActions'
 
-
-const initialValues1 = {
-    colour: '',
-    size: '',
-    type: '',
-    quantity: '',
-    margin: '',
-
-}
-
-const validationSchema1 = Yup.object().shape({
-    colour: Yup.string().required("Colour is required"),
-    size: Yup.string().required("Size is required"),
-    type: Yup.string().required("Type is required"),
-    quantity: Yup.string().required("Quantity is required"),
-    margin: Yup.string().required("Margin is required"),
-
-});
-
-const onSubmit1 = (data, props) => {
-    axios.post("http://localhost:3001/invent/inventory", data).then(() => {
-        console.log(data);
-    });
-    props.resetForm();
-};
 
 const InventoryForm = () => {
 
     const classes = useStyles();
+    
+    const [tshirt, setTshirt] = useState(["#fafafa","#ffffff"]);
+    const [circleSize, setCircleSize] = useState(35);
+    const [color, setColor] = useState(["#ffffff"]);
+    const [size, setSize] = useState('');
+    const [type, setType] = useState('');
+    const [quantity, setQuantity] = useState('');
+    const [margin, setMargin] = useState('');
+    const [pickerColorArray, setPickerColorArray] = useState([]);
+    const dispatch = useDispatch();
+    useEffect(() => {
+        dispatch(fetchColors());
+    }, []);
 
 
-    // const validate=(fieldValues=values)=>{
-    //     let temp={...errors}
-    //     if('collectionId' in fieldValues)
-    //        temp.collectionId=fieldValues.collectionId ? "" : "This field is required"
-    //     if('collectionName' in fieldValues)   
-    //        temp.collectionName=fieldValues.collectionName ? "" : "This field is required"
-    //     setErrors({
-    //         ...temp
-    //     })
+    const pickedItemColors = useSelector((state)=>state.colorReducer.pickerColor)
+    console.log('hello')
+    console.log(pickedItemColors)
+    console.log('hello')
 
-    //     if(fieldValues===values)
-    //        return Object.values(temp).every(x=> x==="");            //temp<- error messages
-    // }
-    // const{
-    //     values,
-    //     setValues,
-    //     errors,
-    //     setErrors,
-    //     handleInputChange,
-    //     resetForm
-    // }=useForm(initialFvalues,true,validate);
+    const onsize = (e) => {
+        setSize(e.target.value)
+    }
 
-    // const handleSubmit=e=>{
-    //     e.preventDefault();
-    //     if(validate()){  
-    //           addOrEdit(values,resetForm);
-    //     }
-    //   }
+    const ontype = (e) => {
+        setType(e.target.value)
+    }
+
+    const onmargin = (e) => {
+        setMargin(e.target.value)
+    }
+
+    const onquantity = (e) => {
+        setQuantity(e.target.value)
+    }
+    // console.log(pickerColorArray)
+
+    const setCol = (e) => {
+        setColor(e.target.value)
+        console.log(e.target.value)
+    }
+
+
+    const sendItem = (e) => {
+
+        e.preventDefault();
+
+        const Data = {
+            size: size,
+            type: type,
+            margin: margin,
+            quantity: quantity,
+            color: color
+        }
+        
+        console.log(Data);
+        axios.post("http://localhost:3001/invent/inventory", Data).then(() => {
+            alert('Item Inserted Successfully')
+        });
+        // props.resetForm();
+    };
 
     return (
 
-        <Formik initialValues={initialValues1} onSubmit={onSubmit1} validationSchema={validationSchema1}>
-            {(props) => (
-                <Form>
-
-                    <Grid container>
-
-                        <Grid item md={6} style={{ paddingLeft: '100px', paddingRight: '100px' }}>
-
-                            <Field as={TextField}
-                                className={classes.textField}
-                                variant="outlined"
-                                margin="normal"
-                                required
-                                fullWidth
-                                id="colour"
-                                label="Colour"
-                                name="colour"
-                                autoComplete="colour"
-                                helperText={<ErrorMessage name="colour" />}
-                            />
-                            <Field as={TextField}
-                                className={classes.textField}
-                                variant="outlined"
-                                margin="normal"
-                                required
-                                fullWidth
-                                id="size"
-                                label="Size"
-                                name="size"
-                                autoComplete="size"
-                                helperText={<ErrorMessage name="size" />}
-                            />
-
-                            <Field as={TextField}
-                                className={classes.textField}
-                                variant="outlined"
-                                margin="normal"
-                                required
-                                fullWidth
-                                id="type"
-                                label="Type"
-                                name="type"
-                                autoComplete="type"
-                                helperText={<ErrorMessage name="type" />}
-                            />
-
-
-                        </Grid>
-                        <Grid item md={6} style={{ paddingLeft: '100px', paddingRight: '100px' }}>
-                           
-                            <Field as={TextField}
-                                className={classes.textField}
-                                variant="outlined"
-                                margin="normal"
-                                required
-                                fullWidth
-                                id="quantity"
-                                label="Quantity"
-                                name="quantity"
-                                autoComplete="quantity"
-                                helperText={<ErrorMessage name="quantity" />}
-                            />
-                            <Field as={TextField}
-                                className={classes.textField}
-                                variant="outlined"
-                                margin="normal"
-                                required
-                                fullWidth
-                                id="margin"
-                                label="Margin"
-                                name="margin"
-                                autoComplete="margin"
-                                helperText={<ErrorMessage name="margin" />}
-                            />
-                        </Grid>
-                        <Grid item md={6} style={{ paddingLeft: '100px', paddingRight: '100px' }}>
-
-
-                            <Button
-                                type="submit"
-                                fullWidth
-                                variant="contained"
-                                color="primary"
-                                className={classes.submit}
-                            >Add to the inventory</Button>
-                        </Grid>
-
-
+        <div>
+            <form onSubmit={sendItem}>
+                <Grid container>
+                    <Grid item xs={6}>
+                        <Controls.Input
+                            className={classes.textField}
+                            variant="outlined"
+                            margin="normal"
+                            required
+                            id="size"
+                            label="Size"
+                            name="size"
+                            autoComplete="size"
+                            onChange={onsize}
+                        />
                     </Grid>
+                    <Grid item xs={6}>
 
-                </Form>
-            )}
-        </Formik>
+                        <Controls.Input
+                            variant="outlined"
+                            className={classes.textField}
+                            variant="outlined"
+                            margin="normal"
+                            required
+                            id="type"
+                            label="Type"
+                            name="type"
+                            autoComplete="type"
+                            onChange={ontype}
+                        />
+                    </Grid>
+                    <Grid item xs={6}>
+                        <Controls.Input
+                            className={classes.textField}
+                            variant="outlined"
+                            margin="normal"
+                            required
+                            id="quantity"
+                            label="quantity"
+                            name="quantity"
+                            autoComplete="quantity"
+                            onChange={onquantity}
+                        />
+                    </Grid>
+                    <Grid item xs={6}>
+                        <Controls.Input
+                            className={classes.textField}
+                            variant="outlined"
+                            margin="normal"
+                            required
+                            id="margin"
+                            label="margin"
+                            name="margin"
+                            autoComplete="margin"
+                            onChange={onmargin}
+                        />
+                    </Grid>
+                    <Box className={classes.tBox}>
+                    <Typography>Select Color</Typography>
+                    <Box style={{display:'flex'}}>
+                        {pickedItemColors.map((pickColor) => {
+                            const{color}=pickColor;
+                            return (
+                                <ul className={classes.clrsboxSize}>
+                          <li className={classes.lbl}>
+                                <label style={{ cursor: 'pointer' }} >
+                                <div style={{ paddingBottom: '10px' }} >
+                                    <input type="radio"  onClick={setCol} name="size" className={classes.sizeOption} value={color} checked />
+                                    <span className={classes.swatchVisible} style={{backgroundColor:color }}></span>
+                                </div>
+                                </label>
+                                </li>
+                        </ul>
+                                
+                            // setPickerColorArray([...pickerColorArray, color])
+                            );
+                        })}
+
+
+
+                        
+                        {/* <CirclePicker id="circle-picker" width="max-content"
+                            circleSize={circleSize}
+                            colors={tshirt}
+                            onChange={color => {
+                                setColor(color.hex);;
+                                console.log(color.hex)
+                            }}
+                        /> */}
+                    </Box>
+                    </Box>
+                    
+                    
+                </Grid>
+                <Box>
+                    <Controls.Button
+                        type="submit"
+                        text="Add To Inventory"
+                    />
+                    </Box>
+
+            </form>
+        </div>
 
     );
 };

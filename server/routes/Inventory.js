@@ -37,7 +37,7 @@ router.get("/inventoryEdit/:inventory_id", async (req,res) => {
 router.post("/inventory", async (req,res) => {
   
     console.log(req.body);
-    const colour = req.body.colour;
+    const colour = req.body.color;
     const size = req.body.size;
     const type = req.body.type;
     const quantity = req.body.quantity;

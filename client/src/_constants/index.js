@@ -4,3 +4,4 @@ export * from "./checkout.consts";
 export * from "./globalVariable";
 export * from "./productActionTypes";
 export * from "./collection.consts";
+export * from "./colorActionTypes";

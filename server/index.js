@@ -66,6 +66,9 @@ app.use("/placeOrder", ordersRouter);
 const userManageRouter = require('./routes/UserManage');
 app.use("/users", userManageRouter);
 
+const cRouter = require('./routes/Colors');
+app.use("/availableColors", cRouter);
+
 db.sequelize.sync().then(() => {
     app.listen(3001, () => {
         console.log("Server running on port 3001");

@@ -1,0 +1,92 @@
+import React, { useState, useEffect } from 'react';
+import { Grid } from '@material-ui/core';
+import { useForm, Form } from '../../../components/Reusable/useForm';
+import Controls from '../../../components/Reusable/Controls';
+import axios from 'axios';
+import { useHistory } from 'react-router-dom';
+import ColorPicker from '../../../components/Reusable/ColorPicker';
+import {useDispatch, useSelector} from "react-redux";
+import {setColors} from '../../../_actions/colorActions'
+import { ChromePicker } from 'react-color';
+import { Typography, Button} from '@material-ui/core';
+import {fetchColors} from '../../../_actions/colorActions'
+
+const AvailableColorsForm = () => {
+
+    const [colorPrice, setColorPrice] = useState('');
+    const [pickerColor, setPickerColor] = useState('');
+    const [pickerColorArray, setPickerColorArray] = useState([]);
+    const [showColorPicker, setShowColorPicker] = useState(false);
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(fetchColors());
+    }, []);
+
+    const changePrice = (e) => {
+        setColorPrice(e.target.value);
+        console.log(e.target.value);
+    };
+
+    const pickedCOlor = (props) => {
+          var colors = {
+              color: pickerColor,
+              price: colorPrice,
+          }
+
+        console.log(colors)
+        // setPickerColorArray([...pickerColorArray, pickerColor]);
+            var result = dispatch(setColors(colors))   
+            if(result == 0){
+              alert("Not Added to Color")
+              
+              props.resetForm();
+            }else{
+              alert("Added to color");
+            //   window.location.reload(true)
+              
+            //   setColorPrice(''); 
+            }  
+      };
+
+    return (
+        <div>
+            <div>
+                
+                <Grid container>
+                    <div>
+                    <Button onClick={() => setShowColorPicker(showColorPicker => !showColorPicker )}>{showColorPicker ? 'Close Color Picker' : 'Pick a Color'}</Button>
+                    { showColorPicker && (
+                    <ChromePicker 
+                    color={pickerColor}
+                    onChange={updatedColor => setPickerColor(updatedColor.hex)}
+                    />
+                        )
+                        }
+            
+                    <Typography>You Picked {pickerColor}</Typography>
+            {/* <Button type='submit' onClick={pickedCOlor}>Picked Color</Button> */}
+                </div>
+                        <Grid item xs={6}>
+                            <Controls.Input
+                                variant="outlined"
+                                label="Price"
+                                name="colorPrice"
+                                onChange={changePrice}
+                            />
+                        </Grid>
+
+                        <Button
+                        
+                        onClick={pickedCOlor}>ADD COLOR</Button>
+
+                    </Grid>
+
+                
+            </div>
+        </div >
+
+    );
+};
+
+export default AvailableColorsForm;

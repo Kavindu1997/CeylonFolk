@@ -12,6 +12,7 @@ import Designs from './pages/Admin/DesignTable';
 import Inventory from './pages/Admin/InventoryTable';
 import Coupon from './pages/Admin/CouponTable';
 import NotFound from './pages/404/notfound';
+import AvailableColors from './pages/Admin/AvailableColors/AvailableColorsTable';
 
 import Product_detail from './pages/Shop/Product_detail';
 //import Collections from './pages/Collections'
@@ -130,6 +131,7 @@ class App extends Component {
           <Route path="/designs" exact render={() => <Designs />} />
           <Route path="/inventory" exact render={() => <Inventory />} />
           <Route path="/coupon" exact render={() => <Coupon />} />
+          <Route path="/availableColors" exact render={() => <AvailableColors />} />
           <Route path="/checkout" exact render={() => <Checkout />} />
           <Route path="/wishlist" exact render={() => <Wishlist />} />
           <Route path="/aboutUs" exact render={() => <About />} />

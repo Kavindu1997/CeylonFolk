@@ -39,6 +39,7 @@ const onSubmit = (data, props) => {
                 alert("Message sent Successfully");
             }
   });
+  console.log(data);
   props.resetForm();
 };
 
