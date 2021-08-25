@@ -74,7 +74,7 @@ export default function Cart() {
                     .map((value) => {
                       return (
                         <TableRow key={value.customerId}>
-                          <TableCell align="center" style={{ fontFamily: 'Montserrat' }}><img height={100} align="center" src={value.image} /></TableCell>
+                          <TableCell align="center" style={{ fontFamily: 'Montserrat' }}><img height={100} align="center" src={'http://localhost:3001/' + value.image} /></TableCell>
                           <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.name}</TableCell>
                           <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>Rs. {value.price}</TableCell>
                           <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.size}</TableCell>

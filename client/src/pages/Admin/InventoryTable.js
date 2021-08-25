@@ -163,6 +163,15 @@ const InventoryTable = () => {
 
     // }
 
+    const onSetId = (id) => { //'Itom007'
+        localStorage.setItem("inventory_id",id);
+        console.log(id);
+      
+      
+    
+      };
+
+
     return (
 
         <div style={{ display: "flex" }}>
@@ -203,6 +212,72 @@ const InventoryTable = () => {
 
                                         </div>
 
+
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+
+                    </Toolbar>
+
+                    <Container>
+                        <center>
+                            <Typography variant="h5" style={{ marginTop: '80px', textAlign: 'center', backgroundColor: '#C6C6C6', padding: '30px', fontFamily: 'Montserrat' }}>INVENTORY</Typography>
+                            <Table className={classes.table} aria-label="simple table">
+                                <thead>
+                                    <tr>
+
+                                        <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Colour</TableCell>
+                                        <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Size</TableCell>
+                                        <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Type</TableCell>
+                                        <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Quantity</TableCell>
+                                        <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Margin</TableCell>
+                                        <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Delete</TableCell>
+                                     
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    {listOfItems.map((value) =>
+                                        <tr>
+
+                                            <td align="center" style={{ fontFamily: 'Montserrat' }}>{value.color}</td>
+                                            <td align="center" style={{ fontFamily: 'Montserrat' }}>{value.size}</td>
+                                            <td align="center" style={{ fontFamily: 'Montserrat' }}>{value.types}</td>
+                                            <td align="center" style={{ fontFamily: 'Montserrat' }}>{value.quantity}</td>
+                                            <td align="center" style={{ fontFamily: 'Montserrat' }}>{value.margin}</td>
+                                            <TableCell align="center">
+                                                <Button name="remove" >
+                                                    <i className="fa fa-times" aria-hidden="true"></i>
+                                                </Button>
+                                            </TableCell>
+
+                                            <Controls.Button
+                                                text="Edit"
+                                                onClick={() => { onSetId(value.id)
+                                                    setOpenPopup1(true);
+                                                }}
+                                            />
+                                           
+
+
+
+                                            {/* <td><img class="img-fluid" src={"/images/" + name.emp_image} style={{maxWidth:"40px"}}  alt=""/></td> */}
+
+
+                                        </tr>
+                                    )}
+                                </tbody>
+                            </Table>
+                        </center>
+                    </Container>
+
+
+
+                </Paper>
 
 
 
@@ -267,6 +342,7 @@ const InventoryTable = () => {
 
                 </Paper>
 
+
                 <Popup
                     title="Add Inventory Form"
                     openPopup={openPopup}
@@ -276,7 +352,9 @@ const InventoryTable = () => {
                 </Popup>
 
                 <Popup
-                    title="Add Inventory Form"
+
+                    title="Edit Inventory Form"
+
                     openPopup={openPopup1}
                     setOpenPopup={setOpenPopup1}
                 >

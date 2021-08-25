@@ -6,31 +6,34 @@ const bcrypt = require("bcrypt");
 // const {sign} = require('jsonwebtoken')
 
 router.post("/register", async (req, res) => {
-    const { firstName, lastName, email, mobile, password } = req.body;
-
+    const { firstName, lastName, email, mobile, password, userType } = req.body;
     const user1 = await Users.findOne({ where: { email: email } });
-    bcrypt.hash(password, 10).then((hash) => {
-        Users.create({
-            firstName: firstName,
-            lastName: lastName,
-            email: email,
-            contactNo: mobile,
-            password: hash,
-        })
-        res.json("SUCCESS");
-    });
-    if ((user1.email == email)) res.json({ error: "Email already Exist!" });
+    if ((user1)) res.json({ error: "You Have been already registered under this email..please Login!" });
+    else {
+        bcrypt.hash(password, 10).then((hash) => {
+            Users.create({
+                firstName: firstName,
+                lastName: lastName,
+                email: email,
+                contactNo: mobile,
+                password: hash,
+                user_type_id: userType,
+            })
+            res.json("SUCCESS");
+        });
+    }
 });
 
 router.post("/login", async (req, res) => {
     const { loginEmail, loginPassword } = req.body;
-   
-    
+
     const user = await Users.findOne({ where: { email: loginEmail } });
-    
-    if (!(user.email == loginEmail)) res.json({ error: "Email doesn't Exist" });
 
     if (!user) res.json({ error: "Email doesn't Exist" });
+
+    if (!(user.email == loginEmail)) res.json({ error: "Email doesn't Exist" });
+
+
 
     bcrypt.compare(loginPassword, user.password).then((match) => {
         if (!match) res.json({ error: "Wrong Email and Password Combination" });
@@ -44,4 +47,5 @@ router.post("/login", async (req, res) => {
     });
 });
 
-module.exports = router;  
+
+module.exports = router;
