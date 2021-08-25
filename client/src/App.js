@@ -148,10 +148,10 @@ class App extends Component {
           <Route path="/form" exact render={() => <CreateForm />} />
           <Route path="/productD" exact render={() => <ProductD />} />
           <Route path="/canvas" exact render={() => <MyCanvas />} />
-          <Route path="/*" exact render={() => <NotFound />} />
           <Route path="/myLayers" exact render={() => <MyLayers />} />
           <Route path="/myLayers2" exact render={() => <MyLayers2 />} />
           <Route path="/tText" exact render={() => <TransformText />} />
+          <Route path="/*" exact render={() => <NotFound />} />
         </Switch>
       </BrowserRouter>
     </ThemeProvider>

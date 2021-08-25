@@ -7,11 +7,11 @@ import { Button , TextField, Switch, FormControl, CssBaseline} from "@material-u
 import { CirclePicker } from "react-color";
 import { Divider, Upload, Icon, Modal } from "antd";
 import Konva from "konva";
-import mockup2 from '../../images/mockup2.png';
+import mockup2 from '../../images/new/front22.png';
 
 const MyLayer = ({ shapeProps, isSelected, onSelect, onChange }) => {
 
-    const [color, setColor] = useState(["#ffffff"]);
+    const [color, setColor] = useState({ r: 255, g: 255, b: 255 });
     const [textOn, setTextOn] = useState(false);
     const [text, setText] = useState('');
     const [textColor, setTextColor] = useState('');
@@ -31,10 +31,32 @@ const MyLayer = ({ shapeProps, isSelected, onSelect, onChange }) => {
     const [textEdited, setTextEdited] = useState(false); 
     const [textPos, setTextPos] = useState({ x: 300, y: 300 }); 
     const [imageUrl, setImageUrl] = useState(''); 
+    const cache = {};
 
     useEffect(() => {
         setImage(getImage());
+        shirtRef.current.cache();
+        shirtRef.current.getLayer().batchDraw();
+        shirtRef.current.blue(color.b);
+    shirtRef.current.red(color.r);
+    shirtRef.current.green(color.g);
     }, []);
+
+    shirtRef.current.cache();
+        shirtRef.current.getLayer().batchDraw();
+        shirtRef.current.blue(color.b);
+    shirtRef.current.red(color.r);
+    shirtRef.current.green(color.g);
+
+    useEffect(() => {
+      if (images) {
+        shirtRef.current.cache();
+        shirtRef.current.getLayer().batchDraw();
+        shirtRef.current.blue(color.b);
+    shirtRef.current.red(color.r);
+    shirtRef.current.green(color.g);
+      }
+    }, [images]);
 
     const getImage = () => {
         const MyImage = new window.Image()
@@ -102,7 +124,7 @@ const MyLayer = ({ shapeProps, isSelected, onSelect, onChange }) => {
     console.log(clothing)
     if (value !== clothing) {
       setClothing(value);
-      setColor("#ffffff");
+      setColor({ r: 255, g: 255, b: 255 });
     }
     console.log(clothing)
   };
@@ -178,7 +200,7 @@ const MyLayer = ({ shapeProps, isSelected, onSelect, onChange }) => {
             <CssBaseline />
 
       
-      <div className="container">
+      <div className="container" style={{margin:'50px'}}>
         
         <div className="clothes" style={{backgroundColor: color}}>
           <Stage
@@ -188,13 +210,13 @@ const MyLayer = ({ shapeProps, isSelected, onSelect, onChange }) => {
             >
             <Layer>{clothing === 'tshirt' ? 
               <Image
-                // filters={[Konva.Filters.RGB]}
+                filters={[Konva.Filters.RGB]}
                 image={images}
                 x={0}
                 y={0}
                 width={500}
                 height={500}
-                // ref={shirtRef}
+                ref={shirtRef}
               />:<></>}
             </Layer>
             <Layer>
@@ -221,8 +243,8 @@ const MyLayer = ({ shapeProps, isSelected, onSelect, onChange }) => {
                 circleSize={circleSize}
                 colors={tshirt}
                 onChange={color => {
-                  setColor(color.hex);;
-                  console.log(color.hex)
+                  setColor(color.rgb);
+                  console.log(color.rgb)
                 }}
               />
             ) : (

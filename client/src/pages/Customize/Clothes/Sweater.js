@@ -2,9 +2,9 @@ import React, { Component } from "react";
 import { Image } from "react-konva";
 import { render } from "react-dom";
 import Konva from "konva";
-import tshirt from "../../../images/new/tshirt.png";
+import sweater from "../../../images/new/sweater.png";
 
-class TShirt extends Component {
+class Sweater extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -14,20 +14,20 @@ class TShirt extends Component {
 
   componentDidUpdate() {
     //image needs to be cached to display changes
-    this.shirt.cache();
-    this.shirt.blue(this.props.color.b);
-    this.shirt.red(this.props.color.r);
-    this.shirt.green(this.props.color.g);
+    this.sweater.cache();
+    this.sweater.blue(this.props.color.b);
+    this.sweater.red(this.props.color.r);
+    this.sweater.green(this.props.color.g);
   }
 
   componentDidMount() {
     this.getImage();
   }
 
-  //Sets TShirt to the stage
+  //Sets sweater to the stage
   getImage() {
     const image = new window.Image();
-    image.src = tshirt;
+    image.src = sweater;
     image.onload = () => {
       this.setState({
         image: image
@@ -35,22 +35,26 @@ class TShirt extends Component {
     };
   }
 
+  handleClick = () => {
+    this.shirt.cache();
+  };
+
   //Filters is used to change the color of the image
   render() {
     return (
       <Image
         filters={[Konva.Filters.RGB]}
         image={this.state.image}
-        x={0}
-        y={0}
-        width={500}
-        height={500}
+        offsetX={-50}
+        offsetY={-50}
+        width={400}
+        height={400}
         ref={node => {
-          this.shirt = node;
+          this.sweater = node;
         }}
       />
     );
   }
 }
 
-export default TShirt;
+export default Sweater;
