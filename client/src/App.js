@@ -11,9 +11,8 @@ import Collections from './pages/Admin/CollectionTable';
 import Designs from './pages/Admin/DesignTable';
 import Inventory from './pages/Admin/InventoryTable';
 import Coupon from './pages/Admin/CouponTable';
-import NotFound from './pages/404/notfound';
+import NotFound from './pages/PageNotFound/Notfound';
 import AvailableColors from './pages/Admin/AvailableColors/AvailableColorsTable';
-
 import Product_detail from './pages/Shop/Product_detail';
 //import Collections from './pages/Collections'
 //import Inventory from './pages/Inventory';
@@ -32,11 +31,9 @@ import Termnconditions from './pages/TermsAndConditions';
 import CreateForm from './pages/CreateForm';
 import ProductD from './pages/ProductD';
 import MyCanvas from './pages/MyCanvas';
-
 import MyLayers from './pages/Customize/MyLayer';
 import MyLayers2 from './pages/Customize/MyLayers2';
 import TransformText from './pages/Customize/TransformText';
-
 import { Component } from 'react';
 import { Class } from '@material-ui/icons';
 import { render } from 'react-dom';
@@ -148,10 +145,10 @@ class App extends Component {
           <Route path="/form" exact render={() => <CreateForm />} />
           <Route path="/productD" exact render={() => <ProductD />} />
           <Route path="/canvas" exact render={() => <MyCanvas />} />
-          <Route path="/*" exact render={() => <NotFound />} />
           <Route path="/myLayers" exact render={() => <MyLayers />} />
           <Route path="/myLayers2" exact render={() => <MyLayers2 />} />
           <Route path="/tText" exact render={() => <TransformText />} />
+          <Route path="/*" exact render={() => <NotFound />} />        
         </Switch>
       </BrowserRouter>
     </ThemeProvider>
