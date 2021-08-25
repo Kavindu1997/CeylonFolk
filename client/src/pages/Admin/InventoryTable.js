@@ -18,6 +18,8 @@ import Controls from "../../components/Reusable/Controls";
 import Popup from "../../components/Reusable/Popup";
 import Notification from "../../components/Reusable/Notification";
 import ConfirmDialog from "../../components/Reusable/ConfirmDialog";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchColors } from '../../_actions/colorActions'
 
 import Lottie from "react-lottie";
 import Collection from "../../images/collection.json";
@@ -62,6 +64,7 @@ const InventoryTable = () => {
     const classes = useStyles();
     const [search, setSearch] = useState('');
     const [record, setRecord] = useState([]);
+    const dispatch = useDispatch();
 
 
     // On Page load display all records 
@@ -99,12 +102,8 @@ const InventoryTable = () => {
     }
     useEffect(() => {
         loadRecordAgain();
+        dispatch(fetchColors());
     }, []);
-
-
-
-
-
 
     //Inventory Things
 
@@ -265,7 +264,9 @@ const InventoryTable = () => {
                                            
 
 
+
                                             {/* <td><img class="img-fluid" src={"/images/" + name.emp_image} style={{maxWidth:"40px"}}  alt=""/></td> */}
+
 
                                         </tr>
                                     )}
@@ -275,7 +276,72 @@ const InventoryTable = () => {
                     </Container>
 
 
+
                 </Paper>
+
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+
+                    </Toolbar>
+
+                    <Container>
+                        <center>
+                            <Typography variant="h5" style={{ marginTop: '80px', textAlign: 'center', backgroundColor: '#C6C6C6', padding: '30px', fontFamily: 'Montserrat' }}>INVENTORY</Typography>
+                            <TableContainer style={{ marginTop: '30px', align: 'center', width: '1200px' }}>
+                            <Table className={classes.table} aria-label="simple table">
+                            
+                            <TableHead>
+                                <TableRow>
+
+                                        <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Colour</TableCell>
+                                        <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Size</TableCell>
+                                        <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Type</TableCell>
+                                        <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Quantity</TableCell>
+                                        <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Margin</TableCell>
+                                        </TableRow>
+                                        </TableHead>
+                                <TableBody>
+
+                                    {listOfItems.map((value) =>
+                                        <TableRow>
+
+                                            <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>
+                                                {/* {value.color} */}
+                                                
+                                                    <Box style={{ display: 'flex', justifyContent:'center' }}>
+                                                                
+                                                                                <span className={classes.swatchVisible} style={{ backgroundColor: value.color }}></span>
+                                                                            
+                                                            
+
+                            
+                                                    </Box>
+                                                
+                                                    </TableCell>
+                                                    <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.size}</TableCell>
+                                                    <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.types}</TableCell>
+                                                    <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.quantity}</TableCell>
+                                                    <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.margin}</TableCell>
+
+
+                                            {/* <td><img class="img-fluid" src={"/images/" + name.emp_image} style={{maxWidth:"40px"}}  alt=""/></td> */}
+
+                                            </TableRow>
+                                    )}
+                                </TableBody>
+                                </Table>
+                            </TableContainer>
+                        </center>
+                    </Container>
+
+
+                </Paper>
+
 
                 <Popup
                     title="Add Inventory Form"
@@ -286,7 +352,9 @@ const InventoryTable = () => {
                 </Popup>
 
                 <Popup
+
                     title="Edit Inventory Form"
+
                     openPopup={openPopup1}
                     setOpenPopup={setOpenPopup1}
                 >

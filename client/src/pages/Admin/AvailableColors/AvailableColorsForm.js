@@ -1,15 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Grid } from '@material-ui/core';
-import { useForm, Form } from '../../../components/Reusable/useForm';
 import Controls from '../../../components/Reusable/Controls';
-import axios from 'axios';
-import { useHistory } from 'react-router-dom';
 import ColorPicker from '../../../components/Reusable/ColorPicker';
-import {useDispatch, useSelector} from "react-redux";
-import {setColors} from '../../../_actions/colorActions'
+import { useDispatch, useSelector } from "react-redux";
+import { setColors } from '../../../_actions/colorActions'
 import { ChromePicker } from 'react-color';
-import { Typography, Button} from '@material-ui/core';
-import {fetchColors} from '../../../_actions/colorActions'
+import { Typography, Button, Box } from '@material-ui/core';
+import { fetchColors } from '../../../_actions/colorActions'
 
 const AvailableColorsForm = () => {
 
@@ -29,60 +26,58 @@ const AvailableColorsForm = () => {
     };
 
     const pickedCOlor = (props) => {
-          var colors = {
-              color: pickerColor,
-              price: colorPrice,
-          }
+        var colors = {
+            color: pickerColor,
+            price: colorPrice,
+        }
 
         console.log(colors)
         // setPickerColorArray([...pickerColorArray, pickerColor]);
-            var result = dispatch(setColors(colors))   
-            if(result == 0){
-              alert("Not Added to Color")
-              
-              props.resetForm();
-            }else{
-              alert("Added to color");
+        var result = dispatch(setColors(colors))
+        if (result == 0) {
+            alert("Not Added to Color")
+            dispatch(fetchColors());
+            props.resetForm();
+        } else {
+            alert("Added to color");
             //   window.location.reload(true)
-              
             //   setColorPrice(''); 
-            }  
-      };
+        }
+
+    };
 
     return (
         <div>
             <div>
-                
                 <Grid container>
                     <div>
-                    <Button onClick={() => setShowColorPicker(showColorPicker => !showColorPicker )}>{showColorPicker ? 'Close Color Picker' : 'Pick a Color'}</Button>
-                    { showColorPicker && (
-                    <ChromePicker 
-                    color={pickerColor}
-                    onChange={updatedColor => setPickerColor(updatedColor.hex)}
-                    />
+                        <Button style={{ margin: '10px', padding: '10px', background: 'black', color: 'white' }} onClick={() => setShowColorPicker(showColorPicker => !showColorPicker)}>{showColorPicker ? 'Close Color Picker' : 'Pick a Color'}</Button>
+                        {showColorPicker && (
+                            <ChromePicker
+                                color={pickerColor}
+                                onChange={updatedColor => setPickerColor(updatedColor.hex)}
+                            />
                         )
                         }
-            
-                    <Typography>You Picked {pickerColor}</Typography>
-            {/* <Button type='submit' onClick={pickedCOlor}>Picked Color</Button> */}
-                </div>
-                        <Grid item xs={6}>
-                            <Controls.Input
-                                variant="outlined"
-                                label="Price"
-                                name="colorPrice"
-                                onChange={changePrice}
-                            />
-                        </Grid>
 
-                        <Button
-                        
-                        onClick={pickedCOlor}>ADD COLOR</Button>
-
+                        <Typography>You Picked {pickerColor}</Typography>
+                        {/* <Button type='submit' onClick={pickedCOlor}>Picked Color</Button> */}
+                    </div>
+                    <Grid item xs={6}>
+                        <Controls.Input
+                            variant="outlined"
+                            label="Price"
+                            name="colorPrice"
+                            onChange={changePrice}
+                        />
                     </Grid>
 
-                
+                    <Box>
+                        <Button style={{ margin: '10px', padding: '10px', background: 'black', color: 'white' }}
+
+                            onClick={pickedCOlor}>ADD COLOR</Button>
+                    </Box>
+                </Grid>
             </div>
         </div >
 

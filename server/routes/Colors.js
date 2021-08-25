@@ -14,7 +14,7 @@ router.post("/", (req, res) => {
 });
 
 router.get("/fetchColors", async (req,res) => {
-    const query = "SELECT color FROM `colors`";
+    const query = "SELECT id, color, price FROM `colors`";
     const colorList = await sequelize.query(query, {type: sequelize.QueryTypes.SELECT});
     res.json(colorList);
 });
