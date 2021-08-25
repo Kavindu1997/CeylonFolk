@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Component } from "react";
+import React, { useState, useEffect, Component, useRef } from "react";
 import CommonNav from '../../components/Navbars/CommonNav';
 import Footer from '../../components/Footer/Footer';
 import "./MyLayerStyles.css";
@@ -23,7 +23,7 @@ const MyLayer = ({ shapeProps, isSelected, onSelect, onChange }) => {
     const [circleSize, setCircleSize] = useState(35);
     const [tshirt, setTshirt] = useState(["#ffffff", "#000000", "#ff0000", "	#008000"]);
     const [sweater, setSweater] = useState(["#ffffff", "#000000", "#ffff00", "#ff69b4"]);
-    const [images, setImage] = useState('');
+    
     const [selectedShapeName, setSelectedShapeName] = useState('');
     const shirtRef = React.useRef();
     const transformer = React.useRef();
@@ -33,38 +33,64 @@ const MyLayer = ({ shapeProps, isSelected, onSelect, onChange }) => {
     const [imageUrl, setImageUrl] = useState(''); 
     const cache = {};
 
+    const [images, setImage] = useState(new window.Image());
+
+
+  //   const getImage = () => {
+  //     const MyImage = new window.Image()
+  //     MyImage.src = mockup2;
+  //     MyImage.onload = () => {
+  //     setImage(MyImage)
+  //   };
+    
+  // }
+
     useEffect(() => {
-        setImage(getImage());
-        shirtRef.current.cache();
-        shirtRef.current.getLayer().batchDraw();
-        shirtRef.current.blue(color.b);
-    shirtRef.current.red(color.r);
-    shirtRef.current.green(color.g);
+        // setImage(getImage());
+      const MyImage = new window.Image()
+      MyImage.src = mockup2;
+      MyImage.onload = () => {
+      setImage(MyImage)
+
+      shirtRef.current.cache(images);
+    // shirtRef.current.getLayer().batchDraw();
+    // shirtRef.current.blue(color.b);
+    // shirtRef.current.red(color.r);
+    // shirtRef.current.green(color.g);
+    }
     }, []);
 
-    shirtRef.current.cache();
-        shirtRef.current.getLayer().batchDraw();
-        shirtRef.current.blue(color.b);
+    useEffect(() => {
+      if (!shirtRef.current) {
+        // do componentDidMount logic
+        shirtRef.current = true;
+      } else {
+        // do componentDidUpdate logic
+        shirtRef.current.cache();
+    shirtRef.current.getLayer().batchDraw();
+    shirtRef.current.blue(color.b);
     shirtRef.current.red(color.r);
     shirtRef.current.green(color.g);
+      }
+    });
+    
+
+    // shirtRef.current.cache();
+    // shirtRef.current.getLayer().batchDraw();
+    // shirtRef.current.blue(color.b);
+    // shirtRef.current.red(color.r);
+    // const gg = shirtRef.current.green(color.g);
+    // console.log(gg)
 
     useEffect(() => {
       if (images) {
         shirtRef.current.cache();
         shirtRef.current.getLayer().batchDraw();
         shirtRef.current.blue(color.b);
-    shirtRef.current.red(color.r);
-    shirtRef.current.green(color.g);
+        shirtRef.current.red(color.r);
+        shirtRef.current.green(color.g);
       }
     }, [images]);
-
-    const getImage = () => {
-        const MyImage = new window.Image()
-        MyImage.src = mockup2;
-        MyImage.onload = () => {
-        setImage(MyImage)
-      };
-    }
 
     const onDragEnd = () => {
       setTextEdited(true)
