@@ -5,8 +5,7 @@ import { checkout } from "./checkout.reducer";
 import { productReducer, selectProductReducer } from "./productReducer";
 import { colorReducer } from "./colorReducer";
 
-const rootReducer = combineReducers({ user, cart, checkout, productReducer, selectProductReducer,  colorReducer});
+const rootReducer = combineReducers({ user, cart, checkout, productReducer, selectProductReducer, colorReducer });
 
 
 export default rootReducer;
- 
