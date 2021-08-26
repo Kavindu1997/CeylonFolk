@@ -117,7 +117,7 @@ const Shop = () => {
                                 <Grid item xs={12} sm={6} md={3} onClick={() => {
                                     history.push(`/productDetails/${id}`);
                                 }}>
-                                    <Link>
+                                    <Link style={{ textDecoration: 'none' }}>
                                         <Card className={classes.card}>
                                             <CardActionArea>
                                                 {/* <CardMedia
@@ -127,7 +127,7 @@ const Shop = () => {
                                                     }}
                                                     title="Snowy"
                                                 /> */}
-                                                <img style={{ width: '100%', overflow:'hidden', objectFit:'cover', hight:'100px' }} src={'http://localhost:3001/' + coverImage} alt=""></img>
+                                                <img style={{ width: '100%', overflow: 'hidden', objectFit: 'cover', hight: '293px' }} src={'http://localhost:3001/' + coverImage} alt=""></img>
 
                                                 <CardContent>
                                                     <div>
