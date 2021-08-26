@@ -37,13 +37,14 @@ import { Component } from 'react';
 import { Class } from '@material-ui/icons';
 import { render } from 'react-dom';
 import CommonNav from './components/Navbars/HomeNav';
-import {Provider} from 'react-redux';
-import {createStore } from 'redux';
-import {cart} from './_reducers/cart.reducer';
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
+import { cart } from './_reducers/cart.reducer';
 import { StoreProvider } from "./_util";
 import Deposit from './pages/Checkout/deposit';
 
-
+import Manager from './pages/Manager';
+import Assistant from './pages/Assistant';
 
 
 const theme = createMuiTheme({
@@ -109,52 +110,56 @@ const theme = createMuiTheme({
 
 class App extends Component {
   render() {
-  return (
-   <StoreProvider>
-    <ThemeProvider theme={theme}>
-      <BrowserRouter>
-        <Switch>
-          <Route exact path={"/"}  component = {Home} />
-          <Route exact path="/shop" component = {Shop} />
-          <Route exact path="/contactus" component = {Contactus} />
-          <Route path="/auth" exact render={() => < Authentication />} />
-          <Route exact path={"/cart"} component = {MyCart} />
-          <Route exact path={"/productDetails/:id"} component = {Product_detail} />
-          <Route exact path={"/deposit"} component = {Deposit} />
-          <Route path="/admin" exact render={() => <AdminPanel />} />
-          <Route path="/users" exact render={() => <Users />} />
-          <Route path="/collections" exact render={() => <Collections />} />
-          <Route path="/designs" exact render={() => <Designs />} />
-          <Route path="/inventory" exact render={() => <Inventory />} />
-          <Route path="/coupon" exact render={() => <Coupon />} />
-          <Route path="/availableColors" exact render={() => <AvailableColors />} />
-          <Route path="/checkout" exact render={() => <Checkout />} />
-          <Route path="/wishlist" exact render={() => <Wishlist />} />
-          <Route path="/aboutUs" exact render={() => <About />} />
-          <Route path="/profile" exact render={() => <Profile />} />
-          <Route path="/myWishlist" exact render={() => <ProfileWishlist />} />
-          <Route path="/myOrders" exact render={() => <OrderHistory />} />
-          {/* <Route path="/collections" exact render={() => <Collections />} />
+    return (
+      <StoreProvider>
+        <ThemeProvider theme={theme}>
+          <BrowserRouter>
+            <Switch>
+              <Route exact path={"/"} component={Home} />
+              <Route exact path="/shop" component={Shop} />
+              <Route exact path="/contactus" component={Contactus} />
+              <Route path="/auth" exact render={() => < Authentication />} />
+              <Route exact path={"/cart"} component={MyCart} />
+              <Route exact path={"/productDetails/:id"} component={Product_detail} />
+              <Route exact path={"/deposit"} component={Deposit} />
+              <Route path="/admin" exact render={() => <AdminPanel />} />
+              <Route path="/users" exact render={() => <Users />} />
+              <Route path="/collections" exact render={() => <Collections />} />
+              <Route path="/designs" exact render={() => <Designs />} />
+              <Route path="/inventory" exact render={() => <Inventory />} />
+              <Route path="/coupon" exact render={() => <Coupon />} />
+              <Route path="/availableColors" exact render={() => <AvailableColors />} />
+              <Route path="/checkout" exact render={() => <Checkout />} />
+              <Route path="/wishlist" exact render={() => <Wishlist />} />
+              <Route path="/aboutUs" exact render={() => <About />} />
+              <Route path="/profile" exact render={() => <Profile />} />
+              <Route path="/myWishlist" exact render={() => <ProfileWishlist />} />
+              <Route path="/myOrders" exact render={() => <OrderHistory />} />
+              {/* <Route path="/collections" exact render={() => <Collections />} />
           <Route path="/coupon" exact render={() => <Coupon />} />
           <Route path="/inventory" exact render={() => <Inventory />} />
           <Route path="/designs" exact render={() => <Design />} />  */}
-          <Route path="/customize" exact render={() => <Customize />} />
-          <Route path="/termnconditions" exact render={() => <Termnconditions />} />
-          <Route path="/tab" exact render={() => <Tab />} />
-          <Route path="/form" exact render={() => <CreateForm />} />
-          <Route path="/productD" exact render={() => <ProductD />} />
-          <Route path="/canvas" exact render={() => <MyCanvas />} />
-          <Route path="/myLayers" exact render={() => <MyLayers />} />
-          <Route path="/myLayers2" exact render={() => <MyLayers2 />} />
-          <Route path="/tText" exact render={() => <TransformText />} />
-          <Route path="/*" exact render={() => <NotFound />} />        
-        </Switch>
-      </BrowserRouter>
-    </ThemeProvider>
-    </StoreProvider>
-   
-  );
-}
+              <Route path="/customize" exact render={() => <Customize />} />
+              <Route path="/termnconditions" exact render={() => <Termnconditions />} />
+              <Route path="/tab" exact render={() => <Tab />} />
+              <Route path="/form" exact render={() => <CreateForm />} />
+              <Route path="/productD" exact render={() => <ProductD />} />
+              <Route path="/canvas" exact render={() => <MyCanvas />} />
+
+              <Route path="/myLayers" exact render={() => <MyLayers />} />
+              <Route path="/myLayers2" exact render={() => <MyLayers2 />} />
+              <Route path="/tText" exact render={() => <TransformText />} />
+
+              <Route path="/manager" exact render={() => <Manager />} />
+              <Route path="/assistant" exact render={() => <Assistant />} />
+              <Route path="/*" exact render={() => <NotFound />} />
+            </Switch>
+          </BrowserRouter>
+        </ThemeProvider>
+      </StoreProvider>
+
+    );
+  }
 }
 
 export default App;

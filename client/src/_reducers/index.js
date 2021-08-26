@@ -12,4 +12,3 @@ const rootReducer = combineReducers({ user, cart, checkout, productReducer,color
 
 
 export default rootReducer;
- 
