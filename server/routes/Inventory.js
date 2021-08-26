@@ -59,9 +59,27 @@ router.post("/inventory", async (req,res) => {
     // res.json(type_id);
     const id3 = type_id[0].id;
 
+    
+    // const checkQuery = "SELECT id from inventories where colour_id='" + id1 + "', size_id='" + id2 + "', type_id='" + id3 + "'";
+    // const checkInventory = await sequelize.query(checkQuery, {type: sequelize.QueryTypes.SELECT});
+    // console.log("ssssnew hiiii");
+    // console.log(checkInventory);
+
+
+
+
+    if(quantity>margin){
+
     const query = "INSERT INTO inventories (colour_id,size_id,type_id,quantity,margin) VALUES ('" + id1 + "','" + id2 + "','" + id3 + "','" + quantity + "','" + margin + "')";
     const addInvent = await sequelize.query(query, {type: sequelize.QueryTypes.INSERT});
     res.json(addInvent); 
+
+    }
+
+    // else{
+
+      
+    // }
   
 
 });
