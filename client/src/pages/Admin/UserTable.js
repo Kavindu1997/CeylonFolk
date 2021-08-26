@@ -18,8 +18,7 @@ import useStyles from './style';
 import AdminNav from "../../components/Reusable/AdminNav"
 import Lottie from 'react-lottie';
 import User from '../../images/user.json';
-import axios from 'axios';
-import {fetchUsers,createUser,deleteUser } from '../../_actions/userManageAction';
+import {fetchUsers,createUser,deleteUser,updateUser } from '../../_actions/userManageAction';
 
 
 const headCells = [
@@ -34,21 +33,8 @@ const headCells = [
 
 const UserTable = () => {
     const classes = useStyles();
-    const [records, setRecords] = useState([]);
-    // useEffect(()=>{
-    //     axios.get("http://localhost:3001/users/").then((response)=>{
-    //               setRecords(response.data);
-    //     });
-    // },[]);
-
     const userRecords=useSelector((state)=>state.userReducer.users);
-    const userRecord=useSelector((state)=>state.selectUserReducer);
     const dispatch=useDispatch();
-    // const fetchUsers=async()=>{
-    //     const response=await axios.get("http://localhost:3001/users/");
-    //     dispatch(setUsers(response.data));
-    // };
-
     useEffect(()=>{
        dispatch(fetchUsers());
     },[]);
@@ -79,34 +65,33 @@ const UserTable = () => {
 
     const addOrEdit = (data, resetForm) => {
         if (data.id === 0){
-        //     axios.post("http://localhost:3001/users/", data).then(() => {
-        //         axios.get("http://localhost:3001/users/").then((response)=>{
-        //             setRecords(response.data);
-        //         });
-        //  });
          dispatch(createUser(data));
          window.location.reload(true);
-        }else
-          //  userService.updateUser(user);
+         resetForm();
+         setRecordForEdit(null);
+         setOpenPopup(false);
+         dispatch(fetchUsers());
+         setNotify({
+             isOpen: true,
+             message: 'Added Successfully !',
+             type: 'success'
+         });
+        
+        }else{
+        dispatch(updateUser(data,data.id));
         resetForm();
         setRecordForEdit(null);
         setOpenPopup(false);
-        // axios.get("http://localhost:3001/users/").then((response)=>{
-        // setRecords(response.data);
-        // });
         dispatch(fetchUsers());
         setNotify({
             isOpen: true,
-            message: 'Added Successfully !',
-            type: 'success'
+            message: 'Edited Successfully !',
+            type: 'info'
         });
+        window.location.reload(true);
     }
-
+    }
     const openInPopup = item => {
-        // axios.get(`http://localhost:3001/users/${item.id}`).then((response)=>{
-        //    console.log(response.data);   
-        //    setRecordForEdit(response.data);
-        // });
         setRecordForEdit(item);
         setOpenEditPopup(true);
     }
@@ -116,11 +101,7 @@ const UserTable = () => {
             ...confirmDialog,
             isOpen: false
         });
-        // axios.delete(`http://localhost:3001/users/${id}`).then(()=>{
-        //     axios.get("http://localhost:3001/users/").then((response)=>{
-        //     setRecords(response.data);
-        // }); refresh the records array
-        // });
+     
         dispatch(deleteUser(id));
         window.location.reload(true);
         setNotify({

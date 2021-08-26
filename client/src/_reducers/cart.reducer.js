@@ -32,11 +32,11 @@ export const cart = (state = initState, action) => {
                     totalAmount: action.payload.total,
                 };
                 
-            case CART_CONSTS.ADD_TO_CART:
-            return {
-                ...state,
-                cart: [...state.cart, action.payload]
-            };
+            // case CART_CONSTS.ADD_TO_CART:
+            // return {
+            //     ...state,
+            //     cart: [...state.cart, action.payload]
+            // };
 
 
         case CART_CONSTS.DELETE_ITEM:

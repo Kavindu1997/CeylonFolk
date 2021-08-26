@@ -16,16 +16,8 @@ export const deleteUser = (id) => async (dispatch) => {
   dispatch({type: UserManageActionTypes.DELETE_USER,payload: response.data});
 }
 
-// export const fetchProduct = (id) => async function(dispatch) {
-//   const response = await ceylonforkapi.get(`/ProductDetails/byPid/${id}`)
-//   dispatch({type: ProductActionTypes.SELECTED_PRODUCT,payload: response.data})
-// }
-
-
-
-// export const removeSelectedUser = () => {
-//   return { 
-//     type:  UserManageActionTypes.REMOVE_SELECTED_USER, 
-//   };
-// }
+export const updateUser = (data,id) => async (dispatch) => {
+  const response = await ceylonforkapi.put(`/users/${id}`,data);
+  dispatch({type: UserManageActionTypes.UPDATE_USER,payload: response.data});
+}
 

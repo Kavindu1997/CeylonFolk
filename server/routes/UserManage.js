@@ -36,10 +36,11 @@ router.get('/',async(req,res)=>{
   });
 
 
-router.get("/:userId", async (req,res) => {
+router.put("/:userId", async (req,res) => {
     const userId = req.params.userId
-    const query = "SELECT first_name,last_name,email,mobile_no,gender,user_type FROM `usermanages` WHERE id='" + userId + "'";
-    const result = await sequelize.query(query, {type: sequelize.QueryTypes.SELECT});
+    const { first_name, last_name, email, mobile_no,gender,user_type } = req.body;
+    const query = "UPDATE usermanages SET first_name='" + first_name + "',last_name='" + last_name + "',email='" + email + "',mobile_no='" + mobile_no + "',gender='" + gender + "',user_type='" + user_type + "' WHERE id='" + userId + "'";
+    const result = await sequelize.query(query, {type: sequelize.QueryTypes.UPDATE});
     res.json(result);
 });
 

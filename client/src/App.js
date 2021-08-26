@@ -19,7 +19,6 @@ import Product_detail from './pages/Shop/Product_detail';
 //import Design from './pages/Design';
 import MyCart from './pages/Cart'
 import Checkout from './pages/Checkout'
-//import Coupon from './pages/Coupon';
 import Wishlist from './pages/Wishlist';
 import About from './pages/AboutUs';
 import Profile from './pages/MyAccount';
