@@ -36,6 +36,23 @@ const useStyles = makeStyles((theme) => ({
       // rightButtonBackgroundColor:'#EA3788', 
       // leftButtonBackgroundColor:'#E56B70',
     },
+
+    save: {
+      display: 'none'
+    },
+    activeSave: {
+      display: 'block'
+    },
+    spreadBox: {
+      justifyContent: "space-around",
+      alignItems: "center",
+  },
+  box: {
+      height: 100,
+      display: "flex",
+      padding: 50
+  },
+
   }));
 
 export default useStyles;
