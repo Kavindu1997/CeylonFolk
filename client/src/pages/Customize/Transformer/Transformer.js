@@ -1,45 +1,60 @@
-import React, { Component } from "react";
+import React, { Component, useState, useEffect } from "react";
 import { render } from "react-dom";
 import { Transformer } from "react-konva";
 
-class TransformerComponent extends Component {
+const TransformerComponent = (props) => {
+
+  const transformerRef = React.useRef();
+
   //Helper for transforming objects
 
-  componentDidMount() {
-    this.checkNode();
+//   useEffect(() => {
+//     checkNode();
+// }, [])
+
+useEffect(() => {
+  if (!transformerRef.current) {
+    // do componentDidMount logic
+    checkNode();
+  } else {
+    // do componentDidUpdate logic
+    checkNode();
   }
-  componentDidUpdate() {
-    this.checkNode();
-  }
-  checkNode() {
+});
+
+  // componentDidMount() {
+  //   this.checkNode();
+  // }
+  // componentDidUpdate() {
+  //   this.checkNode();
+  // }
+  const checkNode = (e) => {
     // attach or detach Transformer node
-    const stage = this.transformer.getStage();
-    const { selectedShapeName } = this.props;
+    const stage = transformerRef.current.getStage();
+    const { selectedShapeName } = props;
 
     const selectedNode = stage.findOne("." + selectedShapeName);
     // do nothing if selected node is already attached
-    if (selectedNode === this.transformer.node()) {
+    if (selectedNode === transformerRef.current.node()) {
       return;
     }
 
     if (selectedNode) {
       // attach to another node
-      this.transformer.attachTo(selectedNode);
+      transformerRef.current.attachTo(selectedNode);
     } else {
       // remove transformer
-      this.transformer.detach();
+      transformerRef.current.detach();
     }
-    this.transformer.getLayer().batchDraw();
+    transformerRef.current.getLayer().batchDraw();
   }
-  render() {
+  
     return (
       <Transformer
-        ref={node => {
-          this.transformer = node;
-        }}
+        ref={transformerRef}
       />
     );
-  }
+  
 }
 
 export default TransformerComponent;

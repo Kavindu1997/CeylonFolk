@@ -21,6 +21,7 @@ import mockup2 from '../../images/front22.png';
 import { Formik, Form, Field } from "formik"
 import UploadBar from "./UploadBar";
 
+
 const Customize = () => {
 
   const classes = useStyles();

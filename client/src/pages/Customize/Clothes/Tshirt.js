@@ -1,56 +1,50 @@
-import React, { Component } from "react";
+import React, { Component, useState, useEffect } from "react";
 import { Image } from "react-konva";
-import { render } from "react-dom";
 import Konva from "konva";
-import tshirt from "../../../images/new/tshirt.png";
+import mockup2 from "../../../images/new/front22.png";
 
-class TShirt extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      image: null
-    };
-  }
 
-  componentDidUpdate() {
-    //image needs to be cached to display changes
-    this.shirt.cache();
-    this.shirt.blue(this.props.color.b);
-    this.shirt.red(this.props.color.r);
-    this.shirt.green(this.props.color.g);
-  }
+const TShirt = (props) => {
 
-  componentDidMount() {
-    this.getImage();
-  }
+  const [images, setImage] = useState(new window.Image());
+  const shirtRef = React.useRef();
 
-  //Sets TShirt to the stage
-  getImage() {
-    const image = new window.Image();
-    image.src = tshirt;
-    image.onload = () => {
-      this.setState({
-        image: image
-      });
-    };
-  }
+  useEffect(() => {
+    const MyImage = new window.Image()
+    MyImage.src = mockup2;
+    MyImage.onload = () => {
+      setImage(MyImage)
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!shirtRef.current) {
+      // do componentDidMount logic
+      shirtRef.current = true;
+    } else {
+      // do componentDidUpdate logic
+      shirtRef.current.cache();
+      shirtRef.current.getLayer().batchDraw();
+      shirtRef.current.blue(props.color.b);
+      shirtRef.current.red(props.color.r);
+      shirtRef.current.green(props.color.g);
+    }
+  });
 
   //Filters is used to change the color of the image
-  render() {
+  
     return (
       <Image
         filters={[Konva.Filters.RGB]}
-        image={this.state.image}
+        image={images}
         x={0}
         y={0}
         width={500}
         height={500}
-        ref={node => {
-          this.shirt = node;
-        }}
+        ref={shirtRef}
       />
     );
-  }
+  
 }
 
 export default TShirt;

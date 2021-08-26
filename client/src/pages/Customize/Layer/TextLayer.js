@@ -1,32 +1,48 @@
-import React, { Component } from "react";
-import { Text } from "react-konva";
+import React, { Component, useState, useEffect } from "react";
+import { Text,Transformer } from "react-konva";
 import { render } from "react-dom";
 
-class TextLayer extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      text: ""
-    };
-  }
+const TextLayer = (props) => {
+
+  // const [text, setText] = useState('')
+  const textRef = React.useRef();
+  const shapeRef = React.useRef();
+  const trRef = React.useRef();
+
+  // useEffect(() => {
+  //   if (props.isSelected) {
+  //     // we need to attach transformer manually
+  //     trRef.current.nodes([textRef.current]);
+  //     trRef.current.getLayer().batchDraw();
+  //   }
+  // }, [props.isSelected]);
 
   //The component waints for changes in the text,
   //it updates the text as it receives new character
-  componentWillReceiveProps(newProps) {
-    if (newProps.text !== this.props.text) {
-      this.setState({
-        text: newProps.text
-      });
-    }
-  }
+  // useEffect(() => {
+  //   if (isSelected) {
+  //     trRef.current.setNode(shapeRef.current);
+  //     trRef.current.getLayer().batchDraw();
+  //   }
+  // }, [isSelected]);
+//   useEffect(() => {
+//     setText(props.text)
+// }, [props.text])
+  // componentWillReceiveProps(newProps) {
+  //   if (newProps.text !== this.props.text) {
+  //     this.setState({
+  //       text: newProps.text
+  //     });
+  //   }
+  // }
 
   //The onTransform function helps scale the text
   //to users needs
-  handleChange = e => {
+  const handleChange = (e) => {
     const shape = e.target;
     console.log(shape)
-    console.log(this.props.onTransform)
-    this.props.onTransform({
+    console.log(props.onTransform)
+    props.onTransform({
       x: shape.x(),
       y: shape.y(),
       width: shape.width() * shape.scaleX(),
@@ -34,8 +50,9 @@ class TextLayer extends Component {
       rotation: shape.rotation()
     });
   };
-  render() {
+  
     return (
+      // <React.Fragment>
       <Text
         name="text"
         offset={{
@@ -45,20 +62,62 @@ class TextLayer extends Component {
         width={200}
         wrap="char"
         align="center"
-        stroke={this.props.textColor}
+        fill={props.textColor}
         fontSize={20}
         fontFamily="Calibri"
         opacity={1}
         draggable={true}
-        text={this.state.text}
-        ref={node => {
-          this.text = node;
-        }}
-        onDragEnd={this.handleChange}
-        onTransformEnd={this.handleChange}
+        text={props.value}
+        ref={textRef}
+        onDragEnd={handleChange}
+        onTransformEnd={handleChange}
+        // onClick={props.onSelect}
+        // onTap={props.onSelect}
+        // onDragEnd={(e) => {
+        //   props.onChange({
+        //     ...shapeProps,
+        //     x: e.target.x(),
+        //     y: e.target.y(),
+        //   });
+        // }}
+        // onTransformEnd={(e) => {
+        //   // transformer is changing scale of the node
+        //   // and NOT its width or height
+        //   // but in the store we have only width and height
+        //   // to match the data better we will reset scale on transform end
+        //   const node = textRef.current;
+        //   const scaleX = node.scaleX();
+        //   const scaleY = node.scaleY();
+
+        //   // we will reset it back
+        //   node.scaleX(1);
+        //   node.scaleY(1);
+        //   props.onChange({
+        //     ...shapeProps,
+        //     x: node.x(),
+        //     y: node.y(),
+        //     // set minimal value
+        //     width: Math.max(5, node.width() * scaleX),
+        //     height: Math.max(node.height() * scaleY),
+        //   });
+        // }}
       />
+      // {/* {props.isSelected && (
+      //   <Transformer
+      //     ref={trRef}
+      //     boundBoxFunc={(oldBox, newBox) => {
+      //       // limit resize
+      //       if (newBox.width < 5 || newBox.height < 5) {
+      //         return oldBox;
+      //       }
+      //       return newBox;
+      //     }}
+      //   />
+        
+      // )} */}
+      // </React.Fragment>
     );
-  }
+  
 }
 
 export default TextLayer;
