@@ -3,12 +3,14 @@ import CommonNav from '../../components/Navbars/CommonNav';
 import Footer from '../../components/Footer/Footer';
 import { CssBaseline, Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, Button, TextField } from '@material-ui/core';
 import 'font-awesome/css/font-awesome.min.css';
-import { useEffect } from 'react';
+import { useEffect,useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import useStyles from './style';
 import { useDispatch, useSelector } from "react-redux";
 import { actionDeleteItem, decrementCartCount, getCart, getTotal, deleteCartUsingID, updateCartQuantity,actionUpdateItem,calculateTotalWhenChanged } from '../../_actions/index';
 import NumericInput from 'react-numeric-input';
+import Notification from '../../components/Reusable/Notification';
+import ConfirmDialog from '../../components/Reusable/ConfirmDialog';
 
 export default function Cart() {
   const classes = useStyles();
@@ -16,6 +18,8 @@ export default function Cart() {
   const dispatch = useDispatch();
   const productCart = useSelector(state => state.cart.cart);
   const cartTotal = useSelector(state => state.cart.totalAmount);
+  const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' });
+  const [confirmDialog, setConfirmDialog] = useState({ isOpen: false, title: '', subTitle: '' })
   const [disable, setDisable] = React.useState(true);
   const [proceedDisable, setProceedDisable] = React.useState(false);
   var changedValue;
@@ -32,13 +36,27 @@ export default function Cart() {
   }
 
   const onRemove = (id) => {
+    setConfirmDialog({
+      ...confirmDialog,
+      isOpen: false
+  });
     var uid = localStorage.getItem("userId")
     if (uid > 0) {
       dispatch(deleteCartUsingID(id))
+      setNotify({
+        isOpen: true,
+        message: 'Removed Successfully !',
+        type: 'success'
+    });
     }
     else {
       dispatch(actionDeleteItem(id));
       dispatch(decrementCartCount());
+      setNotify({
+        isOpen: true,
+        message: 'Removed Successfully !',
+        type: 'success'
+    });
     }
   };
 
@@ -73,9 +91,17 @@ export default function Cart() {
       }
       var result = dispatch(updateCartQuantity(data))
       if (result == 0) {
-        alert("Cart Not Updated")
+        setNotify({
+          isOpen: true,
+          message: 'Cart not updated',
+          type: 'error'
+      });
       } else {
-        alert("Cart Updated Successfully");
+        setNotify({
+          isOpen: true,
+          message: 'Cart updated successfully !',
+          type: 'success'
+      });
         setDisable(true)
         setProceedDisable(false)
       }
@@ -83,6 +109,11 @@ export default function Cart() {
       dispatch(actionUpdateItem(productCart))
       setDisable(true)
       setProceedDisable(false)
+      setNotify({
+        isOpen: true,
+        message: 'Cart updated successfully !',
+        type: 'success'
+    });
     }
   }
 
@@ -125,7 +156,14 @@ export default function Cart() {
                         </TableCell>
                         {/* <TableCell align="center" className={classes.numeric} style={{ fontFamily: 'Montserrat' }}>{value.quantity}</TableCell> */}
                         <TableCell align="center">
-                          <Button name="remove" onClick={() => onRemove(value.id)}>
+                          <Button name="remove" onClick={() => {
+                                                    setConfirmDialog({
+                                                        isOpen: true,
+                                                        title: 'Are you sure to delete this?',
+                                                        subTitle: "You can't undo this operation...",
+                                                        onConfirm: () => {  onRemove(value.id) }
+                                                    })
+                                                }}>
                             <i className="fa fa-times" aria-hidden="true"></i>
                           </Button>
                         </TableCell>
@@ -236,6 +274,15 @@ export default function Cart() {
         </div>
       </container>
       <Footer />
+      <Notification
+                    notify={notify}
+                    setNotify={setNotify}
+                />
+
+                <ConfirmDialog
+                    confirmDialog={confirmDialog}
+                    setConfirmDialog={setConfirmDialog}
+                />
     </div>
 
   );

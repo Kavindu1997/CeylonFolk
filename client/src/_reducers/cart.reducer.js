@@ -13,6 +13,7 @@ export const cart = (state = initState, action) => {
 
     switch (action.type) {
         case CART_CONSTS.ADD_TO_CART:
+            console.log(state.cart)
             return {
                 ...state,
                 cart: [...state.cart, action.payload]
