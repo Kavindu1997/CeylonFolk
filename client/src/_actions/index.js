@@ -23,6 +23,13 @@ export const actionDeleteItem = id => {
     }
 };
 
+export const actionUpdateItem = productCart => {
+    return {
+        type: CART_CONSTS.UPDATE_CART_QUANTITY,
+        payload: productCart
+    }
+};
+
 export const incrementCartCount = () => {
     return {
         type: CART_CONSTS.INCREMENT_CART_NO,
@@ -35,6 +42,27 @@ export const decrementCartCount = () => {
     }
 };
 
+export const calculateTotalWhenChanged = productCart => {
+    console.log(productCart)
+    var newTotalValue= 0;
+    let i=0;
+    console.log(productCart.length)
+    while(i<productCart.length-1){
+        productCart[i].totals=productCart[i].price*productCart[i].quantity;
+        newTotalValue=productCart[i].totals;
+        i++;
+    }
+    for(i=0;i<=productCart.length-1;i++){
+        productCart[i].totals=productCart[i].price*productCart[i].quantity;
+        newTotalValue=productCart[i].totals;
+       console.log(productCart[i].totals)
+    }
+    return {
+        type: CART_CONSTS.CALCULATE_TOTAL_WHEN_CHANGED,
+        payload:{cart:productCart,total:newTotalValue}
+    }
+};
+
 export const getCart = () => async (dispatch) => {
     var id = localStorage.getItem("userId");
     if (id != '0') {
@@ -42,8 +70,6 @@ export const getCart = () => async (dispatch) => {
         dispatch({ type: CART_CONSTS.GET_CART, payload: response.data })
         console.log(response.data)
     }
-
-
 };
 export const deleteCartUsingID = (id) => async (dispatch) => {
     var uid = localStorage.getItem("userId")
@@ -80,6 +106,22 @@ export const sendProductsToDB = (product) => async (dispatch) => {
                 return 1;
             }
           });    
+};
+
+export const updateCartQuantity = (productCart) => async (dispatch) => {
+    var uid = localStorage.getItem("userId");
+    if (uid != '0') {
+        await ceylonforkapi.put("/check/updateQty/",productCart).then((response) => {
+            if(response.data.error) {
+                alert(response.data.error);
+                return 0;
+            }else{
+                dispatch(getCart())
+                dispatch(getTotal())
+                return 1;
+            }
+        })
+    }
 };
 
 

@@ -5,18 +5,18 @@ const bcrypt = require("bcrypt");
 
 
 router.post("/", async (req, res) => {
-    const { firstName, lastName, email, mobile, password,gender,userType } = req.body;
+    const { first_name, last_name, email, mobile_no, password,gender,user_type } = req.body;
 
     const user = await UserManage.findOne({ where: { email: email } });
     bcrypt.hash(password, 10).then((hash) => {
         UserManage.create({
-            first_name: firstName,
-            last_name: lastName,
+            first_name: first_name,
+            last_name: last_name,
             email: email,
-            mobile_no: mobile,
+            mobile_no: mobile_no,
             password: hash,
             gender:gender,
-            user_type:userType
+            user_type:user_type
         })
         res.json("SUCCESS");
     });
@@ -26,7 +26,9 @@ router.post("/", async (req, res) => {
 
 router.get('/',async(req,res)=>{
     try {
-        const userList=await UserManage.findAll();
+        const userList=await UserManage.findAll({
+            attributes:{exclude:["createdAt","updatedAt"]}
+        });
         res.json(userList);
     } catch (error) {
         res.status(404).json({message:error.message});
@@ -34,10 +36,11 @@ router.get('/',async(req,res)=>{
   });
 
 
-router.get("/:userId", async (req,res) => {
+router.put("/:userId", async (req,res) => {
     const userId = req.params.userId
-    const query = "SELECT first_name,last_name,email,mobile_no,gender,user_type FROM `usermanages` WHERE id='" + userId + "'";
-    const result = await sequelize.query(query, {type: sequelize.QueryTypes.SELECT});
+    const { first_name, last_name, email, mobile_no,gender,user_type } = req.body;
+    const query = "UPDATE usermanages SET first_name='" + first_name + "',last_name='" + last_name + "',email='" + email + "',mobile_no='" + mobile_no + "',gender='" + gender + "',user_type='" + user_type + "' WHERE id='" + userId + "'";
+    const result = await sequelize.query(query, {type: sequelize.QueryTypes.UPDATE});
     res.json(result);
 });
 
@@ -52,16 +55,6 @@ router.delete("/:userId",async (req,res)=>{
     });
     res.json("DELETED SUCCESSFULLY");
 })
-
-
-
-
-
-
-
-
-
-
 
 
 module.exports = router;  
