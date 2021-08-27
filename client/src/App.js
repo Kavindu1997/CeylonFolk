@@ -139,6 +139,7 @@ class App extends Component {
           <Route path="/coupon" exact render={() => <Coupon />} />
           <Route path="/inventory" exact render={() => <Inventory />} />
           <Route path="/designs" exact render={() => <Design />} />  */}
+
               <Route path="/customize" exact render={() => <Customize />} />
               <Route path="/termnconditions" exact render={() => <Termnconditions />} />
               <Route path="/tab" exact render={() => <Tab />} />
@@ -160,6 +161,7 @@ class App extends Component {
 
     );
   }
+
 }
 
 export default App;
