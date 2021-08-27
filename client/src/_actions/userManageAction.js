@@ -8,7 +8,8 @@ export const fetchUsers = () => async (dispatch) => {
 
 export const createUser = (data) => async (dispatch) => {
   const response = await ceylonforkapi.post("/users",data);
-  dispatch({type: UserManageActionTypes.CREATE_USER,payload: response.data});
+ // dispatch({type: UserManageActionTypes.CREATE_USER,payload: response.data});
+ 
 }
 
 export const deleteUser = (id) => async (dispatch) => {

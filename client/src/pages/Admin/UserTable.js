@@ -34,10 +34,12 @@ const headCells = [
 const UserTable = () => {
     const classes = useStyles();
     const userRecords=useSelector((state)=>state.userReducer.users);
+   // console.log(userRecords);
     const dispatch=useDispatch();
     useEffect(()=>{
        dispatch(fetchUsers());
     },[]);
+  
     const [recordForEdit, setRecordForEdit] = useState(null)
     const [filterFn, setFilterFn] = useState({ fn: items => { return items; } });
     const [openPopup, setOpenPopup] = useState(false);
@@ -58,7 +60,11 @@ const UserTable = () => {
                 if (target.value === "")
                     return items;
                 else
-                    return items.filter(x => x.first_name.toLowerCase().includes(target.value))
+                    return items.filter(x => x.first_name.toLowerCase().includes(target.value)|| 
+                                             x.last_name.toLowerCase().includes(target.value)|| 
+                                             x.gender.toLowerCase().includes(target.value)||
+                                             x.mobile_no.includes(target.value)||
+                                             x.email.toLowerCase().includes(target.value))
             }
         })
     }
@@ -90,7 +96,9 @@ const UserTable = () => {
         });
         window.location.reload(true);
     }
+  
     }
+    
     const openInPopup = item => {
         setRecordForEdit(item);
         setOpenEditPopup(true);
