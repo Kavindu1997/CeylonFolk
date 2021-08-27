@@ -18,6 +18,27 @@ export const cart = (state = initState, action) => {
                 cart: [...state.cart, action.payload]
             };
 
+            case CART_CONSTS.UPDATE_CART_QUANTITY:
+                return {
+                    ...state,
+                    cart: action.payload,   
+                };
+
+                case CART_CONSTS.CALCULATE_TOTAL_WHEN_CHANGED:
+                    console.log(state.cart)
+                return {
+                    ...state,
+                    cart: action.payload.cart,   
+                    totalAmount: action.payload.total,
+                };
+                
+            // case CART_CONSTS.ADD_TO_CART:
+            // return {
+            //     ...state,
+            //     cart: [...state.cart, action.payload]
+            // };
+
+
         case CART_CONSTS.DELETE_ITEM:
             updatedCart = [...state.cart];
             updatedItemIndex = updatedCart.findIndex(

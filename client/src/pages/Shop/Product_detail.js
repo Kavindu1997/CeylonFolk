@@ -140,12 +140,12 @@ export default function Product_detail() {
   // colorOptions = mapSize.filter((p) => sizet && p.sizet === sizet.value).map((p) => p.colort).filter((v, i, a) => a.indexOf(v) === i).map((colort) => ({ label: colort, value: colort }));
 
   var [index, setIndex] = useState(0);
-  // console.log(index)
+  //console.log(index)
 
   var handleTab = index => {
     // alert(index)
     setIndex(index)
-    // console.log(index)
+    //console.log(index)
   }
 
   var [index1, setIndex1] = useState(0);

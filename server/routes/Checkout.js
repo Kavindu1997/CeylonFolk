@@ -110,12 +110,21 @@ router.get("/count/:id", async (req,res) => {
 router.get("/total/:id", async (req,res) => {
     const id = req.params.id;
     const query   = "SELECT carts.customerId, SUM(carts.quantity*designs.price) as total FROM `designs` INNER JOIN `carts` ON designs.id=carts.itemId INNER JOIN `users` ON users.id=carts.customerId WHERE  carts.isDeleted=0 And carts.isBought=0 and users.id= "+ id;
-    console.log(query);
     const totalDetails = await sequelize.query( query, 
     {
         type: sequelize.QueryTypes.SELECT});
     res.json(totalDetails);
     
+});
+
+router.put("/updateQty", async (req,res) => {
+    var uid = req.body.uid;
+    const items= req.body.itemArray;
+    for(let i=0;i<items.length;i++){
+        const query = "UPDATE carts SET quantity='" + items[i].quantity + "' WHERE carts.itemId='" + items[i].itemId + "' AND carts.customerId='" + uid + "' AND carts.isBought=0 AND carts.isDeleted=0";
+        const updatedCart = await sequelize.query(query, {type: sequelize.QueryTypes.UPDATE});
+    }
+    res.json(updatedCart);
 });
 
 
