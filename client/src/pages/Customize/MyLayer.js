@@ -270,21 +270,25 @@ const sendItem2 = () => {
                 // text={text}
                 value={value}
                 textColor={textColor}
-                onTransform={newProps => {
-                  handleTextTransform(newProps);
-                }}
-                // key={index}
-                // isSelected={index === selectedId}
+                // onTransform={newProps => {
+                //   handleTextTransform(newProps);
+                // }}
+                key={index}
+                isSelected={index === selectedId}
 
-                // shapeProps={value}
-                // onSelect={() => {
-                //   selectShape(index);
-                // }}
-                // onChange={(newAttrs) => {
-                //   const rects = pickerColorArray.slice();
-                //   rects[index] = newAttrs;
-                //   setPickerColorArray(rects);
-                // }}
+                shapeProps={value}
+                onSelect={() => {
+                  selectShape(index);
+                }}
+                onChange={(newAttrs) => {
+                  const rects = pickerColorArray.slice();
+                  rects[index] = newAttrs;
+                  // setPickerColorArray(rects);
+                  console.log('hi bye')
+                  console.log(rects)
+                  console.log('hi bye')
+                }}
+                selectedShapeName={selectedShapeName}
               />
               
       
@@ -301,9 +305,10 @@ const sendItem2 = () => {
               // />
               );
             })}
-            <TransformerComponent
+
+            {/* <TransformerComponent
                 selectedShapeName={selectedShapeName}
-              />
+              /> */}
 
             </Layer>
           </Stage>

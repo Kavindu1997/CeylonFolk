@@ -9,13 +9,13 @@ const TextLayer = (props) => {
   const shapeRef = React.useRef();
   const trRef = React.useRef();
 
-  // useEffect(() => {
-  //   if (props.isSelected) {
-  //     // we need to attach transformer manually
-  //     trRef.current.nodes([textRef.current]);
-  //     trRef.current.getLayer().batchDraw();
-  //   }
-  // }, [props.isSelected]);
+  useEffect(() => {
+    if (props.isSelected) {
+      // we need to attach transformer manually
+      trRef.current.nodes([textRef.current]);
+      trRef.current.getLayer().batchDraw();
+    }
+  }, [props.isSelected]);
 
   //The component waints for changes in the text,
   //it updates the text as it receives new character
@@ -38,21 +38,21 @@ const TextLayer = (props) => {
 
   //The onTransform function helps scale the text
   //to users needs
-  const handleChange = (e) => {
-    const shape = e.target;
-    console.log(shape)
-    console.log(props.onTransform)
-    props.onTransform({
-      x: shape.x(),
-      y: shape.y(),
-      width: shape.width() * shape.scaleX(),
-      height: shape.height() * shape.scaleY(),
-      rotation: shape.rotation()
-    });
-  };
+  // const handleChange = (e) => {
+  //   const shape = e.target;
+  //   console.log(shape)
+  //   console.log(props.onTransform)
+  //   props.onTransform({
+  //     x: shape.x(),
+  //     y: shape.y(),
+  //     width: shape.width() * shape.scaleX(),
+  //     height: shape.height() * shape.scaleY(),
+  //     rotation: shape.rotation()
+  //   });
+  // };
   
     return (
-      // <React.Fragment>
+      <React.Fragment>
       <Text
         name="text"
         offset={{
@@ -69,53 +69,58 @@ const TextLayer = (props) => {
         draggable={true}
         text={props.value}
         ref={textRef}
-        onDragEnd={handleChange}
-        onTransformEnd={handleChange}
-        // onClick={props.onSelect}
-        // onTap={props.onSelect}
-        // onDragEnd={(e) => {
-        //   props.onChange({
-        //     ...shapeProps,
-        //     x: e.target.x(),
-        //     y: e.target.y(),
-        //   });
-        // }}
-        // onTransformEnd={(e) => {
-        //   // transformer is changing scale of the node
-        //   // and NOT its width or height
-        //   // but in the store we have only width and height
-        //   // to match the data better we will reset scale on transform end
-        //   const node = textRef.current;
-        //   const scaleX = node.scaleX();
-        //   const scaleY = node.scaleY();
+        // onDragEnd={handleChange}
+        // onTransformEnd={handleChange}
+        onClick={props.onSelect}
+        onTap={props.onSelect}
+        onDragEnd={(e) => {
+          const shape = e.target;
 
-        //   // we will reset it back
-        //   node.scaleX(1);
-        //   node.scaleY(1);
-        //   props.onChange({
-        //     ...shapeProps,
-        //     x: node.x(),
-        //     y: node.y(),
-        //     // set minimal value
-        //     width: Math.max(5, node.width() * scaleX),
-        //     height: Math.max(node.height() * scaleY),
-        //   });
-        // }}
+          props.onChange({
+            // ...shapeProps,
+            x: shape.x(),
+      y: shape.y(),
+      width: shape.width() * shape.scaleX(),
+      height: shape.height() * shape.scaleY(),
+      rotation: shape.rotation()
+          });
+        }}
+        onTransformEnd={(e) => {
+          // transformer is changing scale of the node
+          // and NOT its width or height
+          // but in the store we have only width and height
+          // to match the data better we will reset scale on transform end
+          const node = textRef.current.getStage();
+          const scaleX = node.scaleX();
+          const scaleY = node.scaleY();
+
+          // we will reset it back
+          node.scaleX(1);
+          node.scaleY(1);
+          props.onChange({
+            // ...shapeProps,
+            x: node.x(),
+            y: node.y(),
+            // set minimal value
+            width: Math.max(5, node.width() * scaleX),
+            height: Math.max(node.height() * scaleY),
+          });
+        }}
       />
-      // {/* {props.isSelected && (
-      //   <Transformer
-      //     ref={trRef}
-      //     boundBoxFunc={(oldBox, newBox) => {
-      //       // limit resize
-      //       if (newBox.width < 5 || newBox.height < 5) {
-      //         return oldBox;
-      //       }
-      //       return newBox;
-      //     }}
-      //   />
+      {props.isSelected && (
+        <Transformer
+          ref={trRef}
+          boundBoxFunc={(oldBox, newBox) => {
+            //limit resize
+            if (newBox.width < 5 || newBox.height < 5) {
+              return oldBox;
+            }
+            return newBox;
+          }}
+        />
         
-      // )} */}
-      // </React.Fragment>
+      )}
+      </React.Fragment>
     );
   
 }
