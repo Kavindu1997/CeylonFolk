@@ -110,7 +110,7 @@ const addText = () =>
     }
   }, [isSelected]);
 
-  var changeTextColor = (e) => {
+  const changeTextColor = (e) => {
     setTextLayerColors(e.target.value)
   };
 
@@ -350,9 +350,26 @@ const sendItem2 = () => {
             handleTextChange={handleTextChange}
             changeTextColor={changeTextColor}
             sendItem2={sendItem2}
+            textLayerColors={textLayerColors}
             changeText={changeText}
             addText={addText}
           />
+          {/* <CirclePicker
+              colors={textLayerColors}
+              onChange={color => {
+                changeTextColor(color.hex);
+              }}
+              console
+              // onChange={props.changeTextColor}
+              width="max-width"
+            /> */}
+            <CirclePicker
+              colors={textLayerColors}
+              onChange={textLColors => {
+                setTextColor(textLColors.hex);
+              }}
+              width="max-width"
+            />
           
           {/* <div className="text-container">
             Custom Text:
