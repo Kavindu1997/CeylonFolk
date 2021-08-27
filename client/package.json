@@ -13,6 +13,7 @@
     "antd": "^4.16.12",
     "axios": "^0.21.1",
     "canvas": "^2.8.0",
+    "cloudinary-react": "^1.7.0",
     "fabric": "^4.5.1",
     "font-awesome": "^4.7.0",
     "formik": "^2.2.9",
