@@ -7,6 +7,8 @@ import useStyles from './style';
 import { CirclePicker } from "react-color";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchColors } from '../../_actions/colorActions'
+import ButtonGroup from '@material-ui/core/ButtonGroup';
+
 
 const InventoryForm = () => {
 
@@ -72,37 +74,63 @@ const InventoryForm = () => {
         // props.resetForm();
     };
 
+    const [listOfSizes, setListOfSizes] = useState([]);
+
+    useEffect(() => {
+
+        axios.get("http://localhost:3001/invent/sizes").then((response) => {
+            // console.log(response.data);
+            setListOfSizes(response.data);
+        });
+    }, []);
+
+    const [listOfTypes, setListOfTypes] = useState([]);
+
+    useEffect(() => {
+
+        axios.get("http://localhost:3001/invent/types").then((response) => {
+            // console.log(response.data);
+            setListOfTypes(response.data);
+        });
+    }, []);
+
     return (
         <div>
             <form onSubmit={sendItem}>
                 <Grid container>
                     <Grid item xs={6}>
-                        <Controls.Input
-                            className={classes.textField}
-                            variant="outlined"
-                            margin="normal"
-                            required
-                            id="size"
-                            label="Size"
-                            name="size"
-                            autoComplete="size"
-                            onChange={onsize}
-                        />
+                    <ButtonGroup variant="contained" color="primary" aria-label="split button" style={{ boxShadow: 'none' }}>
+                    <select className={classes.icon} name="size"  onChange={onsize}>
+                                    <option value="">Size</option>
+                                   
+                                    {listOfSizes
+                                            .map((value) => {
+                                                return (
+
+                                                    <option value={value.size}>{value.size}</option>
+                                                    );
+                                                })}
+
+                                </select>
+                                </ButtonGroup>
+                   
                     </Grid>
                     <Grid item xs={6}>
 
-                        <Controls.Input
-                            variant="outlined"
-                            className={classes.textField}
-                            variant="outlined"
-                            margin="normal"
-                            required
-                            id="type"
-                            label="Type"
-                            name="type"
-                            autoComplete="type"
-                            onChange={ontype}
-                        />
+                    <ButtonGroup variant="contained" color="primary" aria-label="split button" style={{ boxShadow: 'none' }}>
+                    <select className={classes.icon} name="type"  onChange={ontype}>
+                                    <option value="">Type</option>
+                                   
+                                    {listOfTypes
+                                            .map((value) => {
+                                                return (
+
+                                                    <option value={value.types}>{value.types}</option>
+                                                    );
+                                                })}
+
+                                </select>
+                                </ButtonGroup>
                     </Grid>
                     <Grid item xs={6}>
                         <Controls.Input
