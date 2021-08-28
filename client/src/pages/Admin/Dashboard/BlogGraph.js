@@ -60,7 +60,7 @@ import { useStyles } from "./styles";
         dataSets: [
           {
             label: "Sales",
-            data: fakeArrayGenrator({ length: 12, digit: 1000 }),
+            data: fakeArrayGenrator({ length: 12, digit: 100 }),
             borderColor: [lightGreen[50], lime[800], pink[500],yellow[500],deepOrange[500],brown[500],indigo[500],red[500],teal[500],green[500],cyan[500],grey[900]],
             backgroundColor: [lightGreen[50], lime[900], pink[800],yellow[500],deepOrange[500],brown[500],indigo[500],red[500],teal[500],green[500],cyan[500],grey[900]],
             fill: true,
