@@ -1,5 +1,5 @@
 import { Card, CardContent,  Divider,  Grid, Paper, Typography, } from "@material-ui/core";
-import { blue, deepPurple, green, grey, lightGreen, lime, orange, pink, purple, red } from "@material-ui/core/colors";
+import { blue, blueGrey, brown, cyan, deepOrange, deepPurple, green, grey, indigo, lightGreen, lime, orange, pink, purple, red, teal, yellow } from "@material-ui/core/colors";
 import React, { useEffect, useState } from "react";
 import { fakeArrayGenrator } from "./fakeDataGenerator";
 import { lineGraphComponent } from "./GraphComponent";
@@ -54,6 +54,21 @@ import { useStyles } from "./styles";
         ],
         xAxisLabels: ["New Orders", "Pending Orders", "Cancel Orders"],
       },
+      {
+        id: "sales_distribution",
+        type: "bar",
+        dataSets: [
+          {
+            label: "Sales",
+            data: fakeArrayGenrator({ length: 12, digit: 1000 }),
+            borderColor: [lightGreen[50], lime[800], pink[500],yellow[500],deepOrange[500],brown[500],indigo[500],red[500],teal[500],green[500],cyan[500],grey[900]],
+            backgroundColor: [lightGreen[50], lime[900], pink[800],yellow[500],deepOrange[500],brown[500],indigo[500],red[500],teal[500],green[500],cyan[500],grey[900]],
+            fill: true,
+            tension: 0.5,
+          },
+        ],
+        xAxisLabels: ["January", "February", "March","April","May","June","July","August","September","October","November","December"],
+      },
     ];
   
     useEffect(() => {
@@ -99,6 +114,22 @@ import { useStyles } from "./styles";
             <CardContent>
               <canvas
                 id='order_distribution'
+                className={classes.generalGraph}></canvas>
+            </CardContent>
+          </Card>
+        </Grid>
+
+        <Grid item xs={12} sm={12} md={12} style={{marginTop:'20px'}}>
+          <Card component={Paper}>
+            <CardContent style={{backgroundImage:'linear-gradient(to left, #2f3542, #eccc68, #70a1ff)'}}>
+              <Typography variant='h6' className={classes.cardTitle} align='left'>
+                 Sales Distribution
+              </Typography>
+            </CardContent>
+            <Divider />
+            <CardContent>
+              <canvas
+                id='sales_distribution'
                 className={classes.generalGraph}></canvas>
             </CardContent>
           </Card>
