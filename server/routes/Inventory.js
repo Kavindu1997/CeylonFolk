@@ -34,6 +34,24 @@ router.get("/inventoryEdit/:inventory_id", async (req,res) => {
 });
 
 
+router.get("/sizes", async (req,res) => {
+
+
+    const query= "SELECT size from sizes";
+    const listOfSizes = await sequelize.query(query, {type: sequelize.QueryTypes.SELECT});
+
+    res.json(listOfSizes);
+});
+
+router.get("/types", async (req,res) => {
+
+
+    const query= "SELECT types from types";
+    const listOfTypes = await sequelize.query(query, {type: sequelize.QueryTypes.SELECT});
+
+    res.json(listOfTypes);
+});
+
 router.post("/inventory", async (req,res) => {
   
     console.log(req.body);
