@@ -6,7 +6,7 @@ import Shop from './pages/Shop';
 import Contactus from './pages/ContactUs';
 import Authentication from './pages/Authentication';
 import AdminPanel from './pages/Admin';
-import Users from './pages/Admin/UserTable';
+import Users from './pages/Admin/UserManagement/UserTable';
 import Collections from './pages/Admin/CollectionTable';
 import Designs from './pages/Admin/DesignTable';
 import Inventory from './pages/Admin/InventoryTable';
