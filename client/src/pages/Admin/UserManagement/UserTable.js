@@ -2,23 +2,23 @@ import React, { useState,useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import UserForm from './UserForm';
 import EditUserForm from './EditUserForm';
-import PageHeader from './PageHeader';
+import PageHeader from '../PageHeader';
 import GroupIcon from '@material-ui/icons/Group';
 import { Search } from '@material-ui/icons';
 import AddIcon from '@material-ui/icons/Add';
 import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 import CloseIcon from '@material-ui/icons/Close';
 import { makeStyles, Paper, TableBody, TableRow, TableCell, Toolbar, InputAdornment } from '@material-ui/core';
-import useTable from '../../components/Reusable/useTable';
-import Controls from '../../components/Reusable/Controls';
-import Popup from '../../components/Reusable/Popup';
-import Notification from '../../components/Reusable/Notification';
-import ConfirmDialog from '../../components/Reusable/ConfirmDialog';
-import useStyles from './style';
-import AdminNav from "../../components/Reusable/AdminNav"
+import useTable from '../../../components/Reusable/useTable';
+import Controls from '../../../components/Reusable/Controls';
+import Popup from '../../../components/Reusable/Popup';
+import Notification from '../../../components/Reusable/Notification';
+import ConfirmDialog from '../../../components/Reusable/ConfirmDialog';
+import useStyles from '../style';
+import AdminNav from "../../../components/Reusable/AdminNav"
 import Lottie from 'react-lottie';
-import User from '../../images/user.json';
-import {fetchUsers,createUser,deleteUser,updateUser } from '../../_actions/userManageAction';
+import User from '../../../images/user.json';
+import {fetchUsers,createUser,deleteUser,updateUser } from '../../../_actions/userManageAction';
 
 
 const headCells = [
