@@ -10,6 +10,8 @@ import BuildIcon from '@material-ui/icons/Build';
 import LoyaltyIcon from '@material-ui/icons/Loyalty';
 import { Link } from 'react-router-dom';
 import PaletteIcon from '@material-ui/icons/Palette';
+import SpeakerIcon from '@material-ui/icons/Speaker';
+import TextFieldsIcon from '@material-ui/icons/TextFields';
 
 
 export const mainListItems = (
@@ -56,6 +58,19 @@ export const mainListItems = (
       </ListItemIcon>
       <ListItemText primary="Available Colors" />
     </ListItem>
+    <ListItem button component={Link} to="/availableSizes">
+      <ListItemIcon>
+        <SpeakerIcon />
+      </ListItemIcon>
+      <ListItemText primary="Available Sizes" />
+    </ListItem>
+    <ListItem button component={Link} to="/availableTypes">
+      <ListItemIcon>
+        <TextFieldsIcon />
+      </ListItemIcon>
+      <ListItemText primary="Available Types" />
+    </ListItem>
+
   
   </div>
 );
