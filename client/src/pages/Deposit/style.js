@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
         // marginRight: '30px'
     },
     form: {
-        width: '70%',
+        width: '80%',
         marginTop: theme.spacing(2),
         fontFamily: 'Montserrat',
     },

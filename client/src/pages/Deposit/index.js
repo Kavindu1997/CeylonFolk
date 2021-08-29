@@ -10,13 +10,19 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { viewOrderDetails } from '../../_actions/deposit.action';
 import { NavLink } from 'react-router-dom';
+import Controls from '../../components/Reusable/Controls';
+import axios from 'axios';
+import moment from 'moment';
+import Notification from '../../components/Reusable/Notification';
 
 export default function OrderHistory() {
     const classes = useStyles();
     const dispatch = useDispatch();
 
     const [orderId, setOrderId] = useState([]);
+    const [file, setfile] = useState(null);
     const orderDetails = useSelector(state => state.order.order);
+    const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' });
 
     function viewOrder(e){
          e.preventDefault()
@@ -26,13 +32,49 @@ export default function OrderHistory() {
             orderId: orderId
         }
         console.log("here")
-        dispatch(viewOrderDetails(data))
+        var result =  dispatch(viewOrderDetails(data))
+        if (result == 0) {
+        setNotify({
+          isOpen: true,
+          message: 'Slip has already uploaded',
+          type: 'error'
+        });
+      } 
     }
 
     const setOId = (event) => {
         setOrderId(event.target.value);
         console.log(orderId)
     }
+
+    const onInputChange = (e) => {
+        setfile(e.target.files[0])
+    };
+
+    const onFormSubmit = (e, data) => {
+
+        e.preventDefault();
+
+        const formData = new FormData();
+        formData.append('photo', file);
+        formData.append('orderId', orderId);
+        formData.append('uid', localStorage.getItem("userId"));
+        formData.append('date', moment().format());
+        const config = {
+            headers: {
+                'content-type': 'multipart/form-data',
+            },
+        };
+        console.log(formData)
+        axios.post("http://localhost:3001/depositCollection", formData, config).then((response) => {
+            alert('Image upload Successfull');
+         
+
+
+        }).catch((err) => {
+            console.log('err', err);
+        })
+    };
 
     return (
         <div>
@@ -99,7 +141,7 @@ export default function OrderHistory() {
                         </Grid>
                         <Divider orientation="vertical" flexItem />
                         <Grid item xs={12} sm={12} md={8} lg={7}>
-                            <form className={classes.form} noValidate>
+                            <form className={classes.form} noValidate onSubmit={onFormSubmit}>
                                 <TextField
                                     onChange={setOId}
                                     className={classes.textField}
@@ -121,7 +163,7 @@ export default function OrderHistory() {
                                     onClick={viewOrder}
                                 >View Order
                                 </Button>   
-                            </form>
+                           
                             <TableContainer style={{ marginTop: '30px' }}>
                             <Table className={classes.table} aria-label="simple table">
                                 <TableHead>
@@ -146,6 +188,13 @@ export default function OrderHistory() {
                             </Table>
                         </TableContainer>
                             <div>
+                                
+                            <Controls.Input
+                                variant="outlined"
+                                name="photo"
+                                type="file"
+                                onChange={onInputChange} 
+                            />
                                 <Box
                                     component="span"
                                     m={1}
@@ -160,10 +209,15 @@ export default function OrderHistory() {
                                     </Button>
                                 </Box>
                             </div>
-                        </Grid>
+                            </form>
+                        </Grid>   
                     </Grid>
                 </center>
             </container>
+            <Notification
+        notify={notify}
+        setNotify={setNotify}
+      />
             <Footer />
         </div>
 

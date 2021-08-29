@@ -13,6 +13,7 @@ import {GLOBAL_URLS} from '../../_constants/globalVariable';
 import {useDispatch, useSelector} from "react-redux";
 import {actionGetCustomerDetails,actionSendToDB} from '../../_actions/checkout.action';
 import {getCart,getTotal} from '../../_actions';
+import {MASTER_DATA} from '../../_constants/globalVariable';
 
 function onLinkClick(event) {
     console.log('onLinkClick'); // never called
@@ -85,23 +86,22 @@ export default function Checkout() {
         var uid = localStorage.getItem("userId");
         if (uid != '0' && checkedTermsCondition == true) {
             if (paymentMethod == "cash") {
-                paymentItem = createPaymentDetails("cash on delivery",uid);
+                paymentItem = createPaymentDetails(MASTER_DATA.cash_on_delivery,uid,MASTER_DATA.placed);
                 dispatch(actionSendToDB(paymentItem))
             } else if (paymentMethod == "bank") {
-                paymentItem = createPaymentDetails("bank deposit",uid);
+                paymentItem = createPaymentDetails(MASTER_DATA.bank_tranfer,uid,MASTER_DATA.not_uploaded);
                 dispatch(actionSendToDB(paymentItem))
             } else if (paymentMethod == "online") {
-                paymentItem = createPaymentDetails("online payment",uid);
+                paymentItem = createPaymentDetails(MASTER_DATA.payhere,uid,MASTER_DATA.placed);
                 let payment = setPayment(paymentItem);
                 window.payhere.startPayment(payment);
             }
         }
     };
 
-    const createPaymentDetails = (pm, uid) => {
+    const createPaymentDetails = (pm, uid, status) => {
         let orderId = new Date().getTime();
-
-        var date = moment().utcOffset('+05:30').format('YYYY-MM-DD hh:mm:ss a');
+        var date = moment().format();
         var total = Number(totalDetails) + 200;
         var address = "";
         if (isDeliveryDiffAdd != true) {
@@ -113,7 +113,7 @@ export default function Checkout() {
                      orderId: orderId, 
                      totalAmount: total, 
                      payment: pm, 
-                     status: "placed", 
+                     status: status, 
                      itemArray: itemDetails, 
                      delivery: address, 
                      placedDate: date, 
