@@ -70,6 +70,13 @@ app.use("/users", userManageRouter);
 const cRouter = require('./routes/Colors');
 app.use("/availableColors", cRouter);
 
+const sizesRouter = require('./routes/Sizes');
+app.use("/sizes", sizesRouter);
+
+const typesRouter = require("./routes/Types");
+app.use("/types", typesRouter);
+app.use('/public', express.static('public'));
+
 db.sequelize.sync().then(() => {
     app.listen(3001, () => {
         console.log("Server running on port 3001");
