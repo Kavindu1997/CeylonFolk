@@ -76,6 +76,13 @@ export default function OrderHistory() {
                                     </Link>
                                 </div>
                                 <div>
+                                    <Link to="/deposit" style={{ textDecoration: 'none' }}>
+                                        <Typography component="h1" variant="h6" style={{ marginLeft: '80px', fontFamily: 'Montserrat', color: 'black', textAlign: 'left', marginBottom: '30px' }}>
+                                            Bank Deposit Upload
+                                        </Typography>
+                                    </Link>
+                                </div>
+                                <div>
                                     <Link to="/auth" style={{ textDecoration: 'none' }}>
                                         <Typography component="h1" variant="h6" style={{ marginLeft: '80px', fontFamily: 'Montserrat', color: 'black', textAlign: 'left', marginBottom: '30px' }}>
                                             Logout
