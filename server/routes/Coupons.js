@@ -1,10 +1,12 @@
 const express = require("express");
 const router = express.Router();
-const { Coupon } = require('../models/');
+const { Coupon,sequelize } = require('../models/');
 
 router.get('/',async(req,res)=>{
   try {
-      const couponList=await Coupon.findAll();
+      const couponList=await Coupon.findAll({
+        attributes:{exclude:["createdAt","updatedAt"]}
+    });
       res.json(couponList);
   } catch (error) {
       res.status(404).json({message:error.message});
@@ -12,11 +14,11 @@ router.get('/',async(req,res)=>{
 });
 
 router.post("/",async(req, res) => {
-    const { couponId,couponTitle} = req.body;
+    const { coupon_id,coupon_title} = req.body;
     //  const coupon= req.body;
     await  Coupon.create({
-        coupon_id:couponId,
-        coupon_title:couponTitle
+        coupon_id:coupon_id,
+        coupon_title:coupon_title
     });
      try {
     res.json("Success");
