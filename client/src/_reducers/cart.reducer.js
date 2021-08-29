@@ -14,9 +14,27 @@ export const cart = (state = initState, action) => {
     switch (action.type) {
         case CART_CONSTS.ADD_TO_CART:
             console.log(state.cart)
+            updatedCart = [...state.cart];
+          let  isProdutInCart  =false
+            
+            for(let i=0 ;i<= updatedCart.length-1;i++){
+                if(updatedCart[i].size=== action.payload.size  && updatedCart[i].productId ===action.payload.productId ){
+                    updatedCart[i].quantity = action.payload.quantity + updatedCart[i].quantity;
+                    updatedCart[i].totals =  updatedCart[i].quantity * action.payload.price;
+                    isProdutInCart = true;
+                }
+            }
+
+            if(isProdutInCart==true){
+
+            }else{
+                updatedCart = [...state.cart, action.payload]
+            }
+
+
             return {
                 ...state,
-                cart: [...state.cart, action.payload]
+                cart:updatedCart
             };
 
             case CART_CONSTS.UPDATE_CART_QUANTITY:
@@ -41,9 +59,12 @@ export const cart = (state = initState, action) => {
 
 
         case CART_CONSTS.DELETE_ITEM:
+            console.log(action.payload.id)
+            console.log(action.payload.size)
             updatedCart = [...state.cart];
+            console.log(updatedCart)
             updatedItemIndex = updatedCart.findIndex(
-                item => item.itemId === action.payload
+                item => (item.productId === action.payload.id && item.size === action.payload.size)
             );
             updatedCart.splice(updatedItemIndex, 1);
             return { ...state, cart: updatedCart };
@@ -54,11 +75,16 @@ export const cart = (state = initState, action) => {
                 totalAmount: state.totalAmount + action.payload
             };
 
-        /*case CART_CONSTS.GET_TOTAL_DEDUCT:
+        case CART_CONSTS.GET_TOTAL_DEDUCT:
+            let totalAmount=0
+            updatedCart = [...state.cart];
+            for(let i=0 ;i<= updatedCart.length-1;i++){
+                totalAmount=totalAmount+updatedCart[i].totals
+            }
             return {
-                ...state.totalAmount,
-                totalAmountDeduct: state.totalAmount - action.payload
-            };*/
+                ...state,
+                totalAmount:totalAmount
+            };
 
         case CART_CONSTS.INCREMENT_CART_NO:
             return {
@@ -73,6 +99,7 @@ export const cart = (state = initState, action) => {
             };
 
         case CART_CONSTS.GET_CART:
+            console.log(state.cart)
             return {
                 ...state,
                 cart: action.payload

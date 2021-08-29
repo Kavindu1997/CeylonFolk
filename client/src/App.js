@@ -45,7 +45,7 @@ import {Provider} from 'react-redux';
 import {createStore } from 'redux';
 import {cart} from './_reducers/cart.reducer';
 import { StoreProvider } from "./_util";
-import Deposit from './pages/Checkout/deposit';
+import Deposit from './pages/Deposit/index.js';
 
 
 
@@ -125,6 +125,9 @@ class App extends Component {
           <Route exact path={"/cart"} component = {MyCart} />
           <Route exact path={"/productDetails/:id"} component = {Product_detail} />
           <Route exact path={"/deposit"} component = {Deposit} />
+          <Route exact path={"/profile"} component = {Profile} />
+          <Route exact path={"/myOrders"} component = {OrderHistory} />
+          <Route exact path={"/myWishlist"} component = {ProfileWishlist} />
           <Route path="/admin" exact render={() => <AdminPanel />} />
           <Route path="/users" exact render={() => <Users />} />
           <Route path="/collections" exact render={() => <Collections />} />
@@ -135,9 +138,9 @@ class App extends Component {
           <Route path="/checkout" exact render={() => <Checkout />} />
           <Route path="/wishlist" exact render={() => <Wishlist />} />
           <Route path="/aboutUs" exact render={() => <About />} />
-          <Route path="/profile" exact render={() => <Profile />} />
+          {/* <Route path="/profile" exact render={() => <Profile />} />
           <Route path="/myWishlist" exact render={() => <ProfileWishlist />} />
-          <Route path="/myOrders" exact render={() => <OrderHistory />} />
+          <Route path="/myOrders" exact render={() => <OrderHistory />} /> */}
           {/* <Route path="/collections" exact render={() => <Collections />} />
           <Route path="/coupon" exact render={() => <Coupon />} />
           <Route path="/inventory" exact render={() => <Inventory />} />

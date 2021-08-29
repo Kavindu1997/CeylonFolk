@@ -3,11 +3,11 @@ import CommonNav from '../../components/Navbars/CommonNav';
 import Footer from '../../components/Footer/Footer';
 import { CssBaseline, Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, Button, TextField } from '@material-ui/core';
 import 'font-awesome/css/font-awesome.min.css';
-import { useEffect,useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import useStyles from './style';
 import { useDispatch, useSelector } from "react-redux";
-import { actionDeleteItem, decrementCartCount, getCart, getTotal, deleteCartUsingID, updateCartQuantity,actionUpdateItem,calculateTotalWhenChanged } from '../../_actions/index';
+import { actionGetTotalDeduct, actionDeleteItem, decrementCartCount, getCart, getTotal, deleteCartUsingID, updateCartQuantity, actionUpdateItem, calculateTotalWhenChanged } from '../../_actions/index';
 import NumericInput from 'react-numeric-input';
 import Notification from '../../components/Reusable/Notification';
 import ConfirmDialog from '../../components/Reusable/ConfirmDialog';
@@ -35,28 +35,30 @@ export default function Cart() {
     }
   }
 
-  const onRemove = (id) => {
+  const onRemove = (id,size) => {
     setConfirmDialog({
       ...confirmDialog,
       isOpen: false
-  });
+    });
     var uid = localStorage.getItem("userId")
     if (uid > 0) {
-      dispatch(deleteCartUsingID(id))
+      dispatch(deleteCartUsingID(id,size))
       setNotify({
         isOpen: true,
         message: 'Removed Successfully !',
         type: 'success'
-    });
+      });
     }
     else {
-      dispatch(actionDeleteItem(id));
+      var item={id:id, size:size}
+      dispatch(actionDeleteItem(id,size));
       dispatch(decrementCartCount());
+      dispatch(actionGetTotalDeduct());
       setNotify({
         isOpen: true,
         message: 'Removed Successfully !',
         type: 'success'
-    });
+      });
     }
   };
 
@@ -71,15 +73,18 @@ export default function Cart() {
   }
 
   const selectedQty = (index) => {
-    console.log(index)
+
     setDisable(false)
-    setProceedDisable(true)
     let updatedItem = productCart[index];
+    if (changedValue === undefined) {
+      changedValue = updatedItem.stockMargin;
+    }
+    setProceedDisable(true)
     updatedItem.quantity = changedValue;
-    //updatedItem.totals = updatedItem.price*changedValue;
-    dispatch(calculateTotalWhenChanged(productCart))
+
     dispatch(actionUpdateItem(productCart))
-    console.log(productCart)
+
+    dispatch(calculateTotalWhenChanged(productCart))
   }
 
   function saveUpdate() {
@@ -95,17 +100,17 @@ export default function Cart() {
           isOpen: true,
           message: 'Cart not updated',
           type: 'error'
-      });
+        });
       } else {
         setNotify({
           isOpen: true,
           message: 'Cart updated successfully !',
           type: 'success'
-      });
+        });
         setDisable(true)
         setProceedDisable(false)
       }
-    }else{
+    } else {
       dispatch(actionUpdateItem(productCart))
       setDisable(true)
       setProceedDisable(false)
@@ -113,7 +118,7 @@ export default function Cart() {
         isOpen: true,
         message: 'Cart updated successfully !',
         type: 'success'
-    });
+      });
     }
   }
 
@@ -147,23 +152,25 @@ export default function Cart() {
                   .map((value, index) => {
                     return (
                       <TableRow key={index}>
-                        <TableCell align="center" style={{ fontFamily: 'Montserrat' }}><img height={100} align="center" src={'http://localhost:3001/' + value.image} /></TableCell>
+                        <TableCell align="center" style={{ fontFamily: 'Montserrat' }}><img height={100} align="center" src={'http://localhost:3001/' + value.image} onClick={() => {
+                          history.push(`/productDetails/${value.productId}`);
+                        }} /></TableCell>
                         <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.name}</TableCell>
                         <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>Rs. {value.price}</TableCell>
                         <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.size}</TableCell>
                         <TableCell align="center" onClick={() => selectedQty(index)}>
-                          <NumericInput mobile min={0} value={value.quantity} size={1} style={{ fontFamily: 'Montserrat' }} onChange={updateQty} />
+                          <NumericInput mobile min={1} max={value.stockMargin} value={value.quantity} size={1} style={{ fontFamily: 'Montserrat' }} onChange={updateQty} />
                         </TableCell>
                         {/* <TableCell align="center" className={classes.numeric} style={{ fontFamily: 'Montserrat' }}>{value.quantity}</TableCell> */}
                         <TableCell align="center">
                           <Button name="remove" onClick={() => {
-                                                    setConfirmDialog({
-                                                        isOpen: true,
-                                                        title: 'Are you sure to delete this?',
-                                                        subTitle: "You can't undo this operation...",
-                                                        onConfirm: () => {  onRemove(value.id) }
-                                                    })
-                                                }}>
+                            setConfirmDialog({
+                              isOpen: true,
+                              title: 'Are you sure to delete this?',
+                              subTitle: "You can't undo this operation...",
+                              onConfirm: () => { onRemove(value.productId,value.size) }
+                            })
+                          }}>
                             <i className="fa fa-times" aria-hidden="true"></i>
                           </Button>
                         </TableCell>
@@ -185,13 +192,29 @@ export default function Cart() {
             </Table>
           </TableContainer>
           <div>
-            <Button
-              type="submit"
-              variant="contained"
-              color="primary"
-              className={classes.back}
-            >Continue Shopping
-            </Button>
+            <Box
+              component="span"
+              m={1}
+              className={`${classes.spreadBox} ${classes.box}`}
+            >
+              <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+                className={classes.back}
+              >Continue Shopping
+              </Button>
+
+              <Button
+                type="submit"
+                disabled={disable}
+                onClick={saveUpdate}
+                variant="contained"
+                color="primary"
+                className={classes.submit}
+              >Save Update
+              </Button>
+            </Box>
           </div>
         </center>
         <div>
@@ -241,12 +264,11 @@ export default function Cart() {
               >
                 <Button
                   type="submit"
-                  disabled={disable}
-                  onClick={saveUpdate}
+                  onClick={onLogout}
                   variant="contained"
                   color="primary"
                   className={classes.submit}
-                >Save Update
+                >Logout
                 </Button>
 
                 <Button
@@ -260,29 +282,19 @@ export default function Cart() {
                 </Button>
               </Box>
             </div>
-            <div>
-              <Button
-                type="submit"
-                onClick={onLogout}
-                variant="contained"
-                color="primary"
-                className={classes.submit}
-              >Logout
-              </Button>
-            </div>
           </center>
         </div>
       </container>
       <Footer />
       <Notification
-                    notify={notify}
-                    setNotify={setNotify}
-                />
+        notify={notify}
+        setNotify={setNotify}
+      />
 
-                <ConfirmDialog
-                    confirmDialog={confirmDialog}
-                    setConfirmDialog={setConfirmDialog}
-                />
+      <ConfirmDialog
+        confirmDialog={confirmDialog}
+        setConfirmDialog={setConfirmDialog}
+      />
     </div>
 
   );

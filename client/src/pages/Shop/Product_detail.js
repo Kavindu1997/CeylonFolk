@@ -234,7 +234,8 @@ export default function Product_detail() {
         userId: uid,
         size: productSize,
         price: price,
-        totals: quantity * price
+        totals: quantity * price,
+        stockMargin: quantity[index1].quantity
       }
       dummyItem.totals = dummyItem.price * dummyItem.quantity;
       console.log(dummyItem)
