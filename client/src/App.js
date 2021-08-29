@@ -41,7 +41,7 @@ import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import { cart } from './_reducers/cart.reducer';
 import { StoreProvider } from "./_util";
-import Deposit from './pages/Checkout/deposit';
+import Deposit from './pages/Deposit/index.js';
 
 import Manager from './pages/Manager';
 import Assistant from './pages/Assistant';
@@ -110,32 +110,36 @@ const theme = createMuiTheme({
 
 class App extends Component {
   render() {
-    return (
-      <StoreProvider>
-        <ThemeProvider theme={theme}>
-          <BrowserRouter>
-            <Switch>
-              <Route exact path={"/"} component={Home} />
-              <Route exact path="/shop" component={Shop} />
-              <Route exact path="/contactus" component={Contactus} />
-              <Route path="/auth" exact render={() => < Authentication />} />
-              <Route exact path={"/cart"} component={MyCart} />
-              <Route exact path={"/productDetails/:id"} component={Product_detail} />
-              <Route exact path={"/deposit"} component={Deposit} />
-              <Route path="/admin" exact render={() => <AdminPanel />} />
-              <Route path="/users" exact render={() => <Users />} />
-              <Route path="/collections" exact render={() => <Collections />} />
-              <Route path="/designs" exact render={() => <Designs />} />
-              <Route path="/inventory" exact render={() => <Inventory />} />
-              <Route path="/coupon" exact render={() => <Coupon />} />
-              <Route path="/availableColors" exact render={() => <AvailableColors />} />
-              <Route path="/checkout" exact render={() => <Checkout />} />
-              <Route path="/wishlist" exact render={() => <Wishlist />} />
-              <Route path="/aboutUs" exact render={() => <About />} />
-              <Route path="/profile" exact render={() => <Profile />} />
-              <Route path="/myWishlist" exact render={() => <ProfileWishlist />} />
-              <Route path="/myOrders" exact render={() => <OrderHistory />} />
-              {/* <Route path="/collections" exact render={() => <Collections />} />
+  return (
+   <StoreProvider>
+    <ThemeProvider theme={theme}>
+      <BrowserRouter>
+        <Switch>
+          <Route exact path={"/"}  component = {Home} />
+          <Route exact path="/shop" component = {Shop} />
+          <Route exact path="/contactus" component = {Contactus} />
+          <Route path="/auth" exact render={() => < Authentication />} />
+          <Route exact path={"/cart"} component = {MyCart} />
+          <Route exact path={"/productDetails/:id"} component = {Product_detail} />
+          <Route exact path={"/deposit"} component = {Deposit} />
+          <Route exact path={"/profile"} component = {Profile} />
+          <Route exact path={"/myOrders"} component = {OrderHistory} />
+          <Route exact path={"/myWishlist"} component = {ProfileWishlist} />
+          <Route path="/admin" exact render={() => <AdminPanel />} />
+          <Route path="/users" exact render={() => <Users />} />
+          <Route path="/collections" exact render={() => <Collections />} />
+          <Route path="/designs" exact render={() => <Designs />} />
+          <Route path="/inventory" exact render={() => <Inventory />} />
+          <Route path="/coupon" exact render={() => <Coupon />} />
+          <Route path="/availableColors" exact render={() => <AvailableColors />} />
+          <Route path="/checkout" exact render={() => <Checkout />} />
+          <Route path="/wishlist" exact render={() => <Wishlist />} />
+          <Route path="/aboutUs" exact render={() => <About />} />
+          {/* <Route path="/profile" exact render={() => <Profile />} />
+          <Route path="/myWishlist" exact render={() => <ProfileWishlist />} />
+          <Route path="/myOrders" exact render={() => <OrderHistory />} /> */}
+          {/* <Route path="/collections" exact render={() => <Collections />} />
+
           <Route path="/coupon" exact render={() => <Coupon />} />
           <Route path="/inventory" exact render={() => <Inventory />} />
           <Route path="/designs" exact render={() => <Design />} />  */}
