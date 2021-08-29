@@ -13,6 +13,7 @@ import CouponTable from './CouponTable';
 import DesignTable from './DesignTable';
 import InventoryTable from './InventoryTable';
 import ViewDesignTable from './ViewDesignTable';
+import SizeTable from './SizeTable';
 import useStyles from './style';
 import Messages from '../../components/Reusable/ActionTab/Message';
 import Profile from '../../components/Reusable/ActionTab/Profile';
@@ -80,6 +81,7 @@ export default function AdminPanel() {
           <Route path="/viewDesigns" exact render={() => <ViewDesignTable />} />
           <Route path="/inventory" exact render={() => <InventoryTable />} />
           <Route path="/coupon" exact render={() => <CouponTable />} />
+          <Route path="/availableSizes" exact render={() => <SizeTable />} />
         </Router>
 
 
