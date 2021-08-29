@@ -34,6 +34,24 @@ router.get("/inventoryEdit/:inventory_id", async (req,res) => {
 });
 
 
+router.get("/sizes", async (req,res) => {
+
+
+    const query= "SELECT size from sizes";
+    const listOfSizes = await sequelize.query(query, {type: sequelize.QueryTypes.SELECT});
+
+    res.json(listOfSizes);
+});
+
+router.get("/types", async (req,res) => {
+
+
+    const query= "SELECT types from types";
+    const listOfTypes = await sequelize.query(query, {type: sequelize.QueryTypes.SELECT});
+
+    res.json(listOfTypes);
+});
+
 router.post("/inventory", async (req,res) => {
   
     console.log(req.body);
@@ -59,9 +77,27 @@ router.post("/inventory", async (req,res) => {
     // res.json(type_id);
     const id3 = type_id[0].id;
 
+    
+    // const checkQuery = "SELECT id from inventories where colour_id='" + id1 + "', size_id='" + id2 + "', type_id='" + id3 + "'";
+    // const checkInventory = await sequelize.query(checkQuery, {type: sequelize.QueryTypes.SELECT});
+    // console.log("ssssnew hiiii");
+    // console.log(checkInventory);
+
+
+
+
+    if(quantity>margin){
+
     const query = "INSERT INTO inventories (colour_id,size_id,type_id,quantity,margin) VALUES ('" + id1 + "','" + id2 + "','" + id3 + "','" + quantity + "','" + margin + "')";
     const addInvent = await sequelize.query(query, {type: sequelize.QueryTypes.INSERT});
     res.json(addInvent); 
+
+    }
+
+    // else{
+
+      
+    // }
   
 
 });

@@ -1,19 +1,25 @@
-import React, { Component } from "react";
+
+import React, { Component, useState, useEffect } from "react";
 import { Button } from "@material-ui/core";
 
-const Clothes = () => {
+const Clothes = (props) => {
+  const [clothing, setClothing] = useState('tshirt');
+
+  useEffect(() => {
+    setClothing(props.clothing)
+}, [props.clothing])
   
     return (
       <div className="clothes-type">
-        {/* <Button onClick={changeClothing} value="tshirt">
+        <Button onClick={props.changeClothing} value="tshirt">
           T-Shirt
-        </Button> */}
-        {/* <Button onClick={changeClothing} value="sweater">
+        </Button>
+        <Button onClick={props.changeClothing} value="sweater">
           Sweater
-        </Button> */}
+        </Button>
       </div>
     );
-  }
-
+  
+}
 
 export default Clothes;

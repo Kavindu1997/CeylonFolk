@@ -113,7 +113,9 @@ export default function Product_detail() {
 
     axios.get(`http://localhost:3001/ProductDetails/quantity/${id}`).then((response) => {
       setQuantity(response.data);
+      console.log('hello handle2')
       console.log(response.data)
+      console.log('hello handle2')
     });
 
   }, []);
@@ -154,7 +156,9 @@ export default function Product_detail() {
   var handleTab1 = index1 => {
     // alert(index1)
     setIndex1(index1)
-    // console.log(index1)
+    console.log('hello handle')
+    console.log(index1)
+    console.log('hello handle')
   }
 
   const [toggleState, setToggleState] = useState(0);
@@ -386,6 +390,10 @@ export default function Product_detail() {
                       </Box>}
 
                   </Box>
+
+                  <div className={toggleState === 1 ? classes.activeQuantity : classes.quantity}>{quantity && <span>{quantity[index1].quantity + " in stock"}</span>}</div>               
+
+
                 </Box>
               </Formik>
 

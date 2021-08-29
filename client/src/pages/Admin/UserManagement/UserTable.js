@@ -1,24 +1,24 @@
 import React, { useState,useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import UserForm from './UserForm';
-import PageHeader from './PageHeader';
+import EditUserForm from './EditUserForm';
+import PageHeader from '../PageHeader';
 import GroupIcon from '@material-ui/icons/Group';
 import { Search } from '@material-ui/icons';
 import AddIcon from '@material-ui/icons/Add';
 import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 import CloseIcon from '@material-ui/icons/Close';
 import { makeStyles, Paper, TableBody, TableRow, TableCell, Toolbar, InputAdornment } from '@material-ui/core';
-import useTable from '../../components/Reusable/useTable';
-import * as userService from '../../services/userService';
-import Controls from '../../components/Reusable/Controls';
-import Popup from '../../components/Reusable/Popup';
-import Notification from '../../components/Reusable/Notification';
-import ConfirmDialog from '../../components/Reusable/ConfirmDialog';
-import AdminPanel from './index';
-import useStyles from './style';
-import AdminNav from "../../components/Reusable/AdminNav"
+import useTable from '../../../components/Reusable/useTable';
+import Controls from '../../../components/Reusable/Controls';
+import Popup from '../../../components/Reusable/Popup';
+import Notification from '../../../components/Reusable/Notification';
+import ConfirmDialog from '../../../components/Reusable/ConfirmDialog';
+import useStyles from '../style';
+import AdminNav from "../../../components/Reusable/AdminNav"
 import Lottie from 'react-lottie';
-import User from '../../images/user.json';
-import axios from 'axios';
+import User from '../../../images/user.json';
+import {fetchUsers,createUser,deleteUser,updateUser } from '../../../_actions/userManageAction';
 
 
 const headCells = [
@@ -33,15 +33,17 @@ const headCells = [
 
 const UserTable = () => {
     const classes = useStyles();
-    const [records, setRecords] = useState([]);
+    const userRecords=useSelector((state)=>state.userReducer.users);
+   // console.log(userRecords);
+    const dispatch=useDispatch();
     useEffect(()=>{
-        axios.get("http://localhost:3001/users/").then((response)=>{
-                  setRecords(response.data);
-        });
+       dispatch(fetchUsers());
     },[]);
+  
     const [recordForEdit, setRecordForEdit] = useState(null)
     const [filterFn, setFilterFn] = useState({ fn: items => { return items; } });
     const [openPopup, setOpenPopup] = useState(false);
+    const [openEditPopup, setOpenEditPopup] = useState(false);
     const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' });
     const [confirmDialog, setConfirmDialog] = useState({ isOpen: false, title: '', subTitle: '' })
     const {
@@ -49,7 +51,7 @@ const UserTable = () => {
         TblHead,
         TblPagination,
         recordsAfterPagingAndSorting
-    } = useTable(records, headCells, filterFn);
+    } = useTable(userRecords, headCells, filterFn);
 
     const handleSearch = e => {
         let target = e.target;
@@ -58,40 +60,48 @@ const UserTable = () => {
                 if (target.value === "")
                     return items;
                 else
-                    return items.filter(x => x.first_name.toLowerCase().includes(target.value))
+                    return items.filter(x => x.first_name.toLowerCase().includes(target.value)|| 
+                                             x.last_name.toLowerCase().includes(target.value)|| 
+                                             x.gender.toLowerCase().includes(target.value)||
+                                             x.mobile_no.includes(target.value)||
+                                             x.email.toLowerCase().includes(target.value))
             }
         })
     }
 
     const addOrEdit = (data, resetForm) => {
-        if (data.id === 0)
-            axios.post("http://localhost:3001/users/", data).then(() => {
-                axios.get("http://localhost:3001/users/").then((response)=>{
-                    setRecords(response.data);
-                });
+        if (data.id === 0){
+         dispatch(createUser(data));
+         window.location.reload(true);
+         resetForm();
+         setRecordForEdit(null);
+         setOpenPopup(false);
+         dispatch(fetchUsers());
+         setNotify({
+             isOpen: true,
+             message: 'Added Successfully !',
+             type: 'success'
          });
-        else
-          //  userService.updateUser(user);
+        
+        }else{
+        dispatch(updateUser(data,data.id));
         resetForm();
         setRecordForEdit(null);
         setOpenPopup(false);
-        axios.get("http://localhost:3001/users/").then((response)=>{
-        setRecords(response.data);
-        });
+        dispatch(fetchUsers());
         setNotify({
             isOpen: true,
-            message: 'Added Successfully !',
-            type: 'success'
+            message: 'Edited Successfully !',
+            type: 'info'
         });
+        window.location.reload(true);
     }
-
+  
+    }
+    
     const openInPopup = item => {
-        axios.get(`http://localhost:3001/users/${item.id}`).then((response)=>{
-         //  console.log(response.data);   
-           setRecordForEdit(response.data);
-        });
-      
-        setOpenPopup(true);
+        setRecordForEdit(item);
+        setOpenEditPopup(true);
     }
 
     const onDelete = id => {
@@ -99,11 +109,9 @@ const UserTable = () => {
             ...confirmDialog,
             isOpen: false
         });
-        axios.delete(`http://localhost:3001/users/${id}`).then(()=>{
-            axios.get("http://localhost:3001/users/").then((response)=>{
-            setRecords(response.data);
-        }); //refresh the records array
-        });
+     
+        dispatch(deleteUser(id));
+        window.location.reload(true);
         setNotify({
             isOpen: true,
             message: 'Removed Successfully !',
@@ -204,6 +212,17 @@ const UserTable = () => {
                     setOpenPopup={setOpenPopup}
                 >
                     <UserForm
+                        recordForEdit={recordForEdit}
+                        addOrEdit={addOrEdit}
+                    />
+                </Popup>
+
+                <Popup
+                    title="Edit User Form"
+                    openPopup={openEditPopup}
+                    setOpenPopup={setOpenEditPopup}
+                >
+                    <EditUserForm
                         recordForEdit={recordForEdit}
                         addOrEdit={addOrEdit}
                     />
