@@ -4,12 +4,10 @@ import { makeStyles } from '@material-ui/core/styles';
 import { CssBaseline, Drawer, Box, AppBar, Toolbar, List, Typography, Divider, IconButton, Badge, Container, Grid, Paper, Link, } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import NotificationsIcon from '@material-ui/icons/Notifications';
 import { mainListItems, secondListItems } from './ListItems';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
-import Lottie from 'react-lottie';
-import Stat from '../../images/stat.json';
-import UserTable from './UserTable';
+import UserTable from './UserManagement/UserTable';
+import Dashboard from './Dashboard/Dashboard'
 import CollectionTable from './CollectionTable';
 import CouponTable from './CouponTable';
 import DesignTable from './DesignTable';
@@ -17,6 +15,9 @@ import InventoryTable from './InventoryTable';
 import ViewDesignTable from './ViewDesignTable';
 import SizeTable from './SizeTable';
 import useStyles from './style';
+import Messages from '../../components/Reusable/ActionTab/Message';
+import Profile from '../../components/Reusable/ActionTab/Profile';
+import Logout from '../../components/Reusable/ActionTab/Logout';
 
 
 export default function AdminPanel() {
@@ -29,15 +30,6 @@ export default function AdminPanel() {
     setOpen(false);
   };
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
-
-  const defaultOptions = {
-    loop: true,
-    autoplay: true,
-    animationData: Stat,
-    rendererSettings: {
-      preserveAspectRatio: "xMidYMid slice"
-    }
-  };
 
   return (
     <div className={classes.root}>
@@ -56,11 +48,9 @@ export default function AdminPanel() {
           <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title} style={{ fontFamily: 'Nunito', fontSize: '2rem' }}>
             Ceylon<span className={classes.colorText}>Folk</span>
           </Typography>
-          <IconButton color="inherit">
-            <Badge badgeContent={4} color="secondary">
-              <NotificationsIcon />
-            </Badge>
-          </IconButton>
+         <Messages/>
+         <Profile/>
+         <Logout/>
         </Toolbar>
       </AppBar>
       <Drawer
@@ -84,7 +74,7 @@ export default function AdminPanel() {
 
       <main className={classes.content}>
         <Router>
-          <Route path="/admin" exact render={() => <Lottie options={defaultOptions} height={700} width={700} style={{ marginTop: '20px' }} />} />
+          <Route path="/admin" exact render={() =><Dashboard/> }/>
           <Route path="/users" exact render={() => <UserTable />} />
           <Route path="/collections" exact render={() => <CollectionTable />} />
           <Route path="/designs" exact render={() => <DesignTable />} />

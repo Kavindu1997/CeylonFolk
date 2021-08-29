@@ -1,14 +1,20 @@
 {
-  "name": "server",
+  "name": "backend",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+<<<<<<< Updated upstream
     "start": "nodemon index.js"
+=======
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+>>>>>>> Stashed changes
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+<<<<<<< Updated upstream
     "bcrypt": "^5.0.1",
     "body-parser": "^1.19.0",
     "concurrently": "^6.2.0",
@@ -29,4 +35,15 @@
   },
   "devDependencies": {},
   "description": ""
+=======
+    "body-parser": "^1.16.1",
+    "ejs": "^2.5.6",
+    "express": "^4.14.1",
+    "express-fileupload": "^0.1.1",
+    "mysql": "^2.13.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  }
+>>>>>>> Stashed changes
 }
