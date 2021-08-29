@@ -99,7 +99,7 @@ const Dashboard = () => {
       };
 
     return (
-        
+        <>
         <main className={classes.content}>
               <PageHeader
                     title="DASHBOARD"
@@ -125,7 +125,7 @@ const Dashboard = () => {
                     {item.label}
                   </Typography>
 
-             {(item.label==="Total Customers")?(
+             {/* {(item.label==="Total Customers")?(
                   <Typography
                     variant='h4'
                     component='h2'
@@ -140,7 +140,51 @@ const Dashboard = () => {
                        <CountUp end={item.value} duration={4} prefix='LKR ' separator=',' decimals={2}/>
                   </Typography>
                )
-             }
+             } */}
+
+            {
+                  (() => {
+                    switch (item.label) {
+                      case "Total Customers":
+                        return (
+                          <Typography
+                            variant='h4'
+                            component='h2'
+                            className={classes.cardHeader}>
+                              <CountUp end={item.value} duration={3}/>
+                          </Typography>
+                      );
+                      case "Total Cost":
+                        return(
+                          <Typography
+                            variant='h4'
+                            component='h2'
+                            className={classes.cardHeader}>
+                              <CountUp end={item.value} duration={3.5} prefix='LKR ' separator=',' decimals={2}/>
+                          </Typography>
+                      );
+                      case "Total Revenue":
+                        return(
+                          <Typography
+                            variant='h4'
+                            component='h2'
+                            className={classes.cardHeader}>
+                              <CountUp end={item.value} duration={4} prefix='LKR ' separator=',' decimals={2}/>
+                          </Typography>
+                      );
+                        case "Total Profit":
+                          return(
+                            <Typography
+                              variant='h4'
+                              component='h2'
+                              className={classes.cardHeader}>
+                                <CountUp end={item.value} duration={4.5} prefix='LKR ' separator=',' decimals={2}/>
+                            </Typography>
+                        );
+                      default: return null;
+                    }
+                  }).call(this)
+            }
                   <Box className={classes.ratio}>
                     <Button
                       startIcon={item.icon}
@@ -161,6 +205,7 @@ const Dashboard = () => {
       <BlogGraph />
     </Box>
        </main>
+       </>
     );
 };
 

@@ -1,5 +1,5 @@
 import { Card, CardContent,  Divider,  Grid, Paper, Typography, } from "@material-ui/core";
-import { blue, blueGrey, brown, cyan, deepOrange, deepPurple, green, grey, indigo, lightGreen, lime, orange, pink, purple, red, teal, yellow } from "@material-ui/core/colors";
+import { blue, brown, cyan, deepOrange, green, grey, indigo, lightGreen, lime, pink, red, teal, yellow } from "@material-ui/core/colors";
 import React, { useEffect, useState } from "react";
 import { fakeArrayGenrator } from "./fakeDataGenerator";
 import { lineGraphComponent } from "./GraphComponent";
@@ -46,7 +46,7 @@ import { useStyles } from "./styles";
           {
             label: "Orders",
             data: fakeArrayGenrator({ length: 3, digit: 1000 }),
-            borderColor: [lightGreen[50], lime[800], pink[500]],
+            borderColor: [lightGreen[50], lime[400], pink[500]],
             backgroundColor: [lightGreen["A400"], lime["A200"], pink[400]],
             fill: true,
             tension: 0.5,
