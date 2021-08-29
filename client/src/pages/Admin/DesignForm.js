@@ -4,6 +4,8 @@ import { useForm, Form } from '../../components/Reusable/useForm';
 import Controls from '../../components/Reusable/Controls';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
+import ButtonGroup from '@material-ui/core/ButtonGroup';
+import useStyles from './style';
 
 var collection_id = localStorage.getItem("collection_id");
 console.log(collection_id);
@@ -11,6 +13,7 @@ console.log(collection_id);
 
 const DesignForm = () => {
 
+    const classes = useStyles();
     const [file, setfile] = useState(null);
     const [designName, setDesignName] = useState([]);
     const [colour, setColour] = useState([]);
@@ -30,7 +33,7 @@ const DesignForm = () => {
         formData.append('colour', colour);
         formData.append('types', types);
         formData.append('price', price);
-        formData.append('collection_id',collection_id);
+        formData.append('collection_id', collection_id);
         const config = {
             headers: {
                 'content-type': 'multipart/form-data',
@@ -50,6 +53,16 @@ const DesignForm = () => {
             console.log('err', err);
         })
     };
+
+    const [listOfTypes, setListOfTypes] = useState([]);
+
+    useEffect(() => {
+
+        axios.get("http://localhost:3001/invent/types").then((response) => {
+            // console.log(response.data);
+            setListOfTypes(response.data);
+        });
+    }, []);
 
     const onInputChange = (e) => {
         setfile(e.target.files[0])
@@ -83,7 +96,7 @@ const DesignForm = () => {
 
                     <Grid container>
 
-                        <Grid item md={6} style={{ paddingLeft: '100px', paddingRight: '100px' }}>
+                        <Grid item xs={6}>
 
                             <Controls.Input
                                 variant="outlined"
@@ -91,14 +104,25 @@ const DesignForm = () => {
                                 name="designName"
                                 onChange={changeCollectionDesign}
                             />
-                           
+                        </Grid>
+                        <Grid item xs={6}>
 
-                            <Controls.Input
-                                variant="outlined"
-                                label="Colour"
-                                name="colour"
-                                onChange={changeCollectionColour}
-                            />
+                            <ButtonGroup variant="contained" color="primary" aria-label="split button" style={{ boxShadow: 'none' }}>
+                                <select className={classes.icon} name="type" onChange={changeCollectionTypes}>
+                                    <option value="">Type</option>
+
+                                    {listOfTypes
+                                        .map((value) => {
+                                            return (
+
+                                                <option value={value.types}>{value.types}</option>
+                                            );
+                                        })}
+
+                                </select>
+                            </ButtonGroup>
+                        </Grid>
+                        <Grid item xs={6}>
                             <Controls.Input
                                 variant="outlined"
                                 name="photo"
@@ -107,14 +131,16 @@ const DesignForm = () => {
                             />
 
                         </Grid>
-                        <Grid item md={6} style={{ paddingLeft: '100px', paddingRight: '100px' }}>
-
+                        
+                        <Grid item xs={6}>
                             <Controls.Input
                                 variant="outlined"
-                                label="Type"
-                                name="types"
-                                onChange={changeCollectionTypes}
+                                label="Colour"
+                                name="colour"
+                                onChange={changeCollectionColour}
                             />
+                        </Grid>
+                        <Grid item xs={6}>
                             <Controls.Input
                                 variant="outlined"
                                 label="Price"
@@ -132,7 +158,7 @@ const DesignForm = () => {
                         </Grid>
 
 
-                    </Grid>  
+                    </Grid>
 
 
                 </form>
