@@ -218,6 +218,8 @@ const sendItem2 = () => {
     // });
   };
 
+  
+
   return (
     <div>
       <CommonNav />
@@ -289,6 +291,11 @@ const sendItem2 = () => {
                   console.log('hi bye')
                 }}
                 selectedShapeName={selectedShapeName}
+                onDelete={() => {
+                  const newString = [...pickerColorArray];
+                  newString.splice(index, 1);
+                  setPickerColorArray(newString);
+                }}
               />
               
       

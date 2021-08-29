@@ -1,6 +1,8 @@
 import React, { Component, useState, useEffect } from "react";
-import { Text,Transformer } from "react-konva";
+import { Text,Transformer,Group, Image } from "react-konva";
 import { render } from "react-dom";
+import useImage from "use-image";
+import cancel from "../../../images/close.svg"
 
 const TextLayer = (props) => {
 
@@ -8,6 +10,7 @@ const TextLayer = (props) => {
   const textRef = React.useRef();
   const shapeRef = React.useRef();
   const trRef = React.useRef();
+  const [deleteImage] = useImage(cancel);
 
   useEffect(() => {
     if (props.isSelected) {
@@ -53,20 +56,46 @@ const TextLayer = (props) => {
   
     return (
       <React.Fragment>
+
+<Group
+        draggable
+        // x={props.value.x}
+        // y={props.value.y}
+        // onDragEnd={(event) => {
+        //   onDragEnd(event);
+        // }}
+        >
+          <Image
+      // onTouchStart={onDelete}
+        onClick={props.onDelete}
+        image={deleteImage}
+        width={10}
+        height={10}
+        // offsetX={
+        //   -stickerWidth / 2 - 20
+        // }
+        offset={{
+          x: -160,
+          y: -135
+        }}
+
+      />
+
+        
       <Text
         name="text"
         offset={{
           x: -150,
           y: -150
         }}
-        width={200}
+        // width={100}
         wrap="char"
         align="center"
         fill={props.textColor}
         fontSize={20}
         fontFamily="Calibri"
         opacity={1}
-        draggable={true}
+        // draggable={true}
         text={props.value}
         ref={textRef}
         // onDragEnd={handleChange}
@@ -107,7 +136,12 @@ const TextLayer = (props) => {
           });
         }}
       />
+
+
+      
       {props.isSelected && (
+
+        
         <Transformer
           ref={trRef}
           boundBoxFunc={(oldBox, newBox) => {
@@ -118,8 +152,12 @@ const TextLayer = (props) => {
             return newBox;
           }}
         />
-        
+
+      
       )}
+
+</Group>
+
       </React.Fragment>
     );
   
