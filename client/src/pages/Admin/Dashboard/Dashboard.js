@@ -3,9 +3,11 @@ import PageHeader from '../PageHeader';
 import {useStyles} from './styles';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import {Box,Button,Card,CardContent,Grid,Typography,} from "@material-ui/core";
-import { blue, green, grey, lightBlue, red, teal } from "@material-ui/core/colors";
+import { blue,green, grey, purple, red} from "@material-ui/core/colors";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import ArrowDropUpIcon from "@material-ui/icons/ArrowDropUp";
+import MoodIcon from '@material-ui/icons/Mood';
+import MoodBadIcon from '@material-ui/icons/MoodBad';
 import GraphComponent from "./GraphComponent";
 import BlogGraph from "./BlogGraph";
 import { fakeArrayGenrator } from "./fakeDataGenerator";
@@ -40,8 +42,14 @@ const Dashboard = () => {
       {
         label: "Total Customers",
         value: "10",
-        icon: <ArrowDropDownIcon />,
-        iconLabel: "2.5%",
+        icon: <MoodIcon style={{ color: green[500],fontSize: 40  }} />,
+        iconLabel: "",
+      },
+      {
+        label: "Pending Orders",
+        value: "15",
+        icon: <MoodBadIcon style={{ color: red[500],fontSize: 40  }} />,
+        iconLabel: "",
       },
     ];
   
@@ -69,6 +77,12 @@ const Dashboard = () => {
         data: fakeArrayGenrator({ length: 10, digit: 100 }),
         bgColor: grey[50],
         brColor: grey["A400"],
+      },
+      {
+        label: "Pending Orders",
+        data: fakeArrayGenrator({ length: 10, digit: 100 }),
+        bgColor: purple[50],
+        brColor: purple["A700"],
       },
     ];
   
@@ -108,9 +122,9 @@ const Dashboard = () => {
         <Lottie options={defaultOptions} height={150} width={150} style={{marginTop:'-150px',marginRight:'30px'}} />
 
      <Box mt={2}>
-      <Grid container spacing={1} className={classes.section}>
+      <Grid container spacing={1} className={classes.section} justify = "center">
         {DisplayData.map((item, i) => (
-          <Grid key={i} item xs={6} sm={3} md={3}>
+          <Grid key={i} item xs={6} sm={4} md={4}>
             <Card>
               <CardContent className={classes.displayCard}>
                 <canvas
@@ -146,6 +160,15 @@ const Dashboard = () => {
                   (() => {
                     switch (item.label) {
                       case "Total Customers":
+                        return (
+                          <Typography
+                            variant='h4'
+                            component='h2'
+                            className={classes.cardHeader}>
+                              <CountUp end={item.value} duration={3}/>
+                          </Typography>
+                      );
+                      case "Pending Orders":
                         return (
                           <Typography
                             variant='h4'
