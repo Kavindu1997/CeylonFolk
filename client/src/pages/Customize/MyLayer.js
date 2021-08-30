@@ -102,6 +102,19 @@ const addText = () =>
   console.log(pickerColorArray)
 }
 
+const handleUpload = ({target}) =>{
+  const reader = new FileReader();
+  const file = target.files[0];
+  // reader.onloadend = () => {
+  //   this.props.dispatch({
+  //     type: 'UPLOAD_IMAGE',
+  //     image: reader.result, 
+  //   });
+  // };
+  reader.readAsDataURL(file);
+  console.log(file)
+}
+
   const trRef = React.useRef();
   useEffect(() => {
     if (isSelected) {
@@ -458,6 +471,20 @@ const sendItem2 = () => {
             </FormControl> */}
         </div>
 
+      </div>
+      <div>
+        <input 
+          value="Upload" 
+          type="button" 
+          // onClick={ () => { this.uploadInput.click() } } 
+        />
+        <input 
+          id="inputUpload"
+          // ref={ (ref) => { this.uploadInput = ref } }
+          type="file" 
+          // style={ { display: 'none' } } 
+          // onChange = { (event) => { this.handleUpload(event) }}
+        />
       </div>
       
     </div>
