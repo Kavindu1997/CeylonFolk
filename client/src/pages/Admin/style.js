@@ -171,6 +171,18 @@ const useStyles = makeStyles((theme) => ({
         fontFamily: 'Segoe UI',
         color: '#2C2D2D',
     },
+
+    icon: {
+      fill: 'white',
+      padding: '8px',
+      borderRadius: '50px',
+      background: 'light blue',
+      width: '100px',
+      height: '78',
+      color: 'black',
+      boxShadow: 'none',
+
+  },
       
   }));
 

@@ -7,11 +7,11 @@ const initialState = {
 export const userReducer = (state = initialState, {type,payload}) => {
   switch (type){
       case UserManageActionTypes.FETCH_USERS:
-        return {...state,users:payload};
-      case UserManageActionTypes.CREATE_USER:
-        return {...state,users:payload};
+        return {users:[...payload]};
+      // case UserManageActionTypes.CREATE_USER:
+      //   return {...state,users:payload};
       case UserManageActionTypes.DELETE_USER:
-        return {...state,users:payload};
+        return {};
       case UserManageActionTypes.UPDATE_USER:
       return state.map((user)=>user.id===payload.id?payload:{...state});
     default:

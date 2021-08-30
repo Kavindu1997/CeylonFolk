@@ -1,12 +1,14 @@
-import React from 'react'
+import { React, useState } from 'react';
 import useStyles from './style';
 import * as Yup from 'yup';
+import Notification from '../../components/Reusable/Notification';
 import { TextField, FormControlLabel, Checkbox, Grid, Button } from '@material-ui/core';
 import axios from 'axios';
 import { Formik, Form, Field, ErrorMessage } from "formik";
 
 function Registration() {
     const classes = useStyles();
+    const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' });
 
     const initialRegValues = {
         firstName: '',
@@ -30,22 +32,37 @@ function Registration() {
         terms: Yup.boolean().oneOf([true], "You must accept the terms and conditions"),
     });
 
-    const register = (data, props) => {
+    const register = (data) => {
         axios.post("http://localhost:3001/auth/register", data).then((response) => {
             if (response.data.error) {
-                alert(response.data.error);
-                window.location.reload(true);
+                setNotify({
+                    isOpen: true,
+                    message: response.data.error,
+                    type: 'error'
+                });
+                setTimeout(() => {
+                    window.location.reload(true)
+                }, 1500)
             }
             else {
-                alert("Registration Successful! Now you can Login");
-                window.location.reload(true);
+                setNotify({
+                    isOpen: true,
+                    message: 'Registration Successful! Now you can Login',
+                    type: 'success'
+                });
+                setTimeout(() => {
+                    window.location.reload(true)
+                }, 1000)
             }
         });
-        props.resetForm();
     };
 
     return (
         <div>
+            <Notification
+                notify={notify}
+                setNotify={setNotify}
+            />
             <Formik initialValues={initialRegValues} onSubmit={register} validationSchema={regValidation}>
                 {(props) => (
                     <Form className={classes.form}>
@@ -155,6 +172,7 @@ function Registration() {
                             color="primary"
                             className={classes.submit}
                             disabled={!props.isValid}
+
                         >Register</Button>
                     </Form>
                 )}

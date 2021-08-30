@@ -5,13 +5,12 @@ import Controls from '../../components/Reusable/Controls';
 
 
 const initialFvalues={
-    id:0,
     coupon_id:'',
     coupon_title:'',
 }
 
 
-const CouponForm = (props) => {
+const EditCouponForm = (props) => {
     const { addOrEdit, recordForEdit } = props;
 
     const validate=(fieldValues=values)=>{
@@ -36,13 +35,12 @@ const CouponForm = (props) => {
         resetForm
     }=useForm(initialFvalues,true,validate);
 
-    const handleSubmit = e => {
+    const handleSubmit=e=>{
         e.preventDefault();
-        console.log(values);
-        if (validate()) {
-            addOrEdit(values, resetForm);
+        if(validate()){  
+              addOrEdit(values,resetForm);
         }
-    }
+      }
 
     useEffect(() => {
         if (recordForEdit != null)
@@ -77,7 +75,7 @@ const CouponForm = (props) => {
                         <div style={{paddingTop:'20px'}}>
                             <Controls.Button
                             type="submit"
-                            text="Add New Coupon"
+                            text="Edit Coupon"
                             />
 
                             <Controls.Button
@@ -92,4 +90,4 @@ const CouponForm = (props) => {
     );
 };
 
-export default CouponForm;
+export default EditCouponForm;
