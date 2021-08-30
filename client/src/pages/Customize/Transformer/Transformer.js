@@ -1,10 +1,13 @@
 import React, { Component, useState, useEffect } from "react";
 import { render } from "react-dom";
-import { Transformer } from "react-konva";
+import { Transformer,Group, Image } from "react-konva";
+import useImage from "use-image";
+import cancel from "../../../images/close.svg"
 
 const TransformerComponent = (props) => {
 
   const transformerRef = React.useRef();
+  const [deleteImage] = useImage(cancel);
 
   //Helper for transforming objects
 
@@ -50,6 +53,7 @@ useEffect(() => {
   }
   
     return (
+      
       <Transformer
         ref={transformerRef}
       />

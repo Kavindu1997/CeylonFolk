@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Grid, Typography, Box } from '@material-ui/core';
+import { Grid, Typography, Box, Radio } from '@material-ui/core';
 import Controls from '../../components/Reusable/Controls';
 import axios from 'axios';
 import "yup-phone";
@@ -7,7 +7,11 @@ import useStyles from './style';
 import { CirclePicker } from "react-color";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchColors } from '../../_actions/colorActions'
+
 import ButtonGroup from '@material-ui/core/ButtonGroup';
+
+
+import './adminStyles.css'
 
 
 const InventoryForm = () => {
@@ -22,6 +26,8 @@ const InventoryForm = () => {
     const [quantity, setQuantity] = useState('');
     const [margin, setMargin] = useState('');
     const [pickerColorArray, setPickerColorArray] = useState([]);
+    const [check, setCheck] = useState()
+
 
     const dispatch = useDispatch();
     useEffect(() => {
@@ -55,9 +61,16 @@ const InventoryForm = () => {
         console.log(e.target.value)
     }
 
+    const handleCheck = (e) => {
+        // const { name, value } = e.target;
+
+    setCheck(e.target.value);
+
+    }
+
     const sendItem = (e) => {
 
-        e.preventDefault();
+        // e.preventDefault();
 
         const Data = {
             size: size,
@@ -162,14 +175,14 @@ const InventoryForm = () => {
                         <Typography>Select Color</Typography>
                         <Box style={{ display: 'flex' }}>
                             {pickedItemColors.map((pickColor) => {
-                                const { color } = pickColor;
+                                const { color,id } = pickColor;
                                 return (
-                                    <ul className={classes.clrsboxSize}>
+                                    <ul className="clrsboxSize">
                                         <li className={classes.lbl}>
-                                            <label style={{ cursor: 'pointer' }} >
+                                            <label style={{ cursor: 'pointer' }} for={id}>
                                                 <div style={{ paddingBottom: '10px' }} >
-                                                    <input type="radio" onClick={setCol} name="size" className={classes.sizeOption} value={color} checked />
-                                                    <span className={classes.swatchVisible} style={{ backgroundColor: color }}></span>
+                                                    <input type="radio" onClick={setCol} name={id} className={classes.sizeOption} key={id} value={color} id={id} onChange={handleCheck} checked={check===color}/>
+                                                    <span className="swatchVisible" style={{ backgroundColor: color }}></span>
                                                 </div>
                                             </label>
                                         </li>

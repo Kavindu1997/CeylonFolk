@@ -25,13 +25,15 @@ const TextAddOn = (props) => {
               value={props.text}
               onChange={props.changeText}
             />
-            <CirclePicker
-              colors={textLayerColors}
+            {/* <CirclePicker
+              colors={props.textLayerColors}
               onChange={color => {
-                props.changeTextColor(color);
+                props.changeTextColor(color.hex);
               }}
+              console
+              // onChange={props.changeTextColor}
               width="max-width"
-            />
+            /> */}
             <Button onClick={props.addText}>ADD</Button>
             </form>
           </span>

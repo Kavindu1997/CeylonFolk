@@ -110,7 +110,7 @@ const addText = () =>
     }
   }, [isSelected]);
 
-  var changeTextColor = (e) => {
+  const changeTextColor = (e) => {
     setTextLayerColors(e.target.value)
   };
 
@@ -218,6 +218,8 @@ const sendItem2 = () => {
     // });
   };
 
+  
+
   return (
     <div>
       <CommonNav />
@@ -270,21 +272,30 @@ const sendItem2 = () => {
                 // text={text}
                 value={value}
                 textColor={textColor}
-                onTransform={newProps => {
-                  handleTextTransform(newProps);
-                }}
-                // key={index}
-                // isSelected={index === selectedId}
+                // onTransform={newProps => {
+                //   handleTextTransform(newProps);
+                // }}
+                key={index}
+                isSelected={index === selectedId}
 
-                // shapeProps={value}
-                // onSelect={() => {
-                //   selectShape(index);
-                // }}
-                // onChange={(newAttrs) => {
-                //   const rects = pickerColorArray.slice();
-                //   rects[index] = newAttrs;
-                //   setPickerColorArray(rects);
-                // }}
+                shapeProps={value}
+                onSelect={() => {
+                  selectShape(index);
+                }}
+                onChange={(newAttrs) => {
+                  const rects = pickerColorArray.slice();
+                  rects[index] = newAttrs;
+                  // setPickerColorArray(rects);
+                  console.log('hi bye')
+                  console.log(rects)
+                  console.log('hi bye')
+                }}
+                selectedShapeName={selectedShapeName}
+                onDelete={() => {
+                  const newString = [...pickerColorArray];
+                  newString.splice(index, 1);
+                  setPickerColorArray(newString);
+                }}
               />
               
       
@@ -301,9 +312,10 @@ const sendItem2 = () => {
               // />
               );
             })}
-            <TransformerComponent
+
+            {/* <TransformerComponent
                 selectedShapeName={selectedShapeName}
-              />
+              /> */}
 
             </Layer>
           </Stage>
@@ -345,9 +357,26 @@ const sendItem2 = () => {
             handleTextChange={handleTextChange}
             changeTextColor={changeTextColor}
             sendItem2={sendItem2}
+            textLayerColors={textLayerColors}
             changeText={changeText}
             addText={addText}
           />
+          {/* <CirclePicker
+              colors={textLayerColors}
+              onChange={color => {
+                changeTextColor(color.hex);
+              }}
+              console
+              // onChange={props.changeTextColor}
+              width="max-width"
+            /> */}
+            <CirclePicker
+              colors={textLayerColors}
+              onChange={textLColors => {
+                setTextColor(textLColors.hex);
+              }}
+              width="max-width"
+            />
           
           {/* <div className="text-container">
             Custom Text:

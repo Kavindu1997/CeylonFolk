@@ -1,6 +1,8 @@
 import React, { Component, useState, useEffect } from "react";
-import { Text,Transformer } from "react-konva";
+import { Text,Transformer,Group, Image } from "react-konva";
 import { render } from "react-dom";
+import useImage from "use-image";
+import cancel from "../../../images/close.svg"
 
 const TextLayer = (props) => {
 
@@ -8,14 +10,15 @@ const TextLayer = (props) => {
   const textRef = React.useRef();
   const shapeRef = React.useRef();
   const trRef = React.useRef();
+  const [deleteImage] = useImage(cancel);
 
-  // useEffect(() => {
-  //   if (props.isSelected) {
-  //     // we need to attach transformer manually
-  //     trRef.current.nodes([textRef.current]);
-  //     trRef.current.getLayer().batchDraw();
-  //   }
-  // }, [props.isSelected]);
+  useEffect(() => {
+    if (props.isSelected) {
+      // we need to attach transformer manually
+      trRef.current.nodes([textRef.current]);
+      trRef.current.getLayer().batchDraw();
+    }
+  }, [props.isSelected]);
 
   //The component waints for changes in the text,
   //it updates the text as it receives new character
@@ -38,84 +41,124 @@ const TextLayer = (props) => {
 
   //The onTransform function helps scale the text
   //to users needs
-  const handleChange = (e) => {
-    const shape = e.target;
-    console.log(shape)
-    console.log(props.onTransform)
-    props.onTransform({
-      x: shape.x(),
-      y: shape.y(),
-      width: shape.width() * shape.scaleX(),
-      height: shape.height() * shape.scaleY(),
-      rotation: shape.rotation()
-    });
-  };
+  // const handleChange = (e) => {
+  //   const shape = e.target;
+  //   console.log(shape)
+  //   console.log(props.onTransform)
+  //   props.onTransform({
+  //     x: shape.x(),
+  //     y: shape.y(),
+  //     width: shape.width() * shape.scaleX(),
+  //     height: shape.height() * shape.scaleY(),
+  //     rotation: shape.rotation()
+  //   });
+  // };
   
     return (
-      // <React.Fragment>
+      <React.Fragment>
+
+<Group
+        draggable
+        // x={props.value.x}
+        // y={props.value.y}
+        // onDragEnd={(event) => {
+        //   onDragEnd(event);
+        // }}
+        >
+          <Image
+      // onTouchStart={onDelete}
+        onClick={props.onDelete}
+        image={deleteImage}
+        width={10}
+        height={10}
+        // offsetX={
+        //   -stickerWidth / 2 - 20
+        // }
+        offset={{
+          x: -160,
+          y: -135
+        }}
+
+      />
+
+        
       <Text
         name="text"
         offset={{
           x: -150,
           y: -150
         }}
-        width={200}
+        // width={100}
         wrap="char"
         align="center"
         fill={props.textColor}
         fontSize={20}
         fontFamily="Calibri"
         opacity={1}
-        draggable={true}
+        // draggable={true}
         text={props.value}
         ref={textRef}
-        onDragEnd={handleChange}
-        onTransformEnd={handleChange}
-        // onClick={props.onSelect}
-        // onTap={props.onSelect}
-        // onDragEnd={(e) => {
-        //   props.onChange({
-        //     ...shapeProps,
-        //     x: e.target.x(),
-        //     y: e.target.y(),
-        //   });
-        // }}
-        // onTransformEnd={(e) => {
-        //   // transformer is changing scale of the node
-        //   // and NOT its width or height
-        //   // but in the store we have only width and height
-        //   // to match the data better we will reset scale on transform end
-        //   const node = textRef.current;
-        //   const scaleX = node.scaleX();
-        //   const scaleY = node.scaleY();
+        // onDragEnd={handleChange}
+        // onTransformEnd={handleChange}
+        onClick={props.onSelect}
+        onTap={props.onSelect}
+        onDragEnd={(e) => {
+          const shape = e.target;
 
-        //   // we will reset it back
-        //   node.scaleX(1);
-        //   node.scaleY(1);
-        //   props.onChange({
-        //     ...shapeProps,
-        //     x: node.x(),
-        //     y: node.y(),
-        //     // set minimal value
-        //     width: Math.max(5, node.width() * scaleX),
-        //     height: Math.max(node.height() * scaleY),
-        //   });
-        // }}
+          props.onChange({
+            // ...shapeProps,
+            x: shape.x(),
+      y: shape.y(),
+      width: shape.width() * shape.scaleX(),
+      height: shape.height() * shape.scaleY(),
+      rotation: shape.rotation()
+          });
+        }}
+        onTransformEnd={(e) => {
+          // transformer is changing scale of the node
+          // and NOT its width or height
+          // but in the store we have only width and height
+          // to match the data better we will reset scale on transform end
+          const node = textRef.current.getStage();
+          const scaleX = node.scaleX();
+          const scaleY = node.scaleY();
+
+          // we will reset it back
+          node.scaleX(1);
+          node.scaleY(1);
+          props.onChange({
+            // ...shapeProps,
+            x: node.x(),
+            y: node.y(),
+            // set minimal value
+            width: Math.max(5, node.width() * scaleX),
+            height: Math.max(node.height() * scaleY),
+          });
+        }}
       />
-      // {/* {props.isSelected && (
-      //   <Transformer
-      //     ref={trRef}
-      //     boundBoxFunc={(oldBox, newBox) => {
-      //       // limit resize
-      //       if (newBox.width < 5 || newBox.height < 5) {
-      //         return oldBox;
-      //       }
-      //       return newBox;
-      //     }}
-      //   />
+
+
+      
+      {props.isSelected && (
+
         
-      // )} */}
-      // </React.Fragment>
+        <Transformer
+          ref={trRef}
+          boundBoxFunc={(oldBox, newBox) => {
+            //limit resize
+            if (newBox.width < 5 || newBox.height < 5) {
+              return oldBox;
+            }
+            return newBox;
+          }}
+        />
+
+      
+      )}
+
+</Group>
+
+      </React.Fragment>
     );
   
 }
