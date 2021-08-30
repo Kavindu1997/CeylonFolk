@@ -6,13 +6,16 @@ import Shop from './pages/Shop';
 import Contactus from './pages/ContactUs';
 import Authentication from './pages/Authentication';
 import AdminPanel from './pages/Admin';
-import Users from './pages/Admin/UserTable';
+import Users from './pages/Admin/UserManagement/UserTable';
 import Collections from './pages/Admin/CollectionTable';
 import Designs from './pages/Admin/DesignTable';
 import Inventory from './pages/Admin/InventoryTable';
 import Coupon from './pages/Admin/CouponTable';
 import NotFound from './pages/PageNotFound/Notfound';
 import AvailableColors from './pages/Admin/AvailableColors/AvailableColorsTable';
+import AvailableSizes from './pages/Admin/SizeTable';
+import AvailableTypes from './pages/Admin/TypesTable';
+import ViewDesigns from './pages/Admin/ViewDesignTable';
 import Product_detail from './pages/Shop/Product_detail';
 //import Collections from './pages/Collections'
 //import Inventory from './pages/Inventory';
@@ -41,7 +44,7 @@ import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import { cart } from './_reducers/cart.reducer';
 import { StoreProvider } from "./_util";
-import Deposit from './pages/Checkout/deposit';
+import Deposit from './pages/Deposit/index.js';
 
 import Manager from './pages/Manager';
 import Assistant from './pages/Assistant';
@@ -110,32 +113,39 @@ const theme = createMuiTheme({
 
 class App extends Component {
   render() {
-    return (
-      <StoreProvider>
-        <ThemeProvider theme={theme}>
-          <BrowserRouter>
-            <Switch>
-              <Route exact path={"/"} component={Home} />
-              <Route exact path="/shop" component={Shop} />
-              <Route exact path="/contactus" component={Contactus} />
-              <Route path="/auth" exact render={() => < Authentication />} />
-              <Route exact path={"/cart"} component={MyCart} />
-              <Route exact path={"/productDetails/:id"} component={Product_detail} />
-              <Route exact path={"/deposit"} component={Deposit} />
-              <Route path="/admin" exact render={() => <AdminPanel />} />
-              <Route path="/users" exact render={() => <Users />} />
-              <Route path="/collections" exact render={() => <Collections />} />
-              <Route path="/designs" exact render={() => <Designs />} />
-              <Route path="/inventory" exact render={() => <Inventory />} />
-              <Route path="/coupon" exact render={() => <Coupon />} />
-              <Route path="/availableColors" exact render={() => <AvailableColors />} />
-              <Route path="/checkout" exact render={() => <Checkout />} />
-              <Route path="/wishlist" exact render={() => <Wishlist />} />
-              <Route path="/aboutUs" exact render={() => <About />} />
-              <Route path="/profile" exact render={() => <Profile />} />
-              <Route path="/myWishlist" exact render={() => <ProfileWishlist />} />
-              <Route path="/myOrders" exact render={() => <OrderHistory />} />
-              {/* <Route path="/collections" exact render={() => <Collections />} />
+  return (
+   <StoreProvider>
+    <ThemeProvider theme={theme}>
+      <BrowserRouter>
+        <Switch>
+          <Route exact path={"/"}  component = {Home} />
+          <Route exact path="/shop" component = {Shop} />
+          <Route exact path="/contactus" component = {Contactus} />
+          <Route path="/auth" exact render={() => < Authentication />} />
+          <Route exact path={"/cart"} component = {MyCart} />
+          <Route exact path={"/productDetails/:id"} component = {Product_detail} />
+          <Route exact path={"/deposit"} component = {Deposit} />
+          <Route exact path={"/profile"} component = {Profile} />
+          <Route exact path={"/myOrders"} component = {OrderHistory} />
+          <Route exact path={"/myWishlist"} component = {ProfileWishlist} />
+          <Route path="/admin" exact render={() => <AdminPanel />} />
+          <Route path="/users" exact render={() => <Users />} />
+          <Route path="/collections" exact render={() => <Collections />} />
+          <Route path="/designs" exact render={() => <Designs />} />
+          <Route path="/inventory" exact render={() => <Inventory />} />
+          <Route path="/coupon" exact render={() => <Coupon />} />
+          <Route path="/availableColors" exact render={() => <AvailableColors />} />
+          <Route path="/availableSizes" exact render={() => <AvailableSizes  />} />
+          <Route path="/availableTypes" exact render={() => <AvailableTypes  />} />
+          <Route path="/viewDesigns" exact render={() => <ViewDesigns  />} />
+          <Route path="/checkout" exact render={() => <Checkout />} />
+          <Route path="/wishlist" exact render={() => <Wishlist />} />
+          <Route path="/aboutUs" exact render={() => <About />} />
+          {/* <Route path="/profile" exact render={() => <Profile />} />
+          <Route path="/myWishlist" exact render={() => <ProfileWishlist />} />
+          <Route path="/myOrders" exact render={() => <OrderHistory />} /> */}
+          {/* <Route path="/collections" exact render={() => <Collections />} />
+
           <Route path="/coupon" exact render={() => <Coupon />} />
           <Route path="/inventory" exact render={() => <Inventory />} />
           <Route path="/designs" exact render={() => <Design />} />  */}

@@ -16,10 +16,16 @@ export const actionGetTotal = total => {
     }
 };
 
-export const actionDeleteItem = id => {
+export const actionDeleteItem = (id,size) => {
     return {
         type: CART_CONSTS.DELETE_ITEM,
-        payload: id
+        payload: {id:id,size:size}
+    }
+};
+
+export const actionGetTotalDeduct = () => {
+    return {
+        type: CART_CONSTS.GET_TOTAL_DEDUCT,
     }
 };
 
@@ -43,18 +49,18 @@ export const decrementCartCount = () => {
 };
 
 export const calculateTotalWhenChanged = productCart => {
-    console.log(productCart)
+
     var newTotalValue= 0;
     let i=0;
     console.log(productCart.length)
-    while(i<productCart.length-1){
-        productCart[i].totals=productCart[i].price*productCart[i].quantity;
-        newTotalValue=productCart[i].totals;
-        i++;
-    }
+    // while(i =<productCart.length-1){
+    //     productCart[i].totals=productCart[i].price*productCart[i].quantity;
+    //     newTotalValue=productCart[i].totals;
+    //     i++;
+    // }
     for(i=0;i<=productCart.length-1;i++){
         productCart[i].totals=productCart[i].price*productCart[i].quantity;
-        newTotalValue=productCart[i].totals;
+        newTotalValue=newTotalValue+productCart[i].totals;
        console.log(productCart[i].totals)
     }
     return {
@@ -71,10 +77,11 @@ export const getCart = () => async (dispatch) => {
         console.log(response.data)
     }
 };
-export const deleteCartUsingID = (id) => async (dispatch) => {
+
+export const deleteCartUsingID = (id,size) => async (dispatch) => {
     var uid = localStorage.getItem("userId")
     if (uid > 0) {
-      const data = { userId: uid, itemId: id }
+      const data = { userId: uid, itemId: id, size:size }
         await ceylonforkapi.put("/check/remove/",data).then((response) => {
         if (response.data.error) alert(response.data.error);
         else {
@@ -111,8 +118,8 @@ export const sendProductsToDB = (product) => async (dispatch) => {
 export const updateCartQuantity = (productCart) => async (dispatch) => {
     var uid = localStorage.getItem("userId");
     if (uid != '0') {
-        await ceylonforkapi.put("/check/updateQty/",productCart).then((response) => {
-            if(response.data.error) {
+      const response= await ceylonforkapi.put("/check/updateQty/",productCart)
+        if(response.data.error) {
                 alert(response.data.error);
                 return 0;
             }else{
@@ -120,7 +127,7 @@ export const updateCartQuantity = (productCart) => async (dispatch) => {
                 dispatch(getTotal())
                 return 1;
             }
-        })
+      
     }
 };
 

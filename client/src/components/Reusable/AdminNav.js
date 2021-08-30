@@ -4,11 +4,11 @@ import { makeStyles } from '@material-ui/core/styles';
 import { CssBaseline, Drawer, Box, AppBar, Toolbar, List, Typography, Divider, IconButton, Badge, Container, Grid, Paper, Link, } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import NotificationsIcon from '@material-ui/icons/Notifications';
 import { mainListItems, secondListItems } from '../../pages/Admin/ListItems';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
-import Lottie from 'react-lottie';
-import Stat from '../../images/stat.json';
+import Profile from './ActionTab/Profile';
+import Messages from './ActionTab/Message';
+import Logout from './ActionTab/Logout';
 
 
 const drawerWidth = 240;
@@ -106,15 +106,6 @@ const AdminNav = () => {
   };
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
-  const defaultOptions = {
-    loop: true,
-    autoplay: true,
-    animationData: Stat,
-    rendererSettings: {
-      preserveAspectRatio: "xMidYMid slice"
-    }
-  };
-
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -132,11 +123,9 @@ const AdminNav = () => {
           <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title} style={{ fontFamily: 'Nunito', fontSize: '2rem' }}>
             Ceylon<span className={classes.colorText}>Folk</span>
           </Typography>
-          <IconButton color="inherit">
-            <Badge badgeContent={4} color="secondary">
-              <NotificationsIcon />
-            </Badge>
-          </IconButton>
+          <Messages/>
+          <Profile/>
+          <Logout/>
         </Toolbar>
       </AppBar>
       <Drawer
