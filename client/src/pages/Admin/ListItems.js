@@ -6,12 +6,12 @@ import DashboardIcon from '@material-ui/icons/Dashboard';
 import PeopleIcon from '@material-ui/icons/People';
 import BrushIcon from '@material-ui/icons/Brush';
 import LayersIcon from '@material-ui/icons/Layers';
-import BuildIcon from '@material-ui/icons/Build';
 import LoyaltyIcon from '@material-ui/icons/Loyalty';
 import { Link } from 'react-router-dom';
 import PaletteIcon from '@material-ui/icons/Palette';
-import SpeakerIcon from '@material-ui/icons/Speaker';
-import TextFieldsIcon from '@material-ui/icons/TextFields';
+import ZoomOutMapIcon from '@material-ui/icons/ZoomOutMap';
+import ExtensionIcon from '@material-ui/icons/Extension';
+import StorageIcon from '@material-ui/icons/Storage';
 
 
 export const mainListItems = (
@@ -42,7 +42,7 @@ export const mainListItems = (
     </ListItem>
     <ListItem button component={Link} to="/inventory">
       <ListItemIcon>
-        <BuildIcon />
+        <StorageIcon />
       </ListItemIcon>
       <ListItemText primary="Inventory" />
     </ListItem>
@@ -60,13 +60,13 @@ export const mainListItems = (
     </ListItem>
     <ListItem button component={Link} to="/availableSizes">
       <ListItemIcon>
-        <SpeakerIcon />
+        <ZoomOutMapIcon />
       </ListItemIcon>
       <ListItemText primary="Available Sizes" />
     </ListItem>
     <ListItem button component={Link} to="/availableTypes">
       <ListItemIcon>
-        <TextFieldsIcon />
+        <ExtensionIcon />
       </ListItemIcon>
       <ListItemText primary="Available Types" />
     </ListItem>

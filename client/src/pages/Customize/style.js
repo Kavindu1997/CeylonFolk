@@ -15,43 +15,53 @@ const useStyles = makeStyles((theme) => ({
         background:'red'
     },
     photoContainer:{
-        backgroundImage:`url(${cfCover})`,
+        // backgroundImage:`url(${cfCover})`,
         backgroundRepeat: "no-repeat",
         backgroundSize: "cover",
         marginTop: '80px',
         padding:'20px',
-        display:'flex'
+        display:'flex',
+        justifyContent: 'space-between'
     },
     bar:{
         background:'black',
         padding:'10px',
-        marginTop:'5px',
         marginLeft:'5px',
-        marginBottom:'5px',
         justifyContent:'space-between'
 
     },
     bar2:{
         background:'#e5f3f8',
-        padding:'50px',
-        marginTop:'5px',
+        padding:'20px',
         marginRight:'5px',
-        marginBottom:'5px',
         justifyContent:'space-between',
-        padding:'50px',
-        alignItems:'center'
+        alignItems:'center',
+        height: '380px'
     },
     bar3:{
-        display:'flex',
+        // display:'flex',
     },
+    bar5:{
+      display:'flex',
+  },
+
+    lbl:{
+      paddingRight: '10px',
+  
+    },
+
+    sizeOption:{
+      display:'none'
+    },
+    
     bar4:{
         background:'none',
         padding:'10px',
         marginTop:'5px',
         marginBottom:'5px',
-        justifyContent:'space-between',
-        marginLeft:'180px'
+        justifyContent:'space-between'
     },
+
     barBtn:{
         padding: '10px',
         margin: '5px',
@@ -83,7 +93,9 @@ const useStyles = makeStyles((theme) => ({
     },
     barContainer:{
         display:'flex',
-        background:'#e5f3f8'
+        height: '500px',
+        width: '300px',
+        marginLeft: '20px'
     },
     slevebtn:{
         background:'#2C2D2D',
