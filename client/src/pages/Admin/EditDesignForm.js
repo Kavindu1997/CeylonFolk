@@ -11,11 +11,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchColors } from '../../_actions/colorActions'
 import './adminStyles.css'
 
+var design_id = localStorage.getItem("design_id");
+console.log("dd");
+console.log(design_id);
+console.log("dd");
+
 var collection_id = localStorage.getItem("collection_id");
-console.log(collection_id);
 
 
-const DesignForm = () => {
+const EditDesignForm = () => {
 
     const classes = useStyles();
     const [file, setfile] = useState(null);
@@ -56,7 +60,7 @@ const DesignForm = () => {
         console.log("check");
         console.log(formData);
 
-        axios.post("http://localhost:3001/designs", formData, config).then((response) => {
+        axios.put(`http://localhost:3001/designs/edit/${design_id}`, formData, config).then((response) => {
             alert('Image upload Successfull');
             history.push('/designs');
 
@@ -109,12 +113,24 @@ const DesignForm = () => {
 
     }
 
+    const [listOfDesign, setListOfDesign] = useState([]);
+
+    useEffect(() => {
+
+        axios.get(`http://localhost:3001/designs/oneDesign/${design_id}`).then((response) => {
+            // console.log(response.data);
+            setListOfDesign(response.data);
+        });
+    }, []);
+
     return (
         <div>
             <div>
                 <form onSubmit={onFormSubmit}>
 
-
+                {listOfDesign
+                                            .map((value) => {
+                                                return (
                     <Grid container>
 
                         <Grid item xs={6}>
@@ -123,6 +139,7 @@ const DesignForm = () => {
                                 variant="outlined"
                                 label="Design Name"
                                 name="designName"
+                                defaultValue={value.design_name}
                                 onChange={changeCollectionDesign}
                             />
                         </Grid>
@@ -158,6 +175,7 @@ const DesignForm = () => {
                                 variant="outlined"
                                 label="Price"
                                 name="price"
+                                defaultValue={value.price}
                                 onChange={changeCollectionPrice}
                             />
                         </Grid>
@@ -207,67 +225,14 @@ const DesignForm = () => {
 
                     </Grid>
 
-
+);
+})}
                 </form>
             </div>
         </div >
-        // {/* <Form onSubmit={handleSubmit}>
-        //     <Grid container>
-        //         <Grid item xs={6}>
-        //             <Controls.Input
-        //                 variant="outlined"
-        //                 label="Collection Name"
-        //                 name="collectionId"
-        //                 value={values.collectionId}
-        //                 onChange={handleInputChange}
-        //                 error={errors.collectionId}
-        //             />
-
-        //             <Controls.Input
-        //                 variant="outlined"
-        //                 label="Colour"
-        //                 name="collectionName"
-        //                 value={values.collectionName}
-        //                 onChange={handleInputChange}
-        //                 error={errors.collectionName}
-        //             />
-        //         </Grid>
-        //         <Grid item xs={6}>
-        //             <Controls.Input
-        //                 variant="outlined"
-        //                 label="Collection Type"
-        //                 name="collectionName"
-        //                 value={values.collectionName}
-        //                 onChange={handleInputChange}
-        //                 error={errors.collectionName}
-        //             />
-        //             <Controls.Input
-        //                 variant="outlined"
-        //                 label="Cover Image"
-        //                 name="collectionName"
-        //                 value={values.collectionName}
-        //                 onChange={handleInputChange}
-        //                 error={errors.collectionName}
-        //             />
-        //         </Grid>
-        //         <Grid item xs={12}>
-        //             <div style={{ paddingTop: '20px' }}>
-        //                 <Controls.Button
-        //                     type="submit"
-        //                     text="Add New Collection"
-        //                 />
-
-        //                 <Controls.Button
-        //                     color="default"
-        //                     text="Reset"
-        //                     onClick={resetForm}
-        //                 />
-        //             </div>
-        //         </Grid>
-        //     </Grid>
-        // </Form> */}
+       
 
     );
 };
 
-export default DesignForm;
+export default EditDesignForm;

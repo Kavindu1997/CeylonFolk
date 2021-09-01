@@ -157,6 +157,23 @@ const InventoryTable = () => {
         console.log(id);
     };
 
+    const onRemove = (id) => {
+
+        const data = { id: id }
+
+        axios.delete(`http://localhost:3001/invent/inventory`, { data }).then((response) => {
+
+            // axios.get("http://localhost:3001/designs").then((response) => {
+            //     console.log(response.data);
+            //     setListOfDesigns(response.data);
+            // });
+
+        });
+
+
+
+    };
+
 
     return (
 
@@ -210,6 +227,7 @@ const InventoryTable = () => {
                                         <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Type</TableCell>
                                         <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Quantity</TableCell>
                                         <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Margin</TableCell>
+                                        <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Update</TableCell>
                                         <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Delete</TableCell>
                                     </TableRow>
                                 </TableHead>
@@ -226,17 +244,20 @@ const InventoryTable = () => {
                                             <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.quantity}</TableCell>
                                             <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.margin}</TableCell>
                                             <TableCell align="center">
-                                                <Button name="remove" >
-                                                    <i className="fa fa-times" aria-hidden="true"></i>
-                                                </Button>
-                                            </TableCell>
-                                            <Controls.Button
-                                                text="Edit"
-                                                onClick={() => {
-                                                    onSetId(value.id)
-                                                    setOpenPopup1(true);
-                                                }}
-                                            />
+                                                            <Controls.Button
+                                                                text="Edit"
+                                                                onClick={() => {
+                                                                    onSetId(value.id)
+                                                                    setOpenPopup1(true);
+                                                                }}
+                                                            />
+                                                        </TableCell>
+                                                        <TableCell align="center">
+                                                            <Button name="remove" onClick={() => onRemove(value.id)}>
+                                                                <i className="fa fa-times" aria-hidden="true"></i>
+                                                            </Button>
+                                                        </TableCell>
+                                            
                                         </TableRow>
                                     )}
                                 </TableBody>
