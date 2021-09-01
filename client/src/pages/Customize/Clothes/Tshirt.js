@@ -1,7 +1,7 @@
 import React, { Component, useState, useEffect } from "react";
 import { Image } from "react-konva";
 import Konva from "konva";
-import mockup2 from "../../../images/new/front22.png";
+import mockup2 from "../../../images/new/tshirtMockup.png";
 
 
 const TShirt = (props) => {
@@ -39,7 +39,7 @@ const TShirt = (props) => {
         image={images}
         x={0}
         y={0}
-        width={500}
+        width={850}
         height={500}
         ref={shirtRef}
       />

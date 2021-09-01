@@ -13,12 +13,8 @@
   }
   
   .clothes{
-    border: 1px solid black;
     background-color: rgb(218, 218, 218);
-    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.6);
     border-radius: 2px;
-    border: 1px solid gainsboro;
-    margin: 10px;
   }
   
   
