@@ -31,10 +31,11 @@ InventorySearch.getAllInventory = (result) =>{
 
  
 // get employee by Name for Search Data by name 
-InventorySearch.getInventoryByName = (quantity, result)=>{
-    // console.log("hiij");
+InventorySearch.getInventoryByName = (search, result)=>{
+    console.log("hiijp");
+    console.log(search);
   
-    dbConn.query('  SELECT inventories.id, inventories.quantity, inventories.margin, colors.color, sizes.size, types.types FROM `inventories` INNER JOIN `colors` on inventories.colour_id=colors.id INNER JOIN `sizes` on inventories.size_id=sizes.id INNER JOIN `types` on inventories.type_id=types.id  WHERE quantity LIKE ?', quantity+'%', (err, res)=>{
+    dbConn.query('SELECT inventories.id, inventories.quantity, inventories.margin, colors.color, sizes.size, types.types FROM `inventories` INNER JOIN `colors` on inventories.colour_id=colors.id INNER JOIN `sizes` on inventories.size_id=sizes.id INNER JOIN `types` on inventories.type_id=types.id  WHERE types.types LIKE ?', search+'%'  , (err, res)=>{
         if(err){
             console.log('Error while fetching employee by id', err);
             result(null, err);
@@ -42,6 +43,7 @@ InventorySearch.getInventoryByName = (quantity, result)=>{
             result(null, res);
         }
     })
+
 }
 module.exports = InventorySearch;
 

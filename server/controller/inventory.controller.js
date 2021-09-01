@@ -25,7 +25,7 @@ exports.getInventoryByName = (req, res)=>{
     //console.log('get emp by id');
     console.log('check');
     
-    InventorySearchModel.getInventoryByName(req.params.quantity, (err, inventory)=>{
+    InventorySearchModel.getInventoryByName(req.params.search, (err, inventory)=>{
      
         if(err)
         res.send(err);

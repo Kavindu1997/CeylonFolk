@@ -93,8 +93,17 @@ router.post("/inventory", async (req,res) => {
     // console.log("ssssnew hiiii");
     // console.log(checkInventory);
 
+    
+    const count_query = "SELECT count(id) as co from `inventories` WHERE colour_id='" + id1 + "' AND size_id='" + id2 + "' AND type_id='" + id3 + "'";
+    const count1 = await sequelize.query(count_query, {type: sequelize.QueryTypes.SELECT});
+    // // res.json(type_id);
+    const cnt = count1[0].co;
+    console.log("count");
+
+    console.log(cnt);
 
 
+if(cnt==0){
 
     if(quantity>margin){
 
@@ -104,6 +113,7 @@ router.post("/inventory", async (req,res) => {
 
     }
 
+}
     // else{
 
       
