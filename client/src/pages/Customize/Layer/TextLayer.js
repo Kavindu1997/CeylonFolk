@@ -1,4 +1,4 @@
-import React, { Component, useState, useEffect } from "react";
+import React, { Component, useState, useEffect, useHoverDirty } from "react";
 import { Text,Transformer,Group, Image } from "react-konva";
 import { render } from "react-dom";
 import useImage from "use-image";
@@ -7,10 +7,13 @@ import cancel from "../../../images/close.svg"
 const TextLayer = (props) => {
 
   // const [text, setText] = useState('')
-  const textRef = React.useRef();
+  const textRef = React.useRef(null);
   const shapeRef = React.useRef();
   const trRef = React.useRef();
   const [deleteImage] = useImage(cancel);
+  // const isHovered = useHoverDirty(textRef)
+  const [showDeleteButton, setShowDeleteButton] = useState(false);
+  const [isShown, setIsShown] = useState(false);
 
   useEffect(() => {
     if (props.isSelected) {
@@ -19,6 +22,16 @@ const TextLayer = (props) => {
       trRef.current.getLayer().batchDraw();
     }
   }, [props.isSelected]);
+
+  useEffect(() => {
+    if (isShown) {
+      setShowDeleteButton(true);
+    } else {
+      setTimeout(() => {
+        setShowDeleteButton(false);
+      }, 4000);
+    }
+  }, [isShown]);
 
   //The component waints for changes in the text,
   //it updates the text as it receives new character
@@ -64,7 +77,11 @@ const TextLayer = (props) => {
         // onDragEnd={(event) => {
         //   onDragEnd(event);
         // }}
+      
         >
+
+{showDeleteButton && (
+
           <Image
       // onTouchStart={onDelete}
         onClick={props.onDelete}
@@ -80,6 +97,8 @@ const TextLayer = (props) => {
         }}
 
       />
+
+      )}
 
         
       <Text
@@ -135,6 +154,9 @@ const TextLayer = (props) => {
             height: Math.max(node.height() * scaleY),
           });
         }}
+
+        onMouseEnter={() => setIsShown(true)}
+        onMouseLeave={() => setIsShown(false)}
       />
 
 
