@@ -33,6 +33,37 @@ const TextLayer = (props) => {
     }
   }, [isShown]);
 
+  useEffect(() => {
+   if (!trRef.current) {
+     // do componentDidMount logic
+     checkNode();
+  } else {
+     // do componentDidUpdate logic
+     checkNode();
+   }
+ });
+
+ const checkNode = (e) => {
+        //attach or detach Transformer node
+       const stage = trRef.current.getStage();
+       const { selectedShapeName } = props;
+  
+       const selectedNode = stage.findOne("." + selectedShapeName);
+      // do nothing if selected node is already attached
+       if (selectedNode === trRef.current.node()) {
+         return;
+       }
+  
+       if (selectedNode) {
+         // attach to another node
+         trRef.current.attachTo(selectedNode);
+       } else {
+         // remove transformer
+         trRef.current.detach();
+       }
+       trRef.current.getLayer().batchDraw();
+     }
+
   //The component waints for changes in the text,
   //it updates the text as it receives new character
   // useEffect(() => {

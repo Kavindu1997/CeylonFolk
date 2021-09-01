@@ -30,9 +30,8 @@ import DesignNav from './Components/DesignNav';
 import DesignBox from './Components/DesignBox';
 import TypeBar from './Components/TypeBar';
 import TShirt from '../Customize/Clothes/Tshirt';
-
-
-
+import UploadComponent from './Options/UploadComponent';
+import LogoLayer from './Layer/LogoLayer';
 
 const Customize = () => {
 
@@ -64,13 +63,12 @@ const Customize = () => {
   const [newText, setNewText] = useState('');
   const [index, setIndex] = useState(0);
   const [selectedShapeName, setSelectedShapeName] = useState('');
-  const [imageSrc, setImageSrc] = useState('');
+  // const [imageSrc, setImageSrc] = useState('');
   const [pickerColorArray, setPickerColorArray] = useState([]);
-
-
   const trRef = React.useRef();
   const stageText = React.useRef();
   const [check, setCheck] = useState()
+  const [imageSrcArray, setimageSrcArray] = useState([])
 
 
   useEffect(() => {
@@ -79,9 +77,9 @@ const Customize = () => {
 
   }, []);
 
-  const setLogo = (imgSrc) => {
-    setImageSrc(imgSrc)
-  };
+  // const setLogo = (imgSrc) => {
+  //   setImageSrc(imgSrc)
+  // };
 
   const dispatch = useDispatch();
 
@@ -92,7 +90,7 @@ const Customize = () => {
 
   const mColors = Object.values(pickedItemColors).map((key) => [pickedItemColors[0].color])
 
-  Object.size = function(obj) {
+  Object.size = function (obj) {
     var size = 0,
       key;
     for (key in obj) {
@@ -109,19 +107,17 @@ const Customize = () => {
   var array = [];
   var i = 0;
 
-for(i=0;i<size;i++){
-  
-array.push(pickedItemColors[i].color)
-}
+  for (i = 0; i < size; i++) {
 
-console.log(array);
+    array.push(pickedItemColors[i].color)
+  }
 
-const [tshirt, setTshirt] = useState(array);
+  console.log(array);
 
-console.log(tshirt);
+  const [tshirt, setTshirt] = useState(array);
 
+  console.log(tshirt);
 
-  
   // console.log(pickedItemColors[0].color)
   // console.log(pickedItemColors[1].color)
   // console.log(mColors)
@@ -133,6 +129,19 @@ console.log(tshirt);
   useEffect(() => {
     dispatch(fetchColors());
   }, []);
+
+  const setLogo = imgSrc => {
+    // setimageSrc(imgSrc)
+    console.log('hey thash')
+    setimageSrcArray([...imageSrcArray, imgSrc])
+
+    console.log(imageSrcArray)
+  };
+
+  console.log('hey thash')
+
+  console.log(imageSrcArray)
+  console.log('hey thash')
 
   const setCol = (e) => {
     setColor(e.target.value.rgb)
@@ -256,22 +265,13 @@ console.log(tshirt);
     });
   };
 
-  // const handleChange = (e) => {
-  //   const shape = e.target;
-  //   text.onTransform({
-  //     x: shape.x(),
-  //     y: shape.y(),
-  //     width: shape.width() * shape.scaleX(),
-  //     height: shape.height() * shape.scaleY(),
-  //     rotation: shape.rotation()
-  //   });
-  // };
-
   const handleExportClick = () => {
     const uri = stageRef.current.toDataURL();
     console.log(uri);
     downloadURI(uri, "tshirt.jpg");
   }
+
+
 
   const handleChange = (e) => {
     const shape = e.target;
@@ -288,6 +288,9 @@ console.log(tshirt);
     setNewText(e.target.value);
     console.log(e.target.value);
   };
+
+  const uniqueSet = new Set(imageSrcArray);
+  const backToArray = [...uniqueSet];
 
   const addText = () => {
     const newIndex = index + 1;
@@ -335,20 +338,20 @@ console.log(tshirt);
       <CssBaseline />
       <div className={classes.photoContainer} styles={{ marginTop: '200px' }}>
         <Grid md={3} className={classes.barContainer}>
-        <Grid md={3}>
-          <DesignNav
-          toggleState={toggleState}
-          toggleTab={toggleTab}
-          />
+          <Grid md={3}>
+            <DesignNav
+              toggleState={toggleState}
+              toggleTab={toggleTab}
+            />
           </Grid>
 
           <Grid item md={9} className={classes.bar2}>
-            
+
             <DesignBox
-            toggleState={toggleState}
-            toggleTab={toggleTab}
+              toggleState={toggleState}
+              toggleTab={toggleTab}
             />
-            
+
             <Box className={toggleState === 1 ? classes.activeContent : classes.content}>
               <div className="text-container">
                 <TextAddOn
@@ -371,7 +374,7 @@ console.log(tshirt);
             </Box>
             <Box className={toggleState === 3 ? classes.activeContent : classes.content}>
               <Grid Container className={classes.bar3} >
-                <Grid item md={2.4} style={{ width: '100%' }}>
+                {/* <Grid item md={2.4} style={{ width: '100%' }}>
                   <a href="#">
                     <button className={classes.barBtn2}>
                       <img height={50} src={upload} />
@@ -386,7 +389,10 @@ console.log(tshirt);
                       <Typography textDecoration='none' className={classes.barFont}>SELECT TYPE</Typography>
                     </button>
                   </a>
-                </Grid>
+                </Grid> */}
+                <UploadComponent 
+                setLogo={setLogo}
+                />
               </Grid>
             </Box>
             <Box className={toggleState === 4 ? classes.activeContent : classes.content}>
@@ -421,17 +427,17 @@ console.log(tshirt);
               <Grid Container className={classes.bar3} >
                 <div className="color-picker">
 
-                <CirclePicker
-                id="circle-picker"
-                display='flex'
-                // width="max-content"
-                circleSize={circleSize}
-                colors={array}
-                onChange={color => {
-                  setColor(color.rgb);
-                  console.log(color)
-                }}
-              />
+                  <CirclePicker
+                    id="circle-picker"
+                    display='flex'
+                    // width="max-content"
+                    circleSize={circleSize}
+                    colors={array}
+                    onChange={color => {
+                      setColor(color.rgb);
+                      console.log(color)
+                    }}
+                  />
                 </div>
               </Grid>
             </Box>
@@ -513,66 +519,60 @@ console.log(tshirt);
                   );
                 })}
               </Layer>
+              <Layer>
+                {backToArray.map((image1,i) => {
+                  console.log('index')
+                  console.log(i)
+                  return (
+                  <LogoLayer
+                  image1={image1}
+                  // shapeProps={image1}
+                  key={i}
+                   />
+                   );
+
+                })}
+                
+              </Layer>
             </Stage>
           </div>
         </Grid>
         <Grid md={1} >
-                <Grid item md={2.4} style={{ width: '100%' }}>
-                  <a href="#">
-                    <button className={classes.barBtn2} onClick={(e) => changeCloth({ target: { value: 'tshirt' } })} value="tshirt">
-                      <img height={50} src={addTshirt} />
-                      <Typography textDecoration='none' className={classes.barFont}>T SHIRT</Typography>
-                    </button>
-                  </a>
-                </Grid>
-                <Grid item xs={12} sm={6} md={2.4} >
-                  <a href="#">
-                    <button className={classes.barBtn2} onClick={(e) => changeCloth({ target: { value: 'cropTop' } })} value="cropTop" className={classes.barBtn2}>
-                      <img height={50} src={cropTop} />
-                      <Typography textDecoration='none' className={classes.barFont}>CROP TOP</Typography>
-                    </button>
-                  </a>
-                </Grid>
-                <Grid item md={2.4} style={{ width: '100%' }}>
-                  <a href="#">
-                    <button className={classes.barBtn2} onClick={(e) => changeCloth({ target: { value: 'kids' } })} value="kids">
-                      <img height={50} src={kids} />
-                      <Typography textDecoration='none' className={classes.barFont}>KIDS</Typography>
-                    </button>
-                  </a>
-                </Grid>
-            <Grid item xs={12} sm={6} md={2.4} >
-              <a href="#"><Button className={classes.slevebtn}>SLEAVE DESIGNING</Button></a>
-            </Grid>
-            <Box>
-              <Button className={classes.slevebtn}>GET PRICE</Button>
-            </Box>
-          
+          <Grid item md={2.4} style={{ width: '100%' }}>
+            <a href="#">
+              <button className={classes.barBtn2} onClick={(e) => changeCloth({ target: { value: 'tshirt' } })} value="tshirt">
+                <img height={50} src={addTshirt} />
+                <Typography textDecoration='none' className={classes.barFont}>T SHIRT</Typography>
+              </button>
+            </a>
+          </Grid>
+          <Grid item xs={12} sm={6} md={2.4} >
+            <a href="#">
+              <button className={classes.barBtn2} onClick={(e) => changeCloth({ target: { value: 'cropTop' } })} value="cropTop" className={classes.barBtn2}>
+                <img height={50} src={cropTop} />
+                <Typography textDecoration='none' className={classes.barFont}>CROP TOP</Typography>
+              </button>
+            </a>
+          </Grid>
+          <Grid item md={2.4} style={{ width: '100%' }}>
+            <a href="#">
+              <button className={classes.barBtn2} onClick={(e) => changeCloth({ target: { value: 'kids' } })} value="kids">
+                <img height={50} src={kids} />
+                <Typography textDecoration='none' className={classes.barFont}>KIDS</Typography>
+              </button>
+            </a>
+          </Grid>
+          <Grid item xs={12} sm={6} md={2.4} >
+            <a href="#"><Button className={classes.slevebtn}>SLEAVE DESIGNING</Button></a>
+          </Grid>
+          <Box>
+            <Button className={classes.slevebtn}>GET PRICE</Button>
+          </Box>
+          <Button onClick={() => handleExportClick()}>Download</Button>
+
         </Grid>
       </div>
-      <div>
-        <Stage width={window.innerWidth} height={window.innerHeight} >
-          <Layer>
-            <Image
-              image={images}
-              x={0}
-              y={0}
-              width={500}
-              height={500}
-            // ref={node => {
-            //   shirt = node;
-            // }}
-            />
-            {/* <Rect width={50} height={50} fill="red" />
-                <Circle x={200} y={200} stroke="black" radius={50} /> */}
-          </Layer>
-        </Stage>
-        {/* <UploadBar
-        setLogo={setLogo}>
 
-        </UploadBar> */}
-        <Button onClick={() => handleExportClick()}>Download</Button>
-      </div>
       <Footer />
     </div>
 
