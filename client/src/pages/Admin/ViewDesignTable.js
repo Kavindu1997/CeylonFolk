@@ -6,7 +6,7 @@ import AddIcon from "@material-ui/icons/Add";
 import CloseIcon from "@material-ui/icons/Close";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 import DesignForm from "./DesignForm";
-import { makeStyles, Paper, TableBody, TableRow, TableCell, Toolbar, InputAdornment, Typography, Table, TableContainer, TableHead, Button } from "@material-ui/core";
+import { makeStyles, Paper, TableBody, TableRow, TableCell, Toolbar, InputAdornment, Typography, Table, TableContainer, TableHead, Box,Button } from "@material-ui/core";
 import useTable from "../../components/Reusable/useTable";
 import Controls from "../../components/Reusable/Controls";
 import Popup from "../../components/Reusable/Popup";
@@ -60,7 +60,7 @@ const DesignTable = () => {
     let history = useHistory();
 
     useEffect(() => {
-        axios.get(`http://localhost:3001/designs/${collection_id}`).then((response) => {
+        axios.get(`http://localhost:3001/designs/viewDesign/${collection_id}`).then((response) => {
             console.log(response.data);
             setListOfDesigns(response.data);
         })
@@ -159,8 +159,8 @@ const DesignTable = () => {
                                             <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Colour</TableCell>
                                             <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Type</TableCell>
                                             <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Price</TableCell>
-                                            <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Update</TableCell>
-                                            <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Delete</TableCell>
+                                            {/* <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Update</TableCell>
+                                            <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Delete</TableCell> */}
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
@@ -171,10 +171,14 @@ const DesignTable = () => {
                                                         <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.design_name}</TableCell>
                                                         <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.collection_name}</TableCell>
                                                         <TableCell align="center" style={{ fontFamily: 'Montserrat' }}><img height={100} align="center" src={'http://localhost:3001/' + value.coverImage} alt=""></img></TableCell>
-                                                        <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.color}</TableCell>
+                                                        <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>
+                                                <Box style={{ display: 'flex', justifyContent: 'center' }}>
+                                                    <span className={classes.swatchVisible} style={{ backgroundColor: value.color }}></span>
+                                                </Box>
+                                            </TableCell>
                                                         <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.types}</TableCell>
                                                         <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.price}</TableCell>
-                                                        <TableCell align="center">
+                                                        {/* <TableCell align="center">
                                                             <Button name="remove" onClick={() => onRemove(value.id)}>
                                                                 <i className="fa fa-times" aria-hidden="true"></i>
                                                             </Button>
@@ -184,7 +188,7 @@ const DesignTable = () => {
                                                             <Button name="remove" onClick={() => onRemove(value.id)}>
                                                                 <i className="fa fa-times" aria-hidden="true"></i>
                                                             </Button>
-                                                        </TableCell>
+                                                        </TableCell> */}
                                                     </TableRow>
                                                 );
                                             })}
