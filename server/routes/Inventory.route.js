@@ -7,6 +7,6 @@ const inventoryController = require('../controller/inventory.controller');
 router.get('/', inventoryController.getInventorySearchList);
  
 // get Detail by name 
-router.get('/searchRecord/:colour',inventoryController.getInventoryByName);
+router.get('/searchRecord/:quantity',inventoryController.getInventoryByName);
  
 module.exports = router;

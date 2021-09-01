@@ -23,7 +23,10 @@ exports.getInventorySearchList = (req, res)=> {
 // get employee by Name for earch by Name 
 exports.getInventoryByName = (req, res)=>{
     //console.log('get emp by id');
-    InventorySearchModel.getInventoryByName(req.params.colour, (err, inventory)=>{
+    console.log('check');
+    
+    InventorySearchModel.getInventoryByName(req.params.quantity, (err, inventory)=>{
+     
         if(err)
         res.send(err);
         console.log('single inventory data',inventory);

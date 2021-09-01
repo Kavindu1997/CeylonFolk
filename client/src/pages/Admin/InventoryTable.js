@@ -83,6 +83,8 @@ const InventoryTable = () => {
 
     // Search Records here 
     const searchRecords = () => {
+        console.log("jjjjk");
+        console.log(search);
         axios.get(`http://localhost:3001/inventSearch/searchRecord/${search}`)
             .then(response => {
                 setRecord(response.data);
@@ -109,15 +111,15 @@ const InventoryTable = () => {
 
     // const classes = useStyles();
 
-    const [listOfItems, setListOfItems] = useState([]);
+    // const [listOfItems, setListOfItems] = useState([]);
 
-    useEffect(() => {
+    // useEffect(() => {
 
-        axios.get("http://localhost:3001/invent/inventory").then((response) => {
-            // console.log(response.data);
-            setListOfItems(response.data);
-        });
-    }, []);
+    //     axios.get("http://localhost:3001/invent/inventory").then((response) => {
+    //         // console.log(response.data);
+    //         setListOfItems(response.data);
+    //     });
+    // }, []);
 
     const [openPopup, setOpenPopup] = useState(false);
     const [openPopup1, setOpenPopup1] = useState(false);
@@ -232,7 +234,7 @@ const InventoryTable = () => {
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {listOfItems.map((value) =>
+                                    {record.map((value) =>
                                         <TableRow>
                                             <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>
                                                 <Box style={{ display: 'flex', justifyContent: 'center' }}>
