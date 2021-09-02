@@ -183,6 +183,18 @@ const useStyles = makeStyles((theme) => ({
       boxShadow: 'none',
 
   },
+
+  iconForSearch: {
+    fill: 'white',
+    padding: '18px',
+    // borderRadius: '50px',
+    background: 'light blue',
+    width: '100px',
+    height: '78',
+    color: 'black',
+    boxShadow: 'none',
+
+},
       
   }));
 

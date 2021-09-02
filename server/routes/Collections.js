@@ -2,6 +2,8 @@ const express = require("express");
 const router = express.Router();
 const { Collections,sequelize } = require('../models/');
 
+const collectionController = require('../controller/collection.controller');
+
 const path = require('path');
 
 const multer = require('multer');
@@ -100,5 +102,21 @@ router.get("/oneCollection/:collection_id", async (req,res) => {
 
     res.json(listOfCollection);
 });
+
+router.get('/searchRecord/:search',collectionController.getCollectionByName);
+
+// router.get("/searchRecord/:search", async (req,res) => {
+
+//     const search = req.params.search
+//     dbConn.query('SELECT collections.collection_name FROM `collections` WHERE collection_name LIKE ?', search+'%' , (err, res)=>{
+//         if(err){
+//             console.log('Error while fetching employee by id', err);
+//             result(null, err);
+//         }else{
+//             result(null, res);
+//         }
+//     })
+
+// });
 
 module.exports = router;
