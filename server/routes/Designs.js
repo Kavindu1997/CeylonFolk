@@ -2,6 +2,8 @@ const express = require("express");
 const router = express.Router();
 const { Designs,sequelize } = require('../models/');
 
+const designController = require('../controller/design.controller');
+
 const path = require('path');
 
 const multer = require('multer');
@@ -156,5 +158,10 @@ router.get("/oneDesign/:design_id", async (req,res) => {
 
     res.json(listOfDesign);
 });
+
+router.get('/searchRecordDesignName/:search',designController.getDesignByDesignName);
+router.get('/searchRecordCollectionName/:search',designController.getDesignByCollectionName);
+router.get('/searchRecordType/:search',designController.getDesignByType);
+router.get('/searchRecordPrice/:search',designController.getDesignByPrice);
 
 module.exports = router;

@@ -110,6 +110,87 @@ const DesignTable = () => {
     //   }
 
 
+    const [search, setSearch] = useState('');
+    const [record, setRecord] = useState([]);
+    const [choice, setChoice] = useState('');
+
+
+    // On Page load display all records 
+    // const loadInventoryDetail = async () => {
+    //     var response = fetch('http://localhost:3001/inventSearch')
+    //         .then(function (response) {
+    //             return response.json();
+    //         })
+    //         .then(function (myJson) {
+    //             setRecord(myJson);
+    //         });
+    // }
+    // useEffect(() => {
+    //     loadInventoryDetail();
+    // }, []);
+
+    // Search Records here 
+    const searchRecords = () => {
+        console.log(choice);
+        // // console.log(search);
+        if (choice == 'design_name') {
+
+            axios.get(`http://localhost:3001/designs/searchRecordDesignName/${search}`)
+                .then(response => {
+                    setRecord(response.data);
+                });
+
+        }
+        else if (choice == 'collection_name') {
+
+            axios.get(`http://localhost:3001/designs/searchRecordCollectionName/${search}`)
+                .then(response => {
+                    setRecord(response.data);
+                });
+
+        }
+        else if (choice == 'type') {
+
+            axios.get(`http://localhost:3001/designs/searchRecordType/${search}`)
+                .then(response => {
+                    setRecord(response.data);
+                });
+
+        }
+
+        else if (choice == 'price') {
+
+            axios.get(`http://localhost:3001/designs/searchRecordPrice/${search}`)
+                .then(response => {
+                    setRecord(response.data);
+                });
+
+        }
+
+
+
+    }
+
+    const loadRecordAgain = () => {
+        var response = fetch(`http://localhost:3001/designs/viewDesign/${collection_id}`)
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (myJson) {
+                setRecord(myJson);
+            });
+
+    }
+    useEffect(() => {
+        loadRecordAgain();
+        // dispatch(fetchColors());
+    }, []);
+
+    const onChoice = (e) => {
+        setChoice(e.target.value)
+    }
+
+
     return (
 
         <div style={{ display: "flex" }}>
@@ -119,8 +200,9 @@ const DesignTable = () => {
                 <PageHeader title="AVAILABLE DESIGNS" icon={<LayersIcon fontSize="large" />} />
                 <Paper className={classes.pageContent}>
                     <Toolbar>
-                        <Controls.Input
-                            label="Search Collection"
+                    <Controls.Input
+                            type="text" id="form1" onKeyDown={loadRecordAgain} onKeyUp={searchRecords} onChange={(e) => setSearch(e.target.value)}
+                            label="Search Designs"
                             className={classes.searchInput}
                             InputProps={{
                                 startAdornment: (
@@ -131,6 +213,15 @@ const DesignTable = () => {
                             }}
                         //onChange={handleSearch}
                         />
+                        <select className={classes.iconForSearch} name="choice" onChange={onChoice}>
+                            <option value="">Select</option>
+                            <option value="design_name">Design Name</option>
+                            <option value="collection_name">Collection Name</option>
+                            <option value="type">Type</option>
+                            <option value="price">Price</option>
+
+
+                        </select>
                         {/* <Controls.Button
                             text="Add New Design"
                             variant="outlined"
@@ -164,7 +255,7 @@ const DesignTable = () => {
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                        {listOfDesigns
+                                        {record
                                             .map((value) => {
                                                 return (
                                                     <TableRow>

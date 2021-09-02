@@ -120,6 +120,37 @@ const CollectionTable = () => {
 
     };
 
+    const [search, setSearch] = useState('');
+    const [record, setRecord] = useState([]);
+ 
+
+
+   
+    const searchRecords = () => {
+  
+
+            axios.get(`http://localhost:3001/collection/searchRecord/${search}`)
+                .then(response => {
+                    setRecord(response.data);
+                });
+
+    }
+
+    const loadRecordAgain = () => {
+        var response = fetch('http://localhost:3001/collection')
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (myJson) {
+                setRecord(myJson);
+            });
+
+    }
+    useEffect(() => {
+        loadRecordAgain();
+        // dispatch(fetchColors());
+    }, []);
+
 
     return (
 
@@ -131,7 +162,8 @@ const CollectionTable = () => {
                 <Paper className={classes.pageContent}>
                     <Toolbar>
                         <Controls.Input
-                            label="Search Collection"
+                            type="text" id="form1" onKeyDown={loadRecordAgain} onKeyUp={searchRecords} onChange={(e) => setSearch(e.target.value)}
+                            label="Search Collections"
                             className={classes.searchInput}
                             InputProps={{
                                 startAdornment: (
@@ -168,7 +200,7 @@ const CollectionTable = () => {
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                        {listOfCollections
+                                        {record
                                             .map((value) => {
                                                 return (
                                                     <TableRow>
