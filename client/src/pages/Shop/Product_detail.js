@@ -345,7 +345,8 @@ export default function Product_detail() {
                           <a href='../pages/customize' style={{ textDecoration: 'none' }}><Button variant="outlined" className={classes.designbtn}>SIZE GUIDE</Button></a>
                         </center>
                       </Box>
-                      <div className={toggleState === 1 ? classes.activeQuantity : classes.quantity}>{quantity && <span>{quantity[index].quantity + " in stock"}</span>}</div>
+                      {/* <div className={toggleState === 1 ? classes.activeQuantity : classes.quantity}>{quantity && <span>{quantity[index].quantity + " in stock"}</span>}</div> */}
+                      <div className={toggleState === 1 ? classes.activeQuantity : classes.quantity}>{quantity && <span>{quantity[index1].quantity + " in stock"}</span>}</div>
                     </Box>
 
                     <Box className={classes.tBox}>
@@ -390,8 +391,8 @@ export default function Product_detail() {
                       </Box>}
 
                   </Box>
-
-                  <div className={toggleState === 1 ? classes.activeQuantity : classes.quantity}>{quantity && <span>{quantity[index1].quantity + " in stock"}</span>}</div>               
+{/* 
+                  <div className={toggleState === 1 ? classes.activeQuantity : classes.quantity}>{quantity && <span>{quantity[index1].quantity + " in stock"}</span>}</div>                */}
 
 
                 </Box>
