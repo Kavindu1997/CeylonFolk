@@ -71,6 +71,7 @@ const UploadComponent = (props) => {
                    {imageUrl ? <img src={imageUrl} alt="avatar" style={{ width: '100%' }} /> : <div style={{ marginTop: 8 }}>Upload</div>}
                     
                   </Upload>
+                  <Button style={{background: 'black', color: 'white'}} onClick={props.changeLogo}>ADD</Button>
                 </div>
                 <Button
                 //   {...buttonSettings}

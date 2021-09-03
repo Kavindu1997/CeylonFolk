@@ -12,6 +12,7 @@ import PaletteIcon from '@material-ui/icons/Palette';
 import ZoomOutMapIcon from '@material-ui/icons/ZoomOutMap';
 import ExtensionIcon from '@material-ui/icons/Extension';
 import StorageIcon from '@material-ui/icons/Storage';
+import ListAltIcon from '@material-ui/icons/ListAlt';
 
 
 export const mainListItems = (
@@ -69,6 +70,12 @@ export const mainListItems = (
         <ExtensionIcon />
       </ListItemIcon>
       <ListItemText primary="Available Types" />
+    </ListItem>
+    <ListItem button component={Link} to="/customizeOrders">
+      <ListItemIcon>
+        <ListAltIcon />
+      </ListItemIcon>
+      <ListItemText primary="Customized Orders" />
     </ListItem>
 
   

@@ -8,7 +8,7 @@ const cookieParser = require('cookie-parser');
 
 // const bodyParser = require('body-parser');
 
-app.use(express.json());
+// app.use(express.json());
 app.use(cors());
 const db = require('./models');
 
@@ -20,8 +20,13 @@ app.set('view engine', 'handlebars');
 // app.use('/public',express.static(path.join(_dirname,'public')));
 
 //Body Parser Middleware
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+// app.use(bodyParser.urlencoded({ extended: false }));
+// app.use(bodyParser.json());
+
+
+app.use(bodyParser.json({limit: '50mb'}));
+app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
+app.use(express.json());
 
 // Routers
 const usersRouter = require('./routes/Users');
@@ -43,6 +48,10 @@ app.use('/public', express.static('public'));
 
 const designRouter = require("./routes/Designs");
 app.use("/designs", designRouter);
+app.use('/public', express.static('public'));
+
+const customizeRouter = require("./routes/CustomizeOrders");
+app.use("/customizeOrders", customizeRouter);
 app.use('/public', express.static('public'));
 
 const productDetailsRouter = require('./routes/ProductDetails');

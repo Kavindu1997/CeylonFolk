@@ -48,6 +48,7 @@ import Deposit from './pages/Deposit/index.js';
 
 import Manager from './pages/Manager';
 import Assistant from './pages/Assistant';
+import CustomizeOrderDetails from './pages/Admin/CustomizeOrder/CustomizeOrderTable';
 
 
 const theme = createMuiTheme({
@@ -163,6 +164,7 @@ class App extends Component {
 
               <Route path="/manager" exact render={() => <Manager />} />
               <Route path="/assistant" exact render={() => <Assistant />} />
+              <Route path="/customizeOrders" exact render={() => <CustomizeOrderDetails />} />
               <Route path="/*" exact render={() => <NotFound />} />
             </Switch>
           </BrowserRouter>

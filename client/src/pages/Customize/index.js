@@ -32,6 +32,7 @@ import TypeBar from './Components/TypeBar';
 import TShirt from '../Customize/Clothes/Tshirt';
 import UploadComponent from './Options/UploadComponent';
 import LogoLayer from './Layer/LogoLayer';
+import axios from 'axios';
 
 const Customize = () => {
 
@@ -52,6 +53,7 @@ const Customize = () => {
   // const [tshirt, setTshirt] = useState(["#ffffff", "#000000", "#ff0000", "	#008000"]);
   const [sweater, setSweater] = useState(["#ffffff", "#000000", "#ffff00", "#ff69b4"]);
   const [selectedId, selectShape] = useState(null);
+  const [selectedImageId, selectImage] = useState(null);
   const [images, setImage] = useState('');
   const shirtRef = React.useRef();
   const transformer = React.useRef();
@@ -69,6 +71,10 @@ const Customize = () => {
   const stageText = React.useRef();
   const [check, setCheck] = useState()
   const [imageSrcArray, setimageSrcArray] = useState([])
+  const [imageSrcNewArray, setimageSrcNewArray] = useState([])
+  const [imageSrc, setimageSrc] = useState()
+  const [exportT, setexportT] = useState(null)
+  
 
 
   useEffect(() => {
@@ -131,12 +137,33 @@ const Customize = () => {
   }, []);
 
   const setLogo = imgSrc => {
-    // setimageSrc(imgSrc)
-    console.log('hey thash')
-    setimageSrcArray([...imageSrcArray, imgSrc])
+    setimageSrc(imgSrc)
+    // console.log('hey thash')
+    // // changeLogo();
+    
+
+    // console.log(imageSrcArray)
+    // console.log('hey thash')
+  };
+
+  // console.log('hey thash')
+  //   // changeLogo();
+    
+
+  //   console.log(imageSrcArray)
+  //   console.log('hey thash')
+  const changeLogo = () => {
+    setimageSrcArray([...imageSrcArray, imageSrc])
+    console.log(imageSrcArray)
+
+  }
+
+  console.log('hey thash')
+    // changeLogo();
+    
 
     console.log(imageSrcArray)
-  };
+    console.log('hey thash')
 
   console.log('hey thash')
 
@@ -234,7 +261,8 @@ const Customize = () => {
   //When user clicks on logo or text, it will show the transformer
   const handleStageMouseDown = (e) => {
     if (e.target === e.target.getStage()) {
-      setSelectedShapeName('');
+      selectShape(null);
+      selectImage(null);
       return;
     }
     const clickedOnTransformer =
@@ -245,11 +273,21 @@ const Customize = () => {
 
     const name = e.target.name();
     if (name) {
-      setSelectedShapeName(name);
+      selectShape(name);
+      selectImage(name);
     } else {
-      setSelectedShapeName("");
+      selectShape(null);
+      selectImage(null);
     }
   };
+
+  // const checkDeselect = (e) => {
+  //   // deselect when clicked on empty area
+  //   const clickedOnEmpty = e.target === e.target.getStage();
+  //   if (clickedOnEmpty) {
+  //     selectShape(null);
+  //   }
+  // };
 
   //The text object gets transformed as user scale
   const handleTextTransform = (index, newProps) => {
@@ -269,6 +307,10 @@ const Customize = () => {
     const uri = stageRef.current.toDataURL();
     console.log(uri);
     downloadURI(uri, "tshirt.jpg");
+    setexportT(uri);
+    // handleSaveClick();
+    console.log('hello')
+    // console.log(exportT)
   }
 
 
@@ -289,8 +331,15 @@ const Customize = () => {
     console.log(e.target.value);
   };
 
+  
+
   const uniqueSet = new Set(imageSrcArray);
   const backToArray = [...uniqueSet];
+  // const slisedImage = uniqueSet.slice()
+  // setimageSrcNewArray(backToArray)
+  console.log('hi')
+  // console.log(uniqueSet)
+  console.log('hi')
 
   const addText = () => {
     const newIndex = index + 1;
@@ -308,6 +357,19 @@ const Customize = () => {
     link.click();
     document.body.removeChild(link);
   }
+
+  // const handleSaveClick = () => {
+  //   console.log('hello')
+  //   console.log(exportT)
+
+  //   const data = {
+  //     image : exportT
+  //   }
+
+  //   axios.post('http://localhost:3001/customizeOrders/upload/image',data).then((response) => {
+  //     alert('Image upload Successfull');
+  //   });
+  // }
 
   const initCanvas = () => (
     new fabric.Canvas('canvas', {
@@ -330,6 +392,19 @@ const Customize = () => {
   const toggleTab = (index) => {
     setToggleState(index);
   };
+
+  const handleSaveClick = () => {
+    console.log('hello')
+    console.log(exportT)
+
+    const data = {
+      image : exportT
+    }
+
+    axios.post('http://localhost:3001/customizeOrders/upload/image',data).then((response) => {
+      alert('Image sent Successfull');
+    });
+  }
 
   return (
 
@@ -392,6 +467,7 @@ const Customize = () => {
                 </Grid> */}
                 <UploadComponent 
                 setLogo={setLogo}
+                changeLogo={changeLogo}
                 />
               </Grid>
             </Box>
@@ -485,7 +561,12 @@ const Customize = () => {
         </Grid>
         <Grid md={7} className={classes.tshirtDiv}>
           <div className="clothes" style={{ backgroundColor: color, width: '900px' }}>
-            <Stage width={850} height={500} onMouseDown={handleStageMouseDown} ref={stageRef}>
+            <Stage width={850} height={500}
+            onMouseDown={handleStageMouseDown} 
+            ref={stageRef} 
+            // onMouseDown={checkDeselect}
+            // onTouchStart={checkDeselect}
+            >
               <Layer>{changeClothing(clothing)}</Layer>
               <Layer>
                 {pickerColorArray.map((value, index) => {
@@ -520,14 +601,32 @@ const Customize = () => {
                 })}
               </Layer>
               <Layer>
-                {backToArray.map((image1,i) => {
+                {imageSrcArray.map((image1,i) => {
                   console.log('index')
                   console.log(i)
                   return (
                   <LogoLayer
                   image1={image1}
-                  // shapeProps={image1}
+                  shapeProps={image1}
                   key={i}
+                  isImageSelected={i === selectedImageId}
+                  onSelect={() => {
+                    selectImage(i);
+                    console.log('selectedImageId')
+                    console.log(selectedImageId)
+                  }}
+                  
+                  onChange={(newAttrs) => {
+                    const newImage = imageSrcArray.slice();
+                    newImage[i] = newAttrs;
+                    // setimageSrcArray(newImage);
+                  }}
+                  onDelete={() => {
+                    const newString = [...imageSrcArray];
+                    newString.splice(index, 1);
+                    setimageSrcArray(newString);
+                  }}
+
                    />
                    );
 
@@ -569,6 +668,9 @@ const Customize = () => {
             <Button className={classes.slevebtn}>GET PRICE</Button>
           </Box>
           <Button onClick={() => handleExportClick()}>Download</Button>
+          <Button 
+          onClick={() => handleSaveClick()}
+          >Export</Button>
 
         </Grid>
       </div>

@@ -1,5 +1,5 @@
 import React, { Component, useState, useEffect, useHoverDirty } from "react";
-import { Text,Transformer,Group, Image } from "react-konva";
+import { Text, Transformer, Group, Image } from "react-konva";
 import { render } from "react-dom";
 import useImage from "use-image";
 import cancel from "../../../images/close.svg"
@@ -33,37 +33,6 @@ const TextLayer = (props) => {
     }
   }, [isShown]);
 
-  useEffect(() => {
-   if (!trRef.current) {
-     // do componentDidMount logic
-     checkNode();
-  } else {
-     // do componentDidUpdate logic
-     checkNode();
-   }
- });
-
- const checkNode = (e) => {
-        //attach or detach Transformer node
-       const stage = trRef.current.getStage();
-       const { selectedShapeName } = props;
-  
-       const selectedNode = stage.findOne("." + selectedShapeName);
-      // do nothing if selected node is already attached
-       if (selectedNode === trRef.current.node()) {
-         return;
-       }
-  
-       if (selectedNode) {
-         // attach to another node
-         trRef.current.attachTo(selectedNode);
-       } else {
-         // remove transformer
-         trRef.current.detach();
-       }
-       trRef.current.getLayer().batchDraw();
-     }
-
   //The component waints for changes in the text,
   //it updates the text as it receives new character
   // useEffect(() => {
@@ -72,9 +41,9 @@ const TextLayer = (props) => {
   //     trRef.current.getLayer().batchDraw();
   //   }
   // }, [isSelected]);
-//   useEffect(() => {
-//     setText(props.text)
-// }, [props.text])
+  //   useEffect(() => {
+  //     setText(props.text)
+  // }, [props.text])
   // componentWillReceiveProps(newProps) {
   //   if (newProps.text !== this.props.text) {
   //     this.setState({
@@ -97,123 +66,123 @@ const TextLayer = (props) => {
   //     rotation: shape.rotation()
   //   });
   // };
-  
-    return (
-      <React.Fragment>
 
-<Group
+  return (
+    <React.Fragment>
+
+      <Group
         draggable
-        // x={props.value.x}
-        // y={props.value.y}
-        // onDragEnd={(event) => {
-        //   onDragEnd(event);
-        // }}
-      
-        >
+      // x={props.value.x}
+      // y={props.value.y}
+      // onDragEnd={(event) => {
+      //   onDragEnd(event);
+      // }}
 
-{showDeleteButton && (
+      >
+
+        {showDeleteButton && (
 
           <Image
-      // onTouchStart={onDelete}
-        onClick={props.onDelete}
-        image={deleteImage}
-        width={10}
-        height={10}
-        // offsetX={
-        //   -stickerWidth / 2 - 20
-        // }
-        offset={{
-          x: -160,
-          y: -135
-        }}
+            // onTouchStart={onDelete}
+            onClick={props.onDelete}
+            image={deleteImage}
+            width={10}
+            height={10}
+            // offsetX={
+            //   -stickerWidth / 2 - 20
+            // }
+            offset={{
+              x: -160,
+              y: -135
+            }}
 
-      />
+          />
 
-      )}
-
-        
-      <Text
-        name="text"
-        offset={{
-          x: -150,
-          y: -150
-        }}
-        // width={100}
-        wrap="char"
-        align="center"
-        fill={props.textColor}
-        fontSize={20}
-        fontFamily="Calibri"
-        opacity={1}
-        // draggable={true}
-        text={props.value}
-        ref={textRef}
-        // onDragEnd={handleChange}
-        // onTransformEnd={handleChange}
-        onClick={props.onSelect}
-        onTap={props.onSelect}
-        onDragEnd={(e) => {
-          const shape = e.target;
-
-          props.onChange({
-            // ...shapeProps,
-            x: shape.x(),
-      y: shape.y(),
-      width: shape.width() * shape.scaleX(),
-      height: shape.height() * shape.scaleY(),
-      rotation: shape.rotation()
-          });
-        }}
-        onTransformEnd={(e) => {
-          // transformer is changing scale of the node
-          // and NOT its width or height
-          // but in the store we have only width and height
-          // to match the data better we will reset scale on transform end
-          const node = textRef.current.getStage();
-          const scaleX = node.scaleX();
-          const scaleY = node.scaleY();
-
-          // we will reset it back
-          node.scaleX(1);
-          node.scaleY(1);
-          props.onChange({
-            // ...shapeProps,
-            x: node.x(),
-            y: node.y(),
-            // set minimal value
-            width: Math.max(5, node.width() * scaleX),
-            height: Math.max(node.height() * scaleY),
-          });
-        }}
-
-        onMouseEnter={() => setIsShown(true)}
-        onMouseLeave={() => setIsShown(false)}
-      />
+        )}
 
 
-      
-      {props.isSelected && (
-
-        
-        <Transformer
-          ref={trRef}
-          boundBoxFunc={(oldBox, newBox) => {
-            //limit resize
-            if (newBox.width < 5 || newBox.height < 5) {
-              return oldBox;
-            }
-            return newBox;
+        <Text
+          name="text"
+          offset={{
+            x: -150,
+            y: -150
           }}
+          // width={100}
+          wrap="char"
+          align="center"
+          fill={props.textColor}
+          fontSize={20}
+          fontFamily="Calibri"
+          opacity={1}
+          // draggable={true}
+          text={props.value}
+          ref={textRef}
+          // onDragEnd={handleChange}
+          // onTransformEnd={handleChange}
+          onClick={props.onSelect}
+          onTap={props.onSelect}
+          onDragEnd={(e) => {
+            const shape = e.target;
+
+            props.onChange({
+              // ...shapeProps,
+              x: shape.x(),
+              y: shape.y(),
+              width: shape.width() * shape.scaleX(),
+              height: shape.height() * shape.scaleY(),
+              rotation: shape.rotation()
+            });
+          }}
+          onTransformEnd={(e) => {
+            // transformer is changing scale of the node
+            // and NOT its width or height
+            // but in the store we have only width and height
+            // to match the data better we will reset scale on transform end
+            const node = textRef.current.getStage();
+            const scaleX = node.scaleX();
+            const scaleY = node.scaleY();
+
+            // we will reset it back
+            node.scaleX(1);
+            node.scaleY(1);
+            props.onChange({
+              // ...shapeProps,
+              x: node.x(),
+              y: node.y(),
+              // set minimal value
+              width: Math.max(5, node.width() * scaleX),
+              height: Math.max(node.height() * scaleY),
+            });
+          }}
+
+          onMouseEnter={() => setIsShown(true)}
+          onMouseLeave={() => setIsShown(false)}
         />
 
-      
-      )}
 
-</Group>
 
-      </React.Fragment>
-    );
-  
+        {props.isSelected && (
+
+
+          <Transformer
+            ref={trRef}
+            boundBoxFunc={(oldBox, newBox) => {
+              //limit resize
+              if (newBox.width < 5 || newBox.height < 5) {
+                return oldBox;
+              }
+              return newBox;
+            }}
+          />
+
+
+        )}
+
+      </Group>
+
+    </React.Fragment>
+  );
+
 }
 
 export default TextLayer;

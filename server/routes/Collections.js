@@ -31,7 +31,8 @@ const upload = multer({
     fileFilter: isImage,
 });
 
-router.post("/", upload.single('photo'), (req, res) => {
+router.post("/", upload.single('photo'), 
+(req, res) => {
     const { collectionName } = req.body;
     const imagePath = 'public/collections/' + req.file.filename;
     Collections.create({
@@ -41,7 +42,8 @@ router.post("/", upload.single('photo'), (req, res) => {
     res.status(200).json({
         success: "Success"
     })
-});
+}
+);
 
 router.get("/", async (req, res) => {
     const listOfCollections = await Collections.findAll();

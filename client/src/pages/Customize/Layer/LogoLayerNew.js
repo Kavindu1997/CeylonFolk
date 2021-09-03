@@ -2,20 +2,20 @@ import React, { Component, useState, useEffect } from "react";
 import { Image, Transformer, Group } from "react-konva";
 import Konva from "konva";
 import mockup2 from "../../../images/new/cropTopMockup.png";
-import useImage from "use-image";
-import cancel from "../../../images/close.svg"
+// import cancel from "../../../images/close.svg"
+// import useImage from "use-image";
 
 
 const LogoLayer = (props) => {
 
   const [images, setImage] = useState(null);
   const [imgPos, setimgPos] = useState({x: 300, y: 300 });
-  const [edited, setedited] = useState(false)
-  const [showDeleteButton, setShowDeleteButton] = useState(false);
-  const imageRef = React.useRef();
-  const trRef = React.useRef();
-  const [deleteImage] = useImage(cancel);
-  const [isShown, setIsShown] = useState(false);
+  const [edited, setedited] = useState(false);
+  // const [showDeleteButton, setShowDeleteButton] = useState(false);
+  // const [deleteImage] = useImage(cancel);
+  const shirtRef  = React.useRef();
+  const trRef  = React.useRef();
+  // const trRef = React.useRef();
 
 //   useEffect(() => {
 //     const MyImage = new window.Image()
@@ -40,27 +40,17 @@ const LogoLayer = (props) => {
     
 //   }
 
-useEffect(() => {
-  if (isShown) {
-    setShowDeleteButton(true);
-  } else {
-    setTimeout(() => {
-      setShowDeleteButton(false);
-    }, 4000);
-  }
-}, [isShown]);
-
 React.useEffect(() => {
   if (props.isImageSelected) {
     // shapeRef.current.cache();
     // we need to attach transformer manually
-    trRef.current.setNode(imageRef.current);
+    trRef.current.setNode(shirtRef .current);
     trRef.current.getLayer().batchDraw();
   }
 }, [props.isImageSelected]);
 
   useEffect(() => {
-    if (!imageRef.current) {
+    if (!shirtRef .current) {
       // do componentDidMount logic
     //   shirtRef.current = true;
     //   shirtRef.current.cache();
@@ -82,8 +72,8 @@ React.useEffect(() => {
     MyImage.onload = () => {
         setImage(MyImage)
       }
-      imageRef.current.cache();
-      imageRef.current.getLayer().batchDraw();
+      shirtRef .current.cache();
+      shirtRef .current.getLayer().batchDraw();
     }
   });
 
@@ -101,27 +91,27 @@ React.useEffect(() => {
     return (
         <React.Fragment>
 
-      <Group
+{/* <Group
         draggable
-      >
 
-    {showDeleteButton && (
+      > */}
 
-    <Image
-      onClick={props.onDelete}
-      image={deleteImage}
-      width={10}
-      height={10}
-      offset={{
-        x: -160,
-        y: -135
-      }}
+{/* {showDeleteButton && (
 
-    />
+<Image
+  // onClick={props.onDelete}
+  image={deleteImage}
+  width={10}
+  height={10}
+  offset={{
+    x: -160,
+    y: -135
+  }}
 
-    )}
+/>
 
-          
+)} */}
+
       <Image
         image={images}
         x={0}
@@ -142,7 +132,7 @@ React.useEffect(() => {
           // and NOT its width or height
           // but in the store we have only width and height
           // to match the data better we will reset scale on transform end
-          const node = imageRef.current;
+          const node = shirtRef .current;
           const scaleX = node.scaleX();
           const scaleY = node.scaleY();
 
@@ -164,15 +154,11 @@ React.useEffect(() => {
         }}
         onDragMove= {onDragMove}
         // onTransformEnd= {onDragEnd}
-        onClick={props.onSelect}
-        onTap={props.onSelect}
-        ref={imageRef}
+        // onClick={props.onSelect}
+        // onTap={props.onSelect}
+        ref={shirtRef }
         // {...imgPos}
         {...(edited && { scale: { x: 0.5, y: 0.5 } })}
-
-        onMouseEnter={() => setIsShown(true)}
-          onMouseLeave={() => setIsShown(false)}
-          
       />
 
       {props.isImageSelected && (
@@ -192,7 +178,7 @@ React.useEffect(() => {
       
       )}
 
-</Group>
+{/* </Group> */}
 
 </React.Fragment>
     );
