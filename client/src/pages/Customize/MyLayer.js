@@ -15,8 +15,14 @@ import Clothes from "../Customize/Options/Clothes";
 import TextAddOn from "../Customize/Options/Text";
 import Controls from "../../components/Reusable/Controls";
 import { IndeterminateCheckBox } from "@material-ui/icons";
+import { fetchColors } from '../../_actions/colorActions'
+import { useDispatch, useSelector } from "react-redux";
+import '../Admin/adminStyles.css'
+import useStyles from '../Admin/style';
 
 const MyLayer = () => {
+
+  const classes = useStyles();
 
   const [color, setColor] = useState({ r: 255, g: 255, b: 255 });
   const [textOn, setTextOn] = useState(false);
@@ -44,10 +50,34 @@ const MyLayer = () => {
   const [index, setIndex] = useState(0);
   const [isSelected, setIsSelected] = useState(false)
   const [selectedId, selectShape] = useState(null);
+  const [upload, setUpload] = useState(null)
+  const [uploadedImage, setuploadedImage] = useState(new window.Image())
   const textRef = React.useRef();
+  const [materialColor, setMaterialColor] = useState('')
+  const [check, setCheck] = useState()
   const cache = {};
-  
-  
+
+  const dispatch = useDispatch();
+
+  const pickedItemColors = useSelector((state) => state.colorReducer.pickerColor)
+
+  useEffect(() => {
+    dispatch(fetchColors());
+  }, []);
+
+  const setCol = (e) => {
+    setTshirt(e.target.value)
+    console.log(e.target.value)
+  }
+
+  const handleCheck = (e) => {
+    // const { name, value } = e.target;
+
+    setCheck(e.target.value);
+
+  }
+
+
 
   const onDragEnd = () => {
     setTextEdited(true)
@@ -64,17 +94,25 @@ const MyLayer = () => {
   const changeClothing = (clothes) => {
     if (clothes === "tshirt") {
       return <TShirt color={color} />;
-    } 
+    }
     // else if (clothes === "sweater") {
     //   return <Button/>;
     // }
   };
 
-  
+  useEffect(() => {
+    const MyImage = new window.Image()
+    MyImage.src = upload;
+    MyImage.onload = () => {
+      setuploadedImage(MyImage)
+    }
+  }, []);
+
+
 
   //Returns the text layer if true
   // const textLayer = () => {
-    
+
   //     return (
   //       <TextLayer
   //         text={text}
@@ -84,23 +122,36 @@ const MyLayer = () => {
   //         }}
   //       />
   //     );
-    
+
   // };
 
   const changeText = (e) => {
     setNewText(e.target.value);
     console.log(e.target.value);
-};
+  };
 
 
-const addText = () =>
-{
-  const newIndex = index + 1;
-  setIndex(newIndex)
-  console.log('hi frim thashhh')
-  setPickerColorArray([...pickerColorArray, newText])
-  console.log(pickerColorArray)
-}
+  const addText = () => {
+    const newIndex = index + 1;
+    setIndex(newIndex)
+    console.log('hi frim thashhh')
+    setPickerColorArray([...pickerColorArray, newText])
+    console.log(pickerColorArray)
+  }
+
+  const handleUpload = ({ target }) => {
+    const reader = new FileReader();
+    const file = target.files[0];
+    reader.onloadend = () => {
+      // this.props.dispatch({
+      //   type: 'UPLOAD_IMAGE',
+      //   image: reader.result, 
+      // });
+      setUpload(reader.result)
+    };
+    reader.readAsDataURL(file);
+    console.log(reader.result)
+  }
 
   const trRef = React.useRef();
   useEffect(() => {
@@ -110,7 +161,7 @@ const addText = () =>
     }
   }, [isSelected]);
 
-  var changeTextColor = (e) => {
+  const changeTextColor = (e) => {
     setTextLayerColors(e.target.value)
   };
 
@@ -123,14 +174,14 @@ const addText = () =>
 
   const onsize = (e) => {
     setSize(e.target.value)
-}
+  }
 
-const sendItem2 = () => {
-  console.log('hello ttt')
+  const sendItem2 = () => {
+    console.log('hello ttt')
 
-  // setPickerColorArray([...pickerColorArray, size]);
-  // console.log(pickerColorArray)
-};
+    // setPickerColorArray([...pickerColorArray, size]);
+    // console.log(pickerColorArray)
+  };
 
   //Check if adding text is on or off, when user turns it off
   //color goes back to default and so user doesn't see the $3 charge
@@ -187,6 +238,13 @@ const sendItem2 = () => {
     }
   };
 
+  const mymaterialColor = (color) => {
+
+    console.log(color)
+    setMaterialColor([...materialColor, color]);
+    console.log(materialColor)
+  }
+
   //The text object gets transformed as user scale
   const handleTextTransform = (index, newProps) => {
     const text = textScale.concat();
@@ -218,6 +276,8 @@ const sendItem2 = () => {
     // });
   };
 
+
+
   return (
     <div>
       <CommonNav />
@@ -225,6 +285,8 @@ const sendItem2 = () => {
 
 
       <div className="container" style={{ margin: '50px' }}>
+
+
 
         <div className="clothes" style={{ backgroundColor: color }}>
           <Stage
@@ -234,76 +296,52 @@ const sendItem2 = () => {
           >
             <Layer>{changeClothing(clothing)}</Layer>
             <Layer>
-            {pickerColorArray.map((value,index) => {
-              console.log(pickerColorArray[index-1])
-              console.log('index')
-              console.log(index)
-                                return (
-                                  
-      //       <Text
-      //           name="text"
-      //           offset={{
-      //             x: -150,
-      //             y: -150
-      //           }}
-      //           width={200}
-                
-      //           wrap="char"
-      //           key = {index}
-      //           isSelected={select(index)}
-      //           align="center"
-      //           fill={textColor}
-      //           fontSize={20}
-      //           fontFamily="Calibri"
-      //           opacity={1}
-      //           draggable={true}
-      //           text={value}
-      //           ref={textRef}
-      //           onDragEnd={handleChange}
-      //           onTransformEnd={handleChange}
-      //           onTransform={newProps => {
-      //                 handleTextTransform(newProps);
-      //               }}
-      // />
+              <Image image={uploadedImage} draggable width={500}
+                height={500}></Image>
 
-      <TextLayer
-                // text={text}
-                value={value}
-                textColor={textColor}
-                onTransform={newProps => {
-                  handleTextTransform(newProps);
-                }}
-                // key={index}
-                // isSelected={index === selectedId}
+            </Layer>
 
-                // shapeProps={value}
-                // onSelect={() => {
-                //   selectShape(index);
-                // }}
-                // onChange={(newAttrs) => {
-                //   const rects = pickerColorArray.slice();
-                //   rects[index] = newAttrs;
-                //   setPickerColorArray(rects);
-                // }}
-              />
-              
-      
-              // {/* {textLayer()} */}
-              // {/* <TextLayer
-              //   text={text}
-              //   textColor={textColor}
-              //   onTransform={newProps => {
-              //     handleTextTransform(newProps);
-              //   }}
-              // /> */}
-              // <TransformerComponent
-              //   selectedShapeName={selectedShapeName}
-              // />
-              );
-            })}
-            <TransformerComponent
+            <Layer>
+              {pickerColorArray.map((value, index) => {
+                console.log(pickerColorArray[index - 1])
+                console.log('index')
+                console.log(index)
+                return (
+                  <TextLayer
+                    // text={text}
+                    value={value}
+                    textColor={textColor}
+                    // onTransform={newProps => {
+                    //   handleTextTransform(newProps);
+                    // }}
+                    key={index}
+                    isSelected={index === selectedId}
+
+                    shapeProps={value}
+                    onSelect={() => {
+                      selectShape(index);
+                    }}
+                    onChange={(newAttrs) => {
+                      const rects = pickerColorArray.slice();
+                      rects[index] = newAttrs;
+                      // setPickerColorArray(rects);
+                      console.log('hi bye')
+                      console.log(rects)
+                      console.log('hi bye')
+                    }}
+                    selectedShapeName={selectedShapeName}
+                    onDelete={() => {
+                      const newString = [...pickerColorArray];
+                      newString.splice(index, 1);
+                      setPickerColorArray(newString);
+                    }}
+                  />
+                );
+              })}
+
+              {/* <TransformerComponent
                 selectedShapeName={selectedShapeName}
-              />
+              /> */}
 
             </Layer>
           </Stage>
@@ -324,7 +362,7 @@ const sendItem2 = () => {
                 colors={tshirt}
                 onChange={color => {
                   setColor(color.rgb);
-                  console.log(color.rgb)
+                  console.log(color)
                 }}
               />
             ) : (
@@ -338,6 +376,9 @@ const sendItem2 = () => {
                 }}
               />
             )}
+
+            
+
           </div>
           <TextAddOn
             textOn={textOn}
@@ -345,10 +386,27 @@ const sendItem2 = () => {
             handleTextChange={handleTextChange}
             changeTextColor={changeTextColor}
             sendItem2={sendItem2}
+            textLayerColors={textLayerColors}
             changeText={changeText}
             addText={addText}
           />
-          
+          {/* <CirclePicker
+              colors={textLayerColors}
+              onChange={color => {
+                changeTextColor(color.hex);
+              }}
+              console
+              // onChange={props.changeTextColor}
+              width="max-width"
+            /> */}
+          <CirclePicker
+            colors={textLayerColors}
+            onChange={textLColors => {
+              setTextColor(textLColors.hex);
+            }}
+            width="max-width"
+          />
+
           {/* <div className="text-container">
             Custom Text:
             <Switch
@@ -379,20 +437,20 @@ const sendItem2 = () => {
             ) : null}
           </div> */}
 
-<Grid item xs={6}>
-                        <Controls.Input
-                            variant="outlined"
-                            label="Price"
-                            name="colorPrice"
-                            onChange={changeText}
-                        />
-                    </Grid>
+          <Grid item xs={6}>
+            <Controls.Input
+              variant="outlined"
+              label="Price"
+              name="colorPrice"
+              onChange={changeText}
+            />
+          </Grid>
 
-                    <Box>
-                        <Button style={{ margin: '10px', padding: '10px', background: 'black', color: 'white' }}
+          <Box>
+            <Button style={{ margin: '10px', padding: '10px', background: 'black', color: 'white' }}
 
-                            onClick={addText}>ADD COLOR</Button>
-                    </Box>
+              onClick={addText}>ADD COLOR</Button>
+          </Box>
 
 
 
@@ -430,7 +488,21 @@ const sendItem2 = () => {
         </div>
 
       </div>
-      
+      <div>
+        <input
+          value="Upload"
+          type="button"
+        // onClick={ () => { uploadInput.click() } } 
+        />
+        <input
+          id="inputUpload"
+          // ref={ (ref) => { uploadInput = ref } }
+          type="file"
+          // style={ { display: 'none' } } 
+          onChange={(event) => { handleUpload(event) }}
+        />
+      </div>
+
     </div>
   );
 }

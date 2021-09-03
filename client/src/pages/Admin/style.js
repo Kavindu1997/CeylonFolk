@@ -149,6 +149,7 @@ const useStyles = makeStyles((theme) => ({
       color: '#000',
       display: 'inline-block',
     },
+    
     headStyle: {
         fontFamily: 'Nunito',
         color: '#222f3e',
@@ -158,6 +159,8 @@ const useStyles = makeStyles((theme) => ({
             color: '#48dbfb',
         }
     },
+
+    
     tBox:{
       marginBottom:'10px'
     },
@@ -180,6 +183,18 @@ const useStyles = makeStyles((theme) => ({
       boxShadow: 'none',
 
   },
+
+  iconForSearch: {
+    fill: 'white',
+    padding: '18px',
+    // borderRadius: '50px',
+    background: 'light blue',
+    width: '100px',
+    height: '78',
+    color: 'black',
+    boxShadow: 'none',
+
+},
       
   }));
 

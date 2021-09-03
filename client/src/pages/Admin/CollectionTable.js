@@ -19,12 +19,13 @@ import axios from 'axios';
 import { actionDeleteCollection } from '../../_actions/collections';
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from 'react-router-dom';
-
+import CollectionEdit from "./EditCollectionForm";
 
 
 const CollectionTable = () => {
     const classes = useStyles();
     const [openPopup, setOpenPopup] = useState(false);
+    const [openPopup1, setOpenPopup1] = useState(false);
     const [notify, setNotify] = useState({
         isOpen: false,
         message: "",
@@ -44,6 +45,12 @@ const CollectionTable = () => {
         // setRecordForEdit(item);
         setOpenPopup(true);
     };
+
+    const openInPopup1 = (item) => {
+        // setRecordForEdit(item);
+        setOpenPopup1(true);
+    };
+
     const defaultOptions = {
         loop: true,
         autoplay: true,
@@ -99,19 +106,50 @@ const CollectionTable = () => {
     };
 
     // function onProceed() {
-        
+
 
     //       history.push('/collections');
-        
-    
+
+
     //   }
 
 
     const onSetId = (id) => { //'Itom007'
-        localStorage.setItem("collection_id",id);
-      
-    
-      };
+        localStorage.setItem("collection_id", id);
+
+
+    };
+
+    const [search, setSearch] = useState('');
+    const [record, setRecord] = useState([]);
+ 
+
+
+   
+    const searchRecords = () => {
+  
+
+            axios.get(`http://localhost:3001/collection/searchRecord/${search}`)
+                .then(response => {
+                    setRecord(response.data);
+                });
+
+    }
+
+    const loadRecordAgain = () => {
+        var response = fetch('http://localhost:3001/collection')
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (myJson) {
+                setRecord(myJson);
+            });
+
+    }
+    useEffect(() => {
+        loadRecordAgain();
+        // dispatch(fetchColors());
+    }, []);
 
 
     return (
@@ -124,7 +162,8 @@ const CollectionTable = () => {
                 <Paper className={classes.pageContent}>
                     <Toolbar>
                         <Controls.Input
-                            label="Search Collection"
+                            type="text" id="form1" onKeyDown={loadRecordAgain} onKeyUp={searchRecords} onChange={(e) => setSearch(e.target.value)}
+                            label="Search Collections"
                             className={classes.searchInput}
                             InputProps={{
                                 startAdornment: (
@@ -161,26 +200,30 @@ const CollectionTable = () => {
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                        {listOfCollections
+                                        {record
                                             .map((value) => {
                                                 return (
                                                     <TableRow>
                                                         <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.collection_name}</TableCell>
                                                         <TableCell align="center" style={{ fontFamily: 'Montserrat' }}><img height={100} align="center" src={'http://localhost:3001/' + value.coverImage} alt=""></img></TableCell>
-                                                        
+
                                                         <TableCell align="center">
                                                             <Button
-                                                               component={Link} to="/designs" 
-                                                               variant="contained"
-                                                               color="primary"
-                                                               onClick={() => onSetId(value.id)}
+                                                                component={Link} to="/designs"
+                                                                variant="contained"
+                                                                color="primary"
+                                                                onClick={() => onSetId(value.id)}
                                                             >View Designs
                                                             </Button>
                                                         </TableCell>
                                                         <TableCell align="center">
-                                                            <Button name="remove" onClick={() => onRemove(value.id)}>
-                                                                <i className="fa fa-times" aria-hidden="true"></i>
-                                                            </Button>
+                                                            <Controls.Button
+                                                                text="Edit"
+                                                                onClick={() => {
+                                                                    onSetId(value.id)
+                                                                    setOpenPopup1(true);
+                                                                }}
+                                                            />
                                                         </TableCell>
 
                                                         <TableCell align="center">
@@ -204,6 +247,17 @@ const CollectionTable = () => {
                         setOpenPopup={setOpenPopup}
                     >
                         <CollectionForm />
+                    </Popup>
+
+
+                    <Popup
+
+                        title="Edit Collection Form"
+
+                        openPopup={openPopup1}
+                        setOpenPopup={setOpenPopup1}
+                    >
+                        <CollectionEdit />
                     </Popup>
 
                     <Notification notify={notify} setNotify={setNotify} />

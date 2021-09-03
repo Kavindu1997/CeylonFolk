@@ -15,6 +15,7 @@ import NotFound from './pages/PageNotFound/Notfound';
 import AvailableColors from './pages/Admin/AvailableColors/AvailableColorsTable';
 import AvailableSizes from './pages/Admin/SizeTable';
 import AvailableTypes from './pages/Admin/TypesTable';
+import ViewDesigns from './pages/Admin/ViewDesignTable';
 import Product_detail from './pages/Shop/Product_detail';
 //import Collections from './pages/Collections'
 //import Inventory from './pages/Inventory';
@@ -136,6 +137,7 @@ class App extends Component {
           <Route path="/availableColors" exact render={() => <AvailableColors />} />
           <Route path="/availableSizes" exact render={() => <AvailableSizes  />} />
           <Route path="/availableTypes" exact render={() => <AvailableTypes  />} />
+          <Route path="/viewDesigns" exact render={() => <ViewDesigns  />} />
           <Route path="/checkout" exact render={() => <Checkout />} />
           <Route path="/wishlist" exact render={() => <Wishlist />} />
           <Route path="/aboutUs" exact render={() => <About />} />

@@ -6,7 +6,7 @@ import AddIcon from "@material-ui/icons/Add";
 import CloseIcon from "@material-ui/icons/Close";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 import DesignForm from "./DesignForm";
-import { makeStyles, Paper, TableBody, TableRow, TableCell, Toolbar, InputAdornment, Typography, Table, TableContainer, TableHead, Button } from "@material-ui/core";
+import { makeStyles, Paper, TableBody, TableRow, TableCell, Toolbar, InputAdornment, Typography, Table, TableContainer, TableHead, Box, Button } from "@material-ui/core";
 import useTable from "../../components/Reusable/useTable";
 import Controls from "../../components/Reusable/Controls";
 import Popup from "../../components/Reusable/Popup";
@@ -17,9 +17,9 @@ import AdminNav from "../../components/Reusable/AdminNav"
 import useStyles from './style';
 import axios from 'axios';
 import { actionDeleteCollection } from '../../_actions/collections';
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector} from "react-redux";
 import { useHistory } from 'react-router-dom';
-
+import DesignEdit from "./EditDesignForm";
 
 var collection_id = localStorage.getItem("collection_id");
 console.log(collection_id);
@@ -27,6 +27,7 @@ console.log(collection_id);
 const DesignTable = () => {
     const classes = useStyles();
     const [openPopup, setOpenPopup] = useState(false);
+    const [openPopup1, setOpenPopup1] = useState(false);
     const [notify, setNotify] = useState({
         isOpen: false,
         message: "",
@@ -46,6 +47,12 @@ const DesignTable = () => {
         // setRecordForEdit(item);
         setOpenPopup(true);
     };
+
+    const openInPopup1 = (item) => {
+        // setRecordForEdit(item);
+        setOpenPopup1(true);
+    };
+
     const defaultOptions = {
         loop: true,
         autoplay: true,
@@ -66,31 +73,28 @@ const DesignTable = () => {
         })
     }, []);
 
+    const onSetId = (id) => { //'Itom007'
+        localStorage.setItem("design_id", id);
+
+
+    };
+
+
+    // function onProceed() {
+    //     // var id = localStorage.getItem("userId");
+
+    //       history.push('/inventory');
+
+
+    //   }
 
     const onRemove = (id) => {
 
-
-        dispatch(actionDeleteCollection(id));
-
-        //   const url = "http://localhost:3001/check/remove/"
         const data = { id: id }
-        //   axios.put(url, data).then((response) => {
-        //     if (response.data.error) alert(response.data.error);
-        //     else {
-        //       const url1 = "http://localhost:3001/check/items/" + uid;
-        //       axios.get(url1).then((response) => {
-        //         setOfItems(response.data);
-        //       });
-        //       const url2 = "http://localhost:3001/check/total/" + uid;
-        //       axios.get(url2).then((response) => {
-        //         setOftotals(response.data);
-        //       });
-        //     }
-        //   });
 
-        axios.delete(`http://localhost:3001/collection/remove/`, { data }).then((response) => {
+        axios.delete(`http://localhost:3001/designs`, { data }).then((response) => {
 
-            axios.get("http://localhost:3001/collection").then((response) => {
+            axios.get("http://localhost:3001/designs").then((response) => {
                 console.log(response.data);
                 setListOfDesigns(response.data);
             });
@@ -101,13 +105,86 @@ const DesignTable = () => {
 
     };
 
-    // function onProceed() {
-    //     // var id = localStorage.getItem("userId");
 
-    //       history.push('/inventory');
+    const [search, setSearch] = useState('');
+    const [record, setRecord] = useState([]);
+    const [choice, setChoice] = useState('');
 
 
-    //   }
+    // On Page load display all records 
+    // const loadInventoryDetail = async () => {
+    //     var response = fetch('http://localhost:3001/inventSearch')
+    //         .then(function (response) {
+    //             return response.json();
+    //         })
+    //         .then(function (myJson) {
+    //             setRecord(myJson);
+    //         });
+    // }
+    // useEffect(() => {
+    //     loadInventoryDetail();
+    // }, []);
+
+    // Search Records here 
+    const searchRecords = () => {
+        console.log(choice);
+        // // console.log(search);
+        if (choice == 'design_name') {
+
+            axios.get(`http://localhost:3001/designs/searchRecordDesignName/${search}/${collection_id}`)
+                .then(response => {
+                    setRecord(response.data);
+                });
+
+        }
+        else if (choice == 'collection_name') {
+
+            axios.get(`http://localhost:3001/designs/searchRecordCollectionName/${search}`)
+                .then(response => {
+                    setRecord(response.data);
+                });
+
+        }
+        else if (choice == 'type') {
+
+            axios.get(`http://localhost:3001/designs/searchRecordType/${search}`)
+                .then(response => {
+                    setRecord(response.data);
+                });
+
+        }
+
+        else if (choice == 'price') {
+
+            axios.get(`http://localhost:3001/designs/searchRecordPrice/${search}`)
+                .then(response => {
+                    setRecord(response.data);
+                });
+
+        }
+
+
+
+    }
+
+    const loadRecordAgain = () => {
+        var response = fetch(`http://localhost:3001/designs/${collection_id}`)
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (myJson) {
+                setRecord(myJson);
+            });
+
+    }
+    useEffect(() => {
+        loadRecordAgain();
+        // dispatch(fetchColors());
+    }, []);
+
+    const onChoice = (e) => {
+        setChoice(e.target.value)
+    }
 
 
     return (
@@ -120,7 +197,8 @@ const DesignTable = () => {
                 <Paper className={classes.pageContent}>
                     <Toolbar>
                         <Controls.Input
-                            label="Search Collection"
+                            type="text" id="form1" onKeyDown={loadRecordAgain} onKeyUp={searchRecords} onChange={(e) => setSearch(e.target.value)}
+                            label="Search Inventory"
                             className={classes.searchInput}
                             InputProps={{
                                 startAdornment: (
@@ -131,6 +209,15 @@ const DesignTable = () => {
                             }}
                         //onChange={handleSearch}
                         />
+                        <select className={classes.iconForSearch} name="choice" onChange={onChoice}>
+                            <option value="">Select</option>
+                            <option value="design_name">Design Name</option>
+                            <option value="collection_name">Collection Name</option>
+                            <option value="type">Type</option>
+                            <option value="price">Price</option>
+
+
+                        </select>
                         <Controls.Button
                             text="Add New Design"
                             variant="outlined"
@@ -144,11 +231,11 @@ const DesignTable = () => {
 
                     <container>
                         <center>
-                   
-                    
+
+
                             <Typography variant="h5" style={{ marginTop: '80px', textAlign: 'center', backgroundColor: '#C6C6C6', padding: '30px', fontFamily: 'Montserrat' }}>DESIGNS </Typography>
-                        
-                   
+
+
                             <TableContainer style={{ marginTop: '30px', align: 'center', width: '1200px' }}>
                                 <Table className={classes.table} aria-label="simple table">
                                     <TableHead>
@@ -163,19 +250,27 @@ const DesignTable = () => {
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                        {listOfDesigns
+                                        {record
                                             .map((value) => {
                                                 return (
                                                     <TableRow>
                                                         <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.design_name}</TableCell>
                                                         <TableCell align="center" style={{ fontFamily: 'Montserrat' }}><img height={100} align="center" src={'http://localhost:3001/' + value.coverImage} alt=""></img></TableCell>
-                                                        <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.color}</TableCell>
+                                                        <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>
+                                                            <Box style={{ display: 'flex', justifyContent: 'center' }}>
+                                                                <span className={classes.swatchVisible} style={{ backgroundColor: value.color }}></span>
+                                                            </Box>
+                                                        </TableCell>
                                                         <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.types}</TableCell>
                                                         <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.price}</TableCell>
                                                         <TableCell align="center">
-                                                            <Button name="remove" onClick={() => onRemove(value.id)}>
-                                                                <i className="fa fa-times" aria-hidden="true"></i>
-                                                            </Button>
+                                                            <Controls.Button
+                                                                text="Edit"
+                                                                onClick={() => {
+                                                                    onSetId(value.id)
+                                                                    setOpenPopup1(true);
+                                                                }}
+                                                            />
                                                         </TableCell>
 
                                                         <TableCell align="center">
@@ -199,6 +294,16 @@ const DesignTable = () => {
                         setOpenPopup={setOpenPopup}
                     >
                         <DesignForm />
+                    </Popup>
+
+                    <Popup
+
+                        title="Edit Design Form"
+
+                        openPopup={openPopup1}
+                        setOpenPopup={setOpenPopup1}
+                    >
+                        <DesignEdit />
                     </Popup>
 
                     <Notification notify={notify} setNotify={setNotify} />

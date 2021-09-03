@@ -2,6 +2,8 @@ const express = require("express");
 const router = express.Router();
 const { Collections,sequelize } = require('../models/');
 
+const collectionController = require('../controller/collection.controller');
+
 const path = require('path');
 
 const multer = require('multer');
@@ -57,5 +59,64 @@ router.delete("/remove", async (req,res) => {
     const collectionRemove = await sequelize.query(query, {type: sequelize.QueryTypes.DELETE});
     res.json(collectionRemove);
 });
+
+
+router.put("/edit/:collection_id", upload.single('photo'), async(req, res) => {
+    const collection_id = req.params.collection_id
+    const { collectionName } = req.body;
+    const imagePath = 'public/collections/' + req.file.filename;
+    // Collections.create({
+    //     collection_name: collectionName,
+    //     coverImage: imagePath
+    // })
+    
+    const query = "UPDATE collections SET collection_name='" + collectionName + "' , coverImage='" + imagePath + "' WHERE collections.id='" + collection_id + "'";
+    const updateColllection = await sequelize.query(query, {type: sequelize.QueryTypes.UPDATE});
+    res.json(updateColllection); 
+    res.status(200).json({
+        success: "Success"
+    })
+});
+
+// router.put("/edit/:collection_id",  upload.single('photo'), async(req,res) => {
+
+//     const collection_id = req.params.collection_id
+  
+//     console.log(req.body);
+//     const collection_name = req.body.collectionName;
+//     const imagePath = 'public/collections/' + req.file.filename;
+
+//     const query = "UPDATE collections SET collection_name='" + collection_name + "' coverImage='" + imagePath + "' WHERE collections.id='" + collection_id + "'";
+//     const updateColllection = await sequelize.query(query, {type: sequelize.QueryTypes.UPDATE});
+//     res.json(updateColllection); 
+  
+
+// });
+
+router.get("/oneCollection/:collection_id", async (req,res) => {
+
+    const collection_id = req.params.collection_id
+  
+    const query1= "SELECT collections.id, collections.collection_name, collections.coverImage from `collections` WHERE collections.id='" + collection_id + "'";
+    const listOfCollection = await sequelize.query(query1, {type: sequelize.QueryTypes.SELECT});
+
+    res.json(listOfCollection);
+});
+
+router.get('/searchRecord/:search',collectionController.getCollectionByName);
+
+// router.get("/searchRecord/:search", async (req,res) => {
+
+//     const search = req.params.search
+//     dbConn.query('SELECT collections.collection_name FROM `collections` WHERE collection_name LIKE ?', search+'%' , (err, res)=>{
+//         if(err){
+//             console.log('Error while fetching employee by id', err);
+//             result(null, err);
+//         }else{
+//             result(null, res);
+//         }
+//     })
+
+// });
 
 module.exports = router;

@@ -86,7 +86,7 @@ import { useStyles } from "./styles";
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [fetched]);
     return (
-      <Grid container className={classes.section} spacing={1}>
+      <Grid container className={classes.section} spacing={1}  justify = "center">
         <Grid item xs={12} sm={7} md={7}>
           <Card component={Paper}>
             <CardContent  style={{backgroundImage:'linear-gradient(to left, #34495e, #9b59b6, #f39c12)'}}>
@@ -103,7 +103,7 @@ import { useStyles } from "./styles";
           </Card>
         </Grid>
 
-        <Grid item xs={12} sm={5} md={5}>
+        <Grid item xs={12} sm={4} md={4}>
           <Card component={Paper}>
             <CardContent style={{backgroundImage:'linear-gradient(to left, #c0392b, #27ae60, #f39c12)'}}>
               <Typography variant='h6' className={classes.cardTitle} align='left'>
@@ -119,7 +119,7 @@ import { useStyles } from "./styles";
           </Card>
         </Grid>
 
-        <Grid item xs={12} sm={12} md={12} style={{marginTop:'20px'}}>
+        <Grid item xs={11} sm={11} md={11} style={{marginTop:'20px'}}>
           <Card component={Paper}>
             <CardContent style={{backgroundImage:'linear-gradient(to left, #2f3542, #eccc68, #70a1ff)'}}>
               <Typography variant='h6' className={classes.cardTitle} align='left'>

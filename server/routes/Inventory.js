@@ -23,6 +23,16 @@ router.get("/inventory", async (req,res) => {
     res.json(listOfItems);
 });
 
+router.get("/inventoryItem/:inventory_id", async (req,res) => {
+
+    const inventory_id = req.params.inventory_id
+  
+    const query1= "SELECT inventories.id, inventories.quantity, inventories.margin, colors.color, sizes.size, types.types FROM `inventories` INNER JOIN `colors` on inventories.colour_id=colors.id INNER JOIN `sizes` on inventories.size_id=sizes.id INNER JOIN `types` on inventories.type_id=types.id WHERE inventories.id='" + inventory_id + "'";
+    const listOfItem = await sequelize.query(query1, {type: sequelize.QueryTypes.SELECT});
+
+    res.json(listOfItem);
+});
+
 router.get("/inventoryEdit/:inventory_id", async (req,res) => {
 
     const inventory_id = req.params.inventory_id
@@ -83,8 +93,17 @@ router.post("/inventory", async (req,res) => {
     // console.log("ssssnew hiiii");
     // console.log(checkInventory);
 
+    
+    const count_query = "SELECT count(id) as co from `inventories` WHERE colour_id='" + id1 + "' AND size_id='" + id2 + "' AND type_id='" + id3 + "'";
+    const count1 = await sequelize.query(count_query, {type: sequelize.QueryTypes.SELECT});
+    // // res.json(type_id);
+    const cnt = count1[0].co;
+    console.log("count");
+
+    console.log(cnt);
 
 
+if(cnt==0){
 
     if(quantity>margin){
 
@@ -94,6 +113,7 @@ router.post("/inventory", async (req,res) => {
 
     }
 
+}
     // else{
 
       
@@ -108,7 +128,7 @@ router.put("/inventory/:inventory_id", async (req,res) => {
     const inventory_id = req.params.inventory_id
   
     console.log(req.body);
-    const colour = req.body.colour;
+    const colour = req.body.color;
     const size = req.body.size;
     const type = req.body.type;
     const quantity = req.body.quantity;
@@ -135,6 +155,16 @@ router.put("/inventory/:inventory_id", async (req,res) => {
     res.json(updateInvent); 
   
 
+});
+
+router.delete("/inventory", async (req,res) => {
+  
+    console.log(req.body);
+    const id = req.body.id;
+    const query = "DELETE FROM inventories WHERE inventories.id='" + id + "' ";
+
+    const inventoryItemRemove = await sequelize.query(query, {type: sequelize.QueryTypes.DELETE});
+    res.json(inventoryItemRemove);
 });
 
 

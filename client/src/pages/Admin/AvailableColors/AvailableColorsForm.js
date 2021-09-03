@@ -34,6 +34,8 @@ const AvailableColorsForm = () => {
         console.log(colors)
         // setPickerColorArray([...pickerColorArray, pickerColor]);
         var result = dispatch(setColors(colors))
+        console.log(result)
+
         if (result == 0) {
             alert("Not Added to Color")
             dispatch(fetchColors());

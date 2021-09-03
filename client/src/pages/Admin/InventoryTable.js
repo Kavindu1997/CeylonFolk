@@ -83,10 +83,44 @@ const InventoryTable = () => {
 
     // Search Records here 
     const searchRecords = () => {
-        axios.get(`http://localhost:3001/inventSearch/searchRecord/${search}`)
-            .then(response => {
-                setRecord(response.data);
-            });
+        console.log("jjjjk");
+        console.log(choice);
+        // // console.log(search);
+        if (choice == 'type') {
+
+            axios.get(`http://localhost:3001/inventSearch/searchRecordType/${search}`)
+                .then(response => {
+                    setRecord(response.data);
+                });
+
+        }
+        else if (choice == 'size') {
+
+            axios.get(`http://localhost:3001/inventSearch/searchRecordSize/${search}`)
+                .then(response => {
+                    setRecord(response.data);
+                });
+
+        }
+        else if (choice == 'quantity') {
+
+            axios.get(`http://localhost:3001/inventSearch/searchRecordQuantity/${search}`)
+                .then(response => {
+                    setRecord(response.data);
+                });
+
+        }
+
+        else if (choice == 'margin') {
+
+            axios.get(`http://localhost:3001/inventSearch/searchRecordMargin/${search}`)
+                .then(response => {
+                    setRecord(response.data);
+                });
+
+        }
+
+
 
     }
 
@@ -109,18 +143,19 @@ const InventoryTable = () => {
 
     // const classes = useStyles();
 
-    const [listOfItems, setListOfItems] = useState([]);
+    // const [listOfItems, setListOfItems] = useState([]);
 
-    useEffect(() => {
+    // useEffect(() => {
 
-        axios.get("http://localhost:3001/invent/inventory").then((response) => {
-            // console.log(response.data);
-            setListOfItems(response.data);
-        });
-    }, []);
+    //     axios.get("http://localhost:3001/invent/inventory").then((response) => {
+    //         // console.log(response.data);
+    //         setListOfItems(response.data);
+    //     });
+    // }, []);
 
     const [openPopup, setOpenPopup] = useState(false);
     const [openPopup1, setOpenPopup1] = useState(false);
+    const [choice, setChoice] = useState('');
 
     const [notify, setNotify] = useState({
         isOpen: false,
@@ -157,6 +192,27 @@ const InventoryTable = () => {
         console.log(id);
     };
 
+    const onChoice = (e) => {
+        setChoice(e.target.value)
+    }
+
+    const onRemove = (id) => {
+
+        const data = { id: id }
+
+        axios.delete(`http://localhost:3001/invent/inventory`, { data }).then((response) => {
+
+            // axios.get("http://localhost:3001/designs").then((response) => {
+            //     console.log(response.data);
+            //     setListOfDesigns(response.data);
+            // });
+
+        });
+
+
+
+    };
+
 
     return (
 
@@ -167,13 +223,31 @@ const InventoryTable = () => {
                 {/* <Lottie options={defaultOptions} height={150} width={150} style={{marginRight:'30px'}} />marginTop:'-150px', */}
                 <Paper className={classes.pageContent}>
                     <Toolbar>
-                        <section>
-                            <div class="container">
-                                <div class="row mt-3">
-                                    <div class="col-sm-11">
-                                        <div class="input-group mb-4 mt-3">
-                                            <div class="form-outline">
-                                                <input type="text" id="form1" onKeyDown={loadRecordAgain} onKeyUp={searchRecords} onChange={(e) => setSearch(e.target.value)} class="form-control" placeholder="Search Item Here" style={{ backgroundColor: "#ececec", boxShadow: 'none', padding: '10px' }} />
+                        
+                                                
+                                                {/* <input type="text" id="form1" onKeyDown={loadRecordAgain} onKeyUp={searchRecords} onChange={(e) => setSearch(e.target.value)} class="form-control" placeholder="Search Item Here" style={{ backgroundColor: "#ececec", boxShadow: 'none', padding: '10px' }}  /> */}
+                                                <Controls.Input
+                                                type="text" id="form1" onKeyDown={loadRecordAgain} onKeyUp={searchRecords} onChange={(e) => setSearch(e.target.value)}
+                                                    label="Search Inventory"
+                                                    className={classes.searchInput}
+                                                    InputProps={{
+                                                        startAdornment: (
+                                                            <InputAdornment position="start">
+                                                                <Search />
+                                                            </InputAdornment>
+                                                        ),
+                                                    }}
+                                                //onChange={handleSearch}
+                                                />
+                                                <select className={classes.iconForSearch} name="choice" onChange={onChoice}>
+                                                    <option value="">Select</option>
+                                                    <option value="size">Size</option>
+                                                    <option value="type">Type</option>
+                                                    <option value="quantity">Quantity</option>
+                                                    <option value="margin">Margin</option>
+
+
+                                                </select>
                                                 <Controls.Button
                                                     text="Add new item to the Inventory"
                                                     variant="outlined"
@@ -184,18 +258,7 @@ const InventoryTable = () => {
                                                     }}
                                                 />
 
-                                            </div>
-                                            {/* <button type="button" onClick={searchRecords}  class="btn btn-success">
-                                            <i class="fa fa-search" aria-hidden="true"></i>
-                                            </button> */}
-
-
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
-                        </section>
+                                          
 
                     </Toolbar>
 
@@ -210,11 +273,12 @@ const InventoryTable = () => {
                                         <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Type</TableCell>
                                         <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Quantity</TableCell>
                                         <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Margin</TableCell>
+                                        <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Update</TableCell>
                                         <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Delete</TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {listOfItems.map((value) =>
+                                    {record.map((value) =>
                                         <TableRow>
                                             <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>
                                                 <Box style={{ display: 'flex', justifyContent: 'center' }}>
@@ -226,17 +290,20 @@ const InventoryTable = () => {
                                             <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.quantity}</TableCell>
                                             <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.margin}</TableCell>
                                             <TableCell align="center">
-                                                <Button name="remove" >
+                                                <Controls.Button
+                                                    text="Edit"
+                                                    onClick={() => {
+                                                        onSetId(value.id)
+                                                        setOpenPopup1(true);
+                                                    }}
+                                                />
+                                            </TableCell>
+                                            <TableCell align="center">
+                                                <Button name="remove" onClick={() => onRemove(value.id)}>
                                                     <i className="fa fa-times" aria-hidden="true"></i>
                                                 </Button>
                                             </TableCell>
-                                            <Controls.Button
-                                                text="Edit"
-                                                onClick={() => {
-                                                    onSetId(value.id)
-                                                    setOpenPopup1(true);
-                                                }}
-                                            />
+
                                         </TableRow>
                                     )}
                                 </TableBody>
