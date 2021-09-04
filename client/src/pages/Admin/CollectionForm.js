@@ -18,6 +18,7 @@ const CollectionForm = () => {
 
         const formData = new FormData();
         formData.append('photo', file);
+        console.log(file)
         formData.append('collectionName', collectionName);
         const config = {
             headers: {

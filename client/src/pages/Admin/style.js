@@ -172,6 +172,18 @@ const useStyles = makeStyles((theme) => ({
         color: '#2C2D2D',
     },
 
+    activeContent: {
+      display: 'block'
+    },
+    
+    hideContent: {
+      background: 'white',
+      padding: '20px',
+      width: '100%',
+      height: '100%',
+      display: 'none'
+    },
+
     icon: {
       fill: 'white',
       padding: '8px',
