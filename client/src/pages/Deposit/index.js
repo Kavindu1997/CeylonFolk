@@ -1,45 +1,75 @@
 import React from 'react';
 //import { Button, CssBaseline, Grid, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Box, Divider, Avatar, List, ListItem, ListItemAvatar, ListItemText } from '@material-ui/core';
 import { Box, Button, CssBaseline, TextField, Grid, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Divider, Avatar, List, ListItem, ListItemAvatar, ListItemText } from '@material-ui/core';
-import { makeStyles } from '@material-ui/styles';
-import { Link } from "react-router-dom";
 import UserNav from '../../components/Navbars/UserNav';
 import Footer from '../../components/Footer/Footer';
 import useStyles from './style';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from "react-redux";
-import { viewOrderDetails } from '../../_actions/deposit.action';
+import { viewOrderDetails, claerOrderDetails } from '../../_actions/deposit.action';
 import { NavLink } from 'react-router-dom';
 import Controls from '../../components/Reusable/Controls';
 import axios from 'axios';
 import moment from 'moment';
 import Notification from '../../components/Reusable/Notification';
+import { useHistory } from 'react-router-dom';
+import { useParams } from 'react-router';
 
-export default function OrderHistory() {
+export default function OrderHistory(props) {
     const classes = useStyles();
+    let history = useHistory();
     const dispatch = useDispatch();
+    let id, orderIdFromEmail;
+    console.log(props.location.search)
+    if (props.location.search) {
+        var splitted = props.location.search.split("?id=", 2);
+        var splitted2 = splitted[1].split("&orderIdFromEmail=", 2)
+        console.log(splitted2)
+        id = splitted2[0];
+        orderIdFromEmail = splitted2[1];
+        console.log(id, orderIdFromEmail)
+        localStorage.setItem("userIdFromMail", id);
+        localStorage.setItem("orderIdFromEmail", orderIdFromEmail);
+    }
 
-    const [orderId, setOrderId] = useState([]);
+    var [orderId, setOrderId] = useState([]);
     const [file, setfile] = useState(null);
     const orderDetails = useSelector(state => state.order.order);
     const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' });
 
-    function viewOrder(e){
-         e.preventDefault()
+    const uid = localStorage.getItem("userId");
+
+    if (uid != localStorage.getItem("userIdFromMail")) {
+        localStorage.setItem("fromTheEmail", true);
+        localStorage.setItem("fromTheCart", false);
+        history.push('/auth');
+    }
+
+    if (localStorage.getItem("fromTheEmail") == 'true') {
+        orderIdFromEmail = localStorage.getItem("orderIdFromEmail");
+    }
+
+
+    function viewOrder(e) {
+        e.preventDefault()
+        console.log(orderId)
+        if (orderId.length == 0 && orderIdFromEmail != undefined) {
+            orderId = orderIdFromEmail;
+        }
         var id = localStorage.getItem("userId");
         var data = {
             id: id,
             orderId: orderId
         }
         console.log("here")
-        var result =  dispatch(viewOrderDetails(data))
+        var result = dispatch(viewOrderDetails(data))
         if (result == 0) {
-        setNotify({
-          isOpen: true,
-          message: 'Slip has already uploaded',
-          type: 'error'
-        });
-      } 
+            setNotify({
+                isOpen: true,
+                message: 'Slip has already uploaded',
+                type: 'error'
+            });
+        }
     }
 
     const setOId = (event) => {
@@ -57,6 +87,9 @@ export default function OrderHistory() {
 
         const formData = new FormData();
         formData.append('photo', file);
+        if (orderId.length == 0 && orderIdFromEmail != undefined) {
+            orderId = orderIdFromEmail;
+        }
         formData.append('orderId', orderId);
         formData.append('uid', localStorage.getItem("userId"));
         formData.append('date', moment().format());
@@ -68,9 +101,11 @@ export default function OrderHistory() {
         console.log(formData)
         axios.post("http://localhost:3001/depositCollection", formData, config).then((response) => {
             alert('Image upload Successfull');
-         
-
-
+            orderIdFromEmail = null;
+            formData.delete('photo');
+            localStorage.setItem("userIdFromMail", 0);
+            localStorage.setItem("orderIdFromEmail", 0);
+            dispatch(claerOrderDetails())
         }).catch((err) => {
             console.log('err', err);
         })
@@ -153,6 +188,7 @@ export default function OrderHistory() {
                                     label="Enter your Order ID"
                                     name="orderId"
                                     autoComplete="oid"
+                                    defaultValue={orderIdFromEmail}
                                 //helperText={<ErrorMessage name="fullName" />}
                                 />
                                 <Button
@@ -162,62 +198,62 @@ export default function OrderHistory() {
                                     className={classes.submit}
                                     onClick={viewOrder}
                                 >View Order
-                                </Button>   
-                           
-                            <TableContainer style={{ marginTop: '30px' }}>
-                            <Table className={classes.table} aria-label="simple table">
-                                <TableHead>
-                                    <TableRow>
-                                        <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Image</TableCell>
-                                        <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Product</TableCell>
-                                        <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Totals</TableCell>
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    {orderDetails
-                                      .map((value) => {
-                                          return(
-                                        <TableRow>
-                                            <TableCell align="center" style={{ fontFamily: 'Montserrat' }}><img height={100} align="center" src={'http://localhost:3001/' + value.coverImage}></img></TableCell>
-                                            <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.design_name}</TableCell>
-                                            <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.totals}</TableCell>
-                                        </TableRow>
-                                     );
-                                    })}
-                                </TableBody>
-                            </Table>
-                        </TableContainer>
-                            <div>
-                                
-                            <Controls.Input
-                                variant="outlined"
-                                name="photo"
-                                type="file"
-                                onChange={onInputChange} 
-                            />
-                                <Box
-                                    component="span"
-                                    m={1}
-                                    className={`${classes.spreadBox} ${classes.box}`}
-                                >
-                                    <Button
-                                        type="submit"
-                                        variant="contained"
-                                        color="primary"
-                                        className={classes.submit}
-                                    >Upload Slip
-                                    </Button>
-                                </Box>
-                            </div>
+                                </Button>
+
+                                <TableContainer style={{ marginTop: '30px' }}>
+                                    <Table className={classes.table} aria-label="simple table">
+                                        <TableHead>
+                                            <TableRow>
+                                                <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Image</TableCell>
+                                                <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Product</TableCell>
+                                                <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Totals</TableCell>
+                                            </TableRow>
+                                        </TableHead>
+                                        <TableBody>
+                                            {orderDetails
+                                                .map((value) => {
+                                                    return (
+                                                        <TableRow>
+                                                            <TableCell align="center" style={{ fontFamily: 'Montserrat' }}><img height={100} align="center" src={'http://localhost:3001/' + value.coverImage}></img></TableCell>
+                                                            <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.design_name}</TableCell>
+                                                            <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.totals}</TableCell>
+                                                        </TableRow>
+                                                    );
+                                                })}
+                                        </TableBody>
+                                    </Table>
+                                </TableContainer>
+                                <div>
+
+                                    <Controls.Input
+                                        variant="outlined"
+                                        name="photo"
+                                        type="file"
+                                        onChange={onInputChange}
+                                    />
+                                    <Box
+                                        component="span"
+                                        m={1}
+                                        className={`${classes.spreadBox} ${classes.box}`}
+                                    >
+                                        <Button
+                                            type="submit"
+                                            variant="contained"
+                                            color="primary"
+                                            className={classes.submit}
+                                        >Upload Slip
+                                        </Button>
+                                    </Box>
+                                </div>
                             </form>
-                        </Grid>   
+                        </Grid>
                     </Grid>
                 </center>
             </container>
             <Notification
-        notify={notify}
-        setNotify={setNotify}
-      />
+                notify={notify}
+                setNotify={setNotify}
+            />
             <Footer />
         </div>
 

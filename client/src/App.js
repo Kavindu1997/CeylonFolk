@@ -125,6 +125,7 @@ class App extends Component {
           <Route exact path={"/cart"} component = {MyCart} />
           <Route exact path={"/productDetails/:id"} component = {Product_detail} />
           <Route exact path={"/deposit"} component = {Deposit} />
+          <Route exact path={"/deposit/:id/:orderIdFromEmail"} component = {Deposit} />
           <Route exact path={"/profile"} component = {Profile} />
           <Route exact path={"/myOrders"} component = {OrderHistory} />
           <Route exact path={"/myWishlist"} component = {ProfileWishlist} />

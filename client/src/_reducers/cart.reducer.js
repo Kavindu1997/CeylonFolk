@@ -15,47 +15,47 @@ export const cart = (state = initState, action) => {
         case CART_CONSTS.ADD_TO_CART:
             console.log(state.cart)
             updatedCart = [...state.cart];
-          let  isProdutInCart  =false
-            
-            for(let i=0 ;i<= updatedCart.length-1;i++){
-                if(updatedCart[i].size=== action.payload.size  && updatedCart[i].productId ===action.payload.productId ){
+            let isProdutInCart = false
+
+            for (let i = 0; i <= updatedCart.length - 1; i++) {
+                if (updatedCart[i].size === action.payload.size && updatedCart[i].productId === action.payload.productId) {
                     updatedCart[i].quantity = action.payload.quantity + updatedCart[i].quantity;
-                    updatedCart[i].totals =  updatedCart[i].quantity * action.payload.price;
+                    updatedCart[i].totals = updatedCart[i].quantity * action.payload.price;
                     isProdutInCart = true;
                 }
             }
 
-            if(isProdutInCart==true){
+            if (isProdutInCart == true) {
 
-            }else{
+            } else {
                 updatedCart = [...state.cart, action.payload]
             }
 
 
             return {
                 ...state,
-                cart:updatedCart
+                cart: updatedCart
             };
 
-            case CART_CONSTS.UPDATE_CART_QUANTITY:
-                return {
-                    ...state,
-                    cart: action.payload,   
-                };
+        case CART_CONSTS.UPDATE_CART_QUANTITY:
+            return {
+                ...state,
+                cart: action.payload,
+            };
 
-                case CART_CONSTS.CALCULATE_TOTAL_WHEN_CHANGED:
-                    console.log(state.cart)
-                return {
-                    ...state,
-                    cart: action.payload.cart,   
-                    totalAmount: action.payload.total,
-                };
-                
-            // case CART_CONSTS.ADD_TO_CART:
-            // return {
-            //     ...state,
-            //     cart: [...state.cart, action.payload]
-            // };
+        case CART_CONSTS.CALCULATE_TOTAL_WHEN_CHANGED:
+            console.log(state.cart)
+            return {
+                ...state,
+                cart: action.payload.cart,
+                totalAmount: action.payload.total,
+            };
+
+        // case CART_CONSTS.ADD_TO_CART:
+        // return {
+        //     ...state,
+        //     cart: [...state.cart, action.payload]
+        // };
 
 
         case CART_CONSTS.DELETE_ITEM:
@@ -76,14 +76,14 @@ export const cart = (state = initState, action) => {
             };
 
         case CART_CONSTS.GET_TOTAL_DEDUCT:
-            let totalAmount=0
+            let totalAmount = 0
             updatedCart = [...state.cart];
-            for(let i=0 ;i<= updatedCart.length-1;i++){
-                totalAmount=totalAmount+updatedCart[i].totals
+            for (let i = 0; i <= updatedCart.length - 1; i++) {
+                totalAmount = totalAmount + updatedCart[i].totals
             }
             return {
                 ...state,
-                totalAmount:totalAmount
+                totalAmount: totalAmount
             };
 
         case CART_CONSTS.INCREMENT_CART_NO:
@@ -99,10 +99,14 @@ export const cart = (state = initState, action) => {
             };
 
         case CART_CONSTS.GET_CART:
-            console.log(state.cart)
+            var cartcounter=0;
+            // for(let i=0;i<action.payload.length-1;i++){
+            //     cartcounter=cartcounter+1
+            // }
             return {
                 ...state,
-                cart: action.payload
+                cart: action.payload,
+                cartCount: action.payload.length
             };
 
         case CART_CONSTS.GET_CART_TOTAL:
@@ -112,9 +116,19 @@ export const cart = (state = initState, action) => {
             };
 
         case CART_CONSTS.REMOVE_CART_ITEM:
-            return{
+            return {
                 ...state,
                 cart: action.payload
+            };
+
+        case CART_CONSTS.CATCULATE_CART_COUNT:
+            var count =0;
+            for(let i=0;i<cart.length-1;i++){
+                count=count+1
+            }
+            return {
+                ...state,
+                cartCount: count
             };
 
         default:

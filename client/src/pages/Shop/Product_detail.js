@@ -27,7 +27,7 @@ import useStyles from './style';
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import { useHistory } from 'react-router';
 import * as Yup from 'yup';
-import { actionAddToCart, actionGetTotal, incrementCartCount, sendProductsToDB } from '../../_actions/index';
+import { actionAddToCart, actionGetTotal, sendProductsToDB, calculateCartCount } from '../../_actions/index';
 import { useDispatch, useSelector } from "react-redux";
 import { selectedProduct, fetchProduct, removeSelectedProduct } from '../../_actions/productAction';
 import Notification from '../../components/Reusable/Notification';
@@ -215,6 +215,7 @@ export default function Product_detail() {
         totals: quantity * price
       }
       var result = dispatch(sendProductsToDB(dummyItem))
+      dispatch(calculateCartCount())
       if (result == 0) {
         setNotify({
           isOpen: true,
@@ -243,7 +244,7 @@ export default function Product_detail() {
       }
       dummyItem.totals = dummyItem.price * dummyItem.quantity;
       console.log(dummyItem)
-      dispatch(incrementCartCount());
+      dispatch(calculateCartCount())
       dispatch(actionAddToCart(dummyItem));
       dispatch(actionGetTotal(dummyItem.totals));
       setNotify({

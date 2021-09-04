@@ -7,12 +7,15 @@ const initState = {
 export const order = (state = initState, action) => {
     switch (action.type) {
         case ORDER_CONSTS.VIEW_ORDER_DETAILS:
-            console.log(action.payload)
             return {
                 ...state,
                 order: action.payload
             };
-
+            case ORDER_CONSTS.CLEAR_ORDER_DETAILS:
+            return {
+                ...state,
+                order: []
+            };
         default:
             return state;
     }

@@ -31,6 +31,15 @@ const useStyles = makeStyles((theme) => ({
     note: {
         height: 50
     },
+    formControl: {
+        marginTop: theme.spacing(2),
+        minWidth: '100%',
+        width: '50ch',
+        textAlign: 'left'
+      },
+      selectEmpty: {
+        marginTop: theme.spacing(2),
+      },
 }));
 
 

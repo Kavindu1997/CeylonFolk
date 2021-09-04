@@ -1,6 +1,6 @@
 import { CHECKOUT_CONSTS } from "../_constants";
 import ceylonforkapi from "../api/index";
-import { getCart,getTotal } from ".";
+import { getCart,getTotal, emptyCart, emtyTotal,calculateCartCount } from ".";
 
 export const actionGetCustomerDetails = details => async (dispatch)=> {
     var id = localStorage.getItem("userId");
@@ -11,22 +11,28 @@ export const actionGetCustomerDetails = details => async (dispatch)=> {
     }    
 };
 
+export const actionGetDistricts = delivery => async (dispatch)=> {
+        const response = await ceylonforkapi.get("/check/district/")
+        dispatch({ type: CHECKOUT_CONSTS.GET_DISTRICT, payload: response.data })
+        console.log(response.data)  
+};
+
 export const actionSendToDB = (item) => async (dispatch)=> {
-        await ceylonforkapi.post("/check/cashOn/",item).then((response) => {
+        const response = await ceylonforkapi.post("/check/cashOn/",item) 
             if (response.data.error) {
                 alert("Order Placement Unsuccessful");
             } else {
                 dispatch(actionDeleteItem(item))
                 alert("Order Placement Successful");
-
             }
-        });
-        dispatch(getCart())
-        dispatch(getTotal()) 
+            dispatch(emptyCart())
+            dispatch(emtyTotal()) 
+            dispatch(calculateCartCount())
+        
 };
 
 export const actionDeleteItem = (item) => async (dispatch)=> {
-            await ceylonforkapi.put("/check/deleteCart/",item).then((response) => {
+            const response = await ceylonforkapi.put("/check/deleteCart/",item)
                 if (response.data.error) {
                     alert(response.data.error);
                 }else{
@@ -34,7 +40,7 @@ export const actionDeleteItem = (item) => async (dispatch)=> {
                     dispatch(getTotal())
                 }
 
-            });
+          
            
 
 };

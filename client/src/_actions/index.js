@@ -42,6 +42,13 @@ export const incrementCartCount = () => {
     }
 };
 
+export const calculateCartCount = () => {
+    return {
+        type: CART_CONSTS.CATCULATE_CART_COUNT,
+    }
+};
+
+
 export const decrementCartCount = () => {
     return {
         type: CART_CONSTS.DECREMENT_CART_NO,
@@ -78,6 +85,17 @@ export const getCart = () => async (dispatch) => {
     }
 };
 
+
+export const emptyCart = () => async (dispatch) => {
+    var id = localStorage.getItem("userId");
+    if (id != '0') {
+        const response = await ceylonforkapi.get("/check/items/"+ id)
+        dispatch({ type: CART_CONSTS.GET_CART, payload:[] })
+        console.log(response.data)
+    }
+};
+
+
 export const deleteCartUsingID = (id,size) => async (dispatch) => {
     var uid = localStorage.getItem("userId")
     if (uid > 0) {
@@ -98,6 +116,14 @@ export const getTotal = () => async (dispatch) => {
     if (id != '0') {
         const response = await ceylonforkapi.get("/check/total/"+ id)
         dispatch({ type: CART_CONSTS.GET_CART_TOTAL, payload: response.data })
+    }
+};
+
+export const emtyTotal = () => async (dispatch) => {
+    var id = localStorage.getItem("userId");
+    if (id != '0') {
+        const response = await ceylonforkapi.get("/check/total/"+ id)
+        dispatch({ type: CART_CONSTS.GET_CART_TOTAL, payload: [{total:0}] })
     }
 };
 

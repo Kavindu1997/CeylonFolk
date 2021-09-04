@@ -15,6 +15,14 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false,
         },
+        districtCategory: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+        },
+        deliveryCharge: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+        },
     });
 
     return MasterData;

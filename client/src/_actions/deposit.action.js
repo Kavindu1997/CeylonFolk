@@ -11,3 +11,9 @@ export const viewOrderDetails = (data) => async (dispatch) => {
         dispatch({ type: ORDER_CONSTS.VIEW_ORDER_DETAILS, payload: response.data })
     }
 };
+
+export const claerOrderDetails = () => {
+   return{
+       type: ORDER_CONSTS.CLEAR_ORDER_DETAILS,
+   }
+};

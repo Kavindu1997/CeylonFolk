@@ -50,7 +50,7 @@ function Login() {
             }
             else {
                 console.log(response.data)
-                sessionStorage.setItem("accessToken", response.data)
+                // sessionStorage.setItem("accessToken", response.data)
                 var uid = localStorage.getItem("userId");
 
                 if (uid == '0' && cart.cart.length > 0) {
@@ -65,12 +65,12 @@ function Login() {
 
                 localStorage.setItem("userId", response.data.id);
 
-
                 if (localStorage.getItem("fromTheCart") == "true") {
                     history.push("/cart");
                     localStorage.setItem("fromTheCart", false);
-                } else {
-                    //TODO navigate to profile
+                } else if(localStorage.getItem("fromTheEmail") == "true"){
+                    history.push("/deposit");
+                    //localStorage.setItem("fromTheEmail", false);
                 }
             }
         });

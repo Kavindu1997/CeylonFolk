@@ -26,6 +26,9 @@ router.post("/cashOn", async (req, res) => {
     const add = req.body.delivery
     const date = req.body.placedDate;
     const contactNo = req.body.phoneNo;
+    const name = req.body.name;
+    const email = req.body.email;
+    const payMethod = req.body.paymentMethod;
     const query = "INSERT INTO orders (orderId,customerId,fullAmount,PaymentMethod,status, deliveryAddress,contactNo, placedDate) VALUES ('" + oid + "','" + uid + "','" + total + "','" + pmt + "','" + stu + "','" + add + "','" + contactNo + "','" + date + "')";
     const cashOnOrder = await sequelize.query(query, { type: sequelize.QueryTypes.INSERT });
     res.json(cashOnOrder);
@@ -34,7 +37,31 @@ router.post("/cashOn", async (req, res) => {
         const cashOrderItem = await sequelize.query(query1, { type: sequelize.QueryTypes.INSERT });
     }
     console.log("mail function")
-    sendEmail(req)
+    var emailDetails = {
+        name: name,
+        orderId: oid,
+        email: email,
+        message: 'Dear customer, <br />Your order has been successfullt placed. Thank you for shopping with us.',
+        description: pmt,
+        url: '',
+        subject: 'CeylonFolk order confirmation',
+        total: total,
+        urlMsg: ''
+    }
+    if(payMethod==='bank'){
+        emailDetails.description = 'Bank Deposit';
+        emailDetails.urlMsg = 'Upload the deposit slip';
+        emailDetails.url = 'http://localhost:3000/deposit?id='+uid+'&orderIdFromEmail='+oid+ '';
+    }else if(payMethod==='cash'){
+        emailDetails.description = 'Cash on Delivery';
+        emailDetails.urlMsg = 'To view your past order details';
+        emailDetails.url = 'http://localhost:3000/myOrders?id='+uid+'';
+    }else if(payMethod==='online'){
+        emailDetails.description = 'Online payment method';
+        emailDetails.urlMsg = 'To view your past order details';
+        emailDetails.url = 'http://localhost:3000/myOrders?id='+uid+'';
+    }
+   var value = sendEmail(emailDetails)
     updateInventory(items)
     res.json(cashOrderItem);
 
@@ -52,17 +79,18 @@ async function updateInventory(items) {
     }
 }
 
-async function sendEmail(req){
+async function sendEmail(emailDetails){
     console.log("email option")
     const htmlEmail = `
-            <h3> Hi</h3>
+            <h4> ${emailDetails.message} <h4>
             <ul> 
-                <li>Name: Chandimal </li>
-                <li>Order ID:${req.body.orderId} </li>
-                <li>Email: januyash8@gmail.com </li>
+                <li>Name: ${emailDetails.name} </li>
+                <li>Order ID: ${emailDetails.orderId} </li>
+                <li>Total amount for the order: ${emailDetails.total} </li>
+                <li>Payment method: ${emailDetails.description} </li>
             </ul>
-            <h4> Message <h4>
-            <p>Bank deposit</p>`
+            
+            <p>${emailDetails.urlMsg}: <a href=${emailDetails.url}>Click here to route to the site</a></p>`
         
         const transporter = nodemailer.createTransport({
             host: 'smtp.gmail.com',
@@ -73,13 +101,13 @@ async function sendEmail(req){
                 pass: "pkjjt@1234"
             }
         });
-        
+        console.log(emailDetails)
         const mailOptions = {
             from: 'testceylonfolk@gmail.com', // sender address
             to: 'januyash8@gmail.com', // list of receivers
-            replyTo: req.body.email,
-            subject: req.body.enquiryType, // Subject line
-            text: req.body.message, // plain text body
+            replyTo: emailDetails.email,
+            subject: emailDetails.subject, // Subject line
+            text: emailDetails.message, // plain text body
             html: htmlEmail
 
         };
@@ -87,16 +115,12 @@ console.log("email option")
             await transporter.sendMail(mailOptions,(err,info) =>{
             if(err){
                         console.log("error in sending mail",err)
-                        return res.status(400).json({
-                            message:`error in sending the mail${err}`
-                        })
+                        return 0
                     }
                     else{
                         console.log("successfully send message",info)
                         alert("successfully send message");
-                        return res.json({
-                            message:info
-                        })
+                        return 1
                     }
                  } );  
 }
@@ -151,7 +175,7 @@ router.post("/addToCartBatchwise", async (req, res) => {
 
 router.get("/items/:id", async (req, res) => {
     const id = req.params.id;
-    const query = "SELECT designs.id AS productId, carts.id, carts.customerId, designs.design_name AS name, SUM(carts.quantity) AS quantity, designs.coverImage AS image, designs.price, carts.itemId, carts.size, SUM(carts.quantity * designs.price) AS totals, inventories.quantity AS stockMargin FROM `designs` INNER JOIN `carts` ON designs.id = carts.itemId INNER JOIN `users` ON users.id = carts.customerId INNER JOIN sizes ON sizes.size = carts.size INNER JOIN inventories ON inventories.colour_id = designs.color_id AND inventories.type_id = designs.type_id WHERE carts.isDeleted = 0 AND carts.isBought = 0 AND users.id ='"+id+"' GROUP BY carts.itemId, carts.size";
+    const query = "SELECT designs.id AS productId, carts.id, carts.customerId, designs.design_name AS name, SUM(carts.quantity) AS quantity, designs.coverImage AS image, designs.price, carts.itemId, carts.size, SUM(carts.quantity * designs.price) AS totals, (select inventories.quantity from inventories where inventories.size_id=sizes.id and inventories.colour_id = designs.color_id AND inventories.type_id = designs.type_id) as stockMargin FROM `designs` INNER JOIN `carts` ON designs.id = carts.itemId INNER JOIN `users` ON users.id = carts.customerId INNER JOIN sizes ON sizes.size = carts.size WHERE carts.isDeleted = 0 AND carts.isBought = 0 AND users.id = '"+id+"' GROUP BY carts.itemId, carts.size";
     const itemDetails = await sequelize.query(query, { type: sequelize.QueryTypes.SELECT });
     res.json(itemDetails);
 });
@@ -184,7 +208,16 @@ router.put("/updateQty", async (req, res) => {
     res.json(updatedCart);
 });
 
+router.get("/district", async (req, res) => {
+    const query = "SELECT *, ( SELECT m2.subValue FROM masterdata m2 WHERE m2.value = m1.value AND m2.type = 'deliveryType' ) AS deliveryCharge FROM masterdata m1 WHERE m1.type = 'delivery'";
+    const deliveryDistrict = await sequelize.query(query,
+        {
+            type: sequelize.QueryTypes.SELECT
+        });
+        
+    res.json(deliveryDistrict);
 
+});
 
 
 
