@@ -1,8 +1,12 @@
-export const GLOBAL_URLS = {
-    CHECKOUT_SENDTODB_URL : "http://localhost:3001/check/cashOn/",
-    CHECKOUT_REMOVEFROMCART_URL : "http://localhost:3001/check/deleteCart/",
-    CHECKOUT_CUSTOMERDETAIL_URL : "http://localhost:3001/check/customer/",
-    CHECKOUT_ITEMS_URL : "http://localhost:3001/check/items/",
-    CHECKOUT_ITEMTOTAL_URL : "http://localhost:3001/check/total/",
+export const MASTER_DATA = {
+   pending: 1,
+   approved: 2,
+   processed: 3,
+   not_uploaded: 4,
+   uploaded: 5,
+   placed: 6,
+   cash_on_delivery: 7,
+   payhere: 8,
+   bank_tranfer: 9,
     
 };

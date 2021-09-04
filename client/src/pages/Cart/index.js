@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import useStyles from './style';
 import { useDispatch, useSelector } from "react-redux";
-import { actionGetTotalDeduct, actionDeleteItem, decrementCartCount, getCart, getTotal, deleteCartUsingID, updateCartQuantity, actionUpdateItem, calculateTotalWhenChanged } from '../../_actions/index';
+import { actionGetTotalDeduct, actionDeleteItem, calculateCartCount, getCart, getTotal, deleteCartUsingID, updateCartQuantity, actionUpdateItem, calculateTotalWhenChanged } from '../../_actions/index';
 import NumericInput from 'react-numeric-input';
 import Notification from '../../components/Reusable/Notification';
 import ConfirmDialog from '../../components/Reusable/ConfirmDialog';
@@ -52,7 +52,7 @@ export default function Cart() {
     else {
       var item={id:id, size:size}
       dispatch(actionDeleteItem(id,size));
-      dispatch(decrementCartCount());
+      dispatch(calculateCartCount())
       dispatch(actionGetTotalDeduct());
       setNotify({
         isOpen: true,
@@ -125,6 +125,8 @@ export default function Cart() {
   function onLogout() {
     localStorage.setItem("userId", 0);
     localStorage.setItem("userName", 0);
+    localStorage.removeItem("orderIdFromEmail");
+    localStorage.removeItem("userIdFromMail");
   }
 
   return (
@@ -222,8 +224,11 @@ export default function Cart() {
           <center>
             <TableContainer style={{ marginTop: '50px', align: 'center', width: '600px' }}>
               <Table className={classes.table} aria-label="simple table">
-                <Typography variant="h6" style={{ marginTop: '20px', marginLeft: '15px', marginBottom: '20px', textAlign: 'left', fontWeight: 600, fontFamily: 'Montserrat' }}>CART TOTALS</Typography>
-
+                <TableRow>
+                <TableCell colSpan='2'>
+                <Typography variant="h6" style={{ marginTop: '20px', textAlign: 'left', fontWeight: 600, fontFamily: 'Montserrat' }}>CART TOTALS</Typography>
+                </TableCell>
+                </TableRow>
                 <TableRow>
                   <TableCell align="left" style={{ fontWeight: 600, fontFamily: 'Montserrat' }}>SUB TOTAL</TableCell>
                   <TableCell align="center" style={{ fontWeight: 600, fontFamily: 'Montserrat' }}>Rs. {cartTotal}</TableCell>
@@ -231,8 +236,8 @@ export default function Cart() {
 
                 <TableRow>
                   <TableCell align="left" style={{ fontWeight: 600, fontFamily: 'Montserrat' }}>SHIPPING</TableCell>
-                  <TableCell align="center" style={{ fontWeight: 600, fontFamily: 'Montserrat' }}>Rs. 200</TableCell>
-                </TableRow>
+                  <TableCell align="center" style={{ fontWeight: 400, fontFamily: 'Montserrat' }}>Charges will be calculated <br />in the checkout process</TableCell>
+                </TableRow> 
                 <TableRow>
                   <TableCell align="left" style={{ fontWeight: 600, fontFamily: 'Montserrat' }}>ADD COUPON</TableCell>
                   <TableCell align="center" style={{ fontWeight: 600, fontFamily: 'Montserrat' }}>
@@ -252,7 +257,7 @@ export default function Cart() {
                 </TableRow>
                 <TableRow>
                   <TableCell align="left" style={{ fontWeight: 600, fontFamily: 'Montserrat' }}>TOTAL</TableCell>
-                  <TableCell align="center" style={{ fontWeight: 600, fontFamily: 'Montserrat' }}>Rs. {Number(cartTotal) + 200}</TableCell>
+                  <TableCell align="center" style={{ fontWeight: 600, fontFamily: 'Montserrat' }}>Rs. {Number(cartTotal)}</TableCell>
                 </TableRow>
               </Table>
             </TableContainer>

@@ -85,6 +85,14 @@ const typesRouter = require("./routes/Types");
 app.use("/types", typesRouter);
 app.use('/public', express.static('public'));
 
+const depositRouter = require('./routes/Deposit');
+app.use("/deposit", depositRouter);
+app.use("/depositCollection", depositRouter);
+app.use('/public', express.static('public'));
+
+const orderRouter = require('./routes/Orders');
+app.use("/order", orderRouter);
+
 db.sequelize.sync().then(() => {
     app.listen(3001, () => {
         console.log("Server running on port 3001");

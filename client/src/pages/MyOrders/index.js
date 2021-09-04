@@ -5,31 +5,47 @@ import { Link } from "react-router-dom";
 import UserNav from '../../components/Navbars/UserNav';
 import Footer from '../../components/Footer/Footer';
 import useStyles from './style';
+import { useHistory } from 'react-router-dom';
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from 'react';
+import { getOrderHistory } from '../../_actions/orderHistory.action'
 
-export default function OrderHistory() {
+export default function OrderHistory(props) {
     const classes = useStyles();
-    // const [value, setValue] = React.useState('payment');
+    let history = useHistory();
+    const dispatch = useDispatch();
 
-    //   const handleChange = (event) => {
-    //     setValue(event.target.value);
-    //   };
-
-    function createData(ref, date, image, name, price, status, action) {
-        return { ref, date, image, name, price, status, action };
+    const orders = useSelector(state => state.orderHistory.orderHistory);
+   
+    let id;
+    console.log(props.location.search)
+    if (props.location.search) {
+        var splitted = props.location.search.split("?id=", 2);
+        id = splitted[1];
+        localStorage.setItem("userIdFromMail", id);
     }
 
-    const rows = [
-        createData(1212, '12.06.2021',
-            <div>
-                <img height={100} align="center" src={require('../../images/ts2.jpg').default} />
-            </div>,
-            'Baby Tshirt', 1000, 'Printing'),
-        createData(1213, '10.06.2021',
-            <div>
-                <img height={100} align="center" src={require('../../images/ts3.jpg').default} />
-            </div>,
-            'White Tshirt', 1300, 'Dispatched'),
-    ];
+    const uid = localStorage.getItem("userId");
+
+    if (localStorage.getItem("userIdFromMail") != undefined && uid != localStorage.getItem("userIdFromMail")) {
+        localStorage.setItem("from", "email");
+        localStorage.setItem("fromTheCart", false);
+        localStorage.setItem("to","orderHistory")
+        history.push('/auth');
+    }
+
+    if (localStorage.getItem("fromTheEmail") == 'true') {
+        localStorage.setItem("fromTheEmail",false);
+    }
+
+    useEffect(() => {
+        dispatch(getOrderHistory())
+      }, []);
+    
+    function routeToProduct(oId) {
+        history.push(`/orderDetail/${oId}`);
+    }
+   
     return (
         <div>
         <UserNav />
@@ -101,24 +117,24 @@ export default function OrderHistory() {
                                     <TableRow>
                                         <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Reference No</TableCell>
                                         <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Date</TableCell>
-                                        <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Image</TableCell>
-                                        <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Product</TableCell>
                                         <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Total</TableCell>
                                         <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Order Status</TableCell>
                                         <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Action</TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {rows.map((row, i) => (
+                                    {orders
+                                        .map((row, i) => (
                                         <TableRow key={`row-${i}`}>
-                                            <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{row.ref}</TableCell>
-                                            <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{row.date}</TableCell>
-                                            <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{row.image}</TableCell>
-                                            <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{row.name}</TableCell>
-                                            <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{row.price}</TableCell>
-                                            <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{row.status}</TableCell>
+                                            <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{row.orderId}</TableCell>
+                                            <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{row.placedDate}</TableCell>
+                                            <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{row.fullAmount}</TableCell>
+                                            <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{row.decription}</TableCell>
                                             <TableCell align="center">
-                                                <Button>
+                                                <Button onClick={() => {
+                            routeToProduct(row.orderId)
+                          }}
+                         >
                                                     <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                                                 </Button>
                                             </TableCell>

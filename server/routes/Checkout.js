@@ -6,6 +6,8 @@ const { Users } = require('../models');
 const { Orders } = require('../models');
 const { OrderItems } = require('../models');
 const { validateToken } = require("../middlewares/AuthMiddleware");
+const { request } = require("express");
+const nodemailer = require('nodemailer');
 
 router.get("/customer/:id", async (req, res) => {
     const id = req.params.id;
@@ -24,6 +26,9 @@ router.post("/cashOn", async (req, res) => {
     const add = req.body.delivery
     const date = req.body.placedDate;
     const contactNo = req.body.phoneNo;
+    const name = req.body.name;
+    const email = req.body.email;
+    const payMethod = req.body.paymentMethod;
     const query = "INSERT INTO orders (orderId,customerId,fullAmount,PaymentMethod,status, deliveryAddress,contactNo, placedDate) VALUES ('" + oid + "','" + uid + "','" + total + "','" + pmt + "','" + stu + "','" + add + "','" + contactNo + "','" + date + "')";
     const cashOnOrder = await sequelize.query(query, { type: sequelize.QueryTypes.INSERT });
     res.json(cashOnOrder);
@@ -31,6 +36,32 @@ router.post("/cashOn", async (req, res) => {
         const query1 = "INSERT INTO orderitems (orderId, itemId, quantity, size) VALUES ('" + oid + "','" + items[i].itemId + "','" + items[i].quantity + "','" + items[i].size + "')";
         const cashOrderItem = await sequelize.query(query1, { type: sequelize.QueryTypes.INSERT });
     }
+    console.log("mail function")
+    var emailDetails = {
+        name: name,
+        orderId: oid,
+        email: email,
+        message: 'Dear customer, <br />Your order has been successfullt placed. Thank you for shopping with us.',
+        description: pmt,
+        url: '',
+        subject: 'CeylonFolk order confirmation',
+        total: total,
+        urlMsg: ''
+    }
+    if(payMethod==='bank'){
+        emailDetails.description = 'Bank Deposit';
+        emailDetails.urlMsg = 'Upload the deposit slip';
+        emailDetails.url = 'http://localhost:3000/deposit?id='+uid+'&orderIdFromEmail='+oid+ '';
+    }else if(payMethod==='cash'){
+        emailDetails.description = 'Cash on Delivery';
+        emailDetails.urlMsg = 'To view your past order details';
+        emailDetails.url = 'http://localhost:3000/myOrders?id='+uid+'';
+    }else if(payMethod==='online'){
+        emailDetails.description = 'Online payment method';
+        emailDetails.urlMsg = 'To view your past order details';
+        emailDetails.url = 'http://localhost:3000/myOrders?id='+uid+'';
+    }
+   var value = sendEmail(emailDetails)
     updateInventory(items)
     res.json(cashOrderItem);
 
@@ -46,6 +77,52 @@ async function updateInventory(items) {
         const quantityUpdate = await sequelize.query(updateQuery, { type: sequelize.QueryTypes.UPDATE });
 
     }
+}
+
+async function sendEmail(emailDetails){
+    console.log("email option")
+    const htmlEmail = `
+            <h4> ${emailDetails.message} <h4>
+            <ul> 
+                <li>Name: ${emailDetails.name} </li>
+                <li>Order ID: ${emailDetails.orderId} </li>
+                <li>Total amount for the order: ${emailDetails.total} </li>
+                <li>Payment method: ${emailDetails.description} </li>
+            </ul>
+            
+            <p>${emailDetails.urlMsg}: <a href=${emailDetails.url}>Click here to route to the site</a></p>`
+        
+        const transporter = nodemailer.createTransport({
+            host: 'smtp.gmail.com',
+            port: 465,
+            secure: true,
+            auth: {
+                user: "testceylonfolk@gmail.com",
+                pass: "pkjjt@1234"
+            }
+        });
+        console.log(emailDetails)
+        const mailOptions = {
+            from: 'testceylonfolk@gmail.com', // sender address
+            to: 'januyash8@gmail.com', // list of receivers
+            replyTo: emailDetails.email,
+            subject: emailDetails.subject, // Subject line
+            text: emailDetails.message, // plain text body
+            html: htmlEmail
+
+        };
+console.log("email option")
+            await transporter.sendMail(mailOptions,(err,info) =>{
+            if(err){
+                        console.log("error in sending mail",err)
+                        return 0
+                    }
+                    else{
+                        console.log("successfully send message",info)
+                        alert("successfully send message");
+                        return 1
+                    }
+                 } );  
 }
 
 router.put("/deleteCart", async (req, res) => {
@@ -98,7 +175,7 @@ router.post("/addToCartBatchwise", async (req, res) => {
 
 router.get("/items/:id", async (req, res) => {
     const id = req.params.id;
-    const query = "SELECT designs.id AS productId, carts.id, carts.customerId, designs.design_name AS name, SUM(carts.quantity) AS quantity, designs.coverImage AS image, designs.price, carts.itemId, carts.size, SUM(carts.quantity * designs.price) AS totals, inventories.quantity AS stockMargin FROM `designs` INNER JOIN `carts` ON designs.id = carts.itemId INNER JOIN `users` ON users.id = carts.customerId INNER JOIN sizes ON sizes.size = carts.size INNER JOIN inventories ON inventories.colour_id = designs.color_id AND inventories.type_id = designs.type_id WHERE carts.isDeleted = 0 AND carts.isBought = 0 AND users.id ='"+id+"' GROUP BY carts.itemId, carts.size";
+    const query = "SELECT designs.id AS productId, carts.id, carts.customerId, designs.design_name AS name, SUM(carts.quantity) AS quantity, designs.coverImage AS image, designs.price, carts.itemId, carts.size, SUM(carts.quantity * designs.price) AS totals, (select inventories.quantity from inventories where inventories.size_id=sizes.id and inventories.colour_id = designs.color_id AND inventories.type_id = designs.type_id) as stockMargin FROM `designs` INNER JOIN `carts` ON designs.id = carts.itemId INNER JOIN `users` ON users.id = carts.customerId INNER JOIN sizes ON sizes.size = carts.size WHERE carts.isDeleted = 0 AND carts.isBought = 0 AND users.id = '"+id+"' GROUP BY carts.itemId, carts.size";
     const itemDetails = await sequelize.query(query, { type: sequelize.QueryTypes.SELECT });
     res.json(itemDetails);
 });
@@ -125,20 +202,21 @@ router.put("/updateQty", async (req, res) => {
     var uid = req.body.uid;
     const items = req.body.itemArray;
     for (let i = 0; i < items.length; i++) {
-        const query = "UPDATE carts SET quantity='" + items[i].quantity + "' WHERE carts.itemId='" + items[i].itemId + "' AND carts.customerId='" + uid + "' AND carts.isBought=0 AND carts.isDeleted=0";
+        const query = "UPDATE carts SET quantity='" + items[i].quantity + "' WHERE carts.itemId='" + items[i].itemId + "' AND carts.size='"+items[i].size+"' AND carts.customerId='" + uid + "' AND carts.isBought=0 AND carts.isDeleted=0";
         const updatedCart = await sequelize.query(query, { type: sequelize.QueryTypes.UPDATE });
     }
     res.json(updatedCart);
 });
 
-router.post("/order", async (req, res) => {
-    var uid = req.body.id;
-    var oId = req.body.orderId;
-    console.log(uid)
-    const query = "SELECT designs.coverImage,designs.design_name, orderitems.quantity, orderitems.size, designs.price, SUM(orderitems.quantity*designs.price) AS totals FROM orderitems INNER JOIN designs ON designs.id=orderitems.itemId INNER JOIN orders ON orders.orderId=orderitems.orderId WHERE orders.customerId='" + uid + "' AND orders.orderId='" + oId + "' GROUP BY orderitems.itemId";
-    const fetchOrder = await sequelize.query(query, { type: sequelize.QueryTypes.SELECT });
-    res.json(fetchOrder);
-    //console.log(response.data)
+router.get("/district", async (req, res) => {
+    const query = "SELECT *, ( SELECT m2.subValue FROM masterdata m2 WHERE m2.value = m1.value AND m2.type = 'deliveryType' ) AS deliveryCharge FROM masterdata m1 WHERE m1.type = 'delivery'";
+    const deliveryDistrict = await sequelize.query(query,
+        {
+            type: sequelize.QueryTypes.SELECT
+        });
+        
+    res.json(deliveryDistrict);
+
 });
 
 

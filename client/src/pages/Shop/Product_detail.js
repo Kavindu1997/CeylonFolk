@@ -27,7 +27,7 @@ import useStyles from './style';
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import { useHistory } from 'react-router';
 import * as Yup from 'yup';
-import { actionAddToCart, actionGetTotal, incrementCartCount, sendProductsToDB } from '../../_actions/index';
+import { actionAddToCart, actionGetTotal, sendProductsToDB, calculateCartCount, incrementCartCount } from '../../_actions/index';
 import { useDispatch, useSelector } from "react-redux";
 import { selectedProduct, fetchProduct, removeSelectedProduct } from '../../_actions/productAction';
 import Notification from '../../components/Reusable/Notification';
@@ -215,6 +215,7 @@ export default function Product_detail() {
         totals: quantity * price
       }
       var result = dispatch(sendProductsToDB(dummyItem))
+
       if (result == 0) {
         setNotify({
           isOpen: true,
@@ -243,9 +244,9 @@ export default function Product_detail() {
       }
       dummyItem.totals = dummyItem.price * dummyItem.quantity;
       console.log(dummyItem)
-      dispatch(incrementCartCount());
       dispatch(actionAddToCart(dummyItem));
       dispatch(actionGetTotal(dummyItem.totals));
+      dispatch(incrementCartCount())
       setNotify({
         isOpen: true,
         message: 'Added Successfully !',
@@ -345,7 +346,8 @@ export default function Product_detail() {
                           <a href='../pages/customize' style={{ textDecoration: 'none' }}><Button variant="outlined" className={classes.designbtn}>SIZE GUIDE</Button></a>
                         </center>
                       </Box>
-                      <div className={toggleState === 1 ? classes.activeQuantity : classes.quantity}>{quantity && <span>{quantity[index].quantity + " in stock"}</span>}</div>
+                      {/* <div className={toggleState === 1 ? classes.activeQuantity : classes.quantity}>{quantity && <span>{quantity[index].quantity + " in stock"}</span>}</div> */}
+                      <div className={toggleState === 1 ? classes.activeQuantity : classes.quantity}>{quantity && <span>{quantity[index1].quantity + " in stock"}</span>}</div>
                     </Box>
 
                     <Box className={classes.tBox}>
@@ -390,8 +392,8 @@ export default function Product_detail() {
                       </Box>}
 
                   </Box>
-
-                  <div className={toggleState === 1 ? classes.activeQuantity : classes.quantity}>{quantity && <span>{quantity[index1].quantity + " in stock"}</span>}</div>               
+{/* 
+                  <div className={toggleState === 1 ? classes.activeQuantity : classes.quantity}>{quantity && <span>{quantity[index1].quantity + " in stock"}</span>}</div>                */}
 
 
                 </Box>

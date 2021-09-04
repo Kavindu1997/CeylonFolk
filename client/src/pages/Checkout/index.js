@@ -9,10 +9,15 @@ import useStyles from './style';
 import { useHistory } from 'react-router-dom';
 import moment from 'moment';
 import { setPayment } from './payment';
-import {GLOBAL_URLS} from '../../_constants/globalVariable';
-import {useDispatch, useSelector} from "react-redux";
-import {actionGetCustomerDetails,actionSendToDB} from '../../_actions/checkout.action';
-import {getCart,getTotal} from '../../_actions';
+import { GLOBAL_URLS } from '../../_constants/globalVariable';
+import { useDispatch, useSelector } from "react-redux";
+import { actionGetCustomerDetails, actionSendToDB, actionGetDistricts } from '../../_actions/checkout.action';
+import { getCart, getTotal } from '../../_actions';
+import { MASTER_DATA } from '../../_constants/globalVariable';
+import MenuItem from '@material-ui/core/MenuItem';
+import Select from '@material-ui/core/Select';
+import InputLabel from '@material-ui/core/InputLabel';
+
 
 function onLinkClick(event) {
     console.log('onLinkClick'); // never called
@@ -36,18 +41,37 @@ export default function Checkout() {
     const [customerName, setCustomerName] = useState([]);
     const [value, setValue] = React.useState('payment');
     let paymentItem;
-    const customerDetails = useSelector((state)=>state.checkout.detail)
-    const itemDetails = useSelector((state)=>state.cart.cart)
+    const customerDetails = useSelector((state) => state.checkout.detail)
+    const deliveryDetails = useSelector((state) => state.checkout.delivery)
+    const itemDetails = useSelector((state) => state.cart.cart)
     const totalDetails = useSelector(state => state.cart.totalAmount)
+    const [districtvalue, setDistrict] = useState([]);
+    const [districtNameValue, setDistrictNameValue] = useState([]);
+  
+    const getDistrictValue = (event) => {
+        setDistrictNameValue(event.target.value)
+        console.log(event.target.value);
+        
 
-    
+        for(let i=0; i<deliveryDetails.length-1 ; i++){
+            if(deliveryDetails[i].id === event.target.value){
+                setDistrict(deliveryDetails[i].deliveryCharge)  
+                console.log(deliveryDetails[i])
+            }
+        }
+        console.log(districtvalue)
+
+    };
+
+
     useEffect(() => {
         dispatch(actionGetCustomerDetails())
         dispatch(getCart())
         dispatch(getTotal())
+        dispatch(actionGetDistricts())
     }, []);
 
- 
+
 
     const setAddress1 = (event) => {
         setOfAddress1(event.target.value)
@@ -79,66 +103,55 @@ export default function Checkout() {
     }
     const setName = (event) => {
         setCustomerName(event.target.value);
+        console.log(event.target.value)
+        console.log(customerName)
+        console.log(customerDetails[0].firstName)
+        console.log(customerDetails[0].email)
     }
 
     const placeOrders = () => {
         var uid = localStorage.getItem("userId");
         if (uid != '0' && checkedTermsCondition == true) {
             if (paymentMethod == "cash") {
-                paymentItem = createPaymentDetails("cash on delivery",uid);
+                paymentItem = createPaymentDetails(MASTER_DATA.cash_on_delivery, uid, MASTER_DATA.placed);
                 dispatch(actionSendToDB(paymentItem))
             } else if (paymentMethod == "bank") {
-                paymentItem = createPaymentDetails("bank deposit",uid);
+                paymentItem = createPaymentDetails(MASTER_DATA.bank_tranfer, uid, MASTER_DATA.not_uploaded);
                 dispatch(actionSendToDB(paymentItem))
             } else if (paymentMethod == "online") {
-                paymentItem = createPaymentDetails("online payment",uid);
+                paymentItem = createPaymentDetails(MASTER_DATA.payhere, uid, MASTER_DATA.placed);
                 let payment = setPayment(paymentItem);
                 window.payhere.startPayment(payment);
             }
         }
     };
 
-    const createPaymentDetails = (pm, uid) => {
+    const createPaymentDetails = (pm, uid, status) => {
         let orderId = new Date().getTime();
-
-        var date = moment().utcOffset('+05:30').format('YYYY-MM-DD hh:mm:ss a');
-        var total = Number(totalDetails) + 200;
+        var date = moment().format();
+        var total = Number(totalDetails) + Number(districtvalue);
         var address = "";
         if (isDeliveryDiffAdd != true) {
             address = cutomerAddress1 + ' ' + cutomerAddress2 + ' ' + cutomerAddress3;
         } else {
             address = cutomerDeliveryAdd;
         }
-        const item = { userId: uid, 
-                     orderId: orderId, 
-                     totalAmount: total, 
-                     payment: pm, 
-                     status: "placed", 
-                     itemArray: itemDetails, 
-                     delivery: address, 
-                     placedDate: date, 
-                     phoneNo: cutomerPhoneNumber==0 ?  customerDetails[0].contactNo : cutomerPhoneNumber, 
-                     email: customerEmail, 
-                     name:customerName }  
+        const item = {
+            userId: uid,
+            orderId: orderId,
+            totalAmount: total,
+            payment: pm,
+            status: status,
+            itemArray: itemDetails,
+            delivery: address,
+            placedDate: date,
+            phoneNo: cutomerPhoneNumber == 0 ? customerDetails[0].contactNo : cutomerPhoneNumber,
+            email: customerDetails[0].email,
+            name:customerDetails[0].firstName + " " + customerDetails[0].lastName,
+            paymentMethod: value
+        }
         return item;
     }
-
-   /* const sendToDB = (item) => {
-        const url = GLOBAL_URLS.CHECKOUT_SENDTODB_URL
-        axios.post(url, item).then((response) => {
-            if (response.data.error) {
-                alert(response.data.error);
-            } else {
-                const url2 = GLOBAL_URLS.CHECKOUT_REMOVEFROMCART_URL
-                axios.put(url2, item).then((response) => {
-                    if (response.data.error) {
-                        alert(response.data.error);
-                    }
-                });
-                alert("Product successfully added to cart");
-            }
-        });
-    }*/
 
     window.payhere.onCompleted = function onCompleted(orderId) {
         console.log("Payment completed. OrderID:" + orderId);
@@ -186,7 +199,7 @@ export default function Checkout() {
                                                 id="name"
                                                 label="Your Name"
                                                 name="name"
-                                                defaultValue={value.firstName}
+                                                defaultValue={value.firstName + " "+ value.lastName} 
                                                 autoComplete="name"
                                                 autoFocus
                                             />
@@ -215,6 +228,7 @@ export default function Checkout() {
                                                 defaultValue={value.contactNo}
                                                 autoComplete="number"
                                             />
+                                            <Typography component="h1" variant="h6" style={{ fontFamily: 'Montserrat', marginTop:'20px', marginBottom: '10px' }}>Delivery Address Details</Typography>
                                             <TextField
                                                 onChange={setAddress1}
                                                 variant="outlined"
@@ -251,20 +265,43 @@ export default function Checkout() {
                                                 defaultValue={value.city}
                                                 autoComplete="city"
                                             />
+                                            <FormControl required variant="outlined" className={classes.formControl}>
+                                                <InputLabel id="demo-simple-select-outlined-label">Delivery District</InputLabel>
+                                                <Select
+                                                    labelId="demo-simple-select-outlined-label"
+                                                    id="demo-simple-select-outlined"
+                                                    value={districtNameValue}
+                                                    onChange={getDistrictValue}
+                                                    label="Delivery District"
+                                                >
+                                                    {deliveryDetails
+                                                        .map((value, index) => {
+                                                            return (
+                                                                <MenuItem
 
-                                            <FormControlLabel
+                                                                    value={value.id}>{value.decription}
+
+                                                                </MenuItem>
+                                                            );
+                                                        })}
+                                                </Select>
+                                            </FormControl>
+
+                                            {/* <FormControlLabel
                                                 control={<Checkbox onClick={checkButton} value="yes" color="primary" />}
                                                 label="Deliver to a different address"
                                                 style={{ float: 'left' }} />
                                             <div id="addressNew">
                                                 <TextareaAutosize onChange={setDeliveryAdd} aria-label="minimum height" placeholder="Shipping Address" style={{ width: '480px', height: '60px', textAlign: 'justify', padding: '15px', fontFamily: 'Montserrat', marginTop: '10px', borderRadius: '5px' }} />
-                                            </div>
+                                            </div> */}
                                             <TextareaAutosize aria-label="minimum height" placeholder="Order Notes (optional)" style={{ width: '480px', height: '100px', textAlign: 'justify', padding: '15px', fontFamily: 'Montserrat', marginTop: '30px', borderRadius: '5px' }} />
 
                                         </form>
 
                                     );
                                 })}
+
+
 
 
                         </Grid>
@@ -280,7 +317,7 @@ export default function Checkout() {
                                     </TableHead>
                                     <TableBody>
                                         {itemDetails
-                                            .map((value,index) => {
+                                            .map((value, index) => {
                                                 return (
                                                     <TableRow key={index}>
                                                         <TableCell align="left" style={{ fontFamily: 'Montserrat' }}><img height={100} align="center" src={'http://localhost:3001/' + value.image} /></TableCell>
@@ -290,34 +327,34 @@ export default function Checkout() {
                                                     </TableRow>
                                                 );
                                             })}
-                                       
-                                                    <TableRow>
-                                                        <TableCell align="left" colSpan={3} style={{ fontFamily: 'Montserrat', fontWeight: 600, height: '60px' }}>
-                                                            Sub Total
-                                                        </TableCell>
-                                                        <TableCell align="left" style={{ fontFamily: 'Montserrat' }}>
-                                                            Rs.{totalDetails}
-                                                        </TableCell>
-                                                    </TableRow>
-                                              
+
+                                        <TableRow>
+                                            <TableCell align="left" colSpan={3} style={{ fontFamily: 'Montserrat', fontWeight: 600, height: '60px' }}>
+                                                Sub Total
+                                            </TableCell>
+                                            <TableCell align="left" style={{ fontFamily: 'Montserrat' }}>
+                                                Rs.{totalDetails}
+                                            </TableCell>
+                                        </TableRow>
+
                                         <TableRow>
                                             <TableCell align="left" colSpan={3} style={{ fontFamily: 'Montserrat', fontWeight: 600, height: '60px' }}>
                                                 Shipping
                                             </TableCell>
                                             <TableCell align="left" colSpan={3} style={{ fontFamily: 'Montserrat' }}>
-                                                Rs. 200
+                                                Rs. {districtvalue}
                                             </TableCell>
                                         </TableRow>
-                    
-                                                    <TableRow>
-                                                        <TableCell align="left" colSpan={3} style={{ fontFamily: 'Montserrat', fontWeight: 600, height: '60px' }}>
-                                                            Total
-                                                        </TableCell>
-                                                        <TableCell align="left" colSpan={3} style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>
-                                                            Rs. {Number(totalDetails) + 200}
-                                                        </TableCell>
-                                                    </TableRow>
-                                             
+
+                                        <TableRow>
+                                            <TableCell align="left" colSpan={3} style={{ fontFamily: 'Montserrat', fontWeight: 600, height: '60px' }}>
+                                                Total
+                                            </TableCell>
+                                            <TableCell align="left" colSpan={3} style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>
+                                                Rs. {Number(totalDetails) + (districtvalue)}
+                                            </TableCell>
+                                        </TableRow>
+
                                         <TableRow>
                                             <Typography component="h1" variant="h6" style={{ fontFamily: 'Montserrat', textAlign: 'left', marginTop: '15px', marginBottom: '10px', marginLeft: '30px' }}>Payment Method</Typography>
                                             <FormControl component="fieldset">
