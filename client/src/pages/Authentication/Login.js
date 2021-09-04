@@ -70,7 +70,8 @@ function Login() {
                     localStorage.setItem("fromTheCart", false);
                 } else if(localStorage.getItem("fromTheEmail") == "true"){
                     history.push("/deposit");
-                    //localStorage.setItem("fromTheEmail", false);
+                }else if(localStorage.getItem("from") == "email"){
+                    history.push("/myOrders");
                 }
             }
         });

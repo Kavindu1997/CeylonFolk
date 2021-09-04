@@ -11,7 +11,7 @@ router.post("/order", async (req, res) => {
     var uid = req.body.id;
     var oId = req.body.orderId;
     console.log(uid)
-    const query = "SELECT designs.coverImage,designs.design_name, orderitems.quantity, orderitems.size, designs.price, SUM(orderitems.quantity*designs.price) AS totals FROM orderitems INNER JOIN designs ON designs.id=orderitems.itemId INNER JOIN orders ON orders.orderId=orderitems.orderId INNER JOIN masterdata ON masterdata.id=orders.status WHERE orders.customerId='" + uid + "' AND orders.orderId='" + oId + "' AND masterdata.id='4' GROUP BY orderitems.itemId";
+    const query = "SELECT designs.coverImage,designs.design_name, orderitems.quantity, orderitems.size, designs.price, SUM(orderitems.quantity*designs.price) AS totals FROM orderitems INNER JOIN designs ON designs.id=orderitems.itemId INNER JOIN orders ON orders.orderId=orderitems.orderId INNER JOIN masterdata ON masterdata.id=orders.status WHERE orders.customerId='" + uid + "' AND orders.orderId='" + oId + "' AND masterdata.id='4' GROUP BY orderitems.itemId, orderitems.size";
     const fetchOrder = await sequelize.query(query, { type: sequelize.QueryTypes.SELECT });
     res.json(fetchOrder);
 });

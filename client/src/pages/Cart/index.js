@@ -125,6 +125,8 @@ export default function Cart() {
   function onLogout() {
     localStorage.setItem("userId", 0);
     localStorage.setItem("userName", 0);
+    localStorage.removeItem("orderIdFromEmail");
+    localStorage.removeItem("userIdFromMail");
   }
 
   return (

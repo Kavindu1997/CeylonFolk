@@ -15,11 +15,11 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false,
         },
-        districtCategory: {
+        value: {
             type: DataTypes.INTEGER,
             allowNull: false,
         },
-        deliveryCharge: {
+        subVale: {
             type: DataTypes.INTEGER,
             allowNull: false,
         },

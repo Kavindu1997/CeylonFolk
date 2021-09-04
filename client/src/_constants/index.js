@@ -4,4 +4,5 @@ export * from "./globalVariable";
 export * from "./productActionTypes";
 export * from "./collection.consts";
 export * from "./colorActionTypes";
-export * from "./order.consts";
+export * from "./deposit.consts";
+export * from "./orderHistory.consts";

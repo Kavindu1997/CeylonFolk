@@ -45,7 +45,7 @@ import { createStore } from 'redux';
 import { cart } from './_reducers/cart.reducer';
 import { StoreProvider } from "./_util";
 import Deposit from './pages/Deposit/index.js';
-
+import OrderDetail from './pages/MyOrders/orderDetail'
 import Manager from './pages/Manager';
 import Assistant from './pages/Assistant';
 
@@ -128,6 +128,8 @@ class App extends Component {
           <Route exact path={"/deposit/:id/:orderIdFromEmail"} component = {Deposit} />
           <Route exact path={"/profile"} component = {Profile} />
           <Route exact path={"/myOrders"} component = {OrderHistory} />
+          <Route exact path={"/myOrders/:id"} component = {OrderHistory} />
+          <Route exact path={"/orderDetail/:oId"} component = {OrderDetail} />
           <Route exact path={"/myWishlist"} component = {ProfileWishlist} />
           <Route path="/admin" exact render={() => <AdminPanel />} />
           <Route path="/users" exact render={() => <Users />} />

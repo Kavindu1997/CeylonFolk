@@ -202,7 +202,7 @@ router.put("/updateQty", async (req, res) => {
     var uid = req.body.uid;
     const items = req.body.itemArray;
     for (let i = 0; i < items.length; i++) {
-        const query = "UPDATE carts SET quantity='" + items[i].quantity + "' WHERE carts.itemId='" + items[i].itemId + "' AND carts.customerId='" + uid + "' AND carts.isBought=0 AND carts.isDeleted=0";
+        const query = "UPDATE carts SET quantity='" + items[i].quantity + "' WHERE carts.itemId='" + items[i].itemId + "' AND carts.size='"+items[i].size+"' AND carts.customerId='" + uid + "' AND carts.isBought=0 AND carts.isDeleted=0";
         const updatedCart = await sequelize.query(query, { type: sequelize.QueryTypes.UPDATE });
     }
     res.json(updatedCart);
