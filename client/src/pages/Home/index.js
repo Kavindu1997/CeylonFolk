@@ -22,15 +22,30 @@ import cs6 from '../../images/cs6.jpg'
 import FavoriteBorderOutlinedIcon from '@material-ui/icons/FavoriteBorderOutlined';
 import mockup from '../../images/tmockup.png'
 import useStyles from './style';
+import { useHistory } from 'react-router-dom';
 
 
 const Home = () => {
 
     const classes = useStyles();
     const [checked, setChecked] = useState(false);
+    let history = useHistory();
     useEffect(() => {
         setChecked(true);
     }, []);
+
+    var id = localStorage.getItem("userId");
+
+    const onDesign = () => {
+        if(id>0){
+            history.push('/customize');
+
+        }
+        else{
+            history.push('/auth');
+        }
+
+    }
 
     return (
         <div>
@@ -50,11 +65,13 @@ const Home = () => {
                                 </h1>
                                 <Typography className={classes.subText} >All about quality products and reasonable price !</Typography>
 
-                                <a href='/customize' style={{ textDecoration: 'none' }}><Button
+                                <a style={{ textDecoration: 'none' }}><Button
 
                                     variant="outlined"
                                     color="black"
-                                    border-color="white" className={classes.designbtn}>START DESIGNING</Button></a>
+                                    border-color="white" className={classes.designbtn}
+                                    onClick={onDesign}
+                                    >START DESIGNING</Button></a>
                                 {/* <IconButton>
                                     <ExpandMoreIcon className={classes.goDown}/>
                                 </IconButton> */}

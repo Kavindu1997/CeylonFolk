@@ -25,16 +25,6 @@ const DesignNav = (props) => {
         <Box >
           <Grid item xs={12} sm={6} md={2.4} >
             <a href="#">
-              <button className={props.toggleState === 2 ? classes.activeTabs : classes.tabs} onClick={() => props.toggleTab(2)}>
-                <img height={50} src={image} />
-                <Typography textDecoration='none' className={classes.barFont}>ADD IMAGE</Typography>
-              </button>
-            </a>
-          </Grid>
-        </Box>
-        <Box >
-          <Grid item xs={12} sm={6} md={2.4} >
-            <a href="#">
               <button className={props.toggleState === 3 ? classes.activeTabs : classes.tabs} onClick={() => props.toggleTab(3)}>
                 <img height={50} src={upload} />
                 <Typography textDecoration='none' className={classes.barFont}>UPLOAD</Typography>

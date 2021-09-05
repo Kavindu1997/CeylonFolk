@@ -32,11 +32,10 @@ const useStyles = makeStyles((theme) => ({
     },
     bar2:{
         background:'#e5f3f8',
-        padding:'20px',
-        marginRight:'5px',
+        padding:'10px',
         justifyContent:'space-between',
         alignItems:'center',
-        height: '380px'
+        height: '309px'
     },
     bar3:{
         // display:'flex',
@@ -99,14 +98,25 @@ const useStyles = makeStyles((theme) => ({
     },
     slevebtn:{
         background:'#2C2D2D',
-        padding: '10px',
-        fontSize: '9px',
+        padding: '5px',
+        fontSize: '12px',
         color:'white',
+        width: '61%',
         margin:'5px',
         '&:hover': {
             background: '#31c5ee',
          },
     },
+    download:{
+      background:'#2C2D2D',
+      padding: '5px',
+      fontSize: '12px',
+      color:'white',
+      margin:'5px',
+      '&:hover': {
+          background: '#31c5ee',
+       },
+  },
     tabs: {
 
         // padding: '15px',
@@ -153,7 +163,7 @@ const useStyles = makeStyles((theme) => ({
       },
       tshirtDiv:{
         width: '530px',
-        height: '630px',
+        height: '500px',
         position: 'relative'
       },
       drawImage:{
