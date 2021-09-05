@@ -13,25 +13,15 @@ import { useHistory } from 'react-router-dom';
 
 const CustCustomizeOrders = () => {
     const classes = useStyles();
-    // const [value, setValue] = React.useState('payment');
-
-    //   const handleChange = (event) => {
-    //     setValue(event.target.value);
-    //   };
-
     const [custCustomizeOrder, setcustCustomizeOrder] = useState([])
     const [disable, setDisable] = React.useState(false);
     const [openPopup, setOpenPopup] = useState(false);
     let history = useHistory();
 
-    
-
     useEffect(() => {
 
         var id = localStorage.getItem("userId");
         console.log(id)
-
-
         axios.get('http://localhost:3001/customizeOrders/custCustomizeOrders/'+id).then((response) => {
             console.log(response.data);
             setcustCustomizeOrder(response.data);
@@ -39,13 +29,9 @@ const CustCustomizeOrders = () => {
     }, []);
 
     const openInPopup = (item) => {
-        // setRecordForEdit(item);
         setOpenPopup(true);
     };
 
-    
-
-    
     return (
         <div>
         <UserNav />

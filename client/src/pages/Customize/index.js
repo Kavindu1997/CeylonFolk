@@ -33,6 +33,8 @@ import TShirt from '../Customize/Clothes/Tshirt';
 import UploadComponent from './Options/UploadComponent';
 import LogoLayer from './Layer/LogoLayer';
 import axios from 'axios';
+import Popup from "../../components/Reusable/Popup";
+import sleeveDesign from "../../images/new/sleeveDesign.png";
 
 const Customize = () => {
 
@@ -74,18 +76,14 @@ const Customize = () => {
   const [imageSrcNewArray, setimageSrcNewArray] = useState([])
   const [imageSrc, setimageSrc] = useState()
   const [exportT, setexportT] = useState(null)
-  
-
+  const [openPopup, setOpenPopup] = useState(false);
+  const [openSleevePopup, setopenSleevePopup] = useState(false);
 
   useEffect(() => {
     setCanvas(initCanvas());
     setImage(getImage());
 
   }, []);
-
-  // const setLogo = (imgSrc) => {
-  //   setImageSrc(imgSrc)
-  // };
 
   const dispatch = useDispatch();
 
@@ -124,10 +122,6 @@ const Customize = () => {
 
   console.log(tshirt);
 
-  // console.log(pickedItemColors[0].color)
-  // console.log(pickedItemColors[1].color)
-  // console.log(mColors)
-
   console.log(pickedItemColors)
 
   console.log('hello color color')
@@ -138,20 +132,8 @@ const Customize = () => {
 
   const setLogo = imgSrc => {
     setimageSrc(imgSrc)
-    // console.log('hey thash')
-    // // changeLogo();
-    
-
-    // console.log(imageSrcArray)
-    // console.log('hey thash')
   };
 
-  // console.log('hey thash')
-  //   // changeLogo();
-    
-
-  //   console.log(imageSrcArray)
-  //   console.log('hey thash')
   const changeLogo = () => {
     setimageSrcArray([...imageSrcArray, imageSrc])
     console.log(imageSrcArray)
@@ -159,11 +141,11 @@ const Customize = () => {
   }
 
   console.log('hey thash')
-    // changeLogo();
-    
+  // changeLogo();
 
-    console.log(imageSrcArray)
-    console.log('hey thash')
+
+  console.log(imageSrcArray)
+  console.log('hey thash')
 
   console.log('hey thash')
 
@@ -176,10 +158,7 @@ const Customize = () => {
   }
 
   const handleCheck = (e) => {
-    // const { name, value } = e.target;
-
     setCheck(e.target.value);
-
   }
 
   const addTextArray = (data, props) => {
@@ -281,14 +260,6 @@ const Customize = () => {
     }
   };
 
-  // const checkDeselect = (e) => {
-  //   // deselect when clicked on empty area
-  //   const clickedOnEmpty = e.target === e.target.getStage();
-  //   if (clickedOnEmpty) {
-  //     selectShape(null);
-  //   }
-  // };
-
   //The text object gets transformed as user scale
   const handleTextTransform = (index, newProps) => {
     const textT = textScale.concat();
@@ -313,17 +284,8 @@ const Customize = () => {
     // console.log(exportT)
   }
 
-
-
   const handleChange = (e) => {
     const shape = e.target;
-    // {textScale
-    //   x: shape.x(),
-    //   y: shape.y(),
-    //   width: shape.width() * shape.scaleX(),
-    //   height: shape.height() * shape.scaleY(),
-    //   rotation: shape.rotation()
-    // };
   };
 
   const changeText = (e) => {
@@ -331,15 +293,8 @@ const Customize = () => {
     console.log(e.target.value);
   };
 
-  
-
   const uniqueSet = new Set(imageSrcArray);
   const backToArray = [...uniqueSet];
-  // const slisedImage = uniqueSet.slice()
-  // setimageSrcNewArray(backToArray)
-  console.log('hi')
-  // console.log(uniqueSet)
-  console.log('hi')
 
   const addText = () => {
     const newIndex = index + 1;
@@ -357,19 +312,6 @@ const Customize = () => {
     link.click();
     document.body.removeChild(link);
   }
-
-  // const handleSaveClick = () => {
-  //   console.log('hello')
-  //   console.log(exportT)
-
-  //   const data = {
-  //     image : exportT
-  //   }
-
-  //   axios.post('http://localhost:3001/customizeOrders/upload/image',data).then((response) => {
-  //     alert('Image upload Successfull');
-  //   });
-  // }
 
   const initCanvas = () => (
     new fabric.Canvas('canvas', {
@@ -399,11 +341,11 @@ const Customize = () => {
     var id = localStorage.getItem("userId");
 
     const data = {
-      customerId : id,
-      image : exportT
+      customerId: id,
+      image: exportT
     }
 
-    axios.post('http://localhost:3001/customizeOrders/upload/image',data).then((response) => {
+    axios.post('http://localhost:3001/customizeOrders/upload/image', data).then((response) => {
       alert('Image sent Successfull');
     });
   }
@@ -449,30 +391,6 @@ const Customize = () => {
                 />
               </div>
             </Box>
-            <Box className={toggleState === 3 ? classes.activeContent : classes.content}>
-              <Grid Container className={classes.bar3} >
-                {/* <Grid item md={2.4} style={{ width: '100%' }}>
-                  <a href="#">
-                    <button className={classes.barBtn2}>
-                      <img height={50} src={upload} />
-                      <Typography textDecoration='none' className={classes.barFont}>UPLOAD</Typography>
-                    </button>
-                  </a>
-                </Grid>
-                <Grid item xs={12} sm={6} md={2.4} >
-                  <a href="#">
-                    <button className={classes.barBtn2}>
-                      <img height={50} src={tshirt} />
-                      <Typography textDecoration='none' className={classes.barFont}>SELECT TYPE</Typography>
-                    </button>
-                  </a>
-                </Grid> */}
-                <UploadComponent 
-                setLogo={setLogo}
-                changeLogo={changeLogo}
-                />
-              </Grid>
-            </Box>
             <Box className={toggleState === 4 ? classes.activeContent : classes.content}>
               <Grid Container className={classes.bar3} >
                 <Grid item md={2.4} style={{ width: '100%' }}>
@@ -504,11 +422,9 @@ const Customize = () => {
             <Box className={toggleState === 5 ? classes.activeContent : classes.content}>
               <Grid Container className={classes.bar3} >
                 <div className="color-picker">
-
                   <CirclePicker
                     id="circle-picker"
                     display='flex'
-                    // width="max-content"
                     circleSize={circleSize}
                     colors={array}
                     onChange={color => {
@@ -564,10 +480,8 @@ const Customize = () => {
         <Grid md={7} className={classes.tshirtDiv}>
           <div className="clothes" style={{ backgroundColor: color, width: '900px' }}>
             <Stage width={850} height={500}
-            onMouseDown={handleStageMouseDown} 
-            ref={stageRef} 
-            // onMouseDown={checkDeselect}
-            // onTouchStart={checkDeselect}
+              onMouseDown={handleStageMouseDown}
+              ref={stageRef}
             >
               <Layer>{changeClothing(clothing)}</Layer>
               <Layer>
@@ -603,41 +517,66 @@ const Customize = () => {
                 })}
               </Layer>
               <Layer>
-                {imageSrcArray.map((image1,i) => {
+                {imageSrcArray.map((image1, i) => {
                   console.log('index')
                   console.log(i)
                   return (
-                  <LogoLayer
-                  image1={image1}
-                  shapeProps={image1}
-                  key={i}
-                  isImageSelected={i === selectedImageId}
-                  onSelect={() => {
-                    selectImage(i);
-                    console.log('selectedImageId')
-                    console.log(selectedImageId)
-                  }}
-                  
-                  onChange={(newAttrs) => {
-                    const newImage = imageSrcArray.slice();
-                    newImage[i] = newAttrs;
-                    // setimageSrcArray(newImage);
-                  }}
-                  onDelete={() => {
-                    const newString = [...imageSrcArray];
-                    newString.splice(index, 1);
-                    setimageSrcArray(newString);
-                  }}
+                    <LogoLayer
+                      image1={image1}
+                      shapeProps={image1}
+                      key={i}
+                      isImageSelected={i === selectedImageId}
+                      onSelect={() => {
+                        selectImage(i);
+                        console.log('selectedImageId')
+                        console.log(selectedImageId)
+                      }}
 
-                   />
-                   );
+                      onChange={(newAttrs) => {
+                        const newImage = imageSrcArray.slice();
+                        newImage[i] = newAttrs;
+                      }}
+                      onDelete={() => {
+                        const newString = [...imageSrcArray];
+                        newString.splice(index, 1);
+                        setimageSrcArray(newString);
+                      }}
+
+                    />
+                  );
 
                 })}
-                
+
               </Layer>
             </Stage>
           </div>
+          <center>
+            <Button className={classes.download}
+              onClick={() => {
+                handleExportClick()
+                setOpenPopup(true);
+              }}
+            >SAVE YOUR WORK</Button>
+
+          </center>
         </Grid>
+        <Popup
+          title="Approximate Price"
+          openPopup={openPopup}
+          setOpenPopup={setOpenPopup}
+        >
+          <Grid item xs={4}>
+            <Typography>You are approximate price is bla bla</Typography>
+            <Typography>get the real price and confirmation</Typography>
+
+          </Grid>
+          <Grid item md={12} >
+            <Button
+              className={classes.slevebtn}
+              onClick={() => handleSaveClick()}
+            >Send Design</Button>
+          </Grid>
+        </Popup>
         <Grid md={1} >
           <Grid item md={2.4} style={{ width: '100%' }}>
             <a href="#">
@@ -663,16 +602,30 @@ const Customize = () => {
               </button>
             </a>
           </Grid>
-          <Grid item xs={12} sm={6} md={2.4} >
-            <a href="#"><Button className={classes.slevebtn}>SLEAVE DESIGNING</Button></a>
+          <Grid>
+            <Button 
+            className={classes.slevebtn}
+            onClick={() => {
+              setOpenPopup(true);
+            }}
+            >SLEAVE DESIGNING</Button>
           </Grid>
-          <Box>
-            <Button className={classes.slevebtn}>GET PRICE</Button>
-          </Box>
-          <Button onClick={() => handleExportClick()}>Download</Button>
-          <Button 
-          onClick={() => handleSaveClick()}
-          >Export</Button>
+          <Popup
+          title="Special Design Areas"
+          openPopup={openPopup}
+          setOpenPopup={setOpenPopup}
+        >
+          <Grid style={{alignItems:'center'}}>
+            <Typography style={{textAlign:'center'}}>More design areas to make you stand out</Typography>
+            <Typography style={{textAlign:'center'}}>Give us a call to add to your design, get a quote, and place your order.</Typography>
+            <Typography style={{textAlign:'center'}}>Call us at 011-2345678</Typography>
+            <center>
+            <img style={{alignItems:'center'}} src={sleeveDesign} style={{height: '300px'}}/>
+            </center>
+            
+
+          </Grid>
+        </Popup>
 
         </Grid>
       </div>
