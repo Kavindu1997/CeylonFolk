@@ -396,8 +396,10 @@ const Customize = () => {
   const handleSaveClick = () => {
     console.log('hello')
     console.log(exportT)
+    var id = localStorage.getItem("userId");
 
     const data = {
+      customerId : id,
       image : exportT
     }
 

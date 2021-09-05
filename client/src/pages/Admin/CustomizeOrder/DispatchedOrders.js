@@ -16,7 +16,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from 'react-router-dom';
 
 
-const AcceptedOrders = () => {
+const DispatchedOrders = () => {
     
     const classes = useStyles();
     const [openPopup, setOpenPopup] = useState(false);
@@ -30,7 +30,7 @@ const AcceptedOrders = () => {
         title: "",
         subTitle: "",
     });
-    const [listOfOrderDetails, setlistOfOrderDetails] = useState([])
+    const [dispatchedOrders, setDispatchedOrders] = useState([])
     const dispatch = useDispatch();
 
     const openInPopup = (item) => {
@@ -46,27 +46,26 @@ const AcceptedOrders = () => {
         },
     };
 
-    const [acceptedOrders, setlistAcceptedOrders] = useState([]);
 
     let history = useHistory();
 
     useEffect(() => {
-        axios.get('http://localhost:3001/customizeOrders/acceptedOrders').then((response) => {
+        axios.get('http://localhost:3001/customizeOrders/dispatchedOrders').then((response) => {
             console.log(response.data);
-            setlistAcceptedOrders(response.data);
+            setDispatchedOrders(response.data);
         })
     }, []);
 
-    const onPrinting = (id) => {
+    const onClose = (id) => {
         console.log(id)
 
         const data = {
             id: id
         }
 
-        axios.put('http://localhost:3001/customizeOrders/orderPrinting/',data).then((response) => {
+        axios.put('http://localhost:3001/customizeOrders/orderClosed/',data).then((response) => {
             console.log(response.data);
-            alert('Start Printing')
+            alert('Ready to Dispatch')
             // setlistOfOrderDetails(response.data);
         })
 
@@ -103,39 +102,26 @@ const AcceptedOrders = () => {
                                     </TableHead>
                                     <TableBody>
 
-                                        {acceptedOrders
+                                        {dispatchedOrders
                                             .map((value) => {
                                                 return (
                                                     <TableRow>
                                                         <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.customerId}</TableCell>
                                                         <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.orderId}</TableCell>
                                                         <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.status}</TableCell>
-                                                        <TableCell align="center" style={{ fontFamily: 'Montserrat' }}><img height={100} align="center" src={'http://localhost:3001/' + value.image} alt=""></img></TableCell>                                                       
+                                                        <TableCell align="center" style={{ fontFamily: 'Montserrat' }}><img height={100} align="center" src={'http://localhost:3001/' + value.image} alt=""></img></TableCell>
                                                         <TableCell align="center">
-                                                            <Button name="view" 
-                                                            onClick={() => window.location.href = "http://localhost:3001/" + value.image}
-                                                            >
-                                                                VIEW DESIGN
-                                                            </Button>
-                                                            
-                                                        </TableCell>
-                                                        <TableCell align="center">
-                                                            <Button name="accept" 
-                                                            className={value.status === 'Accept' ? classes.activeQuantity : classes.quantity}
-                                                            onClick={() => onPrinting(value.orderId)}
-                                                            >
-                                                                START PRINTING
-                                                            </Button>
-                                                        </TableCell>
-                                                        <TableCell align="center">
-                                                            <Button name="accept" 
-                                                            className={value.status === 'Accept' ? classes.activeQuantity : classes.quantity}
-                                                            
-                                                            >
-                                                                CANCEL ORDER
-                                                            </Button>
-                                                        </TableCell>
+                                                    <Button name="accept" 
+                                                    
+                                                    onClick={() => onClose(value.orderId)}
+                                                    >
+                                                        CLOSE ORDER
+                                                    </Button>
+                                                </TableCell>                                                       
+                                                        
+                                                        
                                                     </TableRow>
+                                                    
                                                 );
                                             })}
                                     </TableBody>
@@ -165,4 +151,4 @@ const AcceptedOrders = () => {
     );
 };
 
-export default AcceptedOrders;
+export default DispatchedOrders;

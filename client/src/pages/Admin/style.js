@@ -207,6 +207,13 @@ const useStyles = makeStyles((theme) => ({
     boxShadow: 'none',
 
 },
+
+quantity: {
+  display: 'none'
+},
+activeQuantity: {
+  display: 'block',
+},
       
   }));
 

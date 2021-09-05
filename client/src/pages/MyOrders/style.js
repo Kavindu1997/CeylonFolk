@@ -49,6 +49,14 @@ const useStyles = makeStyles((theme) => ({
         fontSize: '3.0em',//Insert your required size
         marginLeft: '20px',
     },
+
+    quantity: {
+        display: 'none'
+      },
+      activeQuantity: {
+        display: 'block',
+      },
+
 }));
 
 export default useStyles;
