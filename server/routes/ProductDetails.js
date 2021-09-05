@@ -77,4 +77,12 @@ router.get("/quantity/:id", async (req,res) => {
 //         res.json("success");
 // });
 
+router.post("/addwishlist",async (req, res) => {
+    const itemId = req.body.id;
+    const uId = req.body.uid;
+    const query = "INSERT INTO wishlists(`itemId`,`userId`) VALUES('"+itemId+"','"+uId+"')";
+    const wishlist = await sequelize.query(query, {type: sequelize.QueryTypes.INSERT});
+    res.json(wishlist);
+})
+
 module.exports = router;

@@ -1,10 +1,20 @@
 const express = require("express");
 const router = express.Router();
-const { Wishlist } = require('../models');
+const { Wishlist, sequelize } = require('../models');
 
-router.get("/", async (req,res) => {
-    const listOfTshirts = await Wishlist.findAll();
+router.get("/:uid", async (req,res) => {
+    const uid = req.params.uid;
+    const query = "SELECT designs.id,designs.coverImage, designs.design_name, designs.price, inventories.margin FROM wishlists INNER JOIN designs ON wishlists.itemId=designs.id INNER JOIN inventories ON inventories.colour_id=designs.color_id AND inventories.type_id=designs.type_id INNER JOIN sizes ON sizes.id=inventories.size_id WHERE wishlists.userId='"+uid+"' GROUP BY wishlists.itemId";
+    const listOfTshirts = await sequelize.query(query, { type: sequelize.QueryTypes.SELECT });
     res.json(listOfTshirts);
+});
+
+router.put("/remove", async (req,res) => {
+    const itemId = req.body.itemId;
+    const uid = req.body.userId;
+    const query = "DELETE FROM wishlists WHERE userId='"+uid+"' AND itemId='"+itemId+"'";
+    const removewishlist = await sequelize.query(query, { type: sequelize.QueryTypes.DELETE });
+    res.json(removewishlist);
 });
 
 router.post("/", async (req, res) => {

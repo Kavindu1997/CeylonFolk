@@ -11,7 +11,7 @@ router.get("/getHistory/:id", async (req, res) => {
 
 router.get("/order/:oId", async (req, res) => {
     const oId = req.params.oId;
-    const query = "SELECT designs.coverImage,designs.design_name, orderitems.quantity, orderitems.size, designs.price, SUM(orderitems.quantity*designs.price) AS totals FROM orderitems INNER JOIN designs ON designs.id=orderitems.itemId INNER JOIN orders ON orders.orderId=orderitems.orderId INNER JOIN masterdata ON masterdata.id=orders.status WHERE orders.orderId='" + oId + "' GROUP BY orderitems.itemId, orderitems.size";
+    const query = "SELECT designs.id,designs.coverImage,designs.design_name, orderitems.quantity, orderitems.size, designs.price, SUM(orderitems.quantity*designs.price) AS totals FROM orderitems INNER JOIN designs ON designs.id=orderitems.itemId INNER JOIN orders ON orders.orderId=orderitems.orderId INNER JOIN masterdata ON masterdata.id=orders.status WHERE orders.orderId='" + oId + "' GROUP BY orderitems.itemId, orderitems.size";
     const orderDetails = await sequelize.query(query, { type: sequelize.QueryTypes.SELECT });
     res.json(orderDetails);
 });

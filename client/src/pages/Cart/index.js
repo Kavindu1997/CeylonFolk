@@ -11,6 +11,7 @@ import { actionGetTotalDeduct, actionDeleteItem, calculateCartCount, getCart, ge
 import NumericInput from 'react-numeric-input';
 import Notification from '../../components/Reusable/Notification';
 import ConfirmDialog from '../../components/Reusable/ConfirmDialog';
+import { fetchProducts } from '../../_actions/productAction';
 
 export default function Cart() {
   const classes = useStyles();
@@ -127,6 +128,7 @@ export default function Cart() {
     localStorage.setItem("userName", 0);
     localStorage.removeItem("orderIdFromEmail");
     localStorage.removeItem("userIdFromMail");
+    dispatch(fetchProducts());
   }
 
   return (

@@ -152,26 +152,16 @@ export default function OrderHistory(props) {
                                 </Table>
                             </TableContainer>
                             <div>
-                                <Box
-                                    component="span"
-                                    m={1}
-                                    className={`${classes.spreadBox} ${classes.box}`}
-                                >
-                                    <Button
-                                        type="submit"
-                                        variant="contained"
-                                        color="primary"
-                                        className={classes.back}
-                                    >Continue Shopping
-                                    </Button>
+                               
                                     <Button
                                         type="submit"
                                         variant="contained"
                                         color="primary"
                                         className={classes.submit}
-                                    >Proceed to Checkout
+                                    >Continue Shopping
                                     </Button>
-                                </Box>
+                                   
+                               
                             </div>
                         </Grid>
                     </Grid>
