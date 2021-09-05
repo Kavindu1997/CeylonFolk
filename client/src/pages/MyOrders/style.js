@@ -37,6 +37,12 @@ const useStyles = makeStyles((theme) => ({
         alignItems: "center",
         // marginLeft: 600,
     },
+    viewOrder: {
+        margin: "auto",
+        display: "auto",
+        alignItems: "center",
+        // marginLeft: 600,
+    },
     margin: {
         margin: theme.spacing(2),
         width: '50ch',
