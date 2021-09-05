@@ -49,6 +49,7 @@ import OrderDetail from './pages/MyOrders/orderDetail'
 import Manager from './pages/Manager';
 import Assistant from './pages/Assistant';
 import CustomizeOrderDetails from './pages/Admin/CustomizeOrder/CustomizeOrderTable';
+import CustCustomizeOrderDetails from './pages/MyOrders/CustomizeOrders';
 
 
 const theme = createMuiTheme({
@@ -168,6 +169,7 @@ class App extends Component {
               <Route path="/manager" exact render={() => <Manager />} />
               <Route path="/assistant" exact render={() => <Assistant />} />
               <Route path="/customizeOrders" exact render={() => <CustomizeOrderDetails />} />
+              <Route path="/custcustomizeOrders" exact render={() => <CustCustomizeOrderDetails />} />
               <Route path="/*" exact render={() => <NotFound />} />
             </Switch>
           </BrowserRouter>

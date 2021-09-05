@@ -30,7 +30,7 @@ const AcceptedOrders = () => {
         title: "",
         subTitle: "",
     });
-    const [listOfOrderDetails, setlistOfOrderDetails] = useState([])
+    const [listOfOrderDetails, setlistPrintingOrders] = useState([])
     const dispatch = useDispatch();
 
     const openInPopup = (item) => {
@@ -46,27 +46,27 @@ const AcceptedOrders = () => {
         },
     };
 
-    const [acceptedOrders, setlistAcceptedOrders] = useState([]);
+    const [printingOrders, setlistAcceptedOrders] = useState([]);
 
     let history = useHistory();
 
     useEffect(() => {
-        axios.get('http://localhost:3001/customizeOrders/acceptedOrders').then((response) => {
+        axios.get('http://localhost:3001/customizeOrders/printingOrders').then((response) => {
             console.log(response.data);
-            setlistAcceptedOrders(response.data);
+            setlistPrintingOrders(response.data);
         })
     }, []);
 
-    const onPrinting = (id) => {
+    const onReadyToDispatch = (id) => {
         console.log(id)
 
         const data = {
             id: id
         }
 
-        axios.put('http://localhost:3001/customizeOrders/orderPrinting/',data).then((response) => {
+        axios.put('http://localhost:3001/customizeOrders/orderReadyToDispatch/',data).then((response) => {
             console.log(response.data);
-            alert('Start Printing')
+            alert('Ready to Dispatch')
             // setlistOfOrderDetails(response.data);
         })
 
@@ -103,7 +103,7 @@ const AcceptedOrders = () => {
                                     </TableHead>
                                     <TableBody>
 
-                                        {acceptedOrders
+                                        {listOfOrderDetails
                                             .map((value) => {
                                                 return (
                                                     <TableRow>
@@ -111,28 +111,12 @@ const AcceptedOrders = () => {
                                                         <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.orderId}</TableCell>
                                                         <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.status}</TableCell>
                                                         <TableCell align="center" style={{ fontFamily: 'Montserrat' }}><img height={100} align="center" src={'http://localhost:3001/' + value.image} alt=""></img></TableCell>                                                       
-                                                        <TableCell align="center">
-                                                            <Button name="view" 
-                                                            onClick={() => window.location.href = "http://localhost:3001/" + value.image}
-                                                            >
-                                                                VIEW DESIGN
-                                                            </Button>
-                                                            
-                                                        </TableCell>
+                                                        
                                                         <TableCell align="center">
                                                             <Button name="accept" 
-                                                            className={value.status === 'Accept' ? classes.activeQuantity : classes.quantity}
-                                                            onClick={() => onPrinting(value.orderId)}
+                                                            onClick={() => onReadyToDispatch(value.orderId)}
                                                             >
-                                                                START PRINTING
-                                                            </Button>
-                                                        </TableCell>
-                                                        <TableCell align="center">
-                                                            <Button name="accept" 
-                                                            className={value.status === 'Accept' ? classes.activeQuantity : classes.quantity}
-                                                            
-                                                            >
-                                                                CANCEL ORDER
+                                                                READY TO DISPATCH
                                                             </Button>
                                                         </TableCell>
                                                     </TableRow>
