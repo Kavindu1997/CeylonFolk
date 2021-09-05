@@ -6,7 +6,7 @@ import Footer from '../../components/Footer/Footer';
 
 // import { DropDown } from '../components/Product_grid/DropDown';
 
-import { Typography, Button, Container, Grid, Card, CardActionArea, CardActions, CardContent, CardMedia, Link } from '@material-ui/core';
+import { IconButton , Typography, Button, Container, Grid, Card, CardActionArea, CardActions, CardContent, CardMedia, Link } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import Image from '../../images/cover6.jpg';
 import Collection1 from '../../images/ts1.jpg';
@@ -18,17 +18,18 @@ import FavoriteBorderOutlinedIcon from '@material-ui/icons/FavoriteBorderOutline
 import axios from 'axios';
 import { useHistory } from 'react-router';
 import useStyles1 from './style1';
-import { setProducts, fetchProducts } from '../../_actions/productAction'
+import { setProducts, fetchProducts, actionAddToWishlist } from '../../_actions/productAction'
 import { useDispatch, useSelector } from "react-redux";
+import Notification from '../../components/Reusable/Notification';
 
 
 const Shop = () => {
 
     const classes = useStyles1();
     const [checked, setChecked] = useState(false);
+    const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' });
 
     const products = useSelector((state) => state.productReducer.productObject)
-    console.log(products)
     const dispatch = useDispatch();
 
     // const fetchProducts = async () =>{
@@ -40,15 +41,12 @@ const Shop = () => {
     //     });
 
     //   }
-
+ 
     useEffect(() => {
         dispatch(fetchProducts());
         setChecked(true);
     }, []);
 
-    console.log('hello from product store')
-
-    console.log(products)
 
     const [listOfDesigns, setListOfDesigns] = useState([]);
 
@@ -59,7 +57,20 @@ const Shop = () => {
     // }, []);
 
     let history = useHistory()
-
+ 
+    function addToWishlist(id){
+        if(localStorage.getItem("userId")!='0'){
+        dispatch(actionAddToWishlist(id))
+        dispatch(fetchProducts());
+        }else{
+            setNotify({
+                isOpen: true,
+                message: 'Customer has not logged in !',
+                type: 'error'
+              });
+        }   
+    }
+ 
 
     return (
         <div>
@@ -111,12 +122,10 @@ const Shop = () => {
                 <Container className={classes.collectionContainer} maxWidth="lg">
                     <Grid container spacing={0} >
 
-                        {products.map((product) => {
-                            const { id, coverImage, design_name, price } = product;
+                        {products.map((product,index) => {
+                            const { id, coverImage, design_name, price,isInWishList } = product;
                             return (
-                                <Grid item xs={12} sm={6} md={3} onClick={() => {
-                                    history.push(`/productDetails/${id}`);
-                                }}>
+                                <Grid item xs={12} sm={6} md={3} >
                                     <Link style={{ textDecoration: 'none' }}>
                                         <Card className={classes.card}>
                                             <CardActionArea>
@@ -127,7 +136,7 @@ const Shop = () => {
                                                     }}
                                                     title="Snowy"
                                                 /> */}
-                                                <img style={{ width: '100%', overflow: 'hidden', objectFit: 'cover', hight: '293px' }} src={'http://localhost:3001/' + coverImage} alt=""></img>
+                                                <img style={{ width: '100%', overflow: 'hidden', objectFit: 'cover', hight: '293px' }} src={'http://localhost:3001/' + coverImage} alt="" onClick={() => {history.push(`/productDetails/${id}`);}}></img>
 
                                                 <CardContent>
                                                     <div>
@@ -136,7 +145,12 @@ const Shop = () => {
                                                     </div>
                                                     <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                                                         <Typography gutterBottom variant="h6" component="h2" style={{ textAlign: 'left', fontSize: '16px' }}>{"LKR " + price}</Typography>
-                                                        <FavoriteBorderOutlinedIcon className={classes.icon1} /></div>
+                                                        <IconButton onClick={() => { addToWishlist(id) }}>
+                                                        
+                                                        <FavoriteBorderOutlinedIcon  className={classes.icon1}  style={{fill:product.isInWishList==1?"red":"primary"}}  /> 
+      
+                                                        </IconButton>
+                                                    </div>   
                                                 </CardContent>
                                             </CardActionArea>
                                             <CardActions></CardActions>
@@ -150,6 +164,10 @@ const Shop = () => {
                 </Container>
             </div>
             <Footer />
+            <Notification
+        notify={notify}
+        setNotify={setNotify}
+      />
         </div>
     );
 };
