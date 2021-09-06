@@ -89,24 +89,20 @@ const Home = () => {
                     <Typography variant="h4" className={classes.collectionTitle}>IN THE STORE</Typography>
 
                     <Grid container spacing={0} className={classes.svgContainer}>
-                        <Grid item xs={12} sm={6} md={3} className={classes.svgs}>
-                            <a href="/contactus"><button className={classes.svgBtn}><img height={50} src={icont} />
+                        <Grid item xs={12} sm={6} md={4} className={classes.svgs}>
+                            <a href="/types/2"><button className={classes.svgBtn}><img height={50} src={icont} />
                                 <Typography textDecoration='none' className={classes.svgFont}>T-Shirts</Typography></button></a>
                         </Grid>
                         {/* <Grid md={5} style={{marginLeft:'100px'}}>
                     <img src={mockup} style={{width:'100%'}}/>
                 </Grid> */}
-                        <Grid item xs={12} sm={6} md={3} className={classes.svgs}>
-                            <a href="/contactus"><button className={classes.svgBtn}><img height={50} src={iconcp} />
+                        <Grid item xs={12} sm={6} md={4} className={classes.svgs}>
+                            <a href="/types/1"><button className={classes.svgBtn}><img height={50} src={iconcp} />
                                 <Typography textDecoration='none' className={classes.svgFont}>Crop Tops</Typography></button></a>
                         </Grid>
-                        <Grid item xs={12} sm={6} md={3} className={classes.svgs}>
-                            <a href="/contactus"><button className={classes.svgBtn}><img height={50} src={iconk} />
+                        <Grid item xs={12} sm={6} md={4} className={classes.svgs}>
+                            <a href="/types/3"><button className={classes.svgBtn}><img height={50} src={iconk} />
                                 <Typography textDecoration='none' className={classes.svgFont}>Kids</Typography></button></a>
-                        </Grid>
-                        <Grid item xs={12} sm={6} md={3} className={classes.svgs}>
-                            <a href="/contactus"><button className={classes.svgBtn}><img height={50} src={iconh} />
-                                <Typography textDecoration='none' className={classes.svgFont}>Hoddies</Typography></button></a>
                         </Grid>
                     </Grid>
                 </Container>

@@ -50,6 +50,8 @@ import Manager from './pages/Manager';
 import Assistant from './pages/Assistant';
 import CustomizeOrderDetails from './pages/Admin/CustomizeOrder/CustomizeOrderTable';
 import CustCustomizeOrderDetails from './pages/MyOrders/CustomizeOrders';
+import Types from './pages/Shop/Types';
+import OrderView from './pages/MyOrders/OrderView'
 
 
 const theme = createMuiTheme({
@@ -170,6 +172,8 @@ class App extends Component {
               <Route path="/assistant" exact render={() => <Assistant />} />
               <Route path="/customizeOrders" exact render={() => <CustomizeOrderDetails />} />
               <Route path="/custcustomizeOrders" exact render={() => <CustCustomizeOrderDetails />} />
+              <Route exact path={"/types/:id"} component = {Types} />
+              <Route exact path={"/orderView/:id"} component = {OrderView} />
               <Route path="/*" exact render={() => <NotFound />} />
             </Switch>
           </BrowserRouter>

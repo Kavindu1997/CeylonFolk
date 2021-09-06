@@ -20,16 +20,22 @@ import { useHistory } from 'react-router';
 import useStyles1 from './style1';
 import { setProducts, fetchProducts } from '../../_actions/productAction'
 import { useDispatch, useSelector } from "react-redux";
+import { useParams } from 'react-router';
 
 
-const Shop = () => {
+const Types = () => {
 
     const classes = useStyles1();
     const [checked, setChecked] = useState(false);
+    const [types, settypes] = useState([])
 
     const products = useSelector((state) => state.productReducer.productObject)
     console.log(products)
     const dispatch = useDispatch();
+    let { id } = useParams();
+    console.log('hello t')
+    console.log(id)
+    console.log('hello t')
 
     // const fetchProducts = async () =>{
     //     axios.get('http://localhost:3001/shop').then((response) => {
@@ -41,9 +47,26 @@ const Shop = () => {
 
     //   }
 
+    
+    
+
     useEffect(() => {
-        dispatch(fetchProducts());
+        if(id == 0){
+            dispatch(fetchProducts());
         setChecked(true);
+
+        }
+        else{
+            
+            axios.get(`http://localhost:3001/shop/shop/${id}`).then((response) => {
+            settypes(response.data);
+            console.log('hiiiiiiiiiiiiii')
+        });
+            
+
+        }
+        
+        
     }, []);
 
     console.log('hello from product store')
@@ -65,7 +88,10 @@ const Shop = () => {
         <div>
             <CssBaseline />
             <CommonNav />
+
+
             <div>
+
                 <center>
                     <Typography variant="h4" className={classes.collectionTitle}>SHOP</Typography>
                     <Grid item md={6}>
@@ -105,13 +131,16 @@ const Shop = () => {
                     </Grid>
                 </center>
 
+                
+
                 <Container className={classes.collectionContainer} maxWidth="lg">
                     <Grid container spacing={0} >
 
-                        {products.map((product) => {
+                        {types.map((product) => {
                             const { id, coverImage, design_name, price } = product;
                             return (
-                                <Grid item xs={12} sm={6} md={3} onClick={() => {
+                                <Grid item xs={12} sm={6} md={3} 
+                                onClick={() => {
                                     history.push(`/productDetails/${id}`);
                                 }}>
                                     <Link style={{ textDecoration: 'none' }}>
@@ -124,11 +153,11 @@ const Shop = () => {
                                                     }}
                                                     title="Snowy"
                                                 /> */}
-                                                <img style={{ width: '100%', overflow: 'hidden', objectFit: 'cover', hight: '293px' }} src={'http://localhost:3001/' + coverImage} alt=""></img>
+                                                <img style={{ width: '100%', overflow: 'hidden', objectFit: 'cover', hight: '293px' }} src={'http://localhost:3001/' + product.coverImage} alt=""></img>
 
                                                 <CardContent>
                                                     <div>
-                                                        <Typography gutterBottom variant="h9" component="h2" style={{ textAlign: 'left', fontSize: '16px' }}>{design_name}</Typography>
+                                                        <Typography gutterBottom variant="h9" component="h2" style={{ textAlign: 'left', fontSize: '16px' }}>{product.design_name}</Typography>
 
                                                     </div>
                                                     <div style={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -136,6 +165,7 @@ const Shop = () => {
                                                         <FavoriteBorderOutlinedIcon className={classes.icon1} /></div>
                                                 </CardContent>
                                             </CardActionArea>
+                                            <CardActions></CardActions>
                                         </Card>
                                     </Link>
                                 </Grid>
@@ -150,4 +180,4 @@ const Shop = () => {
     );
 };
 
-export default Shop;
+export default Types;

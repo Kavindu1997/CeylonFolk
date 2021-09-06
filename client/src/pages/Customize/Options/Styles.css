@@ -1,4 +1,7 @@
 .avatar-uploader > .ant-upload {
     width: 128px;
     height: 128px;
+    border: solid;
+    margin: 10px;
+    padding: 10px;
   }

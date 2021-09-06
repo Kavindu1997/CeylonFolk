@@ -33,64 +33,19 @@ const TextLayer = (props) => {
     }
   }, [isShown]);
 
-  //The component waints for changes in the text,
-  //it updates the text as it receives new character
-  // useEffect(() => {
-  //   if (isSelected) {
-  //     trRef.current.setNode(shapeRef.current);
-  //     trRef.current.getLayer().batchDraw();
-  //   }
-  // }, [isSelected]);
-  //   useEffect(() => {
-  //     setText(props.text)
-  // }, [props.text])
-  // componentWillReceiveProps(newProps) {
-  //   if (newProps.text !== this.props.text) {
-  //     this.setState({
-  //       text: newProps.text
-  //     });
-  //   }
-  // }
-
-  //The onTransform function helps scale the text
-  //to users needs
-  // const handleChange = (e) => {
-  //   const shape = e.target;
-  //   console.log(shape)
-  //   console.log(props.onTransform)
-  //   props.onTransform({
-  //     x: shape.x(),
-  //     y: shape.y(),
-  //     width: shape.width() * shape.scaleX(),
-  //     height: shape.height() * shape.scaleY(),
-  //     rotation: shape.rotation()
-  //   });
-  // };
-
   return (
     <React.Fragment>
 
       <Group
         draggable
-      // x={props.value.x}
-      // y={props.value.y}
-      // onDragEnd={(event) => {
-      //   onDragEnd(event);
-      // }}
-
       >
 
         {showDeleteButton && (
-
           <Image
-            // onTouchStart={onDelete}
             onClick={props.onDelete}
             image={deleteImage}
             width={10}
             height={10}
-            // offsetX={
-            //   -stickerWidth / 2 - 20
-            // }
             offset={{
               x: -160,
               y: -135
@@ -99,7 +54,6 @@ const TextLayer = (props) => {
           />
 
         )}
-
 
         <Text
           name="text"
