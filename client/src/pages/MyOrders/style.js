@@ -68,6 +68,9 @@ const useStyles = makeStyles((theme) => ({
       activeQuantity: {
         display: 'block',
       },
+      visibility:{
+        visibility: 'hidden'
+    },
 
 }));
 

@@ -1,20 +1,17 @@
 import React from 'react';
 //import { Button, CssBaseline, Grid, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Box, Divider, Avatar, List, ListItem, ListItemAvatar, ListItemText } from '@material-ui/core';
 import { Box, Button, CssBaseline, TextField, Grid, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Divider, Avatar, List, ListItem, ListItemAvatar, ListItemText } from '@material-ui/core';
-import UserNav from '../../components/Navbars/UserNav';
 import Footer from '../../components/Footer/Footer';
 import useStyles from './style';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from "react-redux";
-import { viewOrderDetails, claerOrderDetails } from '../../_actions/deposit.action';
-import { NavLink } from 'react-router-dom';
-import Controls from '../../components/Reusable/Controls';
-import axios from 'axios';
-import moment from 'moment';
-import Notification from '../../components/Reusable/Notification';
 import { useHistory } from 'react-router-dom';
 import { useParams } from 'react-router';
-import { viewOrderDetail } from '../../_actions/orderHistory.action'; 
+import { viewOrderDetail, cancelOrderItem } from '../../_actions/orderHistory.action';
+import UserSideNav from '../../components/Navbars/UserSideNav';
+import CommonNav from '../../components/Navbars/CommonNav';
+import Notification from '../../components/Reusable/Notification';
+import ConfirmDialog from '../../components/Reusable/ConfirmDialog';
 
 export default function OrderDetail() {
     const classes = useStyles();
@@ -23,81 +20,66 @@ export default function OrderDetail() {
     let { oId } = useParams();
     console.log(oId)
     const orderDetails = useSelector(state => state.orderHistory.selectedOrder);
+    const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' });
+    const [confirmDialog, setConfirmDialog] = useState({ isOpen: false, title: '', subTitle: '' })
+    var canItemRemoveOrEdit = false;
+    if (orderDetails[0] && orderDetails[0].canbecancel == '1') {
+        canItemRemoveOrEdit = true;
+    } else {
+        canItemRemoveOrEdit = false;
+    }
+    
+    if(localStorage.getItem("userId")=='0'){
+        history.push("/auth")
+    }
 
     useEffect(() => {
-       dispatch(viewOrderDetail(oId))
-      }, []);
+        dispatch(viewOrderDetail(oId))
+    }, []);
+
+    function routeToProduct(itemId) {
+
+    }
+
+    function onRemove(value) {
+        setConfirmDialog({
+            ...confirmDialog,
+            isOpen: false
+        });
+        var cancelItem = {
+            orderId: oId,
+            itemId: value.id,
+            size: value.size,
+            removeWholeOrder: 0,
+        }
+        if (orderDetails.length == 1) {
+            cancelItem.removeWholeOrder = 1;
+        }
+        console.log(cancelItem)
+        dispatch(cancelOrderItem(cancelItem))
+        if (orderDetails.length == 1) {
+            history.push("/myOrders")
+        }
+    }
 
     return (
         <div>
-            <UserNav />
+            <CommonNav />
             <CssBaseline />
             <container>
                 <Typography variant="h5" style={{ marginTop: '80px', textAlign: 'center', backgroundColor: '#C6C6C6', padding: '30px', fontFamily: 'Montserrat' }}> Bank Deposit Slip Upload</Typography>
                 <center>
                     <Grid container style={{ marginTop: '50px', align: 'center' }}>
                         <Grid item xs={12} sm={12} md={4} lg={4}>
-                            <div>
-                                <Typography component="h1" variant="h6" style={{ fontFamily: 'Montserrat', textAlign: 'center', fontWeight: 600 }}>Hello </Typography>
-                                <List style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>
-                                    <ListItem>
-                                        <ListItemAvatar>
-                                            <Avatar style={{ marginLeft: '130px' }}>NB</Avatar>
-                                        </ListItemAvatar>
-                                        <ListItemText><Typography component="h1" variant="h5" style={{ fontFamily: 'Montserrat', marginLeft: '15px', fontWeight: 600 }}>Nimal Bandara</Typography></ListItemText>
-                                    </ListItem>
-                                </List>
-                                <br />
-                            </div>
-                            <Divider />
-                            <div>
-                                <center>
-                                    <div>
-                                        <NavLink to={"/profile"} style={{ textDecoration: 'none' }}>
-                                            <Typography component="h1" variant="h6" style={{ marginTop: '50px', marginLeft: '80px', fontFamily: 'Montserrat', color: 'black', textAlign: 'left', marginBottom: '30px' }}>
-                                                My Account
-                                            </Typography>
-                                        </NavLink>
-                                    </div>
-                                    <div>
-                                        <NavLink to={"/myOrders"} style={{ textDecoration: 'none', hover: 'red' }}>
-                                            <Typography component="h1" variant="h6" style={{ marginLeft: '80px', fontFamily: 'Montserrat', color: 'black', textAlign: 'left', marginBottom: '30px' }}>
-                                                Order History
-                                            </Typography>
-                                        </NavLink>
-                                    </div>
-                                    <div>
-                                        <NavLink to={"/myWishlist"} style={{ textDecoration: 'none' }}>
-                                            <Typography component="h1" variant="h6" style={{ marginLeft: '80px', fontFamily: 'Montserrat', color: 'black', textAlign: 'left', marginBottom: '30px' }}>
-                                                Wishlist
-                                            </Typography>
-                                        </NavLink>
-                                    </div>
-                                    <div>
-                                        <NavLink to={"/deposit"} style={{ textDecoration: 'none' }}>
-                                            <Typography component="h1" variant="h6" style={{ marginLeft: '80px', fontFamily: 'Montserrat', color: 'black', textAlign: 'left', marginBottom: '30px' }}>
-                                                Bank Deposit Upload
-                                            </Typography>
-                                        </NavLink>
-                                    </div>
-                                    <div>
-                                        <NavLink to={"/auth"} style={{ textDecoration: 'none' }}>
-                                            <Typography component="h1" variant="h6" style={{ marginLeft: '80px', fontFamily: 'Montserrat', color: 'black', textAlign: 'left', marginBottom: '30px' }}>
-                                                Logout
-                                            </Typography>
-                                        </NavLink>
-                                    </div>
-                                </center>
-                            </div>
-                            <Divider orientation="vertical" flexItem />
+                            <UserSideNav />
                         </Grid>
                         <Divider orientation="vertical" flexItem />
                         <Grid item xs={12} sm={12} md={8} lg={7}>
-                        <Button
+                            <Button
                                 type="submit"
                                 variant="contained"
                                 color="primary"
-                                className={classes.back} 
+                                className={classes.back}
                                 onClick={() => { history.push("/myOrders") }}
                             >Back
                             </Button>
@@ -109,6 +91,13 @@ export default function OrderDetail() {
                                                 <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Image</TableCell>
                                                 <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Product</TableCell>
                                                 <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Totals</TableCell>
+                                                <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }} >Cancel Order</TableCell>
+                                                <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }} >Edit Order</TableCell>
+                                            </TableRow>
+                                            <TableRow className={canItemRemoveOrEdit == true ? classes.visibility : ""}>
+                                                <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }} colSpan='5' style={{ borderBottom: "none" }}>
+                                                    These cancel and edit actions can be done only in pending status.
+                                                </TableCell>
                                             </TableRow>
                                         </TableHead>
                                         <TableBody>
@@ -116,9 +105,30 @@ export default function OrderDetail() {
                                                 .map((value) => {
                                                     return (
                                                         <TableRow>
-                                                            <TableCell align="center" style={{ fontFamily: 'Montserrat' }}><img height={100} align="center" src={'http://localhost:3001/' + value.coverImage} onClick={() => {history.push(`/productDetails/${value.id}`);}} /></TableCell>
+                                                            <TableCell align="center" style={{ fontFamily: 'Montserrat' }}><img height={100} align="center" src={'http://localhost:3001/' + value.coverImage} onClick={() => { history.push(`/productDetails/${value.id}`); }} /></TableCell>
                                                             <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.design_name}</TableCell>
                                                             <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.totals}</TableCell>
+                                                            <TableCell align="center">
+                                                                <Button name="remove" className={canItemRemoveOrEdit == false ? classes.visibility : ""}
+                                                                    onClick={() => {
+                                                                        setConfirmDialog({
+                                                                            isOpen: true,
+                                                                            title: 'Are you sure to delete this?',
+                                                                            subTitle: "You can't undo this operation...",
+                                                                            onConfirm: () => { onRemove(value) }
+                                                                        })
+                                                                    }}
+                                                                >
+                                                                    <i className="fa fa-times" aria-hidden="true"></i>
+                                                                </Button>
+                                                            </TableCell>
+                                                            <TableCell> <Button className={canItemRemoveOrEdit == false ? classes.visibility : ""} onClick={() => {
+                                                                routeToProduct(value.id)
+                                                            }}
+                                                            >
+                                                                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                                            </Button>
+                                                            </TableCell>
                                                         </TableRow>
                                                     );
                                                 })}
@@ -126,7 +136,7 @@ export default function OrderDetail() {
                                     </Table>
                                 </TableContainer>
                                 <div>
-                               
+
                                     <Button
                                         type="submit"
                                         variant="contained"
@@ -134,16 +144,25 @@ export default function OrderDetail() {
                                         className={classes.submit}
                                     >Continue Shopping
                                     </Button>
-                                   
-                               
-                            </div>
+
+
+                                </div>
                             </form>
                         </Grid>
                     </Grid>
                 </center>
             </container>
-            
+
             <Footer />
+            <Notification
+                notify={notify}
+                setNotify={setNotify}
+            />
+
+            <ConfirmDialog
+                confirmDialog={confirmDialog}
+                setConfirmDialog={setConfirmDialog}
+            />
         </div>
 
     );

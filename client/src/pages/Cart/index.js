@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import useStyles from './style';
 import { useDispatch, useSelector } from "react-redux";
-import { actionGetTotalDeduct, actionDeleteItem, calculateCartCount, getCart, getTotal, deleteCartUsingID, updateCartQuantity, actionUpdateItem, calculateTotalWhenChanged } from '../../_actions/index';
+import { actionGetTotalDeduct, actionDeleteItem, calculateCartCount, getCart, getTotal, deleteCartUsingID, updateCartQuantity, actionUpdateItem, calculateTotalWhenChanged, emtyTotalLogout, emptyCartLogout} from '../../_actions/index';
 import NumericInput from 'react-numeric-input';
 import Notification from '../../components/Reusable/Notification';
 import ConfirmDialog from '../../components/Reusable/ConfirmDialog';
@@ -128,7 +128,16 @@ export default function Cart() {
     localStorage.setItem("userName", 0);
     localStorage.removeItem("orderIdFromEmail");
     localStorage.removeItem("userIdFromMail");
+    localStorage.setItem("from","auth");
+    localStorage.setItem("to","home");
+    history.push("/");
+    dispatch(getCart())
+    dispatch(getTotal())
+    // dispatch(emptyCartLogout());
+    // dispatch(emtyTotalLogout());
+    dispatch(calculateCartCount())
     dispatch(fetchProducts());
+
   }
 
   return (

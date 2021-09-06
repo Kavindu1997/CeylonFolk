@@ -14,6 +14,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchProducts } from '../../_actions/productAction'
 
 
+
 export default function Wishlist() {
     const classes = useStyles();
     let history = useHistory();

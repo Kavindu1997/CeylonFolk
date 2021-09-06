@@ -14,20 +14,24 @@ import moment from 'moment';
 import Notification from '../../components/Reusable/Notification';
 import { useHistory } from 'react-router-dom';
 import { useParams } from 'react-router';
+import UserSideNav from '../../components/Navbars/UserSideNav';
+import CommonNav from '../../components/Navbars/CommonNav';
 
 export default function Deposit(props) {
     const classes = useStyles();
     let history = useHistory();
     const dispatch = useDispatch();
     let id, orderIdFromEmail;
-    console.log(props.location.search)
+   
+    if(localStorage.getItem("userId")=='0'){
+        history.push("/auth")
+    }
+
     if (props.location.search) {
         var splitted = props.location.search.split("?id=", 2);
         var splitted2 = splitted[1].split("&orderIdFromEmail=", 2)
-        console.log(splitted2)
         id = splitted2[0];
         orderIdFromEmail = splitted2[1];
-        console.log(id, orderIdFromEmail)
         localStorage.setItem("userIdFromMail", id);
         localStorage.setItem("orderIdFromEmail", orderIdFromEmail);
     }
@@ -38,6 +42,7 @@ export default function Deposit(props) {
     const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' });
 
     const uid = localStorage.getItem("userId");
+
 
     if (localStorage.getItem("userIdFromMail") != undefined && uid != localStorage.getItem("userIdFromMail")) {
         localStorage.setItem("fromTheEmail", true);
@@ -115,66 +120,14 @@ export default function Deposit(props) {
 
     return (
         <div>
-            <UserNav />
+            <CommonNav />
             <CssBaseline />
             <container>
                 <Typography variant="h5" style={{ marginTop: '80px', textAlign: 'center', backgroundColor: '#C6C6C6', padding: '30px', fontFamily: 'Montserrat' }}> Bank Deposit Slip Upload</Typography>
                 <center>
                     <Grid container style={{ marginTop: '50px', align: 'center' }}>
                         <Grid item xs={12} sm={12} md={4} lg={4}>
-                            <div>
-                                <Typography component="h1" variant="h6" style={{ fontFamily: 'Montserrat', textAlign: 'center', fontWeight: 600 }}>Hello </Typography>
-                                <List style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>
-                                    <ListItem>
-                                        <ListItemAvatar>
-                                            <Avatar style={{ marginLeft: '130px' }}>NB</Avatar>
-                                        </ListItemAvatar>
-                                        <ListItemText><Typography component="h1" variant="h5" style={{ fontFamily: 'Montserrat', marginLeft: '15px', fontWeight: 600 }}>Nimal Bandara</Typography></ListItemText>
-                                    </ListItem>
-                                </List>
-                                <br />
-                            </div>
-                            <Divider />
-                            <div>
-                                <center>
-                                    <div>
-                                        <NavLink to={"/profile"} style={{ textDecoration: 'none' }}>
-                                            <Typography component="h1" variant="h6" style={{ marginTop: '50px', marginLeft: '80px', fontFamily: 'Montserrat', color: 'black', textAlign: 'left', marginBottom: '30px' }}>
-                                                My Account
-                                            </Typography>
-                                        </NavLink>
-                                    </div>
-                                    <div>
-                                        <NavLink to={"/myOrders"} style={{ textDecoration: 'none', hover: 'red' }}>
-                                            <Typography component="h1" variant="h6" style={{ marginLeft: '80px', fontFamily: 'Montserrat', color: 'black', textAlign: 'left', marginBottom: '30px' }}>
-                                                Order History
-                                            </Typography>
-                                        </NavLink>
-                                    </div>
-                                    <div>
-                                        <NavLink to={"/myWishlist"} style={{ textDecoration: 'none' }}>
-                                            <Typography component="h1" variant="h6" style={{ marginLeft: '80px', fontFamily: 'Montserrat', color: 'black', textAlign: 'left', marginBottom: '30px' }}>
-                                                Wishlist
-                                            </Typography>
-                                        </NavLink>
-                                    </div>
-                                    <div>
-                                        <NavLink to={"/deposit"} style={{ textDecoration: 'none' }}>
-                                            <Typography component="h1" variant="h6" style={{ marginLeft: '80px', fontFamily: 'Montserrat', color: 'black', textAlign: 'left', marginBottom: '30px' }}>
-                                                Bank Deposit Upload
-                                            </Typography>
-                                        </NavLink>
-                                    </div>
-                                    <div>
-                                        <NavLink to={"/auth"} style={{ textDecoration: 'none' }}>
-                                            <Typography component="h1" variant="h6" style={{ marginLeft: '80px', fontFamily: 'Montserrat', color: 'black', textAlign: 'left', marginBottom: '30px' }}>
-                                                Logout
-                                            </Typography>
-                                        </NavLink>
-                                    </div>
-                                </center>
-                            </div>
-                            <Divider orientation="vertical" flexItem />
+                            <UserSideNav />
                         </Grid>
                         <Divider orientation="vertical" flexItem />
                         <Grid item xs={12} sm={12} md={8} lg={7}>

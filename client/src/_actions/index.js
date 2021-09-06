@@ -95,6 +95,15 @@ export const emptyCart = () => async (dispatch) => {
     }
 };
 
+export const emptyCartLogout = () => async (dispatch) => {
+    var id = localStorage.getItem("userId");
+    if (id == '0') {
+        const response = await ceylonforkapi.get("/check/items/"+ id)
+        dispatch({ type: CART_CONSTS.GET_CART, payload:[] })
+        console.log(response.data)
+    }
+};
+
 
 export const deleteCartUsingID = (id,size) => async (dispatch) => {
     var uid = localStorage.getItem("userId")
@@ -122,6 +131,14 @@ export const getTotal = () => async (dispatch) => {
 export const emtyTotal = () => async (dispatch) => {
     var id = localStorage.getItem("userId");
     if (id != '0') {
+        const response = await ceylonforkapi.get("/check/total/"+ id)
+        dispatch({ type: CART_CONSTS.GET_CART_TOTAL, payload: [{total:0}] })
+    }
+};
+
+export const emtyTotalLogout = () => async (dispatch) => {
+    var id = localStorage.getItem("userId");
+    if (id == '0') {
         const response = await ceylonforkapi.get("/check/total/"+ id)
         dispatch({ type: CART_CONSTS.GET_CART_TOTAL, payload: [{total:0}] })
     }
