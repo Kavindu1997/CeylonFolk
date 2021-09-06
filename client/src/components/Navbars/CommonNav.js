@@ -9,6 +9,8 @@ import SearchOutlinedIcon from '@material-ui/icons/SearchOutlined';
 import axios from 'axios';
 import { useSelector } from "react-redux";
 import { NavLink } from 'react-router-dom';
+import { useHistory } from 'react-router';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -138,6 +140,7 @@ const CommonNav = (props) => {
     const cartcount = useSelector(state => state.cart.cartCount)
     console.log(cartcount)
     const [countDetails, countOfItems] = useState([]);
+    let history = useHistory()
     useEffect(() => {
         var id = localStorage.getItem("userId");
         if (id != '0') {
@@ -155,14 +158,14 @@ const CommonNav = (props) => {
                 <Toolbar className={classes.appbarWrapper}>
                     <div className={classes.appbarLeft}>
                         <NavLink to={"/"} className={classes.appbarlink}> <Typography className={classes.appbarlink2}>Home</Typography></NavLink>
-                        <NavLink to={"/shop"} className={classes.appbarlink}>
+                        <NavLink to={'/shop'} className={classes.appbarlink}>
                             <Typography
                                 className={classes.appbarlink2}
                                 //change "endIcon to "endicon" for remove the warning - pramuka (check it)
                                 endicon={<KeyboardArrowDownIcon>
                                     fontSize="0.5rem"
                                 </KeyboardArrowDownIcon>}
-                            >
+                                >
                                 Shop
                             </Typography>
                         </NavLink>

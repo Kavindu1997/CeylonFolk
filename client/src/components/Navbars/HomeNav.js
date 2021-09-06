@@ -165,7 +165,7 @@ const CommonNav = () => {
                 <Toolbar className={classes.appbarWrapper}>
                 <div className={classes.appbarLeft}>
                         <NavLink to={"/"} className={classes.appbarlink}> <Typography className={classes.appbarlink2}>Home</Typography></NavLink>
-                        <NavLink to={"/shop"} className={classes.appbarlink}> 
+                        <NavLink to={'/shop'} className={classes.appbarlink}> 
                             <Typography 
                             className={classes.appbarlink2}
                             endIcon={<KeyboardArrowDownIcon>

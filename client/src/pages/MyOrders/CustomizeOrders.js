@@ -134,6 +134,15 @@ const CustCustomizeOrders = () => {
                                                 >
                                                     Confirm Order
                                                 </Button>
+                                                <Button className={value.status === 'Accept' ? classes.activeQuantity : classes.quantity} color="primary"
+                                                disabled={disable} 
+                                                key={index}
+                                                onClick={() => {
+                                                    history.push(`/orderView/${value.orderId}`);
+                                                }}
+                                                >
+                                                    View Order
+                                                </Button>
                                             </TableCell>
 
                                             <Popup

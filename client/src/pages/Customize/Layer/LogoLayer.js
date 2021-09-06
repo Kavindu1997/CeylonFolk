@@ -87,40 +87,40 @@ React.useEffect(() => {
     }
   });
 
+  // React.useLayoutEffect(() => {
+  //   imageRef.current.cache();
+  // }, [props.shapeProps, images, props.isSelected]);
+
   const onDragEnd = env => {
     setedited(true);
   };
 
   const onDragMove = (env) => {
     const imgPos = env.target._lastPos;
-    setimgPos(imgPos);
+    // setimgPos(imgPos);
   };
 
   //Filters is used to change the color of the image
   
     return (
-        <React.Fragment>
+      <React.Fragment>
 
       <Group
         draggable
       >
 
-    {showDeleteButton && (
-
-    <Image
-      onClick={props.onDelete}
-      image={deleteImage}
-      width={10}
-      height={10}
-      offset={{
-        x: -160,
-        y: -135
-      }}
-
-    />
-
-    )}
-
+        {showDeleteButton && (
+        <Image
+          onClick={props.onDelete}
+          image={deleteImage}
+          width={10}
+          height={10}
+          offset={{
+            x: -160,
+            y: -135
+          }}
+        />
+        )}
           
       <Image
         image={images}
@@ -128,13 +128,22 @@ React.useEffect(() => {
         y={0}
         width={400}
         height={300}
-        draggable={true}
+        {...props.shapeProps}
+        // draggable={true}
+        offset={{
+          x: -150,
+          y: -150
+        }}
         // onDragEnd= {onDragEnd}
         onDragEnd={(e) => {
+          const shape = e.target;
           props.onChange({
-            // ...props.shapeProps,
+            ...props.shapeProps,
             x: e.target.x(),
             y: e.target.y(),
+            // width: shape.width() * shape.scaleX(),
+            //   height: shape.height() * shape.scaleY(),
+            //   rotation: shape.rotation()
           });
         }}
         onTransformEnd={(e) => {
@@ -153,7 +162,7 @@ React.useEffect(() => {
           node.height(Math.max(node.height() * scaleY));
 
           props.onChange({
-            // ...props.shapeProps,
+            ...props.shapeProps,
             x: node.x(),
             y: node.y(),
             // set minimal value
@@ -168,31 +177,26 @@ React.useEffect(() => {
         onTap={props.onSelect}
         ref={imageRef}
         // {...imgPos}
-        {...(edited && { scale: { x: 0.5, y: 0.5 } })}
+        // {...(edited && { scale: { x: 0.5, y: 0.5 } })}
 
         onMouseEnter={() => setIsShown(true)}
-          onMouseLeave={() => setIsShown(false)}
-          
+          onMouseLeave={() => setIsShown(false)}     
       />
 
-      {props.isImageSelected && (
+        {props.isImageSelected && (
+          <Transformer
+            ref={trRef}
+            boundBoxFunc={(oldBox, newBox) => {
+              //limit resize
+              if (newBox.width < 5 || newBox.height < 5) {
+                return oldBox;
+              }
+              return newBox;
+            }}
+          />
+        )}
 
-        
-        <Transformer
-          ref={trRef}
-          boundBoxFunc={(oldBox, newBox) => {
-            //limit resize
-            if (newBox.width < 5 || newBox.height < 5) {
-              return oldBox;
-            }
-            return newBox;
-          }}
-        />
-
-      
-      )}
-
-</Group>
+      </Group>
 
 </React.Fragment>
     );

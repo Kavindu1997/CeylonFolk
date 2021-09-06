@@ -3,6 +3,7 @@ import React, { Component, useState, useEffect } from "react";
 import { Button, FormControl } from "@material-ui/core";
 import { Divider, Upload, Icon, Modal, message} from "antd";
 import './Styles.css'
+import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 
 const UploadComponent = (props) => {
 
@@ -57,8 +58,8 @@ const UploadComponent = (props) => {
     return (
       <div>
           <FormControl className="w-75 mb-4 ml-3">
-              <div className="d-flex flex-column justify-content-center">
-                <div className="d-flex justify-content-center">
+              {/* <div className="d-flex flex-column justify-content-center">
+                <div className="d-flex justify-content-center"> */}
                   <Upload
                     name="avatar"
                     listType="picture-card"
@@ -68,20 +69,22 @@ const UploadComponent = (props) => {
                     onChange={handleUpload}
                     // onChange={handleChange}
                   >
-                   {imageUrl ? <img src={imageUrl} alt="avatar" style={{ width: '100%' }} /> : <div style={{ marginTop: 8 }}>Upload</div>}
+                   {imageUrl ? <img src={imageUrl} alt="avatar" style={{ width: '100%' }} /> : 
+                   <div style={{marginTop:'24px'}}>
+                     <center>
+                     <PlusOutlined />
+                     </center>
+                     <center>
+                   
+                   <div style={{ marginTop: 8 }}>Upload</div>
+                   </center>
+                 </div>
+                   }
                     
                   </Upload>
                   <Button style={{background: 'black', color: 'white'}} onClick={props.changeLogo}>ADD</Button>
-                </div>
-                <Button
-                //   {...buttonSettings}
-                //   onClick={() => this.handleLogoEffects("noImg")}
-                  variant="outlined"
-                  color="secondary"
-                >
-                  Remove Image
-                </Button>
-              </div>
+                {/* </div>
+              </div> */}
             </FormControl>
 
             {/* <FormControl className="w-75 mb-4 ml-3">

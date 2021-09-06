@@ -36,6 +36,7 @@ import axios from 'axios';
 import Popup from "../../components/Reusable/Popup";
 import sleeveDesign from "../../images/new/sleeveDesign.png";
 
+
 const Customize = () => {
 
   const classes = useStyles();
@@ -391,6 +392,14 @@ const Customize = () => {
                 />
               </div>
             </Box>
+            <Box className={toggleState === 3 ? classes.activeContent : classes.content}>
+              <Grid Container className={classes.bar3} >
+                <UploadComponent 
+                setLogo={setLogo}
+                changeLogo={changeLogo}
+                />
+              </Grid>
+            </Box>
             <Box className={toggleState === 4 ? classes.activeContent : classes.content}>
               <Grid Container className={classes.bar3} >
                 <Grid item md={2.4} style={{ width: '100%' }}>
@@ -610,7 +619,7 @@ const Customize = () => {
             }}
             >SLEAVE DESIGNING</Button>
           </Grid>
-          <Popup
+          {/* <Popup
           title="Special Design Areas"
           openPopup={openPopup}
           setOpenPopup={setOpenPopup}
@@ -625,7 +634,7 @@ const Customize = () => {
             
 
           </Grid>
-        </Popup>
+        </Popup> */}
 
         </Grid>
       </div>

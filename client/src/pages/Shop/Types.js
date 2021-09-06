@@ -6,7 +6,7 @@ import Footer from '../../components/Footer/Footer';
 
 // import { DropDown } from '../components/Product_grid/DropDown';
 
-import { IconButton , Typography, Button, Container, Grid, Card, CardActionArea, CardActions, CardContent, CardMedia, Link } from '@material-ui/core';
+import { Typography, Button, Container, Grid, Card, CardActionArea, CardActions, CardContent, CardMedia, Link } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import Image from '../../images/cover6.jpg';
 import Collection1 from '../../images/ts1.jpg';
@@ -18,19 +18,24 @@ import FavoriteBorderOutlinedIcon from '@material-ui/icons/FavoriteBorderOutline
 import axios from 'axios';
 import { useHistory } from 'react-router';
 import useStyles1 from './style1';
-import { setProducts, fetchProducts, actionAddToWishlist } from '../../_actions/productAction'
+import { setProducts, fetchProducts } from '../../_actions/productAction'
 import { useDispatch, useSelector } from "react-redux";
-import Notification from '../../components/Reusable/Notification';
+import { useParams } from 'react-router';
 
 
-const Shop = () => {
+const Types = () => {
 
     const classes = useStyles1();
     const [checked, setChecked] = useState(false);
-    const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' });
+    const [types, settypes] = useState([])
 
     const products = useSelector((state) => state.productReducer.productObject)
+    console.log(products)
     const dispatch = useDispatch();
+    let { id } = useParams();
+    console.log('hello t')
+    console.log(id)
+    console.log('hello t')
 
     // const fetchProducts = async () =>{
     //     axios.get('http://localhost:3001/shop').then((response) => {
@@ -41,12 +46,32 @@ const Shop = () => {
     //     });
 
     //   }
- 
+
+    
+    
+
     useEffect(() => {
-        dispatch(fetchProducts());
+        if(id == 0){
+            dispatch(fetchProducts());
         setChecked(true);
+
+        }
+        else{
+            
+            axios.get(`http://localhost:3001/shop/shop/${id}`).then((response) => {
+            settypes(response.data);
+            console.log('hiiiiiiiiiiiiii')
+        });
+            
+
+        }
+        
+        
     }, []);
 
+    console.log('hello from product store')
+
+    console.log(products)
 
     const [listOfDesigns, setListOfDesigns] = useState([]);
 
@@ -57,26 +82,16 @@ const Shop = () => {
     // }, []);
 
     let history = useHistory()
- 
-    function addToWishlist(id){
-        if(localStorage.getItem("userId")!='0'){
-        dispatch(actionAddToWishlist(id))
-        dispatch(fetchProducts());
-        }else{
-            setNotify({
-                isOpen: true,
-                message: 'Customer has not logged in !',
-                type: 'error'
-              });
-        }   
-    }
- 
+
 
     return (
         <div>
             <CssBaseline />
             <CommonNav />
+
+
             <div>
+
                 <center>
                     <Typography variant="h4" className={classes.collectionTitle}>SHOP</Typography>
                     <Grid item md={6}>
@@ -116,13 +131,18 @@ const Shop = () => {
                     </Grid>
                 </center>
 
+                
+
                 <Container className={classes.collectionContainer} maxWidth="lg">
                     <Grid container spacing={0} >
 
-                        {products.map((product,index) => {
-                            const { id, coverImage, design_name, price,isInWishList } = product;
+                        {types.map((product) => {
+                            const { id, coverImage, design_name, price } = product;
                             return (
-                                <Grid item xs={12} sm={6} md={3} >
+                                <Grid item xs={12} sm={6} md={3} 
+                                onClick={() => {
+                                    history.push(`/productDetails/${id}`);
+                                }}>
                                     <Link style={{ textDecoration: 'none' }}>
                                         <Card className={classes.card}>
                                             <CardActionArea>
@@ -133,23 +153,19 @@ const Shop = () => {
                                                     }}
                                                     title="Snowy"
                                                 /> */}
-                                                <img style={{ width: '100%', overflow: 'hidden', objectFit: 'cover', hight: '293px' }} src={'http://localhost:3001/' + coverImage} alt="" onClick={() => {history.push(`/productDetails/${id}`);}}></img>
+                                                <img style={{ width: '100%', overflow: 'hidden', objectFit: 'cover', hight: '293px' }} src={'http://localhost:3001/' + product.coverImage} alt=""></img>
 
                                                 <CardContent>
                                                     <div>
-                                                        <Typography gutterBottom variant="h9" component="h2" style={{ textAlign: 'left', fontSize: '16px' }}>{design_name}</Typography>
+                                                        <Typography gutterBottom variant="h9" component="h2" style={{ textAlign: 'left', fontSize: '16px' }}>{product.design_name}</Typography>
 
                                                     </div>
                                                     <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                                                         <Typography gutterBottom variant="h6" component="h2" style={{ textAlign: 'left', fontSize: '16px' }}>{"LKR " + price}</Typography>
-                                                        <IconButton onClick={() => { addToWishlist(id) }}>
-                                                        
-                                                        <FavoriteBorderOutlinedIcon  className={classes.icon1}  style={{fill:product.isInWishList==1?"red":"primary"}}  /> 
-      
-                                                        </IconButton>
-                                                    </div>   
+                                                        <FavoriteBorderOutlinedIcon className={classes.icon1} /></div>
                                                 </CardContent>
                                             </CardActionArea>
+                                            <CardActions></CardActions>
                                         </Card>
                                     </Link>
                                 </Grid>
@@ -160,12 +176,8 @@ const Shop = () => {
                 </Container>
             </div>
             <Footer />
-            <Notification
-        notify={notify}
-        setNotify={setNotify}
-      />
         </div>
     );
 };
 
-export default Shop;
+export default Types;
