@@ -14,3 +14,17 @@ export const viewOrderDetail = (oId) => async (dispatch) => {
     const response = await ceylonforkapi.get("/order/order/"+oId)
     dispatch({ type: ORDERHISTORY_CONSTS.VIEW_ORDER, payload: response.data })
 };
+
+export const cancelOrderItem = (item) => async (dispatch) => {
+    await ceylonforkapi.post("/order/cancelItem/",item).then((response) => {
+        if (response.data.error) {
+            alert(response.data.error);
+            return 0;
+        }
+        else {
+            dispatch(viewOrderDetail(item.orderId));
+            return 1;
+        }
+      }); 
+
+}

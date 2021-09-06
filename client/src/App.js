@@ -40,6 +40,7 @@ import { Component } from 'react';
 import { Class } from '@material-ui/icons';
 import { render } from 'react-dom';
 import CommonNav from './components/Navbars/HomeNav';
+import UserSideNav from './components/Navbars/UserSideNav';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import { cart } from './_reducers/cart.reducer';

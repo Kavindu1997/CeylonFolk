@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { AppBar, Typography, Button, IconButton, Toolbar, Link } from '@material-ui/core';
+import { AppBar, Typography, Button, IconButton, Toolbar, Grow, Paper, Popper, MenuItem, MenuList, ClickAwayListener, Hidden } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import PermIdentityOutlinedIcon from '@material-ui/icons/PermIdentityOutlined';
@@ -40,6 +40,32 @@ const useStyles = makeStyles((theme) => ({
         marginLeft: '24px',
         marginRight: '10px',
         fontWeight: '300',
+        visibility: 'visible'
+    },
+    iconCart: {
+        color: 'black',
+        fontSize: '1.5rem',
+        marginLeft: '24px',
+        marginRight: '3px',
+        fontWeight: '300',
+        visibility: 'visible'
+    },
+    iconLogin: {
+        color: 'black',
+        fontSize: '1.5rem',
+        marginLeft: '5px',
+        marginRight: '10px',
+        fontWeight: '300',
+        visibility: 'visible'
+    },
+    visibility:{
+        visibility: 'hidden'
+    },
+    navlinkvisibility: {
+        pointerEvents: "none",
+    },
+    navlinkvisibilityTrue: {
+        pointerEvents: "auto",
     },
     appbarTitle: {
         flexGrow: '1',
@@ -130,7 +156,7 @@ const useStyles = makeStyles((theme) => ({
         borderRadius: '8px',
         position: 'absolute',
         top: '0%',
-        right: '5.5%'
+        right: '8.0%'
     }
 
 }))
@@ -151,6 +177,38 @@ const CommonNav = (props) => {
         }
 
     }, []);
+
+    const [open, setOpen] = React.useState(false);
+    const anchorRef = React.useRef(null);
+
+    const handleToggle = () => {
+        setOpen((prevOpen) => !prevOpen);
+    };
+
+    const handleClose = (event) => {
+        if (anchorRef.current && anchorRef.current.contains(event.target)) {
+            return;
+        }
+
+        setOpen(false);
+    };
+
+    function handleListKeyDown(event) {
+        if (event.key === 'Tab') {
+            event.preventDefault();
+            setOpen(false);
+        }
+    }
+
+    // return focus to the button when we transitioned from !open -> open
+    const prevOpen = React.useRef(open);
+    React.useEffect(() => {
+        if (prevOpen.current === true && open === false) {
+            anchorRef.current.focus();
+        }
+
+        prevOpen.current = open;
+    }, [open]);
 
     return (
         <div className={classes.root}>
@@ -182,12 +240,46 @@ const CommonNav = (props) => {
                         <NavLink to={"/shop"}><SearchOutlinedIcon className={classes.icon} /></NavLink>
                         <NavLink to={"/wishlist"}><FavoriteBorderOutlinedIcon className={classes.icon} /></NavLink>
 
-                        <NavLink to={"/cart"}><LocalMallOutlinedIcon className={classes.icon} /><span className={classes.count}>
+                        <NavLink to={"/cart"}><LocalMallOutlinedIcon className={classes.iconCart} /><span className={classes.count}>
                             {cartcount}</span>
                         </NavLink>
-                        <NavLink to={"/auth"}><PermIdentityOutlinedIcon className={classes.icon} /></NavLink>
-                    </div>
-
+                    
+                            <Button
+                                ref={anchorRef}
+                                aria-controls={open ? 'menu-list-grow' : undefined}
+                                aria-haspopup="true"
+                                onClick={handleToggle}
+                                className={classes.icon}
+                                
+                            >
+                                 <NavLink to={"/auth"} className={localStorage.getItem("userId")=='0'?classes.navlinkvisibilityTrue:classes.navlinkvisibility}><PermIdentityOutlinedIcon className={classes.iconLogin} /></NavLink>
+                                {/* <Avatar>JP</Avatar> */}
+                            </Button>
+                            <div  className={localStorage.getItem("userId")=='0'? classes.visibility: classes.icon}>
+                            <Popper open={open} anchorEl={anchorRef.current} role={undefined} transition disablePortal>
+                                {({ TransitionProps, placement }) => (
+                                    <Grow
+                                        {...TransitionProps}
+                                        style={{ transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom' }}
+                                    >
+                                        <Paper>
+                                            <ClickAwayListener onClickAway={handleClose}>
+                                               
+                                                <MenuList autoFocusItem={open} id="menu-list-grow" onKeyDown={handleListKeyDown}>
+                                                    <NavLink to={"/profile"} style={{ textDecoration: 'none' }}><MenuItem onClick={handleClose} style={{ fontWeight: '600', fontSize: '15px', color: 'black' }}>My Account</MenuItem></NavLink>
+                                                    <NavLink to={"/myOrders"} style={{ textDecoration: 'none' }}><MenuItem onClick={handleClose} style={{ fontWeight: '600', fontSize: '15px', color: 'black' }}>Order History</MenuItem></NavLink>
+                                                    <NavLink to={"/myWishlist"} style={{ textDecoration: 'none' }}><MenuItem onClick={handleClose} style={{ fontWeight: '600', fontSize: '15px', color: 'black' }}>My Wishlist</MenuItem></NavLink>
+                                                    <NavLink to={"/auth"} style={{ textDecoration: 'none' }}><MenuItem onClick={handleClose} style={{ fontWeight: '600', fontSize: '15px', color: 'black' }}>Logout</MenuItem></NavLink>
+                                                </MenuList>
+                                               
+                                       
+                                            </ClickAwayListener>
+                                        </Paper>
+                                    </Grow>
+                                )}
+                            </Popper>
+                            </div>
+                        </div>
                 </Toolbar>
 
             </AppBar>

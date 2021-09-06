@@ -8,7 +8,9 @@ import useStyles from './style';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from 'react';
-import { getOrderHistory } from '../../_actions/orderHistory.action'
+import { getOrderHistory } from '../../_actions/orderHistory.action';
+import UserSideNav from '../../components/Navbars/UserSideNav';
+import CommonNav from '../../components/Navbars/CommonNav';
 
 export default function OrderHistory(props) {
     const classes = useStyles();
@@ -48,66 +50,15 @@ export default function OrderHistory(props) {
 
     return (
         <div>
-            <UserNav />
+            <CommonNav />
             <CssBaseline />
+            
             <container>
                 <Typography variant="h5" style={{ marginTop: '80px', textAlign: 'center', backgroundColor: '#C6C6C6', padding: '30px', fontFamily: 'Montserrat' }}> ORDER HISTORY</Typography>
                 <center>
                     <Grid container style={{ marginTop: '50px', align: 'center' }}>
                         <Grid item xs={12} sm={12} md={4} lg={4}>
-                            <div>
-                                <Typography component="h1" variant="h6" style={{ fontFamily: 'Montserrat', textAlign: 'center', fontWeight: 600 }}>Hello </Typography>
-                                <List style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>
-                                    <ListItem>
-                                        <ListItemAvatar>
-                                            <Avatar style={{ marginLeft: '130px' }}>NB</Avatar>
-                                        </ListItemAvatar>
-                                        <ListItemText><Typography component="h1" variant="h5" style={{ fontFamily: 'Montserrat', marginLeft: '15px', fontWeight: 600 }}>Nimal Bandara</Typography></ListItemText>
-                                    </ListItem>
-                                </List>
-                                <br />
-                            </div>
-                            <Divider />
-                            <div>
-                                <center>
-                                    <div>
-                                        <Link to="/profile" style={{ textDecoration: 'none' }}>
-                                            <Typography component="h1" variant="h6" style={{ marginTop: '50px', marginLeft: '80px', fontFamily: 'Montserrat', color: 'black', textAlign: 'left', marginBottom: '30px' }}>
-                                                My Account
-                                            </Typography>
-                                        </Link>
-                                    </div>
-                                    <div>
-                                        <Link to="/myOrders" style={{ textDecoration: 'none', hover: 'red' }}>
-                                            <Typography component="h1" variant="h6" style={{ marginLeft: '80px', fontFamily: 'Montserrat', color: 'black', textAlign: 'left', marginBottom: '30px' }}>
-                                                Order History
-                                            </Typography>
-                                        </Link>
-                                    </div>
-                                    <div>
-                                        <Link to="/myWishlist" style={{ textDecoration: 'none' }}>
-                                            <Typography component="h1" variant="h6" style={{ marginLeft: '80px', fontFamily: 'Montserrat', color: 'black', textAlign: 'left', marginBottom: '30px' }}>
-                                                Wishlist
-                                            </Typography>
-                                        </Link>
-                                    </div>
-                                    <div>
-                                        <Link to="/deposit" style={{ textDecoration: 'none' }}>
-                                            <Typography component="h1" variant="h6" style={{ marginLeft: '80px', fontFamily: 'Montserrat', color: 'black', textAlign: 'left', marginBottom: '30px' }}>
-                                                Bank Deposit Upload
-                                            </Typography>
-                                        </Link>
-                                    </div>
-                                    <div>
-                                        <Link to="/auth" style={{ textDecoration: 'none' }}>
-                                            <Typography component="h1" variant="h6" style={{ marginLeft: '80px', fontFamily: 'Montserrat', color: 'black', textAlign: 'left', marginBottom: '30px' }}>
-                                                Logout
-                                            </Typography>
-                                        </Link>
-                                    </div>
-                                </center>
-                            </div>
-                            <Divider orientation="vertical" flexItem />
+                        <UserSideNav /> 
                         </Grid>
                         <Divider orientation="vertical" flexItem />
                         <Grid item xs={12} sm={12} md={8} lg={7}>
@@ -131,12 +82,6 @@ export default function OrderHistory(props) {
                                                     <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{row.fullAmount}</TableCell>
                                                     <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{row.decription}</TableCell>
                                                     <TableCell align="center">
-                                                        {/* <Button onClick={() => {
-                                                            routeToProduct(row.orderId)
-                                                        }}
-                                                        >
-                                                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                                                        </Button> */}
                                                         <Button
                                                             type="submit"
                                                             variant="contained"
