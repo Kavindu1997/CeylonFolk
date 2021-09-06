@@ -93,6 +93,14 @@ export default function OrderDetail() {
                         </Grid>
                         <Divider orientation="vertical" flexItem />
                         <Grid item xs={12} sm={12} md={8} lg={7}>
+                        <Button
+                                type="submit"
+                                variant="contained"
+                                color="primary"
+                                className={classes.back} 
+                                onClick={() => { history.push("/myOrders") }}
+                            >Back
+                            </Button>
                             <form className={classes.form} noValidate>
                                 <TableContainer style={{ marginTop: '30px' }}>
                                     <Table className={classes.table} aria-label="simple table">
@@ -108,7 +116,7 @@ export default function OrderDetail() {
                                                 .map((value) => {
                                                     return (
                                                         <TableRow>
-                                                            <TableCell align="center" style={{ fontFamily: 'Montserrat' }}><img height={100} align="center" src={'http://localhost:3001/' + value.coverImage}></img></TableCell>
+                                                            <TableCell align="center" style={{ fontFamily: 'Montserrat' }}><img height={100} align="center" src={'http://localhost:3001/' + value.coverImage} onClick={() => {history.push(`/productDetails/${value.id}`);}} /></TableCell>
                                                             <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.design_name}</TableCell>
                                                             <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.totals}</TableCell>
                                                         </TableRow>
@@ -117,6 +125,18 @@ export default function OrderDetail() {
                                         </TableBody>
                                     </Table>
                                 </TableContainer>
+                                <div>
+                               
+                                    <Button
+                                        type="submit"
+                                        variant="contained"
+                                        color="primary"
+                                        className={classes.submit}
+                                    >Continue Shopping
+                                    </Button>
+                                   
+                               
+                            </div>
                             </form>
                         </Grid>
                     </Grid>

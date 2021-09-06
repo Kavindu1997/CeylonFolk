@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
         display: "flex",
         padding: 8
     },
-    back: {
+    submit: {
         marginTop: 30,
         alignItems: "center",
         // marginLeft: 600,
@@ -36,6 +36,18 @@ const useStyles = makeStyles((theme) => ({
         marginTop: 30,
         alignItems: "center",
         // marginLeft: 600,
+    },
+    viewOrder: {
+        margin: "auto",
+        display: "auto",
+        alignItems: "center",
+        // marginLeft: 600,
+    },
+    back: {
+        // marginRight: 50,
+        display: "auto",
+        // alignItems: "center",
+        marginLeft: 800,
     },
     margin: {
         margin: theme.spacing(2),

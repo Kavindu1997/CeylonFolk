@@ -93,7 +93,7 @@ const useStyles1 = makeStyles((theme) => ({
     },
 
     icon1: {
-        color: 'black',
+        // color: 'black',
         fontSize: '2rem',
         marginLeft: '80px',
         marginRight: '10px',
@@ -103,6 +103,7 @@ const useStyles1 = makeStyles((theme) => ({
     font2: {
         textAlign: 'left'
     },
+
 
 }));
 
