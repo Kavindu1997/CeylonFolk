@@ -152,16 +152,13 @@ export default function OrderHistory(props) {
                                 </Table>
                             </TableContainer>
                             <div>
-                               
-                                    <Button
-                                        type="submit"
-                                        variant="contained"
-                                        color="primary"
-                                        className={classes.submit}
-                                    >Continue Shopping
-                                    </Button>
-                                   
-                               
+                                <Button
+                                    type="submit"
+                                    variant="contained"
+                                    color="primary"
+                                    className={classes.submit}
+                                >Continue Shopping
+                                </Button>
                             </div>
                         </Grid>
                     </Grid>

@@ -11,6 +11,7 @@ import { useHistory } from 'react-router-dom';
 import ConfirmDialog from '../../components/Reusable/ConfirmDialog';
 import Notification from '../../components/Reusable/Notification';
 import { useDispatch, useSelector } from "react-redux";
+import { fetchProducts } from '../../_actions/productAction'
 
 
 export default function Wishlist() {
@@ -54,6 +55,7 @@ export default function Wishlist() {
                         console.log(response.data);
                         setListOfShirts(response.data);
                     });
+                    dispatch(fetchProducts());
                 } 
             })
          
