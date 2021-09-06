@@ -64,6 +64,7 @@ function Login() {
                 }
 
                 localStorage.setItem("userId", response.data.id);
+                localStorage.setItem("fullname", response.data.firstName+' '+response.data.lastName)
 
                 if (localStorage.getItem("fromTheCart") == "true") {
                     history.push("/cart");

@@ -28,6 +28,10 @@ export default function OrderDetail() {
     } else {
         canItemRemoveOrEdit = false;
     }
+    
+    if(localStorage.getItem("userId")=='0'){
+        history.push("/auth")
+    }
 
     useEffect(() => {
         dispatch(viewOrderDetail(oId))

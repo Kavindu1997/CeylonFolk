@@ -6,6 +6,7 @@ import Footer from '../../components/Footer/Footer';
 import UserNav from '../../components/Navbars/UserNav';
 import UserSideNav from '../../components/Navbars/UserSideNav';
 import CommonNav from '../../components/Navbars/CommonNav';
+import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -60,11 +61,11 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ProfileWishlist() {
     const classes = useStyles();
-    // const [value, setValue] = React.useState('payment');
-
-    //   const handleChange = (event) => {
-    //     setValue(event.target.value);
-    //   };
+    let history = useHistory();
+    
+    if(localStorage.getItem("userId")=='0'){
+        history.push("/auth")
+    }
 
     function createData(image, name, price, status, action) {
         return { image, name, price, status, action };

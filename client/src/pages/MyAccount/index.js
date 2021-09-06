@@ -13,6 +13,7 @@ import "yup-phone";
 import useStyles from './style';
 import UserSideNav from '../../components/Navbars/UserSideNav';
 import CommonNav from '../../components/Navbars/CommonNav';
+import { useHistory } from 'react-router-dom';
 
 const initialValues1 = {
     fullName: '',
@@ -47,6 +48,11 @@ const initialValues1 = {
 
 export default function Profile() {
     const classes = useStyles();
+    let history = useHistory();
+
+    if(localStorage.getItem("userId")=='0'){
+        history.push("/auth")
+    }
 
     const [values, setValues] = React.useState({
         password: '',

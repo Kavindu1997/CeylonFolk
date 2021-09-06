@@ -22,14 +22,16 @@ export default function Deposit(props) {
     let history = useHistory();
     const dispatch = useDispatch();
     let id, orderIdFromEmail;
-    console.log(props.location.search)
+   
+    if(localStorage.getItem("userId")=='0'){
+        history.push("/auth")
+    }
+
     if (props.location.search) {
         var splitted = props.location.search.split("?id=", 2);
         var splitted2 = splitted[1].split("&orderIdFromEmail=", 2)
-        console.log(splitted2)
         id = splitted2[0];
         orderIdFromEmail = splitted2[1];
-        console.log(id, orderIdFromEmail)
         localStorage.setItem("userIdFromMail", id);
         localStorage.setItem("orderIdFromEmail", orderIdFromEmail);
     }
@@ -40,6 +42,7 @@ export default function Deposit(props) {
     const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' });
 
     const uid = localStorage.getItem("userId");
+
 
     if (localStorage.getItem("userIdFromMail") != undefined && uid != localStorage.getItem("userIdFromMail")) {
         localStorage.setItem("fromTheEmail", true);

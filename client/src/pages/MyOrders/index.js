@@ -18,7 +18,9 @@ export default function OrderHistory(props) {
     const dispatch = useDispatch();
 
     const orders = useSelector(state => state.orderHistory.orderHistory);
-
+    if(localStorage.getItem("userId")=='0'){
+        history.push("/auth")
+    }
     let id;
     console.log(props.location.search)
     if (props.location.search) {
