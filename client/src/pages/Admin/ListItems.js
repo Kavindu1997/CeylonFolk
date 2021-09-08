@@ -12,7 +12,8 @@ import PaletteIcon from '@material-ui/icons/Palette';
 import ZoomOutMapIcon from '@material-ui/icons/ZoomOutMap';
 import ExtensionIcon from '@material-ui/icons/Extension';
 import StorageIcon from '@material-ui/icons/Storage';
-
+import LocalOfferIcon from '@material-ui/icons/LocalOffer';
+import ContactSupportIcon from '@material-ui/icons/ContactSupport';
 
 export const mainListItems = (
   <div>
@@ -52,6 +53,12 @@ export const mainListItems = (
       </ListItemIcon>
       <ListItemText primary="Coupon" />
     </ListItem>
+    <ListItem button component={Link} to="/offers">
+      <ListItemIcon>
+        <LocalOfferIcon />
+      </ListItemIcon>
+      <ListItemText primary="Offers" />
+    </ListItem>
     <ListItem button component={Link} to="/availableColors">
       <ListItemIcon>
         <PaletteIcon />
@@ -69,6 +76,12 @@ export const mainListItems = (
         <ExtensionIcon />
       </ListItemIcon>
       <ListItemText primary="Available Types" />
+    </ListItem>
+    <ListItem button component={Link} to="/inquiries">
+      <ListItemIcon>
+        <ContactSupportIcon />
+      </ListItemIcon>
+      <ListItemText primary="Inquiries" />
     </ListItem>
 
   

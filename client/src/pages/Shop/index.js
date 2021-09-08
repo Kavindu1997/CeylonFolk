@@ -46,6 +46,8 @@ const Shop = () => {
         setChecked(true);
     }, []);
 
+    
+
     console.log('hello from product store')
 
     console.log(products)
@@ -58,9 +60,13 @@ const Shop = () => {
     //     });
     // }, []);
 
+
+
+
+
+
+
     let history = useHistory()
-
-
     return (
         <div>
             <CssBaseline />
@@ -80,13 +86,13 @@ const Shop = () => {
                                     <option value="0">Marvel</option>
                                 </select>
                             </ButtonGroup>
-                            <ButtonGroup variant="contained" color="primary" aria-label="split button" style={{ boxShadow: 'none' }}>
+                            {/* <ButtonGroup variant="contained" color="primary" aria-label="split button" style={{ boxShadow: 'none' }}>
                                 <select className={classes.icon}>
                                     <option value="">Material</option>
                                     <option value="1">Cotton</option>
                                     <option value="0">Wet look</option>
                                 </select>
-                            </ButtonGroup>
+                            </ButtonGroup> */}
                             <ButtonGroup variant="contained" color="primary" aria-label="split button" style={{ boxShadow: 'none' }}>
                                 <select className={classes.icon}>
                                     <option value="">color</option>

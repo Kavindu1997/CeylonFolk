@@ -76,6 +76,9 @@ const typesRouter = require("./routes/Types");
 app.use("/types", typesRouter);
 app.use('/public', express.static('public'));
 
+const notificationsRouter = require('./routes/Notifications');
+app.use("/notifications", notificationsRouter);
+
 db.sequelize.sync().then(() => {
     app.listen(3001, () => {
         console.log("Server running on port 3001");
