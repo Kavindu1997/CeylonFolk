@@ -7,6 +7,12 @@ import UserNav from '../../components/Navbars/UserNav';
 import UserSideNav from '../../components/Navbars/UserSideNav';
 import CommonNav from '../../components/Navbars/CommonNav';
 import { useHistory } from 'react-router-dom';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from "react-redux";
+import { fetchProducts } from '../../_actions/productAction';
+import ConfirmDialog from '../../components/Reusable/ConfirmDialog';
+import Notification from '../../components/Reusable/Notification';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -66,23 +72,52 @@ export default function ProfileWishlist() {
     if(localStorage.getItem("userId")=='0'){
         history.push("/auth")
     }
+    const dispatch = useDispatch();
 
-    function createData(image, name, price, status, action) {
-        return { image, name, price, status, action };
-    }
+    const [listOfTshirts, setListOfShirts] = useState([]);
+    const [confirmDialog, setConfirmDialog] = useState({ isOpen: false, title: '', subTitle: '' })
+    const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' });
 
-    const rows = [
-        createData(
-            <div>
-                <img height={100} align="center" src={require('../../images/ts2.jpg').default} alt="" />
-            </div>,
-            'Baby Tshirt', 1000, 'Not Available'),
-        createData(
-            <div>
-                <img height={100} align="center" src={require('../../images/ts3.jpg').default} alt="" />
-            </div>,
-            'White Tshirt', 1300, 'Available'),
-    ];
+    useEffect(() => {
+        const uid = localStorage.getItem("userId");
+        axios.get("http://localhost:3001/wishlist/" + uid).then((response) => {
+            console.log(response.data);
+            setListOfShirts(response.data);
+        });
+    }, []);
+
+    const onRemove = (id) => {
+        setConfirmDialog({
+          ...confirmDialog,
+          isOpen: false
+        });
+        var uid = localStorage.getItem("userId")
+            const data = { userId: uid, itemId: id }
+            axios.put("http://localhost:3001/wishlist/remove/",data).then((response) => {
+                if (response.data.error){
+                    setNotify({
+                        isOpen: true,
+                        message: 'Removed Failed !',
+                        type: 'error'
+                    });
+                }else{
+                    setNotify({
+                        isOpen: true,
+                        message: 'Removed Successfully !',
+                        type: 'success'
+                      });
+                      axios.get("http://localhost:3001/wishlist/" + uid).then((response) => {
+                        console.log(response.data);
+                        setListOfShirts(response.data);
+                    });
+                    dispatch(fetchProducts());
+                } 
+            })
+         
+        }
+    
+
+    
     return (
         <div>
           <CommonNav />
@@ -104,57 +139,70 @@ export default function ProfileWishlist() {
                                         <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Image</TableCell>
                                         <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Product Name</TableCell>
                                         <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Unit Price</TableCell>
-                                        <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Stock Status</TableCell>
                                         <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Action</TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {rows.map((row, i) => (
-                                        <TableRow key={`row-${i}`}>
-                                            <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{row.image}</TableCell>
-                                            <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{row.name}</TableCell>
-                                            <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{row.price}</TableCell>
-                                            <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{row.status}</TableCell>
+                                {listOfTshirts
+                                    .map((value) => {
+                                        return (
+                                        <TableRow>
+                                            <TableCell align="center" style={{ fontFamily: 'Montserrat' }}> <img height={100} align="center" src={value.coverImage} alt="" onClick={() => {
+                                                    history.push(`/productDetails/${value.id}`);
+                                                }} /></TableCell>
+                                            <TableCell align="center" style={{ fontFamily: 'Montserrat' }}> {value.design_name} </TableCell>
+                                            <TableCell align="center" style={{ fontFamily: 'Montserrat' }}> {value.price} </TableCell>
                                             <TableCell align="center">
-                                                <Button>
-                                                    <i class="fa fa-times" aria-hidden="true"></i>
-                                                </Button>
-                                                <Button>
+                                                    <Button name="remove" onClick={() => {
+                                                        setConfirmDialog({
+                                                            isOpen: true,
+                                                            title: 'Are you sure to delete this?',
+                                                            subTitle: "You can't undo this operation...",
+                                                            onConfirm: () => { onRemove(value.id) }
+                                                        })
+                                                    }}>
+                                                        <i className="fa fa-times" aria-hidden="true"></i>
+                                                    </Button>
+                                                
+                                                <Button onClick={() => {
+                                                    history.push(`/productDetails/${value.id}`);
+                                                }}>
                                                     <i class="fa fa-shopping-cart" aria-hidden="true"></i>
                                                 </Button>
                                             </TableCell>
                                         </TableRow>
-                                    ))}
+                                      );
+
+                                    })}
                                 </TableBody>
                             </Table>
                         </TableContainer>
                         <div>
-                            <Box
-                                component="span"
-                                m={1}
-                                className={`${classes.spreadBox} ${classes.box}`}
-                            >
+                            
                                 <Button
+                                 onClick={() => {
+                                    history.push(`/shop`);
+                                }}
                                     type="submit"
                                     variant="contained"
                                     color="primary"
                                     className={classes.back}
                                 >Continue Shopping
                                 </Button>
-                                <Button
-                                    type="submit"
-                                    variant="contained"
-                                    color="primary"
-                                    className={classes.submit}
-                                >Proceed to Checkout
-                                </Button>
-                            </Box>
+                           
                         </div>
                     </Grid>
                 </Grid>
             </center>
         </container>
         <Footer />
+        <Notification
+        notify={notify}
+        setNotify={setNotify}
+      />
+            <ConfirmDialog
+        confirmDialog={confirmDialog}
+        setConfirmDialog={setConfirmDialog} />
         </div>
 
     );

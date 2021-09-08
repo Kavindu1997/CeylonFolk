@@ -60,6 +60,7 @@ export default function Product_detail() {
   // console.log(designName)
   const [productSize, setProductSize] = useState();
   const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' });
+  var isSizeRequired = false;
 
 
   // console.log('hello from redux')
@@ -153,10 +154,13 @@ export default function Product_detail() {
   var [index1, setIndex1] = useState(0);
   console.log(index1)
 
-  var handleTab1 = index1 => {
+  var [sizeSelect,setSizeSelect] = useState(false);
+  var [selectedSizeValue, setSelectedSizeValue] = useState(false);
+
+  var handleTab1 = (index1) => {
     // alert(index1)
-    setIndex1(index1)
     console.log('hello handle')
+    setIndex1(index1)
     console.log(index1)
     console.log('hello handle')
   }
@@ -193,16 +197,33 @@ export default function Product_detail() {
 
   });
 
+  
   const setSize = (event) => {
     setProductSize(event.target.value);
+    setIsSizeSelected(false)
+    console.log(event.target.value)
+    if(event.target.value != undefined){
+      setSizeSelect(true)
+    }else{
+      setSizeSelect(false)
+    }
   }
+
 
   var itemQuantity = 1
   const getQty = (event) => {
     itemQuantity = event
   }
+ 
+  const [isSizeSelected,setIsSizeSelected] = useState(false)
 
   const addToCart = () => {
+    if(productSize == undefined){
+      setIsSizeSelected(true)
+      return 
+    }else{
+      setIsSizeSelected(false)
+    }
     var uid = localStorage.getItem("userId");
     if (uid != '0') {
       var dummyItem = {
@@ -324,11 +345,11 @@ export default function Product_detail() {
                               <li className={classes.lbl}>
                                 <label style={{ cursor: 'pointer' }}>
                                   <div>
-                                    <div style={{ paddingBottom: '10px' }} onClick={() => toggleTab(1)}>
+                                    <div style={{ paddingBottom: '10px' }} onClick={() => toggleTab(1)} >
 
                                       <input type="radio" onClick={setSize} name="size" className={classes.sizeOption} value={value.size} checked />
 
-                                      <span className={classes.swatchVisible} onClick={() => handleTab1(index)}>{value.size}</span>
+                                      <span className={classes.swatchVisible} onClick={() => handleTab1(index)} style={{background:sizeSelect && productSize===value.size ==true?"#31c5ee":""}}>{value.size}</span>
                                     </div>
                                     {/* <div key={value.inventoryId}className={toggleState === 1 ? classes.activeQuantity : classes.quantity}><span className={classes.swatchVisible}>{value.quantity}</span></div> */}
                                   </div>
@@ -348,6 +369,7 @@ export default function Product_detail() {
                       </Box>
                       {/* <div className={toggleState === 1 ? classes.activeQuantity : classes.quantity}>{quantity && <span>{quantity[index].quantity + " in stock"}</span>}</div> */}
                       <div className={toggleState === 1 ? classes.activeQuantity : classes.quantity}>{quantity && <span>{quantity[index1].quantity + " in stock"}</span>}</div>
+                        <div style={{visibility:isSizeSelected==true?"visible":"hidden"}}><Typography style={{color:"red"}}>*You should select a size*</Typography></div>
                     </Box>
 
                     <Box className={classes.tBox}>

@@ -40,6 +40,9 @@ const useStyles = makeStyles((theme) => ({
       selectEmpty: {
         marginTop: theme.spacing(2),
       },
+      errorClass: {
+          borderColor: "red"
+      }
 }));
 
 

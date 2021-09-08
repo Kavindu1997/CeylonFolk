@@ -133,8 +133,8 @@ export default function Cart() {
     history.push("/");
     dispatch(getCart())
     dispatch(getTotal())
-    // dispatch(emptyCartLogout());
-    // dispatch(emtyTotalLogout());
+    dispatch(emptyCartLogout());
+    dispatch(emtyTotalLogout());
     dispatch(calculateCartCount())
     dispatch(fetchProducts());
 
@@ -211,6 +211,9 @@ export default function Cart() {
               className={`${classes.spreadBox} ${classes.box}`}
             >
               <Button
+               onClick={() => {
+                history.push(`/shop`);
+            }}
                 type="submit"
                 variant="contained"
                 color="primary"

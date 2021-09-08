@@ -17,7 +17,9 @@ import { MASTER_DATA } from '../../_constants/globalVariable';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
-
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from 'yup';
+import Notification from '../../components/Reusable/Notification';
 
 function onLinkClick(event) {
     console.log('onLinkClick'); // never called
@@ -47,6 +49,12 @@ export default function Checkout() {
     const totalDetails = useSelector(state => state.cart.totalAmount)
     const [districtvalue, setDistrict] = useState([]);
     const [districtNameValue, setDistrictNameValue] = useState([]);
+
+    const [add1Error,setAdd1Error] = useState(false);
+    const [add2Error,setAdd2Error] = useState(false);
+    const [cityError,setCityError] = useState(false);
+    const [districtError,setDistrictError] = useState(false);
+    const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' });
   
     const getDistrictValue = (event) => {
         setDistrictNameValue(event.target.value)
@@ -109,7 +117,46 @@ export default function Checkout() {
         console.log(customerDetails[0].email)
     }
 
+    function validateFormFields(){
+        var hasError=0
+       if (cutomerAddress1.length==0){
+        setAdd1Error(true)
+        hasError=1
+       }else{
+        setAdd1Error(false) 
+       }
+       if(cutomerAddress2.length==0){
+        setAdd2Error(true)
+        hasError=1
+       }else{
+        setAdd2Error(false) 
+       }
+       if(cutomerAddress3.length==0){
+        setCityError(true)
+        hasError=1
+       }else{
+        setCityError(false) 
+       }
+       if(districtNameValue.length==0){
+        setDistrictError(true)
+        hasError=1
+       }else{
+        setDistrictError(false)
+       }
+       return hasError;
+    }
+
     const placeOrders = () => {
+        const hasError = validateFormFields()
+        if(hasError == 1){
+            setNotify({
+                isOpen: true,
+                message: 'Please fill the required fileds !',
+                type: 'error'
+              });
+            return
+           
+        }
         var uid = localStorage.getItem("userId");
         if (uid != '0' && checkedTermsCondition == true) {
             if (paymentMethod == "cash") {
@@ -122,7 +169,19 @@ export default function Checkout() {
                 paymentItem = createPaymentDetails(MASTER_DATA.payhere, uid, MASTER_DATA.placed);
                 let payment = setPayment(paymentItem);
                 window.payhere.startPayment(payment);
+            }else{
+                setNotify({
+                    isOpen: true,
+                    message: 'Please select a payment method !',
+                    type: 'error'
+                  });
             }
+        }else{
+            setNotify({
+                isOpen: true,
+                message: 'Please agree to the Terms & Conditions !',
+                type: 'error'
+              });
         }
     };
 
@@ -184,7 +243,8 @@ export default function Checkout() {
                     <Grid container style={{ marginTop: '50px', align: 'center' }}>
                         <Grid item xs={12} sm={12} md={6} lg={6}>
                             <Typography component="h1" variant="h5" style={{ fontFamily: 'Montserrat', textAlign: 'center' }}>Billing Details</Typography>
-
+                            {/* <Formik initialValues={initialRegValues} validationSchema={regValidation}> */}
+                          
                             {customerDetails
                                 .map((value) => {
                                     return (
@@ -202,6 +262,9 @@ export default function Checkout() {
                                                 defaultValue={value.firstName + " "+ value.lastName} 
                                                 autoComplete="name"
                                                 autoFocus
+                                                InputProps={{
+                                                    readOnly: true,
+                                                  }}
                                             />
                                             <TextField
                                                 onChange={setEmail}
@@ -215,6 +278,9 @@ export default function Checkout() {
                                                 defaultValue={value.email}
                                                 type="email"
                                                 autoComplete="email"
+                                                InputProps={{
+                                                    readOnly: true,
+                                                  }}
                                             />
                                             <TextField
                                                 onChange={setPhoneNumber}
@@ -227,6 +293,9 @@ export default function Checkout() {
                                                 name="number"
                                                 defaultValue={value.contactNo}
                                                 autoComplete="number"
+                                                InputProps={{
+                                                    readOnly: true,
+                                                  }}
                                             />
                                             <Typography component="h1" variant="h6" style={{ fontFamily: 'Montserrat', marginTop:'20px', marginBottom: '10px' }}>Delivery Address Details</Typography>
                                             <TextField
@@ -240,6 +309,7 @@ export default function Checkout() {
                                                 name="add1"
                                                 defaultValue={value.addLine1}
                                                 autoComplete="add1"
+                                                error={add1Error}
                                             />
                                             <TextField
                                                 onChange={setAddress2}
@@ -251,7 +321,8 @@ export default function Checkout() {
                                                 label="Address Line 2"
                                                 name="add2"
                                                 defaultValue={value.addLine2}
-                                                autoComplete="add1"
+                                                error={add2Error}
+                                                
                                             />
                                             <TextField
                                                 onChange={setAddress3}
@@ -264,10 +335,12 @@ export default function Checkout() {
                                                 name="city"
                                                 defaultValue={value.city}
                                                 autoComplete="city"
+                                                error={cityError}
                                             />
                                             <FormControl required variant="outlined" className={classes.formControl}>
-                                                <InputLabel id="demo-simple-select-outlined-label">Delivery District</InputLabel>
+                                                <InputLabel id="demo-simple-select-outlined-label" >Delivery District</InputLabel>
                                                 <Select
+                                                    error={districtError}
                                                     labelId="demo-simple-select-outlined-label"
                                                     id="demo-simple-select-outlined"
                                                     value={districtNameValue}
@@ -295,12 +368,14 @@ export default function Checkout() {
                                                 <TextareaAutosize onChange={setDeliveryAdd} aria-label="minimum height" placeholder="Shipping Address" style={{ width: '480px', height: '60px', textAlign: 'justify', padding: '15px', fontFamily: 'Montserrat', marginTop: '10px', borderRadius: '5px' }} />
                                             </div> */}
                                             <TextareaAutosize aria-label="minimum height" placeholder="Order Notes (optional)" style={{ width: '480px', height: '100px', textAlign: 'justify', padding: '15px', fontFamily: 'Montserrat', marginTop: '30px', borderRadius: '5px' }} />
-
+                                            <Button> Submit </Button>
                                         </form>
+                                        
 
                                     );
                                 })}
-
+                             {/* </Formik> */}
+                            
 
 
 
@@ -409,6 +484,10 @@ export default function Checkout() {
                 </center>
             </container>
             <Footer />
+            <Notification
+        notify={notify}
+        setNotify={setNotify}
+      />
         </div>
 
     );
