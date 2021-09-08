@@ -100,6 +100,9 @@ export default function OrderHistory(props) {
                             </TableContainer>
                             <div>
                                 <Button
+                                 onClick={() => {
+                                    history.push(`/shop`);
+                                }}
                                     type="submit"
                                     variant="contained"
                                     color="primary"

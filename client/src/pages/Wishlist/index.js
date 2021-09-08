@@ -78,7 +78,7 @@ export default function Wishlist() {
                                     <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Image</TableCell>
                                     <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Product Name</TableCell>
                                     <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Unit Price</TableCell>
-                                    <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Stock Status</TableCell>
+                                    {/* <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Stock Status</TableCell> */}
                                     <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Action</TableCell>
                                 </TableRow>
                             </TableHead>
@@ -94,7 +94,7 @@ export default function Wishlist() {
                                                 }} /></TableCell>
                                                 <TableCell align="center" style={{ fontFamily: 'Montserrat' }}> {value.design_name} </TableCell>
                                                 <TableCell align="center" style={{ fontFamily: 'Montserrat' }}> {value.price} </TableCell>
-                                                <TableCell align="center" style={{ fontFamily: 'Montserrat' }}> {value.margin} </TableCell>
+                                                {/* <TableCell align="center" style={{ fontFamily: 'Montserrat' }}> {value.margin} </TableCell> */}
                                                 <TableCell align="center">
                                                     <Button name="remove" onClick={() => {
                                                         setConfirmDialog({
@@ -106,6 +106,11 @@ export default function Wishlist() {
                                                     }}>
                                                         <i className="fa fa-times" aria-hidden="true"></i>
                                                     </Button>
+                                                    <Button onClick={() => {
+                                                    history.push(`/productDetails/${value.id}`);
+                                                }}>
+                                                    <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                                                </Button>
                                                 </TableCell>
 
                                             </TableRow>
@@ -118,6 +123,9 @@ export default function Wishlist() {
                     <div>
                         
                             <Button
+                            onClick={() => {
+                                history.push(`/shop`);
+                            }}
                                 type="submit"
                                 variant="contained"
                                 color="primary"

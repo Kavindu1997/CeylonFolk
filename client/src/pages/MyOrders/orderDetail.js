@@ -12,6 +12,11 @@ import UserSideNav from '../../components/Navbars/UserSideNav';
 import CommonNav from '../../components/Navbars/CommonNav';
 import Notification from '../../components/Reusable/Notification';
 import ConfirmDialog from '../../components/Reusable/ConfirmDialog';
+import Controls from "../../components/Reusable/Controls";
+import Popup from "../../components/Reusable/Popup";
+import EditOrderForm from "./EditOrderForm";
+import AddIcon from "@material-ui/icons/Add";
+
 
 export default function OrderDetail() {
     const classes = useStyles();
@@ -21,15 +26,16 @@ export default function OrderDetail() {
     console.log(oId)
     const orderDetails = useSelector(state => state.orderHistory.selectedOrder);
     const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' });
-    const [confirmDialog, setConfirmDialog] = useState({ isOpen: false, title: '', subTitle: '' })
+    const [confirmDialog, setConfirmDialog] = useState({ isOpen: false, title: '', subTitle: '' });
+    const [openPopup, setOpenPopup] = useState(false);
     var canItemRemoveOrEdit = false;
     if (orderDetails[0] && orderDetails[0].canbecancel == '1') {
         canItemRemoveOrEdit = true;
     } else {
         canItemRemoveOrEdit = false;
     }
-    
-    if(localStorage.getItem("userId")=='0'){
+
+    if (localStorage.getItem("userId") == '0') {
         history.push("/auth")
     }
 
@@ -39,6 +45,16 @@ export default function OrderDetail() {
 
     function routeToProduct(itemId) {
 
+    }
+    var [selectedOrderToEdit,setSelectedOrderToEdit]=useState([])
+    function setOrderToEdit(value) {
+        setOpenPopup(true)
+        setSelectedOrderToEdit({
+            oId:oId,
+            itemId: value.id,
+            size: value.size,
+            quantity: value.quantity
+        })
     }
 
     function onRemove(value) {
@@ -126,7 +142,10 @@ export default function OrderDetail() {
                                                                 routeToProduct(value.id)
                                                             }}
                                                             >
-                                                                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+
+                                                                <i class="fa fa-pencil-square-o" aria-hidden="true" onClick={() => {
+                                                                    setOrderToEdit(value);
+                                                                }}></i>
                                                             </Button>
                                                             </TableCell>
                                                         </TableRow>
@@ -163,6 +182,13 @@ export default function OrderDetail() {
                 confirmDialog={confirmDialog}
                 setConfirmDialog={setConfirmDialog}
             />
+            <Popup
+                title="Edit Order"
+                openPopup={openPopup}
+                setOpenPopup={setOpenPopup}
+            >
+                <EditOrderForm selectedOrderToEdit={selectedOrderToEdit}/> 
+            </Popup>
         </div>
 
     );
