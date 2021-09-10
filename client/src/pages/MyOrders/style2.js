@@ -214,6 +214,13 @@ quantity: {
 activeQuantity: {
   display: 'block',
 },
+
+formControl: {
+  // marginTop: theme.spacing(2),
+  minWidth: '50%',
+  width: '20ch',
+  textAlign: 'left'
+},
       
   }));
 

@@ -52,7 +52,7 @@ import Assistant from './pages/Assistant';
 import CustomizeOrderDetails from './pages/Admin/CustomizeOrder/CustomizeOrderTable';
 import CustCustomizeOrderDetails from './pages/MyOrders/CustomizeOrders';
 import Types from './pages/Shop/Types';
-import OrderView from './pages/MyOrders/OrderView'
+import OrderView from './pages/MyOrders/OrderView';
 
 
 const theme = createMuiTheme({

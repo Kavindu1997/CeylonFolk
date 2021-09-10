@@ -53,7 +53,9 @@ export default function OrderDetail() {
             oId:oId,
             itemId: value.id,
             size: value.size,
-            quantity: value.quantity
+            quantity: value.quantity,
+            sizeId : value.sizeId,
+            orderitemId: value.orderitemId
         })
     }
 
