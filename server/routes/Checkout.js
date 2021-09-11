@@ -41,7 +41,7 @@ router.post("/cashOn", async (req, res) => {
         name: name,
         orderId: oid,
         email: email,
-        message: 'Dear customer, <br />Your order has been successfullt placed. Thank you for shopping with us.',
+        message: 'Dear customer, <br />Your order has been successfully placed. Thank you for shopping with us.',
         description: pmt,
         url: '',
         subject: 'CeylonFolk order confirmation',

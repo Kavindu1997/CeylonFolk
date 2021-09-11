@@ -61,14 +61,14 @@ const Shop = () => {
     function addToWishlist(id){
         if(localStorage.getItem("userId")!='0'){
         dispatch(actionAddToWishlist(id))
-        dispatch(fetchProducts());
+        dispatch(fetchProducts())
         }else{
             setNotify({
                 isOpen: true,
                 message: 'Customer has not logged in !',
                 type: 'error'
               });
-        }   
+        } 
     }
  
 

@@ -13,6 +13,7 @@ import ZoomOutMapIcon from '@material-ui/icons/ZoomOutMap';
 import ExtensionIcon from '@material-ui/icons/Extension';
 import StorageIcon from '@material-ui/icons/Storage';
 import ListAltIcon from '@material-ui/icons/ListAlt';
+import AccountBalanceIcon from '@material-ui/icons/AccountBalance';
 
 
 export const mainListItems = (
@@ -76,6 +77,12 @@ export const mainListItems = (
         <ListAltIcon />
       </ListItemIcon>
       <ListItemText primary="Customized Orders" />
+    </ListItem>
+    <ListItem button component={Link} to="/depositlips">
+      <ListItemIcon>
+        <AccountBalanceIcon />
+      </ListItemIcon>
+      <ListItemText primary="Bank Deposit Slips" />
     </ListItem>
 
   
