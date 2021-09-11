@@ -4,8 +4,8 @@ module.exports = (sequelize, DataTypes) => {
 
         orderId: {
             type: DataTypes.INTEGER,
-            autoIncrement: true,
             allowNull: false,
+            autoIncrement: true,
             primaryKey: true,
         },
 
@@ -20,6 +20,11 @@ module.exports = (sequelize, DataTypes) => {
         },
 
         price: {
+            type: DataTypes.STRING,
+            allowNull: true,
+        },
+
+        paymentMethod: {
             type: DataTypes.STRING,
             allowNull: true,
         },

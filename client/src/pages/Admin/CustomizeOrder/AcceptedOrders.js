@@ -114,6 +114,7 @@ const AcceptedOrders = () => {
                                                         <TableCell align="center">
                                                             <Button name="view" 
                                                             onClick={() => window.location.href = "http://localhost:3001/" + value.image}
+                                                            style={{backgroundColor:'black', color:'white'}}
                                                             >
                                                                 VIEW DESIGN
                                                             </Button>
@@ -123,6 +124,7 @@ const AcceptedOrders = () => {
                                                             <Button name="accept" 
                                                             className={value.status === 'Accept' ? classes.activeQuantity : classes.quantity}
                                                             onClick={() => onPrinting(value.orderId)}
+                                                            style={{backgroundColor:'green', color:'white'}}
                                                             >
                                                                 START PRINTING
                                                             </Button>
@@ -130,6 +132,7 @@ const AcceptedOrders = () => {
                                                         <TableCell align="center">
                                                             <Button name="accept" 
                                                             className={value.status === 'Accept' ? classes.activeQuantity : classes.quantity}
+                                                            style={{backgroundColor:'red', color:'white'}}
                                                             
                                                             >
                                                                 CANCEL ORDER

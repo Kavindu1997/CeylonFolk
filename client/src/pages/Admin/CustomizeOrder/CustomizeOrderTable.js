@@ -25,6 +25,7 @@ const CustomizeOrderTable = () => {
     
     const classes = useStyles();
     const [openPopup, setOpenPopup] = useState(false);
+    const [openRejectPopup, setOpenRejectPopup] = useState(false);
     const [toggleState, setToggleState] = useState(1);
     const [notify, setNotify] = useState({
         isOpen: false,
@@ -143,6 +144,9 @@ const CustomizeOrderTable = () => {
                                             <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Order ID</TableCell>
                                             <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Order Status</TableCell>
                                             <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Design</TableCell>
+                                            <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}></TableCell>
+                                            <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}></TableCell>
+                                            <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}></TableCell>
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
@@ -159,6 +163,7 @@ const CustomizeOrderTable = () => {
                                                         <TableCell align="center">
                                                             <Button name="view" 
                                                             onClick={() => window.location.href = "http://localhost:3001/" + value.image}
+                                                            style={{backgroundColor:'black', color:'white'}}
                                                             >
                                                                 VIEW DESIGN
                                                             </Button>
@@ -167,7 +172,7 @@ const CustomizeOrderTable = () => {
                                                         <TableCell align="center">
                                                             <Button name="accept" 
                                                             className={value.status === 'Pending' ? classes.activeQuantity : classes.quantity}
-                                                            
+                                                            style={{backgroundColor:'green', color:'white'}}
                                                             onClick={() => {
                                                                 
                                                                 setOpenPopup(true);
@@ -176,11 +181,48 @@ const CustomizeOrderTable = () => {
                                                                 ACCEPT ORDER
                                                             </Button>
                                                         </TableCell>
+                                                        <TableCell align="center">
+                                                            <Button name="accept" 
+                                                            className={value.status === 'Pending' ? classes.activeQuantity : classes.quantity}
+                                                            style={{backgroundColor:'red', color:'white'}}
+                                                            
+                                                            onClick={() => {
+                                                                
+                                                                setOpenRejectPopup(true);
+                                                            }}
+                                                            >
+                                                                REJECT ORDER
+                                                            </Button>
+                                                        </TableCell>
 
                                                         <Popup
                                                         title="Send the Estimated Price"
                                                         openPopup={openPopup}
                                                         setOpenPopup={setOpenPopup}
+                                                        >
+                                                            <Grid item xs={6}>
+                                                                <Controls.Input
+                                                                    variant="outlined"
+                                                                    label="Price"
+                                                                    name="price"
+                                                                    onChange={changePrice}
+                                                                />
+                                                            </Grid>
+                                                            <Grid item md={12} >
+                                                                <Controls.Button
+                                                                    type="submit"
+                                                                    text="Send Price"
+                                                                    onClick={() => {
+                                                                        onAccept(value.orderId)
+                                                                    }}
+                                                                />
+                                                            </Grid>
+                                                        </Popup>
+
+                                                        <Popup
+                                                        title="Reason for the rejection"
+                                                        openPopup={openRejectPopup}
+                                                        setOpenPopup={setOpenRejectPopup}
                                                         >
                                                             <Grid item xs={6}>
                                                                 <Controls.Input

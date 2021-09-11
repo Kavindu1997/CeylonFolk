@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react';
 import CommonNav from '../../components/Navbars/CommonNav';
 import Footer from '../../components/Footer/Footer';
 import useStyles from './style';
-import { CssBaseline, Box, Typography, Container, Grid, Button, Tabs, Tab, TextField, Switch, FormControl } from '@material-ui/core';
-import addTextBar from '../../images/text.svg'
+import { CssBaseline, Box, Typography, Grid, Button } from '@material-ui/core';
 import image from '../../images/image.svg'
 import upload from '../../images/upload.svg'
 import addTshirt from '../../images/tshirt.svg'
@@ -11,14 +10,10 @@ import cropTop from '../../images/croptop.svg'
 import kids from '../../images/kids.svg'
 import { fabric } from 'fabric';
 import "./MyLayerStyles.css";
-import { Stage, Layer, Image, Text, Transformer } from "react-konva";
+import { Stage, Layer } from "react-konva";
 import { CirclePicker } from "react-color";
-import { Divider, Upload, Icon, Modal } from "antd";
 import Konva from "konva";
-// import mockup2 from '../../images/front22.png';
 import mockup2 from "../../images/new/tFnB.png";
-import UploadBar from "./UploadBar";
-import TShirtMockup from "../Customize/Clothes/TshirtMockup";
 import CropTop from "../Customize/Clothes/CropTop";
 import Kids from "../Customize/Clothes/Kids";
 import '../Admin/adminStyles.css';
@@ -28,7 +23,6 @@ import { useDispatch, useSelector } from "react-redux";
 import TextLayer from "../Customize/Layer/TextLayer";
 import DesignNav from './Components/DesignNav';
 import DesignBox from './Components/DesignBox';
-import TypeBar from './Components/TypeBar';
 import TShirt from '../Customize/Clothes/Tshirt';
 import UploadComponent from './Options/UploadComponent';
 import LogoLayer from './Layer/LogoLayer';
@@ -43,7 +37,6 @@ const Customize = () => {
   const [toggleState, setToggleState] = useState(0);
   const [canvas, setCanvas] = useState('');
   const stageRef = React.useRef(null);
-  const imageRef = React.useRef(null);
   const [color, setColor] = useState(["#ffffff"]);
   const [textOn, setTextOn] = useState(false);
   const [text, setText] = useState('');
@@ -53,14 +46,10 @@ const Customize = () => {
   const [textLayerColors, setTextLayerColors] = useState(["#ffffff", "#000000", "#f44336", "#e91e63", "#9c27b0", "#673ab7", "#3f51b5", "#2196f3", "#03a9f4",
     "#00bcd4", "#009688", "#4caf50", "#8bc34a", "#cddc39", "#ffeb3b", "#ffc107", "#ff9800", "#ff5722", "#795548", "#607d8b", "#C0C0C0", "#C9AE5D"]);
   const [circleSize, setCircleSize] = useState(35);
-  // const [tshirt, setTshirt] = useState(["#ffffff", "#000000", "#ff0000", "	#008000"]);
   const [sweater, setSweater] = useState(["#ffffff", "#000000", "#ffff00", "#ff69b4"]);
   const [selectedId, selectShape] = useState(null);
   const [selectedImageId, selectImage] = useState(null);
   const [images, setImage] = useState('');
-  const shirtRef = React.useRef();
-  const transformer = React.useRef();
-  const shapeRef = React.useRef();
   const [textEdited, setTextEdited] = useState(false);
   const [textPos, setTextPos] = useState({ x: 300, y: 300 });
   const [imageUrl, setImageUrl] = useState('');
@@ -68,13 +57,9 @@ const Customize = () => {
   const [newText, setNewText] = useState('');
   const [index, setIndex] = useState(0);
   const [selectedShapeName, setSelectedShapeName] = useState('');
-  // const [imageSrc, setImageSrc] = useState('');
   const [pickerColorArray, setPickerColorArray] = useState([]);
-  const trRef = React.useRef();
-  const stageText = React.useRef();
   const [check, setCheck] = useState()
   const [imageSrcArray, setimageSrcArray] = useState([])
-  const [imageSrcNewArray, setimageSrcNewArray] = useState([])
   const [imageSrc, setimageSrc] = useState()
   const [exportT, setexportT] = useState(null)
   const [openPopup, setOpenPopup] = useState(false);
@@ -90,9 +75,6 @@ const Customize = () => {
 
   const pickedItemColors = useSelector((state) => state.colorReducer.pickerColor)
 
-  console.log('hello color color')
-  console.log(pickedItemColors)
-
   const mColors = Object.values(pickedItemColors).map((key) => [pickedItemColors[0].color])
 
   Object.size = function (obj) {
@@ -106,9 +88,6 @@ const Customize = () => {
 
   var size = Object.size(pickedItemColors);
 
-  console.log('size')
-  console.log(size)
-
   var array = [];
   var i = 0;
 
@@ -117,15 +96,7 @@ const Customize = () => {
     array.push(pickedItemColors[i].color)
   }
 
-  console.log(array);
-
   const [tshirt, setTshirt] = useState(array);
-
-  console.log(tshirt);
-
-  console.log(pickedItemColors)
-
-  console.log('hello color color')
 
   useEffect(() => {
     dispatch(fetchColors());
@@ -140,18 +111,6 @@ const Customize = () => {
     console.log(imageSrcArray)
 
   }
-
-  console.log('hey thash')
-  // changeLogo();
-
-
-  console.log(imageSrcArray)
-  console.log('hey thash')
-
-  console.log('hey thash')
-
-  console.log(imageSrcArray)
-  console.log('hey thash')
 
   const setCol = (e) => {
     setColor(e.target.value.rgb)
@@ -336,13 +295,20 @@ const Customize = () => {
     setToggleState(index);
   };
 
+  var userName = localStorage.getItem("fullname");
+    console.log(userName)
+
   const handleSaveClick = () => {
     console.log('hello')
     console.log(exportT)
     var id = localStorage.getItem("userId");
+    
+    let orderId = new Date().getTime();
 
     const data = {
       customerId: id,
+      // orderId: orderId,
+      userName:userName,
       image: exportT
     }
 
@@ -394,9 +360,9 @@ const Customize = () => {
             </Box>
             <Box className={toggleState === 3 ? classes.activeContent : classes.content}>
               <Grid Container className={classes.bar3} >
-                <UploadComponent 
-                setLogo={setLogo}
-                changeLogo={changeLogo}
+                <UploadComponent
+                  setLogo={setLogo}
+                  changeLogo={changeLogo}
                 />
               </Grid>
             </Box>
@@ -582,7 +548,10 @@ const Customize = () => {
           <Grid item md={12} >
             <Button
               className={classes.slevebtn}
-              onClick={() => handleSaveClick()}
+              onClick={() => {
+                handleSaveClick()
+                setOpenPopup(false)
+              }}
             >Send Design</Button>
           </Grid>
         </Popup>
@@ -612,29 +581,30 @@ const Customize = () => {
             </a>
           </Grid>
           <Grid>
-            <Button 
-            className={classes.slevebtn}
-            onClick={() => {
-              setOpenPopup(true);
-            }}
+            <Button
+              className={classes.slevebtn}
+              onClick={() => {
+                setopenSleevePopup(true);
+              }}
             >SLEAVE DESIGNING</Button>
           </Grid>
-          {/* <Popup
-          title="Special Design Areas"
-          openPopup={openPopup}
-          setOpenPopup={setOpenPopup}
-        >
-          <Grid style={{alignItems:'center'}}>
-            <Typography style={{textAlign:'center'}}>More design areas to make you stand out</Typography>
-            <Typography style={{textAlign:'center'}}>Give us a call to add to your design, get a quote, and place your order.</Typography>
-            <Typography style={{textAlign:'center'}}>Call us at 011-2345678</Typography>
-            <center>
-            <img style={{alignItems:'center'}} src={sleeveDesign} style={{height: '300px'}}/>
-            </center>
-            
 
-          </Grid>
-        </Popup> */}
+          <Popup
+            title="Special Design Areas"
+            openPopup={openSleevePopup}
+            setOpenPopup={setopenSleevePopup}
+          >
+            <Grid style={{ alignItems: 'center' }}>
+              <Typography style={{ textAlign: 'center' }}>More design areas to make you stand out</Typography>
+              <Typography style={{ textAlign: 'center' }}>Give us a call to add to your design, get a quote, and place your order.</Typography>
+              <Typography style={{ textAlign: 'center' }}>Call us at 011-2345678</Typography>
+              <center>
+                <img style={{ alignItems: 'center' }} src={sleeveDesign} style={{ height: '300px' }} />
+              </center>
+
+
+            </Grid>
+          </Popup>
 
         </Grid>
       </div>

@@ -66,7 +66,7 @@ const AcceptedOrders = () => {
 
         axios.put('http://localhost:3001/customizeOrders/orderReadyToDispatch/',data).then((response) => {
             console.log(response.data);
-            alert('Ready to Dispatch')
+            alert('Printed')
             // setlistOfOrderDetails(response.data);
         })
 

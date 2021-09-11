@@ -29,6 +29,7 @@ router.get("/byId/:id", async (req,res) => {
 router.get("/byPid/:id", async (req,res) => {
     const id = req.params.id;
     const product = await Designs.findByPk(id)
+    console.log(product)
     res.json(product);
 });
 

@@ -6,3 +6,4 @@ export * from "./collection.consts";
 export * from "./colorActionTypes";
 export * from "./deposit.consts";
 export * from "./orderHistory.consts";
+export * from "./uderDetailsActionTypes";

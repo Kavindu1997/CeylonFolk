@@ -62,6 +62,25 @@ const useStyles = makeStyles((theme) => ({
         marginLeft: '20px',
     },
 
+    stepperContainer:{
+        padding: '10px',
+    margin: '10px',
+    width: '50%',
+    marginTop: '100px',
+    backgroundColor: '#ebf9fd'
+
+    },
+    root: {
+        width: '100%',
+      },
+      backButton: {
+        marginRight: theme.spacing(1),
+      },
+      instructions: {
+        marginTop: theme.spacing(1),
+        marginBottom: theme.spacing(1),
+      },
+
     quantity: {
         display: 'none'
       },
