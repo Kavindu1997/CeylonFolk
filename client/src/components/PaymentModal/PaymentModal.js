@@ -6,6 +6,7 @@ import axios from 'axios';
 const PaymentModal = (paymentDetail) => {
   let history = useHistory();
   console.log(paymentDetail)
+  
   // Put the payment variables here
   var payment = {
     sandbox: true, // if the account is sandbox or real

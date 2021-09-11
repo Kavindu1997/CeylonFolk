@@ -120,12 +120,52 @@ const multer = require('multer');
 
         const id = req.body.id;
         const price = req.body.price
+        const email = req.body.email
         console.log(price)
 
         const htmlEmail = `
             <h4>Your order has been Accepted</h4>
-            <h4>Total Amount:${price}</h4>
-            <h4> Design <h4>`
+            <h4>You have to make a advance payment to confirm the order</h4>
+            <h4>Your Advance : ${price/2}</h4>
+            <h4>Thank you for Ordering with Ceylonfork</h4>`
+
+            const transporter = nodemailer.createTransport({
+                host: 'smtp.gmail.com',
+                port: 465,
+                secure: true,
+                auth: {
+                    user: "testceylonfolk@gmail.com",
+                    pass: "pkjjt@1234"
+                }
+            });
+
+            const mailOptions = {
+                from: req.body.email, // sender address
+                to: email, // list of receivers
+                replyTo: req.body.email,
+                subject: "Customize Order Acceptance", // Subject line
+                text: 'Customize Order Acceptance', // plain text body
+                html: htmlEmail
+    
+            };
+
+            transporter.sendMail(mailOptions,(err,info) =>{
+                if(err){
+                            console.log("error in sending mail",err)
+                            return res.status(400).json({
+                                message:`error in sending the mail${err}`
+                            })
+                        }
+                        else{
+                            console.log("successfully send message",info)
+                            alert("successfully send message");
+                            return res.json({
+                                message:info
+                            })
+                        }
+                     } );  
+    
+            res.json("SUCCESS");
 
         const query = "UPDATE customizeorders SET status='Accept', price='"+price+"' WHERE orderId='"+id+"'";
         const updateStatus = await sequelize.query(query, { type: sequelize.QueryTypes.UPDATE });
@@ -226,6 +266,23 @@ const multer = require('multer');
         const query = "SELECT * FROM customizeorders WHERE status='Order Closed'";
         const listOfDispatchedOrders = await sequelize.query(query, { type: sequelize.QueryTypes.SELECT });
         res.json(listOfDispatchedOrders);
+        // res.render("upload");
+    });
+
+    router.put("/advancePaid", async (req,res) => {
+        const id = req.body.id;
+        const price = req.body.price;
+        console.log(id)
+        const query = "UPDATE customizeorders SET status='Advance Paid', price='"+price+"' WHERE orderId='"+id+"'";
+        const updateStatus = await sequelize.query(query, { type: sequelize.QueryTypes.UPDATE });
+    
+    res.json(updateStatus);
+    });
+
+    router.get("/advancePayment", async (req,res) => {
+        const query = "SELECT * FROM customizeorders WHERE status='Advance Paid'";
+        const listOfAdvancePaidOrders = await sequelize.query(query, { type: sequelize.QueryTypes.SELECT });
+        res.json(listOfAdvancePaidOrders);
         // res.render("upload");
     });
 

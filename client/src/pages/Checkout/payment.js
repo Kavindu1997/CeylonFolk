@@ -1,4 +1,7 @@
 export function setPayment(detail){
+
+  var uName = localStorage.getItem("fullname");
+
     var payment = {
         sandbox: true, // if the account is sandbox or real
         merchant_id: '1218255', // Replace your Merchant ID
@@ -6,7 +9,7 @@ export function setPayment(detail){
         cancel_url: 'http://sample.com/cancel',
         notify_url: 'http://sample.com/notify',
         order_id: detail.orderId,
-        items: "perera",
+        items: uName,
         amount: detail.totalAmount,
         currency: 'LKR',
         first_name: detail.name,
