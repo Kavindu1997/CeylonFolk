@@ -66,6 +66,17 @@ const CustCustomizeOrders = () => {
                                                         <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.price}</TableCell>
                                                         <TableCell align="center" style={{ fontFamily: 'Montserrat' }}><img height={100} align="center" src={'http://localhost:3001/' + value.image} alt=""></img></TableCell> 
                                             <TableCell align="center">
+                                            <Button  color="primary"
+                                                disabled={disable} 
+                                                key={index}
+                                                onClick={() => {history.push(`/orderView/${value.orderId}`)}}
+                                                // onClick={() => {
+                                                //     setDisable(true)
+                                                //     setOpenPopup(true);
+                                                // }}
+                                                >
+                                                    View Order
+                                                </Button>
                                                 <Button className={value.status === 'Accept' ? classes.activeQuantity : classes.quantity} color="primary"
                                                 disabled={disable} 
                                                 key={index}
@@ -76,39 +87,9 @@ const CustCustomizeOrders = () => {
                                                 >
                                                     Confirm Order
                                                 </Button>
-                                                <Button className={value.status === 'Accept' ? classes.activeQuantity : classes.quantity} color="primary"
-                                                disabled={disable} 
-                                                key={index}
-                                                onClick={() => {
-                                                    history.push(`/orderView/${value.orderId}`);
-                                                }}
-                                                >
-                                                    View Order
-                                                </Button>
                                             </TableCell>
 
-                                            <Popup
-                                                        title="Send the Estimated Price"
-                                                        openPopup={openPopup}
-                                                        setOpenPopup={setOpenPopup}
-                                                        >
-                                                            <Grid item xs={4}>
-                                                                <Typography>You Have to make 50% of your full amount to confirm your order</Typography>
-                                                                <Typography>Your payment</Typography>
-                        
-                                                                <Typography>{value.price/2}</Typography>
-
-                                                            </Grid>
-                                                            <Grid item md={12} >
-                                                                <Controls.Button
-                                                                    type="submit"
-                                                                    text="Proceed to Checkout"
-                                                                    onClick={() => {
-                                                                        history.push('/Checkout');
-                                                                    }}
-                                                                />
-                                                            </Grid>
-                                                        </Popup>
+                                           
 
                                         </TableRow>
                                     );

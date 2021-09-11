@@ -69,7 +69,7 @@ const CollectionTable = () => {
 
     const pickedItemColors = useSelector((state) => state.colorReducer.pickerColor)
 
-    dispatch(fetchColors());
+    // dispatch(fetchColors());
 
     const onRemove = (id) => {
         // dispatch(actionDeleteCollection(id));
