@@ -69,7 +69,7 @@ const CollectionTable = () => {
 
     const pickedItemColors = useSelector((state) => state.colorReducer.pickerColor)
 
-    dispatch(fetchColors());
+    // dispatch(fetchColors());
 
     const onRemove = (id) => {
         // dispatch(actionDeleteCollection(id));
@@ -117,19 +117,19 @@ const CollectionTable = () => {
                                 <Table className={classes.table} aria-label="simple table">
                                     <TableHead>
                                         <TableRow>
-                                            <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>COLOR ID</TableCell>
-                                            <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>COLOR</TableCell>
-                                            <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>PRICE</TableCell>
-                                            <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>EDIT COLOR</TableCell>
-                                            <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>DELETE COLOR</TableCell>
+                                            <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Colour</TableCell>
+                                            <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Colour Name</TableCell>
+                                            <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Price</TableCell>
+                                            <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Edit Colour</TableCell>
+                                            <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Delete Colour</TableCell>
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
                                         {pickedItemColors.map((pickColor) => {
-                                            const { id, color, price } = pickColor;
+                                            const {color, price,color_name } = pickColor;
                                             return (
                                                 <TableRow>
-                                                    <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{id}</TableCell>
+                                                    <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{color_name}</TableCell>
                                                     <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>
                                                         {/* <img height={100} align="center" src={'http://localhost:3001/' + value.coverImage} alt=""></img> */}
 

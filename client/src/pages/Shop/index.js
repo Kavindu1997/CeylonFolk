@@ -26,8 +26,29 @@ const Shop = () => {
 
     const classes = useStyles1();
     const [checked, setChecked] = useState(false);
+    const [Collection, setCollection] = useState('');
+    const [Colour, setColour] = useState('');
+    const [Type, setType] = useState('');
+    const [Size, setSize] = useState('');
+    const [products, setRecord] = useState([]);
+    
 
-    const products = useSelector((state) => state.productReducer.productObject)
+    const onCollection = (e) => {
+        setCollection(e.target.value)
+    }
+    const onColour = (e) => {
+        setColour(e.target.value)
+    }
+    const onType = (e) => {
+        setType(e.target.value)
+    }
+    const onSize = (e) => {
+        setSize(e.target.value)
+    }
+
+
+
+    // const products = useSelector((state) => state.productReducer.productObject)
     console.log(products)
     const dispatch = useDispatch();
 
@@ -60,11 +81,77 @@ const Shop = () => {
     //     });
     // }, []);
 
+    const [listOfSizes, setListOfSizes] = useState([]);
+
+    useEffect(() => {
+
+        axios.get("http://localhost:3001/invent/sizes").then((response) => {
+            // console.log(response.data);
+            setListOfSizes(response.data);
+        });
+    }, []);
+
+    const [listOfCollections, setListOfCollections] = useState([]);
+
+    useEffect(() => {
+
+        axios.get("http://localhost:3001/collection").then((response) => {
+            // console.log(response.data);
+            setListOfCollections(response.data);
+        });
+    }, []);
+
+    const [listOfColors, setListOfColors] = useState([]);
+
+    useEffect(() => {
+
+        axios.get("http://localhost:3001/availableColors/fetchColors").then((response) => {
+            // console.log(response.data);
+            setListOfColors(response.data);
+        });
+    }, []);
+
+    const [listOfTypes, setListOfTypes] = useState([]);
+
+    useEffect(() => {
+
+        axios.get("http://localhost:3001/types").then((response) => {
+            // console.log(response.data);
+            setListOfTypes(response.data);
+        });
+    }, []);
 
 
+    const doFilter = (e) => {
 
+        axios.get('http://localhost:3001/shop/filterRecords',{
+            params: {
+              Collection: Collection,
+              Colour: Colour,
+              Type: Type,
+              Size: Size,
+            }
+          })
+        .then(response => {
+            setRecord(response.data);
+        });
+        // props.resetForm();
+    };
 
+    const loadRecordAgain = () => {
+        var response = fetch(`http://localhost:3001/shop`)
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (myJson) {
+                setRecord(myJson);
+            });
 
+    }
+    useEffect(() => {
+        loadRecordAgain();
+        // dispatch(fetchColors());
+    }, []);
 
     let history = useHistory()
     return (
@@ -80,10 +167,17 @@ const Shop = () => {
                     <Grid item md={6}>
                         <div className={classes.filter}>
                             <ButtonGroup variant="contained" color="primary" aria-label="split button" style={{ boxShadow: 'none' }}>
-                                <select className={classes.icon}>
+                                <select className={classes.icon} name="Collection"  onChange={onCollection}>
                                     <option value="">Collection</option>
-                                    <option value="1">Snowy</option>
-                                    <option value="0">Marvel</option>
+                                  
+                                    {listOfCollections
+                                            .map((value) => {
+                                                return (
+
+                                                    <option value={value.collection_name}>{value.collection_name}</option>
+                                                    );
+                                                })}
+
                                 </select>
                             </ButtonGroup>
                             {/* <ButtonGroup variant="contained" color="primary" aria-label="split button" style={{ boxShadow: 'none' }}>
@@ -94,22 +188,49 @@ const Shop = () => {
                                 </select>
                             </ButtonGroup> */}
                             <ButtonGroup variant="contained" color="primary" aria-label="split button" style={{ boxShadow: 'none' }}>
-                                <select className={classes.icon}>
-                                    <option value="">color</option>
-                                    <option value="1">Black</option>
-                                    <option value="0">White</option>
+                                <select className={classes.icon} name="Colour"  onChange={onColour}>
+                                    
+                                    <option value="">Colour</option>
+                                   
+                                    {listOfColors
+                                            .map((value) => {
+                                                return (
+
+                                                    <option value={value.color_name}>{value.color_name}</option>
+                                                    );
+                                                })}
                                 </select>
                             </ButtonGroup>
                             <ButtonGroup variant="contained" color="primary" aria-label="split button" style={{ boxShadow: 'none' }}>
-                                <select className={classes.icon}>
-                                    <option value="">Size</option>
-                                    <option value="1">Small</option>
-                                    <option value="0">Medium</option>
+                                <select className={classes.icon} name="Type"  onChange={onType}>
+                                    
+                                    <option value="">Type</option>
+                                   
+                                    {listOfTypes
+                                            .map((value) => {
+                                                return (
+
+                                                    <option value={value.types}>{value.types}</option>
+                                                    );
+                                                })}
                                 </select>
                             </ButtonGroup>
-                            <Button variant="contained" color="primary">
+                            <ButtonGroup variant="contained" color="primary" aria-label="split button" style={{ boxShadow: 'none' }}>
+                                <select className={classes.icon} name="Size"  onChange={onSize}>
+                                <option value="">Size</option>
+                                    {listOfSizes
+                                            .map((value) => {
+                                                return (
+
+                                                    <option value={value.size}>{value.size}</option>
+                                                    );
+                                                })}
+                                </select>
+                            </ButtonGroup>
+                            <Button variant="contained" color="primary" onClick={doFilter}>
                                 Filter
                             </Button>
+
                         </div>
                     </Grid>
                 </center>

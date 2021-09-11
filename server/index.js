@@ -48,8 +48,11 @@ app.use('/public', express.static('public'));
 const productDetailsRouter = require('./routes/ProductDetails');
 app.use("/ProductDetails", productDetailsRouter);
 
- const couponRouter = require('./routes/Coupons');
- app.use("/coupons", couponRouter);
+const couponRouter = require('./routes/Coupons');
+app.use("/coupons", couponRouter);
+
+const offerRouter = require("./routes/Offers");
+app.use("/offers", offerRouter);
 
 const checkoutRouter = require('./routes/Checkout');
 app.use("/check", checkoutRouter);
