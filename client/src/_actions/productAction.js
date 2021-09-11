@@ -13,7 +13,9 @@ export const fetchProducts = () => async (dispatch) => {
   dispatch({ type: ProductActionTypes.FETCH_PRODUCTS, payload: response.data })
 }
 
+
 }
+
 
 export const fetchProduct = (id) => async function (dispatch) {
   const response = await ceylonforkapi.get(`/ProductDetails/byPid/${id}`)

@@ -11,6 +11,7 @@ import Collections from './pages/Admin/CollectionTable';
 import Designs from './pages/Admin/DesignTable';
 import Inventory from './pages/Admin/InventoryTable';
 import Coupon from './pages/Admin/CouponTable';
+import Offers from './pages/Admin/Offers/OffersTable';
 import NotFound from './pages/PageNotFound/Notfound';
 import AvailableColors from './pages/Admin/AvailableColors/AvailableColorsTable';
 import AvailableSizes from './pages/Admin/SizeTable';
@@ -143,6 +144,7 @@ class App extends Component {
           <Route path="/designs" exact render={() => <Designs />} />
           <Route path="/inventory" exact render={() => <Inventory />} />
           <Route path="/coupon" exact render={() => <Coupon />} />
+          <Route path="/offers" exact render={() => <Offers />} />
           <Route path="/availableColors" exact render={() => <AvailableColors />} />
           <Route path="/availableSizes" exact render={() => <AvailableSizes  />} />
           <Route path="/availableTypes" exact render={() => <AvailableTypes  />} />
@@ -150,6 +152,7 @@ class App extends Component {
           <Route path="/checkout" exact render={() => <Checkout />} />
           <Route path="/wishlist" exact render={() => <Wishlist />} />
           <Route path="/aboutUs" exact render={() => <About />} />
+         
           {/* <Route path="/profile" exact render={() => <Profile />} />
           <Route path="/myWishlist" exact render={() => <ProfileWishlist />} />
           <Route path="/myOrders" exact render={() => <OrderHistory />} /> */}
