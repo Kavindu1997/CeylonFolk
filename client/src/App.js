@@ -53,6 +53,7 @@ import CustomizeOrderDetails from './pages/Admin/CustomizeOrder/CustomizeOrderTa
 import CustCustomizeOrderDetails from './pages/MyOrders/CustomizeOrders';
 import Types from './pages/Shop/Types';
 import OrderView from './pages/MyOrders/OrderView';
+import DepositSlips from './pages/Admin/Deposit/depositSlips';
 
 
 const theme = createMuiTheme({
@@ -173,6 +174,7 @@ class App extends Component {
               <Route path="/assistant" exact render={() => <Assistant />} />
               <Route path="/customizeOrders" exact render={() => <CustomizeOrderDetails />} />
               <Route path="/custcustomizeOrders" exact render={() => <CustCustomizeOrderDetails />} />
+              <Route path="/depositlips" exact render={() => <DepositSlips />} />
               <Route exact path={"/types/:id"} component = {Types} />
               <Route exact path={"/orderView/:id"} component = {OrderView} />
               <Route path="/*" exact render={() => <NotFound />} />

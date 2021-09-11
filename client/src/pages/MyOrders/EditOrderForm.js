@@ -9,6 +9,8 @@ import useStyles from './style2';
 import { useDispatch, useSelector } from "react-redux";
 import { fetchColors } from '../../_actions/colorActions';
 import { viewOrderDetail, cancelOrderItem } from '../../_actions/orderHistory.action';
+import Notification from '../../components/Reusable/Notification';
+import ConfirmDialog from '../../components/Reusable/ConfirmDialog';
 
 const EditOrderForm = ({ selectedOrderToEdit }) => {
     console.log(selectedOrderToEdit)
@@ -17,6 +19,8 @@ const EditOrderForm = ({ selectedOrderToEdit }) => {
     const classes = useStyles();
     const [size, setSize] = useState()
     const [quantity, setQuantity] = useState();
+    const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' });
+    const [confirmDialog, setConfirmDialog] = useState({ isOpen: false, title: '', subTitle: '' });
 
     const dispatch = useDispatch();
     useEffect(() => {
@@ -26,9 +30,9 @@ const EditOrderForm = ({ selectedOrderToEdit }) => {
 
     let history = useHistory();
 
-    const onFormSubmit = (e) => {
+    function onFormSubmit(e){
         e.preventDefault();
-      
+   
         const data = {
             oId: selectedOrderToEdit.oId,
             itemId: selectedOrderToEdit.itemId,
@@ -57,6 +61,20 @@ const EditOrderForm = ({ selectedOrderToEdit }) => {
 
 
         axios.put("http://localhost:3001/order/updateOrder/",data).then((response) => {
+            if(response.data.error){
+                setNotify({
+                    isOpen: true,
+                    message: 'Not successfully edited !',
+                    type: 'error'
+                  });
+            }else{
+                setNotify({
+                    isOpen: true,
+                    message: 'Successfully edited !',
+                    type: 'success'
+                  });
+            }
+           
             dispatch(viewOrderDetail(selectedOrderToEdit.oId))
             
         });
@@ -72,21 +90,52 @@ const EditOrderForm = ({ selectedOrderToEdit }) => {
         });
     }, []);
 
+    const [margin, setMargin] = useState();
+    const [quantityError, setQuantityError] = useState(false)
+
     const changeSize = (e) => {
+        var selectedSizeArray = productO.find(item => item.sizeId == e.target.value)
+        console.log(selectedSizeArray)
         setSize(e.target.value)
         console.log(e.target.value)
+        setMargin(selectedSizeArray.quantity)
+        console.log(selectedSizeArray.quantity)
+       
     }
+
+    const [quantityErrorMsg,setQuantityErrorMsg] = useState()
+    const [isDisable, setIsDisable] = useState(false)
 
     const changeQuantity = (e) => {
         setQuantity(e.target.value);
         console.log(e.target.value);
+        console.log(margin)
+        var selectedSizeArray;
+        if(margin==undefined){
+            selectedSizeArray = productO.find(item => item.sizeId == selectedOrderToEdit.sizeId)
+            setMargin(selectedSizeArray.quantity)
+            console.log(selectedSizeArray)
+        } 
+        console.log(quantity)
+        if(e.target.value > margin){
+            console.log("error")
+            var msg = "Cannot exceed available quantity: "+margin
+            console.log(margin)
+            setQuantityErrorMsg(msg)
+            setQuantityError(true)
+            setIsDisable(true)
+        }else{
+            setQuantityError(false)
+            setQuantityErrorMsg('')
+            setIsDisable(false)
+        }
     };
 
 
     return (
         <div>
             <div>
-                <form onSubmit={onFormSubmit}>
+                <form>
                                 <Grid container>
 
                                     <Grid item xs={4}>
@@ -108,10 +157,12 @@ const EditOrderForm = ({ selectedOrderToEdit }) => {
                                             name="quantity"
                                             defaultValue={selectedOrderToEdit.quantity}
                                             onChange={changeQuantity}
-                                            
+                                            error={quantityError}
+                                           
                                         />
                                        
                                     </Grid>
+                                    
                                     <Grid item xs={4}>
                                     <FormControl variant="outlined"  >
                                     <InputLabel id="demo-simple-select-outlined-label" >Size</InputLabel>
@@ -137,12 +188,16 @@ const EditOrderForm = ({ selectedOrderToEdit }) => {
                                             </FormControl>
                                                
                                     </Grid>
-                                   
+                                   <Grid item md = {12}>
+                                        <Typography style={{color:"red"}}>{quantityErrorMsg}</Typography>
+                                    </Grid>
                                     <Grid item md={12} >
                                         <Controls.Button
                                             type="submit"
                                             text="Confrim Edit"
                                             style={{marginTop:"10px",marginLeft:"40%"}}
+                                            onClick={onFormSubmit}
+                                            disabled={isDisable}
                                         />
                                     </Grid>
 
@@ -151,6 +206,15 @@ const EditOrderForm = ({ selectedOrderToEdit }) => {
 
                 </form>
             </div>
+            <Notification
+                notify={notify}
+                setNotify={setNotify}
+            />
+
+            <ConfirmDialog
+                confirmDialog={confirmDialog}
+                setConfirmDialog={setConfirmDialog}
+            />
         </div >
 
 

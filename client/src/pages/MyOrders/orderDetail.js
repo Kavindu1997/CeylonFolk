@@ -48,6 +48,10 @@ export default function OrderDetail() {
     }
     var [selectedOrderToEdit,setSelectedOrderToEdit]=useState([])
     function setOrderToEdit(value) {
+        setConfirmDialog({
+            ...confirmDialog,
+            isOpen: false
+        });
         setOpenPopup(true)
         setSelectedOrderToEdit({
             oId:oId,
@@ -145,8 +149,15 @@ export default function OrderDetail() {
                                                             }}
                                                             >
 
-                                                                <i class="fa fa-pencil-square-o" aria-hidden="true" onClick={() => {
-                                                                    setOrderToEdit(value);
+                                                                <i class="fa fa-pencil-square-o" aria-hidden="true" 
+                                            
+                                                                onClick={(event) => {
+                                                                    setConfirmDialog({
+                                                                        isOpen: true,
+                                                                        title: 'Are you sure to edit this item?',
+                                                                        subTitle: "Your order will be changed...",
+                                                                        onConfirm: () => {  setOrderToEdit(value) }
+                                                                    })
                                                                 }}></i>
                                                             </Button>
                                                             </TableCell>
