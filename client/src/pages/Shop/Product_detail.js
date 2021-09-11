@@ -61,8 +61,7 @@ export default function Product_detail() {
   const [productSize, setProductSize] = useState();
   const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' });
 
-  console.log("thash");
-  console.log(id);
+  
 
   // console.log('hello from redux')
   // console.log(products)
