@@ -23,9 +23,9 @@ export default function Deposit(props) {
     const dispatch = useDispatch();
     let id, orderIdFromEmail;
    
-    if(localStorage.getItem("userId")=='0'){
-        history.push("/auth")
-    }
+    // if(localStorage.getItem("userId")=='0'){
+    //     history.push("/auth")
+    // }
 
     if (props.location.search) {
         var splitted = props.location.search.split("?id=", 2);
@@ -49,12 +49,9 @@ export default function Deposit(props) {
         localStorage.setItem("fromTheCart", false);
         history.push('/auth');
     }
-
-    if (localStorage.getItem("fromTheEmail") == 'true') {
-        orderIdFromEmail = localStorage.getItem("orderIdFromEmail");
-        localStorage.setItem("fromTheEmail",false);
+    if(localStorage.getItem("orderIdFromEmail")!= undefined){
+        orderIdFromEmail = localStorage.getItem("orderIdFromEmail")
     }
-
 
     function viewOrder(e) {
         e.preventDefault()
@@ -107,10 +104,11 @@ export default function Deposit(props) {
         console.log(formData)
         axios.post("http://localhost:3001/depositCollection", formData, config).then((response) => {
             alert('Image upload Successfull');
-           history.push("/myOrders")
+            history.push("/myOrders")
+            localStorage.removeItem("orderIdFromEmail")
+            localStorage.removeItem("userIdFromMail")
             formData.delete('photo');
             props.location.search = null
-            localStorage.setItem("orderIdFromEmail",0)
             dispatch(claerOrderDetails())
             orderIdFromEmail = null;
         }).catch((err) => {
