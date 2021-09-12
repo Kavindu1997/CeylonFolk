@@ -53,7 +53,7 @@ const CustCustomizeOrders = () => {
                                         <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Order ID</TableCell>
                                         <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Status</TableCell>
                                         <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Price</TableCell>
-                                        <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Design</TableCell>
+                                        {/* <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Design</TableCell> */}
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
@@ -64,29 +64,18 @@ const CustCustomizeOrders = () => {
                                             <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.orderId}</TableCell>
                                                         <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.status}</TableCell>
                                                         <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.price}</TableCell>
-                                                        <TableCell align="center" style={{ fontFamily: 'Montserrat' }}><img height={100} align="center" src={'http://localhost:3001/' + value.image} alt=""></img></TableCell> 
+                                                        {/* <TableCell align="center" style={{ fontFamily: 'Montserrat' }}><img height={100} align="center" src={'http://localhost:3001/' + value.image} alt=""></img></TableCell>  */}
                                             <TableCell align="center">
-                                            <Button  color="primary"
+                                            <Controls.Button  color="primary"
                                                 disabled={disable} 
                                                 key={index}
                                                 onClick={() => {history.push(`/orderView/${value.orderId}`)}}
+                                                text="VIEW ORDER"
                                                 // onClick={() => {
                                                 //     setDisable(true)
                                                 //     setOpenPopup(true);
                                                 // }}
-                                                >
-                                                    View Order
-                                                </Button>
-                                                <Button className={value.status === 'Accept' ? classes.activeQuantity : classes.quantity} color="primary"
-                                                disabled={disable} 
-                                                key={index}
-                                                onClick={() => {
-                                                    setDisable(true)
-                                                    setOpenPopup(true);
-                                                }}
-                                                >
-                                                    Confirm Order
-                                                </Button>
+                                                />
                                                 
                                             </TableCell>
 

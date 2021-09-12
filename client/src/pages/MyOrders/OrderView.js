@@ -130,12 +130,12 @@ export default function OrderView() {
   }
 
   function onProceed() {
-    var id = localStorage.getItem("userId");
-    if (id > 0) {
-      history.push('/Checkout');
+    var Uid = localStorage.getItem("userId");
+    if (Uid > 0) {
+      history.push(`/customize/checkout/${id}`);
     }
     else {
-      localStorage.setItem("fromTheCart", true);
+      // localStorage.setItem("fromTheCart", true);
       history.push('/auth');
     }
   }
@@ -221,7 +221,11 @@ export default function OrderView() {
                   >
                     Edit Design
                   </Button>
-                  <Box>
+                  
+
+                </Box>
+
+                <Box className={orderDetails.status === 'Printed' ? classes.activeQuantity : classes.quantity}>
                     <Box style={{fontSize:'18px',padding:'10px', margin:'10px'}}>Order is ready to dispatch</Box>
                     <Box style={{color:'red'}}>Make the rest payment to disptache order to your door step</Box>
                     <Button
@@ -232,8 +236,6 @@ export default function OrderView() {
                     Proceed to Checkout
                   </Button>
                   </Box>
-
-                </Box>
 
                 <Popup
                   title="Send the Estimated Price"

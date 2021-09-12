@@ -170,6 +170,8 @@ const useStyles = makeStyles((theme) => ({
       width: '45px',
       height: 'auto',
       padding: '0.8rem 0',
+      border: 'solid',
+      borderWidth: '2px',
       lineHeight: '1',
       textAlign: 'center',
       fontSize: '14px',
