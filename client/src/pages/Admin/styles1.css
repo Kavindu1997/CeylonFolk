@@ -1,6 +1,6 @@
 
 
-.swatchVisible:{
+.swatchVisible{
     text-indent: 'inherit';
     border-radius: '50%';
     width: '45px';
@@ -11,10 +11,12 @@
     font-size: '14px';
     font-weight: '600';
     color: '#000';
-    display: 'inline-block'
+    display: 'inline-block';
+    border: 'solid';
+    border-width: 2px;
   }
 
-  .clrsboxSize:{
+  .clrsboxSize{
     list-style: 'none';
     padding: '0';
     margin: '0';

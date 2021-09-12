@@ -160,6 +160,8 @@ const useStyles = makeStyles((theme) => ({
       fontSize: '14px',
       fontWeight: '600',
       border: '2px solid #ccc',
+      border: 'solid',
+      borderWidth: '2px',
       color: '#000',
       boxShadow: 'inset 0 0 0 4px white',
       display: 'inline-block',

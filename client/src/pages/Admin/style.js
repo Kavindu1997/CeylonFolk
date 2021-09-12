@@ -144,6 +144,8 @@ const useStyles = makeStyles((theme) => ({
       padding: '0.8rem 0',
       lineHeight: '1',
       textAlign: 'center',
+      border: 'solid',
+      borderWidth: '2px',
       fontSize: '14px',
       fontWeight: '600',
       color: '#000',
