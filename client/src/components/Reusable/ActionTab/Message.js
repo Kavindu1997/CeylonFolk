@@ -1,7 +1,12 @@
-import React, { Fragment } from "react";
+// import React, { Fragment } from "react";
+import React, { useState, useEffect } from "react";
 import {Avatar,Badge,Button,IconButton,List,ListItem, ListItemAvatar, ListItemText,Menu,} from "@material-ui/core";
 import ForumIcon from "@material-ui/icons/Forum";
 import { useStyles } from "./styles";
+import axios from 'axios';
+import Controls from '../Controls';
+
+
 
 export default function Messages() {
   const classes = useStyles();
@@ -15,10 +20,23 @@ export default function Messages() {
     setAnchorEl(null);
   };
 
-  const dropDownData = [
-    { label: "Kavindu", description: "Hi CeylonFolk" },
-      ];
+  const [listOfContactUs, setListOfContactUs] = useState([]);
 
+  useEffect(() => {
+    axios.get("http://localhost:3001/notifications").then((response) => {
+        console.log(response.data);
+        // console.log("ssss");
+        setListOfContactUs(response.data);
+      
+    })
+}, []);
+
+console.log(listOfContactUs);
+console.log("jkjk");
+  const dropDownData = [ { label: "kk" , description: "Hi CeylonFolk" },];
+
+
+     
   return (
     <>
       <IconButton
@@ -26,7 +44,7 @@ export default function Messages() {
         aria-haspopup='true'
         onClick={handleClick}
         color='inherit'>
-        <Badge badgeContent={dropDownData.length} color='secondary'>
+        <Badge badgeContent={(listOfContactUs.length+listOfContactUs.length)} color='secondary'>
           <ForumIcon />
         </Badge>
       </IconButton>
@@ -38,18 +56,41 @@ export default function Messages() {
         onClose={handleClose}
         placement='bottom-start'>
         <List dense={true} className={classes.dropdownlist}>
-          {dropDownData.map((item, i) => (
+
+          {listOfContactUs.map((item,i) => (
             <ListItem
               key={i}
               component={Button}
               onClick={handleClose}
               className={classes.listItem}>
               <ListItemAvatar>
-                <Avatar className={classes.navImg}>{item.label[0]}</Avatar>
+                <Avatar className={classes.navImg}>{item.id[0]}</Avatar>
               </ListItemAvatar>
               <ListItemText
-                primary={item.label}
-                secondary={item.description}></ListItemText>
+                primary={item.id}
+                secondary={item.name}></ListItemText>
+
+                {/* <Controls.Button
+                                type="submit"
+                                text="Add New Design"
+                            /> */}
+
+            </ListItem>
+          ))}
+
+
+            {listOfContactUs.map((item,i) => (
+            <ListItem
+              key={i}
+              component={Button}
+              onClick={handleClose}
+              className={classes.listItem}>
+              <ListItemAvatar>
+                <Avatar className={classes.navImg}>{item.id[0]}</Avatar>
+              </ListItemAvatar>
+              <ListItemText
+                primary={item.id}
+                secondary={item.name}></ListItemText>
             </ListItem>
           ))}
         </List>

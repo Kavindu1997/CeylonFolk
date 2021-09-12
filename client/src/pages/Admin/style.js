@@ -215,6 +215,27 @@ quantity: {
 },
 activeQuantity: {
   display: 'block',
+  
+iconForOffers: {
+  fill: 'white',
+  padding: '18px',
+  // borderRadius: '50px',
+  background: 'light blue',
+  width: '200px',
+  height: '200',
+  color: 'black',
+  boxShadow: 'none',
+  marginTop:'18px'
+
+},
+
+date: {
+ 
+  
+  marginTop:'20px',
+  marginBottom:'30px'
+
+
 },
       
   }));

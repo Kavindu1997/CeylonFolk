@@ -7,11 +7,15 @@ export const fetchProducts = () => async (dispatch) => {
 {
   const response = await ceylonforkapi.get("/shop/shops/"+id)
   dispatch({ type: ProductActionTypes.FETCH_PRODUCTS, payload: response.data })
+  console.log(response.data)
 }  else{
   const response = await ceylonforkapi.get("/shop")
   dispatch({ type: ProductActionTypes.FETCH_PRODUCTS, payload: response.data })
 }
+
+
 }
+
 
 export const fetchProduct = (id) => async function (dispatch) {
   const response = await ceylonforkapi.get(`/ProductDetails/byPid/${id}`)
@@ -43,8 +47,13 @@ export const actionAddToWishlist = (id) => async (dispatch)=> {
   const data = {uid: uid , id:id}
   if(uid!="0"){
     const response = await ceylonforkapi.post("/ProductDetails/addwishlist/",data)
-    dispatch({ type: ProductActionTypes.SELECTED_PRODUCT, payload: response.data })
+    if(response){
+      dispatch(fetchProducts());
+    }
+    // dispatch({ type: ProductActionTypes.SELECTED_PRODUCT, payload: response.data })
+    
   } 
-  dispatch({type:ProductActionTypes.ADD_TO_WISHLIST, payload: id})
+  // dispatch({type:ProductActionTypes.ADD_TO_WISHLIST, payload: id})
+  dispatch(fetchProducts());
 }
 

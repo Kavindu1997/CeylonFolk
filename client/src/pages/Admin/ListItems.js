@@ -12,7 +12,12 @@ import PaletteIcon from '@material-ui/icons/Palette';
 import ZoomOutMapIcon from '@material-ui/icons/ZoomOutMap';
 import ExtensionIcon from '@material-ui/icons/Extension';
 import StorageIcon from '@material-ui/icons/Storage';
+
 import ListAltIcon from '@material-ui/icons/ListAlt';
+import AccountBalanceIcon from '@material-ui/icons/AccountBalance';
+
+import LocalOfferIcon from '@material-ui/icons/LocalOffer';
+import ContactSupportIcon from '@material-ui/icons/ContactSupport';
 
 
 export const mainListItems = (
@@ -53,6 +58,12 @@ export const mainListItems = (
       </ListItemIcon>
       <ListItemText primary="Coupon" />
     </ListItem>
+    <ListItem button component={Link} to="/offers">
+      <ListItemIcon>
+        <LocalOfferIcon />
+      </ListItemIcon>
+      <ListItemText primary="Offers" />
+    </ListItem>
     <ListItem button component={Link} to="/availableColors">
       <ListItemIcon>
         <PaletteIcon />
@@ -71,11 +82,23 @@ export const mainListItems = (
       </ListItemIcon>
       <ListItemText primary="Available Types" />
     </ListItem>
+
     <ListItem button component={Link} to="/customizeOrders">
       <ListItemIcon>
         <ListAltIcon />
       </ListItemIcon>
       <ListItemText primary="Customized Orders" />
+    </ListItem>
+    <ListItem button component={Link} to="/depositlips">
+      <ListItemIcon>
+        <AccountBalanceIcon />
+      </ListItemIcon>
+      <ListItemText primary="Bank Deposit Slips" />
+    <ListItem button component={Link} to="/inquiries">
+      <ListItemIcon>
+        <ContactSupportIcon />
+      </ListItemIcon>
+      <ListItemText primary="Inquiries" />
     </ListItem>
 
   

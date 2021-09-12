@@ -81,9 +81,19 @@ router.get("/quantity/:id", async (req,res) => {
 router.post("/addwishlist",async (req, res) => {
     const itemId = req.body.id;
     const uId = req.body.uid;
-    const query = "INSERT INTO wishlists(`itemId`,`userId`) VALUES('"+itemId+"','"+uId+"')";
-    const wishlist = await sequelize.query(query, {type: sequelize.QueryTypes.INSERT});
-    res.json(wishlist);
+    const query1 = "SELECT itemId FROM wishlists WHERE itemId ='"+itemId+"' AND userId='"+uId+"'";
+    const wishlistItem = await sequelize.query(query1, {type: sequelize.QueryTypes.SELECT});
+    console.log(wishlistItem)
+    if(wishlistItem.length > 0 ){
+        const query2 = "DELETE FROM wishlists WHERE userId='"+uId+"' AND itemId='"+itemId+"'";
+        const removewishlist = await sequelize.query(query2, { type: sequelize.QueryTypes.DELETE });
+        res.json(removewishlist);
+    }else{
+        const query = "INSERT INTO wishlists(`itemId`,`userId`) VALUES('"+itemId+"','"+uId+"')";
+        const wishlist = await sequelize.query(query, {type: sequelize.QueryTypes.INSERT});
+        res.json(wishlist);
+    }
+    
 })
 
 module.exports = router;

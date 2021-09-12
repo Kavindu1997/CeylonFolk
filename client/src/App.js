@@ -11,6 +11,7 @@ import Collections from './pages/Admin/CollectionTable';
 import Designs from './pages/Admin/DesignTable';
 import Inventory from './pages/Admin/InventoryTable';
 import Coupon from './pages/Admin/CouponTable';
+import Offers from './pages/Admin/Offers/OffersTable';
 import NotFound from './pages/PageNotFound/Notfound';
 import AvailableColors from './pages/Admin/AvailableColors/AvailableColorsTable';
 import AvailableSizes from './pages/Admin/SizeTable';
@@ -52,8 +53,12 @@ import Assistant from './pages/Assistant';
 import CustomizeOrderDetails from './pages/Admin/CustomizeOrder/CustomizeOrderTable';
 import CustCustomizeOrderDetails from './pages/MyOrders/CustomizeOrders';
 import Types from './pages/Shop/Types';
+
 import OrderView from './pages/MyOrders/OrderView'
 import CustomizeCheckout from './pages/Checkout/CustomizeCheckout';
+
+import DepositSlips from './pages/Admin/Deposit/depositSlips';
+
 
 
 const theme = createMuiTheme({
@@ -143,6 +148,7 @@ class App extends Component {
           <Route path="/designs" exact render={() => <Designs />} />
           <Route path="/inventory" exact render={() => <Inventory />} />
           <Route path="/coupon" exact render={() => <Coupon />} />
+          <Route path="/offers" exact render={() => <Offers />} />
           <Route path="/availableColors" exact render={() => <AvailableColors />} />
           <Route path="/availableSizes" exact render={() => <AvailableSizes  />} />
           <Route path="/availableTypes" exact render={() => <AvailableTypes  />} />
@@ -150,6 +156,7 @@ class App extends Component {
           <Route path="/checkout" exact render={() => <Checkout />} />
           <Route path="/wishlist" exact render={() => <Wishlist />} />
           <Route path="/aboutUs" exact render={() => <About />} />
+         
           {/* <Route path="/profile" exact render={() => <Profile />} />
           <Route path="/myWishlist" exact render={() => <ProfileWishlist />} />
           <Route path="/myOrders" exact render={() => <OrderHistory />} /> */}
@@ -174,6 +181,7 @@ class App extends Component {
               <Route path="/assistant" exact render={() => <Assistant />} />
               <Route path="/customizeOrders" exact render={() => <CustomizeOrderDetails />} />
               <Route path="/custcustomizeOrders" exact render={() => <CustCustomizeOrderDetails />} />
+              <Route path="/depositlips" exact render={() => <DepositSlips />} />
               <Route exact path={"/types/:id"} component = {Types} />
               <Route exact path={"/orderView/:id"} component = {OrderView} />
               <Route exact path={"/customize/checkout/:id"} component = {CustomizeCheckout} /> 

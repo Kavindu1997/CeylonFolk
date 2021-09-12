@@ -62,6 +62,7 @@ export default function Product_detail() {
   const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' });
   var isSizeRequired = false;
 
+  
 
   // console.log('hello from redux')
   // console.log(products)

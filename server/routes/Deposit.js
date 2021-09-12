@@ -47,7 +47,7 @@ const upload = multer({
 
 router.post("/", upload.single('photo'), async (req, res) => {
     const orderId = req.body.orderId;
-    const imagePath = 'public/collections/' + req.file.filename;
+    const imagePath = 'public/bankSlips/' + req.file.filename;
     const uid = req.body.uid;
     const date = req.body.date;
     console.log(date)
@@ -57,6 +57,12 @@ router.post("/", upload.single('photo'), async (req, res) => {
     const updateOrder = await sequelize.query(query1, { type: sequelize.QueryTypes.UPDATE });
     res.json(uploadslip);
 });
+
+router.get("/allDepositSlips", async(req,res) => {
+    const query = "SELECT * FROM deposits INNER JOIN users ON users.id=deposits.customerId INNER JOIN orders ON orders.orderId=deposits.orderId INNER JOIN orderitems ON orderitems.orderId=orders.orderId INNER JOIN masterdata ON masterdata.id=orders.status GROUP BY deposits.orderId";
+    const deposits = await sequelize.query(query, { type: sequelize.QueryTypes.SELECT });
+    res.json(deposits);
+})
 
 
 

@@ -57,8 +57,11 @@ app.use('/public', express.static('public'));
 const productDetailsRouter = require('./routes/ProductDetails');
 app.use("/ProductDetails", productDetailsRouter);
 
- const couponRouter = require('./routes/Coupons');
- app.use("/coupons", couponRouter);
+const couponRouter = require('./routes/Coupons');
+app.use("/coupons", couponRouter);
+
+const offerRouter = require("./routes/Offers");
+app.use("/offers", offerRouter);
 
 const checkoutRouter = require('./routes/Checkout');
 app.use("/check", checkoutRouter);
@@ -85,6 +88,7 @@ const typesRouter = require("./routes/Types");
 app.use("/types", typesRouter);
 app.use('/public', express.static('public'));
 
+
 const depositRouter = require('./routes/Deposit');
 app.use("/deposit", depositRouter);
 app.use("/depositCollection", depositRouter);
@@ -92,6 +96,10 @@ app.use('/public', express.static('public'));
 
 const orderRouter = require('./routes/Orders');
 app.use("/order", orderRouter);
+
+const notificationsRouter = require('./routes/Notifications');
+app.use("/notifications", notificationsRouter);
+
 
 db.sequelize.sync().then(() => {
     app.listen(3001, () => {
