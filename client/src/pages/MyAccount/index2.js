@@ -16,63 +16,15 @@ import CommonNav from '../../components/Navbars/CommonNav';
 import { useHistory } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
-// const initialValues1 = {
-//     fullName: '',
-//     email: '',
-//     mobile: '',
-//     add1: '',
-//     add2: '',
-//     city: '',
-//   }
-  
-//   const validationSchema1 = Yup.object().shape({
-//     fullName: Yup.string().required("First Name is required"),
-//     email: Yup.string().email("Email is not valid").required("Email is required"),
-//     // mobile: Yup.string().required("Phone number is required").matches(/^(?:0|94|\+94)?(?:(11|21|23|24|25|26|27|31|32|33|34|35|36|37|38|41|45|47|51|52|54|55|57|63|65|66|67|81|912)(0|2|3|4|5|7|9)|7(0|1|2|4|5|6|7|8)\d)\d{6}$/, "Invalid phone number"),
-//     // add1: Yup.string().required("Address Line 1 is required"),
-  
-//   });
-  
-  
-//   const onSubmit1 = (data, props) => {
-//     axios.post("http://localhost:3001/profile/customer", data).then((response) => {
-//         if (response.data.error) alert(response.data.error);
-//         else {
-//             alert("Profile Successfully Updated!");
-//         }
-//     });
-//     props.resetForm();
-// };
-
-
-
-
-const  Profile =() => {
-    const classes = useStyles();
+export default function Profile1() {
     let history = useHistory();
+    const classes = useStyles();
+    const [customerDetails, setCustomerDetails] = useState([]);
 
-    if(localStorage.getItem("userId")=='0'){
-        history.push("/auth")
-    }
-
-    const [values, setValues] = React.useState({
-        password: '',
-        showPassword: false,
-    });
-
-    const handleChange = (prop) => (event) => {
-        setValues({ ...values, [prop]: event.target.value });
-    };
-
-    const handleClickShowPassword = () => {
-        setValues({ ...values, showPassword: !values.showPassword });
-    };
-
-    const handleMouseDownPassword = (event) => {
-        event.preventDefault();
-    };
-
-    const [customerDetails, setCustomerDetails] = useState([])
+    // if(localStorage.getItem("userId")=='0'){
+    //     history.push("/auth")
+    // }
+    
 
     useEffect(() => {
         const uid = localStorage.getItem("userId");
@@ -82,7 +34,6 @@ const  Profile =() => {
             console.log(response.data)
         })
     }, []);
-
 
     return (
         <div>
@@ -189,18 +140,18 @@ const  Profile =() => {
                                     <InputLabel htmlFor="outlined-adornment-password">Current Password</InputLabel>
                                     <OutlinedInput
                                         id="outlined-adornment-password"
-                                        type={values.showPassword ? 'text' : 'password'}
-                                        value={values.password}
-                                        onChange={handleChange('password')}
+                                        // type={values.showPassword ? 'text' : 'password'}
+                                        // value={values.password}
+                                        // onChange={handleChange('password')}
                                         endAdornment={
                                             <InputAdornment position="end">
                                                 <IconButton
                                                     aria-label="toggle password visibility"
-                                                    onClick={handleClickShowPassword}
-                                                    onMouseDown={handleMouseDownPassword}
+                                                    // onClick={handleClickShowPassword}
+                                                    // onMouseDown={handleMouseDownPassword}
                                                     edge="end"
                                                 >
-                                                    {values.showPassword ? <Visibility /> : <VisibilityOff />}
+                                                    {/* {values.showPassword ? <Visibility /> : <VisibilityOff />} */}
                                                 </IconButton>
                                             </InputAdornment>
                                         }
@@ -211,18 +162,18 @@ const  Profile =() => {
                                     <InputLabel htmlFor="outlined-adornment-password">New Password</InputLabel>
                                     <OutlinedInput
                                         id="outlined-adornment-password"
-                                        type={values.showPassword ? 'text' : 'password'}
-                                        value={values.password}
-                                        onChange={handleChange('password')}
+                                        // type={values.showPassword ? 'text' : 'password'}
+                                        // value={values.password}
+                                        // onChange={handleChange('password')}
                                         endAdornment={
                                             <InputAdornment position="end">
                                                 <IconButton
                                                     aria-label="toggle password visibility"
-                                                    onClick={handleClickShowPassword}
-                                                    onMouseDown={handleMouseDownPassword}
+                                                    // onClick={handleClickShowPassword}
+                                                    // onMouseDown={handleMouseDownPassword}
                                                     edge="end"
                                                 >
-                                                    {values.showPassword ? <Visibility /> : <VisibilityOff />}
+                                                    {/* {values.showPassword ? <Visibility /> : <VisibilityOff />} */}
                                                 </IconButton>
                                             </InputAdornment>
                                         }
@@ -233,18 +184,18 @@ const  Profile =() => {
                                     <InputLabel htmlFor="outlined-adornment-password">Confirm New Password</InputLabel>
                                     <OutlinedInput
                                         id="outlined-adornment-password"
-                                        type={values.showPassword ? 'text' : 'password'}
-                                        value={values.password}
-                                        onChange={handleChange('password')}
+                                        // type={values.showPassword ? 'text' : 'password'}
+                                        // value={values.password}
+                                        // onChange={handleChange('password')}
                                         endAdornment={
                                             <InputAdornment position="end">
                                                 <IconButton
                                                     aria-label="toggle password visibility"
-                                                    onClick={handleClickShowPassword}
-                                                    onMouseDown={handleMouseDownPassword}
+                                                    // onClick={handleClickShowPassword}
+                                                    // onMouseDown={handleMouseDownPassword}
                                                     edge="end"
                                                 >
-                                                    {values.showPassword ? <Visibility /> : <VisibilityOff />}
+                                                    {/* {values.showPassword ? <Visibility /> : <VisibilityOff />} */}
                                                 </IconButton>
                                             </InputAdornment>
                                         }
@@ -278,4 +229,3 @@ const  Profile =() => {
 
     );
 }
-export default Profile;

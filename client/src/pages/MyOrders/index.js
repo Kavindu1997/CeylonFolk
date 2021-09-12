@@ -69,7 +69,7 @@ export default function OrderHistory(props) {
                                     <TableHead>
                                         <TableRow>
                                             <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Reference No</TableCell>
-                                            <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Date</TableCell>
+                                            <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Order Placement Date</TableCell>
                                             <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Total</TableCell>
                                             <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Order Status</TableCell>
                                             <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Action</TableCell>
@@ -81,7 +81,7 @@ export default function OrderHistory(props) {
                                                 <TableRow key={`row-${i}`}>
                                                     <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{row.orderId}</TableCell>
                                                     <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{row.placedDate}</TableCell>
-                                                    <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{row.fullAmount}</TableCell>
+                                                    <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>Rs. {row.fullAmount}</TableCell>
                                                     <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{row.decription}</TableCell>
                                                     <TableCell align="center">
                                                         <Button

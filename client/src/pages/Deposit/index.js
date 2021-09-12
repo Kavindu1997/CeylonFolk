@@ -131,14 +131,15 @@ export default function Deposit(props) {
                         </Grid>
                         <Divider orientation="vertical" flexItem />
                         <Grid item xs={12} sm={12} md={8} lg={7}>
-                            <form className={classes.form} noValidate onSubmit={onFormSubmit}>
+                            <form  noValidate onSubmit={onFormSubmit}>
+                                <div>
                                 <TextField
                                     onChange={setOId}
                                     className={classes.textField}
                                     variant="outlined"
                                     margin="normal"
+                                    style={{width:'43%'}}
                                     required
-                                    fullWidth
                                     id="orderId"
                                     label="Enter your Order ID"
                                     name="orderId"
@@ -148,6 +149,7 @@ export default function Deposit(props) {
                                 //helperText={<ErrorMessage name="fullName" />}
                                 />
                                 <Button
+                                    style={{marginLeft:'60px'}}
                                     type="submit"
                                     variant="contained"
                                     color="primary"
@@ -155,6 +157,28 @@ export default function Deposit(props) {
                                     onClick={viewOrder}
                                 >View Order
                                 </Button>
+                                </div>
+                                <div>
+
+                                    <Controls.Input
+                                        variant="outlined"
+                                        name="photo"
+                                        type="file"
+                                        className={classes.upload}
+                                        onChange={onInputChange}
+                                       
+                                    />
+                                
+                                        <Button
+                                           style={{marginLeft:'55px',marginTop :'10px'}}
+                                            type="submit"
+                                            variant="contained"
+                                            color="primary"
+                                          
+                                        >Upload Slip
+                                        </Button>
+                                   
+                                </div>
 
                                 <TableContainer style={{ marginTop: '30px' }}>
                                     <Table className={classes.table} aria-label="simple table">
@@ -179,29 +203,7 @@ export default function Deposit(props) {
                                         </TableBody>
                                     </Table>
                                 </TableContainer>
-                                <div>
-
-                                    <Controls.Input
-                                        variant="outlined"
-                                        name="photo"
-                                        type="file"
-                                        onChange={onInputChange}
-                                       
-                                    />
-                                    <Box
-                                        component="span"
-                                        m={1}
-                                        className={`${classes.spreadBox} ${classes.box}`}
-                                    >
-                                        <Button
-                                            type="submit"
-                                            variant="contained"
-                                            color="primary"
-                                            className={classes.submit}
-                                        >Upload Slip
-                                        </Button>
-                                    </Box>
-                                </div>
+                                
                             </form>
                         </Grid>
                     </Grid>

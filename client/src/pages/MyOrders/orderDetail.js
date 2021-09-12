@@ -112,6 +112,8 @@ export default function OrderDetail() {
                                             <TableRow>
                                                 <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Image</TableCell>
                                                 <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Product</TableCell>
+                                                <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>size</TableCell>
+                                                <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Quantity</TableCell>
                                                 <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Totals</TableCell>
                                                 <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }} >Cancel Order</TableCell>
                                                 <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }} >Edit Order</TableCell>
@@ -129,7 +131,9 @@ export default function OrderDetail() {
                                                         <TableRow>
                                                             <TableCell align="center" style={{ fontFamily: 'Montserrat' }}><img height={100} align="center" src={'http://localhost:3001/' + value.coverImage} onClick={() => { history.push(`/productDetails/${value.id}`); }} /></TableCell>
                                                             <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.design_name}</TableCell>
-                                                            <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.totals}</TableCell>
+                                                            <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.size}</TableCell>
+                                                            <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.quantity}</TableCell>
+                                                            <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>Rs. {value.totals}</TableCell>
                                                             <TableCell align="center">
                                                                 <Button name="remove" className={canItemRemoveOrEdit == false ? classes.visibility : ""}
                                                                     onClick={() => {

@@ -12,7 +12,7 @@ router.get("/getHistory/:id", async (req, res) => {
 
 router.get("/order/:oId", async (req, res) => {
     const oId = req.params.oId;
-    const query = "SELECT orderitems.id AS orderitemId, designs.id, designs.coverImage, designs.design_name, orderitems.quantity, orderitems.size, designs.price, (SELECT sizes.id FROM sizes WHERE sizes.size=orderitems.size) AS sizeId, SUM( orderitems.quantity * designs.price ) AS totals, CASE WHEN orders.PaymentMethod = '7' AND orders.status = '1' THEN 1 WHEN orders.PaymentMethod = '9' AND orders.status = '4' THEN 1 ELSE 0 END AS canbecancel FROM orderitems INNER JOIN designs ON designs.id = orderitems.itemId INNER JOIN orders ON orders.orderId = orderitems.orderId INNER JOIN masterdata ON masterdata.id = orders.status WHERE orders.orderId = '"+oId+"' GROUP BY orderitems.itemId, orderitems.size";
+    const query = "SELECT orders.fullAmount, orderitems.id AS orderitemId, designs.id, designs.coverImage, designs.design_name, orderitems.quantity, orderitems.size, designs.price, (SELECT sizes.id FROM sizes WHERE sizes.size=orderitems.size) AS sizeId, SUM( orderitems.quantity * designs.price ) AS totals, CASE WHEN orders.PaymentMethod = '7' AND orders.status = '1' THEN 1 WHEN orders.PaymentMethod = '9' AND orders.status = '4' THEN 1 ELSE 0 END AS canbecancel FROM orderitems INNER JOIN designs ON designs.id = orderitems.itemId INNER JOIN orders ON orders.orderId = orderitems.orderId INNER JOIN masterdata ON masterdata.id = orders.status WHERE orders.orderId = '"+oId+"' GROUP BY orderitems.itemId, orderitems.size";
     const orderDetails = await sequelize.query(query, { type: sequelize.QueryTypes.SELECT });
     res.json(orderDetails);
 });
@@ -151,5 +151,13 @@ async function sendEmail(emailDetails){
                     }
                  } );  
 }
+
+router.get("/getUserDetails/:uid", async(req,res) => {
+    const uid = req.params.uid;
+    const query = "SELECT * FROM users WHERE id='"+uid+"'";
+    const deposits = await sequelize.query(query, { type: sequelize.QueryTypes.SELECT });
+    console.log(res)
+    res.json(deposits);
+})
 
 module.exports = router;

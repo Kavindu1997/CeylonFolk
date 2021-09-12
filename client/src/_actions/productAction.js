@@ -47,13 +47,11 @@ export const actionAddToWishlist = (id) => async (dispatch)=> {
   const data = {uid: uid , id:id}
   if(uid!="0"){
     const response = await ceylonforkapi.post("/ProductDetails/addwishlist/",data)
-    if(response){
-      dispatch(fetchProducts());
-    }
+  
     // dispatch({ type: ProductActionTypes.SELECTED_PRODUCT, payload: response.data })
     
   } 
   // dispatch({type:ProductActionTypes.ADD_TO_WISHLIST, payload: id})
-  dispatch(fetchProducts());
+  
 }
 
