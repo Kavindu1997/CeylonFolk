@@ -128,9 +128,12 @@ export default function Cart() {
     // localStorage.setItem("from","auth");
     // localStorage.setItem("to","home");
     localStorage.clear()
-    setTimeout(() => {
-      window.location.reload(true)
-  },)
+    history.push("./")
+    localStorage.setItem("userId",0)
+    localStorage.setItem("fullname","dummy data")
+  //   setTimeout(() => {
+  //     window.location.reload(true)
+  // },)
     dispatch(getCart())
     dispatch(getTotal())
     dispatch(emptyCartLogout());

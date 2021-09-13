@@ -29,7 +29,8 @@ router.post("/cashOn", async (req, res) => {
     const name = req.body.name;
     const email = req.body.email;
     const payMethod = req.body.paymentMethod;
-    const query = "INSERT INTO orders (orderId,customerId,fullAmount,PaymentMethod,status, deliveryAddress,contactNo, placedDate) VALUES ('" + oid + "','" + uid + "','" + total + "','" + pmt + "','" + stu + "','" + add + "','" + contactNo + "','" + date + "')";
+    const specialNote = req.body.specialNote;
+    const query = "INSERT INTO orders (orderId,customerId,fullAmount,PaymentMethod,status, deliveryAddress,contactNo, placedDate,specialNotes) VALUES ('" + oid + "','" + uid + "','" + total + "','" + pmt + "','" + stu + "','" + add + "','" + contactNo + "','" + date + "','"+specialNote+"')";
     const cashOnOrder = await sequelize.query(query, { type: sequelize.QueryTypes.INSERT });
     res.json(cashOnOrder);
     for (let i = 0; i < items.length; i++) {

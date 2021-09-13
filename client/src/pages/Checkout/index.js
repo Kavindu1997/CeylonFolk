@@ -49,6 +49,7 @@ export default function Checkout() {
     const totalDetails = useSelector(state => state.cart.totalAmount)
     const [districtvalue, setDistrict] = useState([]);
     const [districtNameValue, setDistrictNameValue] = useState([]);
+    const [specialNote,setSpecialNote] = useState([]);
 
     const [add1Error,setAdd1Error] = useState(false);
     const [add2Error,setAdd2Error] = useState(false);
@@ -113,6 +114,9 @@ export default function Checkout() {
     const setName = (event) => {
         setCustomerName(event.target.value);
        
+    }
+    const setNote = (event) => {
+        setSpecialNote(event.target.value)
     }
 
     function validateFormFields(){
@@ -208,7 +212,8 @@ export default function Checkout() {
             phoneNo: cutomerPhoneNumber == 0 ? customerDetails[0].contactNo : cutomerPhoneNumber,
             email: customerDetails[0].email,
             name:customerDetails[0].firstName + " " + customerDetails[0].lastName,
-            paymentMethod: value
+            paymentMethod: value,
+            specialNote: specialNote
         }
         return item;
     }
@@ -369,7 +374,7 @@ export default function Checkout() {
                                             <div id="addressNew">
                                                 <TextareaAutosize onChange={setDeliveryAdd} aria-label="minimum height" placeholder="Shipping Address" style={{ width: '480px', height: '60px', textAlign: 'justify', padding: '15px', fontFamily: 'Montserrat', marginTop: '10px', borderRadius: '5px' }} />
                                             </div> */}
-                                            <TextareaAutosize aria-label="minimum height" placeholder="Order Notes (optional)" style={{ width: '480px', height: '100px', textAlign: 'justify', padding: '15px', fontFamily: 'Montserrat', marginTop: '30px', borderRadius: '5px' }} />
+                                            <TextareaAutosize aria-label="minimum height" placeholder="Order Notes (optional)" onChange={setNote} style={{ width: '480px', height: '100px', textAlign: 'justify', padding: '15px', fontFamily: 'Montserrat', marginTop: '30px', borderRadius: '5px' }} />
                                             
                                         </form>
                                         
