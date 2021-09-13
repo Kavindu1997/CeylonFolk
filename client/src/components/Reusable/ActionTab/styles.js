@@ -114,5 +114,12 @@ export const useStyles = makeStyles((theme) => {
       // marginTop:'0px'
     },
 
+    notifi: {
+      display: 'none'
+    },
+    activeNotifi: {
+      display: 'block'
+    },
+
   };
 });

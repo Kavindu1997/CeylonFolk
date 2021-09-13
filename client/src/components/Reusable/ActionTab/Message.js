@@ -69,9 +69,21 @@ export default function Messages() {
     })
 };
 
-const k=1;
+
+if(listOfContactUs.length>0){
+  var ContactUsValue=1;
+}
+else{
+  var ContactUsValue=0;
+}
+if(listOfContactUs.length!=listOfUnsolvedInquiries.length){
+  var UnsolvedValue=1;
+}
+
+
 
   return (
+
     <>
       <IconButton
         aria-controls='Messages'
@@ -79,7 +91,7 @@ const k=1;
         onClick={handleClick}
         color='inherit'>
         {/* <Badge badgeContent={(listOfContactUs.length + listOfContactUs.length)} color='secondary'> */}
-        <Badge badgeContent={k} color='secondary'>
+        <Badge badgeContent={ContactUsValue+UnsolvedValue} color='secondary'>
           <ForumIcon />
         </Badge>
       </IconButton>
@@ -97,60 +109,31 @@ const k=1;
               component={Button}
               onClick={viewInquiries}
               component={Link} to="/inquiries"
-              className={classes.listItemNotification}>
-              <ListItemAvatar>
-                <Avatar className={classes.navImg}>
-                  <AssignmentIcon />
-                </Avatar>
-
-              </ListItemAvatar>
-            
-               <Typography variant="h8" component="div" whiteSpace="normal" >You have {(listOfContactUs.length)} new inquiries </Typography>
-            
-
+              className={classes.listItemNotification}> 
+              <Typography className={ContactUsValue !=0 && listOfContactUs.length!=1 ? classes.activeNotifi : classes.notifi} variant="h8" component="div" whiteSpace="normal" >You have {(listOfContactUs.length)} new inquiries </Typography>
+              <Typography className={ContactUsValue !=0 && listOfContactUs.length==1 ? classes.activeNotifi : classes.notifi} variant="h8" component="div" whiteSpace="normal" >You have {(listOfContactUs.length)} new inquiry </Typography>
+               
             </ListItem>
-{/* 
-            if({(listOfContactUs.length)}!={(listOfUnsolvedInquiries.length)}){
-                console.log("hellocheck")
-              } */}
-{/* 
-{(() => {
-        if (k=0) {
-          return (
-            <div>someCase</div>
-          )
-        } else if (otherCase) {
-          return (
-            <div>otherCase</div>
-          )
-        } else {
-          return (
-            <div>catch all</div>
-          )
-        }
-      })()} */}
-
-
-{/* 
-          next notification */}
-          {/* {listOfContactUs.map((item, i) => (
 
             <ListItem
-              key={i}
+              // key={i}
+              component={Button}
+              onClick={viewInquiries}
+              component={Link} to="/inquiries"
+              className={classes.listItemNotification}> 
+              <Typography className={UnsolvedValue ==1 && listOfUnsolvedInquiries.length!=0 ? classes.activeNotifi : classes.notifi} variant="h8" component="div" whiteSpace="normal" >You {(listOfUnsolvedInquiries.length)} more inquiries to resolve </Typography>
+               
+            </ListItem>
+
+            <ListItem
+             
               component={Button}
               onClick={handleClose}
-              className={classes.listItemNotification}>
-
-              <ListItemAvatar>
-                <Avatar className={classes.green}>
-                  <AssignmentIcon />
-                </Avatar>
-              </ListItemAvatar>
-              <ListItemText
-                primary={item.id}
-                secondary={item.name}></ListItemText>
+              className={classes.listItemNotification}> 
+              <Typography className={ (ContactUsValue+UnsolvedValue) == 0 ? classes.activeNotifi : classes.notifi} variant="h8" component="div" whiteSpace="normal" >No new Notifications </Typography>
+               
             </ListItem>
-          ))} */}
+
         </List>
       </Menu>
     </>
