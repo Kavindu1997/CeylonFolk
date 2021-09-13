@@ -16,6 +16,8 @@ import NotFound from './pages/PageNotFound/Notfound';
 import AvailableColors from './pages/Admin/AvailableColors/AvailableColorsTable';
 import AvailableSizes from './pages/Admin/SizeTable';
 import AvailableTypes from './pages/Admin/TypesTable';
+import Inquiries from './pages/Admin/Inquiries/InquiriesTable';
+import ResolvedInquiries from './pages/Admin/Inquiries/ResolvedInquiries'
 import ViewDesigns from './pages/Admin/ViewDesignTable';
 import Product_detail from './pages/Shop/Product_detail';
 //import Collections from './pages/Collections'
@@ -141,6 +143,8 @@ class App extends Component {
           <Route path="/admin" exact render={() => <AdminPanel />} />
           <Route path="/users" exact render={() => <Users />} />
           <Route path="/collections" exact render={() => <Collections />} />
+          <Route path="/inquiries" exact render={() => <Inquiries />} />
+          <Route path="/resolvedinquiries" exact render={() => <ResolvedInquiries />} />
           <Route path="/designs" exact render={() => <Designs />} />
           <Route path="/inventory" exact render={() => <Inventory />} />
           <Route path="/coupon" exact render={() => <Coupon />} />
