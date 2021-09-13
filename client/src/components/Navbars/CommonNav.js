@@ -170,10 +170,10 @@ const CommonNav = (props) => {
     useEffect(() => {
         var id = localStorage.getItem("userId");
         if (id != '0') {
-            const url = "http://localhost:3001/check/count/" + id;
-            axios.get(url).then((response) => {
-                countOfItems(response.data);
-            });
+            // const url = "http://localhost:3001/check/count/" + id;
+            // axios.get(url).then((response) => {
+            //     countOfItems(response.data);
+            // });
         }
 
     }, []);

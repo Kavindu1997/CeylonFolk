@@ -17,6 +17,13 @@ router.get("/order/:oId", async (req, res) => {
     res.json(orderDetails);
 });
 
+router.get("/orderTotal/:oId", async (req, res) => {
+    const oId = req.params.oId;
+    const query = "SELECT orders.fullAmount FROM orders WHERE orders.orderId = '"+oId+"'";
+    const orderFullAmount = await sequelize.query(query, { type: sequelize.QueryTypes.SELECT });
+    res.json(orderFullAmount);
+});
+
 router.post("/cancelItem", async(req,res) => {
     const orderId = req.body.orderId;
     const itemId = req.body.itemId;

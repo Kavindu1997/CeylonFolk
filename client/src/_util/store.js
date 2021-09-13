@@ -17,8 +17,8 @@ export const store = createStore(
 );
 
 export function StoreProvider(props) {
-  localStorage.setItem("userId",0)
-  localStorage.setItem("fullname","dummy data")
+  // localStorage.setItem("userId",0)
+  // localStorage.setItem("fullname","dummy data")
   return <Provider store={store}>{props.children}</Provider>;
 }
 

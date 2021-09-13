@@ -23,7 +23,7 @@ router.post("/cashOn", async (req, res) => {
     const pmt = req.body.payment;
     const stu = req.body.status;
     const items = req.body.itemArray;
-    const add = req.body.delivery
+    const add = req.body.delivery;
     const date = req.body.placedDate;
     const contactNo = req.body.phoneNo;
     const name = req.body.name;
@@ -49,8 +49,8 @@ router.post("/cashOn", async (req, res) => {
         urlMsg: ''
     }
     if(payMethod==='bank'){
-        emailDetails.description = 'Bank Deposit';
-        emailDetails.urlMsg = 'Upload the deposit slip';
+        emailDetails.description = 'Bank Deposit <br /><br /> <b><u>Account Details</u></b><br />Bank: Sampath Bank <br />Account holder: CeylonFolk (Pvt) Ltd <br />Account number: 11223344889 <br />Branch: Kaduwela <br />';
+        emailDetails.urlMsg = 'Please upload your slip within 72 hours. After 72 hours the order might be cancelled. You can use a bank slip or a screenshot of the online transfer to confirm the payment. <br />Please contact us for any inquires: 011234789 <br />Upload the deposit slip: ';
         emailDetails.url = 'http://localhost:3000/deposit?id='+uid+'&orderIdFromEmail='+oid+ '';
     }else if(payMethod==='cash'){
         emailDetails.description = 'Cash on Delivery';
@@ -126,17 +126,25 @@ console.log("email option")
 }
 
 router.put("/deleteCart", async (req, res) => {
-    const uid = req.body.userId;
-    const oid = req.body.orderId;
-    const total = req.body.totalAmount;
-    const pmt = req.body.payment;
-    const stu = req.body.status;
-    const items = req.body.itemArray;
-    for (let i = 0; i < items.length; i++) {
-        const query = "UPDATE carts SET carts.isDeleted=1, isBought=1 WHERE carts.itemId='" + items[i].itemId + "' AND carts.customerId='" + uid + "' AND carts.isBought=0 AND carts.isDeleted=0";
-        const cartRemove = await sequelize.query(query, { type: sequelize.QueryTypes.UPDATE });
+
+    try{
+        const uid = req.body.userId;
+        const oid = req.body.orderId;
+        const total = req.body.totalAmount;
+        const pmt = req.body.payment;
+        const stu = req.body.status;
+        const items = req.body.itemArray;
+        for (let i = 0; i < items.length; i++) {
+            const query = "UPDATE carts SET carts.isDeleted=1, isBought=1 WHERE carts.itemId='" + items[i].itemId + "' AND carts.customerId='" + uid + "' AND carts.isBought=0 AND carts.isDeleted=0";
+            const cartRemove = await sequelize.query(query, { type: sequelize.QueryTypes.UPDATE });
+
+        }
+        res.json({status:1});
+    }catch (e){
+        res.json({status:0});
     }
-    res.json(cartRemove);
+    
+   
 });
 
 router.put("/remove", async (req, res) => {

@@ -55,6 +55,7 @@ export default function Checkout() {
     const [cityError,setCityError] = useState(false);
     const [districtError,setDistrictError] = useState(false);
     const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' });
+    const errorMsg = useSelector(state => state.checkout.error);
   
     const getDistrictValue = (event) => {
         setDistrictNameValue(event.target.value)
@@ -111,10 +112,7 @@ export default function Checkout() {
     }
     const setName = (event) => {
         setCustomerName(event.target.value);
-        console.log(event.target.value)
-        console.log(customerName)
-        console.log(customerDetails[0].firstName)
-        console.log(customerDetails[0].email)
+       
     }
 
     function validateFormFields(){
@@ -146,6 +144,8 @@ export default function Checkout() {
        return hasError;
     }
 
+  
+
     const placeOrders = () => {
         const hasError = validateFormFields()
         if(hasError == 1){
@@ -160,8 +160,9 @@ export default function Checkout() {
         var uid = localStorage.getItem("userId");
         if (uid != '0' && checkedTermsCondition == true) {
             if (paymentMethod == "cash") {
-                paymentItem = createPaymentDetails(MASTER_DATA.cash_on_delivery, uid, MASTER_DATA.placed);
+                paymentItem = createPaymentDetails(MASTER_DATA.cash_on_delivery, uid, MASTER_DATA.pending);
                 dispatch(actionSendToDB(paymentItem))
+                console.log(errorMsg)
             } else if (paymentMethod == "bank") {
                 paymentItem = createPaymentDetails(MASTER_DATA.bank_tranfer, uid, MASTER_DATA.not_uploaded);
                 dispatch(actionSendToDB(paymentItem))
@@ -216,6 +217,7 @@ export default function Checkout() {
         console.log("Payment completed. OrderID:" + orderId);
         history.push("/Checkout");
         dispatch(actionSendToDB(paymentItem))
+        
         //Note: validate the payment and show success or failure page to the customer
     };
 

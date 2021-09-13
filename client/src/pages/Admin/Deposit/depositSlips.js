@@ -281,7 +281,7 @@ const DepositSlips = () => {
                     />
 
 <Popup
-                title="Edit Order"
+                title="Order Details"
                 openPopup={openPopup}
                 setOpenPopup={setOpenPopup}
             >

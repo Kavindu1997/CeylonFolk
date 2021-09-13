@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import useStyles from './style';
 import { useDispatch, useSelector } from "react-redux";
-import { actionGetTotalDeduct, actionDeleteItem, calculateCartCount, getCart, getTotal, deleteCartUsingID, updateCartQuantity, actionUpdateItem, calculateTotalWhenChanged, emtyTotalLogout, emptyCartLogout} from '../../_actions/index';
+import { decrementCartCount, actionGetTotalDeduct, actionDeleteItem, calculateCartCount, getCart, getTotal, deleteCartUsingID, updateCartQuantity, actionUpdateItem, calculateTotalWhenChanged, emtyTotalLogout, emptyCartLogout} from '../../_actions/index';
 import NumericInput from 'react-numeric-input';
 import Notification from '../../components/Reusable/Notification';
 import ConfirmDialog from '../../components/Reusable/ConfirmDialog';
@@ -53,13 +53,10 @@ export default function Cart() {
     else {
       var item={id:id, size:size}
       dispatch(actionDeleteItem(id,size));
-      dispatch(calculateCartCount())
+      dispatch(decrementCartCount())
       dispatch(actionGetTotalDeduct());
-      setNotify({
-        isOpen: true,
-        message: 'Removed Successfully !',
-        type: 'success'
-      });
+      
+     
     }
   };
 
@@ -124,19 +121,23 @@ export default function Cart() {
   }
 
   function onLogout() {
-    localStorage.setItem("userId", 0);
-    localStorage.setItem("userName", 0);
-    localStorage.removeItem("orderIdFromEmail");
-    localStorage.removeItem("userIdFromMail");
-    localStorage.setItem("from","auth");
-    localStorage.setItem("to","home");
-    history.push("/");
+    // localStorage.setItem("userId", 0);
+    // localStorage.setItem("userName", 0);
+    // localStorage.removeItem("orderIdFromEmail");
+    // localStorage.removeItem("userIdFromMail");
+    // localStorage.setItem("from","auth");
+    // localStorage.setItem("to","home");
+    localStorage.clear()
+    setTimeout(() => {
+      window.location.reload(true)
+  },)
     dispatch(getCart())
     dispatch(getTotal())
     dispatch(emptyCartLogout());
     dispatch(emtyTotalLogout());
     dispatch(calculateCartCount())
     dispatch(fetchProducts());
+    history.push("/")
 
   }
 

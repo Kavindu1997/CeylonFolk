@@ -19,11 +19,18 @@ const ViewOrderForm = ({ selectedOrderToEdit }) => {
     let { oId } = useParams();
     console.log(oId)
     const orderDetails = useSelector(state => state.orderHistory.selectedOrder);
+    // console.log(orderDetails[0].fullAmount)
     console.log(selectedOrderToEdit)
     console.log(orderDetails)
+    const [orderFullAmount, setOrderFullAmount] = useState()
     useEffect(() => {
         dispatch(viewOrderDetail(selectedOrderToEdit.oId))
+        axios.get('http://localhost:3001/order/orderTotal/'+selectedOrderToEdit.oId).then((response) => {
+            setOrderFullAmount(response.data);
+        })
     }, []);
+    console.log(orderFullAmount)
+  
 
     return (
         <div>
@@ -60,8 +67,8 @@ const ViewOrderForm = ({ selectedOrderToEdit }) => {
                                                             })}
                                                             
                                                             <TableRow>
-                                                                <TableCell align="center" colSpan='4'>Total Amount</TableCell>
-                                                                <TableCell align="center">Rs. {orderDetails[0].fullAmount}</TableCell>
+                                                                <TableCell align="center" colSpan='4'>Total Amount with Shipping</TableCell>
+                                                                {/* <TableCell align="center">Rs. {orderDetails[0].fullAmount}</TableCell> */}
                                                             </TableRow>
                                                     </TableBody>
                                                 </Table>
