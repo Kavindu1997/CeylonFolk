@@ -1,5 +1,5 @@
 import { makeStyles } from "@material-ui/core";
-import { blue } from "@material-ui/core/colors";
+import { blue, green } from "@material-ui/core/colors";
 import DrawerImg from '../../../images/drawer.jpg'
 
 export const useStyles = makeStyles((theme) => {
@@ -12,6 +12,14 @@ export const useStyles = makeStyles((theme) => {
       borderRadius: "50%",
       color: "White",
       backgroundColor: blue["A400"],
+    },
+
+    green: {
+      width: "35px",
+      height: "35px",
+      borderRadius: "50%",
+      color: "White",
+      backgroundColor: green["388E3C"],
     },
 
     profileImg: {
@@ -91,6 +99,19 @@ export const useStyles = makeStyles((theme) => {
     },
     listItem: {
       textTransform: "capitalize",
+    },
+
+    listItemNotification: {
+      textTransform: "capitalize",
+      
+      fill: 'white',
+      padding: '10px',
+      // borderRadius: '50px',
+      background: 'light blue',
+      width: '1000px',
+      color: 'black',
+      boxShadow: 'none',
+      // marginTop:'0px'
     },
 
   };

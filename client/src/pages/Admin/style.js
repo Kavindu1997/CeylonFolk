@@ -73,6 +73,15 @@ const useStyles = makeStyles((theme) => ({
         paddingTop: theme.spacing(4),
         paddingBottom: theme.spacing(4),
       },
+
+      response:{
+        
+        display: 'flex',
+        width:"700px",
+     
+        
+      },
+
       paper: {
         padding: theme.spacing(2),
         display: 'flex',
@@ -214,7 +223,10 @@ quantity: {
   display: 'none'
 },
 activeQuantity: {
+
   display: 'block',
+
+},
   
 iconForOffers: {
   fill: 'white',
