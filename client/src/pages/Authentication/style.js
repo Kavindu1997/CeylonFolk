@@ -1,4 +1,5 @@
 import { makeStyles } from '@material-ui/styles';
+import background from '../../images/Cover.png';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -8,7 +9,7 @@ const useStyles = makeStyles((theme) => ({
         fontFamily: 'Montserrat',
         position: 'relative',
         color: 'white',
-        padding: '100px',
+        padding: '0px',
     },
     form: {
         width: '70%',
@@ -19,6 +20,7 @@ const useStyles = makeStyles((theme) => ({
         align: 'center',
         padding: '10px',
         marginTop: '30px',
+        marginBottom: '30px',
     },
     google: {
         align: 'center',
@@ -45,7 +47,24 @@ const useStyles = makeStyles((theme) => ({
         '& p': {
             color: 'red'
         }
-    }
+    },
+    forgotPass: {
+        minHeight: '100vh',
+        backgroundImage: `url(${background})`,
+        backgroundRepeat: "no-repeat",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+
+    },
+    forgotLink: {
+        textDecoration: 'none',
+        fontSize: '16px',
+        marginLeft: '207px',
+        '&:hover': {
+            fontWeight: '500',
+            textDecoration: 'none',
+        }
+    },
 
 }));
 
