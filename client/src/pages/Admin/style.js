@@ -306,10 +306,10 @@ iconForOffers: {
   height: '200',
   color: 'black',
   boxShadow: 'none',
-  marginTop:'18px'
+  marginTop:'18px',
 
 
-    marginTop: '20px',
+//  marginTop: '20px',
     marginBottom: '30px'
 
 

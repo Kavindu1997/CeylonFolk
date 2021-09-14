@@ -5,10 +5,13 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import EditIcon from '@material-ui/icons/Edit';
 import VpnKeyIcon from '@material-ui/icons/VpnKey';
 import Controls from "../Controls";
+import Popup from "../Popup";
+import ChangePassword from "./ChangePassword";
 
 export default function Profile() {
   const classes = useStyles();
   const [open,setOpen]=useState(false);
+  const [openPopup, setOpenPopup] = useState(false);
   const [anchorEl, setAnchorEl] =useState('top');
 
   const handleClick = (event) => {
@@ -16,13 +19,9 @@ export default function Profile() {
     setOpen(true);
     
   };
-  // const handleClose = () => {
-  //   setAnchorEl(null);
-  // };
-
-  // const dropDownData = [
-  //   { label: "settings", icon: <SettingsIcon /> },
-  // ];
+  const addOrEdit = (data, resetForm) => {
+   
+}
 
   return (
     <>
@@ -98,9 +97,22 @@ export default function Profile() {
                             color="secondary"
                             startIcon={<VpnKeyIcon/>}
                             className={classes.newButton}
+                            onClick={() => { setOpenPopup(true); }}
                         />
           </Grid>
               </div>
+
+
+
+              <Popup
+                    title="Change Password"
+                    openPopup={openPopup}
+                    setOpenPopup={setOpenPopup}
+                >
+                    <ChangePassword
+                        addOrEdit={addOrEdit}
+                    />
+                </Popup>
       </Drawer>
     </>
   );
