@@ -14,39 +14,40 @@ import useStyles from './style';
 import UserSideNav from '../../components/Navbars/UserSideNav';
 import CommonNav from '../../components/Navbars/CommonNav';
 import { useHistory } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 
-const initialValues1 = {
-    fullName: '',
-    email: '',
-    mobile: '',
-    add1: '',
-    add2: '',
-    city: '',
-  }
+// const initialValues1 = {
+//     fullName: '',
+//     email: '',
+//     mobile: '',
+//     add1: '',
+//     add2: '',
+//     city: '',
+//   }
   
-  const validationSchema1 = Yup.object().shape({
-    fullName: Yup.string().required("First Name is required"),
-    email: Yup.string().email("Email is not valid").required("Email is required"),
-    // mobile: Yup.string().required("Phone number is required").matches(/^(?:0|94|\+94)?(?:(11|21|23|24|25|26|27|31|32|33|34|35|36|37|38|41|45|47|51|52|54|55|57|63|65|66|67|81|912)(0|2|3|4|5|7|9)|7(0|1|2|4|5|6|7|8)\d)\d{6}$/, "Invalid phone number"),
-    // add1: Yup.string().required("Address Line 1 is required"),
+//   const validationSchema1 = Yup.object().shape({
+//     fullName: Yup.string().required("First Name is required"),
+//     email: Yup.string().email("Email is not valid").required("Email is required"),
+//     // mobile: Yup.string().required("Phone number is required").matches(/^(?:0|94|\+94)?(?:(11|21|23|24|25|26|27|31|32|33|34|35|36|37|38|41|45|47|51|52|54|55|57|63|65|66|67|81|912)(0|2|3|4|5|7|9)|7(0|1|2|4|5|6|7|8)\d)\d{6}$/, "Invalid phone number"),
+//     // add1: Yup.string().required("Address Line 1 is required"),
   
-  });
+//   });
   
   
-  const onSubmit1 = (data, props) => {
-    axios.post("http://localhost:3001/profile/customer", data).then((response) => {
-        if (response.data.error) alert(response.data.error);
-        else {
-            alert("Profile Successfully Updated!");
-        }
-    });
-    props.resetForm();
-};
+//   const onSubmit1 = (data, props) => {
+//     axios.post("http://localhost:3001/profile/customer", data).then((response) => {
+//         if (response.data.error) alert(response.data.error);
+//         else {
+//             alert("Profile Successfully Updated!");
+//         }
+//     });
+//     props.resetForm();
+// };
 
 
 
 
-export default function Profile() {
+const  Profile =() => {
     const classes = useStyles();
     let history = useHistory();
 
@@ -71,6 +72,17 @@ export default function Profile() {
         event.preventDefault();
     };
 
+    const [customerDetails, setCustomerDetails] = useState([])
+
+    useEffect(() => {
+        const uid = localStorage.getItem("userId");
+        console.log("hgffhgfhffhg")
+        axios.get('http://localhost:3001/order/getUserDetails/'+uid).then((response) => {
+            setCustomerDetails(response.data);
+            console.log(response.data)
+        })
+    }, []);
+
 
     return (
         <div>
@@ -85,9 +97,12 @@ export default function Profile() {
                     </Grid>
                     <Divider orientation="vertical" flexItem />
                     <Grid item xs={12} sm={12} md={7} lg={7}>
-                    <Formik initialValues={initialValues1} onSubmit={onSubmit1} validationSchema={validationSchema1}>
-                        {(props) => (
-                            <Form className={classes.form}>
+                    {/* <Formik initialValues={initialValues1} onSubmit={onSubmit1} validationSchema={validationSchema1}> */}
+                            {/* {customerDetails
+                                .map((value) => {
+                                    return ( */}
+                            {/* <Form className={classes.form}> */}
+                            <form className={classes.form} noValidate >
                             <Field as={TextField}
                                 className={classes.textField}
                                 variant="outlined"
@@ -98,6 +113,7 @@ export default function Profile() {
                                 label="Your Name"
                                 name="fullName"
                                 autoComplete="fname"
+                                defaultValue={customerDetails[0].firstName + " "+ customerDetails[0].lastName} 
                                 helperText={<ErrorMessage name="fullName" />}
                             />
                              <Field as={TextField}
@@ -110,6 +126,7 @@ export default function Profile() {
                                 label="Email Address"
                                 name="email"
                                 autoComplete="email"
+                                defaultValue={customerDetails[0].email}
                                 helperText={<ErrorMessage name="email" />}
                             />
                             <Field as={TextField}
@@ -122,6 +139,7 @@ export default function Profile() {
                                 label="Contact Number"
                                 name="mobile"
                                 autoComplete="mobileno"
+                                defaultValue={customerDetails[0].contactNo}
                                 helperText={<ErrorMessage name="mobile" />}
                             />
                             <Field as={TextField}
@@ -161,6 +179,7 @@ export default function Profile() {
                                 // helperText={<ErrorMessage name="message" />}
                             />
                            
+                                           
                             <div>
                                 <br />
                                 <Typography component="h1" variant="h6" style={{ fontFamily: 'Montserrat', textAlign: 'left' }}>Password Change </Typography>
@@ -245,9 +264,11 @@ export default function Profile() {
                                     </Button>
                                 </center>
                             </div>
-                        </Form>
-                        )}
-                    </Formik>
+                        {/* </Form> */}
+                        </form>
+                             {/* );
+                            })} */}
+                    {/* </Formik> */}
                     </Grid>
                 </Grid>
             </center>
@@ -257,3 +278,4 @@ export default function Profile() {
 
     );
 }
+export default Profile;

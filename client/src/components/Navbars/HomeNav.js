@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { AppBar,Typography,Button,IconButton,Toolbar,Link} from '@material-ui/core';
+import { Popper, MenuItem, MenuList, AppBar,Typography,Button,IconButton,Toolbar,Link, Paper, ClickAwayListener, Grow} from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import logo from '../../images/logo.png';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
@@ -9,6 +9,7 @@ import FavoriteBorderOutlinedIcon from '@material-ui/icons/FavoriteBorderOutline
 import SearchOutlinedIcon from '@material-ui/icons/SearchOutlined';
 import { NavLink } from 'react-router-dom';
 import {useDispatch, useSelector} from "react-redux";
+import axios from 'axios';
 
 const useStyles=makeStyles((theme)=>({
     root:{
@@ -41,6 +42,14 @@ const useStyles=makeStyles((theme)=>({
         fontWeight:'300',
         
 
+    },
+    iconCart: {
+        color: 'black',
+        fontSize: '1.5rem',
+        marginLeft: '24px',
+        marginRight: '3px',
+        fontWeight: '300',
+        visibility: 'visible'
     },
     appbarTitle:{
         flexGrow:'1',
@@ -137,7 +146,15 @@ const useStyles=makeStyles((theme)=>({
     background: '#020303',
     borderRadius: '50%',
     color: 'white',
-    }
+
+    },
+    navlinkvisibility: {
+        pointerEvents: "none",
+    },
+    navlinkvisibilityTrue: {
+        pointerEvents: "auto",
+    },
+
     
   
  }))
@@ -145,12 +162,21 @@ const useStyles=makeStyles((theme)=>({
 const CommonNav = () => {
     const cartcount = useSelector(state => state.cart.cartCount)
   const dispatch = useDispatch();
+  const [countDetails, countOfItems] = useState([]);
 
     const classes=useStyles();
     const [navBackground, setNavBackground] = useState('appbar')
     const navRef = React.useRef()
     navRef.current = navBackground
     useEffect(() => {
+        var id = localStorage.getItem("userId");
+        if (id != '0') {
+            const url = "http://localhost:3001/check/count/" + id;
+            axios.get(url).then((response) => {
+                countOfItems(response.data);
+            });
+        }
+
         const handleScroll = () => {
             const show = window.scrollY > 310
             if (show) {
@@ -164,6 +190,29 @@ const CommonNav = () => {
             document.removeEventListener('scroll', handleScroll)
         }
     }, [])
+
+    const [open, setOpen] = React.useState(false);
+    const anchorRef = React.useRef(null);
+
+    const handleToggle = () => {
+        setOpen((prevOpen) => !prevOpen);
+    };
+
+    const handleClose = (event) => {
+        if (anchorRef.current && anchorRef.current.contains(event.target)) {
+            return;
+        }
+
+        setOpen(false);
+    };
+
+    function handleListKeyDown(event) {
+        if (event.key === 'Tab') {
+            event.preventDefault();
+            setOpen(false);
+        }
+    }
+
  
     return (
         <div className={classes.root}> 
@@ -193,10 +242,48 @@ const CommonNav = () => {
                 <div style={{paddingLeft:'106px' ,transition:'none', overflow:'hidden', borderRadius:'0px'}}>
                     <NavLink to={"/auth"}><SearchOutlinedIcon className={classes.icon}/></NavLink>
                     <NavLink to={"/wishlist"}><FavoriteBorderOutlinedIcon className={classes.icon}/></NavLink>
-                    <NavLink to={"/cart"}><LocalMallOutlinedIcon className={classes.icon} /><span className={classes.count}>
+                    <NavLink to={"/cart"}><LocalMallOutlinedIcon className={classes.iconCart} /><span className={classes.count}>
                        {cartcount}</span>
                         </NavLink>
-                    <NavLink to={"/auth"}><PermIdentityOutlinedIcon className={classes.icon}/></NavLink>
+                    {/* <NavLink to={"/auth"}><PermIdentityOutlinedIcon className={classes.icon}/></NavLink> */}
+                    <Button
+                                ref={anchorRef}
+                                aria-controls={open ? 'menu-list-grow' : undefined}
+                                aria-haspopup="true"
+                                onClick={handleToggle}
+                                className={classes.icon}
+                                
+                            >
+                                 <NavLink to={"/auth"} className={localStorage.getItem("userId")=='0'?classes.navlinkvisibilityTrue:classes.navlinkvisibility}><PermIdentityOutlinedIcon className={classes.iconLogin} /></NavLink>
+                                {/* <Avatar>JP</Avatar> */}
+                            </Button>
+                            <div  className={localStorage.getItem("userId")=='0'? classes.visibility: classes.icon}>
+                            <Popper open={open} anchorEl={anchorRef.current} role={undefined} transition disablePortal>
+                                {({ TransitionProps, placement }) => (
+                                    <Grow
+                                        {...TransitionProps}
+                                        style={{ transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom' }}
+                                    >
+                                        <Paper>
+                                            <ClickAwayListener onClickAway={handleClose}>
+                                               
+                                                <MenuList autoFocusItem={open} id="menu-list-grow" onKeyDown={handleListKeyDown}>
+                                                    <NavLink to={"/profile"} style={{ textDecoration: 'none' }}><MenuItem onClick={handleClose} style={{ fontWeight: '600', fontSize: '15px', color: 'black' }}>My Account</MenuItem></NavLink>
+                                                    <NavLink to={"/myOrders"} style={{ textDecoration: 'none' }}><MenuItem onClick={handleClose} style={{ fontWeight: '600', fontSize: '15px', color: 'black' }}>Order History</MenuItem></NavLink>
+                                                    <NavLink to={"/myWishlist"} style={{ textDecoration: 'none' }}><MenuItem onClick={handleClose} style={{ fontWeight: '600', fontSize: '15px', color: 'black' }}>My Wishlist</MenuItem></NavLink>
+                                                    <NavLink to={"/deposit"} style={{ textDecoration: 'none' }}><MenuItem onClick={handleClose} style={{ fontWeight: '600', fontSize: '15px', color: 'black' }}>Bank Deposit Upload</MenuItem></NavLink>
+                                                    <NavLink to={"/custcustomizeOrders"} style={{ textDecoration: 'none' }}><MenuItem onClick={handleClose} style={{ fontWeight: '600', fontSize: '15px', color: 'black' }}>Customerize Orders</MenuItem></NavLink>
+                                                    <NavLink to={"/auth"} style={{ textDecoration: 'none' }}><MenuItem onClick={handleClose} style={{ fontWeight: '600', fontSize: '15px', color: 'black' }}>Logout</MenuItem></NavLink>
+                                                </MenuList>
+                                               
+                                       
+                                            </ClickAwayListener>
+                                        </Paper>
+                                    </Grow>
+                                )}
+                            </Popper>
+                            </div>
+                        
                 </div>
 
                 </Toolbar>

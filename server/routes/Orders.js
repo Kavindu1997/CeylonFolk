@@ -5,16 +5,23 @@ const nodemailer = require('nodemailer');
 
 router.get("/getHistory/:id", async (req, res) => {
     const id = req.params.id;
-    const query = "SELECT orders.orderId, orders.fullAmount, orders.status, STR_TO_DATE(orders.placedDate, '%Y-%m-%d') AS placedDate, masterdata.decription FROM orders INNER JOIN masterdata ON orders.status = masterdata.id WHERE customerId = '"+id+"' ORDER BY placedDate DESC";
+    const query = "SELECT orders.orderId, orders.fullAmount, orders.status, STR_TO_DATE(orders.placedDate, '%Y-%m-%d') AS placedDate, masterdata.decription FROM orders INNER JOIN masterdata ON orders.status = masterdata.id WHERE orders.customerId = '"+id+"' AND orders.isDeleted='0' ORDER BY placedDate DESC";
     const orderHistoryDetails = await sequelize.query(query, { type: sequelize.QueryTypes.SELECT });
     res.json(orderHistoryDetails);
 });
 
 router.get("/order/:oId", async (req, res) => {
     const oId = req.params.oId;
-    const query = "SELECT orderitems.id AS orderitemId, designs.id, designs.coverImage, designs.design_name, orderitems.quantity, orderitems.size, designs.price, (SELECT sizes.id FROM sizes WHERE sizes.size=orderitems.size) AS sizeId, SUM( orderitems.quantity * designs.price ) AS totals, CASE WHEN orders.PaymentMethod = '7' AND orders.status = '1' THEN 1 WHEN orders.PaymentMethod = '9' AND orders.status = '4' THEN 1 ELSE 0 END AS canbecancel FROM orderitems INNER JOIN designs ON designs.id = orderitems.itemId INNER JOIN orders ON orders.orderId = orderitems.orderId INNER JOIN masterdata ON masterdata.id = orders.status WHERE orders.orderId = '"+oId+"' GROUP BY orderitems.itemId, orderitems.size";
+    const query = "SELECT orders.fullAmount, orderitems.id AS orderitemId, designs.id, designs.coverImage, designs.design_name, orderitems.quantity, orderitems.size, designs.price, (SELECT sizes.id FROM sizes WHERE sizes.size=orderitems.size) AS sizeId, SUM( orderitems.quantity * designs.price ) AS totals, CASE WHEN orders.PaymentMethod = '7' AND orders.status = '1' THEN 1 WHEN orders.PaymentMethod = '9' AND orders.status = '4' THEN 1 ELSE 0 END AS canbecancel FROM orderitems INNER JOIN designs ON designs.id = orderitems.itemId INNER JOIN orders ON orders.orderId = orderitems.orderId INNER JOIN masterdata ON masterdata.id = orders.status WHERE orders.orderId = '"+oId+"' AND orderitems.isDeleted='0' GROUP BY orderitems.orderId, orderitems.itemId, orderitems.size";
     const orderDetails = await sequelize.query(query, { type: sequelize.QueryTypes.SELECT });
     res.json(orderDetails);
+});
+
+router.get("/orderTotal/:oId", async (req, res) => {
+    const oId = req.params.oId;
+    const query = "SELECT orders.fullAmount FROM orders WHERE orders.orderId = '"+oId+"'";
+    const orderFullAmount = await sequelize.query(query, { type: sequelize.QueryTypes.SELECT });
+    res.json(orderFullAmount);
 });
 
 router.post("/cancelItem", async(req,res) => {
@@ -23,12 +30,14 @@ router.post("/cancelItem", async(req,res) => {
     const size = req.body.size;
     const removeWholeOrder = req.body.removeWholeOrder;
   
-    const query = "DELETE FROM orderitems WHERE orderId='"+orderId+"' AND itemId='"+itemId+"' AND size='"+size+"'";
+    const query = "UPDATE orderitems SET isDeleted='1' WHERE orderId='"+orderId+"' AND itemId='"+itemId+"' AND size='"+size+"'";
     const deleteItem = await sequelize.query(query, { type: sequelize.QueryTypes.DELETE });
     if(removeWholeOrder == 1){
-        const query = "DELETE FROM orders WHERE orderId='"+orderId+"'";
+        const query = "UPDATE orders SET isDeleted='1' WHERE orderId='"+orderId+"'";
         const deleteItem1 = await sequelize.query(query, { type: sequelize.QueryTypes.DELETE });
     }
+    const query1 = "UPDATE orders SET orders.fullAmount =( SELECT SUM( designs.price * orderitems.quantity ) FROM orderitems INNER JOIN designs ON designs.id = orderitems.itemId WHERE orderitems.orderId = orders.orderId AND orderitems.isDeleted='0') WHERE orders.orderId = '"+orderId+"'";
+    const totalUpdate = await sequelize.query(query1, {type: sequelize.QueryTypes.UPDATE});
     res.json(deleteItem);
 })
 
@@ -151,5 +160,13 @@ async function sendEmail(emailDetails){
                     }
                  } );  
 }
+
+router.get("/getUserDetails/:uid", async(req,res) => {
+    const uid = req.params.uid;
+    const query = "SELECT * FROM users WHERE id='"+uid+"'";
+    const deposits = await sequelize.query(query, { type: sequelize.QueryTypes.SELECT });
+    console.log(res)
+    res.json(deposits);
+})
 
 module.exports = router;
