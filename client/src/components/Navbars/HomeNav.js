@@ -133,8 +133,8 @@ const useStyles=makeStyles((theme)=>({
     },
 
     count: {
-        top: '8%',
-    right: '5%',
+        top: '4%',
+        right: '7.2%',
     height: '25px',
     width: "25px",
     /* margin: 3px; */
@@ -154,7 +154,9 @@ const useStyles=makeStyles((theme)=>({
     navlinkvisibilityTrue: {
         pointerEvents: "auto",
     },
-
+    visibility:{
+        visibility: 'hidden'
+    },
     
   
  }))

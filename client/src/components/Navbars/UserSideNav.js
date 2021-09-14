@@ -11,7 +11,9 @@ export default function UserSideNav() {
     var avatar;
     if(localStorage.getItem("fullname")!=null){
         uName = localStorage.getItem("fullname")
-        var splitted = uName.split(" ", 2);
+        console.log(uName)
+        var splitted = uName.split(/[ ,]+/,2);
+        console.log(splitted)
         avatar = splitted[0][0].toUpperCase() + splitted[1][0].toUpperCase();
     }else{
         avatar = []

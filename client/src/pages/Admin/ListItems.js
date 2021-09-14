@@ -93,9 +93,9 @@ export const mainListItems = (
       <ListItemIcon>
         <AccountBalanceIcon />
       </ListItemIcon>
-      </ListItem>
       <ListItemText primary="Bank Deposit Slips" />
     </ListItem>
+    
     <ListItem button component={Link} to="/inquiries">
       <ListItemIcon>
         <ContactSupportIcon />
