@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { Users } = require('../models/');
+const { Users, sequelize } = require('../models/');
 const bcrypt = require("bcrypt");
 const crypto = require("crypto");
 const nodemailer = require('nodemailer');
@@ -12,17 +12,15 @@ router.post("/register", async (req, res) => {
     const user1 = await Users.findOne({ where: { email: email } });
     if ((user1)) res.json({ error: "Email already Registered! Please Login" });
     else {
-        bcrypt.hash(password, 10).then((hash) => {
-            Users.create({
-                firstName: firstName,
-                lastName: lastName,
-                email: email,
-                contactNo: mobile,
-                password: hash,
-                user_type_id: userType,
-            })
-            res.json("SUCCESS");
+        bcrypt.hash(password, 10).then(async (hash) => {
+            const query1 = "INSERT INTO users (firstName,lastName,email,contactNo,password, user_type_id) VALUES ('" + firstName + "','" + lastName + "','" + email + "','" + mobile + "','" + hash + "','" + userType + "')";
+            const user = await sequelize.query(query1, { type: sequelize.QueryTypes.INSERT });
+
+            const query2 = "SELECT * FROM users WHERE email='" + email + "'";
+            const customerDetails = await sequelize.query(query2, { type: sequelize.QueryTypes.SELECT });
+            res.json(customerDetails);
         });
+
     }
 });
 
@@ -39,12 +37,6 @@ router.post("/login", async (req, res) => {
 
     bcrypt.compare(loginPassword, user.password).then((match) => {
         if (!match) res.json({ error: "Wrong Email and Password Combination" });
-
-        /*const accessToken = sign(
-            {email: user.email, id: user.id},
-            "importantsecret"
-            );
-            user['token']  = accessToken;*/
         res.json(user);
     });
 });
