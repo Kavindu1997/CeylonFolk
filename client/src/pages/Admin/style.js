@@ -73,6 +73,15 @@ const useStyles = makeStyles((theme) => ({
         paddingTop: theme.spacing(4),
         paddingBottom: theme.spacing(4),
       },
+
+      response:{
+        
+        display: 'flex',
+        width:"700px",
+     
+        
+      },
+
       paper: {
         padding: theme.spacing(2),
         display: 'flex',
@@ -144,6 +153,8 @@ const useStyles = makeStyles((theme) => ({
       padding: '0.8rem 0',
       lineHeight: '1',
       textAlign: 'center',
+      border: 'solid',
+      borderWidth: '2px',
       fontSize: '14px',
       fontWeight: '600',
       color: '#000',
@@ -212,8 +223,10 @@ quantity: {
   display: 'none'
 },
 activeQuantity: {
+
   display: 'block',
 }, 
+
 iconForOffers: {
   fill: 'white',
   padding: '18px',

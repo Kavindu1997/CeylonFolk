@@ -21,7 +21,7 @@ import moment from 'moment';
 
 
 function getSteps() {
-  return ['Pending', 'Accept', 'Printing', 'Printed', 'Dispatched', 'Recieved'];
+  return ['Pending', 'Accept', 'Advance Paid', 'Printing', 'Printed', 'Dispatched', 'Recieved'];
 }
 
 
@@ -32,6 +32,8 @@ export default function OrderView() {
   const [disable, setDisable] = React.useState(false);
   const [count, setcount] = useState(1)
   const [openPopup, setOpenPopup] = useState(false);
+  const [openPopupEditDesign, setOpenEditDesignPopup] = useState(false);
+  const [price, setprice] = useState('')
   const steps = getSteps();
   let { id } = useParams();
   let history = useHistory();
@@ -49,7 +51,7 @@ export default function OrderView() {
     })
   }, []);
   console.log('hii')
-  console.log(orderDetails)
+  console.log(id)
   console.log('hii')
 
   const openInPopup = (item) => {
@@ -60,75 +62,86 @@ export default function OrderView() {
   console.log(uid)
 
   const placeOrders = () => {
+    setOpenPopup(false);
+
 
     if (uid != '0') {
-      paymentItem = createPaymentDetails(MASTER_DATA.payhere, uid);
+      paymentItem = createPaymentDetails(MASTER_DATA.payhere, uid, price);
       let payment = setPayment(paymentItem);
       window.payhere.startPayment(payment);
 
     }
+
+
+
   };
 
   window.payhere.onCompleted = function onCompleted(orderId) {
     console.log("Payment completed. OrderID:" + orderId);
-    history.push("/Checkout");
+    history.push(`/orderView/${id}`);
+
+    const data = {
+      id: id,
+      price: price
+    }
+
+    axios.put('http://localhost:3001/customizeOrders/advancePaid/', data).then((response) => {
+      console.log(response.data);
+      alert('Successsfully Paid Advance')
+      // setlistOfOrderDetails(response.data);
+    })
+
+    axios.get('http://localhost:3001/customizeOrders/customizeDesign/' + id).then((response) => {
+      // console.log(response.data);
+      setorderDetails(response.data);
+    })
     // dispatch(actionSendToDB(paymentItem))
     //Note: validate the payment and show success or failure page to the customer
-};
+  };
 
-// Called when user closes the payment without completing
-window.payhere.onDismissed = function onDismissed() {
+  // Called when user closes the payment without completing
+  window.payhere.onDismissed = function onDismissed() {
     //Note: Prompt user to pay again or show an error page
     console.log("Payment dismissed");
-};
+  };
 
-// Called when error happens when initializing payment such as invalid parameters
-window.payhere.onError = function onError(error) {
+  // Called when error happens when initializing payment such as invalid parameters
+  window.payhere.onError = function onError(error) {
     // Note: show an error page
     console.log("Error:" + error);
-};
+  };
 
-  const createPaymentDetails = (pm, uid, status) => {
+  const createPaymentDetails = (pm, uid, status,) => {
+    console.log(price)
     let orderId = new Date().getTime();
     var date = moment().format();
     var address = "";
 
     const item = {
       userId: uid,
-            orderId: orderId,
-            totalAmount: '1300',
-            payment: 'pm',
-            status: 'status',
-            name:'thash',
+      orderId: orderId,
+      totalAmount: price,
+      payment: 'pm',
+      status: 'status',
+      placedDate: date,
+      name: 'thash',
     }
     return item;
   }
 
+  function onProceed() {
+    var Uid = localStorage.getItem("userId");
+    if (Uid > 0) {
+      history.push(`/customize/checkout/${id}`);
+    }
+    else {
+      // localStorage.setItem("fromTheCart", true);
+      history.push('/auth');
+    }
+  }
+
   const handleNext = (count) => {
-    console.log('hii')
-    console.log(count)
     setActiveStep((prevActiveStep) => prevActiveStep + count)
-    // if(status=='pending'){
-    //   setActiveStep((prevActiveStep) => prevActiveStep );
-
-    // }
-    // else if(status=='Accept'){
-    //   setActiveStep((prevActiveStep) => prevActiveStep + 1);
-
-    // }
-    // else if(status=='Printing'){
-    //   setActiveStep((prevActiveStep) => prevActiveStep + 2);
-
-    // }
-    // else if(status=='Printed'){
-    //   setActiveStep((prevActiveStep) => prevActiveStep + 3);
-
-    // }
-    // else if(status=='Dispatched'){
-    //   setActiveStep((prevActiveStep) => prevActiveStep + 4);
-
-    // }
-
   };
 
   const handleBack = () => {
@@ -147,16 +160,13 @@ window.payhere.onError = function onError(error) {
 
         <center>
           <div>
-
-
-
             {orderDetails &&
 
               <div className={classes.stepperContainer}>
                 <Typography variant="h4">Order Summery</Typography>
 
 
-                <Stepper style={{ backgroundColor: '#ebf9fd' }} activeStep={orderDetails.status === 'Pending' ? 1 : orderDetails.status === 'Accept' ? 2 : orderDetails.status === 'Printing' ? 3 : orderDetails.status === 'Print' ? 4 : orderDetails.status === 'Dispatched' ? 5 : orderDetails.status === 'Recieved' ? 6 : null} alternativeLabel>
+                <Stepper style={{ backgroundColor: '#ebf9fd' }} activeStep={orderDetails.status === 'Pending' ? 1 : orderDetails.status === 'Accept' ? 2 : orderDetails.status === 'Advance Paid' ? 3 : orderDetails.status === 'Printing' ? 4 : orderDetails.status === 'Printed' ? 5 : orderDetails.status === 'Dispatched' ? 6 : null} alternativeLabel>
                   {steps.map((label) => (
                     <Step key={label}>
                       <StepLabel>{label}</StepLabel>
@@ -174,33 +184,58 @@ window.payhere.onError = function onError(error) {
                   <Typography>Price</Typography>
                   <Typography>{"LKR " + orderDetails.price}</Typography>
                 </Box>
-                <Box>
+                <Box style={{ display: 'flex', justifyContent: 'center' }}>
 
-                <Button color="primary"
-                  disabled={disable}
-                  style={{ backgroundColor: 'green', color: 'white', margin:'20px' }}
+                  <Button color="primary"
+                    className={orderDetails.status === 'Accept' ? classes.activeQuantity : classes.quantity}
+                    disabled={disable}
+                    style={{ backgroundColor: 'green', color: 'white', margin: '20px' }}
 
+                    onClick={() => {
+                      setDisable(true)
+                      setOpenPopup(true);
+                      setprice(orderDetails.price / 2)
+                    }}
+                  >
+                    CONFIRM ORDER
+                  </Button>
+
+                  <Button color="primary"
+                    disabled={disable}
+                    style={{ backgroundColor: 'red', color: 'white', margin: '20px' }}
+                    className={orderDetails.status === 'Accept' ? classes.activeQuantity : classes.quantity}
+
+                    onClick={() => {
+                      setDisable(true)
+                      setOpenPopup(true);
+                    }}
+                  >
+                    REJECT ORDER
+                  </Button>
+                  <Button
+                  style={{ backgroundColor: 'black', color: 'white', margin: '20px' }}
+                  className={orderDetails.status === 'Pending' ? classes.activeQuantity : orderDetails.status === 'Accept' ? classes.activeQuantity : orderDetails.status === 'Printing' ? classes.activeQuantity : classes.quantity}
                   onClick={() => {
-                    setDisable(true)
-                    setOpenPopup(true);
+                    setOpenEditDesignPopup(true);
                   }}
-                >
-                  CONFIRM ORDER
-                </Button>
-
-                <Button color="primary"
-                  disabled={disable}
-                  style={{ backgroundColor: 'red', color: 'white', margin:'20px' }}
-
-                  onClick={() => {
-                    setDisable(true)
-                    setOpenPopup(true);
-                  }}
-                >
-                  REJECT ORDER
-                </Button>
+                  >
+                    Edit Design
+                  </Button>
+                  
 
                 </Box>
+
+                <Box className={orderDetails.status === 'Printed' ? classes.activeQuantity : classes.quantity}>
+                    <Box style={{fontSize:'18px',padding:'10px', margin:'10px'}}>Order is ready to dispatch</Box>
+                    <Box style={{color:'red'}}>Make the rest payment to disptache order to your door step</Box>
+                    <Button
+                  style={{ backgroundColor: 'black', color: 'white', margin: '20px' }}
+                  className={orderDetails.status === 'Printed' ? classes.activeQuantity : classes.quantity}
+                  onClick={onProceed}
+                  >
+                    Proceed to Checkout
+                  </Button>
+                  </Box>
 
                 <Popup
                   title="Send the Estimated Price"
@@ -216,9 +251,43 @@ window.payhere.onError = function onError(error) {
                   </Grid>
                   <Grid item md={12} >
                     <Controls.Button
-                      onClick={placeOrders}
+                      onClick={() => {
+
+                        placeOrders()
+                        // 
+                      }}
+
+                      // onClick={placeOrders}
                       type="submit"
                       text="Checkout"
+                    // onClick={() => {
+                    //     history.push('/Checkout');
+                    // }}
+                    />
+                  </Grid>
+                </Popup>
+
+                <Popup
+                  title="Contact Us to edit your Design"
+                  openPopup={openPopupEditDesign}
+                  setOpenPopup={setOpenEditDesignPopup}
+                  style={{fontColor:'red'}}
+                >
+                  <Grid >
+                    <Box style={{fontSize:'20px', margin:'10px', color:'red', textAlign:'center'}}>011-2345678</Box>
+
+                  </Grid>
+                  <Grid item md={12} >
+                    <Controls.Button
+                      onClick={() => {
+
+                        setOpenEditDesignPopup(false)
+                        // 
+                      }}
+
+                      // onClick={placeOrders}
+                      type="submit"
+                      text="OK"
                     // onClick={() => {
                     //     history.push('/Checkout');
                     // }}

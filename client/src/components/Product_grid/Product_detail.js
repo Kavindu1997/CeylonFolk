@@ -172,13 +172,19 @@ appbarlink2: {
 },
 
 count: {
-    background: 'cornflowerblue',
-    padding: '5px',
-    margin: '3px',
-    borderRadius: '8px',
-    position: 'absolute',
-    top: '0%',
-    right: '5.5%'
+  top: '8%',
+  right: '5%',
+  height: '25px',
+  width: "25px",
+  /* margin: 3px; */
+  verticalAlign: 'middle',
+  justifyContent: 'center',
+  textAlign: 'center',
+  padding: '2px',
+  position: 'absolute',
+  background: '#020303',
+  borderRadius: '50%',
+  color: 'white',
 },
 
   root1: {

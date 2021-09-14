@@ -18,6 +18,8 @@
     height: 30px;
     width: 30px;
     margin: 0 5px 0 0;
+    border: solid;
+    border-width: 2px;
   }
 
   .clrsboxSize{

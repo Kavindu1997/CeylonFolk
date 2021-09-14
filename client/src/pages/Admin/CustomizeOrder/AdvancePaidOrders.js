@@ -16,7 +16,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from 'react-router-dom';
 
 
-const AcceptedOrders = () => {
+const AdvancePaidOrders = () => {
     
     const classes = useStyles();
     const [openPopup, setOpenPopup] = useState(false);
@@ -31,6 +31,7 @@ const AcceptedOrders = () => {
         subTitle: "",
     });
     const [listOfOrderDetails, setlistOfOrderDetails] = useState([])
+    const [listOfAdvancePaid, setlistOfAdvancePaid] = useState([])
     const dispatch = useDispatch();
 
     const openInPopup = (item) => {
@@ -54,6 +55,11 @@ const AcceptedOrders = () => {
         axios.get('http://localhost:3001/customizeOrders/acceptedOrders').then((response) => {
             console.log(response.data);
             setlistAcceptedOrders(response.data);
+        })
+
+        axios.get('http://localhost:3001/customizeOrders/advancePayment').then((response) => {
+            console.log(response.data);
+            setlistOfAdvancePaid(response.data);
         })
     }, []);
 
@@ -103,7 +109,7 @@ const AcceptedOrders = () => {
                                     </TableHead>
                                     <TableBody>
 
-                                        {acceptedOrders
+                                        {listOfAdvancePaid
                                             .map((value) => {
                                                 return (
                                                     <TableRow>
@@ -119,6 +125,14 @@ const AcceptedOrders = () => {
                                                                 VIEW DESIGN
                                                             </Button>
                                                             
+                                                        </TableCell>
+                                                        <TableCell align="center">
+                                                            <Button name="accept" 
+                                                            onClick={() => onPrinting(value.orderId)}
+                                                            style={{backgroundColor:'green', color:'white'}}
+                                                            >
+                                                                START PRINTING
+                                                            </Button>
                                                         </TableCell>
                                                         <TableCell align="center">
                                                             <Button name="accept" 
@@ -159,4 +173,4 @@ const AcceptedOrders = () => {
     );
 };
 
-export default AcceptedOrders;
+export default AdvancePaidOrders;

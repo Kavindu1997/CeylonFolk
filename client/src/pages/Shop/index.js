@@ -82,7 +82,7 @@ const Shop = () => {
     // }, []);
 
 
-    let history = useHistory()
+  
  
     function addToWishlist(id){
         const uid = localStorage.getItem("userId")

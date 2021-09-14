@@ -133,13 +133,20 @@ const useStyles=makeStyles((theme)=>({
     },
 
     count: {
-        background: 'cornflowerblue',
-        padding: '5px',
-        margin: '3px',
-        borderRadius: '8px',
-        position: 'absolute',
-        top: '0%',
-        right: '8.0%'
+        top: '8%',
+    right: '5%',
+    height: '25px',
+    width: "25px",
+    /* margin: 3px; */
+    verticalAlign: 'middle',
+    justifyContent: 'center',
+    textAlign: 'center',
+    padding: '2px',
+    position: 'absolute',
+    background: '#020303',
+    borderRadius: '50%',
+    color: 'white',
+
     },
     navlinkvisibility: {
         pointerEvents: "none",
@@ -147,6 +154,7 @@ const useStyles=makeStyles((theme)=>({
     navlinkvisibilityTrue: {
         pointerEvents: "auto",
     },
+
     
   
  }))

@@ -5,6 +5,10 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false,
         },
+        orderId: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+        },
         contactNo: {
             type: DataTypes.INTEGER,
             allowNull: false,
@@ -18,6 +22,18 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false,
         },
         enquiryType:{
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
+        notifiFlag:{
+            type: DataTypes.INTEGER,
+            allowNull: false,
+        },
+        status:{
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
+        response:{
             type: DataTypes.STRING,
             allowNull: false,
         }

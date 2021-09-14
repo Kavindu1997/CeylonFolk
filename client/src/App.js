@@ -16,6 +16,8 @@ import NotFound from './pages/PageNotFound/Notfound';
 import AvailableColors from './pages/Admin/AvailableColors/AvailableColorsTable';
 import AvailableSizes from './pages/Admin/SizeTable';
 import AvailableTypes from './pages/Admin/TypesTable';
+import Inquiries from './pages/Admin/Inquiries/InquiriesTable';
+import ResolvedInquiries from './pages/Admin/Inquiries/ResolvedInquiries'
 import ViewDesigns from './pages/Admin/ViewDesignTable';
 import Product_detail from './pages/Shop/Product_detail';
 //import Collections from './pages/Collections'
@@ -53,9 +55,13 @@ import Assistant from './pages/Assistant';
 import CustomizeOrderDetails from './pages/Admin/CustomizeOrder/CustomizeOrderTable';
 import CustCustomizeOrderDetails from './pages/MyOrders/CustomizeOrders';
 import Types from './pages/Shop/Types';
-import OrderView from './pages/MyOrders/OrderView';
+
+import OrderView from './pages/MyOrders/OrderView'
+import CustomizeCheckout from './pages/Checkout/CustomizeCheckout';
+
 import DepositSlips from './pages/Admin/Deposit/depositSlips';
 import Profile1 from './pages/MyAccount/index2';
+
 
 
 const theme = createMuiTheme({
@@ -143,6 +149,8 @@ class App extends Component {
           <Route path="/admin" exact render={() => <AdminPanel />} />
           <Route path="/users" exact render={() => <Users />} />
           <Route path="/collections" exact render={() => <Collections />} />
+          <Route path="/inquiries" exact render={() => <Inquiries />} />
+          <Route path="/resolvedinquiries" exact render={() => <ResolvedInquiries />} />
           <Route path="/designs" exact render={() => <Designs />} />
           <Route path="/inventory" exact render={() => <Inventory />} />
           <Route path="/coupon" exact render={() => <Coupon />} />
@@ -182,6 +190,7 @@ class App extends Component {
               <Route path="/depositlips" exact render={() => <DepositSlips />} />
               <Route exact path={"/types/:id"} component = {Types} />
               <Route exact path={"/orderView/:id"} component = {OrderView} />
+              <Route exact path={"/customize/checkout/:id"} component = {CustomizeCheckout} /> 
               <Route path="/*" exact render={() => <NotFound />} />
             </Switch>
           </BrowserRouter>

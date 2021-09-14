@@ -19,6 +19,7 @@ import PrintingOrders from './PrintingOrders';
 import PrintedOrders from './PrintedOrders';
 import DispatchedOrders from "./DispatchedOrders";
 import ClosedOrders from "./ClosedOrders";
+import AdvancePaidOrders from "./AdvancePaidOrders";
 
 
 const CustomizeOrderTable = () => {
@@ -56,12 +57,15 @@ const CustomizeOrderTable = () => {
         })
     }, []);
 
+    var email = localStorage.getItem("userEmail");
+
     const onAccept = (id) => {
         console.log(id)
 
         const data = {
             id: id,
-            price: price
+            price: price,
+            email: email
         }
 
         axios.put('http://localhost:3001/customizeOrders/orderAccepted/',data).then((response) => {
@@ -121,6 +125,8 @@ const CustomizeOrderTable = () => {
                         <Button onClick={() => toggleTab(1)}>Pending Orders</Button>
                         <Divider orientation="vertical" flexItem />
                         <Button onClick={() => toggleTab(2)}>Accepted Orders</Button>
+                        <Divider orientation="vertical" flexItem />
+                        <Button onClick={() => toggleTab(7)}>Advance Paid Orders</Button>
                         <Divider orientation="vertical" flexItem />
                         <Button onClick={() => toggleTab(3)}>Printing Orders</Button>
                         <Divider orientation="vertical" flexItem />
@@ -214,6 +220,8 @@ const CustomizeOrderTable = () => {
                                                                     text="Send Price"
                                                                     onClick={() => {
                                                                         onAccept(value.orderId)
+                                                                        console.log('hi idddd')
+                                                                        console.log(value.orderId)
                                                                     }}
                                                                 />
                                                             </Grid>
@@ -236,9 +244,9 @@ const CustomizeOrderTable = () => {
                                                                 <Controls.Button
                                                                     type="submit"
                                                                     text="Send Price"
-                                                                    onClick={() => {
-                                                                        onAccept(value.orderId)
-                                                                    }}
+                                                                    // onClick={() => {
+                                                                    //     onAccept(value.orderId)
+                                                                    // }}
                                                                 />
                                                             </Grid>
                                                         </Popup>
@@ -276,6 +284,10 @@ const CustomizeOrderTable = () => {
 
                     <Box className={toggleState === 6 ? classes.activeContent : classes.hideContent}>
                     <ClosedOrders />
+                    </Box>
+
+                    <Box className={toggleState === 7 ? classes.activeContent : classes.hideContent}>
+                    <AdvancePaidOrders />
                     </Box>
 
                     

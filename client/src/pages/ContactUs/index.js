@@ -16,6 +16,7 @@ import useStyles from './style';
 
 const initialValues = {
   fullName: '',
+  orderId:'',
   mobile: '',
   email: '',
   message: '',
@@ -28,6 +29,7 @@ const validationSchema = Yup.object().shape({
   email: Yup.string().email("Email is not valid").required("Email is required"),
   message: Yup.string().required("Message is required"),
   enquiryType: Yup.string().required("Your Issue is required"),
+  orderId: Yup.string().required("Your Order ID is required"),
 
 });
 
@@ -85,6 +87,18 @@ export default function ContactUs() {
                     name="fullName"
                     autoComplete="fname"
                     helperText={<ErrorMessage name="fullName" />}
+                  />
+                  <Field as={TextField}
+                    className={classes.textField}
+                    variant="outlined"
+                    margin="normal"
+                    required
+                    fullWidth
+                    id="orderId"
+                    label="Enter the Order ID "
+                    name="orderId"
+                    autoComplete="orderId"
+                    helperText={<ErrorMessage name="orderId" />}
                   />
                   <Field as={TextField}
                     className={classes.textField}

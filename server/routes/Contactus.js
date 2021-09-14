@@ -5,14 +5,18 @@ const nodemailer = require('nodemailer');
 
 router.post("/contactus", async(req, res) => {
     console.log(req.body)
-    const { fullName, mobile, email, message, enquiryType} = req.body;
+    const { fullName,orderId, mobile, email, message, enquiryType} = req.body;
         // console.log(fullName)
         await Contactus.create({
             name: fullName,
+            orderId:orderId,
             contactNo: mobile,
             email: email,
             message: message,
-            enquiryType: enquiryType,          
+            enquiryType: enquiryType, 
+            notifiFlag:0,  
+            status:'not_solved' ,
+            response:''      
         })
 
         const htmlEmail = `
@@ -21,6 +25,7 @@ router.post("/contactus", async(req, res) => {
                 <li>Name: ${req.body.fullName} </li>
                 <li>Phone: ${req.body.mobile} </li>
                 <li>Email: ${req.body.email} </li>
+                <li>Name: ${req.body.orderId} </li>
             </ul>
             <h4> Message <h4>
             <p>${req.body.message}</p>`

@@ -148,6 +148,8 @@ const useStyles = makeStyles((theme) => ({
       fontWeight: '600',
       color: '#000',
       display: 'inline-block',
+      border: 'solid',
+      borderWidth: '2px',
     },
     
     headStyle: {
