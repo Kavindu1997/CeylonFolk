@@ -1,9 +1,10 @@
-import React from 'react'
+import { React, useState } from 'react'
 import useStyles from './style';
 import { useHistory } from 'react-router-dom';
 import * as Yup from 'yup';
 import { TextField, Link, Button } from '@material-ui/core';
 import axios from 'axios';
+import Notification from '../../components/Reusable/Notification';
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { useDispatch, useSelector } from "react-redux";
 import { calculateCartCount, getCart } from '../../_actions/index';
@@ -13,6 +14,7 @@ function Login() {
     const dispatch = useDispatch();
     var cart = [];
     cart = useSelector(state => state.cart);
+    const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' });
 
     let history = useHistory();
 
@@ -32,7 +34,11 @@ function Login() {
     const login = (data, props) => {
         axios.post("http://localhost:3001/auth/login", data).then((response) => {
             if (response.data.error) {
-                alert(response.data.error);
+                setNotify({
+                    isOpen: true,
+                    message: response.data.error,
+                    type: 'error'
+                });
             }
             else if (response.data.user_type_id == 1) {
                 localStorage.setItem("userId", response.data.id);
@@ -85,6 +91,10 @@ function Login() {
     }
     return (
         <div>
+            <Notification
+                notify={notify}
+                setNotify={setNotify}
+            />
             <Formik initialValues={initialLoginValues} onSubmit={login} validationSchema={loginValidation}>
                 {(props) => (
                     <Form className={classes.form}>
