@@ -114,7 +114,7 @@ function Login() {
                             autoComplete="current-password"
                             helperText={<ErrorMessage name="loginPassword" />}
                         />
-                        <Link href="#" className={classes.forgot}>Forgot Password</Link>
+                        <Link href="/forgotPassword" className={classes.forgot}>Forgot Password</Link>
                         <Button
                             type="submit"
                             fullWidth

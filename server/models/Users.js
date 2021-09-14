@@ -24,7 +24,15 @@ module.exports = (sequlize, DataTypes) => {
         user_type_id: {
             type: DataTypes.INTEGER,
             allowNull: false,
-        }
+        },
+        resetToken: {
+            type: DataTypes.STRING,
+            allowNull: true,
+        },
+        expireToken: {
+            type: DataTypes.DATE,
+            allowNull: true,
+        },
     });
 
     return Users;

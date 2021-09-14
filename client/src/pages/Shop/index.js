@@ -6,7 +6,7 @@ import Footer from '../../components/Footer/Footer';
 
 // import { DropDown } from '../components/Product_grid/DropDown';
 
-import { IconButton , Typography, Button, Container, Grid, Card, CardActionArea, CardActions, CardContent, CardMedia, Link } from '@material-ui/core';
+import { IconButton, Typography, Button, Container, Grid, Card, CardActionArea, CardActions, CardContent, CardMedia, Link } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import Image from '../../images/cover6.jpg';
 import Collection1 from '../../images/ts1.jpg';
@@ -30,13 +30,13 @@ const Shop = () => {
 
     const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' });
 
- 
+
     const [Collection, setCollection] = useState('');
     const [Colour, setColour] = useState('');
     const [Type, setType] = useState('');
     const [Size, setSize] = useState('');
     const [products, setRecord] = useState([]);
-    
+
 
     const onCollection = (e) => {
         setCollection(e.target.value)
@@ -67,11 +67,19 @@ const Shop = () => {
     //     });
 
     //   }
+
+
+    useEffect(() => {
+        dispatch(fetchProducts());
+        setChecked(true);
+    }, []);
+
  
     // useEffect(() => {
     //     dispatch(fetchProducts());
     //     setChecked(true);
     // }, []);
+
 
     const [listOfDesigns, setListOfDesigns] = useState([]);
 
@@ -81,6 +89,11 @@ const Shop = () => {
     //     });
     // }, []);
 
+
+
+    let history = useHistory()
+
+  
 
   
  
@@ -103,15 +116,17 @@ const Shop = () => {
               });
         }); 
         }else{
+
             setNotify({
                 isOpen: true,
                 message: 'Customer has not logged in !',
                 type: 'error'
-              });
+
+            });
         }
-      
+
     }
- 
+
 
     const [listOfSizes, setListOfSizes] = useState([]);
 
@@ -156,19 +171,23 @@ const Shop = () => {
 
 
     const doFilter = (e) => {
+
         console.log("do filter")
         axios.get('http://localhost:3001/shop/filterRecords',{
+
             params: {
-              Collection: Collection,
-              Colour: Colour,
-              Type: Type,
-              Size: Size,
+                Collection: Collection,
+                Colour: Colour,
+                Type: Type,
+                Size: Size,
             }
+
           })
         .then(response => {
             setRecord(response.data);
             console.log(products);
         });
+
         // props.resetForm();
     };
 
@@ -201,6 +220,9 @@ const Shop = () => {
         // dispatch(fetchColors());
     }, []);
 
+
+    //let history = useHistory()
+
     return (
         <div>
             <CssBaseline />
@@ -211,16 +233,16 @@ const Shop = () => {
                     <Grid item md={6}>
                         <div className={classes.filter}>
                             <ButtonGroup variant="contained" color="primary" aria-label="split button" style={{ boxShadow: 'none' }}>
-                                <select className={classes.icon} name="Collection"  onChange={onCollection}>
+                                <select className={classes.icon} name="Collection" onChange={onCollection}>
                                     <option value="">Collection</option>
-                                  
-                                    {listOfCollections
-                                            .map((value) => {
-                                                return (
 
-                                                    <option value={value.collection_name}>{value.collection_name}</option>
-                                                    );
-                                                })}
+                                    {listOfCollections
+                                        .map((value) => {
+                                            return (
+
+                                                <option value={value.collection_name}>{value.collection_name}</option>
+                                            );
+                                        })}
 
                                 </select>
                             </ButtonGroup>
@@ -232,43 +254,43 @@ const Shop = () => {
                                 </select>
                             </ButtonGroup> */}
                             <ButtonGroup variant="contained" color="primary" aria-label="split button" style={{ boxShadow: 'none' }}>
-                                <select className={classes.icon} name="Colour"  onChange={onColour}>
-                                    
+                                <select className={classes.icon} name="Colour" onChange={onColour}>
+
                                     <option value="">Colour</option>
-                                   
+
                                     {listOfColors
-                                            .map((value) => {
-                                                return (
+                                        .map((value) => {
+                                            return (
 
-                                                    <option value={value.color_name}>{value.color_name}</option>
-                                                    );
-                                                })}
+                                                <option value={value.color_name}>{value.color_name}</option>
+                                            );
+                                        })}
                                 </select>
                             </ButtonGroup>
                             <ButtonGroup variant="contained" color="primary" aria-label="split button" style={{ boxShadow: 'none' }}>
-                                <select className={classes.icon} name="Type"  onChange={onType}>
-                                    
+                                <select className={classes.icon} name="Type" onChange={onType}>
+
                                     <option value="">Type</option>
-                                   
-                                    {listOfTypes
-                                            .map((value) => {
-                                                return (
 
-                                                    <option value={value.types}>{value.types}</option>
-                                                    );
-                                                })}
+                                    {listOfTypes
+                                        .map((value) => {
+                                            return (
+
+                                                <option value={value.types}>{value.types}</option>
+                                            );
+                                        })}
                                 </select>
                             </ButtonGroup>
                             <ButtonGroup variant="contained" color="primary" aria-label="split button" style={{ boxShadow: 'none' }}>
-                                <select className={classes.icon} name="Size"  onChange={onSize}>
-                                <option value="">Size</option>
+                                <select className={classes.icon} name="Size" onChange={onSize}>
+                                    <option value="">Size</option>
                                     {listOfSizes
-                                            .map((value) => {
-                                                return (
+                                        .map((value) => {
+                                            return (
 
-                                                    <option value={value.size}>{value.size}</option>
-                                                    );
-                                                })}
+                                                <option value={value.size}>{value.size}</option>
+                                            );
+                                        })}
                                 </select>
                             </ButtonGroup>
                             <Button variant="contained" color="primary" onClick={doFilter}>
@@ -282,8 +304,8 @@ const Shop = () => {
                 <Container className={classes.collectionContainer} maxWidth="lg">
                     <Grid container spacing={0} >
 
-                        {products.map((product,index) => {
-                            const { id, coverImage, design_name, price,isInWishList } = product;
+                        {products.map((product, index) => {
+                            const { id, coverImage, design_name, price, isInWishList } = product;
                             return (
                                 <Grid item xs={12} sm={6} md={3} >
                                     <Link style={{ textDecoration: 'none' }}>
@@ -296,7 +318,7 @@ const Shop = () => {
                                                     }}
                                                     title="Snowy"
                                                 /> */}
-                                                <img style={{ width: '100%', overflow: 'hidden', objectFit: 'cover', hight: '293px' }} src={'http://localhost:3001/' + coverImage} alt="" onClick={() => {history.push(`/productDetails/${id}`);}}></img>
+                                                <img style={{ width: '100%', overflow: 'hidden', objectFit: 'cover', hight: '293px' }} src={'http://localhost:3001/' + coverImage} alt="" onClick={() => { history.push(`/productDetails/${id}`); }}></img>
 
                                                 <CardContent>
                                                     <div>
@@ -306,11 +328,11 @@ const Shop = () => {
                                                     <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                                                         <Typography gutterBottom variant="h6" component="h2" style={{ textAlign: 'left', fontSize: '16px' }}>{"LKR " + price}</Typography>
                                                         <IconButton onClick={() => { addToWishlist(id) }}>
-                                                        
-                                                        <FavoriteBorderOutlinedIcon  className={classes.icon1}  style={{fill:product.isInWishList==1?"red":"primary"}}  /> 
-      
+
+                                                            <FavoriteBorderOutlinedIcon className={classes.icon1} style={{ fill: product.isInWishList == 1 ? "red" : "primary" }} />
+
                                                         </IconButton>
-                                                    </div>   
+                                                    </div>
                                                 </CardContent>
                                             </CardActionArea>
                                         </Card>
@@ -324,9 +346,9 @@ const Shop = () => {
             </div>
             <Footer />
             <Notification
-        notify={notify}
-        setNotify={setNotify}
-      />
+                notify={notify}
+                setNotify={setNotify}
+            />
         </div>
     );
 };

@@ -44,7 +44,7 @@ export const mainListItems = (
       <ListItemIcon>
         <BrushIcon />
       </ListItemIcon>
-      <ListItemText primary="Designs"/>
+      <ListItemText primary="Designs" />
     </ListItem>
     <ListItem button component={Link} to="/inventory">
       <ListItemIcon>
@@ -93,7 +93,6 @@ export const mainListItems = (
       <ListItemIcon>
         <AccountBalanceIcon />
       </ListItemIcon>
-      </ListItem>
       <ListItemText primary="Bank Deposit Slips" />
     </ListItem>
     <ListItem button component={Link} to="/inquiries">
@@ -103,11 +102,11 @@ export const mainListItems = (
       <ListItemText primary="Inquiries" />
     </ListItem>
 
-  
-  </div>
+
+  </div >
 );
 
 export const secondListItems = (
-      <div><img src={require('../../images/logodrawer.png').default} alt="CeylonFolk" height="80px" style={{margin:'30px 0px'}}/></div>
+  <div><img src={require('../../images/logodrawer.png').default} alt="CeylonFolk" height="80px" style={{ margin: '30px 0px' }} /></div>
 );
 
