@@ -66,7 +66,7 @@ function Login() {
                 }
 
                 localStorage.setItem("userId", response.data.id);
-                localStorage.setItem("fullname", response.data.firstName + ' ' + response.data.lastName)
+                localStorage.setItem("fullname", response.data.firstName+' '+response.data.lastName)
                 localStorage.setItem("userEmail", response.data.email);
 
                 if (localStorage.getItem("fromTheCart") == "true") {
