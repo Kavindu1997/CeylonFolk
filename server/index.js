@@ -88,7 +88,6 @@ const typesRouter = require("./routes/Types");
 app.use("/types", typesRouter);
 app.use('/public', express.static('public'));
 
-
 const depositRouter = require('./routes/Deposit');
 app.use("/deposit", depositRouter);
 app.use("/depositCollection", depositRouter);
@@ -99,6 +98,9 @@ app.use("/order", orderRouter);
 
 const notificationsRouter = require('./routes/Notifications');
 app.use("/notifications", notificationsRouter);
+
+const profileRouter = require('./routes/Profile');
+app.use("/profileroute", profileRouter)
 
 
 db.sequelize.sync().then(() => {

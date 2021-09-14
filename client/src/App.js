@@ -60,6 +60,7 @@ import OrderView from './pages/MyOrders/OrderView'
 import CustomizeCheckout from './pages/Checkout/CustomizeCheckout';
 
 import DepositSlips from './pages/Admin/Deposit/depositSlips';
+import Profile1 from './pages/MyAccount/index2';
 
 
 
@@ -139,7 +140,8 @@ class App extends Component {
           <Route exact path={"/productDetails/:id"} component = {Product_detail} />
           <Route exact path={"/deposit"} component = {Deposit} />
           <Route exact path={"/deposit/:id/:orderIdFromEmail"} component = {Deposit} />
-          <Route exact path={"/profile"} component = {Profile} />
+          <Route exact path={"/profile1"} component = {Profile} />
+          <Route exact path={"/profile"} component = {Profile1} />
           <Route exact path={"/myOrders"} component = {OrderHistory} />
           <Route exact path={"/myOrders/:id"} component = {OrderHistory} />
           <Route exact path={"/orderDetail/:oId"} component = {OrderDetail} />

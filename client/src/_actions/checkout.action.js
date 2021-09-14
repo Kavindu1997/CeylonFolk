@@ -20,10 +20,10 @@ export const actionGetDistricts = delivery => async (dispatch)=> {
 export const actionSendToDB = (item) => async (dispatch)=> {
         const response = await ceylonforkapi.post("/check/cashOn/",item) 
             if (response.data.error) {
-                alert("Order Placement Unsuccessful");
+                // alert("Order Placement Unsuccessful");
             } else {
                 dispatch(actionDeleteItem(item))
-                alert("Order Placement Successful");
+                // alert("Order Placement Successful");
             }
             dispatch(emptyCart())
             dispatch(emtyTotal()) 
@@ -33,15 +33,19 @@ export const actionSendToDB = (item) => async (dispatch)=> {
 
 export const actionDeleteItem = (item) => async (dispatch)=> {
             const response = await ceylonforkapi.put("/check/deleteCart/",item)
-                if (response.data.error) {
-                    alert(response.data.error);
-                }else{
+                if (response.data.status==0) {
+                    dispatch(errorMsg('1'))
+                } else {
+                    console.log(response.data)
                     dispatch(getCart())
                     dispatch(getTotal())
+                    dispatch(errorMsg("2"))
                 }
-
-          
-           
-
 };
+
+export const errorMsg = (msg) => async (dispatch)=> {
+    console.log(msg)
+    dispatch({ type: CHECKOUT_CONSTS.ERROR_MSG, payload: msg })
+};
+
 

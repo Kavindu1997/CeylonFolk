@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import useStyles from './style';
 import { useDispatch, useSelector } from "react-redux";
-import { actionGetTotalDeduct, actionDeleteItem, calculateCartCount, getCart, getTotal, deleteCartUsingID, updateCartQuantity, actionUpdateItem, calculateTotalWhenChanged, emtyTotalLogout, emptyCartLogout} from '../../_actions/index';
+import { decrementCartCount, actionGetTotalDeduct, actionDeleteItem, calculateCartCount, getCart, getTotal, deleteCartUsingID, updateCartQuantity, actionUpdateItem, calculateTotalWhenChanged, emtyTotalLogout, emptyCartLogout} from '../../_actions/index';
 import NumericInput from 'react-numeric-input';
 import Notification from '../../components/Reusable/Notification';
 import ConfirmDialog from '../../components/Reusable/ConfirmDialog';
@@ -53,33 +53,33 @@ export default function Cart() {
     else {
       var item={id:id, size:size}
       dispatch(actionDeleteItem(id,size));
-      dispatch(calculateCartCount())
+      dispatch(decrementCartCount())
       dispatch(actionGetTotalDeduct());
-      setNotify({
-        isOpen: true,
-        message: 'Removed Successfully !',
-        type: 'success'
-      });
+      
+     
     }
   };
 
   useEffect(() => {
     dispatch(getCart())
     dispatch(getTotal())
+    console.log(localStorage.getItem("userId"))
   }, []);
 
   const updateQty = (event) => {
     changedValue = event;
-    console.log(changedValue)
+    console.log('abcd',changedValue)
   }
 
   const selectedQty = (index) => {
-
+    console.log(productCart)
     setDisable(false)
+    console.log("asdfghjkl",index);
     let updatedItem = productCart[index];
     if (changedValue === undefined) {
       changedValue = updatedItem.stockMargin;
     }
+   
     setProceedDisable(true)
     updatedItem.quantity = changedValue;
 
@@ -124,20 +124,15 @@ export default function Cart() {
   }
 
   function onLogout() {
-    localStorage.setItem("userId", 0);
-    localStorage.setItem("userName", 0);
-    localStorage.removeItem("orderIdFromEmail");
-    localStorage.removeItem("userIdFromMail");
-    localStorage.setItem("from","auth");
-    localStorage.setItem("to","home");
-    history.push("/");
+    localStorage.clear()
+    localStorage.setItem("userId",0)
+    history.push("./")
     dispatch(getCart())
     dispatch(getTotal())
     dispatch(emptyCartLogout());
     dispatch(emtyTotalLogout());
     dispatch(calculateCartCount())
     dispatch(fetchProducts());
-
   }
 
   return (
@@ -172,7 +167,7 @@ export default function Cart() {
                         <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>Rs. {value.price}</TableCell>
                         <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.size}</TableCell>
                         <TableCell align="center" onClick={() => selectedQty(index)}>
-                          <NumericInput mobile min={1} max={value.stockMargin} value={value.quantity} size={1} style={{ fontFamily: 'Montserrat' }} onChange={updateQty} />
+                          <NumericInput mobile min={1} max={value.stockMargin} defaultValue={value.quantity} size={1} style={{ fontFamily: 'Montserrat' }} onChange={updateQty} />
                         </TableCell>
                         {/* <TableCell align="center" className={classes.numeric} style={{ fontFamily: 'Montserrat' }}>{value.quantity}</TableCell> */}
                         <TableCell align="center">

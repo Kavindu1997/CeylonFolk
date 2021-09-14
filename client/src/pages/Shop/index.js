@@ -68,10 +68,10 @@ const Shop = () => {
 
     //   }
  
-    useEffect(() => {
-        dispatch(fetchProducts());
-        setChecked(true);
-    }, []);
+    // useEffect(() => {
+    //     dispatch(fetchProducts());
+    //     setChecked(true);
+    // }, []);
 
     const [listOfDesigns, setListOfDesigns] = useState([]);
 
@@ -85,16 +85,31 @@ const Shop = () => {
   
  
     function addToWishlist(id){
+        const uid = localStorage.getItem("userId")
         if(localStorage.getItem("userId")!='0'){
         dispatch(actionAddToWishlist(id))
-        dispatch(fetchProducts())
+    
+        var response = fetch(`http://localhost:3001/shop/shops/`+uid)
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (myJson) {
+            setRecord(myJson);
+            console.log(products)
+            setNotify({
+                isOpen: true,
+                message: 'Add to the wishlist successfully ! please go to the top',
+                type: 'success'
+              });
+        }); 
         }else{
             setNotify({
                 isOpen: true,
                 message: 'Customer has not logged in !',
                 type: 'error'
               });
-        } 
+        }
+      
     }
  
 
@@ -141,7 +156,7 @@ const Shop = () => {
 
 
     const doFilter = (e) => {
-
+        console.log("do filter")
         axios.get('http://localhost:3001/shop/filterRecords',{
             params: {
               Collection: Collection,
@@ -152,18 +167,33 @@ const Shop = () => {
           })
         .then(response => {
             setRecord(response.data);
+            console.log(products);
         });
         // props.resetForm();
     };
 
     const loadRecordAgain = () => {
-        var response = fetch(`http://localhost:3001/shop`)
+        const uid = localStorage.getItem("userId")
+        if(uid == '0'){
+            var response = fetch(`http://localhost:3001/shop`)
             .then(function (response) {
                 return response.json();
             })
             .then(function (myJson) {
                 setRecord(myJson);
+                console.log(products)
             });
+        }else{
+            var response = fetch(`http://localhost:3001/shop/shops/`+uid)
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (myJson) {
+                setRecord(myJson);
+                console.log(products)
+            });
+        }
+       
 
     }
     useEffect(() => {
@@ -171,7 +201,6 @@ const Shop = () => {
         // dispatch(fetchColors());
     }, []);
 
-    let history = useHistory()
     return (
         <div>
             <CssBaseline />

@@ -73,15 +73,6 @@ const useStyles = makeStyles((theme) => ({
         paddingTop: theme.spacing(4),
         paddingBottom: theme.spacing(4),
       },
-
-      response:{
-        
-        display: 'flex',
-        width:"700px",
-     
-        
-      },
-
       paper: {
         padding: theme.spacing(2),
         display: 'flex',
@@ -153,8 +144,6 @@ const useStyles = makeStyles((theme) => ({
       padding: '0.8rem 0',
       lineHeight: '1',
       textAlign: 'center',
-      border: 'solid',
-      borderWidth: '2px',
       fontSize: '14px',
       fontWeight: '600',
       color: '#000',
@@ -223,30 +212,14 @@ quantity: {
   display: 'none'
 },
 activeQuantity: {
-
   display: 'block',
-}, 
-
-iconForOffers: {
-  fill: 'white',
-  padding: '18px',
-  // borderRadius: '50px',
-  background: 'light blue',
-  width: '200px',
-  height: '200',
-  color: 'black',
-  boxShadow: 'none',
-  marginTop:'18px'
-
 },
 
-date: {
- 
-  
-  marginTop:'20px',
-  marginBottom:'30px'
-
-
+formControl: {
+  // marginTop: theme.spacing(2),
+  minWidth: '50%',
+  width: '20ch',
+  textAlign: 'left'
 },
       
   }));
