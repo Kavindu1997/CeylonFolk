@@ -294,19 +294,19 @@ const useStyles = makeStyles((theme) => ({
   date: {
 
 
-  display: 'block',
-}, 
+    display: 'block',
+  },
 
-iconForOffers: {
-  fill: 'white',
-  padding: '18px',
-  // borderRadius: '50px',
-  background: 'light blue',
-  width: '200px',
-  height: '200',
-  color: 'black',
-  boxShadow: 'none',
-  marginTop:'18px'
+  iconForOffers: {
+    fill: 'white',
+    padding: '18px',
+    // borderRadius: '50px',
+    background: 'light blue',
+    width: '200px',
+    height: '200',
+    color: 'black',
+    boxShadow: 'none',
+    marginTop: '18px',
 
 
     marginTop: '20px',
