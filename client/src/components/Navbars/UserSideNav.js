@@ -7,11 +7,16 @@ import { useHistory } from 'react-router-dom';
 
 
 export default function UserSideNav() {
-
-    const uName = localStorage.getItem("fullname")
-    var splitted = uName.split(" ", 2);
-    var avatar = splitted[0][0].toUpperCase() + splitted[1][0].toUpperCase();
-
+    var uName;
+    var avatar;
+    if(localStorage.getItem("fullname")!=null){
+        uName = localStorage.getItem("fullname")
+        var splitted = uName.split(" ", 2);
+        avatar = splitted[0][0].toUpperCase() + splitted[1][0].toUpperCase();
+    }else{
+        avatar = []
+    }
+   
     return (
         <div>
             <div>

@@ -164,7 +164,6 @@ const useStyles = makeStyles((theme) => ({
 const CommonNav = (props) => {
     const classes = useStyles();
     const cartcount = useSelector(state => state.cart.cartCount)
-    console.log(cartcount)
     const [countDetails, countOfItems] = useState([]);
     let history = useHistory()
     useEffect(() => {

@@ -12,7 +12,7 @@ router.get("/getHistory/:id", async (req, res) => {
 
 router.get("/order/:oId", async (req, res) => {
     const oId = req.params.oId;
-    const query = "SELECT orders.fullAmount, orderitems.id AS orderitemId, designs.id, designs.coverImage, designs.design_name, orderitems.quantity, orderitems.size, designs.price, (SELECT sizes.id FROM sizes WHERE sizes.size=orderitems.size) AS sizeId, SUM( orderitems.quantity * designs.price ) AS totals, CASE WHEN orders.PaymentMethod = '7' AND orders.status = '1' THEN 1 WHEN orders.PaymentMethod = '9' AND orders.status = '4' THEN 1 ELSE 0 END AS canbecancel FROM orderitems INNER JOIN designs ON designs.id = orderitems.itemId INNER JOIN orders ON orders.orderId = orderitems.orderId INNER JOIN masterdata ON masterdata.id = orders.status WHERE orders.orderId = '"+oId+"' AND orderitems.isDeleted='0' GROUP BY orderitems.itemId, orderitems.size";
+    const query = "SELECT orders.fullAmount, orderitems.id AS orderitemId, designs.id, designs.coverImage, designs.design_name, orderitems.quantity, orderitems.size, designs.price, (SELECT sizes.id FROM sizes WHERE sizes.size=orderitems.size) AS sizeId, SUM( orderitems.quantity * designs.price ) AS totals, CASE WHEN orders.PaymentMethod = '7' AND orders.status = '1' THEN 1 WHEN orders.PaymentMethod = '9' AND orders.status = '4' THEN 1 ELSE 0 END AS canbecancel FROM orderitems INNER JOIN designs ON designs.id = orderitems.itemId INNER JOIN orders ON orders.orderId = orderitems.orderId INNER JOIN masterdata ON masterdata.id = orders.status WHERE orders.orderId = '"+oId+"' AND orderitems.isDeleted='0' GROUP BY orderitems.orderId, orderitems.itemId, orderitems.size";
     const orderDetails = await sequelize.query(query, { type: sequelize.QueryTypes.SELECT });
     res.json(orderDetails);
 });
@@ -36,6 +36,8 @@ router.post("/cancelItem", async(req,res) => {
         const query = "UPDATE orders SET isDeleted='1' WHERE orderId='"+orderId+"'";
         const deleteItem1 = await sequelize.query(query, { type: sequelize.QueryTypes.DELETE });
     }
+    const query1 = "UPDATE orders SET orders.fullAmount =( SELECT SUM( designs.price * orderitems.quantity ) FROM orderitems INNER JOIN designs ON designs.id = orderitems.itemId WHERE orderitems.orderId = orders.orderId AND orderitems.isDeleted='0') WHERE orders.orderId = '"+orderId+"'";
+    const totalUpdate = await sequelize.query(query1, {type: sequelize.QueryTypes.UPDATE});
     res.json(deleteItem);
 })
 

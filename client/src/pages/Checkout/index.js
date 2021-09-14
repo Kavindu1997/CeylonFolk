@@ -61,7 +61,9 @@ export default function Checkout() {
     const getDistrictValue = (event) => {
         setDistrictNameValue(event.target.value)
         console.log(event.target.value);
-        
+        if(districtError && districtNameValue != undefined){
+            setDistrictError(false)
+        }
 
         for(let i=0; i<deliveryDetails.length-1 ; i++){
             if(deliveryDetails[i].id === event.target.value){
@@ -85,12 +87,21 @@ export default function Checkout() {
 
     const setAddress1 = (event) => {
         setOfAddress1(event.target.value)
+        if(add1Error && cutomerAddress1 != undefined){
+            setAdd1Error(false)
+        }
     }
     const setAddress2 = (event) => {
         setOfAddress2(event.target.value)
+        if(add2Error && cutomerAddress2 != undefined){
+            setAdd2Error(false)
+        }
     }
     const setAddress3 = (event) => {
         setOfAddress3(event.target.value)
+        if(cityError && cutomerAddress3 != undefined){
+            setCityError(false)
+        }
     }
     const setPhoneNumber = (event) => {
         setOfPhoneNumber(event.target.value)
@@ -251,7 +262,7 @@ export default function Checkout() {
                         <Grid item xs={12} sm={12} md={6} lg={6}>
                             <Typography component="h1" variant="h5" style={{ fontFamily: 'Montserrat', textAlign: 'center' }}>Billing Details</Typography>
                             {/* <Formik initialValues={initialRegValues} validationSchema={regValidation}> */}
-                          
+                         
                             {customerDetails
                                 .map((value) => {
                                     return (

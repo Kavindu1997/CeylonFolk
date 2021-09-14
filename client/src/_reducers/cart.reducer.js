@@ -100,9 +100,9 @@ export const cart = (state = initState, action) => {
 
         case CART_CONSTS.GET_CART:
             var cartcounter=0;
-            // for(let i=0;i<action.payload.length-1;i++){
-            //     cartcounter=cartcounter+1
-            // }
+            for(let i=0;i<action.payload.length;i++){
+                action.payload[i].quantity =Number(action.payload[i].quantity)
+            }
             return {
                 ...state,
                 cart: action.payload,

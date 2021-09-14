@@ -6,10 +6,11 @@ import { TextField, Link, Button } from '@material-ui/core';
 import axios from 'axios';
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { useDispatch, useSelector } from "react-redux";
+import { calculateCartCount, getCart} from '../../_actions/index';
 
 function Login() {
     const classes = useStyles();
-
+    const dispatch = useDispatch();
     var cart = [];
     cart = useSelector(state => state.cart);
 
@@ -50,6 +51,8 @@ function Login() {
             }
             else {
                 console.log(response.data)
+                dispatch(getCart())
+                dispatch(calculateCartCount())
                 // sessionStorage.setItem("accessToken", response.data)
                 var uid = localStorage.getItem("userId");
 
@@ -74,6 +77,8 @@ function Login() {
                     history.push("/deposit");
                 }else if(localStorage.getItem("from") == "email"){
                     history.push("/myOrders");
+                }else {
+                    history.push("/profile")
                 }
             }
         });

@@ -118,7 +118,6 @@ export default function Checkout() {
         var data = {
             loginEmail: customerDetails[0].email,
             loginPassword: event.target.value,
-            shouldchangeps: state.checkedB?1:0
         }
         axios.post('http://localhost:3001/profileroute/getUserPassword', data).then((response) => {
             console.log(response.data.data)
@@ -183,7 +182,9 @@ export default function Checkout() {
                     message: 'Successfully updated !',
                     type: 'success'
                 });
-                dispatch(actionGetCustomerDetails())
+                setTimeout(() => {
+                    window.location.reload(true)
+                },)
             }
             
 

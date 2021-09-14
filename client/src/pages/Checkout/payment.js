@@ -6,7 +6,7 @@ export function setPayment(detail){
         cancel_url: 'http://sample.com/cancel',
         notify_url: 'http://sample.com/notify',
         order_id: detail.orderId,
-        items: "perera",
+        items: detail.name,
         amount: detail.totalAmount,
         currency: 'LKR',
         first_name: detail.name,
