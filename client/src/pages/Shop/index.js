@@ -23,21 +23,20 @@ import { useDispatch, useSelector } from "react-redux";
 import Notification from '../../components/Reusable/Notification';
 
 
+
 const Shop = () => {
 
     const classes = useStyles1();
     const [checked, setChecked] = useState(false);
-
+    const check=1;
     const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' });
 
- 
     const [Collection, setCollection] = useState('');
     const [Colour, setColour] = useState('');
     const [Type, setType] = useState('');
     const [Size, setSize] = useState('');
     const [products, setRecord] = useState([]);
     
-
     const onCollection = (e) => {
         setCollection(e.target.value)
     }
@@ -139,7 +138,6 @@ const Shop = () => {
         });
     }, []);
 
-
     const doFilter = (e) => {
 
         axios.get('http://localhost:3001/shop/filterRecords',{
@@ -166,10 +164,14 @@ const Shop = () => {
             });
 
     }
+
     useEffect(() => {
         loadRecordAgain();
         // dispatch(fetchColors());
     }, []);
+
+    
+  
 
     let history = useHistory()
     return (
@@ -251,7 +253,7 @@ const Shop = () => {
                 </center>
 
                 <Container className={classes.collectionContainer} maxWidth="lg">
-                    <Grid container spacing={0} >
+                    <Grid container spacing={0}>
 
                         {products.map((product,index) => {
                             const { id, coverImage, design_name, price,isInWishList } = product;
@@ -299,6 +301,9 @@ const Shop = () => {
         setNotify={setNotify}
       />
         </div>
+
+        
+        
     );
 };
 

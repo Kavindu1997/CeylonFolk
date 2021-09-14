@@ -8,7 +8,6 @@ import Controls from '../Controls';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import { Link } from 'react-router-dom';
 
-
 export default function Messages() {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
