@@ -10,6 +10,7 @@ import Popup from "../../components/Reusable/Popup";
 import Controls from "../../components/Reusable/Controls";
 import { useHistory } from 'react-router-dom';
 import UserSideNav from '../../components/Navbars/UserSideNav';
+import CommonNav from '../../components/Navbars/HomeNav';
 
 
 const CustCustomizeOrders = () => {
@@ -35,7 +36,7 @@ const CustCustomizeOrders = () => {
 
     return (
         <div>
-        <UserNav />
+        <CommonNav />
           <CssBaseline />
         <container>
             <Typography variant="h5" style={{ marginTop: '80px', textAlign: 'center', backgroundColor: '#C6C6C6', padding: '30px', fontFamily: 'Montserrat' }}> ORDER HISTORY</Typography>
