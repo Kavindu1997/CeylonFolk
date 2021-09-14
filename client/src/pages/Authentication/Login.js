@@ -6,7 +6,7 @@ import { TextField, Link, Button } from '@material-ui/core';
 import axios from 'axios';
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { useDispatch, useSelector } from "react-redux";
-import { calculateCartCount, getCart} from '../../_actions/index';
+import { calculateCartCount, getCart } from '../../_actions/index';
 
 function Login() {
     const classes = useStyles();
@@ -53,7 +53,6 @@ function Login() {
                 console.log(response.data)
                 dispatch(getCart())
                 dispatch(calculateCartCount())
-                // sessionStorage.setItem("accessToken", response.data)
                 var uid = localStorage.getItem("userId");
 
                 if (uid == '0' && cart.cart.length > 0) {
@@ -67,17 +66,17 @@ function Login() {
                 }
 
                 localStorage.setItem("userId", response.data.id);
-                localStorage.setItem("fullname", response.data.firstName+' '+response.data.lastName)
-                // localStorage.setItem("userEmail", response.data.email);
+                localStorage.setItem("fullname", response.data.firstName + ' ' + response.data.lastName)
+                localStorage.setItem("userEmail", response.data.email);
 
                 if (localStorage.getItem("fromTheCart") == "true") {
                     history.push("/cart");
                     localStorage.setItem("fromTheCart", false);
-                } else if(localStorage.getItem("fromTheEmail") == "true"){
+                } else if (localStorage.getItem("fromTheEmail") == "true") {
                     history.push("/deposit");
-                }else if(localStorage.getItem("from") == "email"){
+                } else if (localStorage.getItem("from") == "email") {
                     history.push("/myOrders");
-                }else {
+                } else {
                     history.push("/profile")
                 }
             }
