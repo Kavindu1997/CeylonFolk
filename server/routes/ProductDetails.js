@@ -87,13 +87,17 @@ router.post("/addwishlist",async (req, res) => {
     if(wishlistItem.length > 0 ){
         const query2 = "DELETE FROM wishlists WHERE userId='"+uId+"' AND itemId='"+itemId+"'";
         const removewishlist = await sequelize.query(query2, { type: sequelize.QueryTypes.DELETE });
-        res.json(removewishlist);
+        // res.json(removewishlist);
     }else{
         const query = "INSERT INTO wishlists(`itemId`,`userId`) VALUES('"+itemId+"','"+uId+"')";
         const wishlist = await sequelize.query(query, {type: sequelize.QueryTypes.INSERT});
-        res.json(wishlist);
+        // res.json(wishlist);
+        
     }
-    
+    const query ="SELECT designs.id,designs.collection_id,designs.design_name,designs.color_id,designs.type_id,designs.coverImage,designs.price, CASE WHEN wishlists.itemId IS NULL THEN 0 ELSE 1 END AS isInWishList FROM `designs` LEFT JOIN wishlists ON wishlists.itemId = designs.id AND wishlists.userId = '"+uId+"' GROUP BY design_name"
+    const listOfDesignsDB = await sequelize.query(query, { type: sequelize.QueryTypes.SELECT });
+    res.json(listOfDesignsDB);
 })
+
 
 module.exports = router;

@@ -45,8 +45,11 @@ const useStyles = makeStyles((theme) => ({
         marginLeft: '20px',
     },
     visibility:{
-        visibility: 'hidden'
+        display: 'none'
     },
+    noVisibility:{
+        dispaly:'block'
+    }
 }));
 
 export default useStyles;

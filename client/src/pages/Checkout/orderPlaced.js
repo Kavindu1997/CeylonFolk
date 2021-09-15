@@ -114,9 +114,7 @@ export default function Checkout() {
     }
     const radioButtonChange = (event) => {
         setValue(event.target.value);
-        console.log(value)
         setPaymentMethod(event.target.value);
-        console.log(paymentMethod)
     }
     const checkedTerms = (event) => {
         setCheckedTermsCondition(event.target.checked)
@@ -457,9 +455,6 @@ export default function Checkout() {
                                                 <RadioGroup aria-label="payment" name="payment1" value={value} onChange={radioButtonChange} style={{ marginLeft: '20px' }}>
                                                     <FormControlLabel value="cash" control={<Radio />} label="Cash on delivery" />
                                                     <FormControlLabel value="bank" control={<Radio />} label="Bank Deposits" />
-                                                    <div style={{marginLeft:'30px',color:'blue',display : paymentMethod==="bank"? 'block':'none'}}>
-                                                    <Typography variant="h7">Account details will be sent to your email</Typography>
-                                                    </div>
                                                     <FormControlLabel value="online" control={<Radio />} label="Pay online" />
                                                     <div>
                                                         <img height={50} src={require('../../images/paymentnew.png').default} />

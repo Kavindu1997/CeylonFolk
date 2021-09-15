@@ -7,11 +7,12 @@ import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import useStyles from './style';
 import { useDispatch, useSelector } from "react-redux";
-import { decrementCartCount, actionGetTotalDeduct, actionDeleteItem, calculateCartCount, getCart, getTotal, deleteCartUsingID, updateCartQuantity, actionUpdateItem, calculateTotalWhenChanged, emtyTotalLogout, emptyCartLogout} from '../../_actions/index';
+import { decrementCartCount, actionGetTotalDeduct, actionDeleteItem, calculateCartCount, getCart, getTotal, deleteCartUsingID, updateCartQuantity, actionUpdateItem, calculateTotalWhenChanged, emtyTotalLogout, emptyCartLogout } from '../../_actions/index';
 import NumericInput from 'react-numeric-input';
 import Notification from '../../components/Reusable/Notification';
 import ConfirmDialog from '../../components/Reusable/ConfirmDialog';
 import { fetchProducts } from '../../_actions/productAction';
+import ceylonforkapi from '../../api/index';
 
 export default function Cart() {
   const classes = useStyles();
@@ -36,50 +37,66 @@ export default function Cart() {
     }
   }
 
-  const onRemove = (id,size) => {
+  const onRemove = (id, size) => {
     setConfirmDialog({
       ...confirmDialog,
       isOpen: false
     });
     var uid = localStorage.getItem("userId")
     if (uid > 0) {
-      dispatch(deleteCartUsingID(id,size))
+      // dispatch(deleteCartUsingID(id,size))
+      const data = { userId: uid, itemId: id, size: size }
+      ceylonforkapi.put("/check/remove/", data).then((response) => {
+        if (response.data.data == 0) {
+          setNotify({
+            isOpen: true,
+            message: 'Removing Failed !',
+            type: 'error'
+          });
+        }
+        else {
+          dispatch(getCart())
+          dispatch(getTotal())
+          dispatch(decrementCartCount());
+          setNotify({
+            isOpen: true,
+            message: 'Removed Successfully !',
+            type: 'success'
+          });
+        }
+      });
+
+    }
+    else {
+      var item = { id: id, size: size }
+      dispatch(actionDeleteItem(id, size));
+      dispatch(decrementCartCount())
+      dispatch(actionGetTotalDeduct());
       setNotify({
         isOpen: true,
         message: 'Removed Successfully !',
         type: 'success'
       });
-    }
-    else {
-      var item={id:id, size:size}
-      dispatch(actionDeleteItem(id,size));
-      dispatch(decrementCartCount())
-      dispatch(actionGetTotalDeduct());
-      
-     
+
     }
   };
 
   useEffect(() => {
     dispatch(getCart())
     dispatch(getTotal())
-    console.log(localStorage.getItem("userId"))
   }, []);
 
   const updateQty = (event) => {
     changedValue = event;
-    console.log('abcd',changedValue)
   }
 
   const selectedQty = (index) => {
-    console.log(productCart)
     setDisable(false)
-    console.log("asdfghjkl",index);
     let updatedItem = productCart[index];
     if (changedValue === undefined) {
       changedValue = updatedItem.stockMargin;
     }
-   
+
     setProceedDisable(true)
     updatedItem.quantity = changedValue;
 
@@ -95,23 +112,28 @@ export default function Cart() {
         uid: uid,
         itemArray: productCart
       }
-      var result = dispatch(updateCartQuantity(data))
-      if (result == 0) {
-        setNotify({
-          isOpen: true,
-          message: 'Cart not updated',
-          type: 'error'
-        });
-      } else {
-        setNotify({
-          isOpen: true,
-          message: 'Cart updated successfully !',
-          type: 'success'
-        });
-        setDisable(true)
-        setProceedDisable(false)
-      }
-    } else {
+      // var result = dispatch(updateCartQuantity(data))
+      ceylonforkapi.put("/check/updateQty/", data).then((response) => {
+        if (response.data.data == 0) {
+          setNotify({
+            isOpen: true,
+            message: 'Cart not updated',
+            type: 'error'
+          });
+        } else {
+          dispatch(getCart())
+          dispatch(getTotal())
+          setNotify({
+            isOpen: true,
+            message: 'Cart updated successfully !',
+            type: 'success'
+          });
+          setDisable(true)
+          setProceedDisable(false)
+        }
+      });
+    }
+    else {
       dispatch(actionUpdateItem(productCart))
       setDisable(true)
       setProceedDisable(false)
@@ -125,7 +147,7 @@ export default function Cart() {
 
   function onLogout() {
     localStorage.clear()
-    localStorage.setItem("userId",0)
+    localStorage.setItem("userId", 0)
     history.push("./")
     dispatch(getCart())
     dispatch(getTotal())
@@ -176,7 +198,7 @@ export default function Cart() {
                               isOpen: true,
                               title: 'Are you sure to delete this?',
                               subTitle: "You can't undo this operation...",
-                              onConfirm: () => { onRemove(value.productId,value.size) }
+                              onConfirm: () => { onRemove(value.productId, value.size) }
                             })
                           }}>
                             <i className="fa fa-times" aria-hidden="true"></i>
@@ -206,9 +228,9 @@ export default function Cart() {
               className={`${classes.spreadBox} ${classes.box}`}
             >
               <Button
-               onClick={() => {
-                history.push(`/shop`);
-            }}
+                onClick={() => {
+                  history.push(`/shop`);
+                }}
                 type="submit"
                 variant="contained"
                 color="primary"
@@ -234,9 +256,9 @@ export default function Cart() {
             <TableContainer style={{ marginTop: '50px', align: 'center', width: '600px' }}>
               <Table className={classes.table} aria-label="simple table">
                 <TableRow>
-                <TableCell colSpan='2'>
-                <Typography variant="h6" style={{ marginTop: '20px', textAlign: 'left', fontWeight: 600, fontFamily: 'Montserrat' }}>CART TOTALS</Typography>
-                </TableCell>
+                  <TableCell colSpan='2'>
+                    <Typography variant="h6" style={{ marginTop: '20px', textAlign: 'left', fontWeight: 600, fontFamily: 'Montserrat' }}>CART TOTALS</Typography>
+                  </TableCell>
                 </TableRow>
                 <TableRow>
                   <TableCell align="left" style={{ fontWeight: 600, fontFamily: 'Montserrat' }}>SUB TOTAL</TableCell>
@@ -246,7 +268,7 @@ export default function Cart() {
                 <TableRow>
                   <TableCell align="left" style={{ fontWeight: 600, fontFamily: 'Montserrat' }}>SHIPPING</TableCell>
                   <TableCell align="center" style={{ fontWeight: 400, fontFamily: 'Montserrat' }}>Charges will be calculated <br />in the checkout process</TableCell>
-                </TableRow> 
+                </TableRow>
                 <TableRow>
                   <TableCell align="left" style={{ fontWeight: 600, fontFamily: 'Montserrat' }}>ADD COUPON</TableCell>
                   <TableCell align="center" style={{ fontWeight: 600, fontFamily: 'Montserrat' }}>

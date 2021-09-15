@@ -281,7 +281,7 @@ export default function Checkout() {
                                         }
                                         label="Do you want to change the password also ?"
                                       />
-                                      <div className={state.checkedB==false?classes.visibility:""}>
+                                      <div className={state.checkedB==false?classes.visibility:classes.noVisibility}>
                                             <Typography component="h1" variant="h6" style={{ fontFamily: 'Montserrat', marginTop: '20px', marginBottom: '10px' }}>Password Change</Typography>
                                           
                                           

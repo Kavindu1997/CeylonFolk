@@ -41,6 +41,10 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: true,
         },
+        notifications: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
         createdAt: {
             allowNull: false,
             type: DataTypes.DATE,
