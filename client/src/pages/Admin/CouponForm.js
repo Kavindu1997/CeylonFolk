@@ -1,13 +1,15 @@
 import React, { useEffect } from 'react';
-import { Grid } from '@material-ui/core';
+import { Grid, Typography } from '@material-ui/core';
 import { useForm, Form } from '../../components/Reusable/useForm';
 import Controls from '../../components/Reusable/Controls';
 
 
 const initialFvalues={
     id:0,
-    coupon_id:'',
-    coupon_title:'',
+    coupon_name:'',
+    discount_amount:'',
+    start_date: new Date(),
+    end_date: new Date()
 }
 
 
@@ -16,10 +18,10 @@ const CouponForm = (props) => {
 
     const validate=(fieldValues=values)=>{
         let temp={...errors}
-        if('coupon_id' in fieldValues)
-           temp.coupon_id=fieldValues.coupon_id ? "" : "Coupon Id is required"
-        if('coupon_title' in fieldValues)   
-           temp.coupon_title=fieldValues.coupon_title ? "" : "Coupon Tittle is required"
+        if('coupon_name' in fieldValues)
+           temp.coupon_name=fieldValues.coupon_name ? "" : "Coupon Name is required"
+        if('discount_amount' in fieldValues)   
+           temp.discount_amount=fieldValues.discount_amount ? "" : "Discount Amount is required"
         setErrors({
             ...temp
         })
@@ -56,22 +58,40 @@ const CouponForm = (props) => {
             <Grid item xs={6}>
                 <Controls.Input
                     variant="outlined"
-                    label="Coupon Id"
-                    name="coupon_id"
-                    value={values.coupon_id}
+                    label="Coupon Name"
+                    name="coupon_name"
+                    value={values.coupon_name}
                     onChange={handleInputChange}
-                    error={errors.coupon_id}
+                    error={errors.coupon_name}
                     />
             </Grid>
             <Grid item xs={6}>
                 <Controls.Input
                     variant="outlined"
-                    label="Coupon Title"
-                    name="coupon_title"
-                    value={values.coupon_title}
+                    label="Discount Amount LKR"
+                    name="discount_amount"
+                    value={values.discount_amount}
                     onChange={handleInputChange}
-                    error={errors.coupon_title}
+                    error={errors.discount_amount}
                     />
+
+            </Grid>
+
+            <Grid item xs={6}>
+                <Controls.DatePicker
+                            name="start_date"
+                            label="Start Date"
+                            value={values.start_date}
+                            onChange={handleInputChange}
+                        />
+            </Grid>
+            <Grid item xs={6}>
+                <Controls.DatePicker
+                            name="end_date"
+                            label="End Date"
+                            value={values.end_date}
+                            onChange={handleInputChange}
+                        />
             </Grid>
             <Grid item xs={12}>   
                         <div style={{paddingTop:'20px'}}>
