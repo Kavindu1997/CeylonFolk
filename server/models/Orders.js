@@ -33,6 +33,18 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.DATE,
             allowNull: false,
         },
+        isDeleted: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+        },
+        specialNotes: {
+            type: DataTypes.STRING,
+            allowNull: true,
+        },
+        notifications: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
         createdAt: {
             allowNull: false,
             type: DataTypes.DATE,

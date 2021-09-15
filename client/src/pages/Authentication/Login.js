@@ -1,17 +1,20 @@
-import React from 'react'
+import { React, useState } from 'react'
 import useStyles from './style';
 import { useHistory } from 'react-router-dom';
 import * as Yup from 'yup';
 import { TextField, Link, Button } from '@material-ui/core';
 import axios from 'axios';
+import Notification from '../../components/Reusable/Notification';
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { useDispatch, useSelector } from "react-redux";
+import { calculateCartCount, getCart } from '../../_actions/index';
 
 function Login() {
     const classes = useStyles();
-
+    const dispatch = useDispatch();
     var cart = [];
     cart = useSelector(state => state.cart);
+    const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' });
 
     let history = useHistory();
 
@@ -31,7 +34,11 @@ function Login() {
     const login = (data, props) => {
         axios.post("http://localhost:3001/auth/login", data).then((response) => {
             if (response.data.error) {
-                alert(response.data.error);
+                setNotify({
+                    isOpen: true,
+                    message: response.data.error,
+                    type: 'error'
+                });
             }
             else if (response.data.user_type_id == 1) {
                 localStorage.setItem("userId", response.data.id);
@@ -50,7 +57,8 @@ function Login() {
             }
             else {
                 console.log(response.data)
-                // sessionStorage.setItem("accessToken", response.data)
+                dispatch(getCart())
+                dispatch(calculateCartCount())
                 var uid = localStorage.getItem("userId");
 
                 if (uid == '0' && cart.cart.length > 0) {
@@ -70,10 +78,12 @@ function Login() {
                 if (localStorage.getItem("fromTheCart") == "true") {
                     history.push("/cart");
                     localStorage.setItem("fromTheCart", false);
-                } else if(localStorage.getItem("fromTheEmail") == "true"){
+                } else if (localStorage.getItem("fromTheEmail") == "true") {
                     history.push("/deposit");
-                }else if(localStorage.getItem("from") == "email"){
+                } else if (localStorage.getItem("from") == "email") {
                     history.push("/myOrders");
+                } else {
+                    history.push("/profile")
                 }
             }
         });
@@ -81,6 +91,10 @@ function Login() {
     }
     return (
         <div>
+            <Notification
+                notify={notify}
+                setNotify={setNotify}
+            />
             <Formik initialValues={initialLoginValues} onSubmit={login} validationSchema={loginValidation}>
                 {(props) => (
                     <Form className={classes.form}>
@@ -109,7 +123,7 @@ function Login() {
                             autoComplete="current-password"
                             helperText={<ErrorMessage name="loginPassword" />}
                         />
-                        <Link href="#" className={classes.forgot}>Forgot Password</Link>
+                        <Link href="/forgotPassword" className={classes.forgot}>Forgot Password</Link>
                         <Button
                             type="submit"
                             fullWidth

@@ -27,6 +27,10 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.INTEGER,
             allowNull: false,
         },
+        isRejected: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+        },
         isProcessed: {
             type: DataTypes.INTEGER,
             allowNull: false,

@@ -7,10 +7,12 @@ import LocalMallOutlinedIcon from '@material-ui/icons/LocalMallOutlined';
 import FavoriteBorderOutlinedIcon from '@material-ui/icons/FavoriteBorderOutlined';
 import SearchOutlinedIcon from '@material-ui/icons/SearchOutlined';
 import axios from 'axios';
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { NavLink } from 'react-router-dom';
 import { useHistory } from 'react-router';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { decrementCartCount, actionGetTotalDeduct, actionDeleteItem, calculateCartCount, getCart, getTotal, deleteCartUsingID, updateCartQuantity, actionUpdateItem, calculateTotalWhenChanged, emtyTotalLogout, emptyCartLogout } from '../../_actions/index';
+import { fetchProducts } from '../../_actions/productAction';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -40,7 +42,10 @@ const useStyles = makeStyles((theme) => ({
         marginLeft: '24px',
         marginRight: '10px',
         fontWeight: '300',
-        visibility: 'visible'
+        visibility: 'visible',
+        '&:hover': {
+            background: 'none',
+        }
     },
     iconCart: {
         color: 'black',
@@ -56,9 +61,9 @@ const useStyles = makeStyles((theme) => ({
         marginLeft: '5px',
         marginRight: '10px',
         fontWeight: '300',
-        visibility: 'visible'
+        visibility: 'visible',
     },
-    visibility:{
+    visibility: {
         visibility: 'hidden'
     },
     navlinkvisibility: {
@@ -151,35 +156,35 @@ const useStyles = makeStyles((theme) => ({
 
     count: {
         top: '4%',
-    right: '7.2%',
-    height: '25px',
-    width: "25px",
-    /* margin: 3px; */
-    verticalAlign: 'middle',
-    justifyContent: 'center',
-    textAlign: 'center',
-    padding: '2px',
-    position: 'absolute',
-    background: '#020303',
-    borderRadius: '50%',
-    color: 'white',
+        right: '7.2%',
+        height: '25px',
+        width: "25px",
+        /* margin: 3px; */
+        verticalAlign: 'middle',
+        justifyContent: 'center',
+        textAlign: 'center',
+        padding: '2px',
+        position: 'absolute',
+        background: '#020303',
+        borderRadius: '50%',
+        color: 'white',
     }
 
 }))
 
 const CommonNav = (props) => {
+    const dispatch = useDispatch();
     const classes = useStyles();
     const cartcount = useSelector(state => state.cart.cartCount)
-    console.log(cartcount)
     const [countDetails, countOfItems] = useState([]);
     let history = useHistory()
     useEffect(() => {
         var id = localStorage.getItem("userId");
         if (id != '0') {
-            const url = "http://localhost:3001/check/count/" + id;
-            axios.get(url).then((response) => {
-                countOfItems(response.data);
-            });
+            // const url = "http://localhost:3001/check/count/" + id;
+            // axios.get(url).then((response) => {
+            //     countOfItems(response.data);
+            // });
         }
 
     }, []);
@@ -216,9 +221,19 @@ const CommonNav = (props) => {
         prevOpen.current = open;
     }, [open]);
 
-    const refreshPage = ()=>{
-        window.location.reload();
-     }
+
+    function onLogout() {
+        localStorage.clear()
+        localStorage.setItem("userId", 0)
+        history.push("./")
+        dispatch(getCart())
+        dispatch(getTotal())
+        dispatch(emptyCartLogout());
+        dispatch(emtyTotalLogout());
+        dispatch(calculateCartCount())
+        dispatch(fetchProducts());
+      }
+
 
     return (
         <div className={classes.root}>
@@ -226,14 +241,14 @@ const CommonNav = (props) => {
                 <Toolbar className={classes.appbarWrapper}>
                     <div className={classes.appbarLeft}>
                         <NavLink to={"/"} className={classes.appbarlink}> <Typography className={classes.appbarlink2}>Home</Typography></NavLink>
-                        <NavLink to={'/shop'} className={classes.appbarlink} onClick={refreshPage}>
+                        <NavLink to={'/shop'} className={classes.appbarlink} >
                             <Typography
                                 className={classes.appbarlink2}
                                 //change "endIcon to "endicon" for remove the warning - pramuka (check it)
                                 endicon={<KeyboardArrowDownIcon>
                                     fontSize="0.5rem"
                                 </KeyboardArrowDownIcon>}
-                                >
+                            >
                                 Shop
                             </Typography>
                         </NavLink>
@@ -247,25 +262,24 @@ const CommonNav = (props) => {
                     </div>
 
                     <div style={{ paddingLeft: '106px' }}>
-                        <NavLink to={"/shop"}><SearchOutlinedIcon className={classes.icon} /></NavLink>
                         <NavLink to={"/wishlist"}><FavoriteBorderOutlinedIcon className={classes.icon} /></NavLink>
 
                         <NavLink to={"/cart"}><LocalMallOutlinedIcon className={classes.iconCart} /><span className={classes.count}>
                             {cartcount}</span>
                         </NavLink>
-                    
-                            <Button
-                                ref={anchorRef}
-                                aria-controls={open ? 'menu-list-grow' : undefined}
-                                aria-haspopup="true"
-                                onClick={handleToggle}
-                                className={classes.icon}
-                                
-                            >
-                                 <NavLink to={"/auth"} className={localStorage.getItem("userId")=='0'?classes.navlinkvisibilityTrue:classes.navlinkvisibility}><PermIdentityOutlinedIcon className={classes.iconLogin} /></NavLink>
-                                {/* <Avatar>JP</Avatar> */}
-                            </Button>
-                            <div  className={localStorage.getItem("userId")=='0'? classes.visibility: classes.icon}>
+
+                        <Button
+                            ref={anchorRef}
+                            aria-controls={open ? 'menu-list-grow' : undefined}
+                            aria-haspopup="true"
+                            onClick={handleToggle}
+                            className={classes.icon}
+
+                        >
+                            <NavLink to={"/auth"} className={localStorage.getItem("userId") == '0' ? classes.navlinkvisibilityTrue : classes.navlinkvisibility}><PermIdentityOutlinedIcon className={classes.iconLogin} /></NavLink>
+                            {/* <Avatar>JP</Avatar> */}
+                        </Button>
+                        <div className={localStorage.getItem("userId") == '0' ? classes.visibility : classes.icon}>
                             <Popper open={open} anchorEl={anchorRef.current} role={undefined} transition disablePortal>
                                 {({ TransitionProps, placement }) => (
                                     <Grow
@@ -274,22 +288,24 @@ const CommonNav = (props) => {
                                     >
                                         <Paper>
                                             <ClickAwayListener onClickAway={handleClose}>
-                                               
+
                                                 <MenuList autoFocusItem={open} id="menu-list-grow" onKeyDown={handleListKeyDown}>
                                                     <NavLink to={"/profile"} style={{ textDecoration: 'none' }}><MenuItem onClick={handleClose} style={{ fontWeight: '600', fontSize: '15px', color: 'black' }}>My Account</MenuItem></NavLink>
                                                     <NavLink to={"/myOrders"} style={{ textDecoration: 'none' }}><MenuItem onClick={handleClose} style={{ fontWeight: '600', fontSize: '15px', color: 'black' }}>Order History</MenuItem></NavLink>
                                                     <NavLink to={"/myWishlist"} style={{ textDecoration: 'none' }}><MenuItem onClick={handleClose} style={{ fontWeight: '600', fontSize: '15px', color: 'black' }}>My Wishlist</MenuItem></NavLink>
-                                                    <NavLink to={"/auth"} style={{ textDecoration: 'none' }}><MenuItem onClick={handleClose} style={{ fontWeight: '600', fontSize: '15px', color: 'black' }}>Logout</MenuItem></NavLink>
+                                                    <NavLink to={"/deposit"} style={{ textDecoration: 'none' }}><MenuItem onClick={handleClose} style={{ fontWeight: '600', fontSize: '15px', color: 'black' }}>Bank Deposit Upload</MenuItem></NavLink>
+                                                    <NavLink to={"/custcustomizeOrders"} style={{ textDecoration: 'none' }}><MenuItem onClick={handleClose} style={{ fontWeight: '600', fontSize: '15px', color: 'black' }}>Customerize Orders</MenuItem></NavLink>
+                                                    <NavLink to={"/auth"} style={{ textDecoration: 'none' }} onClick={onLogout}><MenuItem onClick={handleClose} style={{ fontWeight: '600', fontSize: '15px', color: 'black' }}>Logout</MenuItem></NavLink>
                                                 </MenuList>
-                                               
-                                       
+
+
                                             </ClickAwayListener>
                                         </Paper>
                                     </Grow>
                                 )}
                             </Popper>
-                            </div>
                         </div>
+                    </div>
                 </Toolbar>
 
             </AppBar>

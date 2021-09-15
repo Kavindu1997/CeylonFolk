@@ -7,6 +7,5 @@ export const MASTER_DATA = {
    placed: 6,
    cash_on_delivery: 7,
    payhere: 8,
-   bank_tranfer: 9,
-    
+   bank_tranfer: 9,   
 };

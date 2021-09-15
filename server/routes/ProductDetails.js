@@ -7,7 +7,7 @@ router.get("/byId/:id", async (req,res) => {
     const id = req.params.id
     // const query1 = "SELECT designs.designId,designs.color,designs.designName,designs.designImage,inventories.size,inventories.quantity,inventories.inventoryId FROM `designs` INNER JOIN `inventories` ON designs.color=inventories.colour WHERE inventories.colour=(SELECT designs.color FROM `designs` WHERE designs.designId='"+id+"') AND  designs.designId='"+id+"'";
     
-    const query1="SELECT sizes.size, inventories.id from `sizes` INNER JOIN `inventories` on inventories.size_id=sizes.id INNER JOIN `designs` on inventories.colour_id=designs.color_id WHERE designs.id='"+id+"'";
+    const query1="SELECT sizes.size, inventories.id from `sizes` INNER JOIN `inventories` on inventories.size_id=sizes.id INNER JOIN `designs` on inventories.colour_id=designs.color_id AND inventories.type_id=designs.type_id WHERE designs.id='"+id+"'";
     const sizeList = await sequelize.query(query1, {type: sequelize.QueryTypes.SELECT});
     res.json(sizeList);
     // const product = await Designs.findByPk(id)
@@ -66,7 +66,7 @@ router.get("/quantity/:id", async (req,res) => {
 
     // const query1 = "SELECT inventories.quantity FROM `designs` INNER JOIN `inventories` ON designs.color=inventories.colour WHERE inventories.colour=(SELECT designs.color FROM `designs` WHERE designs.designId='"+id+"') AND  designs.designId='"+id+"'";
 
-    const query="SELECT inventories.quantity from `inventories` INNER JOIN `sizes` on inventories.size_id=sizes.id INNER JOIN `designs` on inventories.colour_id=designs.color_id WHERE designs.id='"+id+"'";
+    const query="SELECT inventories.quantity FROM `inventories` INNER JOIN `sizes` ON inventories.size_id = sizes.id INNER JOIN `designs` ON inventories.colour_id = designs.color_id AND inventories.type_id = designs.type_id WHERE designs.id = '"+id+"'";
     const designSizeList = await sequelize.query(query, {type: sequelize.QueryTypes.SELECT});
     res.json(designSizeList);
 });
@@ -87,13 +87,17 @@ router.post("/addwishlist",async (req, res) => {
     if(wishlistItem.length > 0 ){
         const query2 = "DELETE FROM wishlists WHERE userId='"+uId+"' AND itemId='"+itemId+"'";
         const removewishlist = await sequelize.query(query2, { type: sequelize.QueryTypes.DELETE });
-        res.json(removewishlist);
+        // res.json(removewishlist);
     }else{
         const query = "INSERT INTO wishlists(`itemId`,`userId`) VALUES('"+itemId+"','"+uId+"')";
         const wishlist = await sequelize.query(query, {type: sequelize.QueryTypes.INSERT});
-        res.json(wishlist);
+        // res.json(wishlist);
+        
     }
-    
+    const query ="SELECT designs.id,designs.collection_id,designs.design_name,designs.color_id,designs.type_id,designs.coverImage,designs.price, CASE WHEN wishlists.itemId IS NULL THEN 0 ELSE 1 END AS isInWishList FROM `designs` LEFT JOIN wishlists ON wishlists.itemId = designs.id AND wishlists.userId = '"+uId+"' GROUP BY design_name"
+    const listOfDesignsDB = await sequelize.query(query, { type: sequelize.QueryTypes.SELECT });
+    res.json(listOfDesignsDB);
 })
+
 
 module.exports = router;

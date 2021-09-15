@@ -23,10 +23,11 @@ const useStyles = makeStyles((theme) => ({
         fontFamily: 'Montserrat',
     },
     submit: {
-        align: 'center',
+        // align: 'center',
         padding: '10px',
-        marginTop: '30px',
-        width: '550px'
+        marginTop: '10px',
+        width: '550px',
+        // marginLeft: '100px'
     },
     note: {
         height: 50
@@ -62,6 +63,9 @@ const useStyles = makeStyles((theme) => ({
         lineHeight: '1.2',
         fontWeight: '300',
         textAlign: 'flex'
+    },
+    upload: {
+        
     },
 }));
 

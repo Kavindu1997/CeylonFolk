@@ -40,7 +40,7 @@ export default function Wishlist() {
         var uid = localStorage.getItem("userId")
             const data = { userId: uid, itemId: id }
             axios.put("http://localhost:3001/wishlist/remove/",data).then((response) => {
-                if (response.data.error){
+                if (response.data.data==0){
                     setNotify({
                         isOpen: true,
                         message: 'Removed Failed !',

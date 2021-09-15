@@ -3,14 +3,36 @@ import { Button, CssBaseline, Grid, Typography, Table, TableBody, TableCell, Tab
 import { makeStyles } from '@material-ui/styles';
 import { Link } from "react-router-dom";
 import { useHistory } from 'react-router-dom';
-
-
+import { useSelector, useDispatch } from "react-redux";
+import { decrementCartCount, actionGetTotalDeduct, actionDeleteItem, calculateCartCount, getCart, getTotal, deleteCartUsingID, updateCartQuantity, actionUpdateItem, calculateTotalWhenChanged, emtyTotalLogout, emptyCartLogout } from '../../_actions/index';
+import { fetchProducts } from '../../_actions/productAction';
 
 export default function UserSideNav() {
-
-    const uName = localStorage.getItem("fullname")
-    var splitted = uName.split(" ", 2);
-    var avatar = splitted[0][0].toUpperCase() + splitted[1][0].toUpperCase();
+    const dispatch = useDispatch();
+    let history = useHistory()
+    var uName;
+    var avatar;
+    if(localStorage.getItem("fullname")!=null){
+        uName = localStorage.getItem("fullname")
+        console.log(uName)
+        var splitted = uName.split(/[ ,]+/,2);
+        console.log(splitted)
+        avatar = splitted[0][0].toUpperCase() + splitted[1][0].toUpperCase();
+    }else{
+        avatar = []
+    }
+   
+    function onLogout() {
+        localStorage.clear()
+        localStorage.setItem("userId", 0)
+        history.push("./")
+        dispatch(getCart())
+        dispatch(getTotal())
+        dispatch(emptyCartLogout());
+        dispatch(emtyTotalLogout());
+        dispatch(calculateCartCount())
+        dispatch(fetchProducts());
+      }
 
     return (
         <div>
@@ -65,7 +87,7 @@ export default function UserSideNav() {
                         </Link>
                     </div>
                     <div>
-                        <Link to="/auth" style={{ textDecoration: 'none' }}>
+                        <Link to="/auth" style={{ textDecoration: 'none' }} onClick={onLogout}>
                             <Typography component="h1" variant="h6" style={{ marginLeft: '80px', fontFamily: 'Montserrat', color: 'black', textAlign: 'left', marginBottom: '30px' }}>
                                 Logout
                             </Typography>

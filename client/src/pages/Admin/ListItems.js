@@ -18,6 +18,7 @@ import AccountBalanceIcon from '@material-ui/icons/AccountBalance';
 
 import LocalOfferIcon from '@material-ui/icons/LocalOffer';
 import ContactSupportIcon from '@material-ui/icons/ContactSupport';
+import ViewListIcon from '@material-ui/icons/ViewList';
 
 
 export const mainListItems = (
@@ -44,7 +45,7 @@ export const mainListItems = (
       <ListItemIcon>
         <BrushIcon />
       </ListItemIcon>
-      <ListItemText primary="Designs"/>
+      <ListItemText primary="Designs" />
     </ListItem>
     <ListItem button component={Link} to="/inventory">
       <ListItemIcon>
@@ -82,7 +83,12 @@ export const mainListItems = (
       </ListItemIcon>
       <ListItemText primary="Available Types" />
     </ListItem>
-
+    <ListItem button component={Link} to="/AdminOrders/0">
+      <ListItemIcon>
+        <ViewListIcon />
+      </ListItemIcon>
+      <ListItemText primary="Inhouse Orders" />
+    </ListItem>
     <ListItem button component={Link} to="/customizeOrders">
       <ListItemIcon>
         <ListAltIcon />
@@ -93,8 +99,9 @@ export const mainListItems = (
       <ListItemIcon>
         <AccountBalanceIcon />
       </ListItemIcon>
-      </ListItem>
       <ListItemText primary="Bank Deposit Slips" />
+    </ListItem>
+
     <ListItem button component={Link} to="/inquiries">
       <ListItemIcon>
         <ContactSupportIcon />
@@ -102,11 +109,11 @@ export const mainListItems = (
       <ListItemText primary="Inquiries" />
     </ListItem>
 
-  
-  </div>
+
+  </div >
 );
 
 export const secondListItems = (
-      <div><img src={require('../../images/logodrawer.png').default} alt="CeylonFolk" height="80px" style={{margin:'30px 0px'}}/></div>
+  <div><img src={require('../../images/logodrawer.png').default} alt="CeylonFolk" height="80px" style={{ margin: '30px 0px' }} /></div>
 );
 

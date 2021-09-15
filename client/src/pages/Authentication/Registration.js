@@ -1,14 +1,21 @@
 import { React, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import useStyles from './style';
 import * as Yup from 'yup';
 import Notification from '../../components/Reusable/Notification';
 import { TextField, FormControlLabel, Checkbox, Grid, Button } from '@material-ui/core';
 import axios from 'axios';
 import { Formik, Form, Field, ErrorMessage } from "formik";
+import { useDispatch, useSelector } from "react-redux";
+import { calculateCartCount, getCart } from '../../_actions/index';
 
 function Registration() {
+    let history = useHistory();
     const classes = useStyles();
     const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' });
+    const dispatch = useDispatch();
+    var cart = [];
+    cart = useSelector(state => state.cart);
 
     const initialRegValues = {
         firstName: '',
@@ -45,14 +52,32 @@ function Registration() {
                 }, 1500)
             }
             else {
-                setNotify({
-                    isOpen: true,
-                    message: 'Registration Successful! Now you can Login',
-                    type: 'success'
-                });
-                setTimeout(() => {
-                    window.location.reload(true)
-                }, 1000)
+                console.log(response.data[0])
+                dispatch(getCart())
+                dispatch(calculateCartCount())
+
+                var uid = localStorage.getItem("userId");
+
+                if (uid == '0' && cart.cart.length > 0) {
+                    console.log("login")
+                    const url = "http://localhost:3001/check/addToCartBatchwise/"
+                    var data = { uid: response.data[0].id, cart: cart.cart };
+                    axios.post(url, data).then((response) => {
+                        if (response.data.error) alert(response.data.error);
+
+                    });
+                }
+
+                localStorage.setItem("userId", response.data[0].id);
+                localStorage.setItem("fullname", response.data[0].firstName + ' ' + response.data[0].lastName)
+                localStorage.setItem("userEmail", response.data.email);
+
+                if (localStorage.getItem("fromTheCart") == "true") {
+                    history.push("/cart");
+                    localStorage.setItem("fromTheCart", false);
+                } else {
+                    history.push("/profile")
+                }
             }
         });
     };

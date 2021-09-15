@@ -10,11 +10,17 @@ router.get("/:uid", async (req,res) => {
 });
 
 router.put("/remove", async (req,res) => {
-    const itemId = req.body.itemId;
-    const uid = req.body.userId;
-    const query = "DELETE FROM wishlists WHERE userId='"+uid+"' AND itemId='"+itemId+"'";
-    const removewishlist = await sequelize.query(query, { type: sequelize.QueryTypes.DELETE });
-    res.json(removewishlist);
+    try{
+        const itemId = req.body.itemId;
+        const uid = req.body.userId;
+        const query = "DELETE FROM wishlists WHERE userId='"+uid+"' AND itemId='"+itemId+"'";
+        const removewishlist = await sequelize.query(query, { type: sequelize.QueryTypes.DELETE });
+        res.json({data:1});
+    }
+    catch(e){
+        res.json({data:0});
+    }
+   
 });
 
 router.post("/", async (req, res) => {

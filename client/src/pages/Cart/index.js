@@ -7,11 +7,12 @@ import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import useStyles from './style';
 import { useDispatch, useSelector } from "react-redux";
-import { actionGetTotalDeduct, actionDeleteItem, calculateCartCount, getCart, getTotal, deleteCartUsingID, updateCartQuantity, actionUpdateItem, calculateTotalWhenChanged, emtyTotalLogout, emptyCartLogout} from '../../_actions/index';
+import { decrementCartCount, actionGetTotalDeduct, actionDeleteItem, calculateCartCount, getCart, getTotal, deleteCartUsingID, updateCartQuantity, actionUpdateItem, calculateTotalWhenChanged, emtyTotalLogout, emptyCartLogout } from '../../_actions/index';
 import NumericInput from 'react-numeric-input';
 import Notification from '../../components/Reusable/Notification';
 import ConfirmDialog from '../../components/Reusable/ConfirmDialog';
 import { fetchProducts } from '../../_actions/productAction';
+import ceylonforkapi from '../../api/index';
 
 export default function Cart() {
   const classes = useStyles();
@@ -36,30 +37,47 @@ export default function Cart() {
     }
   }
 
-  const onRemove = (id,size) => {
+  const onRemove = (id, size) => {
     setConfirmDialog({
       ...confirmDialog,
       isOpen: false
     });
     var uid = localStorage.getItem("userId")
     if (uid > 0) {
-      dispatch(deleteCartUsingID(id,size))
-      setNotify({
-        isOpen: true,
-        message: 'Removed Successfully !',
-        type: 'success'
+      // dispatch(deleteCartUsingID(id,size))
+      const data = { userId: uid, itemId: id, size: size }
+      ceylonforkapi.put("/check/remove/", data).then((response) => {
+        if (response.data.data == 0) {
+          setNotify({
+            isOpen: true,
+            message: 'Removing Failed !',
+            type: 'error'
+          });
+        }
+        else {
+          dispatch(getCart())
+          dispatch(getTotal())
+          dispatch(decrementCartCount());
+          setNotify({
+            isOpen: true,
+            message: 'Removed Successfully !',
+            type: 'success'
+          });
+        }
       });
+
     }
     else {
-      var item={id:id, size:size}
-      dispatch(actionDeleteItem(id,size));
-      dispatch(calculateCartCount())
+      var item = { id: id, size: size }
+      dispatch(actionDeleteItem(id, size));
+      dispatch(decrementCartCount())
       dispatch(actionGetTotalDeduct());
       setNotify({
         isOpen: true,
         message: 'Removed Successfully !',
         type: 'success'
       });
+
     }
   };
 
@@ -70,16 +88,15 @@ export default function Cart() {
 
   const updateQty = (event) => {
     changedValue = event;
-    console.log(changedValue)
   }
 
   const selectedQty = (index) => {
-
     setDisable(false)
     let updatedItem = productCart[index];
     if (changedValue === undefined) {
       changedValue = updatedItem.stockMargin;
     }
+
     setProceedDisable(true)
     updatedItem.quantity = changedValue;
 
@@ -95,23 +112,28 @@ export default function Cart() {
         uid: uid,
         itemArray: productCart
       }
-      var result = dispatch(updateCartQuantity(data))
-      if (result == 0) {
-        setNotify({
-          isOpen: true,
-          message: 'Cart not updated',
-          type: 'error'
-        });
-      } else {
-        setNotify({
-          isOpen: true,
-          message: 'Cart updated successfully !',
-          type: 'success'
-        });
-        setDisable(true)
-        setProceedDisable(false)
-      }
-    } else {
+      // var result = dispatch(updateCartQuantity(data))
+      ceylonforkapi.put("/check/updateQty/", data).then((response) => {
+        if (response.data.data == 0) {
+          setNotify({
+            isOpen: true,
+            message: 'Cart not updated',
+            type: 'error'
+          });
+        } else {
+          dispatch(getCart())
+          dispatch(getTotal())
+          setNotify({
+            isOpen: true,
+            message: 'Cart updated successfully !',
+            type: 'success'
+          });
+          setDisable(true)
+          setProceedDisable(false)
+        }
+      });
+    }
+    else {
       dispatch(actionUpdateItem(productCart))
       setDisable(true)
       setProceedDisable(false)
@@ -124,20 +146,15 @@ export default function Cart() {
   }
 
   function onLogout() {
-    localStorage.setItem("userId", 0);
-    localStorage.setItem("userName", 0);
-    localStorage.removeItem("orderIdFromEmail");
-    localStorage.removeItem("userIdFromMail");
-    localStorage.setItem("from","auth");
-    localStorage.setItem("to","home");
-    history.push("/");
+    localStorage.clear()
+    localStorage.setItem("userId", 0)
+    history.push("./")
     dispatch(getCart())
     dispatch(getTotal())
     dispatch(emptyCartLogout());
     dispatch(emtyTotalLogout());
     dispatch(calculateCartCount())
     dispatch(fetchProducts());
-
   }
 
   return (
@@ -171,8 +188,10 @@ export default function Cart() {
                         <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.name}</TableCell>
                         <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>Rs. {value.price}</TableCell>
                         <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.size}</TableCell>
-                        <TableCell align="center" onClick={() => selectedQty(index)}>
-                          <NumericInput mobile min={1} max={value.stockMargin} value={value.quantity} size={1} style={{ fontFamily: 'Montserrat' }} onChange={updateQty} />
+                        <TableCell align="center">
+                          <div onClick={() => selectedQty(index)}>
+                          <NumericInput mobile min={1} max={value.stockMargin} defaultValue={value.quantity} size={1} style={{ fontFamily: 'Montserrat' }} onChange={updateQty}/>
+                          </div>
                         </TableCell>
                         {/* <TableCell align="center" className={classes.numeric} style={{ fontFamily: 'Montserrat' }}>{value.quantity}</TableCell> */}
                         <TableCell align="center">
@@ -181,7 +200,7 @@ export default function Cart() {
                               isOpen: true,
                               title: 'Are you sure to delete this?',
                               subTitle: "You can't undo this operation...",
-                              onConfirm: () => { onRemove(value.productId,value.size) }
+                              onConfirm: () => { onRemove(value.productId, value.size) }
                             })
                           }}>
                             <i className="fa fa-times" aria-hidden="true"></i>
@@ -211,9 +230,9 @@ export default function Cart() {
               className={`${classes.spreadBox} ${classes.box}`}
             >
               <Button
-               onClick={() => {
-                history.push(`/shop`);
-            }}
+                onClick={() => {
+                  history.push(`/shop`);
+                }}
                 type="submit"
                 variant="contained"
                 color="primary"
@@ -239,9 +258,9 @@ export default function Cart() {
             <TableContainer style={{ marginTop: '50px', align: 'center', width: '600px' }}>
               <Table className={classes.table} aria-label="simple table">
                 <TableRow>
-                <TableCell colSpan='2'>
-                <Typography variant="h6" style={{ marginTop: '20px', textAlign: 'left', fontWeight: 600, fontFamily: 'Montserrat' }}>CART TOTALS</Typography>
-                </TableCell>
+                  <TableCell colSpan='2'>
+                    <Typography variant="h6" style={{ marginTop: '20px', textAlign: 'left', fontWeight: 600, fontFamily: 'Montserrat' }}>CART TOTALS</Typography>
+                  </TableCell>
                 </TableRow>
                 <TableRow>
                   <TableCell align="left" style={{ fontWeight: 600, fontFamily: 'Montserrat' }}>SUB TOTAL</TableCell>
@@ -251,7 +270,7 @@ export default function Cart() {
                 <TableRow>
                   <TableCell align="left" style={{ fontWeight: 600, fontFamily: 'Montserrat' }}>SHIPPING</TableCell>
                   <TableCell align="center" style={{ fontWeight: 400, fontFamily: 'Montserrat' }}>Charges will be calculated <br />in the checkout process</TableCell>
-                </TableRow> 
+                </TableRow>
                 <TableRow>
                   <TableCell align="left" style={{ fontWeight: 600, fontFamily: 'Montserrat' }}>ADD COUPON</TableCell>
                   <TableCell align="center" style={{ fontWeight: 600, fontFamily: 'Montserrat' }}>
@@ -281,14 +300,14 @@ export default function Cart() {
                 m={1}
                 className={`${classes.spreadBox} ${classes.box}`}
               >
-                <Button
+                {/* <Button
                   type="submit"
                   onClick={onLogout}
                   variant="contained"
                   color="primary"
                   className={classes.submit}
                 >Logout
-                </Button>
+                </Button> */}
 
                 <Button
                   type="submit"

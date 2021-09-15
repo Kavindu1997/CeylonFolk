@@ -23,9 +23,9 @@ export default function Deposit(props) {
     const dispatch = useDispatch();
     let id, orderIdFromEmail;
    
-    if(localStorage.getItem("userId")=='0'){
-        history.push("/auth")
-    }
+    // if(localStorage.getItem("userId")=='0'){
+    //     history.push("/auth")
+    // }
 
     if (props.location.search) {
         var splitted = props.location.search.split("?id=", 2);
@@ -49,12 +49,9 @@ export default function Deposit(props) {
         localStorage.setItem("fromTheCart", false);
         history.push('/auth');
     }
-
-    if (localStorage.getItem("fromTheEmail") == 'true') {
-        orderIdFromEmail = localStorage.getItem("orderIdFromEmail");
-        localStorage.setItem("fromTheEmail",false);
+    if(localStorage.getItem("orderIdFromEmail")!= undefined){
+        orderIdFromEmail = localStorage.getItem("orderIdFromEmail")
     }
-
 
     function viewOrder(e) {
         e.preventDefault()
@@ -106,13 +103,27 @@ export default function Deposit(props) {
         };
         console.log(formData)
         axios.post("http://localhost:3001/depositCollection", formData, config).then((response) => {
-            alert('Image upload Successfull');
-           history.push("/myOrders")
-            formData.delete('photo');
-            props.location.search = null
-            localStorage.setItem("orderIdFromEmail",0)
-            dispatch(claerOrderDetails())
-            orderIdFromEmail = null;
+            if(response.data.data==0){
+                setNotify({
+                    isOpen: true,
+                    message: 'Slip is not successfully updated !',
+                    type: 'error'
+                  });
+            }else{
+                setNotify({
+                    isOpen: true,
+                    message: 'Slip is successfully updated !',
+                    type: 'success'
+                  }); 
+                localStorage.removeItem("orderIdFromEmail")
+                localStorage.removeItem("userIdFromMail")
+                formData.delete('photo');
+                props.location.search = null
+                dispatch(claerOrderDetails())
+                orderIdFromEmail = null;
+                history.push("/myOrders")
+            }
+            
         }).catch((err) => {
             console.log('err', err);
         })
@@ -131,14 +142,15 @@ export default function Deposit(props) {
                         </Grid>
                         <Divider orientation="vertical" flexItem />
                         <Grid item xs={12} sm={12} md={8} lg={7}>
-                            <form className={classes.form} noValidate onSubmit={onFormSubmit}>
+                            <form  noValidate onSubmit={onFormSubmit}>
+                                <div>
                                 <TextField
                                     onChange={setOId}
                                     className={classes.textField}
                                     variant="outlined"
                                     margin="normal"
+                                    style={{width:'43%'}}
                                     required
-                                    fullWidth
                                     id="orderId"
                                     label="Enter your Order ID"
                                     name="orderId"
@@ -148,6 +160,7 @@ export default function Deposit(props) {
                                 //helperText={<ErrorMessage name="fullName" />}
                                 />
                                 <Button
+                                    style={{marginLeft:'60px'}}
                                     type="submit"
                                     variant="contained"
                                     color="primary"
@@ -155,6 +168,28 @@ export default function Deposit(props) {
                                     onClick={viewOrder}
                                 >View Order
                                 </Button>
+                                </div>
+                                <div>
+
+                                    <Controls.Input
+                                        variant="outlined"
+                                        name="photo"
+                                        type="file"
+                                        className={classes.upload}
+                                        onChange={onInputChange}
+                                       
+                                    />
+                                
+                                        <Button
+                                           style={{marginLeft:'55px',marginTop :'10px'}}
+                                            type="submit"
+                                            variant="contained"
+                                            color="primary"
+                                          
+                                        >Upload Slip
+                                        </Button>
+                                   
+                                </div>
 
                                 <TableContainer style={{ marginTop: '30px' }}>
                                     <Table className={classes.table} aria-label="simple table">
@@ -179,29 +214,7 @@ export default function Deposit(props) {
                                         </TableBody>
                                     </Table>
                                 </TableContainer>
-                                <div>
-
-                                    <Controls.Input
-                                        variant="outlined"
-                                        name="photo"
-                                        type="file"
-                                        onChange={onInputChange}
-                                       
-                                    />
-                                    <Box
-                                        component="span"
-                                        m={1}
-                                        className={`${classes.spreadBox} ${classes.box}`}
-                                    >
-                                        <Button
-                                            type="submit"
-                                            variant="contained"
-                                            color="primary"
-                                            className={classes.submit}
-                                        >Upload Slip
-                                        </Button>
-                                    </Box>
-                                </div>
+                                
                             </form>
                         </Grid>
                     </Grid>

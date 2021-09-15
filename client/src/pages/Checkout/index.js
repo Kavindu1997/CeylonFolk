@@ -11,7 +11,7 @@ import moment from 'moment';
 import { setPayment } from './payment';
 import { GLOBAL_URLS } from '../../_constants/globalVariable';
 import { useDispatch, useSelector } from "react-redux";
-import { actionGetCustomerDetails, actionSendToDB, actionGetDistricts } from '../../_actions/checkout.action';
+import { actionGetCustomerDetails, actionSendToDB, actionGetDistricts, actionDeleteItem } from '../../_actions/checkout.action';
 import { getCart, getTotal } from '../../_actions';
 import { MASTER_DATA } from '../../_constants/globalVariable';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -20,6 +20,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from 'yup';
 import Notification from '../../components/Reusable/Notification';
+import ceylonforkapi from '../../api/index'
 
 function onLinkClick(event) {
     console.log('onLinkClick'); // never called
@@ -49,25 +50,26 @@ export default function Checkout() {
     const totalDetails = useSelector(state => state.cart.totalAmount)
     const [districtvalue, setDistrict] = useState([]);
     const [districtNameValue, setDistrictNameValue] = useState([]);
+    const [specialNote,setSpecialNote] = useState([]);
 
     const [add1Error,setAdd1Error] = useState(false);
     const [add2Error,setAdd2Error] = useState(false);
     const [cityError,setCityError] = useState(false);
     const [districtError,setDistrictError] = useState(false);
     const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' });
+    const errorMsg = useSelector(state => state.checkout.error);
   
     const getDistrictValue = (event) => {
         setDistrictNameValue(event.target.value)
-        console.log(event.target.value);
-        
+        if(districtError && districtNameValue != undefined){
+            setDistrictError(false)
+        }
 
         for(let i=0; i<deliveryDetails.length-1 ; i++){
             if(deliveryDetails[i].id === event.target.value){
                 setDistrict(deliveryDetails[i].deliveryCharge)  
-                console.log(deliveryDetails[i])
             }
         }
-        console.log(districtvalue)
 
     };
 
@@ -83,12 +85,21 @@ export default function Checkout() {
 
     const setAddress1 = (event) => {
         setOfAddress1(event.target.value)
+        if(add1Error && cutomerAddress1 != undefined){
+            setAdd1Error(false)
+        }
     }
     const setAddress2 = (event) => {
         setOfAddress2(event.target.value)
+        if(add2Error && cutomerAddress2 != undefined){
+            setAdd2Error(false)
+        }
     }
     const setAddress3 = (event) => {
         setOfAddress3(event.target.value)
+        if(cityError && cutomerAddress3 != undefined){
+            setCityError(false)
+        }
     }
     const setPhoneNumber = (event) => {
         setOfPhoneNumber(event.target.value)
@@ -111,10 +122,10 @@ export default function Checkout() {
     }
     const setName = (event) => {
         setCustomerName(event.target.value);
-        console.log(event.target.value)
-        console.log(customerName)
-        console.log(customerDetails[0].firstName)
-        console.log(customerDetails[0].email)
+       
+    }
+    const setNote = (event) => {
+        setSpecialNote(event.target.value)
     }
 
     function validateFormFields(){
@@ -146,6 +157,8 @@ export default function Checkout() {
        return hasError;
     }
 
+  
+
     const placeOrders = () => {
         const hasError = validateFormFields()
         if(hasError == 1){
@@ -160,11 +173,41 @@ export default function Checkout() {
         var uid = localStorage.getItem("userId");
         if (uid != '0' && checkedTermsCondition == true) {
             if (paymentMethod == "cash") {
-                paymentItem = createPaymentDetails(MASTER_DATA.cash_on_delivery, uid, MASTER_DATA.placed);
-                dispatch(actionSendToDB(paymentItem))
+                paymentItem = createPaymentDetails(MASTER_DATA.cash_on_delivery, uid, MASTER_DATA.pending);
+                ceylonforkapi.post("/check/cashOn/",paymentItem).then((response) => { 
+                    if (response.data.data==0) {
+                        setNotify({
+                            isOpen: true,
+                            message: 'Order is not successfully placed !',
+                            type: 'error'
+                          });
+                    } else {
+                        dispatch(actionDeleteItem(paymentItem))
+                        setNotify({
+                            isOpen: true,
+                            message: 'Order successfully placed. Order details will be sent your email !',
+                            type: 'success'
+                          });
+                    }
+                })
             } else if (paymentMethod == "bank") {
                 paymentItem = createPaymentDetails(MASTER_DATA.bank_tranfer, uid, MASTER_DATA.not_uploaded);
-                dispatch(actionSendToDB(paymentItem))
+                ceylonforkapi.post("/check/cashOn/",paymentItem).then((response) => { 
+                    if (response.data.data==0) {
+                        setNotify({
+                            isOpen: true,
+                            message: 'Order is not successfully placed !',
+                            type: 'error'
+                          });
+                    } else {
+                        dispatch(actionDeleteItem(paymentItem))
+                        setNotify({
+                            isOpen: true,
+                            message: 'Order successfully placed. Order details will be sent your email !',
+                            type: 'success'
+                          });
+                    }
+                })
             } else if (paymentMethod == "online") {
                 paymentItem = createPaymentDetails(MASTER_DATA.payhere, uid, MASTER_DATA.placed);
                 let payment = setPayment(paymentItem);
@@ -207,7 +250,8 @@ export default function Checkout() {
             phoneNo: cutomerPhoneNumber == 0 ? customerDetails[0].contactNo : cutomerPhoneNumber,
             email: customerDetails[0].email,
             name:customerDetails[0].firstName + " " + customerDetails[0].lastName,
-            paymentMethod: value
+            paymentMethod: value,
+            specialNote: specialNote
         }
         return item;
     }
@@ -215,7 +259,23 @@ export default function Checkout() {
     window.payhere.onCompleted = function onCompleted(orderId) {
         console.log("Payment completed. OrderID:" + orderId);
         history.push("/Checkout");
-        dispatch(actionSendToDB(paymentItem))
+        ceylonforkapi.post("/check/cashOn/",paymentItem).then((response) => { 
+                    if (response.data.data==0) {
+                        setNotify({
+                            isOpen: true,
+                            message: 'Order is not successfully placed !',
+                            type: 'error'
+                          });
+                    } else {
+                        dispatch(actionDeleteItem(paymentItem))
+                        setNotify({
+                            isOpen: true,
+                            message: 'Order successfully placed. Order details will be sent your email !',
+                            type: 'success'
+                          });
+                    }
+                })
+        
         //Note: validate the payment and show success or failure page to the customer
     };
 
@@ -244,7 +304,7 @@ export default function Checkout() {
                         <Grid item xs={12} sm={12} md={6} lg={6}>
                             <Typography component="h1" variant="h5" style={{ fontFamily: 'Montserrat', textAlign: 'center' }}>Billing Details</Typography>
                             {/* <Formik initialValues={initialRegValues} validationSchema={regValidation}> */}
-                          
+                         
                             {customerDetails
                                 .map((value) => {
                                     return (
@@ -367,7 +427,7 @@ export default function Checkout() {
                                             <div id="addressNew">
                                                 <TextareaAutosize onChange={setDeliveryAdd} aria-label="minimum height" placeholder="Shipping Address" style={{ width: '480px', height: '60px', textAlign: 'justify', padding: '15px', fontFamily: 'Montserrat', marginTop: '10px', borderRadius: '5px' }} />
                                             </div> */}
-                                            <TextareaAutosize aria-label="minimum height" placeholder="Order Notes (optional)" style={{ width: '480px', height: '100px', textAlign: 'justify', padding: '15px', fontFamily: 'Montserrat', marginTop: '30px', borderRadius: '5px' }} />
+                                            <TextareaAutosize aria-label="minimum height" placeholder="Order Notes (optional)" onChange={setNote} style={{ width: '480px', height: '100px', textAlign: 'justify', padding: '15px', fontFamily: 'Montserrat', marginTop: '30px', borderRadius: '5px' }} />
                                             
                                         </form>
                                         
@@ -437,6 +497,9 @@ export default function Checkout() {
                                                 <RadioGroup aria-label="payment" name="payment1" value={value} onChange={radioButtonChange} style={{ marginLeft: '20px' }}>
                                                     <FormControlLabel value="cash" control={<Radio />} label="Cash on delivery" />
                                                     <FormControlLabel value="bank" control={<Radio />} label="Bank Deposits" />
+                                                    <div style={{marginLeft:'30px',color:'blue',display : paymentMethod==="bank"? 'block':'none'}}>
+                                                    <Typography variant="h7">Account details will be sent to your email</Typography>
+                                                    </div>
                                                     <FormControlLabel value="online" control={<Radio />} label="Pay online" />
                                                     <div>
                                                         <img height={50} src={require('../../images/paymentnew.png').default} />

@@ -13,60 +13,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchProducts } from '../../_actions/productAction';
 import ConfirmDialog from '../../components/Reusable/ConfirmDialog';
 import Notification from '../../components/Reusable/Notification';
-
-const useStyles = makeStyles((theme) => ({
-    root: {
-        display: 'flex',
-        justifyContent: 'center',
-        height: '1000px',
-        fontFamily: 'Montserrat',
-        position: 'relative',
-        color: 'white',
-        padding: '100px',
-    },
-    table: {
-        // minWidth: 400,
-        // backgroundColor:'#fafafa',
-        fontFamily: 'Montserrat',
-        // alignItems:'center',
-        width: '700px',
-        marginLeft: '60px'
-    },
-    spreadBox: {
-        justifyContent: "space-around",
-        alignItems: "center",
-    },
-    box: {
-        height: 100,
-        display: "flex",
-        padding: 8
-    },
-    back: {
-        marginTop: 30,
-        alignItems: "center",
-        // marginLeft: 600,
-    },
-    submit: {
-        marginTop: 30,
-        alignItems: "center",
-        // marginLeft: 600,
-    },
-    margin: {
-        margin: theme.spacing(2),
-        width: '50ch',
-        // marginRight: '50px'
-    },
-    avatar: {
-        align: 'left'
-    },
-    listItemText: {
-        fontSize: '3.0em',//Insert your required size
-        marginLeft: '20px',
-    },
-}));
+import useStyles1 from './style1';
 
 export default function ProfileWishlist() {
-    const classes = useStyles();
+    const classes = useStyles1();
     let history = useHistory();
     
     if(localStorage.getItem("userId")=='0'){
@@ -94,7 +44,7 @@ export default function ProfileWishlist() {
         var uid = localStorage.getItem("userId")
             const data = { userId: uid, itemId: id }
             axios.put("http://localhost:3001/wishlist/remove/",data).then((response) => {
-                if (response.data.error){
+                if (response.data.data==0){
                     setNotify({
                         isOpen: true,
                         message: 'Removed Failed !',

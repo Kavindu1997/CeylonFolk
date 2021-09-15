@@ -17,53 +17,60 @@ router.get("/customer/:id", async (req, res) => {
 });
 
 router.post("/cashOn", async (req, res) => {
-    const uid = req.body.userId;
-    const oid = req.body.orderId;
-    const total = req.body.totalAmount;
-    const pmt = req.body.payment;
-    const stu = req.body.status;
-    const items = req.body.itemArray;
-    const add = req.body.delivery
-    const date = req.body.placedDate;
-    const contactNo = req.body.phoneNo;
-    const name = req.body.name;
-    const email = req.body.email;
-    const payMethod = req.body.paymentMethod;
-    const query = "INSERT INTO orders (orderId,customerId,fullAmount,PaymentMethod,status, deliveryAddress,contactNo, placedDate) VALUES ('" + oid + "','" + uid + "','" + total + "','" + pmt + "','" + stu + "','" + add + "','" + contactNo + "','" + date + "')";
-    const cashOnOrder = await sequelize.query(query, { type: sequelize.QueryTypes.INSERT });
-    res.json(cashOnOrder);
-    for (let i = 0; i < items.length; i++) {
-        const query1 = "INSERT INTO orderitems (orderId, itemId, quantity, size) VALUES ('" + oid + "','" + items[i].itemId + "','" + items[i].quantity + "','" + items[i].size + "')";
-        const cashOrderItem = await sequelize.query(query1, { type: sequelize.QueryTypes.INSERT });
+    try{
+        const uid = req.body.userId;
+        const oid = req.body.orderId;
+        const total = req.body.totalAmount;
+        const pmt = req.body.payment;
+        const stu = req.body.status;
+        const items = req.body.itemArray;
+        const add = req.body.delivery;
+        const date = req.body.placedDate;
+        const contactNo = req.body.phoneNo;
+        const name = req.body.name;
+        const email = req.body.email;
+        const payMethod = req.body.paymentMethod;
+        const specialNote = req.body.specialNote;
+        const query = "INSERT INTO orders (orderId,customerId,fullAmount,PaymentMethod,status, deliveryAddress,contactNo, placedDate,specialNotes,notifications) VALUES ('" + oid + "','" + uid + "','" + total + "','" + pmt + "','" + stu + "','" + add + "','" + contactNo + "','" + date + "','"+specialNote+"','placed')";
+        const cashOnOrder = await sequelize.query(query, { type: sequelize.QueryTypes.INSERT });
+        res.json(cashOnOrder);
+        for (let i = 0; i < items.length; i++) {
+            const query1 = "INSERT INTO orderitems (orderId, itemId, quantity, size) VALUES ('" + oid + "','" + items[i].itemId + "','" + items[i].quantity + "','" + items[i].size + "')";
+            const cashOrderItem = await sequelize.query(query1, { type: sequelize.QueryTypes.INSERT });
+        }
+        console.log("mail function")
+        var emailDetails = {
+            name: name,
+            orderId: oid,
+            email: email,
+            message: 'Dear customer, <br />Your order has been successfully placed. Thank you for shopping with us.',
+            description: pmt,
+            url: '',
+            subject: 'CeylonFolk order confirmation',
+            total: total,
+            urlMsg: ''
+        }
+        if(payMethod==='bank'){
+            emailDetails.description = 'Bank Deposit <br /><br /> <b><u>Account Details</u></b><br />Bank: Sampath Bank <br />Account holder: CeylonFolk (Pvt) Ltd <br />Account number: 11223344889 <br />Branch: Kaduwela <br />';
+            emailDetails.urlMsg = 'Please upload your slip within 72 hours. After 72 hours the order might be cancelled. You can use a bank slip or a screenshot of the online transfer to confirm the payment. <br />Please contact us for any inquires: 011234789 <br />Upload the deposit slip: ';
+            emailDetails.url = 'http://localhost:3000/deposit?id='+uid+'&orderIdFromEmail='+oid+ '';
+        }else if(payMethod==='cash'){
+            emailDetails.description = 'Cash on Delivery';
+            emailDetails.urlMsg = 'To view your past order details';
+            emailDetails.url = 'http://localhost:3000/myOrders?id='+uid+'';
+        }else if(payMethod==='online'){
+            emailDetails.description = 'Online payment method';
+            emailDetails.urlMsg = 'To view your past order details';
+            emailDetails.url = 'http://localhost:3000/myOrders?id='+uid+'';
+        }
+       var value = sendEmail(emailDetails)
+        updateInventory(items)
+        res.json({data:1});
     }
-    console.log("mail function")
-    var emailDetails = {
-        name: name,
-        orderId: oid,
-        email: email,
-        message: 'Dear customer, <br />Your order has been successfully placed. Thank you for shopping with us.',
-        description: pmt,
-        url: '',
-        subject: 'CeylonFolk order confirmation',
-        total: total,
-        urlMsg: ''
+    catch(e){
+        res.json({data:0});
     }
-    if(payMethod==='bank'){
-        emailDetails.description = 'Bank Deposit';
-        emailDetails.urlMsg = 'Upload the deposit slip';
-        emailDetails.url = 'http://localhost:3000/deposit?id='+uid+'&orderIdFromEmail='+oid+ '';
-    }else if(payMethod==='cash'){
-        emailDetails.description = 'Cash on Delivery';
-        emailDetails.urlMsg = 'To view your past order details';
-        emailDetails.url = 'http://localhost:3000/myOrders?id='+uid+'';
-    }else if(payMethod==='online'){
-        emailDetails.description = 'Online payment method';
-        emailDetails.urlMsg = 'To view your past order details';
-        emailDetails.url = 'http://localhost:3000/myOrders?id='+uid+'';
-    }
-   var value = sendEmail(emailDetails)
-    updateInventory(items)
-    res.json(cashOrderItem);
+  
 
 });
 
@@ -75,7 +82,6 @@ async function updateInventory(items) {
         console.log(inventoryId)
         const updateQuery = "UPDATE inventories SET quantity=quantity-" + items[i].quantity + " WHERE id='" + inventoryId[0].id + "'";
         const quantityUpdate = await sequelize.query(updateQuery, { type: sequelize.QueryTypes.UPDATE });
-
     }
 }
 
@@ -104,8 +110,8 @@ async function sendEmail(emailDetails){
         console.log(emailDetails)
         const mailOptions = {
             from: 'testceylonfolk@gmail.com', // sender address
-            to: 'januyash8@gmail.com', // list of receivers
-            replyTo: emailDetails.email,
+            to: emailDetails.email, // list of receivers
+            replyTo: 'testceylonfolk@gmail.com',
             subject: emailDetails.subject, // Subject line
             text: emailDetails.message, // plain text body
             html: htmlEmail
@@ -126,36 +132,54 @@ console.log("email option")
 }
 
 router.put("/deleteCart", async (req, res) => {
-    const uid = req.body.userId;
-    const oid = req.body.orderId;
-    const total = req.body.totalAmount;
-    const pmt = req.body.payment;
-    const stu = req.body.status;
-    const items = req.body.itemArray;
-    for (let i = 0; i < items.length; i++) {
-        const query = "UPDATE carts SET carts.isDeleted=1, isBought=1 WHERE carts.itemId='" + items[i].itemId + "' AND carts.customerId='" + uid + "' AND carts.isBought=0 AND carts.isDeleted=0";
-        const cartRemove = await sequelize.query(query, { type: sequelize.QueryTypes.UPDATE });
+
+    try{
+        const uid = req.body.userId;
+        const oid = req.body.orderId;
+        const total = req.body.totalAmount;
+        const pmt = req.body.payment;
+        const stu = req.body.status;
+        const items = req.body.itemArray;
+        for (let i = 0; i < items.length; i++) {
+            const query = "UPDATE carts SET carts.isDeleted=1, isBought=1 WHERE carts.itemId='" + items[i].itemId + "' AND carts.customerId='" + uid + "' AND carts.isBought=0 AND carts.isDeleted=0";
+            const cartRemove = await sequelize.query(query, { type: sequelize.QueryTypes.UPDATE });
+
+        }
+        res.json({status:1});
+    }catch (e){
+        res.json({status:0});
     }
-    res.json(cartRemove);
+    
+   
 });
 
 router.put("/remove", async (req, res) => {
-    const uid = req.body.userId;
-    const id = req.body.itemId;
-    const size = req.body.size;
-    const query = "UPDATE carts SET carts.isDeleted=1 WHERE carts.itemId='" + id + "' AND carts.size='" + size +"' AND carts.customerId='" + uid + "' AND carts.isBought=0";
-    const itemRemove = await sequelize.query(query, { type: sequelize.QueryTypes.UPDATE });
-    res.json(itemRemove);
+    try{
+        const uid = req.body.userId;
+        const id = req.body.itemId;
+        const size = req.body.size;
+        const query = "UPDATE carts SET carts.isDeleted=1 WHERE carts.itemId='" + id + "' AND carts.size='" + size +"' AND carts.customerId='" + uid + "' AND carts.isBought=0";
+        const itemRemove = await sequelize.query(query, { type: sequelize.QueryTypes.UPDATE });
+        res.json({data:1});
+    }catch(e){
+        res.json({data:0});
+    }
+   
 });
 
 router.post("/addToCart", async (req, res) => {
-    const id = req.body.productId;
-    const qty = req.body.quantity;
-    const uid = req.body.userId;
-    const size = req.body.size;
-    const query = "INSERT INTO carts (customerId,itemId,quantity,size) VALUES('" + uid + "','" + id + "','" + qty + "','" + size + "')";
-    const addCart = await sequelize.query(query, { type: sequelize.QueryTypes.INSERT });
-    res.json(addCart);
+    try{
+        const id = req.body.productId;
+        const qty = req.body.quantity;
+        const uid = req.body.userId;
+        const size = req.body.size;
+        const query = "INSERT INTO carts (customerId,itemId,quantity,size) VALUES('" + uid + "','" + id + "','" + qty + "','" + size + "')";
+        const addCart = await sequelize.query(query, { type: sequelize.QueryTypes.INSERT });
+        res.json({data:1});
+    }catch(e){
+        res.json({data:0});
+    }
+    
 });
 
 router.post("/addToCartBatchwise", async (req, res) => {
@@ -199,13 +223,19 @@ router.get("/total/:id", async (req, res) => {
 });
 
 router.put("/updateQty", async (req, res) => {
-    var uid = req.body.uid;
-    const items = req.body.itemArray;
-    for (let i = 0; i < items.length; i++) {
-        const query = "UPDATE carts SET quantity='" + items[i].quantity + "' WHERE carts.itemId='" + items[i].itemId + "' AND carts.size='"+items[i].size+"' AND carts.customerId='" + uid + "' AND carts.isBought=0 AND carts.isDeleted=0";
-        const updatedCart = await sequelize.query(query, { type: sequelize.QueryTypes.UPDATE });
+    try{
+        var uid = req.body.uid;
+        const items = req.body.itemArray;
+        for (let i = 0; i < items.length; i++) {
+            const query = "UPDATE carts SET quantity='" + items[i].quantity + "' WHERE carts.itemId='" + items[i].itemId + "' AND carts.size='"+items[i].size+"' AND carts.customerId='" + uid + "' AND carts.isBought=0 AND carts.isDeleted=0";
+            const updatedCart = await sequelize.query(query, { type: sequelize.QueryTypes.UPDATE });
+        }
+        res.json({data:1});
     }
-    res.json(updatedCart);
+    catch(e){
+        res.json({data:0});
+    }
+
 });
 
 router.get("/district", async (req, res) => {
