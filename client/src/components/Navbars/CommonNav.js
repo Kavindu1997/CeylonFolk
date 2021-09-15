@@ -221,6 +221,7 @@ const CommonNav = (props) => {
         prevOpen.current = open;
     }, [open]);
 
+
     function onLogout() {
         localStorage.clear()
         localStorage.setItem("userId", 0)
@@ -233,13 +234,14 @@ const CommonNav = (props) => {
         dispatch(fetchProducts());
       }
 
+
     return (
         <div className={classes.root}>
             <AppBar className={classes.appbar} elevation={0}>
                 <Toolbar className={classes.appbarWrapper}>
                     <div className={classes.appbarLeft}>
                         <NavLink to={"/"} className={classes.appbarlink}> <Typography className={classes.appbarlink2}>Home</Typography></NavLink>
-                        <NavLink to={'/shop'} className={classes.appbarlink}>
+                        <NavLink to={'/shop'} className={classes.appbarlink} >
                             <Typography
                                 className={classes.appbarlink2}
                                 //change "endIcon to "endicon" for remove the warning - pramuka (check it)
