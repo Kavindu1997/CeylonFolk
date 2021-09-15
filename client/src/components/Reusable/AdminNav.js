@@ -97,7 +97,7 @@ const useStyles = makeStyles((theme) => ({
 
 const AdminNav = () => {
   const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(true);
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -123,9 +123,9 @@ const AdminNav = () => {
           <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title} style={{ fontFamily: 'Nunito', fontSize: '2rem' }}>
             Ceylon<span className={classes.colorText}>Folk</span>
           </Typography>
-          <Messages/>
-          <Profile/>
-          <Logout/>
+          <Messages />
+          <Profile />
+          <Logout />
         </Toolbar>
       </AppBar>
       <Drawer
