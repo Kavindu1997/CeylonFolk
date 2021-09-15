@@ -12,6 +12,7 @@ function PendingOrders() {
             <div className={classes.content}>
                 <div className={classes.info}>
                     <div className={classes.pageLinks}>
+
                         <Button style={{ borderRadius: '50px', borderWidth: '2px', borderColor: 'black', marginRight: '40px', fontWeight: 'bold' }} variant="outlined" color="primary" href="http://localhost:3000/AdminOrders/0">
                             All Orders
                         </Button>
