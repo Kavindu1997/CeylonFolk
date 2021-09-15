@@ -394,7 +394,7 @@ export default function Product_detail() {
 
                     <Box className={classes.tBox}>
                       <Typography className={classes.productColor}>QUANTITY</Typography>
-                      <div>{quantity && <NumericInput mobile min={0} max={quantity[index1].quantity} value={1} size={1} onChange={getQty} />}</div>
+                      <div>{quantity && <NumericInput mobile min={1} max={quantity[index1].quantity} value={1} size={1} onChange={getQty} />}</div>
                     </Box>
 
                     {quantity &&

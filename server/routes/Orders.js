@@ -178,37 +178,39 @@ async function sendEmail(emailDetails) {
             
             <p>${emailDetails.urlMsg}: <a href=${emailDetails.url}>Click here to route to the site</a></p>`
 
-    const transporter = nodemailer.createTransport({
-        host: 'smtp.gmail.com',
-        port: 465,
-        secure: true,
-        auth: {
-            user: "testceylonfolk@gmail.com",
-            pass: "pkjjt@1234"
-        }
-    });
-    console.log(emailDetails)
-    const mailOptions = {
-        from: 'testceylonfolk@gmail.com', // sender address
-        to: 'januyash8@gmail.com', // list of receivers
-        replyTo: emailDetails.email,
-        subject: emailDetails.subject, // Subject line
-        text: emailDetails.message, // plain text body
-        html: htmlEmail
+        
+        const transporter = nodemailer.createTransport({
+            host: 'smtp.gmail.com',
+            port: 465,
+            secure: true,
+            auth: {
+                user: "testceylonfolk@gmail.com",
+                pass: "pkjjt@1234"
+            }
+        });
+        console.log(emailDetails)
+        const mailOptions = {
+            from: 'testceylonfolk@gmail.com', // sender address
+            to: emailDetails.email, // list of receivers
+            replyTo: 'testceylonfolk@gmail.com',
+            subject: emailDetails.subject, // Subject line
+            text: emailDetails.message, // plain text body
+            html: htmlEmail
 
-    };
-    console.log("email option")
-    await transporter.sendMail(mailOptions, (err, info) => {
-        if (err) {
-            console.log("error in sending mail", err)
-            return 0
-        }
-        else {
-            console.log("successfully send message", info)
-            alert("successfully send message");
-            return 1
-        }
-    });
+        };
+        console.log("email option")
+            await transporter.sendMail(mailOptions,(err,info) =>{
+            if(err){
+                        console.log("error in sending mail",err)
+                        return 0
+                    }
+                    else{
+                        console.log("successfully send message",info)
+                        alert("successfully send message");
+                        return 1
+                    }
+                 } );  
+
 }
 
 router.get("/getUserDetails/:uid", async (req, res) => {
