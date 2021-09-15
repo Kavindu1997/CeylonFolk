@@ -162,11 +162,7 @@ const InventoryTable = () => {
         message: "",
         type: "",
     });
-    const [confirmDialog, setConfirmDialog] = useState({
-        isOpen: false,
-        title: "",
-        subTitle: "",
-    });
+    const [confirmDialog, setConfirmDialog] = useState({ isOpen: false, title: '', subTitle: '' })
 
     const openInPopup = (item) => {
         // setRecordForEdit(item);
@@ -198,6 +194,11 @@ const InventoryTable = () => {
 
     const onRemove = (id) => {
 
+        setConfirmDialog({
+            ...confirmDialog,
+            isOpen: false
+          });
+
         const data = { id: id }
 
         axios.delete(`http://localhost:3001/invent/inventory`, { data }).then((response) => {
@@ -216,9 +217,13 @@ const InventoryTable = () => {
 
     return (
 
+       
+
         <div style={{ display: "flex" }}>
+            
             <AdminNav />
             <main className={classes.content}>
+           
                 <PageHeader title="INVENTORY MANAGEMENT" icon={<LayersIcon fontSize="large" />} />
                 {/* <Lottie options={defaultOptions} height={150} width={150} style={{marginRight:'30px'}} />marginTop:'-150px', */}
                 <Paper className={classes.pageContent}>
@@ -278,7 +283,7 @@ const InventoryTable = () => {
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {record.map((value) =>
+                                {record.map((value) =>
                                         <TableRow>
                                             <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>
                                                 <Box style={{ display: 'flex', justifyContent: 'center' }}>
@@ -298,14 +303,23 @@ const InventoryTable = () => {
                                                     }}
                                                 />
                                             </TableCell>
+                                       
+                                       
                                             <TableCell align="center">
-                                                <Button name="remove" onClick={() => onRemove(value.id)}>
-                                                    <i className="fa fa-times" aria-hidden="true"></i>
-                                                </Button>
-                                            </TableCell>
+                                                            <Button name="remove" onClick={() => {
+                                                                setConfirmDialog({
+                                                                    isOpen: true,
+                                                                    title: 'Are you sure to delete this?',
+                                                                    subTitle: "You can't undo this operation...",
+                                                                    onConfirm: () => { onRemove(value.id) }
+                                                                })
+                                                            }}>
+                                                                <i className="fa fa-times" aria-hidden="true"></i>
+                                                            </Button>
+                                                        </TableCell>
 
                                         </TableRow>
-                                    )}
+                                        )}
                                 </TableBody>
                             </Table>
                         </center>
@@ -336,8 +350,13 @@ const InventoryTable = () => {
                     confirmDialog={confirmDialog}
                     setConfirmDialog={setConfirmDialog}
                 />
+               
             </main >
+
+           
         </div >
+
+    
     );
 };
 
