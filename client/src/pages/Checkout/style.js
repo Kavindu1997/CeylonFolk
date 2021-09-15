@@ -42,7 +42,15 @@ const useStyles = makeStyles((theme) => ({
       },
       errorClass: {
           borderColor: "red"
-      }
+      },
+      visibility:{
+        display: 'block',
+        fontFamily: 'Montserrat', textAlign: 'left', marginTop: '15px', marginBottom: '10px', marginLeft: '30px' 
+    },
+    noVisibility:{
+        dispaly:'none',
+        fontFamily: 'Montserrat', textAlign: 'left', marginTop: '15px', marginBottom: '10px', marginLeft: '30px' 
+    }
 }));
 
 

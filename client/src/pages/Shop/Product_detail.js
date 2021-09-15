@@ -31,6 +31,7 @@ import { actionAddToCart, actionGetTotal, sendProductsToDB, calculateCartCount, 
 import { useDispatch, useSelector } from "react-redux";
 import { selectedProduct, fetchProduct, removeSelectedProduct } from '../../_actions/productAction';
 import Notification from '../../components/Reusable/Notification';
+import ceylonforkapi from '../../api/index'
 
 function Copyright() {
   return (
@@ -236,21 +237,39 @@ export default function Product_detail() {
         price: price,
         totals: quantity * price
       }
-      var result = dispatch(sendProductsToDB(dummyItem))
+      // var result = dispatch(sendProductsToDB(dummyItem))
+      ceylonforkapi.post("/check/addToCart/",dummyItem).then((response) => {
+        if (response.data.data==0) {
+            setNotify({
+              isOpen: true,
+              message: 'Adding Failed !',
+              type: 'error'
+            });
+        }
+        else {
+            dispatch(incrementCartCount());
+            dispatch(actionAddToCart(dummyItem));
+            setNotify({
+              isOpen: true,
+              message: 'Added Successfully !',
+              type: 'success'
+            });
+        }
+      });   
 
-      if (result == 0) {
-        setNotify({
-          isOpen: true,
-          message: 'Added Successfully !',
-          type: 'error'
-        });
-      } else {
-        setNotify({
-          isOpen: true,
-          message: 'Added Successfully !',
-          type: 'success'
-        });
-      }
+      // if (result == 0) {
+      //   setNotify({
+      //     isOpen: true,
+      //     message: 'Added Successfully !',
+      //     type: 'error'
+      //   });
+      // } else {
+      //   setNotify({
+      //     isOpen: true,
+      //     message: 'Added Successfully !',
+      //     type: 'success'
+      //   });
+      // }
     }
     else {
       var dummyItem = {
@@ -308,7 +327,7 @@ export default function Product_detail() {
                   <Box>
                     <Typography className={classes.productTitle}>{design_name}</Typography>
                     <Typography className={classes.productPrice}>{"LKR " + price + '.00'}</Typography>
-                    <Box><Typography className={classes.productColor}>COLOR</Typography></Box>
+                    {/* <Box><Typography className={classes.productColor}>COLOR</Typography></Box> */}
                     <Box>
                       <Box style={{ display: 'flex' }}>
                         <label style={{ cursor: 'pointer' }}>

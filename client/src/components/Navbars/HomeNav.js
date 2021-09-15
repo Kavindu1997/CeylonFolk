@@ -10,6 +10,9 @@ import SearchOutlinedIcon from '@material-ui/icons/SearchOutlined';
 import { NavLink } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
 import axios from 'axios';
+import { decrementCartCount, actionGetTotalDeduct, actionDeleteItem, calculateCartCount, getCart, getTotal, deleteCartUsingID, updateCartQuantity, actionUpdateItem, calculateTotalWhenChanged, emtyTotalLogout, emptyCartLogout } from '../../_actions/index';
+import { fetchProducts } from '../../_actions/productAction';
+import { useHistory } from 'react-router';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -164,10 +167,17 @@ const useStyles = makeStyles((theme) => ({
 
 const CommonNav = () => {
     const cartcount = useSelector(state => state.cart.cartCount)
-    const dispatch = useDispatch();
-    const [countDetails, countOfItems] = useState([]);
 
-    const classes = useStyles();
+  const dispatch = useDispatch();
+  const [countDetails, countOfItems] = useState([]);
+  let history = useHistory()
+    const classes=useStyles();
+
+//     const dispatch = useDispatch();
+//     const [countDetails, countOfItems] = useState([]);
+
+//     const classes = useStyles();
+
     const [navBackground, setNavBackground] = useState('appbar')
     const navRef = React.useRef()
     navRef.current = navBackground
@@ -215,6 +225,19 @@ const CommonNav = () => {
             setOpen(false);
         }
     }
+
+
+    function onLogout() {
+        localStorage.clear()
+        localStorage.setItem("userId", 0)
+        history.push("./")
+        dispatch(getCart())
+        dispatch(getTotal())
+        dispatch(emptyCartLogout());
+        dispatch(emtyTotalLogout());
+        dispatch(calculateCartCount())
+        dispatch(fetchProducts());
+      }
 
 
     return (
@@ -275,7 +298,7 @@ const CommonNav = () => {
                                                     <NavLink to={"/myWishlist"} style={{ textDecoration: 'none' }}><MenuItem onClick={handleClose} style={{ fontWeight: '600', fontSize: '15px', color: 'black' }}>My Wishlist</MenuItem></NavLink>
                                                     <NavLink to={"/deposit"} style={{ textDecoration: 'none' }}><MenuItem onClick={handleClose} style={{ fontWeight: '600', fontSize: '15px', color: 'black' }}>Bank Deposit Upload</MenuItem></NavLink>
                                                     <NavLink to={"/custcustomizeOrders"} style={{ textDecoration: 'none' }}><MenuItem onClick={handleClose} style={{ fontWeight: '600', fontSize: '15px', color: 'black' }}>Customerize Orders</MenuItem></NavLink>
-                                                    <NavLink to={"/auth"} style={{ textDecoration: 'none' }}><MenuItem onClick={handleClose} style={{ fontWeight: '600', fontSize: '15px', color: 'black' }}>Logout</MenuItem></NavLink>
+                                                    <NavLink to={"/auth"} style={{ textDecoration: 'none' }} onClick={onLogout}><MenuItem onClick={handleClose} style={{ fontWeight: '600', fontSize: '15px', color: 'black' }}>Logout</MenuItem></NavLink>
                                                 </MenuList>
 
 
