@@ -30,11 +30,7 @@ const TypesTable = () => {
         message: "",
         type: "",
     });
-    const [confirmDialog, setConfirmDialog] = useState({
-        isOpen: false,
-        title: "",
-        subTitle: "",
-    });
+    const [confirmDialog, setConfirmDialog] = useState({ isOpen: false, title: '', subTitle: '' });
     const dispatch = useDispatch();
 
     // const { TblContainer, TblHead, TblPagination, recordsAfterPagingAndSorting } =
@@ -66,6 +62,10 @@ const TypesTable = () => {
 
     const onRemove = (id) => {
 
+        setConfirmDialog({
+            ...confirmDialog,
+            isOpen: false
+          });
 
         dispatch(actionDeleteCollection(id));
 
@@ -173,9 +173,16 @@ const TypesTable = () => {
                                                                 <i className="fa fa-times" aria-hidden="true"></i>
                                                             </Button>
                                                         </TableCell>
-
+ 
                                                         <TableCell align="center">
-                                                            <Button name="remove" onClick={() => onRemove(value.id)}>
+                                                            <Button name="remove" onClick={() => {
+                                                                setConfirmDialog({
+                                                                    isOpen: true,
+                                                                    title: 'Are you sure to delete this?',
+                                                                    subTitle: "You can't undo this operation...",
+                                                                    onConfirm: () => { onRemove(value.id) }
+                                                                })
+                                                            }}>
                                                                 <i className="fa fa-times" aria-hidden="true"></i>
                                                             </Button>
                                                         </TableCell>
