@@ -19,6 +19,7 @@ import AdminNav from "../../../components/Reusable/AdminNav"
 import Lottie from 'react-lottie';
 import User from '../../../images/user.json';
 import {fetchUsers,createUser,deleteUser,updateUser } from '../../../_actions/userManageAction';
+import axios from 'axios';
 
 
 const headCells = [
@@ -33,12 +34,18 @@ const headCells = [
 
 const UserTable = () => {
     const classes = useStyles();
-    const userRecords=useSelector((state)=>state.userReducer.users);
-   // console.log(userRecords);
-    const dispatch=useDispatch();
+    const [records, setRecords] = useState([]);
     useEffect(()=>{
-       dispatch(fetchUsers());
+        axios.get("http://localhost:3001/users/").then((response)=>{
+                  setRecords(response.data);
+        });
     },[]);
+//     const userRecords=useSelector((state)=>state.userReducer.users);
+//    // console.log(userRecords);
+//     const dispatch=useDispatch();
+//     useEffect(()=>{
+//        dispatch(fetchUsers());
+//     },[]);
   
     const [recordForEdit, setRecordForEdit] = useState(null)
     const [filterFn, setFilterFn] = useState({ fn: items => { return items; } });
@@ -51,7 +58,7 @@ const UserTable = () => {
         TblHead,
         TblPagination,
         recordsAfterPagingAndSorting
-    } = useTable(userRecords, headCells, filterFn);
+    } = useTable(records, headCells, filterFn);
 
     const handleSearch = e => {
         let target = e.target;
@@ -71,12 +78,20 @@ const UserTable = () => {
 
     const addOrEdit = (data, resetForm) => {
         if (data.id === 0){
-         dispatch(createUser(data));
-         window.location.reload(true);
+                    axios.post("http://localhost:3001/users/", data).then(() => {
+                axios.get("http://localhost:3001/users/").then((response)=>{
+                    setRecords(response.data);
+                });
+         });
+        //  dispatch(createUser(data));
+        //  window.location.reload(true);
          resetForm();
          setRecordForEdit(null);
          setOpenPopup(false);
-         dispatch(fetchUsers());
+         axios.get("http://localhost:3001/users/").then((response)=>{
+            setRecords(response.data);
+            });
+        //  dispatch(fetchUsers());
          setNotify({
              isOpen: true,
              message: 'Added Successfully !',
@@ -84,17 +99,25 @@ const UserTable = () => {
          });
         
         }else{
-        dispatch(updateUser(data,data.id));
+        axios.put(`/users/${data.id}`,data).then(() => {
+            axios.get("http://localhost:3001/users/").then((response)=>{
+                setRecords(response.data);
+            });
+        });;
+       // dispatch(updateUser(data,data.id));
         resetForm();
         setRecordForEdit(null);
-        setOpenPopup(false);
-        dispatch(fetchUsers());
+        setOpenEditPopup(false);
+        axios.get("http://localhost:3001/users/").then((response)=>{
+            setRecords(response.data);
+            });
+       //   dispatch(fetchUsers());
         setNotify({
             isOpen: true,
             message: 'Edited Successfully !',
             type: 'info'
         });
-        window.location.reload(true);
+        //window.location.reload(true);
     }
   
     }
@@ -102,6 +125,7 @@ const UserTable = () => {
     const openInPopup = item => {
         setRecordForEdit(item);
         setOpenEditPopup(true);
+       // console.log(item);
     }
 
     const onDelete = id => {
@@ -109,9 +133,13 @@ const UserTable = () => {
             ...confirmDialog,
             isOpen: false
         });
-     
-        dispatch(deleteUser(id));
-        window.location.reload(true);
+        axios.delete(`http://localhost:3001/users/${id}`).then(()=>{
+            axios.get("http://localhost:3001/users/").then((response)=>{
+            setRecords(response.data);
+        }); //refresh the records array
+        });
+        // dispatch(deleteUser(id));
+        // window.location.reload(true);
         setNotify({
             isOpen: true,
             message: 'Removed Successfully !',
@@ -138,7 +166,7 @@ const UserTable = () => {
                     icon={< GroupIcon fontSize="large" />}
                 />
 
-                <Lottie options={defaultOptions} height={150} width={150} style={{marginTop:'-150px',marginRight:'30px'}} />
+                {/* <Lottie options={defaultOptions} height={150} width={150} style={{marginTop:'-150px',marginRight:'30px'}} /> */}
 
                 <Paper className={classes.pageContent}>
 

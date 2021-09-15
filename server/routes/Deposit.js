@@ -47,16 +47,22 @@ const upload = multer({
 });
 
 router.post("/", upload.single('photo'), async (req, res) => {
-    const orderId = req.body.orderId;
-    const imagePath = 'public/bankSlips/' + req.file.filename;
-    const uid = req.body.uid;
-    const date = req.body.date;
-    console.log(date)
-    const query = "INSERT INTO deposits (customerId,orderId,slip,uploadedDate) VALUES('"+uid+"','"+orderId+"','"+imagePath+"','"+date+"')";
-    const uploadslip = await sequelize.query(query, { type: sequelize.QueryTypes.INSERT });
-    const query1 = "UPDATE orders SET status='5' WHERE orderId='"+orderId+"'";
-    const updateOrder = await sequelize.query(query1, { type: sequelize.QueryTypes.UPDATE });
-    res.json(uploadslip);
+    try{
+        const orderId = req.body.orderId;
+        const imagePath = 'public/bankSlips/' + req.file.filename;
+        const uid = req.body.uid;
+        const date = req.body.date;
+        console.log(date)
+        const query = "INSERT INTO deposits (customerId,orderId,slip,uploadedDate) VALUES('"+uid+"','"+orderId+"','"+imagePath+"','"+date+"')";
+        const uploadslip = await sequelize.query(query, { type: sequelize.QueryTypes.INSERT });
+        const query1 = "UPDATE orders SET status='5' WHERE orderId='"+orderId+"'";
+        const updateOrder = await sequelize.query(query1, { type: sequelize.QueryTypes.UPDATE });
+        res.json({data:1});
+    }
+    catch(e){
+        res.json({data:0});
+    }
+    
 });
 
 router.get("/allDepositSlips", async(req,res) => {

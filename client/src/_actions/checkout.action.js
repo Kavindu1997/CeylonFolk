@@ -18,17 +18,17 @@ export const actionGetDistricts = delivery => async (dispatch)=> {
 };
 
 export const actionSendToDB = (item) => async (dispatch)=> {
-        const response = await ceylonforkapi.post("/check/cashOn/",item) 
-            if (response.data.error) {
-                // alert("Order Placement Unsuccessful");
+        ceylonforkapi.post("/check/cashOn/",item).then((response) => { 
+            if (response.data.data==0) {
+                return 0;
             } else {
                 dispatch(actionDeleteItem(item))
-                // alert("Order Placement Successful");
+                return 1;
             }
             dispatch(emptyCart())
             dispatch(emtyTotal()) 
             dispatch(calculateCartCount())
-        
+        })
 };
 
 export const actionDeleteItem = (item) => async (dispatch)=> {

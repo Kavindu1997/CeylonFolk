@@ -44,12 +44,13 @@ const useStyles = makeStyles((theme) => ({
         fontSize: '3.0em',
         marginLeft: '20px',
     },
-    visibility: {
-        display: 'block'
-    },
-    noVisibility: {
+
+    visibility:{
         display: 'none'
     },
+    noVisibility:{
+        dispaly:'block'
+    }
 }));
 
 export default useStyles;

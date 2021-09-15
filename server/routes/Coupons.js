@@ -14,11 +14,13 @@ router.get('/',async(req,res)=>{
 });
 
 router.post("/",async(req, res) => {
-    const { coupon_id,coupon_title} = req.body;
+    const { coupon_name,discount_amount,start_date,end_date} = req.body;
     //  const coupon= req.body;
     await  Coupon.create({
-        coupon_id:coupon_id,
-        coupon_title:coupon_title
+        coupon_name:coupon_name,
+        discount_amount:discount_amount,
+        start_date:start_date,
+        end_date:end_date
     });
      try {
     res.json("Success");
@@ -28,12 +30,20 @@ router.post("/",async(req, res) => {
     
 });
 
+router.put("/:couponId", async (req,res) => {
+    const couponId = req.params.couponId
+    const { coupon_name,discount_amount,start_date,end_date } = req.body;
+    const query = "UPDATE coupons SET coupon_name='" + coupon_name + "',discount_amount='" + discount_amount + "',start_date='" + start_date + "',end_date='" + end_date + "' WHERE id='" + couponId + "'";
+    const result = await sequelize.query(query, {type: sequelize.QueryTypes.UPDATE});
+    res.json(result);
+});
+
 router.delete("/:couponId",async (req,res)=>{
     const couponId=req.params.couponId;
 
     await  Coupon.destroy({
         where:{
-            coupon_id:couponId,
+            id:couponId,
         },
     });
     res.json("DELETED SUCCESSFULLY");
