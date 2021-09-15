@@ -83,7 +83,7 @@ export const mainListItems = (
       </ListItemIcon>
       <ListItemText primary="Available Types" />
     </ListItem>
-    <ListItem button component={Link} to="/inhouseOrders">
+    <ListItem button component={Link} to="/AdminOrders/0">
       <ListItemIcon>
         <ViewListIcon />
       </ListItemIcon>

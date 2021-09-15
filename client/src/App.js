@@ -65,7 +65,7 @@ import ForgotPassword from './pages/Authentication/ForgotPassword';
 import NewPassword from './pages/Authentication/NewPassword';
 
 import Profile1 from './pages/MyAccount/index2';
-import InhouseOrderTable from './pages/Admin/InhouseOrders/InhouseOrderTable';
+import AdminOrders from './pages/Admin/InhouseOrders/AdminOrders';
 
 
 
@@ -180,7 +180,7 @@ class App extends Component {
           <Route path="/designs" exact render={() => <Design />} />  */}
               <Route exact path="/forgotPassword" component={ForgotPassword} />
               <Route exact path="/reset/:token" component={NewPassword} />
-              <Route exact path="/inhouseOrders" component={InhouseOrderTable} />
+              <Route exact path={"/AdminOrders/:id"} component={AdminOrders} />
 
               <Route path="/customize" exact render={() => <Customize />} />
               <Route path="/termnconditions" exact render={() => <Termnconditions />} />
