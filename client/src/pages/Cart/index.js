@@ -188,8 +188,10 @@ export default function Cart() {
                         <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.name}</TableCell>
                         <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>Rs. {value.price}</TableCell>
                         <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.size}</TableCell>
-                        <TableCell align="center" onClick={() => selectedQty(index)}>
-                          <NumericInput mobile min={1} max={value.stockMargin} defaultValue={value.quantity} size={1} style={{ fontFamily: 'Montserrat' }} onChange={updateQty} />
+                        <TableCell align="center">
+                          <div onClick={() => selectedQty(index)}>
+                          <NumericInput mobile min={1} max={value.stockMargin} defaultValue={value.quantity} size={1} style={{ fontFamily: 'Montserrat' }} onChange={updateQty}/>
+                          </div>
                         </TableCell>
                         {/* <TableCell align="center" className={classes.numeric} style={{ fontFamily: 'Montserrat' }}>{value.quantity}</TableCell> */}
                         <TableCell align="center">
@@ -298,14 +300,14 @@ export default function Cart() {
                 m={1}
                 className={`${classes.spreadBox} ${classes.box}`}
               >
-                <Button
+                {/* <Button
                   type="submit"
                   onClick={onLogout}
                   variant="contained"
                   color="primary"
                   className={classes.submit}
                 >Logout
-                </Button>
+                </Button> */}
 
                 <Button
                   type="submit"

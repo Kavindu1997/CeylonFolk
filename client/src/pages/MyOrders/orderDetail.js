@@ -15,7 +15,7 @@ import ConfirmDialog from '../../components/Reusable/ConfirmDialog';
 import Controls from "../../components/Reusable/Controls";
 import Popup from "../../components/Reusable/Popup";
 import EditOrderForm from "./EditOrderForm";
-import AddIcon from "@material-ui/icons/Add";
+import ceylonforkapi from '../../api/index';
 
 
 export default function OrderDetail() {
@@ -46,7 +46,7 @@ export default function OrderDetail() {
     function routeToProduct(itemId) {
 
     }
-    var [selectedOrderToEdit,setSelectedOrderToEdit]=useState([])
+    var [selectedOrderToEdit, setSelectedOrderToEdit] = useState([])
     function setOrderToEdit(value) {
         setConfirmDialog({
             ...confirmDialog,
@@ -54,11 +54,11 @@ export default function OrderDetail() {
         });
         setOpenPopup(true)
         setSelectedOrderToEdit({
-            oId:oId,
+            oId: oId,
             itemId: value.id,
             size: value.size,
             quantity: value.quantity,
-            sizeId : value.sizeId,
+            sizeId: value.sizeId,
             orderitemId: value.orderitemId
         })
     }
@@ -77,11 +77,62 @@ export default function OrderDetail() {
         if (orderDetails.length == 1) {
             cancelItem.removeWholeOrder = 1;
         }
-        console.log(cancelItem)
-        dispatch(cancelOrderItem(cancelItem))
-        if (orderDetails.length == 1) {
-            history.push("/myOrders")
+        // dispatch(cancelOrderItem(cancelItem))
+        ceylonforkapi.post("/order/cancelItem/", cancelItem).then((response) => {
+            if (response.data.error == 0) {
+                setNotify({
+                    isOpen: true,
+                    message: 'Item removing is not successful !',
+                    type: 'error'
+                });
+            }
+            else {
+                setNotify({
+                    isOpen: true,
+                    message: 'Order item successfully removed !',
+                    type: 'success'
+                });
+                dispatch(viewOrderDetail(cancelItem.orderId));
+            }
+        });
+        // if (orderDetails.length == 1) {
+        //     history.push("/myOrders")
+        // }
+    }
+
+    function deletewholeOrder(oId){
+        setConfirmDialog({
+            ...confirmDialog,
+            isOpen: false
+        });
+        var cancelItem = {
+            orderId: oId,
+            // removeWholeOrder: 1,
         }
+        // if (orderDetails.length == 1) {
+        //     cancelItem.removeWholeOrder = 1;
+        // }
+        // dispatch(cancelOrderItem(cancelItem))
+        ceylonforkapi.post("/order/cancelOrder/", cancelItem).then((response) => {
+            if (response.data.error == 0) {
+                setNotify({
+                    isOpen: true,
+                    message: 'Order removing is not successful !',
+                    type: 'error'
+                });
+            }
+            else {
+                setNotify({
+                    isOpen: true,
+                    message: 'Order successfully removed !',
+                    type: 'success'
+                });
+                dispatch(viewOrderDetail(cancelItem.orderId));
+            }
+        });
+        // if (orderDetails.length == 1) {
+        //     history.push("/myOrders")
+        // }
     }
 
     return (
@@ -153,16 +204,16 @@ export default function OrderDetail() {
                                                             }}
                                                             >
 
-                                                                <i class="fa fa-pencil-square-o" aria-hidden="true" 
-                                            
-                                                                onClick={(event) => {
-                                                                    setConfirmDialog({
-                                                                        isOpen: true,
-                                                                        title: 'Are you sure to edit this item?',
-                                                                        subTitle: "Your order will be changed...",
-                                                                        onConfirm: () => {  setOrderToEdit(value) }
-                                                                    })
-                                                                }}></i>
+                                                                <i class="fa fa-pencil-square-o" aria-hidden="true"
+
+                                                                    onClick={(event) => {
+                                                                        setConfirmDialog({
+                                                                            isOpen: true,
+                                                                            title: 'Are you sure to edit this item?',
+                                                                            subTitle: "Your order will be changed...",
+                                                                            onConfirm: () => { setOrderToEdit(value) }
+                                                                        })
+                                                                    }}></i>
                                                             </Button>
                                                             </TableCell>
                                                         </TableRow>
@@ -171,6 +222,20 @@ export default function OrderDetail() {
                                         </TableBody>
                                     </Table>
                                 </TableContainer>
+                                <div className={canItemRemoveOrEdit == false ? classes.visibility : ""}>
+
+                                    <Button
+                                        type="submit"
+                                        variant="contained"
+                                        // color="primary"
+                                        style={{color: 'red'}}
+                                        className={classes.submit}
+                                        onClick={() => deletewholeOrder(oId)}
+                                    >Delete Whole Order
+                                    </Button>
+
+
+                                </div>
                                 <div>
 
                                     <Button
@@ -178,6 +243,7 @@ export default function OrderDetail() {
                                         variant="contained"
                                         color="primary"
                                         className={classes.submit}
+                                        onClick={() => { history.push(`/shop`); }}
                                     >Continue Shopping
                                     </Button>
 
@@ -204,7 +270,7 @@ export default function OrderDetail() {
                 openPopup={openPopup}
                 setOpenPopup={setOpenPopup}
             >
-                <EditOrderForm selectedOrderToEdit={selectedOrderToEdit}/> 
+                <EditOrderForm selectedOrderToEdit={selectedOrderToEdit} />
             </Popup>
         </div>
 

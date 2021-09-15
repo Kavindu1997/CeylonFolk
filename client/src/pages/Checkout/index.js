@@ -11,7 +11,7 @@ import moment from 'moment';
 import { setPayment } from './payment';
 import { GLOBAL_URLS } from '../../_constants/globalVariable';
 import { useDispatch, useSelector } from "react-redux";
-import { actionGetCustomerDetails, actionSendToDB, actionGetDistricts } from '../../_actions/checkout.action';
+import { actionGetCustomerDetails, actionSendToDB, actionGetDistricts, actionDeleteItem } from '../../_actions/checkout.action';
 import { getCart, getTotal } from '../../_actions';
 import { MASTER_DATA } from '../../_constants/globalVariable';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -20,6 +20,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from 'yup';
 import Notification from '../../components/Reusable/Notification';
+import ceylonforkapi from '../../api/index'
 
 function onLinkClick(event) {
     console.log('onLinkClick'); // never called
@@ -60,7 +61,6 @@ export default function Checkout() {
   
     const getDistrictValue = (event) => {
         setDistrictNameValue(event.target.value)
-        console.log(event.target.value);
         if(districtError && districtNameValue != undefined){
             setDistrictError(false)
         }
@@ -68,10 +68,8 @@ export default function Checkout() {
         for(let i=0; i<deliveryDetails.length-1 ; i++){
             if(deliveryDetails[i].id === event.target.value){
                 setDistrict(deliveryDetails[i].deliveryCharge)  
-                console.log(deliveryDetails[i])
             }
         }
-        console.log(districtvalue)
 
     };
 
@@ -114,9 +112,7 @@ export default function Checkout() {
     }
     const radioButtonChange = (event) => {
         setValue(event.target.value);
-        console.log(value)
         setPaymentMethod(event.target.value);
-        console.log(paymentMethod)
     }
     const checkedTerms = (event) => {
         setCheckedTermsCondition(event.target.checked)
@@ -178,11 +174,40 @@ export default function Checkout() {
         if (uid != '0' && checkedTermsCondition == true) {
             if (paymentMethod == "cash") {
                 paymentItem = createPaymentDetails(MASTER_DATA.cash_on_delivery, uid, MASTER_DATA.pending);
-                dispatch(actionSendToDB(paymentItem))
-                console.log(errorMsg)
+                ceylonforkapi.post("/check/cashOn/",paymentItem).then((response) => { 
+                    if (response.data.data==0) {
+                        setNotify({
+                            isOpen: true,
+                            message: 'Order is not successfully placed !',
+                            type: 'error'
+                          });
+                    } else {
+                        dispatch(actionDeleteItem(paymentItem))
+                        setNotify({
+                            isOpen: true,
+                            message: 'Order successfully placed. Order details will be sent your email !',
+                            type: 'success'
+                          });
+                    }
+                })
             } else if (paymentMethod == "bank") {
                 paymentItem = createPaymentDetails(MASTER_DATA.bank_tranfer, uid, MASTER_DATA.not_uploaded);
-                dispatch(actionSendToDB(paymentItem))
+                ceylonforkapi.post("/check/cashOn/",paymentItem).then((response) => { 
+                    if (response.data.data==0) {
+                        setNotify({
+                            isOpen: true,
+                            message: 'Order is not successfully placed !',
+                            type: 'error'
+                          });
+                    } else {
+                        dispatch(actionDeleteItem(paymentItem))
+                        setNotify({
+                            isOpen: true,
+                            message: 'Order successfully placed. Order details will be sent your email !',
+                            type: 'success'
+                          });
+                    }
+                })
             } else if (paymentMethod == "online") {
                 paymentItem = createPaymentDetails(MASTER_DATA.payhere, uid, MASTER_DATA.placed);
                 let payment = setPayment(paymentItem);
@@ -234,7 +259,22 @@ export default function Checkout() {
     window.payhere.onCompleted = function onCompleted(orderId) {
         console.log("Payment completed. OrderID:" + orderId);
         history.push("/Checkout");
-        dispatch(actionSendToDB(paymentItem))
+        ceylonforkapi.post("/check/cashOn/",paymentItem).then((response) => { 
+                    if (response.data.data==0) {
+                        setNotify({
+                            isOpen: true,
+                            message: 'Order is not successfully placed !',
+                            type: 'error'
+                          });
+                    } else {
+                        dispatch(actionDeleteItem(paymentItem))
+                        setNotify({
+                            isOpen: true,
+                            message: 'Order successfully placed. Order details will be sent your email !',
+                            type: 'success'
+                          });
+                    }
+                })
         
         //Note: validate the payment and show success or failure page to the customer
     };

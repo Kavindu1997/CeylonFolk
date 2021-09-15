@@ -61,7 +61,7 @@ const EditOrderForm = ({ selectedOrderToEdit }) => {
 
 
         axios.put("http://localhost:3001/order/updateOrder/",data).then((response) => {
-            if(response.data.error){
+            if(response.data.data==0){
                 setNotify({
                     isOpen: true,
                     message: 'Not successfully edited !',

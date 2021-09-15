@@ -17,54 +17,60 @@ router.get("/customer/:id", async (req, res) => {
 });
 
 router.post("/cashOn", async (req, res) => {
-    const uid = req.body.userId;
-    const oid = req.body.orderId;
-    const total = req.body.totalAmount;
-    const pmt = req.body.payment;
-    const stu = req.body.status;
-    const items = req.body.itemArray;
-    const add = req.body.delivery;
-    const date = req.body.placedDate;
-    const contactNo = req.body.phoneNo;
-    const name = req.body.name;
-    const email = req.body.email;
-    const payMethod = req.body.paymentMethod;
-    const specialNote = req.body.specialNote;
-    const query = "INSERT INTO orders (orderId,customerId,fullAmount,PaymentMethod,status, deliveryAddress,contactNo, placedDate,specialNotes,notifications) VALUES ('" + oid + "','" + uid + "','" + total + "','" + pmt + "','" + stu + "','" + add + "','" + contactNo + "','" + date + "','"+specialNote+"','placed')";
-    const cashOnOrder = await sequelize.query(query, { type: sequelize.QueryTypes.INSERT });
-    res.json(cashOnOrder);
-    for (let i = 0; i < items.length; i++) {
-        const query1 = "INSERT INTO orderitems (orderId, itemId, quantity, size) VALUES ('" + oid + "','" + items[i].itemId + "','" + items[i].quantity + "','" + items[i].size + "')";
-        const cashOrderItem = await sequelize.query(query1, { type: sequelize.QueryTypes.INSERT });
+    try{
+        const uid = req.body.userId;
+        const oid = req.body.orderId;
+        const total = req.body.totalAmount;
+        const pmt = req.body.payment;
+        const stu = req.body.status;
+        const items = req.body.itemArray;
+        const add = req.body.delivery;
+        const date = req.body.placedDate;
+        const contactNo = req.body.phoneNo;
+        const name = req.body.name;
+        const email = req.body.email;
+        const payMethod = req.body.paymentMethod;
+        const specialNote = req.body.specialNote;
+        const query = "INSERT INTO orders (orderId,customerId,fullAmount,PaymentMethod,status, deliveryAddress,contactNo, placedDate,specialNotes,notifications) VALUES ('" + oid + "','" + uid + "','" + total + "','" + pmt + "','" + stu + "','" + add + "','" + contactNo + "','" + date + "','"+specialNote+"','placed')";
+        const cashOnOrder = await sequelize.query(query, { type: sequelize.QueryTypes.INSERT });
+        res.json(cashOnOrder);
+        for (let i = 0; i < items.length; i++) {
+            const query1 = "INSERT INTO orderitems (orderId, itemId, quantity, size) VALUES ('" + oid + "','" + items[i].itemId + "','" + items[i].quantity + "','" + items[i].size + "')";
+            const cashOrderItem = await sequelize.query(query1, { type: sequelize.QueryTypes.INSERT });
+        }
+        console.log("mail function")
+        var emailDetails = {
+            name: name,
+            orderId: oid,
+            email: email,
+            message: 'Dear customer, <br />Your order has been successfully placed. Thank you for shopping with us.',
+            description: pmt,
+            url: '',
+            subject: 'CeylonFolk order confirmation',
+            total: total,
+            urlMsg: ''
+        }
+        if(payMethod==='bank'){
+            emailDetails.description = 'Bank Deposit <br /><br /> <b><u>Account Details</u></b><br />Bank: Sampath Bank <br />Account holder: CeylonFolk (Pvt) Ltd <br />Account number: 11223344889 <br />Branch: Kaduwela <br />';
+            emailDetails.urlMsg = 'Please upload your slip within 72 hours. After 72 hours the order might be cancelled. You can use a bank slip or a screenshot of the online transfer to confirm the payment. <br />Please contact us for any inquires: 011234789 <br />Upload the deposit slip: ';
+            emailDetails.url = 'http://localhost:3000/deposit?id='+uid+'&orderIdFromEmail='+oid+ '';
+        }else if(payMethod==='cash'){
+            emailDetails.description = 'Cash on Delivery';
+            emailDetails.urlMsg = 'To view your past order details';
+            emailDetails.url = 'http://localhost:3000/myOrders?id='+uid+'';
+        }else if(payMethod==='online'){
+            emailDetails.description = 'Online payment method';
+            emailDetails.urlMsg = 'To view your past order details';
+            emailDetails.url = 'http://localhost:3000/myOrders?id='+uid+'';
+        }
+       var value = sendEmail(emailDetails)
+        updateInventory(items)
+        res.json({data:1});
     }
-    console.log("mail function")
-    var emailDetails = {
-        name: name,
-        orderId: oid,
-        email: email,
-        message: 'Dear customer, <br />Your order has been successfully placed. Thank you for shopping with us.',
-        description: pmt,
-        url: '',
-        subject: 'CeylonFolk order confirmation',
-        total: total,
-        urlMsg: ''
+    catch(e){
+        res.json({data:0});
     }
-    if(payMethod==='bank'){
-        emailDetails.description = 'Bank Deposit <br /><br /> <b><u>Account Details</u></b><br />Bank: Sampath Bank <br />Account holder: CeylonFolk (Pvt) Ltd <br />Account number: 11223344889 <br />Branch: Kaduwela <br />';
-        emailDetails.urlMsg = 'Please upload your slip within 72 hours. After 72 hours the order might be cancelled. You can use a bank slip or a screenshot of the online transfer to confirm the payment. <br />Please contact us for any inquires: 011234789 <br />Upload the deposit slip: ';
-        emailDetails.url = 'http://localhost:3000/deposit?id='+uid+'&orderIdFromEmail='+oid+ '';
-    }else if(payMethod==='cash'){
-        emailDetails.description = 'Cash on Delivery';
-        emailDetails.urlMsg = 'To view your past order details';
-        emailDetails.url = 'http://localhost:3000/myOrders?id='+uid+'';
-    }else if(payMethod==='online'){
-        emailDetails.description = 'Online payment method';
-        emailDetails.urlMsg = 'To view your past order details';
-        emailDetails.url = 'http://localhost:3000/myOrders?id='+uid+'';
-    }
-   var value = sendEmail(emailDetails)
-    updateInventory(items)
-    res.json(cashOrderItem);
+  
 
 });
 

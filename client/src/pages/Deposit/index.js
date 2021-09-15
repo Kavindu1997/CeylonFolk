@@ -103,14 +103,27 @@ export default function Deposit(props) {
         };
         console.log(formData)
         axios.post("http://localhost:3001/depositCollection", formData, config).then((response) => {
-            alert('Image upload Successfull');
-            history.push("/myOrders")
-            localStorage.removeItem("orderIdFromEmail")
-            localStorage.removeItem("userIdFromMail")
-            formData.delete('photo');
-            props.location.search = null
-            dispatch(claerOrderDetails())
-            orderIdFromEmail = null;
+            if(response.data.data==0){
+                setNotify({
+                    isOpen: true,
+                    message: 'Slip is not successfully updated !',
+                    type: 'error'
+                  });
+            }else{
+                setNotify({
+                    isOpen: true,
+                    message: 'Slip is successfully updated !',
+                    type: 'success'
+                  }); 
+                localStorage.removeItem("orderIdFromEmail")
+                localStorage.removeItem("userIdFromMail")
+                formData.delete('photo');
+                props.location.search = null
+                dispatch(claerOrderDetails())
+                orderIdFromEmail = null;
+                history.push("/myOrders")
+            }
+            
         }).catch((err) => {
             console.log('err', err);
         })

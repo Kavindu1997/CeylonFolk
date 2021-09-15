@@ -1,6 +1,6 @@
 import { makeStyles } from '@material-ui/styles';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles1 = makeStyles((theme) => ({
     root: {
         display: 'flex',
         justifyContent: 'center',
@@ -27,27 +27,15 @@ const useStyles = makeStyles((theme) => ({
         display: "flex",
         padding: 8
     },
-    submit: {
-        marginTop: 30,
-        alignItems: "center",
-        // marginLeft: 600,
-    },
-    submit: {
-        marginTop: 30,
-        alignItems: "center",
-        // marginLeft: 600,
-    },
-    viewOrder: {
-        margin: "auto",
-        display: "auto",
-        alignItems: "center",
-        // marginLeft: 600,
-    },
     back: {
-        // marginRight: 50,
-        display: "auto",
-        // alignItems: "center",
-        marginLeft: 800,
+        marginTop: 30,
+        alignItems: "center",
+        // marginLeft: 600,
+    },
+    submit: {
+        marginTop: 30,
+        alignItems: "center",
+        // marginLeft: 600,
     },
     margin: {
         margin: theme.spacing(2),
@@ -62,35 +50,6 @@ const useStyles = makeStyles((theme) => ({
         marginLeft: '20px',
     },
 
-    stepperContainer:{
-        padding: '10px',
-    margin: '10px',
-    width: '50%',
-    marginTop: '100px',
-    backgroundColor: '#ebf9fd'
-
-    },
-    root: {
-        width: '100%',
-      },
-      backButton: {
-        marginRight: theme.spacing(1),
-      },
-      instructions: {
-        marginTop: theme.spacing(1),
-        marginBottom: theme.spacing(1),
-      },
-
-    quantity: {
-        display: 'none'
-      },
-      activeQuantity: {
-        display: 'block',
-      },
-      visibility:{
-        display: 'none'
-    },
-
 }));
 
-export default useStyles;
+export default useStyles1;

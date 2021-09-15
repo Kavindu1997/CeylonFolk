@@ -327,7 +327,7 @@ export default function Product_detail() {
                   <Box>
                     <Typography className={classes.productTitle}>{design_name}</Typography>
                     <Typography className={classes.productPrice}>{"LKR " + price + '.00'}</Typography>
-                    <Box><Typography className={classes.productColor}>COLOR</Typography></Box>
+                    {/* <Box><Typography className={classes.productColor}>COLOR</Typography></Box> */}
                     <Box>
                       <Box style={{ display: 'flex' }}>
                         <label style={{ cursor: 'pointer' }}>

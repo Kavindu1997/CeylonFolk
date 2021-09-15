@@ -33,33 +33,12 @@ export default function Checkout() {
 
     const dispatch = useDispatch();
 
-    const [cutomerAddress1, setOfAddress1] = useState([]);
-    const [cutomerAddress2, setOfAddress2] = useState([]);
-    const [cutomerAddress3, setOfAddress3] = useState([]);
     const [cutomerPhoneNumber, setOfPhoneNumber] = useState();
-    const [cutomerDeliveryAdd, setOfDeliveryAdd] = useState([]);
-    const [isDeliveryDiffAdd, setIsDiffDeliveryAdd] = useState([]);
-    const [paymentMethod, setPaymentMethod] = useState([]);
     const [customerEmail, setCustomerEmail] = useState([]);
-    const [checkedTermsCondition, setCheckedTermsCondition] = useState([]);
-    const [customerName, setCustomerName] = useState([]);
-    const [value, setValue] = React.useState('payment');
-    let paymentItem;
     const customerDetails = useSelector((state) => state.checkout.detail)
-    const deliveryDetails = useSelector((state) => state.checkout.delivery)
-    const itemDetails = useSelector((state) => state.cart.cart)
-    const totalDetails = useSelector(state => state.cart.totalAmount)
-    const [districtvalue, setDistrict] = useState([]);
-    const [districtNameValue, setDistrictNameValue] = useState([]);
-
-    const [add1Error, setAdd1Error] = useState(false);
     const [add2Error, setAdd2Error] = useState(false);
     const [phonneNoError, setphonneNoError] = useState(false)
-
-    const [cityError, setCityError] = useState(false);
-    const [districtError, setDistrictError] = useState(false);
     const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' });
-
     const [fName, setFName] = useState();
     const [lName, setLName] = useState();
     const [currentPw, setCurrentPw] = useState([]);
@@ -102,13 +81,6 @@ export default function Checkout() {
 
     const handlePassword = (event) => {
         setState({ ...state, [event.target.name]: event.target.checked });
-        console.log(event.target.checked)
-        console.log(state)
-        // if(event.target.checked == true) {
-        //     setIsDisabled(false)
-        // }else{
-        //     setIsDisabled(true)
-        // }
       };
 
     const [currentPWvalidation, setCurrentPWvalidation] = useState(false)
@@ -159,7 +131,6 @@ export default function Checkout() {
 
     function editConfirmation() {
         const uid = localStorage.getItem("userId")
-        console.log("we are here", fName, lName)
         var data = {
             uid: uid,
             firstName: fName === undefined ? customerDetails[0].firstName : fName,
@@ -169,8 +140,7 @@ export default function Checkout() {
             shouldchangeps: state.checkedB?1:0
         }
         axios.put('http://localhost:3001/profileroute/updateUser', data).then((response) => {
-            console.log(response.data.data)
-            if (response.data.error) {
+            if (response.data.data==0) {
                 setNotify({
                     isOpen: true,
                     message: 'Not successful. Please try again later !',
@@ -266,8 +236,8 @@ export default function Checkout() {
                                                 defaultValue={value.contactNo}
                                                 autoComplete="number"
                                                 error={phonneNoError}
-
                                             />
+                                            <Typography style={{ display: phonneNoError==true?'block':'none', fontFamily: 'Montserrat', color: 'red', marginRight:'310px',fontSize:'10px' }}>*Contact number is not valid*</Typography>
                                             
                                             <FormControlLabel
                                                 control={
@@ -283,8 +253,6 @@ export default function Checkout() {
                                       />
                                       <div className={state.checkedB==false?classes.visibility:classes.noVisibility}>
                                             <Typography component="h1" variant="h6" style={{ fontFamily: 'Montserrat', marginTop: '20px', marginBottom: '10px' }}>Password Change</Typography>
-                                          
-                                          
                                             <TextField
                                                 type="password"
                                                 onChange={setCurrentPW}
@@ -298,6 +266,7 @@ export default function Checkout() {
                                                 defaultValue={currentPw}
                                                 error={currentPWvalidation}
                                             />
+                                            <Typography style={{ display: currentPWvalidation==true?'block':'none', fontFamily: 'Montserrat', color: 'red', marginRight:'280px',fontSize:'10px' }}>*Current password is not matched*</Typography>
                                             <TextField
                                                 disabled={currentPWvalidation}
                                                 type="password"
@@ -311,6 +280,7 @@ export default function Checkout() {
                                                 defaultValue={newPw}
                                                 error={add2Error}
                                             />
+                                            <Typography style={{ display: add2Error==true?'block':'none', fontFamily: 'Montserrat', color: 'red', marginRight:'210px',fontSize:'10px' }}>*Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character*</Typography>
                                             <TextField
                                                 disabled={currentPWvalidation}
                                                 type="password"
@@ -325,7 +295,7 @@ export default function Checkout() {
                                                 defaultValue={confirmPw}
                                                 error={newPWmatched}
                                             />
-
+                                            <Typography style={{ display: newPWmatched==true?'block':'none', fontFamily: 'Montserrat', color: 'red', marginRight:'210px',fontSize:'10px' }}>*Confirmation is not matched to new password*</Typography>
                                             </div>
 
                                         </form>
