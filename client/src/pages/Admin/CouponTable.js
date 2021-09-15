@@ -19,22 +19,31 @@ import AdminNav from "../../components/Reusable/AdminNav"
 import Lottie from 'react-lottie';
 import Coupon from '../../images/coupon.json';
 import {fetchCoupons,createCoupon,deleteCoupon,updateCoupon } from '../../_actions/couponAction';
+import axios from 'axios';
 
 
 const headCells=[
-    {id:'coupon_id',label:'Coupon Id',disableSorting:true},
-    {id:'coupon_title',label:'Coupon Title',disableSorting:true},
+    {id:'coupon_name',label:'Coupon Name'},
+    {id:'discount_amount',label:'Discount Amount'},
+    {id:'start_date',label:'Start Date'},
+    {id:'end_date',label:'End Date'},
     {id:'options',label:'Options',disableSorting:true},
 ]
 
 
 const CouponTable = () => {
     const classes=useStyles();
-    const couponRecords=useSelector((state)=>state.couponReducer.coupons);
-    const dispatch=useDispatch();
+    const [records,setRecords]=useState([]);
     useEffect(()=>{
-       dispatch(fetchCoupons());
+        axios.get("http://localhost:3001/coupons/").then((response)=>{
+                  setRecords(response.data);
+        });
     },[]);
+    // const couponRecords=useSelector((state)=>state.couponReducer.coupons);
+    // const dispatch=useDispatch();
+    // useEffect(()=>{
+    //    dispatch(fetchCoupons());
+    // },[]);
     const [recordForEdit, setRecordForEdit] = useState(null)
     const [filterFn, setFilterFn] = useState({ fn: items => { return items; } });
     const [openPopup, setOpenPopup] = useState(false);
@@ -46,7 +55,7 @@ const CouponTable = () => {
         TblHead,
         TblPagination,
         recordsAfterPagingAndSorting
-    } = useTable(couponRecords, headCells, filterFn);
+    } = useTable(records, headCells, filterFn);
 
     const handleSearch = e => {
         let target = e.target;
@@ -55,19 +64,27 @@ const CouponTable = () => {
                 if (target.value === "")
                     return items;
                 else
-                    return items.filter(x => x.coupon_title.toLowerCase().includes(target.value))
+                    return items.filter(x => x.coupon_name.toLowerCase().includes(target.value))
             }
         })
     }
 
     const addOrEdit = (data, resetForm) => {
         if (data.id === 0){
-         dispatch(createCoupon(data));
+            axios.post("http://localhost:3001/coupons/", data).then(() => {
+                axios.get("http://localhost:3001/coupons/").then((response)=>{
+                    setRecords(response.data);
+                });
+         });
+        //dispatch(createCoupon(data));
         // window.location.reload(true);
          resetForm();
          setRecordForEdit(null);
          setOpenPopup(false);
-         dispatch(fetchCoupons());
+        // dispatch(fetchCoupons());
+        axios.get("http://localhost:3001/coupons/").then((response)=>{
+            setRecords(response.data);
+            });
          setNotify({
              isOpen: true,
              message: 'Added Successfully !',
@@ -76,16 +93,24 @@ const CouponTable = () => {
         
         }else{
        // dispatch(updateCoupon(data,data.id));
+       axios.put(`/coupons/${data.id}`,data).then(() => {
+        axios.get("http://localhost:3001/coupons/").then((response)=>{
+            setRecords(response.data);
+        });
+    });;
         resetForm();
         setRecordForEdit(null);
-        setOpenPopup(false);
-        dispatch(fetchCoupons());
+        setOpenEditPopup(false);
+        //dispatch(fetchCoupons());
+        axios.get("http://localhost:3001/coupons/").then((response)=>{
+            setRecords(response.data);
+            });
         setNotify({
             isOpen: true,
             message: 'Edited Successfully !',
             type: 'info'
         });
-        window.location.reload(true);
+        //window.location.reload(true);
     }
     }
     const openInPopup = item => {
@@ -100,7 +125,12 @@ const CouponTable = () => {
         });
      
       //  dispatch(deleteCoupon(id));
-        window.location.reload(true);
+      //   window.location.reload(true);
+      axios.delete(`http://localhost:3001/coupons/${id}`).then(()=>{
+        axios.get("http://localhost:3001/coupons/").then((response)=>{
+        setRecords(response.data);
+    }); //refresh the records array
+    });
         setNotify({
             isOpen: true,
             message: 'Removed Successfully !',
@@ -108,6 +138,7 @@ const CouponTable = () => {
         });
 
     }
+
     const defaultOptions = {
         loop: true,
         autoplay: true,
@@ -125,7 +156,7 @@ const CouponTable = () => {
             icon={<LoyaltyIcon fontSize="large"/>}
             />
 
-        <Lottie options={defaultOptions} height={150} width={150} style={{marginTop:'-150px',marginRight:'30px'}} />
+        {/* <Lottie options={defaultOptions} height={150} width={150} style={{marginTop:'-150px',marginRight:'30px'}} /> */}
 
         <Paper className={classes.pageContent}>
          
@@ -156,9 +187,11 @@ const CouponTable = () => {
                         <TableBody>
                             {
                                 recordsAfterPagingAndSorting().map(item => (
-                                    <TableRow key={item.coupon_id}>
-                                        <TableCell>{item.coupon_id}</TableCell>
-                                        <TableCell>{item.coupon_title}</TableCell>
+                                    <TableRow key={item.id}>
+                                        <TableCell>{item.coupon_name}</TableCell>
+                                        <TableCell>{item.discount_amount}</TableCell>
+                                        <TableCell>{item.start_date.substring(0, 10)}</TableCell>
+                                        <TableCell>{item.end_date.substring(0, 10)}</TableCell>
                                         <TableCell>
                                             
                                          

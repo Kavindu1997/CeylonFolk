@@ -42,7 +42,10 @@ const useStyles = makeStyles((theme) => ({
         marginLeft: '24px',
         marginRight: '10px',
         fontWeight: '300',
-        visibility: 'visible'
+        visibility: 'visible',
+        '&:hover': {
+            background: 'none',
+        }
     },
     iconCart: {
         color: 'black',
@@ -58,9 +61,9 @@ const useStyles = makeStyles((theme) => ({
         marginLeft: '5px',
         marginRight: '10px',
         fontWeight: '300',
-        visibility: 'visible'
+        visibility: 'visible',
     },
-    visibility:{
+    visibility: {
         visibility: 'hidden'
     },
     navlinkvisibility: {
@@ -153,18 +156,18 @@ const useStyles = makeStyles((theme) => ({
 
     count: {
         top: '4%',
-    right: '7.2%',
-    height: '25px',
-    width: "25px",
-    /* margin: 3px; */
-    verticalAlign: 'middle',
-    justifyContent: 'center',
-    textAlign: 'center',
-    padding: '2px',
-    position: 'absolute',
-    background: '#020303',
-    borderRadius: '50%',
-    color: 'white',
+        right: '7.2%',
+        height: '25px',
+        width: "25px",
+        /* margin: 3px; */
+        verticalAlign: 'middle',
+        justifyContent: 'center',
+        textAlign: 'center',
+        padding: '2px',
+        position: 'absolute',
+        background: '#020303',
+        borderRadius: '50%',
+        color: 'white',
     }
 
 }))
@@ -243,7 +246,7 @@ const CommonNav = (props) => {
                                 endicon={<KeyboardArrowDownIcon>
                                     fontSize="0.5rem"
                                 </KeyboardArrowDownIcon>}
-                                >
+                            >
                                 Shop
                             </Typography>
                         </NavLink>
@@ -257,25 +260,24 @@ const CommonNav = (props) => {
                     </div>
 
                     <div style={{ paddingLeft: '106px' }}>
-                        <NavLink to={"/shop"}><SearchOutlinedIcon className={classes.icon} /></NavLink>
                         <NavLink to={"/wishlist"}><FavoriteBorderOutlinedIcon className={classes.icon} /></NavLink>
 
                         <NavLink to={"/cart"}><LocalMallOutlinedIcon className={classes.iconCart} /><span className={classes.count}>
                             {cartcount}</span>
                         </NavLink>
-                    
-                            <Button
-                                ref={anchorRef}
-                                aria-controls={open ? 'menu-list-grow' : undefined}
-                                aria-haspopup="true"
-                                onClick={handleToggle}
-                                className={classes.icon}
-                                
-                            >
-                                 <NavLink to={"/auth"} className={localStorage.getItem("userId")=='0'?classes.navlinkvisibilityTrue:classes.navlinkvisibility}><PermIdentityOutlinedIcon className={classes.iconLogin} /></NavLink>
-                                {/* <Avatar>JP</Avatar> */}
-                            </Button>
-                            <div  className={localStorage.getItem("userId")=='0'? classes.visibility: classes.icon}>
+
+                        <Button
+                            ref={anchorRef}
+                            aria-controls={open ? 'menu-list-grow' : undefined}
+                            aria-haspopup="true"
+                            onClick={handleToggle}
+                            className={classes.icon}
+
+                        >
+                            <NavLink to={"/auth"} className={localStorage.getItem("userId") == '0' ? classes.navlinkvisibilityTrue : classes.navlinkvisibility}><PermIdentityOutlinedIcon className={classes.iconLogin} /></NavLink>
+                            {/* <Avatar>JP</Avatar> */}
+                        </Button>
+                        <div className={localStorage.getItem("userId") == '0' ? classes.visibility : classes.icon}>
                             <Popper open={open} anchorEl={anchorRef.current} role={undefined} transition disablePortal>
                                 {({ TransitionProps, placement }) => (
                                     <Grow
@@ -284,7 +286,7 @@ const CommonNav = (props) => {
                                     >
                                         <Paper>
                                             <ClickAwayListener onClickAway={handleClose}>
-                                               
+
                                                 <MenuList autoFocusItem={open} id="menu-list-grow" onKeyDown={handleListKeyDown}>
                                                     <NavLink to={"/profile"} style={{ textDecoration: 'none' }}><MenuItem onClick={handleClose} style={{ fontWeight: '600', fontSize: '15px', color: 'black' }}>My Account</MenuItem></NavLink>
                                                     <NavLink to={"/myOrders"} style={{ textDecoration: 'none' }}><MenuItem onClick={handleClose} style={{ fontWeight: '600', fontSize: '15px', color: 'black' }}>Order History</MenuItem></NavLink>
@@ -293,15 +295,15 @@ const CommonNav = (props) => {
                                                     <NavLink to={"/custcustomizeOrders"} style={{ textDecoration: 'none' }}><MenuItem onClick={handleClose} style={{ fontWeight: '600', fontSize: '15px', color: 'black' }}>Customerize Orders</MenuItem></NavLink>
                                                     <NavLink to={"/auth"} style={{ textDecoration: 'none' }} onClick={onLogout}><MenuItem onClick={handleClose} style={{ fontWeight: '600', fontSize: '15px', color: 'black' }}>Logout</MenuItem></NavLink>
                                                 </MenuList>
-                                               
-                                       
+
+
                                             </ClickAwayListener>
                                         </Paper>
                                     </Grow>
                                 )}
                             </Popper>
-                            </div>
                         </div>
+                    </div>
                 </Toolbar>
 
             </AppBar>

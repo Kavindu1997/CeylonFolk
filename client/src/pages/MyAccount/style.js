@@ -44,6 +44,7 @@ const useStyles = makeStyles((theme) => ({
         fontSize: '3.0em',
         marginLeft: '20px',
     },
+
     visibility:{
         display: 'none'
     },

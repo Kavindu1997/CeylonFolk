@@ -77,11 +77,17 @@ export default function Checkout() {
 
     const [state, setState] = React.useState({
         checkedB: false,
-      });
+    });
 
     const handlePassword = (event) => {
         setState({ ...state, [event.target.name]: event.target.checked });
-      };
+
+        // if(event.target.checked == true) {
+        //     setIsDisabled(false)
+        // }else{
+        //     setIsDisabled(true)
+        // }
+    };
 
     const [currentPWvalidation, setCurrentPWvalidation] = useState(false)
     const setCurrentPW = (event) => {
@@ -135,9 +141,9 @@ export default function Checkout() {
             uid: uid,
             firstName: fName === undefined ? customerDetails[0].firstName : fName,
             lastName: lName === undefined ? customerDetails[0].lastName : lName,
-            contactNo: cutomerPhoneNumber==undefined?customerDetails[0].contactNo:cutomerPhoneNumber,
-            password: confirmPw, 
-            shouldchangeps: state.checkedB?1:0
+            contactNo: cutomerPhoneNumber == undefined ? customerDetails[0].contactNo : cutomerPhoneNumber,
+            password: confirmPw,
+            shouldchangeps: state.checkedB ? 1 : 0
         }
         axios.put('http://localhost:3001/profileroute/updateUser', data).then((response) => {
             if (response.data.data==0) {
@@ -154,9 +160,9 @@ export default function Checkout() {
                 });
                 setTimeout(() => {
                     window.location.reload(true)
-                },)
+                })
             }
-            
+
 
         })
     }
@@ -237,6 +243,7 @@ export default function Checkout() {
                                                 autoComplete="number"
                                                 error={phonneNoError}
                                             />
+
                                             <Typography style={{ display: phonneNoError==true?'block':'none', fontFamily: 'Montserrat', color: 'red', marginRight:'310px',fontSize:'10px' }}>*Contact number is not valid*</Typography>
                                             
                                             <FormControlLabel
@@ -296,6 +303,7 @@ export default function Checkout() {
                                                 error={newPWmatched}
                                             />
                                             <Typography style={{ display: newPWmatched==true?'block':'none', fontFamily: 'Montserrat', color: 'red', marginRight:'210px',fontSize:'10px' }}>*Confirmation is not matched to new password*</Typography>
+
                                             </div>
 
                                         </form>
