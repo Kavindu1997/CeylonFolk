@@ -56,8 +56,8 @@ const Shop = () => {
     const [Size, setSize] = useState("");
     var [products, setRecord] = useState([]);
 
-    const check=1;
-   
+    const check = 1;
+
     const onCollection = (e) => {
         setCollection(e.target.value);
     };
@@ -226,7 +226,6 @@ const Shop = () => {
         // dispatch(fetchColors());
     }, []);
 
-    let history = useHistory()
 
     return (
         <div>
@@ -327,8 +326,8 @@ const Shop = () => {
                 <Container className={classes.collectionContainer} maxWidth="lg">
                     <Grid container spacing={0}>
 
-                        {products.map((product,index) => {
-                            const { id, coverImage, design_name, price,isInWishList } = product;
+                        {products.map((product, index) => {
+                            const { id, coverImage, design_name, price, isInWishList } = product;
 
                             return (
                                 <Grid item xs={12} sm={6} md={3}>
@@ -411,8 +410,8 @@ const Shop = () => {
             <Notification notify={notify} setNotify={setNotify} />
         </div>
 
-        
-        
+
+
     );
 };
 
