@@ -70,7 +70,7 @@ function Registration() {
 
                 localStorage.setItem("userId", response.data[0].id);
                 localStorage.setItem("fullname", response.data[0].firstName + ' ' + response.data[0].lastName)
-                localStorage.setItem("userEmail", response.data.email);
+                localStorage.setItem("userEmail", response.data[0].email);
 
                 if (localStorage.getItem("fromTheCart") == "true") {
                     history.push("/cart");

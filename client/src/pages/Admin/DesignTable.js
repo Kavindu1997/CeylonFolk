@@ -17,7 +17,7 @@ import AdminNav from "../../components/Reusable/AdminNav"
 import useStyles from './style';
 import axios from 'axios';
 import { actionDeleteCollection } from '../../_actions/collections';
-import { useDispatch, useSelector} from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from 'react-router-dom';
 import DesignEdit from "./EditDesignForm";
 

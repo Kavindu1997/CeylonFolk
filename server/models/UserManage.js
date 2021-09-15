@@ -21,13 +21,13 @@ module.exports = (sequlize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false,
         },
-        gender:{
-            type:DataTypes.ENUM('Male','Female','Other'),
-            allowNull:false,
+        gender: {
+            type: DataTypes.ENUM('Male', 'Female', 'Other'),
+            allowNull: false,
         },
-        user_type:{
-            type:DataTypes.ENUM('Admin','Manager','Assistant','Customer'),
-            allowNull:false,
+        user_type: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
         }
     });
 
