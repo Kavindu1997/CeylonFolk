@@ -65,6 +65,7 @@ import ForgotPassword from './pages/Authentication/ForgotPassword';
 import NewPassword from './pages/Authentication/NewPassword';
 
 import Profile1 from './pages/MyAccount/index2';
+import InhouseOrderTable from './pages/Admin/InhouseOrders/InhouseOrderTable';
 
 
 
@@ -132,43 +133,43 @@ const theme = createMuiTheme({
 
 class App extends Component {
   render() {
-  return (
-   <StoreProvider>
-    <ThemeProvider theme={theme}>
-      <BrowserRouter>
-        <Switch>
-          <Route exact path={"/"}  component = {Home} />
-          <Route exact path="/shop" component = {Shop} />
-          <Route exact path="/contactus" component = {Contactus} />
-          <Route path="/auth" exact render={() => < Authentication />} />
-          <Route exact path={"/cart"} component = {MyCart} />
-          <Route exact path={"/productDetails/:id"} component = {Product_detail} />
-          <Route exact path={"/deposit"} component = {Deposit} />
-          <Route exact path={"/deposit/:id/:orderIdFromEmail"} component = {Deposit} />
-          <Route exact path={"/profile1"} component = {Profile} />
-          <Route exact path={"/profile"} component = {Profile1} />
-          <Route exact path={"/myOrders"} component = {OrderHistory} />
-          <Route exact path={"/myOrders/:id"} component = {OrderHistory} />
-          <Route exact path={"/orderDetail/:oId"} component = {OrderDetail} />
-          <Route exact path={"/myWishlist"} component = {ProfileWishlist} />
-          <Route path="/admin" exact render={() => <AdminPanel />} />
-          <Route path="/users" exact render={() => <Users />} />
-          <Route path="/collections" exact render={() => <Collections />} />
-          <Route path="/inquiries" exact render={() => <Inquiries />} />
-          <Route path="/resolvedinquiries" exact render={() => <ResolvedInquiries />} />
-          <Route path="/designs" exact render={() => <Designs />} />
-          <Route path="/inventory" exact render={() => <Inventory />} />
-          <Route path="/coupon" exact render={() => <Coupon />} />
-          <Route path="/offers" exact render={() => <Offers />} />
-          <Route path="/availableColors" exact render={() => <AvailableColors />} />
-          <Route path="/availableSizes" exact render={() => <AvailableSizes  />} />
-          <Route path="/availableTypes" exact render={() => <AvailableTypes  />} />
-          <Route path="/viewDesigns" exact render={() => <ViewDesigns  />} />
-          <Route path="/checkout" exact render={() => <Checkout />} />
-          <Route path="/wishlist" exact render={() => <Wishlist />} />
-          <Route path="/aboutUs" exact render={() => <About />} />
-         
-          {/* <Route path="/profile" exact render={() => <Profile />} />
+    return (
+      <StoreProvider>
+        <ThemeProvider theme={theme}>
+          <BrowserRouter>
+            <Switch>
+              <Route exact path={"/"} component={Home} />
+              <Route exact path="/shop" component={Shop} />
+              <Route exact path="/contactus" component={Contactus} />
+              <Route path="/auth" exact render={() => < Authentication />} />
+              <Route exact path={"/cart"} component={MyCart} />
+              <Route exact path={"/productDetails/:id"} component={Product_detail} />
+              <Route exact path={"/deposit"} component={Deposit} />
+              <Route exact path={"/deposit/:id/:orderIdFromEmail"} component={Deposit} />
+              <Route exact path={"/profile1"} component={Profile} />
+              <Route exact path={"/profile"} component={Profile1} />
+              <Route exact path={"/myOrders"} component={OrderHistory} />
+              <Route exact path={"/myOrders/:id"} component={OrderHistory} />
+              <Route exact path={"/orderDetail/:oId"} component={OrderDetail} />
+              <Route exact path={"/myWishlist"} component={ProfileWishlist} />
+              <Route path="/admin" exact render={() => <AdminPanel />} />
+              <Route path="/users" exact render={() => <Users />} />
+              <Route path="/collections" exact render={() => <Collections />} />
+              <Route path="/inquiries" exact render={() => <Inquiries />} />
+              <Route path="/resolvedinquiries" exact render={() => <ResolvedInquiries />} />
+              <Route path="/designs" exact render={() => <Designs />} />
+              <Route path="/inventory" exact render={() => <Inventory />} />
+              <Route path="/coupon" exact render={() => <Coupon />} />
+              <Route path="/offers" exact render={() => <Offers />} />
+              <Route path="/availableColors" exact render={() => <AvailableColors />} />
+              <Route path="/availableSizes" exact render={() => <AvailableSizes />} />
+              <Route path="/availableTypes" exact render={() => <AvailableTypes />} />
+              <Route path="/viewDesigns" exact render={() => <ViewDesigns />} />
+              <Route path="/checkout" exact render={() => <Checkout />} />
+              <Route path="/wishlist" exact render={() => <Wishlist />} />
+              <Route path="/aboutUs" exact render={() => <About />} />
+
+              {/* <Route path="/profile" exact render={() => <Profile />} />
 
           <Route path="/myWishlist" exact render={() => <ProfileWishlist />} />
           <Route path="/myOrders" exact render={() => <OrderHistory />} /> */}
@@ -179,6 +180,7 @@ class App extends Component {
           <Route path="/designs" exact render={() => <Design />} />  */}
               <Route exact path="/forgotPassword" component={ForgotPassword} />
               <Route exact path="/reset/:token" component={NewPassword} />
+              <Route exact path="/inhouseOrders" component={InhouseOrderTable} />
 
               <Route path="/customize" exact render={() => <Customize />} />
               <Route path="/termnconditions" exact render={() => <Termnconditions />} />
@@ -199,6 +201,7 @@ class App extends Component {
               <Route exact path={"/types/:id"} component={Types} />
               <Route exact path={"/orderView/:id"} component={OrderView} />
               <Route exact path={"/customize/checkout/:id"} component={CustomizeCheckout} />
+
               <Route path="/*" exact render={() => <NotFound />} />
             </Switch>
           </BrowserRouter>

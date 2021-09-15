@@ -18,6 +18,7 @@ import AccountBalanceIcon from '@material-ui/icons/AccountBalance';
 
 import LocalOfferIcon from '@material-ui/icons/LocalOffer';
 import ContactSupportIcon from '@material-ui/icons/ContactSupport';
+import ViewListIcon from '@material-ui/icons/ViewList';
 
 
 export const mainListItems = (
@@ -82,7 +83,12 @@ export const mainListItems = (
       </ListItemIcon>
       <ListItemText primary="Available Types" />
     </ListItem>
-
+    <ListItem button component={Link} to="/inhouseOrders">
+      <ListItemIcon>
+        <ViewListIcon />
+      </ListItemIcon>
+      <ListItemText primary="Inhouse Orders" />
+    </ListItem>
     <ListItem button component={Link} to="/customizeOrders">
       <ListItemIcon>
         <ListAltIcon />
@@ -95,7 +101,7 @@ export const mainListItems = (
       </ListItemIcon>
       <ListItemText primary="Bank Deposit Slips" />
     </ListItem>
-    
+
     <ListItem button component={Link} to="/inquiries">
       <ListItemIcon>
         <ContactSupportIcon />
