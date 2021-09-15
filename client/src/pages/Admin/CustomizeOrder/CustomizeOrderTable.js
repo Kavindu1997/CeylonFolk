@@ -23,7 +23,7 @@ import AdvancePaidOrders from "./AdvancePaidOrders";
 
 
 const CustomizeOrderTable = () => {
-    
+
     const classes = useStyles();
     const [openPopup, setOpenPopup] = useState(false);
     const [openRejectPopup, setOpenRejectPopup] = useState(false);
@@ -40,7 +40,7 @@ const CustomizeOrderTable = () => {
     });
     const [listOfOrderDetails, setlistOfOrderDetails] = useState([]);
     const [price, setprice] = useState()
-    
+
     const dispatch = useDispatch();
 
 
@@ -68,7 +68,7 @@ const CustomizeOrderTable = () => {
             email: email
         }
 
-        axios.put('http://localhost:3001/customizeOrders/orderAccepted/',data).then((response) => {
+        axios.put('http://localhost:3001/customizeOrders/orderAccepted/', data).then((response) => {
             console.log(response.data);
             alert('Order Accepted')
             // setlistOfOrderDetails(response.data);
@@ -83,9 +83,9 @@ const CustomizeOrderTable = () => {
 
     const toggleTab = (index) => {
         setToggleState(index);
-      };
+    };
 
-      const openInPopup = (item) => {
+    const openInPopup = (item) => {
         // setRecordForEdit(item);
         setOpenPopup(true);
     };
@@ -98,10 +98,10 @@ const CustomizeOrderTable = () => {
             <main className={classes.content}>
 
                 <PageHeader title="CustomizedOrders" icon={<LayersIcon fontSize="large" />} />
-                
+
                 <Paper className={classes.pageContent}>
 
-                
+
 
                     <Toolbar>
                         <Controls.Input
@@ -120,8 +120,8 @@ const CustomizeOrderTable = () => {
 
                     <Typography variant="h5" style={{ marginTop: '80px', textAlign: 'center', backgroundColor: '#C6C6C6', padding: '30px', fontFamily: 'Montserrat' }}>CUSTOMIZED ORDERS </Typography>
 
-                    <Box style={{display:'flex', padding: '24px 10px 0px 48px'}}>
-                    <Divider orientation="vertical" flexItem />
+                    <Box style={{ display: 'flex', padding: '24px 10px 0px 48px' }}>
+                        <Divider orientation="vertical" flexItem />
                         <Button onClick={() => toggleTab(1)}>Pending Orders</Button>
                         <Divider orientation="vertical" flexItem />
                         <Button onClick={() => toggleTab(2)}>Accepted Orders</Button>
@@ -141,9 +141,9 @@ const CustomizeOrderTable = () => {
 
                     <container>
                         <center>
-                            
+
                             <TableContainer style={{ marginTop: '30px', align: 'center', width: '1200px' }} className={toggleState === 1 ? classes.activeContent : classes.hideContent}>
-                                <Table className={classes.table} aria-label="simple table">
+                                <Table aria-label="simple table">
                                     <TableHead>
                                         <TableRow>
                                             <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Customer ID</TableCell>
@@ -156,55 +156,55 @@ const CustomizeOrderTable = () => {
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                    {listOfOrderDetails
+                                        {listOfOrderDetails
                                             .map((value) => {
                                                 return (
 
-                                        
+
                                                     <TableRow>
                                                         <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.customerId}</TableCell>
                                                         <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.orderId}</TableCell>
                                                         <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.status}</TableCell>
-                                                        <TableCell align="center" style={{ fontFamily: 'Montserrat' }}><img height={100} align="center" src={'http://localhost:3001/' + value.image} alt=""></img></TableCell>                                                       
+                                                        <TableCell align="center" style={{ fontFamily: 'Montserrat' }}><img height={100} align="center" src={'http://localhost:3001/' + value.image} alt=""></img></TableCell>
                                                         <TableCell align="center">
-                                                            <Button name="view" 
-                                                            onClick={() => window.location.href = "http://localhost:3001/" + value.image}
-                                                            style={{backgroundColor:'black', color:'white'}}
+                                                            <Button name="view"
+                                                                onClick={() => window.location.href = "http://localhost:3001/" + value.image}
+                                                                style={{ backgroundColor: 'black', color: 'white' }}
                                                             >
                                                                 VIEW DESIGN
                                                             </Button>
-                                                            
+
                                                         </TableCell>
                                                         <TableCell align="center">
-                                                            <Button name="accept" 
-                                                            className={value.status === 'Pending' ? classes.activeQuantity : classes.quantity}
-                                                            style={{backgroundColor:'green', color:'white'}}
-                                                            onClick={() => {
-                                                                
-                                                                setOpenPopup(true);
-                                                            }}
+                                                            <Button name="accept"
+                                                                className={value.status === 'Pending' ? classes.activeQuantity : classes.quantity}
+                                                                style={{ backgroundColor: 'green', color: 'white' }}
+                                                                onClick={() => {
+
+                                                                    setOpenPopup(true);
+                                                                }}
                                                             >
                                                                 ACCEPT ORDER
                                                             </Button>
                                                         </TableCell>
                                                         <TableCell align="center">
-                                                            <Button name="accept" 
-                                                            className={value.status === 'Pending' ? classes.activeQuantity : classes.quantity}
-                                                            style={{backgroundColor:'red', color:'white'}}
-                                                            
-                                                            onClick={() => {
-                                                                
-                                                                setOpenRejectPopup(true);
-                                                            }}
+                                                            <Button name="accept"
+                                                                className={value.status === 'Pending' ? classes.activeQuantity : classes.quantity}
+                                                                style={{ backgroundColor: 'red', color: 'white' }}
+
+                                                                onClick={() => {
+
+                                                                    setOpenRejectPopup(true);
+                                                                }}
                                                             >
                                                                 REJECT ORDER
                                                             </Button>
                                                         </TableCell>
 
                                                         <Popup
-                                                        title="Send the Estimated Price"
-                                                        openPopup={openPopup}
-                                                        setOpenPopup={setOpenPopup}
+                                                            title="Send the Estimated Price"
+                                                            openPopup={openPopup}
+                                                            setOpenPopup={setOpenPopup}
                                                         >
                                                             <Grid item xs={6}>
                                                                 <Controls.Input
@@ -228,9 +228,9 @@ const CustomizeOrderTable = () => {
                                                         </Popup>
 
                                                         <Popup
-                                                        title="Reason for the rejection"
-                                                        openPopup={openRejectPopup}
-                                                        setOpenPopup={setOpenRejectPopup}
+                                                            title="Reason for the rejection"
+                                                            openPopup={openRejectPopup}
+                                                            setOpenPopup={setOpenRejectPopup}
                                                         >
                                                             <Grid item xs={6}>
                                                                 <Controls.Input
@@ -244,20 +244,20 @@ const CustomizeOrderTable = () => {
                                                                 <Controls.Button
                                                                     type="submit"
                                                                     text="Send Price"
-                                                                    // onClick={() => {
-                                                                    //     onAccept(value.orderId)
-                                                                    // }}
+                                                                // onClick={() => {
+                                                                //     onAccept(value.orderId)
+                                                                // }}
                                                                 />
                                                             </Grid>
                                                         </Popup>
-                                                        
+
                                                     </TableRow>
 
-                                                    
 
-);
-})}
-                                                
+
+                                                );
+                                            })}
+
                                     </TableBody>
                                 </Table>
                             </TableContainer>
@@ -267,43 +267,43 @@ const CustomizeOrderTable = () => {
 
 
                     <Box className={toggleState === 2 ? classes.activeContent : classes.hideContent}>
-                    <AcceptedOrders />
+                        <AcceptedOrders />
                     </Box>
 
                     <Box className={toggleState === 3 ? classes.activeContent : classes.hideContent}>
-                    <PrintingOrders />
+                        <PrintingOrders />
                     </Box>
 
                     <Box className={toggleState === 4 ? classes.activeContent : classes.hideContent}>
-                    <PrintedOrders />
+                        <PrintedOrders />
                     </Box>
 
                     <Box className={toggleState === 5 ? classes.activeContent : classes.hideContent}>
-                    <DispatchedOrders />
+                        <DispatchedOrders />
                     </Box>
 
                     <Box className={toggleState === 6 ? classes.activeContent : classes.hideContent}>
-                    <ClosedOrders />
+                        <ClosedOrders />
                     </Box>
 
                     <Box className={toggleState === 7 ? classes.activeContent : classes.hideContent}>
-                    <AdvancePaidOrders />
+                        <AdvancePaidOrders />
                     </Box>
 
-                    
+
 
                     <Notification notify={notify} setNotify={setNotify} />
 
                     {<ConfirmDialog
                         confirmDialog={confirmDialog}
-                        // setConfirmDialog={setConfirmDialog}
+                    // setConfirmDialog={setConfirmDialog}
                     />}
 
-                    
+
 
                 </Paper>
 
-                
+
             </main>
         </div>
     );

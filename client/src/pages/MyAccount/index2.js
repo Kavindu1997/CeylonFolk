@@ -98,7 +98,7 @@ export default function Checkout() {
 
     const [state, setState] = React.useState({
         checkedB: false,
-      });
+    });
 
     const handlePassword = (event) => {
         setState({ ...state, [event.target.name]: event.target.checked });
@@ -109,7 +109,7 @@ export default function Checkout() {
         // }else{
         //     setIsDisabled(true)
         // }
-      };
+    };
 
     const [currentPWvalidation, setCurrentPWvalidation] = useState(false)
     const setCurrentPW = (event) => {
@@ -164,9 +164,9 @@ export default function Checkout() {
             uid: uid,
             firstName: fName === undefined ? customerDetails[0].firstName : fName,
             lastName: lName === undefined ? customerDetails[0].lastName : lName,
-            contactNo: cutomerPhoneNumber==undefined?customerDetails[0].contactNo:cutomerPhoneNumber,
-            password: confirmPw, 
-            shouldchangeps: state.checkedB?1:0
+            contactNo: cutomerPhoneNumber == undefined ? customerDetails[0].contactNo : cutomerPhoneNumber,
+            password: confirmPw,
+            shouldchangeps: state.checkedB ? 1 : 0
         }
         axios.put('http://localhost:3001/profileroute/updateUser', data).then((response) => {
             console.log(response.data.data)
@@ -184,9 +184,9 @@ export default function Checkout() {
                 });
                 setTimeout(() => {
                     window.location.reload(true)
-                },)
+                })
             }
-            
+
 
         })
     }
@@ -268,63 +268,63 @@ export default function Checkout() {
                                                 error={phonneNoError}
 
                                             />
-                                            
+
                                             <FormControlLabel
                                                 control={
-                                            <Switch
-                                                checked={state.checkedB}
-                                                onChange={handlePassword}
-                                                color="primary"
-                                                name="checkedB"
-                                                inputProps={{ 'aria-label': 'primary checkbox' }}
+                                                    <Switch
+                                                        checked={state.checkedB}
+                                                        onChange={handlePassword}
+                                                        color="primary"
+                                                        name="checkedB"
+                                                        inputProps={{ 'aria-label': 'primary checkbox' }}
+                                                    />
+                                                }
+                                                label="Do you want to change the password also ?"
                                             />
-                                        }
-                                        label="Do you want to change the password also ?"
-                                      />
-                                      <div className={state.checkedB==false?classes.visibility:""}>
-                                            <Typography component="h1" variant="h6" style={{ fontFamily: 'Montserrat', marginTop: '20px', marginBottom: '10px' }}>Password Change</Typography>
-                                          
-                                          
-                                            <TextField
-                                                type="password"
-                                                onChange={setCurrentPW}
-                                                variant="outlined"
-                                                margin="normal"
-                                                fullWidth
-                                                id="add1"
-                                                label="Current Password"
-                                                name="add1"
-                                                autoComplete="add1"
-                                                defaultValue={currentPw}
-                                                error={currentPWvalidation}
-                                            />
-                                            <TextField
-                                                disabled={currentPWvalidation}
-                                                type="password"
-                                                onChange={setNewPW}
-                                                variant="outlined"
-                                                margin="normal"
-                                                fullWidth
-                                                id="add2"
-                                                label="New Password"
-                                                name="add2"
-                                                defaultValue={newPw}
-                                                error={add2Error}
-                                            />
-                                            <TextField
-                                                disabled={currentPWvalidation}
-                                                type="password"
-                                                onChange={setConfirmPW}
-                                                variant="outlined"
-                                                margin="normal"
-                                                fullWidth
-                                                id="city"
-                                                label="Confirm Password"
-                                                name="city"
-                                                autoComplete="city"
-                                                defaultValue={confirmPw}
-                                                error={newPWmatched}
-                                            />
+                                            <div className={state.checkedB == false ? classes.noVisibility : classes.visibility}>
+                                                <Typography component="h1" variant="h6" style={{ fontFamily: 'Montserrat', marginTop: '20px', marginBottom: '10px' }}>Password Change</Typography>
+
+
+                                                <TextField
+                                                    type="password"
+                                                    onChange={setCurrentPW}
+                                                    variant="outlined"
+                                                    margin="normal"
+                                                    fullWidth
+                                                    id="add1"
+                                                    label="Current Password"
+                                                    name="add1"
+                                                    autoComplete="add1"
+                                                    defaultValue={currentPw}
+                                                    error={currentPWvalidation}
+                                                />
+                                                <TextField
+                                                    disabled={currentPWvalidation}
+                                                    type="password"
+                                                    onChange={setNewPW}
+                                                    variant="outlined"
+                                                    margin="normal"
+                                                    fullWidth
+                                                    id="add2"
+                                                    label="New Password"
+                                                    name="add2"
+                                                    defaultValue={newPw}
+                                                    error={add2Error}
+                                                />
+                                                <TextField
+                                                    disabled={currentPWvalidation}
+                                                    type="password"
+                                                    onChange={setConfirmPW}
+                                                    variant="outlined"
+                                                    margin="normal"
+                                                    fullWidth
+                                                    id="city"
+                                                    label="Confirm Password"
+                                                    name="city"
+                                                    autoComplete="city"
+                                                    defaultValue={confirmPw}
+                                                    error={newPWmatched}
+                                                />
 
                                             </div>
 
