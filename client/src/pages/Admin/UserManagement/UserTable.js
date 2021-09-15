@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import UserForm from './UserForm';
 import EditUserForm from './EditUserForm';
@@ -18,7 +18,7 @@ import useStyles from '../style';
 import AdminNav from "../../../components/Reusable/AdminNav"
 import Lottie from 'react-lottie';
 import User from '../../../images/user.json';
-import {fetchUsers,createUser,deleteUser,updateUser } from '../../../_actions/userManageAction';
+import { fetchUsers, createUser, deleteUser, updateUser } from '../../../_actions/userManageAction';
 import axios from 'axios';
 
 
@@ -35,18 +35,18 @@ const headCells = [
 const UserTable = () => {
     const classes = useStyles();
     const [records, setRecords] = useState([]);
-    useEffect(()=>{
-        axios.get("http://localhost:3001/users/").then((response)=>{
-                  setRecords(response.data);
+    useEffect(() => {
+        axios.get("http://localhost:3001/users/").then((response) => {
+            setRecords(response.data);
         });
-    },[]);
-//     const userRecords=useSelector((state)=>state.userReducer.users);
-//    // console.log(userRecords);
-//     const dispatch=useDispatch();
-//     useEffect(()=>{
-//        dispatch(fetchUsers());
-//     },[]);
-  
+    }, []);
+    //     const userRecords=useSelector((state)=>state.userReducer.users);
+    //    // console.log(userRecords);
+    //     const dispatch=useDispatch();
+    //     useEffect(()=>{
+    //        dispatch(fetchUsers());
+    //     },[]);
+
     const [recordForEdit, setRecordForEdit] = useState(null)
     const [filterFn, setFilterFn] = useState({ fn: items => { return items; } });
     const [openPopup, setOpenPopup] = useState(false);
@@ -67,65 +67,66 @@ const UserTable = () => {
                 if (target.value === "")
                     return items;
                 else
-                    return items.filter(x => x.first_name.toLowerCase().includes(target.value)|| 
-                                             x.last_name.toLowerCase().includes(target.value)|| 
-                                             x.gender.toLowerCase().includes(target.value)||
-                                             x.mobile_no.includes(target.value)||
-                                             x.email.toLowerCase().includes(target.value))
+                    return items.filter(x => x.first_name.toLowerCase().includes(target.value) ||
+                        x.last_name.toLowerCase().includes(target.value) ||
+                        x.gender.toLowerCase().includes(target.value) ||
+                        x.mobile_no.includes(target.value) ||
+                        x.email.toLowerCase().includes(target.value))
             }
         })
     }
 
     const addOrEdit = (data, resetForm) => {
-        if (data.id === 0){
-                    axios.post("http://localhost:3001/users/", data).then(() => {
-                axios.get("http://localhost:3001/users/").then((response)=>{
+        if (data.id === 0) {
+            // console.log(data);
+            axios.post("http://localhost:3001/users/", data).then(() => {
+                axios.get("http://localhost:3001/users/").then((response) => {
                     setRecords(response.data);
                 });
-         });
-        //  dispatch(createUser(data));
-        //  window.location.reload(true);
-         resetForm();
-         setRecordForEdit(null);
-         setOpenPopup(false);
-         axios.get("http://localhost:3001/users/").then((response)=>{
-            setRecords(response.data);
             });
-        //  dispatch(fetchUsers());
-         setNotify({
-             isOpen: true,
-             message: 'Added Successfully !',
-             type: 'success'
-         });
-        
-        }else{
-        axios.put(`/users/${data.id}`,data).then(() => {
-            axios.get("http://localhost:3001/users/").then((response)=>{
+            //  dispatch(createUser(data));
+            //  window.location.reload(true);
+            resetForm();
+            setRecordForEdit(null);
+            setOpenPopup(false);
+            axios.get("http://localhost:3001/users/").then((response) => {
                 setRecords(response.data);
             });
-        });;
-       // dispatch(updateUser(data,data.id));
-        resetForm();
-        setRecordForEdit(null);
-        setOpenEditPopup(false);
-        axios.get("http://localhost:3001/users/").then((response)=>{
-            setRecords(response.data);
+            //  dispatch(fetchUsers());
+            setNotify({
+                isOpen: true,
+                message: 'Added Successfully !',
+                type: 'success'
             });
-       //   dispatch(fetchUsers());
-        setNotify({
-            isOpen: true,
-            message: 'Edited Successfully !',
-            type: 'info'
-        });
-        //window.location.reload(true);
+
+        } else {
+            axios.put(`/users/${data.id}`, data).then(() => {
+                axios.get("http://localhost:3001/users/").then((response) => {
+                    setRecords(response.data);
+                });
+            });;
+            // dispatch(updateUser(data,data.id));
+            resetForm();
+            setRecordForEdit(null);
+            setOpenEditPopup(false);
+            axios.get("http://localhost:3001/users/").then((response) => {
+                setRecords(response.data);
+            });
+            //   dispatch(fetchUsers());
+            setNotify({
+                isOpen: true,
+                message: 'Edited Successfully !',
+                type: 'info'
+            });
+            //window.location.reload(true);
+        }
+
     }
-  
-    }
-    
+
     const openInPopup = item => {
         setRecordForEdit(item);
         setOpenEditPopup(true);
-       // console.log(item);
+        // console.log(item);
     }
 
     const onDelete = id => {
@@ -133,10 +134,10 @@ const UserTable = () => {
             ...confirmDialog,
             isOpen: false
         });
-        axios.delete(`http://localhost:3001/users/${id}`).then(()=>{
-            axios.get("http://localhost:3001/users/").then((response)=>{
-            setRecords(response.data);
-        }); //refresh the records array
+        axios.delete(`http://localhost:3001/users/${id}`).then(() => {
+            axios.get("http://localhost:3001/users/").then((response) => {
+                setRecords(response.data);
+            }); //refresh the records array
         });
         // dispatch(deleteUser(id));
         // window.location.reload(true);
@@ -157,10 +158,10 @@ const UserTable = () => {
     };
 
     return (
-        <div style={{display:"flex"}}>
-        <AdminNav/>
+        <div style={{ display: "flex" }}>
+            <AdminNav />
 
-        <main className={classes.content}>
+            <main className={classes.content}>
                 <PageHeader
                     title="USER HANDLING"
                     icon={< GroupIcon fontSize="large" />}
@@ -204,8 +205,8 @@ const UserTable = () => {
                                         <TableCell>{item.mobile_no}</TableCell>
                                         <TableCell>{item.email}</TableCell>
                                         <TableCell>
-                                            
-                                         
+
+
                                             <Controls.ActionButton
                                                 color="primary"
                                                 onClick={() => { openInPopup(item) }}

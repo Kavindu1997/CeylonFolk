@@ -210,7 +210,7 @@ const CollectionTable = () => {
 
                                                         <TableCell align="center">
                                                             <Button
-                                                                component={Link} to="/designs"
+                                                                href="http://localhost:3000/designs"
                                                                 variant="contained"
                                                                 color="primary"
                                                                 onClick={() => onSetId(value.id)}

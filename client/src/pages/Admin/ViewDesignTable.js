@@ -6,7 +6,7 @@ import AddIcon from "@material-ui/icons/Add";
 import CloseIcon from "@material-ui/icons/Close";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 import DesignForm from "./DesignForm";
-import { makeStyles, Paper, TableBody, TableRow, TableCell, Toolbar, InputAdornment, Typography, Table, TableContainer, TableHead, Box,Button } from "@material-ui/core";
+import { makeStyles, Paper, TableBody, TableRow, TableCell, Toolbar, InputAdornment, Typography, Table, TableContainer, TableHead, Box, Button } from "@material-ui/core";
 import useTable from "../../components/Reusable/useTable";
 import Controls from "../../components/Reusable/Controls";
 import Popup from "../../components/Reusable/Popup";
@@ -200,7 +200,7 @@ const DesignTable = () => {
                 <PageHeader title="AVAILABLE DESIGNS" icon={<LayersIcon fontSize="large" />} />
                 <Paper className={classes.pageContent}>
                     <Toolbar>
-                    <Controls.Input
+                        <Controls.Input
                             type="text" id="form1" onKeyDown={loadRecordAgain} onKeyUp={searchRecords} onChange={(e) => setSearch(e.target.value)}
                             label="Search Designs"
                             className={classes.searchInput}
@@ -235,13 +235,9 @@ const DesignTable = () => {
 
                     <container>
                         <center>
-                   
-                    
                             <Typography variant="h5" style={{ marginTop: '80px', textAlign: 'center', backgroundColor: '#C6C6C6', padding: '30px', fontFamily: 'Montserrat' }}>AVAILABLE DESIGNS </Typography>
-                        
-                   
                             <TableContainer style={{ marginTop: '30px', align: 'center', width: '1200px' }}>
-                                <Table className={classes.table} aria-label="simple table">
+                                <Table aria-label="simple table">
                                     <TableHead>
                                         <TableRow>
                                             <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Design Name</TableCell>
@@ -263,10 +259,10 @@ const DesignTable = () => {
                                                         <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.collection_name}</TableCell>
                                                         <TableCell align="center" style={{ fontFamily: 'Montserrat' }}><img height={100} align="center" src={'http://localhost:3001/' + value.coverImage} alt=""></img></TableCell>
                                                         <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>
-                                                <Box style={{ display: 'flex', justifyContent: 'center' }}>
-                                                    <span className={classes.swatchVisible} style={{ backgroundColor: value.color }}></span>
-                                                </Box>
-                                            </TableCell>
+                                                            <Box style={{ display: 'flex', justifyContent: 'center' }}>
+                                                                <span className={classes.swatchVisible} style={{ backgroundColor: value.color }}></span>
+                                                            </Box>
+                                                        </TableCell>
                                                         <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.types}</TableCell>
                                                         <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.price}</TableCell>
                                                         {/* <TableCell align="center">
