@@ -56,7 +56,7 @@ router.post("/forgotPassword", async (req, res) => {
         user.save().then((result) => {
             const htmlEmail = `
             <p> You requested for password reset</p>
-            <h3>Click on this <a href="http://localhost:3000/reset/${token}">Link </a>to reset password</h3>
+            <h3>Click on this <a href="http://localhost:3000/reset/${token}" target="_parent" >Link </a>to reset password</h3>
             `
 
             const transporter = nodemailer.createTransport({

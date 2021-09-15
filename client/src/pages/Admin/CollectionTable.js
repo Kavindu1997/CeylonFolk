@@ -122,17 +122,17 @@ const CollectionTable = () => {
 
     const [search, setSearch] = useState('');
     const [record, setRecord] = useState([]);
- 
 
 
-   
+
+
     const searchRecords = () => {
-  
 
-            axios.get(`http://localhost:3001/collection/searchRecord/${search}`)
-                .then(response => {
-                    setRecord(response.data);
-                });
+
+        axios.get(`http://localhost:3001/collection/searchRecord/${search}`)
+            .then(response => {
+                setRecord(response.data);
+            });
 
     }
 
@@ -209,7 +209,7 @@ const CollectionTable = () => {
 
                                                         <TableCell align="center">
                                                             <Button
-                                                                component={Link} to="/designs"
+                                                                href="http://localhost:3000/designs"
                                                                 variant="contained"
                                                                 color="primary"
                                                                 onClick={() => onSetId(value.id)}
