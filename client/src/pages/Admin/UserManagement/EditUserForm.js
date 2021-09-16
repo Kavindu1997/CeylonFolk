@@ -23,9 +23,9 @@ const EditUserForm = (props) => {
     const validate = (fieldValues = values) => {
         let temp = { ...errors }
         if ('firstName' in fieldValues)
-            temp.firstName = fieldValues.firstName ? "" : "First Name is required"
+            temp.firstName =  (/^[a-zA-Z ]+$/).test(fieldValues.firstName) ? "" : "First Name is required"
         if ('lastName' in fieldValues)
-            temp.lastName = fieldValues.lastName ? "" : "Last Name is required"
+            temp.lastName =  (/^[a-zA-Z ]+$/).test(fieldValues.lastName) ? "" : "Last Name is required"
         if ('email' in fieldValues)
             temp.email =(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/).test(fieldValues.email) ? "" : "Email is not valid"
         if ('contactNo' in fieldValues)
