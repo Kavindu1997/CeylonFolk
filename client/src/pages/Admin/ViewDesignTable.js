@@ -236,7 +236,7 @@ const DesignTable = () => {
                     <container>
                         <center>
                             <Typography variant="h5" style={{ marginTop: '80px', textAlign: 'center', backgroundColor: '#C6C6C6', padding: '30px', fontFamily: 'Montserrat' }}>AVAILABLE DESIGNS </Typography>
-                            <TableContainer style={{ marginTop: '30px', align: 'center', width: '1200px' }}>
+                            <TableContainer style={{ marginTop: '30px', align: 'center', width: '1100px' }}>
                                 <Table aria-label="simple table">
                                     <TableHead>
                                         <TableRow>
