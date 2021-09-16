@@ -75,9 +75,6 @@ app.use("/inventSearch", inventorySearchRouter);
 const ordersRouter = require('./routes/Orders');
 app.use("/placeOrder", ordersRouter);
 
-const userManageRouter = require('./routes/UserManage');
-app.use("/users", userManageRouter);
-
 const cRouter = require('./routes/Colors');
 app.use("/availableColors", cRouter);
 
