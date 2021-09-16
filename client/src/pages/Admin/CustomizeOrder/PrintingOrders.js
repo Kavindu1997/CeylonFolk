@@ -31,7 +31,14 @@ const AcceptedOrders = () => {
         subTitle: "",
     });
     const [listOfOrderDetails, setlistPrintingOrders] = useState([])
+    const [oId, setoId] = useState('');
+    const [oNo, setoNo] = useState('');
+    
+    
+
     const dispatch = useDispatch();
+
+    var email = localStorage.getItem("userEmail");
 
     const openInPopup = (item) => {
         // setRecordForEdit(item);
@@ -57,11 +64,15 @@ const AcceptedOrders = () => {
         })
     }, []);
 
+    var email = localStorage.getItem("userEmail");
+
     const onReadyToDispatch = (id) => {
         console.log(id)
 
         const data = {
-            id: id
+            id: oId,
+            orderNo: oNo,
+            email: email,
         }
 
         axios.put('http://localhost:3001/customizeOrders/orderReadyToDispatch/',data).then((response) => {
@@ -96,7 +107,9 @@ const AcceptedOrders = () => {
                                     <TableHead>
                                         <TableRow>
                                             <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Customer ID</TableCell>
-                                            <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Order ID</TableCell>
+                                            <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Customer Name</TableCell>
+                                            <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Customer Email</TableCell>
+                                            <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Order No</TableCell>
                                             <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Order Status</TableCell>
                                             <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Design</TableCell>
                                         </TableRow>
@@ -108,15 +121,22 @@ const AcceptedOrders = () => {
                                                 return (
                                                     <TableRow>
                                                         <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.customerId}</TableCell>
-                                                        <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.orderId}</TableCell>
+                                                        <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.customerName}</TableCell>
+                                                        <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.customerEmail}</TableCell>
+                                                        <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.orderNo}</TableCell>
                                                         <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.status}</TableCell>
                                                         <TableCell align="center" style={{ fontFamily: 'Montserrat' }}><img height={100} align="center" src={'http://localhost:3001/' + value.image} alt=""></img></TableCell>                                                       
                                                         
                                                         <TableCell align="center">
                                                             <Button name="accept" 
-                                                            onClick={() => onReadyToDispatch(value.orderId)}
+                                                            onClick={() => {
+                                                                // onReadyToDispatch(value.orderId)
+                                                                setOpenPopup(true);
+                                                                setoId(value.orderId)
+                                                                setoNo(value.orderNo)
+                                                            }}
                                                             >
-                                                                READY TO DISPATCH
+                                                                Printed
                                                             </Button>
                                                         </TableCell>
                                                     </TableRow>
@@ -134,7 +154,14 @@ const AcceptedOrders = () => {
                         openPopup={openPopup}
                         setOpenPopup={setOpenPopup}
                     >
-                        {/* <DesignForm /> */}
+                        <Controls.Button
+                            type="submit"
+                            text="YES"
+                            onClick={() => {
+                                onReadyToDispatch()
+                                // console.log(value.orderId)
+                            }}
+                        />
                     </Popup>
 
                     <Notification notify={notify} setNotify={setNotify} />

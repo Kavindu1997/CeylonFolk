@@ -196,19 +196,7 @@ const useStyles = makeStyles((theme) => ({
     }
   },
 
-  swatchVisible: {
-    textIndent: 'inherit',
-    borderRadius: '50%',
-    width: '45px',
-    height: '45px',
-    padding: '0.8rem 0',
-    lineHeight: '1',
-    textAlign: 'center',
-    fontSize: '14px',
-    fontWeight: '600',
-    color: '#000',
-    display: 'inline-block',
-  },
+  
 
   headStyle: {
     fontFamily: 'Nunito',

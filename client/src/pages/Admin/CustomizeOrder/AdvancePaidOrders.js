@@ -32,6 +32,8 @@ const AdvancePaidOrders = () => {
     });
     const [listOfOrderDetails, setlistOfOrderDetails] = useState([])
     const [listOfAdvancePaid, setlistOfAdvancePaid] = useState([])
+    const [oId, setoId] = useState('');
+    const [oNo, setoNo] = useState('');
     const dispatch = useDispatch();
 
     const openInPopup = (item) => {
@@ -63,11 +65,17 @@ const AdvancePaidOrders = () => {
         })
     }, []);
 
-    const onPrinting = (id) => {
-        console.log(id)
+    var email = localStorage.getItem("userEmail");
+
+    const onPrinting = () => {
+
+        setOpenPopup(false);
+        
 
         const data = {
-            id: id
+            id: oId,
+            orderNo: oNo,
+            email: email,
         }
 
         axios.put('http://localhost:3001/customizeOrders/orderPrinting/',data).then((response) => {
@@ -102,7 +110,9 @@ const AdvancePaidOrders = () => {
                                     <TableHead>
                                         <TableRow>
                                             <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Customer ID</TableCell>
-                                            <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Order ID</TableCell>
+                                            <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Customer Name</TableCell>
+                                            <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Customer Email</TableCell>
+                                            <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Order No</TableCell>
                                             <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Order Status</TableCell>
                                             <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Design</TableCell>
                                         </TableRow>
@@ -114,7 +124,9 @@ const AdvancePaidOrders = () => {
                                                 return (
                                                     <TableRow>
                                                         <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.customerId}</TableCell>
-                                                        <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.orderId}</TableCell>
+                                                        <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.customerName}</TableCell>
+                                                        <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.customerEmail}</TableCell>
+                                                        <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.orderNo}</TableCell>
                                                         <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.status}</TableCell>
                                                         <TableCell align="center" style={{ fontFamily: 'Montserrat' }}><img height={100} align="center" src={'http://localhost:3001/' + value.image} alt=""></img></TableCell>                                                       
                                                         <TableCell align="center">
@@ -128,7 +140,13 @@ const AdvancePaidOrders = () => {
                                                         </TableCell>
                                                         <TableCell align="center">
                                                             <Button name="accept" 
-                                                            onClick={() => onPrinting(value.orderId)}
+                                                            onClick={() => 
+                                                                {
+                                                                setOpenPopup(true);
+                                                                setoId(value.orderId)
+                                                                setoNo(value.orderNo)
+                                                            }
+                                                            }
                                                             style={{backgroundColor:'green', color:'white'}}
                                                             >
                                                                 START PRINTING
@@ -154,11 +172,19 @@ const AdvancePaidOrders = () => {
 
 
                     <Popup
-                        title="Add Design Form"
+                        
                         openPopup={openPopup}
                         setOpenPopup={setOpenPopup}
                     >
-                        {/* <DesignForm /> */}
+                        <Typography>Are you Going to Start Printing</Typography>
+                        <Controls.Button
+                            type="submit"
+                            text="YES"
+                            onClick={() => {
+                                onPrinting()
+                                // console.log(value.orderId)
+                            }}
+                        />
                     </Popup>
 
                     <Notification notify={notify} setNotify={setNotify} />

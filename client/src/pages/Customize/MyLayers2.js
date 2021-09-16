@@ -1,51 +1,62 @@
-import React, { Component, useEffect, useState } from 'react';
-import './App2.css';
-import mockup2 from '../../images/mockup2.png';
+import React from 'react';
+import { withStyles } from '@material-ui/core/styles';
+import { green } from '@material-ui/core/colors';
+import FormGroup from '@material-ui/core/FormGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
+import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
+import CheckBoxIcon from '@material-ui/icons/CheckBox';
+import Favorite from '@material-ui/icons/Favorite';
+import FavoriteBorder from '@material-ui/icons/FavoriteBorder';
 
+const GreenCheckbox = withStyles({
+  root: {
+    color: green[400],
+    '&$checked': {
+      color: green[600],
+    },
+  },
+  checked: {},
+})((props) => <Checkbox color="default" {...props} />);
 
-const MyLayers2 = () => {
+export default function CheckboxLabels() {
+  const [state, setState] = React.useState({
+    checkedA: true,
+    checkedB: true,
+    checkedF: true,
+    checkedG: true,
+  });
 
-    const [type, setType] = useState('tshirt');
-    const [color, setColor] = useState('white');
-    const [textcolor, setTextColor] = useState('black');
-    const [text, setText] = useState('write here');
+  const handleChange = (event) => {
+    setState({ ...state, [event.target.name]: event.target.checked });
+  };
 
-    console.log(color)
-
-function handleAddrTypeChange(e) {
-    setColor(e.target.value);
-    console.log(color)
+  return (
+    <FormGroup row>
+      
+      <FormControlLabel
+        control={
+          <Checkbox
+            checked={state.checkedB}
+            onChange={handleChange}
+            name="checkedB"
+            color="primary"
+          />
+        }
+        label="Primary"
+      />
+      
+      
+      <FormControlLabel
+        control={
+        <Checkbox 
+        icon={<FavoriteBorder />} 
+        checkedIcon={<Favorite />} 
+        name="checkedH" 
+        />}
+        label="Custom icon"
+      />
+      
+    </FormGroup>
+  );
 }
-
-
-console.log(color)
-  
-    return (
-      <div className="container">
-        <div className="row">
-          <div className="col-md-4">
-                    <div className="custom well">
-        
-        <select defaultValue={color} onChange={handleAddrTypeChange}>
-          <option selected value="white">White</option>
-          <option value="#262626">Black</option>
-        </select>
-      </div>
-          </div>
-
-          <div className="col-md-4" style={{align: "center"}}>
-          <div className="shirt">
-        <img  style={{backgroundColor: color, width: 300}} src={mockup2} alt="shirt" />
-      </div>
-          </div>
-
-          <div className="col-md-4">
-            {/* <Price state={this.state}/> */}
-          </div>
-        </div>
-      </div>
-    );
- 
-}
-
-export default MyLayers2;

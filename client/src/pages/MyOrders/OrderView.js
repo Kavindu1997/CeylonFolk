@@ -33,7 +33,10 @@ export default function OrderView() {
   const [count, setcount] = useState(1)
   const [openPopup, setOpenPopup] = useState(false);
   const [openPopupEditDesign, setOpenEditDesignPopup] = useState(false);
+  const [openPopupCancelDesign, setOpenCancelDesignPopup] = useState(false);
   const [price, setprice] = useState('')
+  const [orderNo, setorderNo] = useState('')
+  const [oId, setoId] = useState('')
   const steps = getSteps();
   let { id } = useParams();
   let history = useHistory();
@@ -82,7 +85,11 @@ export default function OrderView() {
 
     const data = {
       id: id,
-      price: price
+      price: price,
+      orderNo: orderNo,
+      email: email,
+      userId: uid,
+      fullName: fullName,
     }
 
     axios.put('http://localhost:3001/customizeOrders/advancePaid/', data).then((response) => {
@@ -152,6 +159,29 @@ export default function OrderView() {
     setActiveStep(0);
   };
 
+  var email = localStorage.getItem("userEmail");
+  var fullName = localStorage.getItem("fullname");
+
+  const onCansel = () => {
+    console.log('canceled')
+    console.log(orderNo)
+    history.push('/custcustomizeOrders')
+
+    const data = {
+      id: oId,
+      email: email,
+      userId: uid,
+      fullName: fullName,
+      orderNo: orderNo
+      
+  }
+    axios.put('http://localhost:3001/customizeOrders/orderCanceled/',data).then((response) => {
+            // console.log(response.data);
+            alert('Order Canceled')
+            // setlistOfOrderDetails(response.data);
+        })
+  }
+
   return (
     <div>
       <UserNav />
@@ -176,8 +206,8 @@ export default function OrderView() {
                 <Box><img height={200} align="center" src={'http://localhost:3001/' + orderDetails.image} alt=""></img></Box>
 
                 <Box style={{ display: 'flex', justifyContent: 'space-between', width: '50%', margin: '5px' }}>
-                  <Typography>Order ID</Typography>
-                  <Typography>{orderDetails.orderId}</Typography>
+                  <Typography>Order No</Typography>
+                  <Typography>{orderDetails.orderNo}</Typography>
                 </Box>
 
                 <Box style={{ display: 'flex', justifyContent: 'space-between', width: '50%' }}>
@@ -188,13 +218,13 @@ export default function OrderView() {
 
                   <Button color="primary"
                     className={orderDetails.status === 'Accept' ? classes.activeQuantity : classes.quantity}
-                    disabled={disable}
+                    
                     style={{ backgroundColor: 'green', color: 'white', margin: '20px' }}
 
                     onClick={() => {
-                      setDisable(true)
                       setOpenPopup(true);
                       setprice(orderDetails.price / 2)
+                      setorderNo(orderDetails.orderNo)
                     }}
                   >
                     CONFIRM ORDER
@@ -204,13 +234,13 @@ export default function OrderView() {
                     disabled={disable}
                     style={{ backgroundColor: 'red', color: 'white', margin: '20px' }}
                     className={orderDetails.status === 'Accept' ? classes.activeQuantity : classes.quantity}
-
                     onClick={() => {
-                      setDisable(true)
-                      setOpenPopup(true);
+                      setorderNo(orderDetails.orderNo)
+                      setoId(orderDetails.orderId)
+                      setOpenCancelDesignPopup(true);
                     }}
                   >
-                    REJECT ORDER
+                    CANCEL ORDER
                   </Button>
                   <Button
                   style={{ backgroundColor: 'black', color: 'white', margin: '20px' }}
@@ -221,6 +251,7 @@ export default function OrderView() {
                   >
                     Edit Design
                   </Button>
+                  
                   
 
                 </Box>
@@ -274,11 +305,16 @@ export default function OrderView() {
                   style={{fontColor:'red'}}
                 >
                   <Grid >
-                    <Box style={{fontSize:'20px', margin:'10px', color:'red', textAlign:'center'}}>011-2345678</Box>
+                    <Box style={{fontSize:'20px', margin:'10px', color:'red', textAlign:'center'}}>
+                    <Controls.Button 
+                    onClick={() => {history.push('/contactus')}}
+                    text="Contact Us"
+                    />
+                    </Box>
 
                   </Grid>
-                  <Grid item md={12} >
-                    <Controls.Button
+                  {/* <Grid item md={12} > */}
+                    {/* <Controls.Button
                       onClick={() => {
 
                         setOpenEditDesignPopup(false)
@@ -288,6 +324,33 @@ export default function OrderView() {
                       // onClick={placeOrders}
                       type="submit"
                       text="OK"
+                    // onClick={() => {
+                    //     history.push('/Checkout');
+                    // }}
+                    /> */}
+                  {/* </Grid> */}
+                </Popup>
+
+                <Popup
+                  title="Cancel Order"
+                  openPopup={openPopupCancelDesign}
+                  setOpenPopup={setOpenCancelDesignPopup}
+                >
+                  <Grid item xs={4}>
+                    <Typography>Do you want to cancel the order</Typography>
+
+                  </Grid>
+                  <Grid item md={12} >
+                    <Controls.Button
+                      onClick={() => {
+
+                        onCansel()
+                        // 
+                      }}
+
+                      // onClick={placeOrders}
+                      type="submit"
+                      text="YES"
                     // onClick={() => {
                     //     history.push('/Checkout');
                     // }}

@@ -302,12 +302,19 @@ const Customize = () => {
     console.log('hello')
     console.log(exportT)
     var id = localStorage.getItem("userId");
+    var fullname = localStorage.getItem("fullname");
+    var userEmail = localStorage.getItem("userEmail");
     
-    let orderId = new Date().getTime();
+    
+    let orderNo =  'cust' + Math.round(  (Math.random() * Math.pow(10, 6)) + '' + new Date().getTime());
+
+
 
     const data = {
       customerId: id,
-      // orderId: orderId,
+      customerName: fullname,
+      customerEmail: userEmail,
+      orderNo: orderNo,
       userName:userName,
       image: exportT
     }

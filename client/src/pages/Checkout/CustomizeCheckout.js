@@ -39,7 +39,6 @@ export default function CustomizeCheckout() {
     const [cutomerPhoneNumber, setOfPhoneNumber] = useState([]);
     const [cutomerDeliveryAdd, setOfDeliveryAdd] = useState([]);
     const [isDeliveryDiffAdd, setIsDiffDeliveryAdd] = useState([]);
-    const [paymentMethod, setPaymentMethod] = useState([]);
     const [customerEmail, setCustomerEmail] = useState([]);
     const [checkedTermsCondition, setCheckedTermsCondition] = useState([]);
     const [customerName, setCustomerName] = useState([]);
@@ -106,10 +105,7 @@ export default function CustomizeCheckout() {
     const checkButton = (event) => {
         setIsDiffDeliveryAdd(event.target.checked)
     }
-    const radioButtonChange = (event) => {
-        setValue(event.target.value);
-        setPaymentMethod(event.target.value);
-    }
+    
     const checkedTerms = (event) => {
         setCheckedTermsCondition(event.target.checked)
     }
@@ -167,23 +163,11 @@ export default function CustomizeCheckout() {
         }
         var uid = localStorage.getItem("userId");
         if (uid != '0' && checkedTermsCondition == true) {
-            if (paymentMethod == "cash") {
-                paymentItem = createPaymentDetails(MASTER_DATA.cash_on_delivery, uid, MASTER_DATA.placed);
-                dispatch(actionSendToDB(paymentItem))
-            } else if (paymentMethod == "bank") {
-                paymentItem = createPaymentDetails(MASTER_DATA.bank_tranfer, uid, MASTER_DATA.not_uploaded);
-                dispatch(actionSendToDB(paymentItem))
-            } else if (paymentMethod == "online") {
+            
                 paymentItem = createPaymentDetails(MASTER_DATA.payhere, uid, MASTER_DATA.placed);
                 let payment = setPayment(paymentItem);
                 window.payhere.startPayment(payment);
-            }else{
-                setNotify({
-                    isOpen: true,
-                    message: 'Please select a payment method !',
-                    type: 'error'
-                  });
-            }
+            
         }else{
             setNotify({
                 isOpen: true,
@@ -197,6 +181,7 @@ export default function CustomizeCheckout() {
         let orderId = new Date().getTime();
         var date = moment().format();
         var total = Number(price) + Number(districtvalue);
+        var totalAmount = Number(price) + Number(price) + Number(districtvalue);
         var address = "";
         if (isDeliveryDiffAdd != true) {
             address = cutomerAddress1 + ' ' + cutomerAddress2 + ' ' + cutomerAddress3;
@@ -215,15 +200,14 @@ export default function CustomizeCheckout() {
             phoneNo: cutomerPhoneNumber == 0 ? customerDetails[0].contactNo : cutomerPhoneNumber,
             email: customerDetails[0].email,
             name:customerDetails[0].firstName + " " + customerDetails[0].lastName,
-            paymentMethod: value
         }
         return item;
     }
 
     window.payhere.onCompleted = function onCompleted(orderId) {
         console.log("Payment completed. OrderID:" + orderId);
-        history.push("/Checkout");
-        dispatch(actionSendToDB(paymentItem))
+        history.push(`/orderView/${id}`);
+        // dispatch(actionSendToDB(paymentItem))
         //Note: validate the payment and show success or failure page to the customer
     };
 
@@ -436,20 +420,7 @@ export default function CustomizeCheckout() {
                                             </TableCell>
                                         </TableRow>
 
-                                        <TableRow>
-                                            <Typography component="h1" variant="h6" style={{ fontFamily: 'Montserrat', textAlign: 'left', marginTop: '15px', marginBottom: '10px', marginLeft: '30px' }}>Payment Method</Typography>
-                                            <FormControl component="fieldset">
-                                                {/* <FormLabel component="legend">Gender</FormLabel> */}
-                                                <RadioGroup aria-label="payment" name="payment1" value={value} onChange={radioButtonChange} style={{ marginLeft: '20px' }}>
-                                                    <FormControlLabel value="cash" control={<Radio />} label="Cash on delivery" />
-                                                    <FormControlLabel value="bank" control={<Radio />} label="Bank Deposits" />
-                                                    <FormControlLabel value="online" control={<Radio />} label="Pay online" />
-                                                    <div>
-                                                        <img height={50} src={require('../../images/paymentnew.png').default} />
-                                                    </div>
-                                                </RadioGroup>
-                                            </FormControl>
-                                        </TableRow>
+                                        
                                     </TableBody>
                                 </Table>
                                 <FormControlLabel

@@ -106,21 +106,36 @@ const Shop = () => {
     let history = useHistory();
 
     function addToWishlist(id, isInWishList) {
+        console.log(isInWishList)
         const uid = localStorage.getItem("userId");
         if (localStorage.getItem("userId") != "0") {
-            const data = { uid: uid, id: id };
-            if (isInWishList == 0) {
+            const data = { uid: uid, 
+                id: id,
+                Collection: Collection,
+                Colour: Colour,
+                Type: Type,
+                Size: Size,
+             };
+            console.log(data)
+            if (isInWishList == 1) {
+                setNotify({
+                    isOpen: true,
+                    message: "This product is already in your wishlist !",
+                    type: "error",
+                });
+            } else {
                 ceylonforkapi
                     .post("/ProductDetails/addwishlist/", data)
                     .then((response) => {
-                        if (response.data.error) {
+                        if (response.data.status==0) {
                             setNotify({
                                 isOpen: true,
                                 message: "Not successfully added to your wishlist !",
                                 type: "error",
                             });
                         } else {
-                            setRecord(response.data);
+                            setRecord([]);
+                            setRecord(response.data.data);
                             setNotify({
                                 isOpen: true,
                                 message: "Successfully added to your wishlist !",
@@ -128,12 +143,6 @@ const Shop = () => {
                             });
                         }
                     });
-            } else {
-                setNotify({
-                    isOpen: true,
-                    message: "This product is already in your wishlist !",
-                    type: "error",
-                });
             }
         } else {
             setNotify({
@@ -186,6 +195,7 @@ const Shop = () => {
         axios
             .get("http://localhost:3001/shop/filterRecords", {
                 params: {
+                    uId : localStorage.getItem("userId"),
                     Collection: Collection,
                     Colour: Colour,
                     Type: Type,
@@ -193,6 +203,7 @@ const Shop = () => {
                 },
             })
             .then((response) => {
+                setRecord([])
                 setRecord(response.data);
             });
 
@@ -225,7 +236,6 @@ const Shop = () => {
         loadRecordAgain();
         // dispatch(fetchColors());
     }, []);
-
 
     return (
         <div>

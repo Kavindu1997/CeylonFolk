@@ -2,7 +2,7 @@ import { Category } from "@material-ui/icons";
 import { ProductActionTypes } from "../_constants";
 
 const initialState = {
-  productObject: [],
+  productObject: [], filteredItems: [], size:''
 };
 
 export const productReducer = (state = initialState, { type, payload }) => {
@@ -10,7 +10,9 @@ export const productReducer = (state = initialState, { type, payload }) => {
     case ProductActionTypes.SET_PRODUCTS:
       return { ...state, productObject: payload }
     case ProductActionTypes.FETCH_PRODUCTS:
-      return { ...state, productObject: payload }
+      return { ...state, productObject: payload, filteredItems: payload }
+    case ProductActionTypes.FILTER_PRODUCTS_BY_SIZE:
+    return { ...state, filteredItems: payload.items, size: payload.size }
     default:
       return state
   }
