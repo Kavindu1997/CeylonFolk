@@ -88,6 +88,7 @@ export default function Cart() {
 
   const updateQty = (event) => {
     changedValue = event;
+    console.log(event)
   }
 
   const selectedQty = (index) => {
@@ -190,7 +191,7 @@ export default function Cart() {
                         <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.size}</TableCell>
                         <TableCell align="center">
                           <div onClick={() => selectedQty(index)}>
-                          <NumericInput mobile min={1} max={value.stockMargin} defaultValue={value.quantity} size={1} style={{ fontFamily: 'Montserrat' }} onChange={updateQty}/>
+                          <NumericInput mobile min={1} max={value.stockMargin} defaultValue={value.quantity} size={1}  className="form-control" onChange={updateQty}  />
                           </div>
                         </TableCell>
                         {/* <TableCell align="center" className={classes.numeric} style={{ fontFamily: 'Montserrat' }}>{value.quantity}</TableCell> */}
@@ -247,7 +248,7 @@ export default function Cart() {
                 variant="contained"
                 color="primary"
                 className={classes.submit}
-              >Save Update
+              >Save Your New Changes
               </Button>
             </Box>
           </div>

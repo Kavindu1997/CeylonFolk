@@ -79,24 +79,38 @@ router.get("/quantity/:id", async (req,res) => {
 // });
 
 router.post("/addwishlist",async (req, res) => {
+    var data = { status:0 , data:[] }
     const itemId = req.body.id;
     const uId = req.body.uid;
-    const query1 = "SELECT itemId FROM wishlists WHERE itemId ='"+itemId+"' AND userId='"+uId+"'";
-    const wishlistItem = await sequelize.query(query1, {type: sequelize.QueryTypes.SELECT});
-    console.log(wishlistItem)
-    if(wishlistItem.length > 0 ){
-        const query2 = "DELETE FROM wishlists WHERE userId='"+uId+"' AND itemId='"+itemId+"'";
-        const removewishlist = await sequelize.query(query2, { type: sequelize.QueryTypes.DELETE });
-        // res.json(removewishlist);
-    }else{
-        const query = "INSERT INTO wishlists(`itemId`,`userId`) VALUES('"+itemId+"','"+uId+"')";
-        const wishlist = await sequelize.query(query, {type: sequelize.QueryTypes.INSERT});
-        // res.json(wishlist);
-        
+    const Collection= req.body.Collection===""?"collections.collection_name":"'"+req.body.Collection+"'";
+    const Colour= req.body.Colour===""?"colors.color_name":"'"+req.body.Colour+"'";
+    const Type= req.body.Type===""?"types.types":"'"+req.body.Type+"'";
+    const Size= req.body.Size===""?"sizes.size":"'"+req.body.Size+"'";
+    console.log(req.body.Collection,req.body.Colour,req.body.Type,req.body.Size)
+    try{
+        const query1 = "SELECT itemId FROM wishlists WHERE itemId ='"+itemId+"' AND userId='"+uId+"'";
+        const wishlistItem = await sequelize.query(query1, {type: sequelize.QueryTypes.SELECT});
+        console.log(wishlistItem)
+        if(wishlistItem.length > 0 ){
+            const query2 = "DELETE FROM wishlists WHERE userId='"+uId+"' AND itemId='"+itemId+"'";
+            const removewishlist = await sequelize.query(query2, { type: sequelize.QueryTypes.DELETE });
+            // res.json(removewishlist);
+        }else{
+            const query = "INSERT INTO wishlists(`itemId`,`userId`) VALUES('"+itemId+"','"+uId+"')";
+            const wishlist = await sequelize.query(query, {type: sequelize.QueryTypes.INSERT});
+            // res.json(wishlist);
+            
+        }
+        data.status=1
     }
-    const query ="SELECT designs.id,designs.collection_id,designs.design_name,designs.color_id,designs.type_id,designs.coverImage,designs.price, CASE WHEN wishlists.itemId IS NULL THEN 0 ELSE 1 END AS isInWishList FROM `designs` LEFT JOIN wishlists ON wishlists.itemId = designs.id AND wishlists.userId = '"+uId+"' GROUP BY design_name"
+    catch(e){
+        data.status=0
+    }
+
+    const query ="SELECT designs.id, designs.collection_id, designs.design_name, designs.color_id, designs.type_id, designs.coverImage, designs.price, CASE WHEN wishlists.itemId IS NULL THEN 0 ELSE 1 END AS isInWishList FROM `designs` LEFT JOIN wishlists ON wishlists.itemId = designs.id AND wishlists.userId = '"+uId+"' INNER JOIN colors ON colors.id = designs.color_id INNER JOIN inventories ON inventories.colour_id = designs.color_id AND inventories.type_id=designs.type_id INNER JOIN sizes ON sizes.id = inventories.size_id INNER JOIN TYPES ON TYPES .id = designs.type_id INNER JOIN collections ON collections.id = designs.collection_id WHERE collections.collection_name=" + Collection + " AND colors.color_name=" + Colour + " AND types.types=" + Type + " AND sizes.size=" + Size + " GROUP BY design_name"
     const listOfDesignsDB = await sequelize.query(query, { type: sequelize.QueryTypes.SELECT });
-    res.json(listOfDesignsDB);
+    data.data=listOfDesignsDB
+    res.json(data);
 })
 
 

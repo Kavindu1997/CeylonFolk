@@ -50,7 +50,11 @@ const useStyles = makeStyles((theme) => ({
     noVisibility:{
         dispaly:'none',
         fontFamily: 'Montserrat', textAlign: 'left', marginTop: '15px', marginBottom: '10px', marginLeft: '30px' 
-    }
+    },
+    coupon: {
+        borderRadius: 20,
+        width: '100%'
+      },
 }));
 
 
