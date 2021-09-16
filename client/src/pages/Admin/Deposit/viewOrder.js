@@ -46,7 +46,7 @@ const ViewOrderForm = ({ selectedOrderToEdit }) => {
       .then((response) => {
         setOrder(response.data);
       });
-      axios
+    axios
       .get("http://localhost:3001/order/orderTotal/" + selectedOrderToEdit.oId)
       .then((response) => {
         setOrderFullAmount(response.data);
@@ -146,8 +146,8 @@ const ViewOrderForm = ({ selectedOrderToEdit }) => {
                           <TableCell align="center">
                             Rs. {value.fullAmount}
                           </TableCell>
-                      );
-                     })} 
+                        );
+                      })}
                     </TableRow>
                   </TableBody>
                 </Table>

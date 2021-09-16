@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
     pageLinks: {
         flex: '1',
         marginTop: '40px',
-        marginLeft: '130px',
+        // marginLeft: '400px',
         padding: '30px',
     },
     orderDetails: {
