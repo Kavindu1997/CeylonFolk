@@ -39,6 +39,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Notification from "../../components/Reusable/Notification";
 import ceylonforkapi from "../../api/index";
 
+
 const Shop = () => {
     const classes = useStyles1();
     const [checked, setChecked] = useState(false);
@@ -54,6 +55,8 @@ const Shop = () => {
     const [Type, setType] = useState("");
     const [Size, setSize] = useState("");
     var [products, setRecord] = useState([]);
+
+    const check = 1;
 
     const onCollection = (e) => {
         setCollection(e.target.value);
@@ -208,6 +211,7 @@ const Shop = () => {
     };
 
     const loadRecordAgain = () => {
+
         const uid = localStorage.getItem("userId");
         if (uid == "0") {
             var response = fetch(`http://localhost:3001/shop`)
@@ -227,12 +231,12 @@ const Shop = () => {
                 });
         }
     };
+
     useEffect(() => {
         loadRecordAgain();
         // dispatch(fetchColors());
     }, []);
 
-    //let history = useHistory()
 
     return (
         <div>
@@ -332,9 +336,10 @@ const Shop = () => {
 
                 <Container className={classes.collectionContainer} maxWidth="lg">
                     <Grid container spacing={0}>
+
                         {products.map((product, index) => {
-                            const { id, coverImage, design_name, price, isInWishList } =
-                                product;
+                            const { id, coverImage, design_name, price, isInWishList } = product;
+
                             return (
                                 <Grid item xs={12} sm={6} md={3}>
                                     <Link style={{ textDecoration: "none" }}>
@@ -415,6 +420,9 @@ const Shop = () => {
             <Footer />
             <Notification notify={notify} setNotify={setNotify} />
         </div>
+
+
+
     );
 };
 

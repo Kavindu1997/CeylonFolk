@@ -183,6 +183,14 @@ const useStyles = makeStyles((theme) => ({
         display: 'block'
       },
   
+      products: {
+        display: 'none'
+      },
+      activeProducts: {
+        display: 'block'
+      },
+
+
   }));
 
   export default useStyles;
