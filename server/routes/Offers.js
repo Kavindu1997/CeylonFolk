@@ -5,6 +5,10 @@ const { Offers, sequelize } = require('../models/');
 
 router.get("/", async (req,res) => {
 
+    let today = new Date().toISOString().slice(0, 10)
+    const query1 = "DELETE FROM offers WHERE offers.to <'"+today+"'  ";
+
+    const deleteOffersRemove = await sequelize.query(query1, {type: sequelize.QueryTypes.DELETE});
 
     const query= "SELECT offers.collection_id,offers.rate,offers.from,offers.to, collections.collection_name from `offers` INNER JOIN `collections` ON offers.collection_id=collections.id";
     const listOfOffers = await sequelize.query(query, {type: sequelize.QueryTypes.SELECT});

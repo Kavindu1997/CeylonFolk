@@ -53,6 +53,17 @@ router.post("/", upload.single('photo'), async(req, res) => {
     // res.json(type_id);
     const id_type = type_id[0].id;
 
+    const count = "SELECT count(id) as cnt FROM `inventories` where inventories.colour_id='" + id_colour + "' AND inventories.type_id='" + id_type + "'";
+    const countInventory = await sequelize.query(count, {type: sequelize.QueryTypes.SELECT});
+    console.log(countInventory[0].cnt);
+
+    const countDesignsQuery = "SELECT count(id) as count FROM `designs` where designs.design_name='" + designName + "'";
+    const countDesigns = await sequelize.query(countDesignsQuery, {type: sequelize.QueryTypes.SELECT});
+    // console.log(countInventory[0].cnt);
+  
+if(countDesigns[0].count==0){
+    if(countInventory[0].cnt!=0){
+
     Designs.create({
         collection_id:collection_id,
         design_name: designName,
@@ -64,6 +75,8 @@ router.post("/", upload.single('photo'), async(req, res) => {
     res.status(200).json({
         success: "Success"
     })
+}
+}
 });
 
 // router.get("/", async (req, res) => {
@@ -140,13 +153,19 @@ router.put("/edit/:design_id", upload.single('photo'), async(req, res) => {
 });
 
 router.delete("/", async (req,res) => {
-  
-    console.log(req.body);
-    const id = req.body.id;
-    const query = "DELETE FROM designs WHERE designs.id='" + id + "' ";
 
-    const designRemove = await sequelize.query(query, {type: sequelize.QueryTypes.DELETE});
-    res.json(designRemove);
+    try{
+        console.log(req.body);
+        const id = req.body.id;
+        const query = "DELETE FROM designs WHERE designs.id='" + id + "' ";
+    
+        const designRemove = await sequelize.query(query, {type: sequelize.QueryTypes.DELETE});
+        res.json({data:1});
+    }
+    catch(e){
+        res.json({data:0});
+    }
+
 });
 
 router.get("/oneDesign/:design_id", async (req,res) => {

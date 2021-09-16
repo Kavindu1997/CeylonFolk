@@ -34,9 +34,17 @@ const upload = multer({
 });
 
 router.post("/", upload.single('photo'), 
-(req, res) => {
+async(req, res) => {
     const { collectionName } = req.body;
     const imagePath = 'public/collections/' + req.file.filename;
+
+    const count = "SELECT count(id) as cnt FROM `collections` where collections.collection_name='" + collectionName + "' ";
+    const countCollections = await sequelize.query(count, {type: sequelize.QueryTypes.SELECT});
+    // console.log(countColors[0].cnt);
+
+    if(countCollections[0].cnt==0){
+
+    
     Collections.create({
         collection_name: collectionName,
         coverImage: imagePath
@@ -44,6 +52,7 @@ router.post("/", upload.single('photo'),
     res.status(200).json({
         success: "Success"
     })
+}
 }
 );
 
@@ -54,12 +63,23 @@ router.get("/", async (req, res) => {
 
 router.delete("/remove", async (req,res) => {
   
-    console.log(req.body);
-    const id = req.body.id;
-    const query = "DELETE FROM collections WHERE collections.id='" + id + "' ";
+   
 
-    const collectionRemove = await sequelize.query(query, {type: sequelize.QueryTypes.DELETE});
-    res.json(collectionRemove);
+    try{
+        console.log(req.body);
+        const id = req.body.id;
+        const query = "DELETE FROM collections WHERE collections.id='" + id + "' ";
+        const collectionRemove = await sequelize.query(query, {type: sequelize.QueryTypes.DELETE});
+
+        const queryDeleteDesign = "DELETE FROM designs WHERE designs.collection_id='" + id + "' ";
+        const designsRemove = await sequelize.query(queryDeleteDesign, {type: sequelize.QueryTypes.DELETE});
+        // res.json(collectionRemove);
+        res.json({data:1});
+    }
+    catch(e){
+        res.json({data:0});
+    }
+
 });
 
 

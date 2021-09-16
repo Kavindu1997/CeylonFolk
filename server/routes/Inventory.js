@@ -158,13 +158,20 @@ router.put("/inventory/:inventory_id", async (req,res) => {
 });
 
 router.delete("/inventory", async (req,res) => {
-  
+
+    try{
+         
     console.log(req.body);
     const id = req.body.id;
     const query = "DELETE FROM inventories WHERE inventories.id='" + id + "' ";
 
     const inventoryItemRemove = await sequelize.query(query, {type: sequelize.QueryTypes.DELETE});
-    res.json(inventoryItemRemove);
+        res.json({data:1});
+    }
+    catch(e){
+        res.json({data:0});
+    }
+
 });
 
 

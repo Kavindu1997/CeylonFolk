@@ -10,6 +10,11 @@ const SizeForm = () => {
 
     const [size, setSize] = useState([]);
     let history = useHistory();
+    const [notify, setNotify] = useState({
+        isOpen: false,
+        message: "",
+        type: "",
+    });
 
     const onFormSubmit = (e) => {
 
@@ -20,8 +25,23 @@ const SizeForm = () => {
         }
 
         console.log(Data);
-        axios.post("http://localhost:3001/sizes", Data).then(() => {
-            alert('Item Inserted Successfully')
+        axios.post("http://localhost:3001/sizes", Data).then((response) => {
+
+            if (response.data.data==0){
+                setNotify({
+                    isOpen: true,
+                    message: 'Insert Failed !',
+                    type: 'error'
+                });
+            }else{
+                setNotify({
+                    isOpen: true,
+                    message: 'Added Successfully !',
+                    type: 'success'
+                  });
+                      
+            } 
+          
         });
         // props.resetForm();
     };
@@ -56,7 +76,7 @@ const SizeForm = () => {
             </div>
         </div >
  
-    
+
     
 
     );

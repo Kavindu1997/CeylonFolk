@@ -95,10 +95,27 @@ const CollectionTable = () => {
 
         axios.delete(`http://localhost:3001/collection/remove/`, { data }).then((response) => {
 
-            axios.get("http://localhost:3001/collection").then((response) => {
-                console.log(response.data);
-                setListOfCollections(response.data);
-            });
+            if (response.data.data==0){
+                setNotify({
+                    isOpen: true,
+                    message: 'Removed Failed !',
+                    type: 'error'
+                });
+            }else{
+               
+                setNotify({
+                    isOpen: true,
+                    message: 'Removed Successfully !',
+                    type: 'success'
+                  });
+                  axios.get("http://localhost:3001/collection").then((response) => {
+                    console.log(response.data);
+                    setListOfCollections(response.data);
+                });
+               
+            } 
+
+            
 
         });
 
