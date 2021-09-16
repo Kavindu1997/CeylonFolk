@@ -132,21 +132,44 @@ export default function Checkout() {
     const couponName = (event) => {
         getCustomerCoupon(event.target.value)
         console.log(customerCoupon)
+        setIsCouponValidated(0)
     }
 
     const [validCoupon, setValidCoupon] = useState([])
+    const [isCouponValidated, setIsCouponValidated] = useState(0)
     function applyCoupon(){
-        console.log(customerCoupon)
-        var details = {
-            couponName: customerCoupon,
-            today: new Date(),
+        ceylonforkapi.get("/check/coupon",{
+            params : {
+                couponName: customerCoupon,
+                today: new Date(),
+            }
         }
-        console.log(details)
-        ceylonforkapi.post("/check/coupon/",details).then((response) => { 
-            setValidCoupon(response.data)
+        ).then((response) => { 
+            console.log(response.data)
+            if (response.data.status==1) {
+                setNotify({
+                    isOpen: true,
+                    message: response.data.msg,
+                    type: "error",
+            });
+        }else if(response.data.status==2){
+            setNotify({
+                isOpen: true,
+                message: response.data.msg,
+                type: "error",
+        });
+        }else{
+            setNotify({
+                isOpen: true,
+                message: response.data.msg,
+                type: "success",
+            });
+            console.log(response.data.data)
+            setValidCoupon(response.data.data[0].discount_amount)
+            setIsCouponValidated(1)
+        }
         })
         console.log(validCoupon)
-
     }
 
     function validateFormFields(){
@@ -192,6 +215,14 @@ export default function Checkout() {
            
         }
         var uid = localStorage.getItem("userId");
+        if(isCouponValidated==0 && customerCoupon.length>0){
+            setNotify({
+                isOpen: true,
+                message: 'Please validate the entered coupon !',
+                type: 'error'
+              });
+              return 
+        }
         if (uid != '0' && checkedTermsCondition == true) {
             if (paymentMethod == "cash") {
                 paymentItem = createPaymentDetails(MASTER_DATA.cash_on_delivery, uid, MASTER_DATA.pending);
@@ -232,6 +263,10 @@ export default function Checkout() {
                             message: 'Order successfully placed. Order details will be sent your email !',
                             type: 'success'
                           });
+                          setDisableButton(true)
+                          setTimeout(function(){
+                            history.push("/myOrders")
+                        }, 3000);
                     }
                 })
             } else if (paymentMethod == "online") {
@@ -255,9 +290,12 @@ export default function Checkout() {
     };
 
     const createPaymentDetails = (pm, uid, status) => {
+        console.log(customerCoupon)
+        console.log(isCouponValidated)
+        console.log(customerCoupon.length)
         let orderId = new Date().getTime();
         var date = moment().format();
-        var total = Number(totalDetails) + Number(districtvalue);
+        var total = Number(totalDetails) + Number(districtvalue) - Number(validCoupon);
         var address = "";
         if (isDeliveryDiffAdd != true) {
             address = cutomerAddress1 + ' ' + cutomerAddress2 + ' ' + cutomerAddress3;
@@ -277,7 +315,9 @@ export default function Checkout() {
             email: customerDetails[0].email,
             name:customerDetails[0].firstName + " " + customerDetails[0].lastName,
             paymentMethod: value,
-            specialNote: specialNote
+            specialNote: specialNote,
+            customerCoupon: customerCoupon==""?0:customerCoupon,
+            isCouponValidated: isCouponValidated,
         }
         return item;
     }
@@ -299,10 +339,10 @@ export default function Checkout() {
                             message: 'Order successfully placed. Order details will be sent your email !',
                             type: 'success'
                           });
+                          setDisableButton(true)
                           setTimeout(function(){
-                            
-                       }, 2000);
-                          history.push("/myOrders")
+                            history.push("/myOrders")
+                        }, 3000);
                     }
                 })
         
@@ -507,7 +547,7 @@ export default function Checkout() {
                                                 Add Coupon
                                             </TableCell>
                                             <TableCell align="left" colSpan={3} style={{ fontFamily: 'Montserrat' }}>
-                                            <TextField underlineShow={false} label="Coupon Name" style={{ width: 130, borderRadius: 25 }} onChange={couponName}/>
+                                            <TextField underlineShow={false} label="Coupon Number" style={{ width: 130, borderRadius: 25 }} onChange={couponName}/>
                                             <br />  <br />
                                             <Button
                                                 type="submit"
@@ -515,7 +555,7 @@ export default function Checkout() {
                                                 color="primary"
                                                 className={classes.coupon}
                                                 onClick = {applyCoupon}
-                                            >Apply Coupon
+                                            >Validate Coupon
                                             </Button>
                                             </TableCell>
                                         </TableRow>
@@ -534,7 +574,7 @@ export default function Checkout() {
                                                 Total
                                             </TableCell>
                                             <TableCell align="left" colSpan={3} style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>
-                                                Rs. {Number(totalDetails) + (districtvalue)}
+                                                Rs. {Number(totalDetails) + Number(districtvalue) - validCoupon}
                                             </TableCell>
                                         </TableRow>
 
