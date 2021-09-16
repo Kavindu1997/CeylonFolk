@@ -37,9 +37,12 @@ router.post("/", upload.single('photo'), async(req, res) => {
  
     const { types,price} = req.body;
 
+    const count = "SELECT count(id) as cnt FROM `types` where types.types='" + types + "'";
+    const countTypes = await sequelize.query(count, {type: sequelize.QueryTypes.SELECT});
     
     const imagePath = 'public/tshirt_types/' + req.file.filename;
 
+    if(countTypes[0].cnt==0){
     Types.create({
         types:types,
         coverImage: imagePath,
@@ -48,11 +51,32 @@ router.post("/", upload.single('photo'), async(req, res) => {
     res.status(200).json({
         success: "Success"
     })
+}
+
+    
 });
 
 router.get("/", async (req, res) => {
     const listOfTypes = await Types.findAll();
     res.json(listOfTypes);
+});
+
+
+router.delete("/", async (req,res) => {
+
+    try{
+        console.log(req.body);
+        const id = req.body.id;
+        const query = "DELETE FROM types WHERE types.id='" + id + "' ";
+    
+        const typeRemove = await sequelize.query(query, {type: sequelize.QueryTypes.DELETE});
+        res.json({data:1});
+    }
+    catch(e){
+        res.json({data:0});
+    }
+
+
 });
 
 

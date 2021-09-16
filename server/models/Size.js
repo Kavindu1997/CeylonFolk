@@ -3,7 +3,7 @@ module.exports = (sequelize, DataTypes) => {
     const Size = sequelize.define("Size", {
 
         size: {
-            type: DataTypes.STRING,
+            type: DataTypes.CHAR,
             allowNull: true,
         },
        

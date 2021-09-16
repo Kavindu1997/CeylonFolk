@@ -1,3 +1,4 @@
+const { getDate } = require("date-fns");
 const express = require("express");
 const router = express.Router();
 const { Designs, sequelize } = require('../models');
@@ -9,13 +10,30 @@ router.get("/", async (req, res) => {
     // res.render("upload");
 });
 
-
 router.get("/shop/:id", async (req, res) => {
     const id = req.params.id
     // console.log(id)
     const query = "SELECT * FROM designs WHERE type_id='" + id + "'";
     const listOftypes = await sequelize.query(query, { type: sequelize.QueryTypes.SELECT });
     res.json(listOftypes);
+});
+
+router.get("/offers", async (req,res) => {
+ 
+    let today = new Date().toISOString().slice(0, 10)
+  
+    const query = "SELECT collections.collection_name, collections.coverImage, offers.rate,offers.to FROM `collections` INNER JOIN `offers` ON collections.id=offers.collection_id WHERE offers.to >='"+today+"' ";
+        const listOfOffers = await sequelize.query(query, { type: sequelize.QueryTypes.SELECT });
+        console.log(listOfOffers);
+        res.json(listOfOffers);
+
+   console.log("hello");
+
+
+//  const query1 = "SELECT designs.design_name,designs.coverImage,designs.price from `designs`";
+//         const listOfkkk = await sequelize.query(query1, { type: sequelize.QueryTypes.SELECT });
+//         console.log(listOfkkk);
+
 });
 
 

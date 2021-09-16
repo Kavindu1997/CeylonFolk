@@ -69,18 +69,41 @@ const CollectionTable = () => {
 
     // dispatch(fetchColors());
 
+    const onSetId = (id) => { //'Itom007'
+        localStorage.setItem("collection_id", id);
+    };
+
     const onRemove = (id) => {
 
         setConfirmDialog({
             ...confirmDialog,
             isOpen: false
           });
-        // dispatch(actionDeleteCollection(id));
-        const data = { id: id }
-    };
 
-    const onSetId = (id) => { //'Itom007'
-        localStorage.setItem("collection_id", id);
+        const data = { id: id }
+
+        axios.delete(`http://localhost:3001/availableColors`, { data }).then((response) => {
+
+            if (response.data.data==0){
+                setNotify({
+                    isOpen: true,
+                    message: 'Removed Failed !',
+                    type: 'error'
+                });
+            }else{
+                setNotify({
+                    isOpen: true,
+                    message: 'Removed Successfully !',
+                    type: 'success'
+                  });
+                 
+               
+            } 
+
+        });
+
+
+
     };
 
     return (
@@ -90,18 +113,6 @@ const CollectionTable = () => {
                 <PageHeader title="COLORS" icon={<LayersIcon fontSize="large" />} />
                 <Paper className={classes.pageContent}>
                     <Toolbar>
-                        <Controls.Input
-                            label="Search Colors"
-                            className={classes.searchInput}
-                            InputProps={{
-                                startAdornment: (
-                                    <InputAdornment position="start">
-                                        <Search />
-                                    </InputAdornment>
-                                ),
-                            }}
-                        //onChange={handleSearch}
-                        />
                         <Controls.Button
                             text="Add New Color"
                             variant="outlined"
@@ -123,13 +134,13 @@ const CollectionTable = () => {
                                             <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Colour</TableCell>
                                             <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Colour Name</TableCell>
                                             <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Price</TableCell>
-                                            <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Edit Colour</TableCell>
-                                            <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Delete Colour</TableCell>
+                                            <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Edit</TableCell>
+                                            <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Delete</TableCell>
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
                                         {pickedItemColors.map((pickColor) => {
-                                            const {color, price,color_name } = pickColor;
+                                            const {id,color, price,color_name } = pickColor;
                                             return (
                                                 <TableRow>
                                                     <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{color_name}</TableCell>
@@ -154,7 +165,7 @@ const CollectionTable = () => {
                                                                     isOpen: true,
                                                                     title: 'Are you sure to delete this?',
                                                                     subTitle: "You can't undo this operation...",
-                                                                    // onConfirm: () => { onRemove(value.id) }
+                                                                    onConfirm: () => { onRemove(id) }
                                                                 })
                                                             }}>
                                                                 <i className="fa fa-times" aria-hidden="true"></i>

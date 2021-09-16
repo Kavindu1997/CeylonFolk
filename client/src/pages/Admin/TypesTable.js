@@ -85,9 +85,9 @@ const TypesTable = () => {
         //     }
         //   });
 
-        axios.delete(`http://localhost:3001/collection/remove/`, { data }).then((response) => {
+        axios.delete(`http://localhost:3001/types`, { data }).then((response) => {
 
-            axios.get("http://localhost:3001/collection").then((response) => {
+            axios.get("http://localhost:3001/types").then((response) => {
                 console.log(response.data);
                 setListOfTypes(response.data);
             });
@@ -97,15 +97,6 @@ const TypesTable = () => {
 
 
     };
-
-    // function onProceed() {
-        
-
-    //       history.push('/collections');
-        
-    
-    //   }
-
 
     const onSetId = (id) => { //'Itom007'
         localStorage.setItem("collection_id",id);
@@ -123,18 +114,7 @@ const TypesTable = () => {
                 <PageHeader title="TYPES" icon={<LayersIcon fontSize="large" />} />
                 <Paper className={classes.pageContent}>
                     <Toolbar>
-                        <Controls.Input
-                            label="Search Types"
-                            className={classes.searchInput}
-                            InputProps={{
-                                startAdornment: (
-                                    <InputAdornment position="start">
-                                        <Search />
-                                    </InputAdornment>
-                                ),
-                            }}
-                        //onChange={handleSearch}
-                        />
+                      
                         <Controls.Button
                             text="Add New Type"
                             variant="outlined"

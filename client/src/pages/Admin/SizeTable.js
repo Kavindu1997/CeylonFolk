@@ -70,14 +70,31 @@ const SizeTable = () => {
         dispatch(actionDeleteCollection(id));
 
         const data = { id: id }
-        
+    
 
-        axios.delete(`http://localhost:3001/sizes/remove/`, { data }).then((response) => {
+        axios.delete(`http://localhost:3001/sizes`, { data }).then((response) => {
 
+
+            if (response.data.data==0){
+                setNotify({
+                    isOpen: true,
+                    message: 'Removed Failed !',
+                    type: 'error'
+                });
+            }else{
+                setNotify({
+                    isOpen: true,
+                    message: 'Removed Successfully !',
+                    type: 'success'
+                  });
+                 
             axios.get("http://localhost:3001/sizes").then((response) => {
                 console.log(response.data);
                 setListOfSizes(response.data);
             });
+               
+            } 
+
 
         });
 
@@ -110,18 +127,7 @@ const SizeTable = () => {
                 <PageHeader title="AVAILABLE SIZES" icon={<LayersIcon fontSize="large" />} />
                 <Paper className={classes.pageContent}>
                     <Toolbar>
-                        <Controls.Input
-                            label="Search Size"
-                            className={classes.searchInput}
-                            InputProps={{
-                                startAdornment: (
-                                    <InputAdornment position="start">
-                                        <Search />
-                                    </InputAdornment>
-                                ),
-                            }}
-                        //onChange={handleSearch}
-                        />
+                      
                         <Controls.Button
                             text="Add New Size"
                             variant="outlined"
@@ -156,7 +162,7 @@ const SizeTable = () => {
                                                                 setConfirmDialog({
                                                                     isOpen: true,
                                                                     title: 'Are you sure to delete this?',
-                                                                    subTitle: "You can't undo this operation...",
+                                                                    subTitle: "Inventory data which are related to this size will be automatically deleted",
                                                                     onConfirm: () => { onRemove(value.id) }
                                                                 })
                                                             }}>
@@ -181,7 +187,7 @@ const SizeTable = () => {
                         <SizeForm />
                     </Popup>
 
-                    <Notification notify={notify} setNotify={setNotify} />
+                
 
                     {<ConfirmDialog
                         confirmDialog={confirmDialog}
