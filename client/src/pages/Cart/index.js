@@ -86,16 +86,22 @@ export default function Cart() {
     dispatch(getTotal())
   }, []);
 
+  var changedIndex;
+
   const updateQty = (event) => {
     changedValue = event;
     console.log(event)
   }
+  
+  const selectedQty = (index,quantity) => {
+    console.log(index, quantity)
+    setDisable(false);
 
-  const selectedQty = (index) => {
-    setDisable(false)
+    console.log(changedValue)
     let updatedItem = productCart[index];
     if (changedValue === undefined) {
-      changedValue = updatedItem.stockMargin;
+
+      changedValue = quantity;
     }
 
     setProceedDisable(true)
@@ -190,8 +196,8 @@ export default function Cart() {
                         <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>Rs. {value.price}</TableCell>
                         <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.size}</TableCell>
                         <TableCell align="center">
-                          <div onClick={() => selectedQty(index)}>
-                          <NumericInput mobile min={1} max={value.stockMargin} defaultValue={value.quantity} size={1}  className="form-control" onChange={updateQty}  />
+                          <div onClick={() => selectedQty(index,value.quantity)}>
+                          <NumericInput mobile min={1} max={value.stockMargin } defaultValue={value.quantity}  step={ 1 } precision={ 0 } size={ 1 }  onChange={updateQty}  onKeyDown={(event) => {event.preventDefault();console.log(event)}}  />
                           </div>
                         </TableCell>
                         {/* <TableCell align="center" className={classes.numeric} style={{ fontFamily: 'Montserrat' }}>{value.quantity}</TableCell> */}
@@ -272,11 +278,10 @@ export default function Cart() {
                   <TableCell align="left" style={{ fontWeight: 600, fontFamily: 'Montserrat' }}>SHIPPING</TableCell>
                   <TableCell align="center" style={{ fontWeight: 400, fontFamily: 'Montserrat' }}>Charges will be calculated <br />in the checkout process</TableCell>
                 </TableRow>
-                <TableRow>
+                {/* <TableRow>
                   <TableCell align="left" style={{ fontWeight: 600, fontFamily: 'Montserrat' }}>ADD COUPON</TableCell>
                   <TableCell align="center" style={{ fontWeight: 600, fontFamily: 'Montserrat' }}>
                     <div>
-                      {/* <TextField id="outlined-basic" label="Coupon ID" variant="outlined" style={{ width: 130, borderRadius: 100, borderWidth:2 }} /> */}
                       <TextField underlineShow={false} label="Coupon ID" style={{ width: 130, borderRadius: 25 }} />
                       <br />  <br />
                       <Button
@@ -288,7 +293,7 @@ export default function Cart() {
                       </Button>
                     </div>
                   </TableCell>
-                </TableRow>
+                </TableRow> */}
                 <TableRow>
                   <TableCell align="left" style={{ fontWeight: 600, fontFamily: 'Montserrat' }}>TOTAL</TableCell>
                   <TableCell align="center" style={{ fontWeight: 600, fontFamily: 'Montserrat' }}>Rs. {Number(cartTotal)}</TableCell>

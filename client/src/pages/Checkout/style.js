@@ -53,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
     },
     coupon: {
         borderRadius: 20,
-        width: '100%'
+        
       },
 }));
 

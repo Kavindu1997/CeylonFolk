@@ -31,6 +31,8 @@ router.post("/cashOn", async (req, res) => {
         const email = req.body.email;
         const payMethod = req.body.paymentMethod;
         const specialNote = req.body.specialNote;
+        const customerCoupon = req.body.customerCoupon;
+        const  isCouponValidated= req.body.isCouponValidated;
         const query = "INSERT INTO orders (orderId,customerId,fullAmount,PaymentMethod,status, deliveryAddress,contactNo, placedDate,specialNotes,notifications) VALUES ('" + oid + "','" + uid + "','" + total + "','" + pmt + "','" + stu + "','" + add + "','" + contactNo + "','" + date + "','"+specialNote+"','placed')";
         const cashOnOrder = await sequelize.query(query, { type: sequelize.QueryTypes.INSERT });
         res.json(cashOnOrder);
@@ -38,7 +40,6 @@ router.post("/cashOn", async (req, res) => {
             const query1 = "INSERT INTO orderitems (orderId, itemId, quantity, size) VALUES ('" + oid + "','" + items[i].itemId + "','" + items[i].quantity + "','" + items[i].size + "')";
             const cashOrderItem = await sequelize.query(query1, { type: sequelize.QueryTypes.INSERT });
         }
-        console.log("mail function")
         var emailDetails = {
             name: name,
             orderId: oid,
@@ -63,8 +64,12 @@ router.post("/cashOn", async (req, res) => {
             emailDetails.urlMsg = 'To view your past order details';
             emailDetails.url = 'http://localhost:3000/myOrders?id='+uid+'';
         }
-       var value = sendEmail(emailDetails)
+        if(isCouponValidated==1){
+            const query = "UPDATE coupons SET isUsed=1, usedBy='"+uid+"' WHERE coupon_number='"+customerCoupon+"'";
+            const couponUpdate = await sequelize.query(query, { type: sequelize.QueryTypes.UPDATE });
+        }
         updateInventory(items)
+        var value = sendEmail(emailDetails)
         res.json({data:1});
     }
     catch(e){
@@ -86,7 +91,7 @@ async function updateInventory(items) {
 }
 
 async function sendEmail(emailDetails){
-    console.log("email option")
+  
     const htmlEmail = `
             <h4> ${emailDetails.message} <h4>
             <ul> 
@@ -107,7 +112,7 @@ async function sendEmail(emailDetails){
                 pass: "pkjjt@1234"
             }
         });
-        console.log(emailDetails)
+       
         const mailOptions = {
             from: 'testceylonfolk@gmail.com', // sender address
             to: emailDetails.email, // list of receivers
@@ -117,7 +122,6 @@ async function sendEmail(emailDetails){
             html: htmlEmail
 
         };
-console.log("email option")
             await transporter.sendMail(mailOptions,(err,info) =>{
             if(err){
                         console.log("error in sending mail",err)
@@ -247,6 +251,33 @@ router.get("/district", async (req, res) => {
         
     res.json(deliveryDistrict);
 
+});
+
+router.get("/coupon", async (req, res) => {
+    var data = { status:0 , data:[], msg:"" }
+    console.log(req.query.today, req.query.couponName)
+    const couponName = req.query.couponName;
+    const today = req.query.today;
+    const query = "SELECT * FROM coupons WHERE coupon_number='" + couponName + "' AND isUsed=0";
+    const couponInTable = await sequelize.query(query, { type: sequelize.QueryTypes.SELECT });
+    console.log(couponInTable.length)
+    if(couponInTable.length>0){
+        const query1 = "SELECT discount_amount FROM coupons WHERE coupon_number='" + couponName + "' AND end_date >= '" + today + "'";
+        const couponValid = await sequelize.query(query1, { type: sequelize.QueryTypes.SELECT });
+        console.log(couponValid)
+        if(couponValid.length>0){
+            data.data=couponValid
+            data.msg="Coupon has successfully applied !"
+
+        }else{
+            data.status=1
+            data.msg="Coupon has expired !"
+        }
+    }else{
+        data.status=2
+        data.msg="Not a valid coupon !"
+    }
+    res.json(data)
 });
 
 
