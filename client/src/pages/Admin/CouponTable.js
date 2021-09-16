@@ -8,7 +8,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import LoyaltyIcon from '@material-ui/icons/Loyalty';
 import CouponForm from './CouponForm';
 import EditCouponForm from './EditCouponForm';
-import { makeStyles, Paper,TableBody,TableRow,TableCell,Toolbar, InputAdornment} from '@material-ui/core';
+import { makeStyles, Paper,TableBody,TableRow,TableCell,Toolbar, InputAdornment,Typography} from '@material-ui/core';
 import useTable from '../../components/Reusable/useTable';
 import Controls from '../../components/Reusable/Controls';
 import Popup from '../../components/Reusable/Popup';
@@ -181,7 +181,7 @@ const CouponTable = () => {
                       onClick={() => { setOpenPopup(true); setRecordForEdit(null); }}
                   />
               </Toolbar>
-
+              <Typography variant="h5" style={{ marginTop: '80px', textAlign: 'center', backgroundColor: '#C6C6C6', padding: '30px', fontFamily: 'Montserrat' }}>COUPONS</Typography>
               <TblContainer>
                         <TblHead />
                         <TableBody>

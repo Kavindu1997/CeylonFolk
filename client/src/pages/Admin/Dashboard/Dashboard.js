@@ -165,7 +165,7 @@ const Dashboard = () => {
                             variant='h4'
                             component='h2'
                             className={classes.cardHeader}>
-                              <CountUp end={item.value} duration={3}/>
+                              <CountUp end={item.value} duration={0}/>
                           </Typography>
                       );
                       case "Pending Orders":
@@ -174,7 +174,7 @@ const Dashboard = () => {
                             variant='h4'
                             component='h2'
                             className={classes.cardHeader}>
-                              <CountUp end={item.value} duration={3}/>
+                              <CountUp end={item.value} duration={0}/>
                           </Typography>
                       );
                       case "Total Cost":
@@ -183,7 +183,7 @@ const Dashboard = () => {
                             variant='h4'
                             component='h2'
                             className={classes.cardHeader}>
-                              <CountUp end={item.value} duration={3.5} prefix='LKR ' separator=',' decimals={2}/>
+                              <CountUp end={item.value} duration={0} prefix='LKR ' separator=',' decimals={2}/>
                           </Typography>
                       );
                       case "Total Revenue":
@@ -192,7 +192,7 @@ const Dashboard = () => {
                             variant='h4'
                             component='h2'
                             className={classes.cardHeader}>
-                              <CountUp end={item.value} duration={4} prefix='LKR ' separator=',' decimals={2}/>
+                              <CountUp end={item.value} duration={0} prefix='LKR ' separator=',' decimals={2}/>
                           </Typography>
                       );
                         case "Total Profit":
@@ -201,24 +201,13 @@ const Dashboard = () => {
                               variant='h4'
                               component='h2'
                               className={classes.cardHeader}>
-                                <CountUp end={item.value} duration={4.5} prefix='LKR ' separator=',' decimals={2}/>
+                                <CountUp end={item.value} duration={0} prefix='LKR ' separator=',' decimals={2}/>
                             </Typography>
                         );
                       default: return null;
                     }
                   }).call(this)
             }
-                  <Box className={classes.ratio}>
-                    <Button
-                      startIcon={item.icon}
-                      size='small'
-                      style={{
-                        color: item.label[6] === "P" ? green[700] : red[400],
-                        fontSize: "1.1rem",
-                      }}>
-                      {item.iconLabel}
-                    </Button>
-                  </Box>
                 </Box>
               </CardContent>
             </Card>

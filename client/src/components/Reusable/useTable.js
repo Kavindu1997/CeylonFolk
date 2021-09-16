@@ -3,24 +3,24 @@ import { Table,TableHead,TableRow,TableCell,TablePagination,TableSortLabel,makeS
 
 const useStyles=makeStyles((theme)=>({
     table:{
-        marginTop:theme.spacing(3),
+        marginTop:theme.spacing(0),
         '& thead th':{
             fontWeight:'600',
-            color:'#fff',
-            backgroundColor:'#2C2D2D',
-            fontFamily:'Nunito',
+            color:'#000',
+            backgroundColor:'none',
+            fontFamily:'Montserrat',
             fontSize:'medium'
         },
         '$ tbody td':{
             fontWeight:'300'
         },
         '& tbody tr:hover':{
-            backgroundColor:'#74b9ff',
+            backgroundColor:'none',
             cursor:'pointer'
         },
         '& .MuiTableCell-body':{
-            fontFamily:'Nunito',
-            fontWeight:'500',
+            fontFamily:'Montserrat',
+            fontWeight:'400',
             fontSize:'medium'
         }
 }
