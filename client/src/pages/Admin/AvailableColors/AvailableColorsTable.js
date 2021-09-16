@@ -27,11 +27,7 @@ const CollectionTable = () => {
         message: "",
         type: "",
     });
-    const [confirmDialog, setConfirmDialog] = useState({
-        isOpen: false,
-        title: "",
-        subTitle: "",
-    });
+    const [confirmDialog, setConfirmDialog] = useState({ isOpen: false, title: '', subTitle: '' })
     const dispatch = useDispatch();
 
     const openInPopup = (item) => {
@@ -69,9 +65,16 @@ const CollectionTable = () => {
 
     const pickedItemColors = useSelector((state) => state.colorReducer.pickerColor)
 
+    console.log("color check"+pickedItemColors);
+
     // dispatch(fetchColors());
 
     const onRemove = (id) => {
+
+        setConfirmDialog({
+            ...confirmDialog,
+            isOpen: false
+          });
         // dispatch(actionDeleteCollection(id));
         const data = { id: id }
     };
@@ -146,12 +149,17 @@ const CollectionTable = () => {
                                                     </TableCell>
 
                                                     <TableCell align="center">
-                                                        <Button name="remove"
-                                                        // onClick={() => onRemove(value.id)}
-                                                        >
-                                                            <i className="fa fa-times" aria-hidden="true"></i>
-                                                        </Button>
-                                                    </TableCell>
+                                                            <Button name="remove" onClick={() => {
+                                                                setConfirmDialog({
+                                                                    isOpen: true,
+                                                                    title: 'Are you sure to delete this?',
+                                                                    subTitle: "You can't undo this operation...",
+                                                                    // onConfirm: () => { onRemove(value.id) }
+                                                                })
+                                                            }}>
+                                                                <i className="fa fa-times" aria-hidden="true"></i>
+                                                            </Button>
+                                                        </TableCell>
                                                 </TableRow>
                                             );
                                         })}

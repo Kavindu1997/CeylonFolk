@@ -221,17 +221,19 @@ const CommonNav = (props) => {
         prevOpen.current = open;
     }, [open]);
 
+
     function onLogout() {
         localStorage.clear()
         localStorage.setItem("userId", 0)
-        history.push("./")
+        history.push("/")
         dispatch(getCart())
         dispatch(getTotal())
         dispatch(emptyCartLogout());
         dispatch(emtyTotalLogout());
         dispatch(calculateCartCount())
         dispatch(fetchProducts());
-      }
+    }
+
 
     return (
         <div className={classes.root}>
@@ -239,7 +241,7 @@ const CommonNav = (props) => {
                 <Toolbar className={classes.appbarWrapper}>
                     <div className={classes.appbarLeft}>
                         <NavLink to={"/"} className={classes.appbarlink}> <Typography className={classes.appbarlink2}>Home</Typography></NavLink>
-                        <NavLink to={'/shop'} className={classes.appbarlink}>
+                        <NavLink to={'/shop'} className={classes.appbarlink} >
                             <Typography
                                 className={classes.appbarlink2}
                                 //change "endIcon to "endicon" for remove the warning - pramuka (check it)
@@ -293,7 +295,7 @@ const CommonNav = (props) => {
                                                     <NavLink to={"/myWishlist"} style={{ textDecoration: 'none' }}><MenuItem onClick={handleClose} style={{ fontWeight: '600', fontSize: '15px', color: 'black' }}>My Wishlist</MenuItem></NavLink>
                                                     <NavLink to={"/deposit"} style={{ textDecoration: 'none' }}><MenuItem onClick={handleClose} style={{ fontWeight: '600', fontSize: '15px', color: 'black' }}>Bank Deposit Upload</MenuItem></NavLink>
                                                     <NavLink to={"/custcustomizeOrders"} style={{ textDecoration: 'none' }}><MenuItem onClick={handleClose} style={{ fontWeight: '600', fontSize: '15px', color: 'black' }}>Customerize Orders</MenuItem></NavLink>
-                                                    <NavLink to={"/auth"} style={{ textDecoration: 'none' }} onClick={onLogout}><MenuItem onClick={handleClose} style={{ fontWeight: '600', fontSize: '15px', color: 'black' }}>Logout</MenuItem></NavLink>
+                                                    <NavLink to={"/"} style={{ textDecoration: 'none' }} onClick={onLogout}><MenuItem onClick={handleClose} style={{ fontWeight: '600', fontSize: '15px', color: 'black' }}>Logout</MenuItem></NavLink>
                                                 </MenuList>
 
 

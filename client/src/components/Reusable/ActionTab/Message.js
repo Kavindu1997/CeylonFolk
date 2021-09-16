@@ -8,7 +8,6 @@ import Controls from '../Controls';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import { Link } from 'react-router-dom';
 
-
 export default function Messages() {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -76,6 +75,9 @@ if(listOfContactUs.length>0){
 else{
   var ContactUsValue=0;
 }
+
+
+
 if(listOfContactUs.length!=listOfUnsolvedInquiries.length){
   var UnsolvedValue=1;
 }
@@ -104,6 +106,8 @@ if(listOfContactUs.length!=listOfUnsolvedInquiries.length){
         placement='bottom-start'>
         <List dense={true} className={classes.dropdownlist}>
 
+
+{/* new inquiry */}
             <ListItem
               // key={i}
               component={Button}
@@ -115,6 +119,8 @@ if(listOfContactUs.length!=listOfUnsolvedInquiries.length){
                
             </ListItem>
 
+
+{/* to be resolved */}
             <ListItem
               // key={i}
               component={Button}

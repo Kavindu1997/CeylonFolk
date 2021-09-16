@@ -12,27 +12,27 @@ export default function UserSideNav() {
     let history = useHistory()
     var uName;
     var avatar;
-    if(localStorage.getItem("fullname")!=null){
+    if (localStorage.getItem("fullname") != null) {
         uName = localStorage.getItem("fullname")
         console.log(uName)
-        var splitted = uName.split(/[ ,]+/,2);
+        var splitted = uName.split(/[ ,]+/, 2);
         console.log(splitted)
         avatar = splitted[0][0].toUpperCase() + splitted[1][0].toUpperCase();
-    }else{
+    } else {
         avatar = []
     }
-   
+
     function onLogout() {
         localStorage.clear()
         localStorage.setItem("userId", 0)
-        history.push("./")
+        history.push("/")
         dispatch(getCart())
         dispatch(getTotal())
         dispatch(emptyCartLogout());
         dispatch(emtyTotalLogout());
         dispatch(calculateCartCount())
         dispatch(fetchProducts());
-      }
+    }
 
     return (
         <div>
@@ -87,7 +87,7 @@ export default function UserSideNav() {
                         </Link>
                     </div>
                     <div>
-                        <Link to="/auth" style={{ textDecoration: 'none' }} onClick={onLogout}>
+                        <Link to="/" style={{ textDecoration: 'none' }} onClick={onLogout}>
                             <Typography component="h1" variant="h6" style={{ marginLeft: '80px', fontFamily: 'Montserrat', color: 'black', textAlign: 'left', marginBottom: '30px' }}>
                                 Logout
                             </Typography>

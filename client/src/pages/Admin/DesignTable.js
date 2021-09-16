@@ -17,7 +17,7 @@ import AdminNav from "../../components/Reusable/AdminNav"
 import useStyles from './style';
 import axios from 'axios';
 import { actionDeleteCollection } from '../../_actions/collections';
-import { useDispatch, useSelector} from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from 'react-router-dom';
 import DesignEdit from "./EditDesignForm";
 
@@ -33,11 +33,8 @@ const DesignTable = () => {
         message: "",
         type: "",
     });
-    const [confirmDialog, setConfirmDialog] = useState({
-        isOpen: false,
-        title: "",
-        subTitle: "",
-    });
+  
+    const [confirmDialog, setConfirmDialog] = useState({ isOpen: false, title: '', subTitle: '' });
     const dispatch = useDispatch();
 
     // const { TblContainer, TblHead, TblPagination, recordsAfterPagingAndSorting } =
@@ -89,6 +86,11 @@ const DesignTable = () => {
     //   }
 
     const onRemove = (id) => {
+
+        setConfirmDialog({
+            ...confirmDialog,
+            isOpen: false
+          });
 
         const data = { id: id }
 
@@ -274,7 +276,14 @@ const DesignTable = () => {
                                                         </TableCell>
 
                                                         <TableCell align="center">
-                                                            <Button name="remove" onClick={() => onRemove(value.id)}>
+                                                            <Button name="remove" onClick={() => {
+                                                                setConfirmDialog({
+                                                                    isOpen: true,
+                                                                    title: 'Are you sure to delete this?',
+                                                                    subTitle: "You can't undo this operation...",
+                                                                    onConfirm: () => { onRemove(value.id) }
+                                                                })
+                                                            }}>
                                                                 <i className="fa fa-times" aria-hidden="true"></i>
                                                             </Button>
                                                         </TableCell>
