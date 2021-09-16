@@ -4,12 +4,6 @@ import { useForm, Form } from '../../../components/Reusable/useForm';
 import Controls from '../../../components/Reusable/Controls';
 
 
-const genderItems = [
-    { id: 'Male', title: 'Male' },
-    { id: 'Female', title: 'Female' },
-    { id: 'Other', title: 'Other' }
-]
-
 const userTypes = [
     { id: '1', title: 'Admin' },
     { id: '3', title: 'Manager' },
@@ -18,12 +12,11 @@ const userTypes = [
 
 const initialFvalues = {
     id: 0,
-    first_name: '',
-    last_name: '',
+    firstName: '',
+    lastName: '',
     email: '',
-    mobile_no: '',
-    gender: '',
-    user_type: '',
+    contactNo: '',
+    user_type_id: '',
     password: '',
     confirmPassword: ''
 }
@@ -32,16 +25,16 @@ const UserForm = (props) => {
 
     const validate = (fieldValues = values) => {
         let temp = { ...errors }
-        if ('first_name' in fieldValues)
-            temp.first_name = fieldValues.first_name ? "" : "First Name is required"
-        if ('last_name' in fieldValues)
-            temp.last_name = fieldValues.last_name ? "" : "Last Name is required"
+        if ('firstName' in fieldValues)
+            temp.firstName = fieldValues.firstName ? "" : "First Name is required"
+        if ('lastName' in fieldValues)
+            temp.lastName = fieldValues.lastName ? "" : "Last Name is required"
         if ('email' in fieldValues)
             temp.email = (/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/).test(fieldValues.email) ? "" : "Email is not valid"
-        if ('mobile_no' in fieldValues)
-            temp.mobile_no = (/^(?:0|94|\+94)?(?:(11|21|23|24|25|26|27|31|32|33|34|35|36|37|38|41|45|47|51|52|54|55|57|63|65|66|67|81|912)(0|2|3|4|5|7|9)|7(0|1|2|4|5|6|7|8)\d)\d{6}$/).test(fieldValues.mobile_no) ? "" : "Please Enter a valid Moblie Number"
-        if ('user_type' in fieldValues)
-            temp.user_type = fieldValues.user_type.length !== 0 ? "" : "This field is required"
+        if ('contactNo' in fieldValues)
+            temp.contactNo = (/^(?:0|94|\+94)?(?:(11|21|23|24|25|26|27|31|32|33|34|35|36|37|38|41|45|47|51|52|54|55|57|63|65|66|67|81|912)(0|2|3|4|5|7|9)|7(0|1|2|4|5|6|7|8)\d)\d{6}$/).test(fieldValues.contactNo) ? "" : "Please Enter a valid Moblie Number"
+        if ('user_type_id' in fieldValues)
+            temp.user_type_id = fieldValues.user_type_id.length !== 0 ? "" : "This field is required"
         if ('password' in fieldValues)
             temp.password = (/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/).test(fieldValues.password) ? "" : "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character"
         if ('confirmPassword' in fieldValues)
@@ -84,22 +77,22 @@ const UserForm = (props) => {
                     <Controls.Input
                         variant="outlined"
                         label="First Name"
-                        name="first_name"
-                        id="first_name"
-                        value={values.first_name}
+                        name="firstName"
+                        id="firstName"
+                        value={values.firstName}
                         onChange={handleInputChange}
-                        error={errors.first_name}
+                        error={errors.firstName}
                     />
                 </Grid>
                 <Grid item xs={4}>
                     <Controls.Input
                         variant="outlined"
                         label="Last Name"
-                        name="last_name"
-                        id="last_name"
-                        value={values.last_name}
+                        name="lastName"
+                        id="lastName"
+                        value={values.lastName}
                         onChange={handleInputChange}
-                        error={errors.last_name}
+                        error={errors.lastName}
                     />
                 </Grid>
                 <Grid item xs={4}>
@@ -117,35 +110,28 @@ const UserForm = (props) => {
                     <Controls.Input
                         variant="outlined"
                         label="Mobile Number"
-                        name="mobile_no"
-                        id="mobile_no"
-                        value={values.mobile_no}
+                        name="contactNo"
+                        id="contactNo"
+                        value={values.contactNo}
                         onChange={handleInputChange}
-                        error={errors.mobile_no}
+                        error={errors.contactNo}
                     />
                 </Grid>
-                <Grid item xs={4}>
-                    <Controls.RadioGroup
-                        name="gender"
-                        id="gender"
-                        label="Gender"
-                        value={values.gender}
-                        onChange={handleInputChange}
-                        items={genderItems}
-                    />
 
-                </Grid>
                 <Grid item xs={4}>
                     <Controls.Select
-                        name="user_type"
-                        id="user_type"
+                        name="user_type_id"
+                        id="user_type_id"
                         label="User Type"
-                        value={values.user_type}
+                        value={values.user_type_id}
                         onChange={handleInputChange}
                         options={userTypes}
-                        error={errors.user_type}
+                        error={errors.user_type_id}
                     />
 
+                </Grid>
+                <Grid item xs={4}>
+      
                 </Grid>
                 <Grid item xs={4}>
                     <Controls.Input
@@ -161,6 +147,9 @@ const UserForm = (props) => {
 
                 </Grid>
                 <Grid item xs={4}>
+      
+                </Grid>
+                <Grid item xs={4}>
                     <Controls.Input
                         variant="outlined"
                         label="Confirm Password"
@@ -171,8 +160,11 @@ const UserForm = (props) => {
                         error={errors.confirmPassword}
                         type="password"
                     />
-
-                    <div>
+                </Grid>
+                <Grid item xs={4}>
+      
+                </Grid>
+                <div>
                         <Controls.Button
                             type="submit"
                             text="Add New User"
@@ -184,10 +176,9 @@ const UserForm = (props) => {
                             onClick={resetForm}
                         />
                     </div>
+                <Grid item xs={4}>
+      
                 </Grid>
-
-
-
             </Grid>
         </Form>
 

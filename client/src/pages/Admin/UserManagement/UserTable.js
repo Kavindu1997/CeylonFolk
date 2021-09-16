@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import UserForm from './UserForm';
 import EditUserForm from './EditUserForm';
 import PageHeader from '../PageHeader';
@@ -8,7 +7,7 @@ import { Search } from '@material-ui/icons';
 import AddIcon from '@material-ui/icons/Add';
 import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 import CloseIcon from '@material-ui/icons/Close';
-import { makeStyles, Paper, TableBody, TableRow, TableCell, Toolbar, InputAdornment } from '@material-ui/core';
+import { makeStyles, Paper, TableBody, TableRow, TableCell, Toolbar, InputAdornment,Typography } from '@material-ui/core';
 import useTable from '../../../components/Reusable/useTable';
 import Controls from '../../../components/Reusable/Controls';
 import Popup from '../../../components/Reusable/Popup';
@@ -18,16 +17,14 @@ import useStyles from '../style';
 import AdminNav from "../../../components/Reusable/AdminNav"
 import Lottie from 'react-lottie';
 import User from '../../../images/user.json';
-import { fetchUsers, createUser, deleteUser, updateUser } from '../../../_actions/userManageAction';
 import axios from 'axios';
 
 
 const headCells = [
-    { id: 'user_type', label: 'User Type' },
-    { id: 'first_name', label: 'First Name' },
-    { id: 'last_name', label: 'Last Name' },
-    { id: 'gender', label: 'Gender' },
-    { id: 'mobile_no', label: 'Mobile Number', disableSorting: true },
+    { id: 'user_type_id', label: 'User Type' },
+    { id: 'firstName', label: 'First Name' },
+    { id: 'lastName', label: 'Last Name' },
+    { id: 'contactNo', label: 'Mobile Number', disableSorting: true },
     { id: 'email', label: 'Email' },
     { id: 'options', label: 'Options', disableSorting: true },
 ]
@@ -36,16 +33,10 @@ const UserTable = () => {
     const classes = useStyles();
     const [records, setRecords] = useState([]);
     useEffect(() => {
-        axios.get("http://localhost:3001/users/").then((response) => {
+        axios.get("http://localhost:3001/auth/").then((response) => {
             setRecords(response.data);
         });
     }, []);
-    //     const userRecords=useSelector((state)=>state.userReducer.users);
-    //    // console.log(userRecords);
-    //     const dispatch=useDispatch();
-    //     useEffect(()=>{
-    //        dispatch(fetchUsers());
-    //     },[]);
 
     const [recordForEdit, setRecordForEdit] = useState(null)
     const [filterFn, setFilterFn] = useState({ fn: items => { return items; } });
@@ -67,10 +58,9 @@ const UserTable = () => {
                 if (target.value === "")
                     return items;
                 else
-                    return items.filter(x => x.first_name.toLowerCase().includes(target.value) ||
-                        x.last_name.toLowerCase().includes(target.value) ||
-                        x.gender.toLowerCase().includes(target.value) ||
-                        x.mobile_no.includes(target.value) ||
+                    return items.filter(x => x.firstName.toLowerCase().includes(target.value) ||
+                        x.lastName.toLowerCase().includes(target.value) ||
+                        x.type.toLowerCase().includes(target.value) ||
                         x.email.toLowerCase().includes(target.value))
             }
         })
@@ -78,21 +68,17 @@ const UserTable = () => {
 
     const addOrEdit = (data, resetForm) => {
         if (data.id === 0) {
-            // console.log(data);
-            axios.post("http://localhost:3001/users/", data).then(() => {
-                axios.get("http://localhost:3001/users/").then((response) => {
+            axios.post("http://localhost:3001/auth/", data).then(() => {
+                axios.get("http://localhost:3001/auth/").then((response) => {
                     setRecords(response.data);
                 });
             });
-            //  dispatch(createUser(data));
-            //  window.location.reload(true);
             resetForm();
             setRecordForEdit(null);
             setOpenPopup(false);
-            axios.get("http://localhost:3001/users/").then((response) => {
+            axios.get("http://localhost:3001/auth/").then((response) => {
                 setRecords(response.data);
             });
-            //  dispatch(fetchUsers());
             setNotify({
                 isOpen: true,
                 message: 'Added Successfully !',
@@ -100,25 +86,22 @@ const UserTable = () => {
             });
 
         } else {
-            axios.put(`/users/${data.id}`, data).then(() => {
-                axios.get("http://localhost:3001/users/").then((response) => {
+            axios.put(`/auth/${data.id}`, data).then(() => {
+                axios.get("http://localhost:3001/auth/").then((response) => {
                     setRecords(response.data);
                 });
             });;
-            // dispatch(updateUser(data,data.id));
             resetForm();
             setRecordForEdit(null);
             setOpenEditPopup(false);
-            axios.get("http://localhost:3001/users/").then((response) => {
+            axios.get("http://localhost:3001/auth/").then((response) => {
                 setRecords(response.data);
             });
-            //   dispatch(fetchUsers());
             setNotify({
                 isOpen: true,
                 message: 'Edited Successfully !',
                 type: 'info'
             });
-            //window.location.reload(true);
         }
 
     }
@@ -126,7 +109,6 @@ const UserTable = () => {
     const openInPopup = item => {
         setRecordForEdit(item);
         setOpenEditPopup(true);
-        // console.log(item);
     }
 
     const onDelete = id => {
@@ -134,13 +116,11 @@ const UserTable = () => {
             ...confirmDialog,
             isOpen: false
         });
-        axios.delete(`http://localhost:3001/users/${id}`).then(() => {
-            axios.get("http://localhost:3001/users/").then((response) => {
+        axios.delete(`http://localhost:3001/auth/${id}`).then(() => {
+            axios.get("http://localhost:3001/auth/").then((response) => {
                 setRecords(response.data);
             }); //refresh the records array
         });
-        // dispatch(deleteUser(id));
-        // window.location.reload(true);
         setNotify({
             isOpen: true,
             message: 'Removed Successfully !',
@@ -192,22 +172,23 @@ const UserTable = () => {
                             onClick={() => { setOpenPopup(true); setRecordForEdit(null); }}
                         />
                     </Toolbar>
+                    <Typography variant="h5" style={{ marginTop: '80px', textAlign: 'center', backgroundColor: '#C6C6C6', padding: '30px', fontFamily: 'Montserrat' }}>USERS</Typography>
                     <TblContainer>
                         <TblHead />
                         <TableBody>
                             {
                                 recordsAfterPagingAndSorting().map(item => (
                                     <TableRow key={item.id}>
-                                        <TableCell>{item.user_type}</TableCell>
-                                        <TableCell>{item.first_name}</TableCell>
-                                        <TableCell>{item.last_name}</TableCell>
-                                        <TableCell>{item.gender}</TableCell>
-                                        <TableCell>{item.mobile_no}</TableCell>
+                                        <TableCell>{item.type.charAt(0).toUpperCase()+item.type.slice(1).toLowerCase()}</TableCell>
+                                        <TableCell>{item.firstName}</TableCell>
+                                        <TableCell>{item.lastName}</TableCell>
+                                        <TableCell>{item.contactNo}</TableCell>
                                         <TableCell>{item.email}</TableCell>
                                         <TableCell>
 
-
-                                            <Controls.ActionButton
+                                        {(item.type==="CUSTOMER")?"":
+                                        <>
+                                          <Controls.ActionButton
                                                 color="primary"
                                                 onClick={() => { openInPopup(item) }}
                                             >
@@ -226,6 +207,7 @@ const UserTable = () => {
                                                 }}>
                                                 <CloseIcon fontSize="small" />
                                             </Controls.ActionButton>
+                                          </>}
                                         </TableCell>
                                     </TableRow>
                                 ))

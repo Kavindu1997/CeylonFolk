@@ -121,4 +121,62 @@ router.post("/newPassword", async (req, res) => {
 });
 
 
+router.post("/", async (req, res) => {
+    const { firstName, lastName, email, contactNo, password,user_type_id } = req.body;
+
+    const user = await Users.findOne({ where: { email: email } });
+    bcrypt.hash(password, 10).then((hash) => {
+        Users.create({
+            firstName: firstName,
+            lastName: lastName,
+            email: email,
+            contactNo: contactNo,
+            password: hash,
+            user_type_id:user_type_id
+        })
+        res.json("SUCCESS");
+    });
+    if ((user.email == email)) res.json({ error: "Email already Exist!" });
+});
+
+
+router.get('/',async(req,res)=>{
+    try {
+        const query = "SELECT users.id,firstName,lastName,email,contactNo,user_type_id,type FROM users INNER JOIN usertypes on users.user_type_id=usertypes.id";
+        const userList = await sequelize.query(query, { type: sequelize.QueryTypes.SELECT });
+        // const userList=await Users.findAll({
+        //     attributes:{exclude:["createdAt","updatedAt"]}
+        // });
+        res.json(userList);
+    } catch (error) {
+        res.status(404).json({message:error.message});
+    }
+  });
+
+
+router.put("/:userId", async (req,res) => {
+    const userId = req.params.userId
+    const { firstName, lastName, email, contactNo,user_type_id } = req.body;
+    const query = "UPDATE users SET firstName='" + firstName + "',lastName='" + lastName + "',email='" + email + "',contactNo='" + contactNo + "',user_type_id='" + user_type_id + "' WHERE id='" + userId + "'";
+    const result = await sequelize.query(query, {type: sequelize.QueryTypes.UPDATE});
+    res.json(result);
+});
+
+
+router.delete("/:userId",async (req,res)=>{
+    const userId=req.params.userId;
+
+    await  Users.destroy({
+        where:{
+            id:userId,
+        },
+    });
+    res.json("DELETED SUCCESSFULLY");
+})
+
+
+
+
+
+
 module.exports = router;
