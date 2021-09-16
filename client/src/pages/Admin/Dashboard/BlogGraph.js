@@ -10,29 +10,13 @@ import { useStyles } from "./styles";
     const [fetched, setFetched] = useState(false);
     const GraphData = [
       {
-        id: "revenue_distribution",
+        id: "sales_distribution",
         dataSets: [
           {
-            label: "Revenue",
+            label: "Sales",
             data: fakeArrayGenrator({ length: 30, digit: 100 }),
             borderColor: blue["A400"],
             backgroundColor: "rgb(21 101 192 /50%)",
-            fill: true,
-            tension: 0.5,
-          },
-          {
-            label: "Cost",
-            data: fakeArrayGenrator({ length: 30, digit: 100 }),
-            borderColor: red[500],
-            backgroundColor: "rgb(198 40 30 /30%)",
-            fill: true,
-            tension: 0.5,
-          },
-          {
-            label: "Profit",
-            data: fakeArrayGenrator({ length: 30, digit: 100 }),
-            borderColor: green[500],
-            backgroundColor: "rgb(144 238 144 /30%)",
             fill: true,
             tension: 0.5,
           },
@@ -54,21 +38,21 @@ import { useStyles } from "./styles";
         ],
         xAxisLabels: ["New Orders", "Pending Orders", "Cancel Orders"],
       },
-      {
-        id: "sales_distribution",
-        type: "bar",
-        dataSets: [
-          {
-            label: "Sales",
-            data: fakeArrayGenrator({ length: 12, digit: 100 }),
-            borderColor: [lightGreen[50], lime[800], pink[500],yellow[500],deepOrange[500],brown[500],indigo[500],red[500],teal[500],green[500],cyan[500],grey[900]],
-            backgroundColor: [lightGreen[50], lime[900], pink[800],yellow[500],deepOrange[500],brown[500],indigo[500],red[500],teal[500],green[500],cyan[500],grey[900]],
-            fill: true,
-            tension: 0.5,
-          },
-        ],
-        xAxisLabels: ["January", "February", "March","April","May","June","July","August","September","October","November","December"],
-      },
+      // {
+      //   id: "sales_distribution",
+      //   type: "bar",
+      //   dataSets: [
+      //     {
+      //       label: "Sales",
+      //       data: fakeArrayGenrator({ length: 12, digit: 100 }),
+      //       borderColor: [lightGreen[50], lime[800], pink[500],yellow[500],deepOrange[500],brown[500],indigo[500],red[500],teal[500],green[500],cyan[500],grey[900]],
+      //       backgroundColor: [lightGreen[50], lime[900], pink[800],yellow[500],deepOrange[500],brown[500],indigo[500],red[500],teal[500],green[500],cyan[500],grey[900]],
+      //       fill: true,
+      //       tension: 0.5,
+      //     },
+      //   ],
+      //   xAxisLabels: ["January", "February", "March","April","May","June","July","August","September","October","November","December"],
+      // },
     ];
   
     useEffect(() => {
@@ -89,15 +73,15 @@ import { useStyles } from "./styles";
       <Grid container className={classes.section} spacing={1}  justify = "center">
         <Grid item xs={12} sm={7} md={7}>
           <Card component={Paper}>
-            <CardContent  style={{backgroundImage:'linear-gradient(to left, #34495e, #9b59b6, #f39c12)'}}>
+            <CardContent  style={{backgroundColor:"#C6C6C6"}}>
               <Typography variant='h6' className={classes.cardTitle} align='left'>
-                Revenue Distribution
+                Sales Distribution
               </Typography>
             </CardContent>
             <Divider />
             <CardContent>
               <canvas
-                id='revenue_distribution'
+                id='sales_distribution'
                 className={classes.generalGraph}></canvas>
             </CardContent>
           </Card>
@@ -105,7 +89,7 @@ import { useStyles } from "./styles";
 
         <Grid item xs={12} sm={4} md={4}>
           <Card component={Paper}>
-            <CardContent style={{backgroundImage:'linear-gradient(to left, #c0392b, #27ae60, #f39c12)'}}>
+            <CardContent style={{backgroundColor:"#C6C6C6"}}>
               <Typography variant='h6' className={classes.cardTitle} align='left'>
                  Order Distribution
               </Typography>
@@ -119,9 +103,9 @@ import { useStyles } from "./styles";
           </Card>
         </Grid>
 
-        <Grid item xs={11} sm={11} md={11} style={{marginTop:'20px'}}>
+        {/* <Grid item xs={11} sm={11} md={11} style={{marginTop:'20px'}}>
           <Card component={Paper}>
-            <CardContent style={{backgroundImage:'linear-gradient(to left, #2f3542, #eccc68, #70a1ff)'}}>
+            <CardContent style={{backgroundColor:"#C6C6C6"}}>
               <Typography variant='h6' className={classes.cardTitle} align='left'>
                  Sales Distribution
               </Typography>
@@ -133,7 +117,7 @@ import { useStyles } from "./styles";
                 className={classes.generalGraph}></canvas>
             </CardContent>
           </Card>
-        </Grid>
+        </Grid> */}
       </Grid>
     );
   }

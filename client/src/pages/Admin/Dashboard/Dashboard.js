@@ -3,7 +3,7 @@ import PageHeader from '../PageHeader';
 import {useStyles} from './styles';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import {Box,Button,Card,CardContent,Grid,Typography,} from "@material-ui/core";
-import { blue,green, grey, purple, red} from "@material-ui/core/colors";
+import { blue,green, grey, orange, purple, red} from "@material-ui/core/colors";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import ArrowDropUpIcon from "@material-ui/icons/ArrowDropUp";
 import MoodIcon from '@material-ui/icons/Mood';
@@ -20,34 +20,24 @@ import Stats from '../../../images/stats.json';
 const Dashboard = () => {
     const classes = useStyles();
     const [hasFetched, setHasFetched] = useState(false);
+    const [customers,setCustomers]=useState(5);
+    const [pendingOrders,setPendingOrders]=useState(20);
     const DisplayData = [
       {
-        label: "Total Profit",
-        value: "50000",
-        icon: <ArrowDropUpIcon />,
-        iconLabel: "7%",
-      },
-      {
-        label: "Total Revenue",
+        label: "Total Sales",
         value: "60000",
         icon: <ArrowDropUpIcon />,
-        iconLabel: "5.3%",
-      },
-      {
-        label: "Total Cost",
-        value: "10000",
-        icon: <ArrowDropDownIcon />,
-        iconLabel: "4.1%",
+        iconLabel: "",
       },
       {
         label: "Total Customers",
-        value: "10",
+        value: customers,
         icon: <MoodIcon style={{ color: green[500],fontSize: 40  }} />,
         iconLabel: "",
       },
       {
         label: "Pending Orders",
-        value: "15",
+        value: pendingOrders,
         icon: <MoodBadIcon style={{ color: red[500],fontSize: 40  }} />,
         iconLabel: "",
       },
@@ -55,22 +45,10 @@ const Dashboard = () => {
   
     const GraphData = [
       {
-        label: "Total Profit",
-        data: fakeArrayGenrator({ length: 10, digit: 100 }),
-        bgColor: green[50],
-        brColor: green["A200"],
-      },
-      {
-        label: "Total Revenue",
+        label: "Total Sales",
         data: fakeArrayGenrator({ length: 10, digit: 100 }),
         bgColor: blue[50],
         brColor: blue["A700"],
-      },
-      {
-        label: "Total Cost",
-        data: fakeArrayGenrator({ length: 10, digit: 100 }),
-        bgColor: red[50],
-        brColor: red["A400"],
       },
       {
         label: "Total Customers",
@@ -81,8 +59,8 @@ const Dashboard = () => {
       {
         label: "Pending Orders",
         data: fakeArrayGenrator({ length: 10, digit: 100 }),
-        bgColor: purple[50],
-        brColor: purple["A700"],
+        bgColor: orange[50],
+        brColor: orange["A700"],
       },
     ];
   
@@ -177,7 +155,7 @@ const Dashboard = () => {
                               <CountUp end={item.value} duration={0}/>
                           </Typography>
                       );
-                      case "Total Cost":
+                      case "Total Sales":
                         return(
                           <Typography
                             variant='h4'
@@ -186,24 +164,6 @@ const Dashboard = () => {
                               <CountUp end={item.value} duration={0} prefix='LKR ' separator=',' decimals={2}/>
                           </Typography>
                       );
-                      case "Total Revenue":
-                        return(
-                          <Typography
-                            variant='h4'
-                            component='h2'
-                            className={classes.cardHeader}>
-                              <CountUp end={item.value} duration={0} prefix='LKR ' separator=',' decimals={2}/>
-                          </Typography>
-                      );
-                        case "Total Profit":
-                          return(
-                            <Typography
-                              variant='h4'
-                              component='h2'
-                              className={classes.cardHeader}>
-                                <CountUp end={item.value} duration={0} prefix='LKR ' separator=',' decimals={2}/>
-                            </Typography>
-                        );
                       default: return null;
                     }
                   }).call(this)
