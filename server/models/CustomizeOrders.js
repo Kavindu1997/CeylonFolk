@@ -9,8 +9,23 @@ module.exports = (sequelize, DataTypes) => {
             primaryKey: true,
         },
 
+        orderNo: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
+
         customerId: {
             type: DataTypes.INTEGER,
+            allowNull: true,
+        },
+
+        customerName: {
+            type: DataTypes.STRING,
+            allowNull: true,
+        },
+
+        customerEmail: {
+            type: DataTypes.STRING,
             allowNull: true,
         },
 
@@ -24,7 +39,37 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: true,
         },
 
+        totalAmount: {
+            type: DataTypes.STRING,
+            allowNull: true,
+        },
+
         paymentMethod: {
+            type: DataTypes.STRING,
+            allowNull: true,
+        },
+
+        address: {
+            type: DataTypes.STRING,
+            allowNull: true,
+        },
+
+        note: {
+            type: DataTypes.STRING,
+            allowNull: true,
+        },
+
+        deleteFlag: {
+            type: DataTypes.STRING,
+            allowNull: true,
+        },
+
+        notificationStatus: {
+            type: DataTypes.STRING,
+            allowNull: true,
+        },
+
+        notification: {
             type: DataTypes.STRING,
             allowNull: true,
         },

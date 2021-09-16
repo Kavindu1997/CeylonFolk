@@ -16,6 +16,18 @@ export const fetchProducts = () => async (dispatch) => {
 
 }
 
+export const filterProducts = (products,size) => async (dispatch) => {
+  console.log('size')
+  console.log(size)
+  return dispatch({
+    
+    type: ProductActionTypes.FILTER_PRODUCTS_BY_SIZE,
+    payload:{
+      size:size,
+      items: size===''? products : products.filter(a=> a.availableSizes.indexOf(size)>=0)
+    }
+  })
+}
 
 export const fetchProduct = (id) => async function (dispatch) {
   const response = await ceylonforkapi.get(`/ProductDetails/byPid/${id}`)

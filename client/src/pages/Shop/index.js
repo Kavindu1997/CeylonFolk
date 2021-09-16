@@ -237,7 +237,6 @@ const Shop = () => {
         // dispatch(fetchColors());
     }, []);
 
-
     return (
         <div>
             <CssBaseline />
