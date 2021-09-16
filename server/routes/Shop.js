@@ -613,6 +613,6 @@ router.get("/filterRecords", async (req,res,next) => {
 
     // }
 
-});
+);
 
 module.exports = router;

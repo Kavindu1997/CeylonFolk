@@ -23,7 +23,7 @@ import axios from 'axios';
 
 
 const headCells=[
-    {id:'coupon_name',label:'Coupon Name'},
+    {id:'coupon_number',label:'Coupon Number'},
     {id:'discount_amount',label:'Discount Amount'},
     {id:'start_date',label:'Start Date'},
     {id:'end_date',label:'End Date'},
@@ -64,7 +64,7 @@ const CouponTable = () => {
                 if (target.value === "")
                     return items;
                 else
-                    return items.filter(x => x.coupon_name.toLowerCase().includes(target.value))
+                    return items.filter(x => x.coupon_number.toLowerCase().includes(target.value))
             }
         })
     }
@@ -188,7 +188,7 @@ const CouponTable = () => {
                             {
                                 recordsAfterPagingAndSorting().map(item => (
                                     <TableRow key={item.id}>
-                                        <TableCell>{item.coupon_name}</TableCell>
+                                        <TableCell>{item.coupon_number}</TableCell>
                                         <TableCell>{item.discount_amount}</TableCell>
                                         <TableCell>{item.start_date.substring(0, 10)}</TableCell>
                                         <TableCell>{item.end_date.substring(0, 10)}</TableCell>

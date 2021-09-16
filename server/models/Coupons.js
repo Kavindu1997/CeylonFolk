@@ -1,7 +1,7 @@
 module.exports = (sequelize, DataTypes) => {
 
     const Coupon= sequelize.define("Coupon", {
-        coupon_name: {
+        coupon_number: {
             type: DataTypes.STRING,
             allowNull: false,
         },

@@ -14,10 +14,10 @@ router.get('/',async(req,res)=>{
 });
 
 router.post("/",async(req, res) => {
-    const { coupon_name,discount_amount,start_date,end_date} = req.body;
+    const { coupon_number,discount_amount,start_date,end_date} = req.body;
     //  const coupon= req.body;
     await  Coupon.create({
-        coupon_name:coupon_name,
+        coupon_number:coupon_number,
         discount_amount:discount_amount,
         start_date:start_date,
         end_date:end_date
@@ -32,8 +32,8 @@ router.post("/",async(req, res) => {
 
 router.put("/:couponId", async (req,res) => {
     const couponId = req.params.couponId
-    const { coupon_name,discount_amount,start_date,end_date } = req.body;
-    const query = "UPDATE coupons SET coupon_name='" + coupon_name + "',discount_amount='" + discount_amount + "',start_date='" + start_date + "',end_date='" + end_date + "' WHERE id='" + couponId + "'";
+    const { coupon_number,discount_amount,start_date,end_date } = req.body;
+    const query = "UPDATE coupons SET coupon_number='" + coupon_number + "',discount_amount='" + discount_amount + "',start_date='" + start_date + "',end_date='" + end_date + "' WHERE id='" + couponId + "'";
     const result = await sequelize.query(query, {type: sequelize.QueryTypes.UPDATE});
     res.json(result);
 });

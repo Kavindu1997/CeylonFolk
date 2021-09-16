@@ -5,7 +5,7 @@ import Controls from '../../components/Reusable/Controls';
 
 
 const initialFvalues={
-    coupon_name:'',
+    coupon_number:'',
     discount_amount:'',
     start_date: new Date(),
     end_date: new Date()
@@ -17,8 +17,8 @@ const EditCouponForm = (props) => {
 
     const validate=(fieldValues=values)=>{
         let temp={...errors}
-        if('coupon_name' in fieldValues)
-           temp.coupon_name=fieldValues.coupon_name ? "" : "Coupon Name is required"
+        if('coupon_number' in fieldValues)
+           temp.coupon_number=fieldValues.coupon_number ? "" : "Coupon Number is required"
         if('discount_amount' in fieldValues)   
            temp.discount_amount=fieldValues.discount_amount ? "" : "Discount Amount is required"
         setErrors({
@@ -56,11 +56,11 @@ const EditCouponForm = (props) => {
             <Grid item xs={6}>
                 <Controls.Input
                     variant="outlined"
-                    label="Coupon Name"
-                    name="coupon_name"
-                    value={values.coupon_name}
+                    label="Coupon Number"
+                    name="coupon_number"
+                    value={values.coupon_number}
                     onChange={handleInputChange}
-                    error={errors.coupon_name}
+                    error={errors.coupon_number}
                     />
             </Grid>
             <Grid item xs={6}>
