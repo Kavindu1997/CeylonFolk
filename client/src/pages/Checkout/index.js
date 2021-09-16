@@ -58,6 +58,8 @@ export default function Checkout() {
     const [districtError,setDistrictError] = useState(false);
     const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' });
     const errorMsg = useSelector(state => state.checkout.error);
+    const [disableButton, setDisableButton] = useState(false);
+    const [customerCoupon, getCustomerCoupon] = useState([]);
   
     const getDistrictValue = (event) => {
         setDistrictNameValue(event.target.value)
@@ -127,6 +129,25 @@ export default function Checkout() {
     const setNote = (event) => {
         setSpecialNote(event.target.value)
     }
+    const couponName = (event) => {
+        getCustomerCoupon(event.target.value)
+        console.log(customerCoupon)
+    }
+
+    const [validCoupon, setValidCoupon] = useState([])
+    function applyCoupon(){
+        console.log(customerCoupon)
+        var details = {
+            couponName: customerCoupon,
+            today: new Date(),
+        }
+        console.log(details)
+        ceylonforkapi.post("/check/coupon/",details).then((response) => { 
+            setValidCoupon(response.data)
+        })
+        console.log(validCoupon)
+
+    }
 
     function validateFormFields(){
         var hasError=0
@@ -188,6 +209,11 @@ export default function Checkout() {
                             message: 'Order successfully placed. Order details will be sent your email !',
                             type: 'success'
                           });
+                          setDisableButton(true)
+                          setTimeout(function(){
+                            history.push("/myOrders")
+                        }, 3000);
+                           
                     }
                 })
             } else if (paymentMethod == "bank") {
@@ -273,6 +299,10 @@ export default function Checkout() {
                             message: 'Order successfully placed. Order details will be sent your email !',
                             type: 'success'
                           });
+                          setTimeout(function(){
+                            
+                       }, 2000);
+                          history.push("/myOrders")
                     }
                 })
         
@@ -474,6 +504,24 @@ export default function Checkout() {
 
                                         <TableRow>
                                             <TableCell align="left" colSpan={3} style={{ fontFamily: 'Montserrat', fontWeight: 600, height: '60px' }}>
+                                                Add Coupon
+                                            </TableCell>
+                                            <TableCell align="left" colSpan={3} style={{ fontFamily: 'Montserrat' }}>
+                                            <TextField underlineShow={false} label="Coupon Name" style={{ width: 130, borderRadius: 25 }} onChange={couponName}/>
+                                            <br />  <br />
+                                            <Button
+                                                type="submit"
+                                                variant="contained"
+                                                color="primary"
+                                                className={classes.coupon}
+                                                onClick = {applyCoupon}
+                                            >Apply Coupon
+                                            </Button>
+                                            </TableCell>
+                                        </TableRow>
+
+                                        <TableRow>
+                                            <TableCell align="left" colSpan={3} style={{ fontFamily: 'Montserrat', fontWeight: 600, height: '60px' }}>
                                                 Shipping
                                             </TableCell>
                                             <TableCell align="left" colSpan={3} style={{ fontFamily: 'Montserrat' }}>
@@ -535,6 +583,7 @@ export default function Checkout() {
                                         variant="contained"
                                         color="primary"
                                         id="placeOrder"
+                                        disabled = {disableButton}
                                         className={classes.submit}
                                     >Checkout
                                     </Button>
