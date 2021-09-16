@@ -153,6 +153,16 @@ router.get('/',async(req,res)=>{
     }
   });
 
+  router.get('/getCount',async(req,res)=>{
+    try {
+        const query = "SELECT COUNT(user_type_id) AS customer_count FROM users WHERE user_type_id='2'";
+        const customerCount = await sequelize.query(query, { type: sequelize.QueryTypes.SELECT });
+        res.json(customerCount);
+    } catch (error) {
+        res.status(404).json({message:error.message});
+    }
+  });
+
 
 router.put("/:userId", async (req,res) => {
     const userId = req.params.userId

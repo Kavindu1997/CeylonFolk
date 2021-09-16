@@ -274,4 +274,14 @@ router.get("/getCount", async (req, res) => {
     res.json(data);
 })
 
+router.get('/getSales',async(req,res)=>{
+    try {
+        const query = "SELECT SUM(fullAmount) AS sales_amount FROM orders";
+        const salesAmount = await sequelize.query(query, { type: sequelize.QueryTypes.SELECT });
+        res.json(salesAmount);
+    } catch (error) {
+        res.status(404).json({message:error.message});
+    }
+  });
+
 module.exports = router;

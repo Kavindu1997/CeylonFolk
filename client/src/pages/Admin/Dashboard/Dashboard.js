@@ -15,23 +15,49 @@ import CountUp from 'react-countup'
 import NumberFormat from 'react-number-format';
 import Lottie from 'react-lottie';
 import Stats from '../../../images/stats.json';
+import axios from "axios";
 
 
 const Dashboard = () => {
     const classes = useStyles();
     const [hasFetched, setHasFetched] = useState(false);
-    const [customers,setCustomers]=useState(5);
-    const [pendingOrders,setPendingOrders]=useState(20);
+    const [customers,setCustomers]=useState(0);
+    const [pendingOrders,setPendingOrders]=useState(0);
+    const [sales,setSales]=useState(0);
+
+    useEffect(() => {
+      axios.get("http://localhost:3001/auth/getCount").then((response) => {
+          setCustomers(response.data[0].customer_count);
+          
+      });
+  }, []);
+
+  useEffect(() => {
+    axios.get("http://localhost:3001/order/getCount").then((response) => {
+        console.log(response.data.pendingOrders);
+        setPendingOrders(response.data.pendingOrders);
+    });
+}, []);
+
+
+useEffect(() => {
+  axios.get("http://localhost:3001/order/getSales").then((response) => {
+      console.log(response.data);
+      setSales(response.data[0].sales_amount);
+  });
+}, []);
+
+
     const DisplayData = [
       {
         label: "Total Sales",
-        value: "60000",
+        value: sales,
         icon: <ArrowDropUpIcon />,
         iconLabel: "",
       },
       {
         label: "Total Customers",
-        value: customers,
+        value:customers,
         icon: <MoodIcon style={{ color: green[500],fontSize: 40  }} />,
         iconLabel: "",
       },
@@ -143,7 +169,8 @@ const Dashboard = () => {
                             variant='h4'
                             component='h2'
                             className={classes.cardHeader}>
-                              <CountUp end={item.value} duration={0}/>
+                              {item.value}
+                              {/* <CountUp end={item.value} duration={0}/> */}
                           </Typography>
                       );
                       case "Pending Orders":
@@ -152,7 +179,8 @@ const Dashboard = () => {
                             variant='h4'
                             component='h2'
                             className={classes.cardHeader}>
-                              <CountUp end={item.value} duration={0}/>
+                              {item.value}
+                              {/* <CountUp end={item.value} duration={0}/> */}
                           </Typography>
                       );
                       case "Total Sales":
@@ -161,7 +189,11 @@ const Dashboard = () => {
                             variant='h4'
                             component='h2'
                             className={classes.cardHeader}>
-                              <CountUp end={item.value} duration={0} prefix='LKR ' separator=',' decimals={2}/>
+                              {/* <CountUp  prefix='LKR ' separator=',' decimals={2}/> */}
+                              {(item.value).toLocaleString('en-US', {
+                                 style: 'currency',
+                                 currency: 'LKR',
+                                 })}
                           </Typography>
                       );
                       default: return null;
