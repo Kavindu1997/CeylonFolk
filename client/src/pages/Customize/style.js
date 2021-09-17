@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
         padding:'10px',
         justifyContent:'space-between',
         alignItems:'center',
-        height: '309px'
+        height: '400px'
     },
     bar3:{
         // display:'flex',
@@ -92,7 +92,7 @@ const useStyles = makeStyles((theme) => ({
     },
     barContainer:{
         display:'flex',
-        height: '500px',
+        height: '308px',
         width: '300px',
         marginLeft: '20px'
     },

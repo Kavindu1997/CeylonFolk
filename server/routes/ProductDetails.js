@@ -33,6 +33,15 @@ router.get("/byPid/:id", async (req, res) => {
     res.json(product);
 });
 
+router.get("/rate/:id", async (req, res) => {
+    const id = req.params.id;
+    console.log("hiii"+id)
+    const query1 = "SELECT offers.rate from `designs` LEFT JOIN `offers` on designs.collection_id=offers.collection_id WHERE designs.id='" + id + "'";
+    const rate = await sequelize.query(query1, { type: sequelize.QueryTypes.SELECT });
+    console.log(rate);
+    res.json(rate);
+});
+
 // router.get("/size/:color", async (req,res) => {
 //     const color = req.params.color;
 //     const query = "SELECT designs.designId,designs.color,inventories.size FROM `designs` INNER JOIN `inventories` ON designs.color=inventories.colour WHERE inventories.colour='"+color+"'"; 

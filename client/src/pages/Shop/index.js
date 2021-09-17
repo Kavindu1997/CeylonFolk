@@ -109,13 +109,14 @@ const Shop = () => {
         console.log(isInWishList)
         const uid = localStorage.getItem("userId");
         if (localStorage.getItem("userId") != "0") {
-            const data = { uid: uid, 
+            const data = {
+                uid: uid,
                 id: id,
                 Collection: Collection,
                 Colour: Colour,
                 Type: Type,
                 Size: Size,
-             };
+            };
             console.log(data)
             if (isInWishList == 1) {
                 setNotify({
@@ -127,7 +128,7 @@ const Shop = () => {
                 ceylonforkapi
                     .post("/ProductDetails/addwishlist/", data)
                     .then((response) => {
-                        if (response.data.status==0) {
+                        if (response.data.status == 0) {
                             setNotify({
                                 isOpen: true,
                                 message: "Not successfully added to your wishlist !",
@@ -195,7 +196,7 @@ const Shop = () => {
         axios
             .get("http://localhost:3001/shop/filterRecords", {
                 params: {
-                    uId : localStorage.getItem("userId"),
+                    uId: localStorage.getItem("userId"),
                     Collection: Collection,
                     Colour: Colour,
                     Type: Type,
@@ -221,6 +222,8 @@ const Shop = () => {
                 .then(function (myJson) {
                     setRecord(myJson);
                 });
+            console.log('thash')
+            console.log(response.data)
         } else {
             var response = fetch(`http://localhost:3001/shop/shops/` + uid)
                 .then(function (response) {
@@ -337,7 +340,8 @@ const Shop = () => {
                     <Grid container spacing={0}>
 
                         {products.map((product, index) => {
-                            const { id, coverImage, design_name, price, isInWishList } = product;
+                            const { id, coverImage, design_name, price, isInWishList, discountedPrice, rate } = product;
+                            console.log(discountedPrice)
 
                             return (
                                 <Grid item xs={12} sm={6} md={3}>
@@ -351,6 +355,7 @@ const Shop = () => {
                                                     }}
                                                     title="Snowy"
                                                 /> */}
+
                                                 <img
                                                     style={{
                                                         width: "100%",
@@ -366,7 +371,7 @@ const Shop = () => {
                                                 ></img>
 
                                                 <CardContent>
-                                                    <div>
+                                                    <div style={{display:'flex',justifyContent: 'space-between'}}>
                                                         <Typography
                                                             gutterBottom
                                                             variant="h9"
@@ -375,22 +380,9 @@ const Shop = () => {
                                                         >
                                                             {design_name}
                                                         </Typography>
-                                                    </div>
-                                                    <div
-                                                        style={{
-                                                            display: "flex",
-                                                            justifyContent: "space-between",
-                                                        }}
-                                                    >
-                                                        <Typography
-                                                            gutterBottom
-                                                            variant="h6"
-                                                            component="h2"
-                                                            style={{ textAlign: "left", fontSize: "16px" }}
-                                                        >
-                                                            {"LKR " + price}
-                                                        </Typography>
                                                         <IconButton
+                                                        style={{padding: '0px',
+                                                            borderRadius: '0px'}}
                                                             onClick={() => {
                                                                 addToWishlist(id, isInWishList);
                                                             }}
@@ -405,6 +397,56 @@ const Shop = () => {
                                                                 }}
                                                             />
                                                         </IconButton>
+                                                    </div>
+                                                    <div
+                                                        style={{
+                                                            display: "flex",
+                                                            justifyContent: "space-between",
+                                                        }}
+                                                    >
+                                                        {discountedPrice === null ?
+                                                            <Typography
+                                                                gutterBottom
+                                                                variant="h6"
+                                                                component="h2"
+                                                                style={{ textAlign: "left", fontSize: "16px" }}
+                                                            >
+                                                                {"LKR " + price}
+                                                            </Typography>
+                                                            :
+                                                            <div>
+                                                                <div style={{display:'flex'}}>
+                                                                    <Typography
+                                                                        gutterBottom
+                                                                        variant="h6"
+                                                                        component="h2"
+                                                                        style={{ textAlign: "left", fontSize: "16px" }}
+                                                                    >
+
+                                                                        {"LKR " + discountedPrice}
+
+                                                                    </Typography>
+                                                                    <div>
+                                                                        <Typography style={{ marginLeft: '10px', paddingLeft: '10px', background: '#31c5ee' }} className={classes.offer}>
+                                                                            {rate}%
+                                                                        </Typography>
+
+                                                                    </div>
+                                                                </div>
+                                                                <Typography
+                                                                    gutterBottom
+                                                                    variant="h6"
+                                                                    component="h2"
+                                                                    style={{ textAlign: "left", fontSize: "16px" }}
+                                                                >
+                                                                    <s>{"LKR " + price}</s>
+                                                                </Typography>
+
+                                                            </div>
+
+                                                        }
+
+                                                        
                                                     </div>
                                                 </CardContent>
                                             </CardActionArea>

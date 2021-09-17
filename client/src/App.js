@@ -33,7 +33,7 @@ import Types from './pages/Shop/Types';
 import OrderView from './pages/MyOrders/OrderView'
 import CustomizeCheckout from './pages/Checkout/CustomizeCheckout';
 import Profile1 from './pages/MyAccount/index2';
-
+import SpecialOffers from './pages/SpecialOffers';
 
 import AdminPanel from './pages/Admin';
 import Users from './pages/Admin/UserManagement/UserTable';
@@ -139,6 +139,7 @@ class App extends Component {
               <Route exact path={"/myOrders/:id"} component={OrderHistory} />
               <Route exact path={"/orderDetail/:oId"} component={OrderDetail} />
               <Route exact path={"/myWishlist"} component={ProfileWishlist} />
+              <Route exact path={"/specialOffers"} component={SpecialOffers} />
               <Route exact path="/admin" component={AdminPanel} />
               <Route exact path="/users" exact render={() => <Users />} />
               <Route exact path="/collections" exact render={() => <Collections />} />

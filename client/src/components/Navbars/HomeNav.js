@@ -161,6 +161,23 @@ const useStyles = makeStyles((theme) => ({
     visibility: {
         visibility: 'hidden'
     },
+    navActive:{
+        color: 'black',
+        position: 'relative',
+        textTransform: 'uppercase',
+        fontWeight: '600',
+        fontSize: '15px',
+        paddingLeft: '10px',
+        textDecoration: 'none',
+        '&:hover': {
+            textDecoration: 'none'
+        }
+
+    },
+    navInactive:{
+        display: 'none',
+
+    }
 
 
 }))
@@ -256,8 +273,9 @@ const CommonNav = () => {
                                 Shop
                             </Typography>
                         </NavLink>
+                        <NavLink to={"/customize"} className={localStorage.getItem("userId") == '0' ? classes.navInactive : classes.navActive}><Typography className={classes.appbarlink2}>Customize</Typography></NavLink>
                         <NavLink to={"/contactus"} className={classes.appbarlink}><Typography className={classes.appbarlink2}>Contact</Typography></NavLink>
-                        <NavLink to={"/aboutUs"} className={classes.appbarlink}><Typography className={classes.appbarlink2}>About Us</Typography></NavLink>
+                        <NavLink to={"/aboutUs"} className={classes.appbarlink} ><Typography className={classes.appbarlink2}>About Us</Typography></NavLink>
                     </div>
 
 

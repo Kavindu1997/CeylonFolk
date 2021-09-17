@@ -57,10 +57,13 @@ export default function Product_detail() {
   const [mapSize, setMapSize] = useState();
   const [quantity, setQuantity] = useState();
   const oneProduct = useSelector((state) => state.selectProductReducer)
-  const { coverImage, design_name, price } = oneProduct;
+  const { coverImage, design_name, price, discountedPrice } = oneProduct;
   // console.log(designName)
   const [productSize, setProductSize] = useState();
   const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' });
+  const [rate, setrate] = useState();
+
+
   var isSizeRequired = false;
 
   
@@ -97,6 +100,12 @@ export default function Product_detail() {
     axios.get(`http://localhost:3001/ProductDetails/byIdImages/${id}`).then((response) => {
       setImageArray(response.data);
       // console.log(response)
+    });
+
+    axios.get(`http://localhost:3001/ProductDetails/rate/${id}`).then((response) => {
+      setrate(response.data[0].rate);
+      console.log("hiiirate")
+      console.log(response.data[0].rate)
     });
 
     // axios.get(`http://localhost:3001/ProductDetails/byPid/${id}`).then((response) => {
@@ -326,7 +335,47 @@ export default function Product_detail() {
                   <Box className={classes.goback}><Link>GO BACK</Link></Box>
                   <Box>
                     <Typography className={classes.productTitle}>{design_name}</Typography>
-                    <Typography className={classes.productPrice}>{"LKR " + price + '.00'}</Typography>
+                    {discountedPrice === null ?
+                                                            <Typography
+                                                                gutterBottom
+                                                                variant="h6"
+                                                                component="h2"
+                                                                className={classes.productPrice}
+                                                            >
+                                                                {"LKR " + price + '.00'}
+                                                            </Typography>
+                                                            :
+                                                            <div>
+                                                                <div style={{display:'flex'}}>
+                                                                    <Typography
+                                                                        gutterBottom
+                                                                        variant="h6"
+                                                                        component="h2"
+                                                                        className={classes.productPrice}
+                                                                    >
+
+                                                                        {"LKR " + discountedPrice + '.00'}
+
+                                                                    </Typography>
+                                                                    <div>
+                                                                        <Typography style={{ marginLeft: '10px', paddingLeft: '10px', background: '#31c5ee' }} className={classes.offer}>
+                                                                            {rate}%
+                                                                        </Typography>
+
+                                                                    </div>
+                                                                </div>
+                                                                <Typography
+                                                                    gutterBottom
+                                                                    variant="h6"
+                                                                    component="h2"
+                                                                    className={classes.productPrice}
+                                                                >
+                                                                    <s>{"LKR " + price + '.00'}</s>
+                                                                </Typography>
+
+                                                            </div>
+
+                                                        }
                     {/* <Box><Typography className={classes.productColor}>COLOR</Typography></Box> */}
                     <Box>
                       <Box style={{ display: 'flex' }}>

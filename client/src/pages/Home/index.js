@@ -38,11 +38,11 @@ const Home = () => {
     var id = localStorage.getItem("userId");
 
     const onDesign = () => {
-        if(id>0){
+        if (id > 0) {
             history.push('/customize');
 
         }
-        else{
+        else {
             history.push('/auth');
         }
 
@@ -58,15 +58,21 @@ const Home = () => {
         });
     }, []);
 
-   
+    const onSetId = (id) => {
+        localStorage.setItem("collection_offer_id", id);
+
+
+    };
+
+
     return (
-      
+
         <div>
-           
+
             <HomeNav />
             <CssBaseline />
             <div className={classes.root2}>
-                
+
                 <Grid container >
                     <Grid item md={6}>
 
@@ -86,7 +92,7 @@ const Home = () => {
                                     color="black"
                                     border-color="white" className={classes.designbtn}
                                     onClick={onDesign}
-                                    >START DESIGNING</Button></a>
+                                >START DESIGNING</Button></a>
                                 {/* <IconButton>
                                     <ExpandMoreIcon className={classes.goDown}/>
                                 </IconButton> */}
@@ -248,62 +254,66 @@ const Home = () => {
                         + VIEW MORE
                     </Typography>
                 </Container>
-               
-                      
-                              
+
+
+
                 <Container className={classes.collectionContainer} maxWidth="lg">
-              
+
                     <Typography variant="h4" className={classes.collectionTitle}>SPECIAL OFFERS</Typography>
 
                     <Grid container spacing={0}>
-                    {listOfOffers.map((value) => {
-                                    return(
-                        <Grid item xs={12} sm={6} md={3}>
-                            <Card className={classes.card}>
-                           
-                                <CardActionArea>
-                                   
-                              
+                        {listOfOffers.map((value) => {
+                            return (
+                                <Grid item xs={12} sm={6} md={3}>
+                                    <Card className={classes.card} >
 
-                <CardMedia>
-                   
-                    <img align="center" src={'http://localhost:3001/' + value.coverImage} alt="" style={{ width: '100%' }}></img>
-                </CardMedia>
-                <CardContent style={{ display: 'flex' }}>
-                    <div>
-                        <Typography gutterBottom variant="h5" component="h2" style={{ textAlign: 'left' }} className={classes.productTitle}>
-                            {value.collection_name}
-                        </Typography>
-                        {/* <Typography gutterBottom variant="h6" component="h2" style={{ textAlign: 'left' }} className={classes.productSubTitle}>
-                            LKR 1300.00
-                        </Typography> */}
-
-                    </div>
-                    <div>
-                        {/* <Link href="/wishlist"> */}
-
-                        <FavoriteBorderOutlinedIcon className={classes.icon1} />
-
-                        {/* </Link> */}
-                    </div>
+                                        <CardActionArea>
 
 
-                </CardContent>
-                <Typography gutterBottom variant="h5" component="h2" style={{ textAlign: 'left', marginLeft: '10px', paddingLeft: '10px', background: '#31c5ee' }} className={classes.offer}>
-                    {value.rate}%
-                </Typography>)
+
+                                            <CardMedia>
+
+                                                <img align="center" src={'http://localhost:3001/' + value.coverImage} alt="" style={{ width: '100%' }}
+
+                                                    onClick={() => {
+                                                        onSetId(value.id);
+                                                        history.push(`/specialOffers`);
+
+                                                    }}
 
 
-                                </CardActionArea>
-                                   
-                            </Card>
-                        </Grid>
-                       )})}
+                                                ></img>
+                                            </CardMedia>
+                                            <CardContent style={{ display: 'flex', justifyContent: 'space-between', marginTop: '10px' }}>
+                                                <div>
+                                                    <Typography gutterBottom variant="h5" component="h5" style={{ textAlign: 'left', fontSize: '18px' }} className={classes.productTitle}>
+                                                        {value.collection_name}
+                                                    </Typography>
+                                                </div>
+                                                <div>
+                                                    <Typography gutterBottom variant="h5" component="h2" style={{ marginLeft: '10px', paddingLeft: '10px', background: '#31c5ee' }} className={classes.offer}>
+                                                        {value.rate}%
+                                                    </Typography>
+
+                                                </div>
+
+
+
+                                            </CardContent>
+
+
+
+                                        </CardActionArea>
+
+                                    </Card>
+                                </Grid>
+                            )
+                        })}
                     </Grid>
                     <Typography className={classes.view}>
                         + VIEW MORE
                     </Typography>
-                   
+
                 </Container>
 
                 <Container className={classes.collectionContainer} maxWidth="lg">
@@ -399,7 +409,7 @@ const Home = () => {
 
             </div>
             <Footer />
-      
+
         </div>
 
     );
