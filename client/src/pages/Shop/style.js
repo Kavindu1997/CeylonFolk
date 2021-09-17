@@ -189,6 +189,17 @@ const useStyles = makeStyles((theme) => ({
       activeProducts: {
         display: 'block'
       },
+      offer: {
+        textAlign: 'left',
+        background: '#31c5ee',
+        marginLeft: '10px',
+        paddingLeft: '10px',
+        marginBottom: '20px',
+        width: '70px',
+        borderRadius: '30px',
+        float: 'left',
+        fontSize: '20px'
+    }
 
 
   }));
