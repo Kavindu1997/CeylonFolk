@@ -103,7 +103,7 @@ const DepositSlips = () => {
 
     }
 
-    var [selectedOrderToEdit,setSelectedOrderToEdit]=useState([])
+    var [selectedOrderToEdit, setSelectedOrderToEdit] = useState([])
     function setOrderToEdit(value) {
         setConfirmDialog({
             ...confirmDialog,
@@ -111,7 +111,7 @@ const DepositSlips = () => {
         });
         setOpenPopup(true)
         setSelectedOrderToEdit({
-            oId:value.orderId,
+            oId: value.orderId,
         })
     }
 
@@ -121,13 +121,8 @@ const DepositSlips = () => {
         <div style={{ display: "flex" }}>
             <AdminNav />
             <main className={classes.content}>
-
                 <PageHeader title="Bank Deposit Slips" icon={<LayersIcon fontSize="large" />} />
-
                 <Paper className={classes.pageContent}>
-
-
-
                     <Toolbar>
                         <Controls.Input
                             label="Search Orders"
@@ -206,8 +201,8 @@ const DepositSlips = () => {
                                                         </TableCell>
                                                         <TableCell align="center">
                                                             <Button name="accept"
-                                                                disabled={value.isValidated == '1' && value.isProcessed=='1' || value.isRejected =='1' ? true : false}
-                                                              
+                                                                disabled={value.isValidated == '1' && value.isProcessed == '1' || value.isRejected == '1' ? true : false}
+
                                                                 onClick={() => {
                                                                     setConfirmDialog({
                                                                         isOpen: true,
@@ -220,8 +215,8 @@ const DepositSlips = () => {
                                                                 ACCEPT PAYMENT
                                                             </Button>
                                                             <Button name="reject"
-                                                                disabled={value.isValidated == '1' && value.isProcessed=='1' || value.isRejected =='1' ? true : false}
-                                                              
+                                                                disabled={value.isValidated == '1' && value.isProcessed == '1' || value.isRejected == '1' ? true : false}
+
                                                                 onClick={() => {
                                                                     setConfirmDialog({
                                                                         isOpen: true,
@@ -280,13 +275,13 @@ const DepositSlips = () => {
                         setConfirmDialog={setConfirmDialog}
                     />
 
-<Popup
-                title="Order Details"
-                openPopup={openPopup}
-                setOpenPopup={setOpenPopup}
-            >
-                <ViewOrderForm selectedOrderToEdit={selectedOrderToEdit}/> 
-            </Popup>
+                    <Popup
+                        title="Order Details"
+                        openPopup={openPopup}
+                        setOpenPopup={setOpenPopup}
+                    >
+                        <ViewOrderForm selectedOrderToEdit={selectedOrderToEdit} />
+                    </Popup>
 
                 </Paper>
 
