@@ -64,6 +64,7 @@ const Customize = () => {
   const [exportT, setexportT] = useState(null)
   const [openPopup, setOpenPopup] = useState(false);
   const [openSleevePopup, setopenSleevePopup] = useState(false);
+  const [customizePrice, setcustomizePrice] = useState(0);
 
   useEffect(() => {
     setCanvas(initCanvas());
@@ -329,7 +330,9 @@ const Customize = () => {
     <div>
       <CommonNav />
       <CssBaseline />
+      
       <div className={classes.photoContainer} styles={{ marginTop: '200px' }}>
+        
         <Grid md={3} className={classes.barContainer}>
           <Grid md={3}>
             <DesignNav
@@ -337,8 +340,11 @@ const Customize = () => {
               toggleTab={toggleTab}
             />
           </Grid>
+          
 
           <Grid item md={9} className={classes.bar2}>
+
+            <div style={{    height: '320px'}}>
 
             <DesignBox
               toggleState={toggleState}
@@ -457,8 +463,17 @@ const Customize = () => {
                 </Grid>
               </Grid>
             </Box>
+            
+            </div>
+            <div>
+              <div>Price={imageSrcArray.length===1 && pickerColorArray.length === 1 ?  2200 : imageSrcArray.length===1 && pickerColorArray.length > 1 ? 2400 :imageSrcArray.length > 1 && pickerColorArray.length === 1 ? 2300 : pickerColorArray.length === 1 ? 1700 : pickerColorArray.length > 1 ? 1800:imageSrcArray.length===1 && pickerColorArray.length === 1 ? 2200 : imageSrcArray.length === 1 ? 1900 : imageSrcArray.length > 1 ? 2100 : null}</div>
+              
+              </div>
           </Grid>
+          
         </Grid>
+        
+        
         <Grid md={7} className={classes.tshirtDiv}>
           <div className="clothes" style={{ backgroundColor: color, width: '900px' }}>
             <Stage width={850} height={500}
