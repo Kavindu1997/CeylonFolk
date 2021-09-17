@@ -168,6 +168,24 @@ const useStyles = makeStyles((theme) => ({
         background: '#020303',
         borderRadius: '50%',
         color: 'white',
+    },
+    navActive:{
+        display: 'block',
+        color: 'black',
+        position: 'relative',
+        textTransform: 'uppercase',
+        fontWeight: '600',
+        fontSize: '15px',
+        paddingLeft: '10px',
+        textDecoration: 'none',
+        '&:hover': {
+            textDecoration: 'none'
+        }
+
+    },
+    navInactive:{
+        display: 'none',
+
     }
 
 }))
@@ -252,6 +270,7 @@ const CommonNav = (props) => {
                                 Shop
                             </Typography>
                         </NavLink>
+                        <NavLink to={"/customize"} className={localStorage.getItem("userId") == '0' ? classes.navInactive : classes.navActive}><Typography className={classes.appbarlink2}>Customize</Typography></NavLink>
                         <NavLink to={"/contactus"} className={classes.appbarlink}><Typography className={classes.appbarlink2}>Contact</Typography></NavLink>
                         <NavLink to={"/aboutUs"} className={classes.appbarlink}><Typography className={classes.appbarlink2}>About Us</Typography></NavLink>
                     </div>
