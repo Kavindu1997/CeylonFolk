@@ -50,8 +50,8 @@ const orders=[pendingCount,acceptCount,dispatchCount,cancelCount];
               {
                 label: 'Order Distribution',
                 data: orders,
-                backgroundColor: [yellow["A200"],lightGreen["A400"], blue["A200"],red[400]],
-                borderColor:[yellow[400],lightGreen[50],blue[500],red[400]],
+                backgroundColor: [yellow["A200"],green["A400"], blue["A200"],red[400]],
+                borderColor:[yellow[400],green[50],blue[500],red[400]],
                 borderWidth: 1,
               },
             ],
