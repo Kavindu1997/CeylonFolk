@@ -58,7 +58,13 @@ const Home = () => {
         });
     }, []);
 
-   
+    const onSetId = (id) => { 
+        localStorage.setItem("collection_offer_id", id);
+
+
+    };
+
+
     return (
       
         <div>
@@ -259,7 +265,7 @@ const Home = () => {
                     {listOfOffers.map((value) => {
                                     return(
                         <Grid item xs={12} sm={6} md={3}>
-                            <Card className={classes.card}>
+                            <Card className={classes.card} >
                            
                                 <CardActionArea>
                                    
@@ -267,7 +273,16 @@ const Home = () => {
 
                 <CardMedia>
                    
-                    <img align="center" src={'http://localhost:3001/' + value.coverImage} alt="" style={{ width: '100%' }}></img>
+                    <img align="center" src={'http://localhost:3001/' + value.coverImage} alt="" style={{ width: '100%' }}
+                    
+                    onClick={() => {
+                        onSetId(value.id);
+                        history.push(`/specialOffers`);
+
+                    }}
+                    
+                    
+                    ></img>
                 </CardMedia>
                 <CardContent style={{ display: 'flex' }}>
                     <div>
