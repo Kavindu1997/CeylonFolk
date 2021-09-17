@@ -10,7 +10,7 @@ export default function GraphComponent({ id, data, bgColor, brColor }) {
       labels: "meet me",
       datasets: [
         {
-          label: "My First Dataset",
+          label: "",
           data: data,
           fill: true,
           borderColor: brColor,
@@ -45,38 +45,3 @@ export default function GraphComponent({ id, data, bgColor, brColor }) {
   return myChart;
 }
 
-export function lineGraphComponent({ id, type, dataSets, xAxisLabels }) {
-  var ctx = document.getElementById(id).getContext("2d");
-
-  Chart.register(...registerables);
-  var myChart = new Chart(ctx, {
-    type: type ? type : "line",
-    data: {
-      labels: xAxisLabels,
-      datasets: dataSets,
-    },
-    options: {
-      scales: {
-        x: {
-          display: type === "pie" ? false : true,
-          grid: {
-            color: "transparent",
-          },
-        },
-
-        y: {
-          display: type === "pie" ? false : true,
-          grid: {
-            // color: "transparent",
-          },
-        },
-      },
-      plugins: {
-        legend: { position: "bottom" },
-      },
-      responsive: true,
-      maintainAspectRatio: false,
-    },
-  });
-  return myChart;
-}

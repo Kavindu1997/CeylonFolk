@@ -142,22 +142,6 @@ useEffect(() => {
                     {item.label}
                   </Typography>
 
-             {/* {(item.label==="Total Customers")?(
-                  <Typography
-                    variant='h4'
-                    component='h2'
-                    className={classes.cardHeader}>
-                       <CountUp end={item.value} duration={3}/>
-                  </Typography>
-               ):(
-                  <Typography
-                    variant='h4'
-                    component='h2'
-                    className={classes.cardHeader}>
-                       <CountUp end={item.value} duration={4} prefix='LKR ' separator=',' decimals={2}/>
-                  </Typography>
-               )
-             } */}
 
             {
                   (() => {
@@ -169,7 +153,6 @@ useEffect(() => {
                             component='h2'
                             className={classes.cardHeader}>
                               {item.value}
-                              {/* <CountUp end={item.value} duration={0}/> */}
                           </Typography>
                       );
                       case "Pending Orders":
@@ -179,7 +162,6 @@ useEffect(() => {
                             component='h2'
                             className={classes.cardHeader}>
                               {item.value}
-                              {/* <CountUp end={item.value} duration={0}/> */}
                           </Typography>
                       );
                       case "Total Sales":
@@ -188,7 +170,6 @@ useEffect(() => {
                             variant='h4'
                             component='h2'
                             className={classes.cardHeader}>
-                              {/* <CountUp  prefix='LKR ' separator=',' decimals={2}/> */}
                               {(item.value).toLocaleString('en-US', {
                                  style: 'currency',
                                  currency: 'LKR',
