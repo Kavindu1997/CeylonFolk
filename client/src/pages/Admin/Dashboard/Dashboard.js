@@ -16,6 +16,8 @@ import NumberFormat from 'react-number-format';
 import Lottie from 'react-lottie';
 import Stats from '../../../images/stats.json';
 import axios from "axios";
+import PieChart from "./PieChart";
+import LineChart from "./LineChart";
 
 
 const Dashboard = () => {
@@ -46,6 +48,7 @@ useEffect(() => {
       setSales(response.data[0].sales_amount);
   });
 }, []);
+
 
 
     const DisplayData = [
@@ -206,7 +209,8 @@ useEffect(() => {
           </Grid>
         ))}
       </Grid>
-      <BlogGraph />
+      <PieChart />
+      <LineChart/>
     </Box>
        </main>
        </>

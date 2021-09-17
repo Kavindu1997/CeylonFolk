@@ -272,15 +272,32 @@ router.get("/getCount", async (req, res) => {
 
 router.get('/getSales', async (req, res) => {
     try {
-        const query = "SELECT SUM(fullAmount) AS sales_amount FROM orders";
+        const query = "SELECT SUM(fullAmount) AS sales_amount FROM orders  WHERE status='40'";
         const salesAmount = await sequelize.query(query, { type: sequelize.QueryTypes.SELECT });
+     console.log(salesAmount);
+        if(salesAmount.sales_amount=null){
+        //    const data=[{sales_amount: 0 }];
+           // console.log("aaa");
+            res.json([{sales_amount:0}]);
+        }else{
         res.json(salesAmount);
+        }
     } catch (error) {
         res.status(404).json({ message: error.message });
     }
 });
 
-module.exports = router;
+router.get('/getSalesDistribution', async (req, res) => {
+    try {
+        const query = "SELECT MONTHNAME(placedDate) Month, SUM(fullAmount) AS 'monthly_amount' FROM orders WHERE YEAR(placedDate) = '2021' && status='40' GROUP BY MONTH(placedDate)";
+        const salesDistribution = await sequelize.query(query, { type: sequelize.QueryTypes.SELECT });
+        res.json(salesDistribution);
+    } catch (error) {
+        res.status(404).json({ message: error.message });
+    }
+});
+// SELECT MONTHNAME(placedDate) Month, SUM(fullAmount) AS 'monthly_amount' FROM orders WHERE YEAR(placedDate) = '2021' && status='40' GROUP BY MONTH(placedDate);
+
 router.get("/allOrders", async (req, res) => {
     const query = "SELECT orders.orderId, users.firstName, users.lastName, users.contactNo, orders.fullAmount, masterdata.decription, ( SELECT masterdata.decription FROM `masterdata` WHERE masterdata.id = orders.PaymentMethod ) AS paymentMethodDescription FROM `orders` INNER JOIN `users` ON users.id = orders.customerId INNER JOIN `masterdata` ON masterdata.id = orders.status";
     const orders = await sequelize.query(query, { type: sequelize.QueryTypes.SELECT });
