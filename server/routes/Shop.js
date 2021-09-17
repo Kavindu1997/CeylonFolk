@@ -41,7 +41,7 @@ router.get("/offers", async (req, res) => {
 
 router.get("/shops/:id", async (req, res) => {
     const uid = req.params.id;
-    const query = "SELECT designs.id,designs.collection_id,designs.design_name,designs.color_id,designs.type_id,designs.coverImage,designs.price, CASE WHEN wishlists.itemId IS NULL THEN 0 ELSE 1 END AS isInWishList FROM `designs` LEFT JOIN wishlists ON wishlists.itemId = designs.id AND wishlists.userId = '" + uid + "' GROUP BY design_name"
+    const query = "SELECT designs.id,designs.collection_id,designs.design_name,designs.color_id,designs.type_id,designs.coverImage,designs.discountedPrice,designs.price,offers.rate, CASE WHEN wishlists.itemId IS NULL THEN 0 ELSE 1 END AS isInWishList FROM `designs` LEFT JOIN wishlists ON wishlists.itemId = designs.id AND wishlists.userId = '" + uid + "' LEFT JOIN offers ON designs.collection_id = offers.collection_id GROUP BY design_name"
     const listOfDesignsDB = await sequelize.query(query, { type: sequelize.QueryTypes.SELECT });
     res.json(listOfDesignsDB);
     // res.render("upload");
@@ -78,7 +78,7 @@ router.get("/filterRecords", async (req, res, next) => {
     const Type = req.query.Type === "" ? "types.types" : "'" + req.query.Type + "'";
     const Size = req.query.Size === "" ? "sizes.size" : "'" + req.query.Size + "'";
 
-    const query = "SELECT designs.id, designs.collection_id, designs.design_name, designs.color_id, designs.type_id, designs.coverImage, designs.price, CASE WHEN wishlists.itemId IS NULL THEN 0 ELSE 1 END AS isInWishList FROM `designs` LEFT JOIN wishlists ON wishlists.itemId = designs.id AND wishlists.userId =" + uId + " INNER JOIN colors ON colors.id = designs.color_id INNER JOIN inventories ON inventories.colour_id = designs.color_id AND inventories.type_id=designs.type_id INNER JOIN sizes ON sizes.id = inventories.size_id INNER JOIN TYPES ON TYPES .id = designs.type_id INNER JOIN collections ON collections.id = designs.collection_id WHERE collections.collection_name=" + Collection + " AND colors.color_name=" + Colour + " AND types.types=" + Type + " AND sizes.size=" + Size + " GROUP BY design_name"
+    const query = "SELECT designs.id, designs.collection_id, designs.design_name, designs.color_id, designs.type_id, designs.coverImage, designs.discountedPrice, designs.price, CASE WHEN wishlists.itemId IS NULL THEN 0 ELSE 1 END AS isInWishList FROM `designs` LEFT JOIN wishlists ON wishlists.itemId = designs.id AND wishlists.userId =" + uId + " INNER JOIN colors ON colors.id = designs.color_id INNER JOIN inventories ON inventories.colour_id = designs.color_id AND inventories.type_id=designs.type_id INNER JOIN sizes ON sizes.id = inventories.size_id INNER JOIN TYPES ON TYPES .id = designs.type_id INNER JOIN collections ON collections.id = designs.collection_id WHERE collections.collection_name=" + Collection + " AND colors.color_name=" + Colour + " AND types.types=" + Type + " AND sizes.size=" + Size + " GROUP BY design_name"
     const listOfDesignsDB = await sequelize.query(query, { type: sequelize.QueryTypes.SELECT });
     res.json(listOfDesignsDB);
 
