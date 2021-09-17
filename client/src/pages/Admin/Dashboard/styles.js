@@ -88,7 +88,7 @@ export const useStyles = makeStyles((theme) => ({
 
   content: {
     flexGrow: 1,
-    height: '120vh',
+    height: '200vh',
     overflow: 'hidden',
   },
 

@@ -4,10 +4,28 @@ import React, { useEffect, useState } from "react";
 import { fakeArrayGenrator } from "./fakeDataGenerator";
 import { lineGraphComponent } from "./GraphComponent";
 import { useStyles } from "./styles";
+import axios from 'axios';
   
   export default function BlogGraph() {
     const classes = useStyles();
     const [fetched, setFetched] = useState(false);
+    const [pendingCount, setPendingCount] = useState(0);
+    const [acceptCount, setAcceptCount] = useState(5);
+    const [dispatchCount, setDispatchCount] = useState(0);
+    const [cancelCount, setCancelCount] = useState(0);
+
+    useEffect(() => {
+        axios.get("http://localhost:3001/order/getCount").then((response) => {
+            console.log(response.data.pendingOrders);
+            setPendingCount(response.data.pendingOrders);
+            // setAcceptCount(response.data.acceptedOrders);
+            // setDispatchCount(response.data.dispatchedOrders);
+            // setCancelCount(response.data.rejectedOrders);
+        });
+    }, []);
+
+const orders=[pendingCount,acceptCount,dispatchCount,cancelCount];
+
     const GraphData = [
       {
         id: "sales_distribution",
@@ -29,30 +47,15 @@ import { useStyles } from "./styles";
         dataSets: [
           {
             label: "Orders",
-            data: fakeArrayGenrator({ length: 3, digit: 1000 }),
-            borderColor: [lightGreen[50], lime[400], pink[500]],
-            backgroundColor: [lightGreen["A400"], lime["A200"], pink[400]],
+            data:orders,
+            borderColor: [lightGreen[50], lime[400], pink[500],cyan[400]],
+            backgroundColor: [lightGreen["A400"], lime["A200"], pink[400],cyan[400]],
             fill: true,
             tension: 0.5,
           },
         ],
-        xAxisLabels: ["New Orders", "Pending Orders", "Cancel Orders"],
+        xAxisLabels: ["Pending Orders", "Accept Orders", "Dispatch Orders","Cancel Orders"],
       },
-      // {
-      //   id: "sales_distribution",
-      //   type: "bar",
-      //   dataSets: [
-      //     {
-      //       label: "Sales",
-      //       data: fakeArrayGenrator({ length: 12, digit: 100 }),
-      //       borderColor: [lightGreen[50], lime[800], pink[500],yellow[500],deepOrange[500],brown[500],indigo[500],red[500],teal[500],green[500],cyan[500],grey[900]],
-      //       backgroundColor: [lightGreen[50], lime[900], pink[800],yellow[500],deepOrange[500],brown[500],indigo[500],red[500],teal[500],green[500],cyan[500],grey[900]],
-      //       fill: true,
-      //       tension: 0.5,
-      //     },
-      //   ],
-      //   xAxisLabels: ["January", "February", "March","April","May","June","July","August","September","October","November","December"],
-      // },
     ];
   
     useEffect(() => {
@@ -102,22 +105,7 @@ import { useStyles } from "./styles";
             </CardContent>
           </Card>
         </Grid>
-
-        {/* <Grid item xs={11} sm={11} md={11} style={{marginTop:'20px'}}>
-          <Card component={Paper}>
-            <CardContent style={{backgroundColor:"#C6C6C6"}}>
-              <Typography variant='h6' className={classes.cardTitle} align='left'>
-                 Sales Distribution
-              </Typography>
-            </CardContent>
-            <Divider />
-            <CardContent>
-              <canvas
-                id='sales_distribution'
-                className={classes.generalGraph}></canvas>
-            </CardContent>
-          </Card>
-        </Grid> */}
+        
       </Grid>
     );
   }
