@@ -31,6 +31,10 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.INTEGER,
             allowNull: true,
         },
+        discountedPrice: {
+            type: DataTypes.INTEGER,
+            allowNull: true,
+        },
     });
 
     return Designs;

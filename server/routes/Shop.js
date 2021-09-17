@@ -10,6 +10,14 @@ router.get("/", async (req, res) => {
     // res.render("upload");
 });
 
+router.get("/specialOffers/:collection_offer_id", async (req, res) => {
+    const id = req.params.collection_offer_id
+    console.log(id);
+    const query = "SELECT * FROM designs WHERE designs.collection_id='" + id + "'";
+    const listOfOffers = await sequelize.query(query, { type: sequelize.QueryTypes.SELECT });
+    res.json(listOfOffers);
+});
+
 router.get("/shop/:id", async (req, res) => {
     const id = req.params.id
     // console.log(id)
@@ -22,17 +30,11 @@ router.get("/offers", async (req,res) => {
  
     let today = new Date().toISOString().slice(0, 10)
   
-    const query = "SELECT collections.collection_name, collections.coverImage, offers.rate,offers.to FROM `collections` INNER JOIN `offers` ON collections.id=offers.collection_id WHERE offers.to >='"+today+"' ";
+    const query = "SELECT collections.id,collections.collection_name, collections.coverImage, offers.rate,offers.to FROM `collections` INNER JOIN `offers` ON collections.id=offers.collection_id WHERE offers.to >='"+today+"' ";
         const listOfOffers = await sequelize.query(query, { type: sequelize.QueryTypes.SELECT });
         console.log(listOfOffers);
         res.json(listOfOffers);
 
-   console.log("hello");
-
-
-//  const query1 = "SELECT designs.design_name,designs.coverImage,designs.price from `designs`";
-//         const listOfkkk = await sequelize.query(query1, { type: sequelize.QueryTypes.SELECT });
-//         console.log(listOfkkk);
 
 });
 
