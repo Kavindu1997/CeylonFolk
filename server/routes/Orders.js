@@ -229,7 +229,7 @@ router.get("/getCount", async (req, res) => {
         rejectedOrders = '',
     ]
 
-    const query1 = "SELECT COUNT(status) AS pendingCount FROM orders WHERE status='1'";
+    const query1 = "SELECT COUNT(status) AS pendingCount FROM orders WHERE status='1' OR status='6' OR status='5'";
     const pending = await sequelize.query(query1, { type: sequelize.QueryTypes.SELECT });
 
     data = {
@@ -307,6 +307,20 @@ router.get("/allOrders", async (req, res) => {
 router.get("/getOrders/:id", async (req, res) => {
     const id = req.params.id;
     const query = "SELECT orders.orderId, users.firstName, users.lastName, users.contactNo, orders.fullAmount, masterdata.decription FROM `orders` INNER JOIN `users` ON users.id = orders.customerId INNER JOIN `masterdata` ON masterdata.id = orders.status WHERE orders.PaymentMethod='" + id + "'";
+    const orderDetails = await sequelize.query(query, { type: sequelize.QueryTypes.SELECT });
+    res.json(orderDetails);
+})
+
+router.get("/selectedOrderDetails/:oId", async (req, res) => {
+    const id = req.params.oId;
+    const query = "SELECT orders.orderId, orders.fullAmount,orders.PaymentMethod, orders.status, users.firstName, users.lastName, users.contactNo FROM `orders`INNER JOIN `orderitems` ON orders.orderId = orderitems.orderId INNER JOIN `masterdata` ON masterdata.id = orders.status INNER JOIN `users` ON orders.customerId = users.id WHERE orders.orderId ='" + id + "' ";
+    const orderDetails = await sequelize.query(query, { type: sequelize.QueryTypes.SELECT });
+    res.json(orderDetails);
+})
+
+router.get("/selectedOrderItemDetails/:oId", async (req, res) => {
+    const id = req.params.oId;
+    const query = "SELECT orderitems.quantity, orderitems.size, designs.design_name, designs.coverImage FROM `orderitems` INNER JOIN `designs` ON orderitems.itemId = designs.id WHERE orderitems.orderId ='" + id + "'";
     const orderDetails = await sequelize.query(query, { type: sequelize.QueryTypes.SELECT });
     res.json(orderDetails);
 })

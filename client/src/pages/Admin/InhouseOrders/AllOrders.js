@@ -4,6 +4,7 @@ import Popup from "../../../components/Reusable/Popup";
 import { makeStyles, Paper, TableBody, TableRow, TableCell, Toolbar, InputAdornment, Typography, Table, TableContainer, TableHead, Button } from "@material-ui/core";
 import { useParams } from 'react-router';
 import axios from 'axios';
+import OrderStatusChange from "./OrderStatusChange";
 
 
 function AllOrders() {
@@ -11,6 +12,7 @@ function AllOrders() {
     let { id } = useParams();
     const [orderList, setOrderList] = useState([]);
     const [openPopup, setOpenPopup] = useState(false);
+    const [orderId, setOrderId] = useState([]);
 
     useEffect(() => {
         axios.get("http://localhost:3001/order/allOrders").then((response) => {
@@ -18,6 +20,13 @@ function AllOrders() {
             setOrderList(response.data);
         });
     }, []);
+
+    function setOrderIdtoChange(value) {
+        setOpenPopup(true)
+        setOrderId({
+            oId: value.orderId,
+        })
+    }
 
     return (
         <div style={{ display: "flex" }}>
@@ -70,7 +79,7 @@ function AllOrders() {
                                                     <Button
                                                         variant="contained"
                                                         color="primary"
-                                                        onClick={() => { setOpenPopup(true); }}
+                                                        onClick={() => setOrderIdtoChange(value)}
                                                     >View Order
                                                     </Button>
                                                 </TableCell>
@@ -84,10 +93,11 @@ function AllOrders() {
                 </div>
 
                 <Popup
-                    title="Add Collection Form"
+                    title="Order Details"
                     openPopup={openPopup}
                     setOpenPopup={setOpenPopup}
                 >
+                    <OrderStatusChange selectedOrderId={orderId} />
                 </Popup>
             </center>
         </div>
