@@ -1,10 +1,25 @@
 import React, { useState, useEffect } from "react";
 import useStyles from './style';
 import Popup from "../../../components/Reusable/Popup";
-import { Paper, TableBody, TableRow, TableCell, Typography, Table, TableContainer, TableHead, Button } from "@material-ui/core";
+import { Paper, TableBody, TableRow, TableCell, Typography, Table, TableContainer, TableHead, Button,IconButton } from "@material-ui/core";
 import { useParams } from 'react-router';
 import axios from 'axios';
 import OrderStatusChange from "./OrderStatusChange";
+import PictureAsPdfIcon from '@material-ui/icons/PictureAsPdf';
+import logo from '../../../images/logo.png';
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
+
+
+const columns = [
+    { id: 'orderId', label: 'Order ID' },
+    { id: 'firstName', label: 'First Name' },
+    { id: 'lastName', label: 'Last Name' },
+    { id: 'contactNo', label: 'Contact No' },
+    { id: 'fullAmount', label: 'Full Amount(LKR)'},
+    { id: 'paymentMethodDescription', label: 'Payment Method' },
+    { id: 'decription', label: 'Status'},
+]
 
 
 function AllOrders() {
@@ -28,8 +43,27 @@ function AllOrders() {
         })
     }
 
+    const downloadPdf=()=>{
+        const doc = new jsPDF("portrait","px","a4");
+        doc.addImage(logo,'PNG',20,5,36,0);
+        doc.text("All Orders Report",20,35);
+        doc.autoTable({
+            columns:columns.map(col=>({...col,header:col.label,dataKey:col.id})),
+            body:orderList,
+            margin: {
+                top: 45,
+            }
+        });
+        doc.save("all-orders-report.pdf");
+    }
+
     return (
+        <>
+        <IconButton onClick={()=>{downloadPdf()}} style={{marginTop:'-475px',marginLeft:'1100px',color:'#e74c3c'}}>
+                    <PictureAsPdfIcon fontSize="large"/>
+        </IconButton>
         <div style={{ display: "flex" }}>
+               
             <center>
                 <div className={classes.info}>
                     <div className={classes.pageLinks}>
@@ -102,6 +136,7 @@ function AllOrders() {
                 </Popup>
             </center>
         </div>
+        </>
     )
 }
 
