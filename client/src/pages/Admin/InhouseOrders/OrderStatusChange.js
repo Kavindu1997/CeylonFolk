@@ -72,7 +72,8 @@ function OrderStatusChange({ selectedOrderId }) {
                     if (value.PaymentMethod == 7) {
                         if (value.status == 1) {
                             return (
-                                <div>Cash on Delivery pending to processing</div>
+                                <div>Cash on Delivery pending to processing <Button></Button></div>
+
                             );
                         }
                         else {
