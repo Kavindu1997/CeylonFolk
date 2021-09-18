@@ -193,7 +193,15 @@ export default function Cart() {
                           history.push(`/productDetails/${value.productId}`);
                         }} /></TableCell>
                         <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.name}</TableCell>
-                        <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>Rs. {value.price}</TableCell>
+                        <TableCell align="center" style={{ display: value.discountedPrice==null?'none':'', fontFamily: 'Montserrat' }}>
+                          <div style={{ textDecoration: 'line-through'}}>
+                          Rs.{value.actualPrice}
+                          </div>
+                          <div>
+                            Rs.{value.discountedPrice}
+                          </div>
+                        </TableCell>
+                        <TableCell align="center" style={{ display: value.discountedPrice==null?'':'none', fontFamily: 'Montserrat' }}>Rs. {value.price}</TableCell>
                         <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.size}</TableCell>
                         <TableCell align="center">
                           <div onClick={() => selectedQty(index,value.quantity)}>

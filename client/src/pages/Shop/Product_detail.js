@@ -58,6 +58,7 @@ export default function Product_detail() {
   const [quantity, setQuantity] = useState();
   const oneProduct = useSelector((state) => state.selectProductReducer)
   const { coverImage, design_name, price, discountedPrice } = oneProduct;
+  console.log(oneProduct)
   // console.log(designName)
   const [productSize, setProductSize] = useState();
   const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' });
@@ -235,6 +236,7 @@ export default function Product_detail() {
     }else{
       setIsSizeSelected(false)
     }
+    console.log(discountedPrice)
     var uid = localStorage.getItem("userId");
     if (uid != '0') {
       var dummyItem = {
@@ -243,9 +245,11 @@ export default function Product_detail() {
         quantity: itemQuantity,
         userId: uid,
         size: productSize,
-        price: price,
-        totals: quantity * price
+        price: discountedPrice==null?price:discountedPrice,
+        discountedPrice: discountedPrice,
+        totals: discountedPrice==null?itemQuantity * price:itemQuantity*discountedPrice
       }
+      console.log(dummyItem)
       // var result = dispatch(sendProductsToDB(dummyItem))
       ceylonforkapi.post("/check/addToCart/",dummyItem).then((response) => {
         if (response.data.data==0) {
@@ -265,20 +269,6 @@ export default function Product_detail() {
             });
         }
       });   
-
-      // if (result == 0) {
-      //   setNotify({
-      //     isOpen: true,
-      //     message: 'Added Successfully !',
-      //     type: 'error'
-      //   });
-      // } else {
-      //   setNotify({
-      //     isOpen: true,
-      //     message: 'Added Successfully !',
-      //     type: 'success'
-      //   });
-      // }
     }
     else {
       var dummyItem = {
@@ -288,12 +278,13 @@ export default function Product_detail() {
         quantity: itemQuantity,
         userId: uid,
         size: productSize,
-        price: price,
-        totals: quantity * price,
+        discountedPrice: discountedPrice,
+        actualPrice: price,
+        price: discountedPrice==null?price:discountedPrice,
+        totals: discountedPrice==null?itemQuantity * price:itemQuantity*discountedPrice,
         stockMargin: quantity[index1].quantity
       }
-      dummyItem.totals = dummyItem.price * dummyItem.quantity;
-      console.log(dummyItem)
+      // dummyItem.totals = dummyItem.price * dummyItem.quantity;
       dispatch(actionAddToCart(dummyItem));
       dispatch(actionGetTotal(dummyItem.totals));
       dispatch(incrementCartCount())

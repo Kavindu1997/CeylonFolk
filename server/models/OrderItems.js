@@ -17,6 +17,10 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false,
         },
+        purchasedUnitPrice: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
         isDeleted: {
             type: DataTypes.INTEGER,
             allowNull: false,

@@ -7,7 +7,7 @@ import axios from 'axios';
 import Notification from '../../components/Reusable/Notification';
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { useDispatch, useSelector } from "react-redux";
-import { calculateCartCount, getCart } from '../../_actions/index';
+import { calculateCartCount, getCart, emptyCart, emtyTotal } from '../../_actions/index';
 
 function Login() {
     const classes = useStyles();
@@ -76,6 +76,8 @@ function Login() {
                 localStorage.setItem("userEmail", response.data.email);
 
                 if (localStorage.getItem("fromTheCart") == "true") {
+                    dispatch(emptyCart())
+                    dispatch(emtyTotal())
                     history.push("/cart");
                     localStorage.setItem("fromTheCart", false);
                 } else if (localStorage.getItem("fromTheEmail") == "true") {

@@ -4,19 +4,21 @@ const router = express.Router();
 const { Designs, sequelize } = require('../models');
 
 router.get("/", async (req, res) => {
-    const query = "SELECT *,0 as isInWishList FROM `designs`  GROUP by design_name";
+    const query = "SELECT designs.id,designs.collection_id,designs.design_name,designs.color_id,designs.type_id,designs.coverImage,designs.discountedPrice,designs.price,offers.rate,0 as isInWishList FROM `designs` LEFT JOIN offers ON designs.collection_id = offers.collection_id GROUP by design_name";
     const listOfDesignsDB = await sequelize.query(query, { type: sequelize.QueryTypes.SELECT });
     res.json(listOfDesignsDB);
     // res.render("upload");
 });
 
-router.get("/specialOffers/:collection_offer_id", async (req, res) => {
-    const id = req.params.collection_offer_id
-    console.log(id);
-    const query = "SELECT * FROM designs WHERE designs.collection_id='" + id + "'";
+router.post("/specialOffers/", async (req, res) => {
+    const collection_offer_id = req.body.collection_offer_id;
+    const uId = req.body.uid;
+    const query = "SELECT *, designs.id AS ID, CASE WHEN wishlists.itemId IS NULL THEN 0 ELSE 1 END AS isInWishList FROM designs LEFT JOIN wishlists ON wishlists.itemId = designs.id AND wishlists.userId = '" + uId + "' WHERE designs.collection_id='" + collection_offer_id + "'";
     const listOfOffers = await sequelize.query(query, { type: sequelize.QueryTypes.SELECT });
     res.json(listOfOffers);
 });
+
+
 
 router.get("/shop/:id", async (req, res) => {
     const id = req.params.id

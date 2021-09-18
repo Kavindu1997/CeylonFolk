@@ -40,10 +40,7 @@ router.get("/depositedOrders/:id", async (req, res) => {
 
 router.get("/order/:oId", async (req, res) => {
     const oId = req.params.oId;
-
-
-    const query = "SELECT orders.fullAmount, orderitems.id AS orderitemId, designs.id, designs.coverImage, designs.design_name, orderitems.quantity, orderitems.size, designs.price, (SELECT sizes.id FROM sizes WHERE sizes.size=orderitems.size) AS sizeId, SUM( orderitems.quantity * designs.price ) AS totals, CASE WHEN orders.PaymentMethod = '7' AND orders.status = '1' THEN 1 WHEN orders.PaymentMethod = '9' AND orders.status = '4' THEN 1 ELSE 0 END AS canbecancel FROM orderitems INNER JOIN designs ON designs.id = orderitems.itemId INNER JOIN orders ON orders.orderId = orderitems.orderId INNER JOIN masterdata ON masterdata.id = orders.status WHERE orders.orderId = '" + oId + "' AND orderitems.isDeleted='0' GROUP BY orderitems.orderId, orderitems.itemId, orderitems.size ORDER BY orders.placedDate";
-
+    const query = "SELECT orders.fullAmount, orderitems.id AS orderitemId, designs.id, designs.coverImage, designs.design_name, orderitems.quantity, orderitems.size, designs.price, (SELECT sizes.id FROM sizes WHERE sizes.size=orderitems.size) AS sizeId, SUM( orderitems.quantity * orderitems.purchasedUnitPrice ) AS totals, CASE WHEN orders.PaymentMethod = '7' AND orders.status = '1' THEN 1 WHEN orders.PaymentMethod = '9' AND orders.status = '4' THEN 1 ELSE 0 END AS canbecancel FROM orderitems INNER JOIN designs ON designs.id = orderitems.itemId INNER JOIN orders ON orders.orderId = orderitems.orderId INNER JOIN masterdata ON masterdata.id = orders.status WHERE orders.orderId = '" + oId + "' AND orderitems.isDeleted='0' GROUP BY orderitems.orderId, orderitems.itemId, orderitems.size ORDER BY orders.placedDate";
     const orderDetails = await sequelize.query(query, { type: sequelize.QueryTypes.SELECT });
     res.json(orderDetails);
 });
@@ -69,9 +66,15 @@ router.post("/cancelItem", async (req, res) => {
         const deleteItem1 = await sequelize.query(query, { type: sequelize.QueryTypes.UPDATE });
 
     }
-    const query1 = "UPDATE orders SET orders.fullAmount =( SELECT SUM( designs.price * orderitems.quantity ) FROM orderitems INNER JOIN designs ON designs.id = orderitems.itemId WHERE orderitems.orderId = orders.orderId AND orderitems.isDeleted='0') WHERE orders.orderId = '" + orderId + "'";
-    const totalUpdate = await sequelize.query(query1, { type: sequelize.QueryTypes.UPDATE });
-    res.json(deleteItem);
+        const quety1 = "SELECT SUM( CASE WHEN designs.discountedPrice IS NOT NULL THEN designs.discountedPrice * orderitems.quantity ELSE designs.price * orderitems.quantity END ) AS itemTotal FROM orderitems INNER JOIN designs ON designs.id = orderitems.itemId WHERE orderitems.orderId = '"+orderId+"' AND orderitems.isDeleted='0'";
+        const totalItemValue = await sequelize.query(quety1, { type: sequelize.QueryTypes.SELECT });
+        const quety2 = "SELECT deliveryValue, couponValue FROM orders WHERE orders.orderId = '"+orderId+"'";
+        const ordervalues = await sequelize.query(quety2, { type: sequelize.QueryTypes.SELECT });
+        console.log(totalItemValue[0].itemTotal, ordervalues[0].deliveryValue, ordervalues[0].couponValue)
+        var totals = Number(totalItemValue[0].itemTotal)+Number(ordervalues[0].deliveryValue)-Number(ordervalues[0].couponValue)
+        const query3 = "UPDATE orders SET orders.notifications='edited', orders.fullAmount = "+totals+" WHERE orders.orderId = '"+orderId+"'";
+        const deleteItem2 = await sequelize.query(query3, { type: sequelize.QueryTypes.UPDATE });
+        res.json(deleteItem2);
 })
 
 router.post("/cancelOrder", async (req, res) => {
@@ -113,8 +116,17 @@ router.put("/updateOrder", async (req, res) => {
         const uname = req.body.uname;
         const query = "UPDATE orderitems SET quantity='" + quantity + "' , size='" + size + "' WHERE id='" + orderitemId + "'";
         const updateList = await sequelize.query(query, { type: sequelize.QueryTypes.UPDATE });
-        const query1 = "UPDATE orders SET orders.notifications='edited', orders.fullAmount =( SELECT SUM( designs.price * orderitems.quantity ) FROM orderitems INNER JOIN designs ON designs.id = orderitems.itemId WHERE orderitems.orderId = orders.orderId ) WHERE orders.orderId = '" + oId + "'";
-        const totalUpdate = await sequelize.query(query1, { type: sequelize.QueryTypes.UPDATE });
+        
+        const quety1 = "SELECT SUM( CASE WHEN designs.discountedPrice IS NOT NULL THEN designs.discountedPrice * orderitems.quantity ELSE designs.price * orderitems.quantity END ) AS itemTotal FROM orderitems INNER JOIN designs ON designs.id = orderitems.itemId WHERE orderitems.orderId = '"+oId+"' AND orderitems.isDeleted='0'";
+        const totalItemValue = await sequelize.query(quety1, { type: sequelize.QueryTypes.SELECT });
+        const quety2 = "SELECT deliveryValue, couponValue FROM orders WHERE orders.orderId = '"+oId+"'";
+        const ordervalues = await sequelize.query(quety2, { type: sequelize.QueryTypes.SELECT });
+        console.log(totalItemValue[0].itemTotal, ordervalues[0].deliveryValue, ordervalues[0].couponValue)
+        var totals = Number(totalItemValue[0].itemTotal)+Number(ordervalues[0].deliveryValue)-Number(ordervalues[0].couponValue)
+        const query3 = "UPDATE orders SET orders.notifications='edited', orders.fullAmount = "+totals+" WHERE orders.orderId = '"+oId+"'";
+        const totalUpdate = await sequelize.query(query3, { type: sequelize.QueryTypes.UPDATE });
+        // const query1 = "UPDATE orders SET orders.notifications='edited', orders.fullAmount =( SELECT SUM( designs.price * orderitems.quantity ) FROM orderitems INNER JOIN designs ON designs.id = orderitems.itemId WHERE orderitems.orderId = orders.orderId ) WHERE orders.orderId = '" + oId + "'";
+        // const totalUpdate = await sequelize.query(query1, { type: sequelize.QueryTypes.UPDATE });
 
         if (quantity > prevQuantity) {
             const query2 = "UPDATE inventories SET quantity=quantity-('" + quantity + "'-'" + prevQuantity + "') WHERE size_id='" + sizeId + "' AND colour_id=(SELECT color_id FROM designs WHERE id='" + itemId + "') AND type_id=(SELECT type_id FROM designs WHERE id='" + itemId + "')";

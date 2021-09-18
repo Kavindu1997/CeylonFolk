@@ -341,7 +341,6 @@ const Shop = () => {
 
                         {products.map((product, index) => {
                             const { id, coverImage, design_name, price, isInWishList, discountedPrice, rate } = product;
-                            console.log(discountedPrice)
 
                             return (
                                 <Grid item xs={12} sm={6} md={3}>
