@@ -30,6 +30,18 @@ router.get("/offers", async (req, res) => {
 
     let today = new Date().toISOString().slice(0, 10)
 
+    const query = "SELECT collections.id,collections.collection_name, collections.coverImage, offers.rate,offers.to FROM `collections` INNER JOIN `offers` ON collections.id=offers.collection_id WHERE offers.to >='" + today + "' ORDER BY offers.id DESC LIMIT 4";
+    const listOfOffers = await sequelize.query(query, { type: sequelize.QueryTypes.SELECT });
+    console.log(listOfOffers);
+    res.json(listOfOffers);
+
+
+});
+
+router.get("/alloffers", async (req, res) => {
+
+    let today = new Date().toISOString().slice(0, 10)
+
     const query = "SELECT collections.id,collections.collection_name, collections.coverImage, offers.rate,offers.to FROM `collections` INNER JOIN `offers` ON collections.id=offers.collection_id WHERE offers.to >='" + today + "' ";
     const listOfOffers = await sequelize.query(query, { type: sequelize.QueryTypes.SELECT });
     console.log(listOfOffers);
