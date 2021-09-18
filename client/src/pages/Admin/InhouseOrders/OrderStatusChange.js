@@ -51,6 +51,32 @@ function OrderStatusChange({ selectedOrderId }) {
         })
     }
 
+    function cancelStatus(orderId) {
+        setConfirmDialog({
+            ...confirmDialog,
+            isOpen: false
+        });
+        var data = { orderId: orderId }
+        axios.post("http://localhost:3001/order/cancelStatus", data).then((response) => {
+            if (response.data.error) {
+                setNotify({
+                    isOpen: true,
+                    message: 'Confirmation cancelled !',
+                    type: 'error'
+                });
+            } else {
+                setNotify({
+                    isOpen: true,
+                    message: 'Order Canceled!',
+                    type: 'success'
+                });
+                setTimeout(() => {
+                    window.location.reload(true)
+                }, 1500)
+            }
+        })
+    }
+
     return (
         <div>
             <div>
@@ -123,7 +149,14 @@ function OrderStatusChange({ selectedOrderId }) {
                                             style={{ backgroundColor: 'red', color: 'white', margin: '20px' }}
                                             variant="contained"
                                             color="primary"
-                                            onClick={() => { }}
+                                            onClick={() => {
+                                                setConfirmDialog({
+                                                    isOpen: true,
+                                                    title: 'Are you sure to confirm this?',
+                                                    subTitle: "You can't undo this operation...",
+                                                    onConfirm: () => { cancelStatus(value.orderId) }
+                                                })
+                                            }}
                                         >Cancel order</Button>
                                     </div>
                                 </div>
@@ -204,7 +237,14 @@ function OrderStatusChange({ selectedOrderId }) {
                                         <Button
                                             style={{ backgroundColor: 'red', color: 'white', margin: '20px' }}
                                             variant="contained"
-                                            onClick={() => { }}
+                                            onClick={() => {
+                                                setConfirmDialog({
+                                                    isOpen: true,
+                                                    title: 'Are you sure to confirm this?',
+                                                    subTitle: "You can't undo this operation...",
+                                                    onConfirm: () => { cancelStatus(value.orderId) }
+                                                })
+                                            }}
                                         >Cancel order</Button>
                                     </div>
                                 </div>
