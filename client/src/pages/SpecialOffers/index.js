@@ -38,9 +38,11 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import Notification from "../../components/Reusable/Notification";
 import ceylonforkapi from "../../api/index";
+import { useParams } from 'react-router';
 
 const collection_offer_id = localStorage.getItem("collection_offer_id");
 console.log(collection_offer_id);
+
 
 const Shop = () => {
     const classes = useStyles1();
@@ -77,6 +79,7 @@ const Shop = () => {
     // const products = useSelector((state) => state.productReducer.productObject)
 
     const dispatch = useDispatch();
+    let { id } = useParams();
 
     // const fetchProducts = async () =>{
     //     axios.get('http://localhost:3001/shop').then((response) => {
@@ -92,7 +95,7 @@ const Shop = () => {
         dispatch(fetchProducts());
         setChecked(true);
 
-        axios.get(`http://localhost:3001/ProductDetails/offerrate/${collection_offer_id}`).then((response) => {
+        axios.get(`http://localhost:3001/ProductDetails/offerrate/${id}`).then((response) => {
       setrate(response.data[0].rate);
       console.log("hiiirate")
       console.log(response.data[0])
@@ -165,7 +168,7 @@ const Shop = () => {
     const loadRecordAgain = () => {
 
       
-            var response = fetch(`http://localhost:3001/shop/specialOffers/${collection_offer_id}`)
+            var response = fetch(`http://localhost:3001/shop/specialOffers/${id}`)
                 .then(function (response) {
                     return response.json();
                 })

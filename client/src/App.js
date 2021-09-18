@@ -51,6 +51,7 @@ import ViewDesigns from './pages/Admin/ViewDesignTable';
 import DepositSlips from './pages/Admin/Deposit/depositSlips';
 import AdminOrders from './pages/Admin/InhouseOrders/AdminOrders';
 import CustomizeOrderDetails from './pages/Admin/CustomizeOrder/CustomizeOrderTable';
+import OfferCollections from './pages/SpecialOffers/OfferCollections';
 
 
 import Manager from './pages/Manager';
@@ -139,7 +140,7 @@ class App extends Component {
               <Route exact path={"/myOrders/:id"} component={OrderHistory} />
               <Route exact path={"/orderDetail/:oId"} component={OrderDetail} />
               <Route exact path={"/myWishlist"} component={ProfileWishlist} />
-              <Route exact path={"/specialOffers"} component={SpecialOffers} />
+              <Route exact path={"/specialOffers/:id"} component={SpecialOffers} />
               <Route exact path="/admin" component={AdminPanel} />
               <Route exact path="/users" exact render={() => <Users />} />
               <Route exact path="/collections" exact render={() => <Collections />} />
@@ -181,6 +182,7 @@ class App extends Component {
               <Route exact path={"/types/:id"} component={Types} />
               <Route exact path={"/orderView/:id"} component={OrderView} />
               <Route exact path={"/customize/checkout/:id"} component={CustomizeCheckout} />
+              <Route path="/offerCollections" exact render={() => <OfferCollections />} />
 
               <Route path="/*" exact render={() => <NotFound />} />
             </Switch>
