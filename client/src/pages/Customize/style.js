@@ -166,6 +166,13 @@ const useStyles = makeStyles((theme) => ({
         height: '500px',
         position: 'relative'
       },
+      customizePrice:{
+        padding: '10px',
+        border: 'solid',
+        fontSize: '18px',
+        textAlign: 'center',
+        fontWeight: 'bold',
+      },
       drawImage:{
         position: 'absolute',
         top: '100px',

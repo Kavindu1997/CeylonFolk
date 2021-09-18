@@ -1,5 +1,5 @@
 import React,{useEffect,useState} from 'react';
-import { Line, defaults } from 'react-chartjs-2';
+import { Line} from 'react-chartjs-2';
 import axios from 'axios';
 import { useStyles } from "./styles";
 import { Card, CardContent,  Divider,  Grid, Paper, Typography, } from "@material-ui/core";
@@ -31,10 +31,9 @@ const LineChart = () => {
 console.log(month);
     return (
       
-
         <Grid container className={classes.section} spacing={1}  justify = "center">
         
-        <Grid item xs={12} sm={10} md={10}>
+        <Grid item xs={12} sm={10} md={11}>
           <Card component={Paper}>
             <CardContent style={{backgroundColor:"#C6C6C6"}}>
               <Typography variant='h6' className={classes.cardTitle} align='left'>

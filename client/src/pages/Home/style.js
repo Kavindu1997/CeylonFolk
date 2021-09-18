@@ -161,7 +161,8 @@ const useStyles = makeStyles((theme) => ({
     view: {
         padding: '10px',
         margin: '20px',
-        float: 'right'
+        float: 'right',
+        cursor: 'pointer'
     },
     icon1: {
         color: 'black',

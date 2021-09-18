@@ -272,7 +272,7 @@ router.get("/getCount", async (req, res) => {
 
 router.get('/getSales', async (req, res) => {
     try {
-        const query = "SELECT SUM(fullAmount) AS sales_amount FROM orders  WHERE status='40'";
+        const query = "SELECT COALESCE(SUM(fullAmount),0) AS sales_amount FROM orders  WHERE status='40';";
         const salesAmount = await sequelize.query(query, { type: sequelize.QueryTypes.SELECT });
         console.log(salesAmount);
         if (salesAmount.sales_amount = null) {

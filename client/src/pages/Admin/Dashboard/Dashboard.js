@@ -4,15 +4,11 @@ import {useStyles} from './styles';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import {Box,Button,Card,CardContent,Grid,Typography,} from "@material-ui/core";
 import { blue,green, grey, orange, purple, red} from "@material-ui/core/colors";
-import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
-import ArrowDropUpIcon from "@material-ui/icons/ArrowDropUp";
-import MoodIcon from '@material-ui/icons/Mood';
+import TrendingUpIcon from '@material-ui/icons/TrendingUp';
+import AccessibilityNewIcon from '@material-ui/icons/AccessibilityNew';
 import MoodBadIcon from '@material-ui/icons/MoodBad';
 import GraphComponent from "./GraphComponent";
-import BlogGraph from "./BlogGraph";
 import { fakeArrayGenrator } from "./fakeDataGenerator";
-import CountUp from 'react-countup'
-import NumberFormat from 'react-number-format';
 import Lottie from 'react-lottie';
 import Stats from '../../../images/stats.json';
 import axios from "axios";
@@ -55,19 +51,19 @@ useEffect(() => {
       {
         label: "Total Sales",
         value: sales,
-        icon: <ArrowDropUpIcon />,
+        icon: <TrendingUpIcon style={{ color:  blue["A400"],fontSize: 40  }}/>,
         iconLabel: "",
       },
       {
         label: "Total Customers",
         value:customers,
-        icon: <MoodIcon style={{ color: green[500],fontSize: 40  }} />,
+        icon: <AccessibilityNewIcon style={{ color:  grey["A400"],fontSize: 40  }} />,
         iconLabel: "",
       },
       {
         label: "Pending Orders",
         value: pendingOrders,
-        icon: <MoodBadIcon style={{ color: red[500],fontSize: 40  }} />,
+        icon: <MoodBadIcon style={{ color: orange[500],fontSize: 40  }} />,
         iconLabel: "",
       },
     ];
@@ -146,22 +142,6 @@ useEffect(() => {
                     {item.label}
                   </Typography>
 
-             {/* {(item.label==="Total Customers")?(
-                  <Typography
-                    variant='h4'
-                    component='h2'
-                    className={classes.cardHeader}>
-                       <CountUp end={item.value} duration={3}/>
-                  </Typography>
-               ):(
-                  <Typography
-                    variant='h4'
-                    component='h2'
-                    className={classes.cardHeader}>
-                       <CountUp end={item.value} duration={4} prefix='LKR ' separator=',' decimals={2}/>
-                  </Typography>
-               )
-             } */}
 
             {
                   (() => {
@@ -173,7 +153,6 @@ useEffect(() => {
                             component='h2'
                             className={classes.cardHeader}>
                               {item.value}
-                              {/* <CountUp end={item.value} duration={0}/> */}
                           </Typography>
                       );
                       case "Pending Orders":
@@ -183,7 +162,6 @@ useEffect(() => {
                             component='h2'
                             className={classes.cardHeader}>
                               {item.value}
-                              {/* <CountUp end={item.value} duration={0}/> */}
                           </Typography>
                       );
                       case "Total Sales":
@@ -192,7 +170,6 @@ useEffect(() => {
                             variant='h4'
                             component='h2'
                             className={classes.cardHeader}>
-                              {/* <CountUp  prefix='LKR ' separator=',' decimals={2}/> */}
                               {(item.value).toLocaleString('en-US', {
                                  style: 'currency',
                                  currency: 'LKR',
@@ -203,6 +180,13 @@ useEffect(() => {
                     }
                   }).call(this)
             }
+                   <Box className={classes.ratio}>
+                      <Button
+                        startIcon={item.icon}
+                        size='small'
+                        >
+                      </Button>
+                  </Box>
                 </Box>
               </CardContent>
             </Card>

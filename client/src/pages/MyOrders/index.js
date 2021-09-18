@@ -164,11 +164,11 @@ export default function OrderHistory(props) {
                                 <Divider orientation="vertical" flexItem />
                                 <Button onClick={() => deposited()}>Deposit Verifying Orders</Button>
                                 <Divider orientation="vertical" flexItem />
-                                <Button onClick={() => accepted()}>Accepted Orders</Button>
+                                <Button onClick={() => accepted()}>Processing Orders</Button>
                                 <Divider orientation="vertical" flexItem />
                                 <Button onClick={() => dispatched()}>Dispatched Orders</Button>
                                 <Divider orientation="vertical" flexItem />
-                                <Button onClick={() => closed()}>Closed Orders</Button>
+                                <Button onClick={() => closed()}>cancelled Orders</Button>
                                 <Divider orientation="vertical" flexItem />
                                 <Button onClick={() => all()}>All</Button>
                                 <Divider orientation="vertical" flexItem />

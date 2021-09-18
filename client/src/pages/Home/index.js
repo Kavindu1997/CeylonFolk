@@ -277,7 +277,7 @@ const Home = () => {
 
                                                     onClick={() => {
                                                         onSetId(value.id);
-                                                        history.push(`/specialOffers`);
+                                                        history.push(`/specialOffers/${value.id}`);
 
                                                     }}
 
@@ -310,7 +310,11 @@ const Home = () => {
                             )
                         })}
                     </Grid>
-                    <Typography className={classes.view}>
+                    <Typography className={classes.view}
+                    onClick={() => {
+                        history.push('/offerCollections');
+
+                    }}>
                         + VIEW MORE
                     </Typography>
 
