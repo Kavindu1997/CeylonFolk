@@ -39,7 +39,7 @@ const multer = require('multer');
         customerName: req.body.customerName,
       customerEmail: req.body.customerEmail,
         status: 'Pending',
-        price: '1300',
+        price: req.body.price,
         totalAmount: '1300',
         deleteFlag: 'f',
 
