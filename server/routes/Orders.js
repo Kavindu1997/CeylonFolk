@@ -229,7 +229,7 @@ router.get("/getCount", async (req, res) => {
         rejectedOrders = '',
     ]
 
-    const query1 = "SELECT COUNT(status) AS pendingCount FROM orders WHERE status='1' OR status='6' OR status='5'";
+    const query1 = "SELECT COUNT(status) AS pendingCount FROM orders WHERE status='1' OR status='4' OR status='5' OR status='6'";
     const pending = await sequelize.query(query1, { type: sequelize.QueryTypes.SELECT });
 
     data = {
@@ -274,8 +274,14 @@ router.get('/getSales', async (req, res) => {
     try {
         const query = "SELECT COALESCE(SUM(fullAmount),0) AS sales_amount FROM orders  WHERE status='40';";
         const salesAmount = await sequelize.query(query, { type: sequelize.QueryTypes.SELECT });
-       // console.log(salesAmount);
-        res.json(salesAmount);
+        console.log(salesAmount);
+        if (salesAmount.sales_amount = null) {
+            //    const data=[{sales_amount: 0 }];
+            // console.log("aaa");
+            res.json([{ sales_amount: 0 }]);
+        } else {
+            res.json(salesAmount);
+        }
     } catch (error) {
         res.status(404).json({ message: error.message });
     }
@@ -317,6 +323,22 @@ router.get("/selectedOrderItemDetails/:oId", async (req, res) => {
     const query = "SELECT orderitems.quantity, orderitems.size, designs.design_name, designs.coverImage FROM `orderitems` INNER JOIN `designs` ON orderitems.itemId = designs.id WHERE orderitems.orderId ='" + id + "'";
     const orderDetails = await sequelize.query(query, { type: sequelize.QueryTypes.SELECT });
     res.json(orderDetails);
+})
+
+router.post("/statusChange", async (req, res) => {
+    const orderId = req.body.orderId;
+    const status = req.body.status;
+
+    if (status == 1 || status == 6 || status == 5) {
+        const query = "UPDATE orders SET status = '3' WHERE orderId='" + orderId + "'";
+        const statusChanged = await sequelize.query(query, { type: sequelize.QueryTypes.UPDATE });
+        res.json(statusChanged);
+    }
+    else {
+        const query = "UPDATE orders SET status = '40' WHERE orderId='" + orderId + "'";
+        const statusChanged = await sequelize.query(query, { type: sequelize.QueryTypes.UPDATE });
+        res.json(statusChanged);
+    }
 })
 
 module.exports = router;
