@@ -229,7 +229,7 @@ router.get("/getCount", async (req, res) => {
         rejectedOrders = '',
     ]
 
-    const query1 = "SELECT COUNT(status) AS pendingCount FROM orders WHERE status='1' OR status='6' OR status='5'";
+    const query1 = "SELECT COUNT(status) AS pendingCount FROM orders WHERE status='1' OR status='4' OR status='5' OR status='6'";
     const pending = await sequelize.query(query1, { type: sequelize.QueryTypes.SELECT });
 
     data = {
@@ -270,16 +270,92 @@ router.get("/getCount", async (req, res) => {
     res.json(data);
 })
 
+router.get("/getCustomizeCount", async (req, res) => {
+    let data = [
+        pendingOrders = '',
+        acceptedOrders = '',
+        dispatchedOrders = '',
+        rejectedOrders = '',
+        printedOrders='',
+    ]
+
+    const query1 = "SELECT COUNT(status) AS pendingCount FROM customizeorders WHERE status='Pending'";
+    const pending = await sequelize.query(query1, { type: sequelize.QueryTypes.SELECT });
+
+    data = {
+        pendingOrders: pending[0].pendingCount,
+        acceptedOrders: '',
+        dispatchedOrders: '',
+        rejectedOrders: '',
+        printedOrders:'',
+    }
+
+
+    const query2 = "SELECT COUNT(status) AS acceptCount FROM customizeorders WHERE status='Accept'";
+    const accept = await sequelize.query(query2, { type: sequelize.QueryTypes.SELECT });
+    data = {
+        pendingOrders: pending[0].pendingCount,
+        acceptedOrders: accept[0].acceptCount,
+        dispatchedOrders: '',
+        rejectedOrders: '',
+        printedOrders:'',
+    }
+
+
+    const query3 = "SELECT COUNT(status) AS dispatchCount FROM customizeorders WHERE status='Dispatched'";
+    const dispatched = await sequelize.query(query3, { type: sequelize.QueryTypes.SELECT });
+    data = {
+        pendingOrders: pending[0].pendingCount,
+        acceptedOrders: accept[0].acceptCount,
+        dispatchedOrders: dispatched[0].dispatchCount,
+        rejectedOrders: '',
+        printedOrders:'',
+    }
+
+    const query4 = "SELECT COUNT(status) AS rejectCount FROM customizeorders WHERE status='Rejected'";
+    const rejected = await sequelize.query(query4, { type: sequelize.QueryTypes.SELECT });
+    data = {
+        pendingOrders: pending[0].pendingCount,
+        acceptedOrders: accept[0].acceptCount,
+        dispatchedOrders: dispatched[0].dispatchCount,
+        rejectedOrders: rejected[0].rejectCount,
+        printedOrders:'',
+    }
+
+    const query5 = "SELECT COUNT(status) AS printedCount FROM customizeorders WHERE status='Printed'";
+    const printed = await sequelize.query(query5, { type: sequelize.QueryTypes.SELECT });
+    data = {
+        pendingOrders: pending[0].pendingCount,
+        acceptedOrders: accept[0].acceptCount,
+        dispatchedOrders: dispatched[0].dispatchCount,
+        rejectedOrders: rejected[0].rejectCount,
+        printedOrders:printed[0].printedCount,
+    }
+    res.json(data);
+})
+
 router.get('/getSales', async (req, res) => {
     try {
-        const query = "SELECT COALESCE(SUM(fullAmount),0) AS sales_amount FROM orders  WHERE status='40';";
-        const salesAmount = await sequelize.query(query, { type: sequelize.QueryTypes.SELECT });
+        const query1 = "CREATE OR REPLACE VIEW total_sales AS SELECT COALESCE(SUM(fullAmount),0) AS sales_amount FROM orders  WHERE status='40' UNION ALL SELECT COALESCE(SUM(totalAmount),0) AS sales_amount FROM customizeorders  WHERE status='Dispatched';";
+        const query2="SELECT SUM(sales_amount) as sales_amount FROM total_sales;"
+        const salesAmount = await sequelize.query(query2, { type: sequelize.QueryTypes.SELECT });
        // console.log(salesAmount);
         res.json(salesAmount);
     } catch (error) {
         res.status(404).json({ message: error.message });
     }
 });
+
+router.get('/getAllPendingCount',async(req,res)=>{
+    try {
+        const query1 = "CREATE OR REPLACE VIEW pendings AS SELECT COUNT(status) AS pendingCount FROM orders WHERE status='1' OR status='4' OR status='5' OR status='6' UNION ALL SELECT COUNT(status) AS pendingCount FROM customizeorders WHERE status='Pending' AND deleteFlag='f';";
+        const query2="SELECT SUM(pendingCount) as sum_of_pendings FROM pendings;"
+        const sumOfPendingCount = await sequelize.query(query2, { type: sequelize.QueryTypes.SELECT });
+        res.json(sumOfPendingCount);
+    } catch (error) {
+        res.status(404).json({message:error.message});
+    }
+  });
 
 router.get('/getSalesDistribution', async (req, res) => {
     try {

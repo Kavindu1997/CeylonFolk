@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import PageHeader from '../PageHeader';
 import {useStyles} from './styles';
 import DashboardIcon from '@material-ui/icons/Dashboard';
-import {Box,Button,Card,CardContent,Grid,Typography,} from "@material-ui/core";
+import {Box,Button,Card,CardContent,Grid,Typography,ButtonGroup} from "@material-ui/core";
 import { blue,green, grey, orange, purple, red} from "@material-ui/core/colors";
 import TrendingUpIcon from '@material-ui/icons/TrendingUp';
 import AccessibilityNewIcon from '@material-ui/icons/AccessibilityNew';
@@ -14,7 +14,9 @@ import Stats from '../../../images/stats.json';
 import axios from "axios";
 import PieChart from "./PieChart";
 import LineChart from "./LineChart";
-
+import DoughNut from "./DoughNut";
+import LineChartCustomize from "./LineChartCustomize";
+import LineChartAll from "./LineChartAll";
 
 const Dashboard = () => {
     const classes = useStyles();
@@ -22,6 +24,7 @@ const Dashboard = () => {
     const [customers,setCustomers]=useState(0);
     const [pendingOrders,setPendingOrders]=useState(0);
     const [sales,setSales]=useState(0);
+    const [component, setComponent] = useState('all')
 
     useEffect(() => {
       axios.get("http://localhost:3001/auth/getCount").then((response) => {
@@ -31,9 +34,9 @@ const Dashboard = () => {
   }, []);
 
   useEffect(() => {
-    axios.get("http://localhost:3001/order/getCount").then((response) => {
-        console.log(response.data.pendingOrders);
-        setPendingOrders(response.data.pendingOrders);
+    axios.get("http://localhost:3001/order/getALLPendingCount").then((response) => {
+        console.log(response.data[0].sum_of_pendings);
+        setPendingOrders(response.data[0].sum_of_pendings);
     });
 }, []);
 
@@ -193,8 +196,20 @@ useEffect(() => {
           </Grid>
         ))}
       </Grid>
+      <DoughNut/>
       <PieChart />
-      <LineChart/>
+            <ButtonGroup variant="contained" aria-label="outlined primary button group" style={{ marginLeft: "450px",marginTop:"50px"}}>
+                      <Button onClick={() => setComponent('all')}>All Sales</Button>
+                      <Button  onClick={() => setComponent('customize')}>Customized Sales</Button>
+                      <Button onClick={() => setComponent('inhouse')}>Inhouse Sales</Button>
+            </ButtonGroup>
+            {(component==="inhouse")?(
+                    <LineChart/>
+               ):((component==='customize')?(
+                 <LineChartCustomize/>
+               ):(<LineChartAll/>))
+             } 
+      {/* <LineChart/> */}
     </Box>
        </main>
        </>
