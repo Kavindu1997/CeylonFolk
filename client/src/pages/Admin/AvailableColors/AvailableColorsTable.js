@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import PageHeader from "../PageHeader";
 import LayersIcon from "@material-ui/icons/Layers";
-import { Search } from "@material-ui/icons";
 import AddIcon from "@material-ui/icons/Add";
 import AvailableColorsForm from "./AvailableColorsForm";
 import { makeStyles, Paper, TableBody, TableRow, TableCell, Toolbar, InputAdornment, Typography, Table, TableContainer, TableHead, Button } from "@material-ui/core";
@@ -16,7 +15,10 @@ import axios from 'axios';
 // import { actionDeleteCollection } from '../../../_actions/collections';
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from 'react-router-dom';
-import { fetchColors } from '../../../_actions/colorActions'
+import { fetchColors } from '../../../_actions/colorActions';
+import DeleteIcon from '@material-ui/icons/Delete';
+import EditIcon from '@material-ui/icons/Edit';
+
 
 
 const CollectionTable = () => {
@@ -65,7 +67,7 @@ const CollectionTable = () => {
 
     const pickedItemColors = useSelector((state) => state.colorReducer.pickerColor)
 
-    console.log("color check"+pickedItemColors);
+    console.log("color check" + pickedItemColors);
 
     // dispatch(fetchColors());
 
@@ -78,27 +80,27 @@ const CollectionTable = () => {
         setConfirmDialog({
             ...confirmDialog,
             isOpen: false
-          });
+        });
 
         const data = { id: id }
 
         axios.delete(`http://localhost:3001/availableColors`, { data }).then((response) => {
 
-            if (response.data.data==0){
+            if (response.data.data == 0) {
                 setNotify({
                     isOpen: true,
                     message: 'Removed Failed !',
                     type: 'error'
                 });
-            }else{
+            } else {
                 setNotify({
                     isOpen: true,
                     message: 'Removed Successfully !',
                     type: 'success'
-                  });
-                 
-               
-            } 
+                });
+
+
+            }
 
         });
 
@@ -127,7 +129,7 @@ const CollectionTable = () => {
                     <container>
                         <center>
                             <Typography variant="h5" style={{ marginTop: '80px', textAlign: 'center', backgroundColor: '#C6C6C6', padding: '30px', fontFamily: 'Montserrat' }}>COLORS</Typography>
-                            <TableContainer style={{ marginTop: '30px', align: 'center', width: '1100px' }}>
+                            <TableContainer style={{ marginTop: '20px', align: 'center', width: '1100px' }}>
                                 <Table className={classes.table} aria-label="simple table">
                                     <TableHead>
                                         <TableRow>
@@ -140,7 +142,7 @@ const CollectionTable = () => {
                                     </TableHead>
                                     <TableBody>
                                         {pickedItemColors.map((pickColor) => {
-                                            const {id,color, price,color_name } = pickColor;
+                                            const { id, color, price, color_name } = pickColor;
                                             return (
                                                 <TableRow>
                                                     <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{color_name}</TableCell>
@@ -152,15 +154,20 @@ const CollectionTable = () => {
                                                     </TableCell>
                                                     <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{price}</TableCell>
                                                     <TableCell align="center">
-                                                        <Button name="remove"
+                                                        <Button
+                                                            name="remove"
+                                                            startIcon={<EditIcon />}
                                                         // onClick={() => onRemove(value.id)}
                                                         >
-                                                            <i className="fa fa-times" aria-hidden="true"></i>
                                                         </Button>
                                                     </TableCell>
 
                                                     <TableCell align="center">
-                                                            <Button name="remove" onClick={() => {
+                                                        <Button
+
+                                                            startIcon={<DeleteIcon />}
+                                                            name="remove"
+                                                            onClick={() => {
                                                                 setConfirmDialog({
                                                                     isOpen: true,
                                                                     title: 'Are you sure to delete this?',
@@ -168,9 +175,8 @@ const CollectionTable = () => {
                                                                     onConfirm: () => { onRemove(id) }
                                                                 })
                                                             }}>
-                                                                <i className="fa fa-times" aria-hidden="true"></i>
-                                                            </Button>
-                                                        </TableCell>
+                                                        </Button>
+                                                    </TableCell>
                                                 </TableRow>
                                             );
                                         })}
