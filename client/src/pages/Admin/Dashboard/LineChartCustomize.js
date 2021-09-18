@@ -11,7 +11,7 @@ const LineChartCustomize = () => {
     const [amount, setAmount] = useState([]);
 
     useEffect(() => {
-        axios.get("http://localhost:3001/order/getSalesDistribution").then((response) => {
+        axios.get("http://localhost:3001/order/getCustomizeDistribution").then((response) => {
            const months=[];
            const amounts=[];
            for(var i=0;i<response.data.length;i++){

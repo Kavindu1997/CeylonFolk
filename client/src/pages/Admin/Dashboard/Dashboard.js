@@ -16,7 +16,6 @@ import PieChart from "./PieChart";
 import LineChart from "./LineChart";
 import DoughNut from "./DoughNut";
 import LineChartCustomize from "./LineChartCustomize";
-import LineChartAll from "./LineChartAll";
 
 const Dashboard = () => {
     const classes = useStyles();
@@ -24,7 +23,7 @@ const Dashboard = () => {
     const [customers,setCustomers]=useState(0);
     const [pendingOrders,setPendingOrders]=useState(0);
     const [sales,setSales]=useState(0);
-    const [component, setComponent] = useState('all')
+    const [component, setComponent] = useState('inhouse')
 
     useEffect(() => {
       axios.get("http://localhost:3001/auth/getCount").then((response) => {
@@ -198,16 +197,15 @@ useEffect(() => {
       </Grid>
       <DoughNut/>
       <PieChart />
-            <ButtonGroup variant="contained" aria-label="outlined primary button group" style={{ marginLeft: "450px",marginTop:"50px"}}>
-                      <Button onClick={() => setComponent('all')}>All Sales</Button>
+            <ButtonGroup variant="contained" aria-label="outlined primary button group" style={{ marginLeft: "500px",marginTop:"50px"}}>
                       <Button  onClick={() => setComponent('customize')}>Customized Sales</Button>
                       <Button onClick={() => setComponent('inhouse')}>Inhouse Sales</Button>
             </ButtonGroup>
             {(component==="inhouse")?(
                     <LineChart/>
-               ):((component==='customize')?(
+               ):(
                  <LineChartCustomize/>
-               ):(<LineChartAll/>))
+               )
              } 
       {/* <LineChart/> */}
     </Box>
