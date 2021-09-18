@@ -129,14 +129,19 @@ export default function Checkout() {
     const setNote = (event) => {
         setSpecialNote(event.target.value)
     }
+    
+    const [validCoupon, setValidCoupon] = useState([])
+    const [isCouponValidated, setIsCouponValidated] = useState(0)
+
     const couponName = (event) => {
         getCustomerCoupon(event.target.value)
         console.log(customerCoupon)
+        // if(isCouponValidated==1){
+        //     validCoupon
+        // }
         setIsCouponValidated(0)
     }
 
-    const [validCoupon, setValidCoupon] = useState([])
-    const [isCouponValidated, setIsCouponValidated] = useState(0)
     function applyCoupon(){
         ceylonforkapi.get("/check/coupon",{
             params : {

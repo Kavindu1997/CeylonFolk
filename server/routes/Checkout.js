@@ -64,10 +64,10 @@ router.post("/cashOn", async (req, res) => {
             emailDetails.urlMsg = 'To view your past order details';
             emailDetails.url = 'http://localhost:3000/myOrders?id='+uid+'';
         }
-        if(isCouponValidated==1){
-            const query = "UPDATE coupons SET isUsed=1, usedBy='"+uid+"' WHERE coupon_number='"+customerCoupon+"'";
-            const couponUpdate = await sequelize.query(query, { type: sequelize.QueryTypes.UPDATE });
-        }
+        // if(isCouponValidated==1){
+        //     const query = "UPDATE coupons SET isUsed=1, usedBy='"+uid+"' WHERE coupon_number='"+customerCoupon+"'";
+        //     const couponUpdate = await sequelize.query(query, { type: sequelize.QueryTypes.UPDATE });
+        // }
         updateInventory(items)
         var value = sendEmail(emailDetails)
         res.json({data:1});
@@ -258,7 +258,7 @@ router.get("/coupon", async (req, res) => {
     console.log(req.query.today, req.query.couponName)
     const couponName = req.query.couponName;
     const today = req.query.today;
-    const query = "SELECT * FROM coupons WHERE coupon_number='" + couponName + "' AND isUsed=0";
+    const query = "SELECT * FROM coupons WHERE coupon_number='" + couponName + "'";
     const couponInTable = await sequelize.query(query, { type: sequelize.QueryTypes.SELECT });
     console.log(couponInTable.length)
     if(couponInTable.length>0){

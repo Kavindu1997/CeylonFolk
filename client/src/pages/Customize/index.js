@@ -64,13 +64,47 @@ const Customize = () => {
   const [exportT, setexportT] = useState(null)
   const [openPopup, setOpenPopup] = useState(false);
   const [openSleevePopup, setopenSleevePopup] = useState(false);
-  const [customizePrice, setcustomizePrice] = useState(0);
+  const [customizeprice, setcustomizePrice] = useState(1100);
 
   useEffect(() => {
     setCanvas(initCanvas());
     setImage(getImage());
 
   }, []);
+
+  var price=1100;
+
+  const Price = () => {
+    
+    if(imageSrcArray.length===1 && pickerColorArray.length === 1){
+      price =2200
+    }
+    else if(imageSrcArray.length===1 && pickerColorArray.length > 1){
+      price =1700
+    }
+    else if(imageSrcArray.length > 1 && pickerColorArray.length === 1){
+      price = 1700
+    }
+    else if(pickerColorArray.length === 1){
+      price = 1700
+    }
+    else if(pickerColorArray.length > 1){
+      price = 1800
+    }
+    else if(imageSrcArray.length===1 && pickerColorArray.length === 1){
+      price = 2200
+    }
+    else if(imageSrcArray.length === 1){
+      price = 1900
+    }
+    else if(imageSrcArray.length > 1){
+      price = 1900
+    }
+    else{
+      price =1100
+    }
+
+  } 
 
   const dispatch = useDispatch();
 
@@ -110,6 +144,7 @@ const Customize = () => {
   const changeLogo = () => {
     setimageSrcArray([...imageSrcArray, imageSrc])
     console.log(imageSrcArray)
+    Price();
 
   }
 
@@ -263,6 +298,7 @@ const Customize = () => {
     console.log('hi frim thashhh')
     setPickerColorArray([...pickerColorArray, newText])
     console.log(pickerColorArray)
+    Price();
   }
 
   const downloadURI = (uri, name) => {
@@ -317,7 +353,8 @@ const Customize = () => {
       customerEmail: userEmail,
       orderNo: orderNo,
       userName:userName,
-      image: exportT
+      image: exportT,
+      price: price,
     }
 
     axios.post('http://localhost:3001/customizeOrders/upload/image', data).then((response) => {
@@ -466,9 +503,10 @@ const Customize = () => {
             
             </div>
             <div>
-              <div>Price={imageSrcArray.length===1 && pickerColorArray.length === 1 ?  2200 : imageSrcArray.length===1 && pickerColorArray.length > 1 ? 2400 :imageSrcArray.length > 1 && pickerColorArray.length === 1 ? 2300 : pickerColorArray.length === 1 ? 1700 : pickerColorArray.length > 1 ? 1800:imageSrcArray.length===1 && pickerColorArray.length === 1 ? 2200 : imageSrcArray.length === 1 ? 1900 : imageSrcArray.length > 1 ? 2100 : null}</div>
-              
+              <div style={{display:'none'}}>{imageSrcArray.length===1 && pickerColorArray.length === 1 ?  price=2200 : imageSrcArray.length===1 && pickerColorArray.length > 1 ? price=2400 :imageSrcArray.length > 1 && pickerColorArray.length === 1 ? price=2300: pickerColorArray.length === 1 ? price=1700 : pickerColorArray.length > 1 ? price=1800 :imageSrcArray.length===1 && pickerColorArray.length === 1 ? price=2200 : imageSrcArray.length === 1 ?  price=1900 : imageSrcArray.length > 1 ?  price=2100 : price=1100}</div>              
+              <div className={classes.customizePrice}>Price = LKR {price}.00</div>             
               </div>
+              
           </Grid>
           
         </Grid>
