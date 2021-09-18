@@ -118,7 +118,7 @@ const Shop = () => {
     let history = useHistory();
 
     function addToWishlist(id, isInWishList) {
-        console.log(isInWishList)
+        console.log(id)
         const uid = localStorage.getItem("userId");
         if (localStorage.getItem("userId") != "0") {
             const data = { uid: uid, 
@@ -147,7 +147,7 @@ const Shop = () => {
                             });
                         } else {
                             setRecord([]);
-                            setRecord(response.data.data);
+                            loadRecordAgain()
                             setNotify({
                                 isOpen: true,
                                 message: "Successfully added to your wishlist !",
@@ -167,14 +167,18 @@ const Shop = () => {
 
     const loadRecordAgain = () => {
 
+
+            const uid = localStorage.getItem("userId")
+            axios.post(`http://localhost:3001/shop/specialOffers/`,{collection_offer_id:collection_offer_id,uid:uid})
+                .then( (response) => {
+                    setRecord(response.data);
+                    console.log(response.data)
       
-            var response = fetch(`http://localhost:3001/shop/specialOffers/${id}`)
-                .then(function (response) {
-                    return response.json();
+//             var response = fetch(`http://localhost:3001/shop/specialOffers/${id}`)
+//                 .then(function (response) {
+//                     return response.json();
+
                 })
-                .then(function (myJson) {
-                    setRecord(myJson);
-                });
     
 
         // console.log(collection_offer_id);
@@ -207,7 +211,7 @@ const Shop = () => {
 
     useEffect(() => {
         loadRecordAgain();
-    
+        
     }, []);
 
     return (
@@ -225,7 +229,7 @@ const Shop = () => {
                     <Grid container spacing={0}>
 
                         {products.map((product, index) => {
-                            const { id, coverImage, design_name, price, isInWishList, discountedPrice } = product;
+                            const { ID,id, coverImage, design_name, price, isInWishList, discountedPrice } = product;
 
                             return (
                                 <Grid item xs={12} sm={6} md={3}>
@@ -249,7 +253,7 @@ const Shop = () => {
                                                     src={"http://localhost:3001/" + coverImage}
                                                     alt=""
                                                     onClick={() => {
-                                                        history.push(`/productDetails/${id}`);
+                                                        history.push(`/productDetails/${ID}`);
                                                     }}
                                                 ></img>
 
@@ -267,7 +271,7 @@ const Shop = () => {
                                                         style={{padding: '0px',
                                                         borderRadius: '0px'}}
                                                             onClick={() => {
-                                                                addToWishlist(id, isInWishList);
+                                                                addToWishlist(ID, isInWishList);
                                                             }}
                                                         >
                                                             <FavoriteBorderOutlinedIcon

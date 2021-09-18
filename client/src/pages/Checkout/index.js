@@ -130,15 +130,15 @@ export default function Checkout() {
         setSpecialNote(event.target.value)
     }
     
-    const [validCoupon, setValidCoupon] = useState([])
+    const [validCoupon, setValidCoupon] = useState(0)
     const [isCouponValidated, setIsCouponValidated] = useState(0)
 
     const couponName = (event) => {
         getCustomerCoupon(event.target.value)
         console.log(customerCoupon)
-        // if(isCouponValidated==1){
-        //     validCoupon
-        // }
+        if(isCouponValidated==1){
+            setValidCoupon(0)
+        }
         setIsCouponValidated(0)
     }
 
@@ -323,6 +323,8 @@ export default function Checkout() {
             specialNote: specialNote,
             customerCoupon: customerCoupon==""?0:customerCoupon,
             isCouponValidated: isCouponValidated,
+            couponValue: validCoupon,
+            districtValue: districtvalue,
         }
         return item;
     }
