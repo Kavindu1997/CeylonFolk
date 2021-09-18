@@ -22,6 +22,7 @@ import * as Yup from 'yup';
 import Notification from '../../components/Reusable/Notification';
 import UserSideNav from '../../components/Navbars/UserSideNav';
 import Switch from '@material-ui/core/Switch';
+import ceylonforkapi from '../../api/index';
 
 function onLinkClick(event) {
     console.log('onLinkClick'); // never called
@@ -35,7 +36,8 @@ export default function Checkout() {
 
     const [cutomerPhoneNumber, setOfPhoneNumber] = useState();
     const [customerEmail, setCustomerEmail] = useState([]);
-    const customerDetails = useSelector((state) => state.checkout.detail)
+    // const customerDetails = useSelector((state) => state.checkout.detail)
+    const [customerDetails, getCustomerDetails] = useState([])
     const [add2Error, setAdd2Error] = useState(false);
     const [phonneNoError, setphonneNoError] = useState(false)
     const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' });
@@ -46,7 +48,11 @@ export default function Checkout() {
     const [confirmPw, setConfirmPw] = useState([]);
 
     useEffect(() => {
-        dispatch(actionGetCustomerDetails())
+        var id = localStorage.getItem("userId")
+        ceylonforkapi.get("/check/customer/"+ id).then((response) => {
+            getCustomerDetails(response.data)
+        })
+        dispatch(actionGetCustomerDetails(id))
         dispatch(getCart())
         dispatch(getTotal())
         dispatch(actionGetDistricts())

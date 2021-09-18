@@ -1,6 +1,7 @@
 import { CHECKOUT_CONSTS } from "../_constants";
 import ceylonforkapi from "../api/index";
 import { getCart,getTotal, emptyCart, emtyTotal,calculateCartCount } from ".";
+import { id } from "date-fns/locale";
 
 export const actionGetCustomerDetails = details => async (dispatch)=> {
     var id = localStorage.getItem("userId");
