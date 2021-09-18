@@ -388,9 +388,30 @@ router.get("/allOrders", async (req, res) => {
 
 router.get("/getOrders/:id", async (req, res) => {
     const id = req.params.id;
-    const query = "SELECT orders.orderId, users.firstName, users.lastName, users.contactNo, orders.fullAmount, masterdata.decription FROM `orders` INNER JOIN `users` ON users.id = orders.customerId INNER JOIN `masterdata` ON masterdata.id = orders.status WHERE orders.PaymentMethod='" + id + "'";
-    const orderDetails = await sequelize.query(query, { type: sequelize.QueryTypes.SELECT });
-    res.json(orderDetails);
+
+    if (id == 1) {
+        const query = "SELECT orders.orderId, users.firstName, users.lastName, users.contactNo, orders.fullAmount, masterdata.decription FROM `orders` INNER JOIN `users` ON users.id = orders.customerId INNER JOIN `masterdata` ON masterdata.id = orders.PaymentMethod WHERE orders.status='1' OR orders.status='4' OR orders.status='5' OR orders.status='6'";
+        const orderDetails = await sequelize.query(query, { type: sequelize.QueryTypes.SELECT });
+        res.json(orderDetails);
+    }
+    else if (id == 2) {
+        const query = "SELECT orders.orderId, users.firstName, users.lastName, users.contactNo, orders.fullAmount, masterdata.decription FROM `orders` INNER JOIN `users` ON users.id = orders.customerId INNER JOIN `masterdata` ON masterdata.id = orders.PaymentMethod WHERE orders.status='3'";
+        const orderDetails = await sequelize.query(query, { type: sequelize.QueryTypes.SELECT });
+        res.json(orderDetails);
+    }
+    else if (id == 3) {
+        const query = "SELECT orders.orderId, users.firstName, users.lastName, users.contactNo, orders.fullAmount, masterdata.decription FROM `orders` INNER JOIN `users` ON users.id = orders.customerId INNER JOIN `masterdata` ON masterdata.id = orders.PaymentMethod WHERE orders.status='40'";
+        const orderDetails = await sequelize.query(query, { type: sequelize.QueryTypes.SELECT });
+        res.json(orderDetails);
+    }
+    else {
+        const query = "SELECT orders.orderId, users.firstName, users.lastName, users.contactNo, orders.fullAmount, masterdata.decription FROM `orders` INNER JOIN `users` ON users.id = orders.customerId INNER JOIN `masterdata` ON masterdata.id = orders.PaymentMethod WHERE orders.status='41'";
+        const orderDetails = await sequelize.query(query, { type: sequelize.QueryTypes.SELECT });
+        res.json(orderDetails);
+    }
+
+
+
 })
 
 router.get("/selectedOrderDetails/:oId", async (req, res) => {
@@ -421,6 +442,13 @@ router.post("/statusChange", async (req, res) => {
         const statusChanged = await sequelize.query(query, { type: sequelize.QueryTypes.UPDATE });
         res.json(statusChanged);
     }
+})
+
+router.post("/cancelStatus", async (req, res) => {
+    const orderId = req.body.orderId;
+    const query = "UPDATE orders SET status = '41' WHERE orderId='" + orderId + "'";
+    const statusChanged = await sequelize.query(query, { type: sequelize.QueryTypes.UPDATE });
+    res.json(statusChanged);
 })
 
 module.exports = router;
