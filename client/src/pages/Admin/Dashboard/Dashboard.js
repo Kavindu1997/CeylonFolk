@@ -5,7 +5,7 @@ import DashboardIcon from '@material-ui/icons/Dashboard';
 import {Box,Button,Card,CardContent,Grid,Typography,} from "@material-ui/core";
 import { blue,green, grey, orange, purple, red} from "@material-ui/core/colors";
 import TrendingUpIcon from '@material-ui/icons/TrendingUp';
-import MoodIcon from '@material-ui/icons/Mood';
+import AccessibilityNewIcon from '@material-ui/icons/AccessibilityNew';
 import MoodBadIcon from '@material-ui/icons/MoodBad';
 import GraphComponent from "./GraphComponent";
 import { fakeArrayGenrator } from "./fakeDataGenerator";
@@ -57,7 +57,7 @@ useEffect(() => {
       {
         label: "Total Customers",
         value:customers,
-        icon: <MoodIcon style={{ color:  grey["A400"],fontSize: 40  }} />,
+        icon: <AccessibilityNewIcon style={{ color:  grey["A400"],fontSize: 40  }} />,
         iconLabel: "",
       },
       {
