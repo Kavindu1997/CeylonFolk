@@ -40,7 +40,7 @@ const multer = require('multer');
       customerEmail: req.body.customerEmail,
         status: 'Pending',
         price: req.body.price,
-        totalAmount: '1300',
+        
         deleteFlag: 'f',
 
             image: imagePath
@@ -190,7 +190,7 @@ const multer = require('multer');
     
             
 
-        const query = "UPDATE customizeorders SET status='Accept', price='"+price+"', totalAmount='"+price+"' WHERE orderId='"+id+"'";
+        const query = "UPDATE customizeorders SET status='Accept', price='"+price+"' WHERE orderId='"+id+"'";
         const updateStatus = await sequelize.query(query, { type: sequelize.QueryTypes.UPDATE });
 
         const query2 = "SELECT * FROM customizeorders WHERE (status='Pending' AND deleteFlag='f')";
@@ -526,7 +526,24 @@ const multer = require('multer');
             
 
         
-        const query = "UPDATE customizeorders SET status='Advance Paid', price='"+price+"' WHERE orderId='"+id+"'";
+        const query = "UPDATE customizeorders SET status='Advance Paid', price='"+price+"', totalAmount='"+price+"' WHERE orderId='"+id+"'";
+        const updateStatus = await sequelize.query(query, { type: sequelize.QueryTypes.UPDATE });
+    
+    res.json(updateStatus);
+    });
+
+    router.put("/orderPaid", async (req,res) => {
+        const id = req.body.id;
+        // const orderNo = req.body.orderNo;
+        const totalAmount = req.body.totalAmount;
+        const address = req.body.delivery;
+        const date = req.body.placedDate
+        console.log(id)
+    
+            
+
+        
+        const query = "UPDATE customizeorders SET status='Paid',  totalAmount='"+totalAmount+"', address='"+address+"', placedDate='"+date+"' WHERE orderId='"+id+"'";
         const updateStatus = await sequelize.query(query, { type: sequelize.QueryTypes.UPDATE });
     
     res.json(updateStatus);

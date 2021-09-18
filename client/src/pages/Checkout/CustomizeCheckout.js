@@ -180,7 +180,7 @@ export default function CustomizeCheckout() {
     const createPaymentDetails = (pm, uid, status) => {
         let orderId = new Date().getTime();
         var date = moment().format();
-        var total = Number(price) + Number(districtvalue);
+        var total = Number(price) + Number(districtvalue) + Number(price);
         var totalAmount = Number(price) + Number(price) + Number(districtvalue);
         var address = "";
         if (isDeliveryDiffAdd != true) {
@@ -192,19 +192,40 @@ export default function CustomizeCheckout() {
             userId: uid,
             orderId: orderId,
             totalAmount: total,
-            payment: pm,
-            status: status,
+            payment: 'pm',
+            status: 'status',
             // itemArray: itemDetails,
             delivery: address,
             placedDate: date,
-            phoneNo: cutomerPhoneNumber == 0 ? customerDetails[0].contactNo : cutomerPhoneNumber,
-            email: customerDetails[0].email,
-            name:customerDetails[0].firstName + " " + customerDetails[0].lastName,
+            
         }
         return item;
     }
 
     window.payhere.onCompleted = function onCompleted(orderId) {
+        var date = moment().format();
+
+        var address = "";
+        if (isDeliveryDiffAdd != true) {
+            address = cutomerAddress1 + ' ' + cutomerAddress2 + ' ' + cutomerAddress3;
+        } else {
+            address = cutomerDeliveryAdd;
+        }
+
+        const data = {
+            id: id,
+            totalAmount: Number(price) + Number(districtvalue) + Number(price),
+            delivery: address,
+            placedDate: date
+          }
+
+          axios.put('http://localhost:3001/customizeOrders/orderPaid/',data).then((response) => {
+            // console.log(response.data);
+            alert('Paid')
+            // setlistOfOrderDetails(response.data);
+        })
+
+
         console.log("Payment completed. OrderID:" + orderId);
         history.push(`/orderView/${id}`);
         // dispatch(actionSendToDB(paymentItem))

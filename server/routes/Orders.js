@@ -395,4 +395,20 @@ router.get("/selectedOrderItemDetails/:oId", async (req, res) => {
     res.json(orderDetails);
 })
 
+router.post("/statusChange", async (req, res) => {
+    const orderId = req.body.orderId;
+    const status = req.body.status;
+
+    if (status == 1 || status == 6 || status == 5) {
+        const query = "UPDATE orders SET status = '3' WHERE orderId='" + orderId + "'";
+        const statusChanged = await sequelize.query(query, { type: sequelize.QueryTypes.UPDATE });
+        res.json(statusChanged);
+    }
+    else {
+        const query = "UPDATE orders SET status = '40' WHERE orderId='" + orderId + "'";
+        const statusChanged = await sequelize.query(query, { type: sequelize.QueryTypes.UPDATE });
+        res.json(statusChanged);
+    }
+})
+
 module.exports = router;
