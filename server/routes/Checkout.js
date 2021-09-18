@@ -31,13 +31,15 @@ router.post("/cashOn", async (req, res) => {
         const email = req.body.email;
         const payMethod = req.body.paymentMethod;
         const specialNote = req.body.specialNote;
+        const couponValue= req.body.couponValue;
+        const districtValue= req.body.districtValue;
         const customerCoupon = req.body.customerCoupon;
         const  isCouponValidated= req.body.isCouponValidated;
-        const query = "INSERT INTO orders (orderId,customerId,fullAmount,PaymentMethod,status, deliveryAddress,contactNo, placedDate,specialNotes,notifications) VALUES ('" + oid + "','" + uid + "','" + total + "','" + pmt + "','" + stu + "','" + add + "','" + contactNo + "','" + date + "','"+specialNote+"','placed')";
+        const query = "INSERT INTO orders (orderId,customerId,fullAmount,PaymentMethod,status, deliveryAddress, deliveryValue, couponValue, contactNo, placedDate,specialNotes,notifications) VALUES ('" + oid + "','" + uid + "','" + total + "','" + pmt + "','" + stu + "','" + add + "','"+districtValue+"','"+couponValue+"','" + contactNo + "','" + date + "','"+specialNote+"','placed')";
         const cashOnOrder = await sequelize.query(query, { type: sequelize.QueryTypes.INSERT });
-        res.json(cashOnOrder);
         for (let i = 0; i < items.length; i++) {
-            const query1 = "INSERT INTO orderitems (orderId, itemId, quantity, size) VALUES ('" + oid + "','" + items[i].itemId + "','" + items[i].quantity + "','" + items[i].size + "')";
+            var price = items[i].discountedPrice==null?items[i].price:items[i].discountedPrice;
+            const query1 = "INSERT INTO orderitems (orderId, itemId, quantity, size, purchasedUnitPrice) VALUES ('" + oid + "','" + items[i].itemId + "','" + items[i].quantity + "','" + items[i].size + "','"+price+"')";
             const cashOrderItem = await sequelize.query(query1, { type: sequelize.QueryTypes.INSERT });
         }
         var emailDetails = {
@@ -203,7 +205,7 @@ router.post("/addToCartBatchwise", async (req, res) => {
 
 router.get("/items/:id", async (req, res) => {
     const id = req.params.id;
-    const query = "SELECT designs.id AS productId, carts.id, carts.customerId, designs.design_name AS name, SUM(carts.quantity) AS quantity, designs.coverImage AS image, designs.price, carts.itemId, carts.size, SUM(carts.quantity * designs.price) AS totals, (select inventories.quantity from inventories where inventories.size_id=sizes.id and inventories.colour_id = designs.color_id AND inventories.type_id = designs.type_id) as stockMargin FROM `designs` INNER JOIN `carts` ON designs.id = carts.itemId INNER JOIN `users` ON users.id = carts.customerId INNER JOIN sizes ON sizes.size = carts.size WHERE carts.isDeleted = 0 AND carts.isBought = 0 AND users.id = '"+id+"' GROUP BY carts.itemId, carts.size";
+    const query = "SELECT designs.id AS productId, designs.discountedPrice, carts.id, carts.customerId, designs.design_name AS name, SUM(carts.quantity) AS quantity, designs.coverImage AS image, designs.price, designs.price AS actualPrice, carts.itemId, carts.size, CASE WHEN designs.discountedPrice IS NOT NULL THEN SUM( carts.quantity * designs.discountedPrice ) ELSE SUM(carts.quantity * designs.price) END AS totals, ( SELECT inventories.quantity FROM inventories WHERE inventories.size_id = sizes.id AND inventories.colour_id = designs.color_id AND inventories.type_id = designs.type_id ) AS stockMargin FROM `designs` INNER JOIN `carts` ON designs.id = carts.itemId INNER JOIN `users` ON users.id = carts.customerId INNER JOIN sizes ON sizes.size = carts.size WHERE carts.isDeleted = 0 AND carts.isBought = 0 AND users.id = '"+id+"' GROUP BY carts.itemId, carts.size";
     const itemDetails = await sequelize.query(query, { type: sequelize.QueryTypes.SELECT });
     res.json(itemDetails);
 });
@@ -217,7 +219,7 @@ router.get("/count/:id", async (req, res) => {
 
 router.get("/total/:id", async (req, res) => {
     const id = req.params.id;
-    const query = "SELECT carts.customerId, SUM(carts.quantity*designs.price) as total FROM `designs` INNER JOIN `carts` ON designs.id=carts.itemId INNER JOIN `users` ON users.id=carts.customerId WHERE  carts.isDeleted=0 And carts.isBought=0 and users.id= " + id;
+    const query = "SELECT carts.customerId, SUM(carts.quantity * CASE WHEN designs.discountedPrice IS NOT NULL THEN designs.discountedPrice ELSE designs.price END) AS total FROM `designs` INNER JOIN `carts` ON designs.id = carts.itemId INNER JOIN `users` ON users.id = carts.customerId WHERE carts.isDeleted = 0 AND carts.isBought = 0 AND users.id = "+id;
     const totalDetails = await sequelize.query(query,
         {
             type: sequelize.QueryTypes.SELECT

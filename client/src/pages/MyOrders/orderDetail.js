@@ -210,7 +210,7 @@ export default function OrderDetail() {
                                                                         setConfirmDialog({
                                                                             isOpen: true,
                                                                             title: 'Are you sure to edit this item?',
-                                                                            subTitle: "Your order will be changed...",
+                                                                            subTitle: "If there was a discount, it can be removed by considering the offer duration...",
                                                                             onConfirm: () => { setOrderToEdit(value) }
                                                                         })
                                                                     }}></i>

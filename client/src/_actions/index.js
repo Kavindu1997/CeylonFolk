@@ -60,13 +60,8 @@ export const calculateTotalWhenChanged = productCart => {
     var newTotalValue= 0;
     let i=0;
     console.log(productCart.length)
-    // while(i =<productCart.length-1){
-    //     productCart[i].totals=productCart[i].price*productCart[i].quantity;
-    //     newTotalValue=productCart[i].totals;
-    //     i++;
-    // }
     for(i=0;i<=productCart.length-1;i++){
-        productCart[i].totals=productCart[i].price*productCart[i].quantity;
+        productCart[i].totals=(productCart[i].discountedPrice==null? productCart[i].price:productCart[i].discountedPrice)*productCart[i].quantity;
         newTotalValue=newTotalValue+productCart[i].totals;
        console.log(productCart[i].totals)
     }
