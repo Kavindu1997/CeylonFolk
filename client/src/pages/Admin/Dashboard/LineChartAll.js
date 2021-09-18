@@ -3,9 +3,9 @@ import { Line} from 'react-chartjs-2';
 import axios from 'axios';
 import { useStyles } from "./styles";
 import { Card, CardContent,  Divider,  Grid, Paper, Typography, } from "@material-ui/core";
-import { amber, blue, blueGrey, brown, cyan, deepOrange, green, grey, indigo, lightGreen, lime, pink, red, teal, yellow } from "@material-ui/core/colors";
+import { blue, brown, cyan, deepOrange, green, grey, indigo, lightGreen, lime, pink, red, teal, yellow } from "@material-ui/core/colors";
 
-const LineChart = () => {
+const LineChartAll = () => {
     const classes=useStyles();
     const [month, setMonth] = useState([]);
     const [amount, setAmount] = useState([]);
@@ -48,10 +48,10 @@ console.log(month);
                            labels:month,
                            datasets: [
                             {
-                              label: 'Inhouse Sales Amount (Rs)',
+                              label: 'All Sales Amount (Rs)',
                               data:amount,
-                              backgroundColor: [teal["A700"]],
-                              borderColor:[teal[400]],
+                              backgroundColor: [grey[900]],
+                              borderColor:[grey[900]],
                               borderWidth: 2,
                             },
                           ],
@@ -85,4 +85,4 @@ console.log(month);
             );
 };
 
-export default LineChart;
+export default LineChartAll;

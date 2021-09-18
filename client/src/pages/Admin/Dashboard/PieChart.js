@@ -27,11 +27,11 @@ const orders=[pendingCount,acceptCount,dispatchCount,cancelCount];
     return (
 <Grid container className={classes.section} spacing={1}  justify = "center">
 
-<Grid item xs={12} sm={8} md={9}>
+<Grid item xs={12} sm={8} md={8}>
   <Card component={Paper}>
     <CardContent style={{backgroundColor:"#C6C6C6"}}>
       <Typography variant='h6' className={classes.cardTitle} align='left'>
-         Order Distribution
+         Inhouse Order Distribution
       </Typography>
     </CardContent>
     <Divider />
@@ -42,7 +42,7 @@ const orders=[pendingCount,acceptCount,dispatchCount,cancelCount];
             labels: ['Pending Orders', 'Accept Orders', 'Dispatch Orders', 'Cancel Orders'],
             datasets: [
               {
-                label: 'Order Distribution',
+                label: 'Inhouse Order Distribution',
                 data: orders,
                 backgroundColor: [yellow["A200"],green["A400"], blue["A200"],red[400]],
                 borderColor:[yellow[400],green[50],blue[500],red[400]],
