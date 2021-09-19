@@ -16,12 +16,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from 'react-router-dom';
 
 
-const AcceptedOrders = () => {
+const PaidOrders = () => {
     
     const classes = useStyles();
     const [openPopup, setOpenPopup] = useState(false);
-    const [oId, setoId] = useState('');
-    const [oNo, setoNo] = useState('');
     const [notify, setNotify] = useState({
         isOpen: false,
         message: "",
@@ -32,8 +30,36 @@ const AcceptedOrders = () => {
         title: "",
         subTitle: "",
     });
-    const [listOfOrderDetails, setlistPrintingOrders] = useState([])
+    const [listOfPaidOrders, setlistOfPaidOrders] = useState([])
+    const [oId, setoId] = useState('');
+    const [oNo, setoNo] = useState('');
+    
+    const onDispatched = () => {
+        // console.log(id)
+
+        const data = {
+            id: oId,
+            orderNo: oNo,
+            email: email,
+        }
+
+        axios.put('http://localhost:3001/customizeOrders/orderDispatched/',data).then((response) => {
+            console.log(response.data);
+            alert('Dispatched')
+            // setlistOfOrderDetails(response.data);
+        })
+
+        // axios.get('http://localhost:3001/customizeOrders/orderDetails').then((response) => {
+        //     console.log(response.data);
+        //     setlistOfOrderDetails(response.data);
+        // })
+        // setToggleState(2);
+    };
+    
+
     const dispatch = useDispatch();
+
+    var email = localStorage.getItem("userEmail");
 
     const openInPopup = (item) => {
         // setRecordForEdit(item);
@@ -48,21 +74,21 @@ const AcceptedOrders = () => {
         },
     };
 
-    const [printedOrders, setlistPrintedOrders] = useState([]);
-
-    var email = localStorage.getItem("userEmail");
+    const [printingOrders, setlistAcceptedOrders] = useState([]);
 
     let history = useHistory();
 
     useEffect(() => {
-        axios.get('http://localhost:3001/customizeOrders/printedOrders').then((response) => {
+        axios.get('http://localhost:3001/customizeOrders/selectPaid').then((response) => {
             console.log(response.data);
-            setlistPrintedOrders(response.data);
+            setlistOfPaidOrders(response.data);
         })
     }, []);
 
-    const onDispatched = () => {
-        // console.log(id)
+    var email = localStorage.getItem("userEmail");
+
+    const onReadyToDispatch = (id) => {
+        console.log(id)
 
         const data = {
             id: oId,
@@ -70,9 +96,9 @@ const AcceptedOrders = () => {
             email: email,
         }
 
-        axios.put('http://localhost:3001/customizeOrders/orderDispatched/',data).then((response) => {
+        axios.put('http://localhost:3001/customizeOrders/orderReadyToDispatch/',data).then((response) => {
             console.log(response.data);
-            alert('Dispatched')
+            alert('Printed')
             // setlistOfOrderDetails(response.data);
         })
 
@@ -96,7 +122,7 @@ const AcceptedOrders = () => {
 
                     <container>
                         <center>
-                        <Typography variant="h5" style={{ textAlign: 'center', backgroundColor: '#C6C6C6', padding: '20px', fontWeight: '600', letterSpacing: '5px' }}>PRINTED ORDERS </Typography>
+                        <Typography variant="h5" style={{ textAlign: 'center', backgroundColor: '#C6C6C6', padding: '20px', fontWeight: '600', letterSpacing: '5px' }}>PAID ORDERS </Typography>
                             <TableContainer style={{ marginTop: '30px', align: 'center', width: '100%' }}>
                                 <Table className={classes.table} aria-label="simple table" style={{ overflowWrap: 'anywhere' }}>
                                     <TableHead>
@@ -111,7 +137,7 @@ const AcceptedOrders = () => {
                                     </TableHead>
                                     <TableBody>
 
-                                        {printedOrders
+                                        {listOfPaidOrders
                                             .map((value) => {
                                                 return (
                                                     <TableRow>
@@ -122,7 +148,7 @@ const AcceptedOrders = () => {
                                                         <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.status}</TableCell>
                                                         <TableCell align="center" style={{ fontFamily: 'Montserrat' }}><img height={100} align="center" src={'http://localhost:3001/' + value.image} alt=""></img></TableCell>                                                       
                                                         
-                                                        {/* <TableCell align="center">
+                                                        <TableCell align="center">
                                                             <Button name="accept" 
                                                             onClick={() => {
                                                                 // onDispatched(value.orderId)
@@ -133,7 +159,7 @@ const AcceptedOrders = () => {
                                                             >
                                                                 DISPATCHED
                                                             </Button>
-                                                        </TableCell> */}
+                                                        </TableCell>
                                                     </TableRow>
                                                 );
                                             })}
@@ -144,7 +170,7 @@ const AcceptedOrders = () => {
                     </container>
 
 
-                    {/* <Popup
+                    <Popup
                         title="Ready to Dispatch"
                         openPopup={openPopup}
                         setOpenPopup={setOpenPopup}
@@ -165,11 +191,18 @@ const AcceptedOrders = () => {
                     {<ConfirmDialog
                         confirmDialog={confirmDialog}
                         setConfirmDialog={setConfirmDialog}
-                    />} */}
+                    />}
+
+                    <Notification notify={notify} setNotify={setNotify} />
+
+                    {<ConfirmDialog
+                        confirmDialog={confirmDialog}
+                        setConfirmDialog={setConfirmDialog}
+                    />}
                 
             </main>
         </div>
     );
 };
 
-export default AcceptedOrders;
+export default PaidOrders;

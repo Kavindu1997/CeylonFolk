@@ -226,7 +226,7 @@ router.get("/getCount", async (req, res) => {
         pendingOrders = '',
         acceptedOrders = '',
         dispatchedOrders = '',
-        rejectedOrders = '',
+        printedOrders = '',
     ]
 
     const query1 = "SELECT COUNT(status) AS pendingCount FROM orders WHERE status='1' OR status='4' OR status='5' OR status='6'";
@@ -236,7 +236,7 @@ router.get("/getCount", async (req, res) => {
         pendingOrders: pending[0].pendingCount,
         acceptedOrders: '',
         dispatchedOrders: '',
-        rejectedOrders: '',
+        printedOrders: '',
     }
 
 
@@ -246,7 +246,7 @@ router.get("/getCount", async (req, res) => {
         pendingOrders: pending[0].pendingCount,
         acceptedOrders: accept[0].acceptCount,
         dispatchedOrders: '',
-        rejectedOrders: '',
+        printedOrders: '',
     }
 
 
@@ -256,7 +256,7 @@ router.get("/getCount", async (req, res) => {
         pendingOrders: pending[0].pendingCount,
         acceptedOrders: accept[0].acceptCount,
         dispatchedOrders: dispatched[0].dispatchCount,
-        rejectedOrders: '',
+        printedOrders: '',
     }
 
     const query4 = "SELECT COUNT(status) AS rejectCount FROM orders WHERE status='41'";
@@ -265,7 +265,7 @@ router.get("/getCount", async (req, res) => {
         pendingOrders: pending[0].pendingCount,
         acceptedOrders: accept[0].acceptCount,
         dispatchedOrders: dispatched[0].dispatchCount,
-        rejectedOrders: rejected[0].rejectCount,
+        printedOrders: rejected[0].rejectCount,
     }
     res.json(data);
 })

@@ -101,9 +101,9 @@ const AcceptedOrders = () => {
 
                     <container>
                         <center>
-                            
-                            <TableContainer style={{ marginTop: '30px', align: 'center', width: '1200px' }}>
-                                <Table className={classes.table} aria-label="simple table">
+                        <Typography variant="h5" style={{ textAlign: 'center', backgroundColor: '#C6C6C6', padding: '20px', fontWeight: '600', letterSpacing: '5px' }}>PRINTING ORDERS </Typography>
+                            <TableContainer style={{ marginTop: '30px', align: 'center', width: '100%' }}>
+                                <Table className={classes.table} aria-label="simple table" style={{ overflowWrap: 'anywhere' }}>
                                     <TableHead>
                                         <TableRow>
                                             <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Customer ID</TableCell>
