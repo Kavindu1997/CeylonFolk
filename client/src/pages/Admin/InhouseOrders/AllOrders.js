@@ -33,6 +33,7 @@ function AllOrders() {
     const [orderId, setOrderId] = useState([]);
     const [filterFn, setFilterFn] = useState({ fn: items => { return items; } });
     const {
+        TblPagination,
         recordsAfterPagingAndSorting
     } = useTable(orderList, "", filterFn);
 
@@ -116,7 +117,7 @@ function AllOrders() {
                                 Dispatched orders
                             </Button>
                             <Button style={{ borderRadius: '50px', borderWidth: '2px', borderColor: 'black', marginRight: '40px', fontWeight: 'bold' }} variant="outlined" color="primary" href="http://localhost:3000/AdminOrders/4">
-                                Rejected orders
+                                Deposit Rejected
                             </Button>
                         </div>
                     </div>
@@ -176,6 +177,7 @@ function AllOrders() {
                                         })}
                                     </TableBody>
                                 </Table>
+                                <TblPagination />
                             </TableContainer>
                         </Paper>
                     </div>

@@ -56,6 +56,7 @@ export default function CustomizeCheckout() {
     const [cityError,setCityError] = useState(false);
     const [orderDetails, setorderDetails] = useState({})
     const [districtError,setDistrictError] = useState(false);
+    const [specialNote,setSpecialNote] = useState([]);
     const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' });
   
     const getDistrictValue = (event) => {
@@ -118,6 +119,10 @@ export default function CustomizeCheckout() {
         console.log(customerName)
         console.log(customerDetails[0].firstName)
         console.log(customerDetails[0].email)
+    }
+
+    const setNote = (event) => {
+        setSpecialNote(event.target.value)
     }
 
     function validateFormFields(){
@@ -197,6 +202,7 @@ export default function CustomizeCheckout() {
             // itemArray: itemDetails,
             delivery: address,
             placedDate: date,
+            note: specialNote,
             
         }
         return item;
@@ -380,8 +386,8 @@ export default function CustomizeCheckout() {
                                             <div id="addressNew">
                                                 <TextareaAutosize onChange={setDeliveryAdd} aria-label="minimum height" placeholder="Shipping Address" style={{ width: '480px', height: '60px', textAlign: 'justify', padding: '15px', fontFamily: 'Montserrat', marginTop: '10px', borderRadius: '5px' }} />
                                             </div> */}
-                                            <TextareaAutosize aria-label="minimum height" placeholder="Order Notes (optional)" style={{ width: '480px', height: '100px', textAlign: 'justify', padding: '15px', fontFamily: 'Montserrat', marginTop: '30px', borderRadius: '5px' }} />
-                                            <Button> Submit </Button>
+                                            <TextareaAutosize aria-label="minimum height" placeholder="Order Notes (optional)" onChange={setNote} style={{ width: '480px', height: '100px', textAlign: 'justify', padding: '15px', fontFamily: 'Montserrat', marginTop: '30px', borderRadius: '5px' }} />
+                                            
                                         </form>
                                         
 

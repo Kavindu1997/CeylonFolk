@@ -118,6 +118,7 @@ export default function Messages() {
       setplacedOrders(response.data);
 
 
+
     })
   }, []);
 
@@ -144,6 +145,7 @@ export default function Messages() {
     axios.put(`http://localhost:3001/notifications/contactUs`).then((response) => {
 
 
+
     }).catch((err) => {
       console.log('err', err);
     })
@@ -154,6 +156,7 @@ export default function Messages() {
     axios.put(`http://localhost:3001/notifications/editedorders`).then((response) => {
 
 
+
     }).catch((err) => {
       console.log('err', err);
     })
@@ -161,7 +164,16 @@ export default function Messages() {
 
   const viewDeletedOrders = (event) => {
 
+
+  if (listOfContactUs.length > 0) {
+    var ContactUsValue = 1;
+  }
+  else {
+    var ContactUsValue = 0;
+  }
+
     axios.put(`http://localhost:3001/notifications/deletedorders`).then((response) => {
+
 
 
     }).catch((err) => {
@@ -171,7 +183,13 @@ export default function Messages() {
 
   const viewPlacedOrders = (event) => {
 
+
+  if (listOfContactUs.length != listOfUnsolvedInquiries.length) {
+    var UnsolvedValue = 1;
+  }
+
     axios.put(`http://localhost:3001/notifications/placedorders`).then((response) => {
+
 
 
     }).catch((err) => {
@@ -389,7 +407,9 @@ export default function Messages() {
         onClick={handleClick}
         color='inherit'>
         {/* <Badge badgeContent={(listOfContactUs.length + listOfContactUs.length)} color='secondary'> */}
+
         <Badge badgeContent={ContactUsValue + UnsolvedValue + reOrderLevel.length + offerDate.length + editedOrdersCnt + placedOrdersCnt + deletedOrdersCnt+bankDepositsCnt + pendingCOCnt+recievedCOCnt+advancepaidCOCnt + paidCOCnt +canceledCOCnt} color='secondary'>
+
           <ForumIcon />
         </Badge>
       </IconButton>
@@ -445,6 +465,58 @@ export default function Messages() {
             })}
 
           {/* edited orders notifications */}
+
+//           {editedOrders
+//             .map((value) => {
+//               return (
+//                 <ListItem
+//                   // key={i}
+//                   component={Button}
+//                   component={Link} to="/AdminOrders/0"
+//                   className={classes.listItemNotification}>
+
+//                   <Typography variant="h8" component="div" whiteSpace="normal" >Order Id:{value.orderId} is edited </Typography>
+
+
+//                 </ListItem>
+//               );
+//             })}
+
+//           {/* deleted orders notifications */}
+//           {deletedOrders
+//             .map((value) => {
+//               return (
+//                 <ListItem
+//                   // key={i}
+//                   component={Button}
+//                   component={Link} to="/AdminOrders/0"
+//                   className={classes.listItemNotification}>
+
+//                   <Typography variant="h8" component="div" whiteSpace="normal" >Order Id:{value.orderId} is deleted </Typography>
+
+
+//                 </ListItem>
+//               );
+//             })}
+
+//           {/* placed orders notifications */}
+//           {placedOrders
+//             .map((value) => {
+//               return (
+//                 <ListItem
+//                   // key={i}
+//                   component={Button}
+//                   component={Link} to="/AdminOrders/0"
+//                   className={classes.listItemNotification}>
+
+//                   <Typography variant="h8" component="div" whiteSpace="normal" >Order Id:{value.orderId} is placed </Typography>
+
+
+//                 </ListItem>
+//               );
+//             })}
+
+
           <ListItem
             // key={i}
             component={Button}
@@ -555,6 +627,7 @@ export default function Messages() {
 
           </ListItem>
 
+
           {/* expired offer date notifications */}
           {offerDate
             .map((value) => {
@@ -579,7 +652,9 @@ export default function Messages() {
             component={Button}
             onClick={handleClose}
             className={classes.listItemNotification}>
+
             <Typography className={(ContactUsValue + UnsolvedValue + reOrderLevel.length + offerDate.length + editedOrdersCnt + placedOrdersCnt + deletedOrdersCnt+bankDepositsCnt+pendingCOCnt+recievedCOCnt+advancepaidCOCnt +paidCOCnt + canceledCOCnt) == 0 ? classes.activeNotifi : classes.notifi} variant="h8" component="div" whiteSpace="normal" >No new Notifications </Typography>
+
 
           </ListItem>
 

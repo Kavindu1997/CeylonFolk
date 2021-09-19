@@ -140,8 +140,8 @@ const DesignTable = () => {
         TblHead,
         TblPagination,
         recordsAfterPagingAndSorting
-    } = useTable(listOfDesigns,"", filterFn);
-    
+    } = useTable(listOfDesigns, "", filterFn);
+
     const handleSearch = e => {
         let target = e.target;
         setFilterFn({
@@ -149,8 +149,8 @@ const DesignTable = () => {
                 if (target.value === "")
                     return items;
                 else
-                return items.filter(x => x.design_name.toLowerCase().includes(target.value) ||
-                x.types.toLowerCase().includes(target.value))
+                    return items.filter(x => x.design_name.toLowerCase().includes(target.value) ||
+                        x.types.toLowerCase().includes(target.value))
             }
         })
     }
@@ -185,7 +185,7 @@ const DesignTable = () => {
                 <PageHeader title="DESIGNS" icon={<LayersIcon fontSize="large" />} />
                 <Paper className={classes.pageContent}>
                     <Toolbar>
-                    <Controls.Input
+                        <Controls.Input
                             label="Search Design"
                             className={classes.searchInput}
                             InputProps={{
@@ -193,12 +193,12 @@ const DesignTable = () => {
                                     <InputAdornment position="start">
                                         <Search />
                                     </InputAdornment>
-                                    
+
                                 ),
                             }}
-                        onChange={handleSearch}
+                            onChange={handleSearch}
                         />
-                        
+
                         <Controls.Button
                             text="Add New Design"
                             variant="outlined"
@@ -217,8 +217,8 @@ const DesignTable = () => {
                             <Typography variant="h5" style={{ marginTop: '80px', textAlign: 'center', backgroundColor: '#C6C6C6', padding: '30px', fontFamily: 'Montserrat' }}>DESIGNS </Typography>
 
 
-                            <TableContainer style={{ marginTop: '30px', align: 'center', width: '1100px' }}>
-                                <Table className={classes.table} aria-label="simple table">
+                            <TableContainer style={{ marginTop: '30px', align: 'center', width: '1000px' }}>
+                                <Table aria-label="simple table">
                                     <TableHead>
                                         <TableRow>
                                             <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Design Name</TableCell>
@@ -281,24 +281,26 @@ const DesignTable = () => {
                                                         </TableCell>
 
                                                         <TableCell align="center">
-                                                            <Button name="remove" 
-                                                            startIcon={<DeleteIcon />}
-                                                            onClick={() => {
-                                                                setConfirmDialog({
-                                                                    isOpen: true,
-                                                                    title: 'Are you sure to delete this?',
-                                                                    subTitle: "You can't undo this operation...",
-                                                                    onConfirm: () => { onRemove(value.id) }
-                                                                })
-                                                            }}>
-                                                               
+                                                            <Button name="remove"
+                                                                startIcon={<DeleteIcon />}
+                                                                onClick={() => {
+                                                                    setConfirmDialog({
+                                                                        isOpen: true,
+                                                                        title: 'Are you sure to delete this?',
+                                                                        subTitle: "You can't undo this operation...",
+                                                                        onConfirm: () => { onRemove(value.id) }
+                                                                    })
+                                                                }}>
+
                                                             </Button>
                                                         </TableCell>
                                                     </TableRow>
                                                 );
                                             })}
                                     </TableBody>
+
                                 </Table>
+                                <TblPagination />
                             </TableContainer>
                         </center>
                     </container>
@@ -319,11 +321,11 @@ const DesignTable = () => {
                         openPopup={openPopup1}
                         setOpenPopup={setOpenPopup1}
                     >
-                       
-                        <DesignNameEdit  selectedDesignId={designId} />
+
+                        <DesignNameEdit selectedDesignId={designId} />
                     </Popup>
 
-                    
+
                     <Popup
 
                         title="Edit Design Form"
@@ -331,11 +333,11 @@ const DesignTable = () => {
                         openPopup={openPopup2}
                         setOpenPopup={setOpenPopup2}
                     >
-                       
-                        <DesignImageEdit  selectedDesignId={designId} />
+
+                        <DesignImageEdit selectedDesignId={designId} />
                     </Popup>
 
-                    
+
                     <Popup
 
                         title="Edit Design Form"
@@ -343,8 +345,8 @@ const DesignTable = () => {
                         openPopup={openPopup3}
                         setOpenPopup={setOpenPopup3}
                     >
-                        
-                        <DesignPriceEdit  selectedDesignId={designId} />
+
+                        <DesignPriceEdit selectedDesignId={designId} />
                     </Popup>
 
                     <Notification notify={notify} setNotify={setNotify} />

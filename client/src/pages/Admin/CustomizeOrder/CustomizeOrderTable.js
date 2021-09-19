@@ -43,9 +43,10 @@ const CustomizeOrderTable = () => {
     const [reason, setReason] = useState()
     const [openViewPopup, setOpenViewPopup] = useState(false)
     const [pendingcount, setPendingCount] = useState();
-    const [acceptcount, setAcceptCount] = useState();
-    const [dispatchcount, setDispatchCount] = useState();
-    const [cancelcount, setPrintedCount] = useState();
+    const [printingcount, setAcceptCount] = useState();
+    const [printedcount, setDispatchCount] = useState();
+    const [recievedcount, setPrintedCount] = useState();
+    const [order, setOrder] = useState();
     const changePrice = (e) => {
         setprice(e.target.value)
     }
@@ -62,9 +63,9 @@ const CustomizeOrderTable = () => {
         axios.get("http://localhost:3001/customizeOrders/getCount").then((response) => {
             console.log(response.data.pendingOrders);
             setPendingCount(response.data.pendingOrders);
-            setAcceptCount(response.data.acceptedOrders);
-            setDispatchCount(response.data.dispatchedOrders);
-            setPrintedCount(response.data.printedOrders);
+            setAcceptCount(response.data.printingOrders);
+            setDispatchCount(response.data.printedOrders);
+            setPrintedCount(response.data.recievedOrders);
         });
     }, []);
 
@@ -95,6 +96,17 @@ const CustomizeOrderTable = () => {
 
         // <AcceptedOrders/>
     };
+
+    const onView = (id) => {
+
+        axios.get('http://localhost:3001/customizeOrders/allOrders/' + id).then((response) => {
+            setOrder(response.data);
+            setOpenViewPopup(true);
+        })
+
+        // setOpenViewPopup(true);
+
+    }
 
     const onReject = () => {
         console.log('oId')
@@ -142,7 +154,7 @@ const CustomizeOrderTable = () => {
             <main className={classes.content}>
                 <PageHeader title="CustomizedOrders" icon={<LayersIcon fontSize="large" />} />
 
-                <div className={classes.stat} style={{marginLeft: '36px', marginRight:'36px',}}>
+                <div className={classes.stat} style={{ marginLeft: '36px', marginRight: '36px', }}>
 
                     <Paper elevation={3} className={classes.featured}>
                         <div className={classes.featuredItem}>
@@ -156,7 +168,7 @@ const CustomizeOrderTable = () => {
                         <div className={classes.featuredItem}>
                             <span className={classes.featuredTitle}>Printing Orders</span>
                             <div className={classes.featuredItemCount}>
-                                <span className={classes.featuredCount}>{acceptcount}</span>
+                                <span className={classes.featuredCount}>{printingcount}</span>
                             </div>
                         </div>
                     </Paper>
@@ -164,7 +176,7 @@ const CustomizeOrderTable = () => {
                         <div className={classes.featuredItem}>
                             <span className={classes.featuredTitle}>Dispatched Orders</span>
                             <div className={classes.featuredItemCount}>
-                                <span className={classes.featuredCount}>{dispatchcount}</span>
+                                <span className={classes.featuredCount}>{printedcount}</span>
                             </div>
                         </div>
                     </Paper>
@@ -172,14 +184,14 @@ const CustomizeOrderTable = () => {
                         <div className={classes.featuredItem}>
                             <span className={classes.featuredTitle}>Rejected Orders</span>
                             <div className={classes.featuredItemCount}>
-                                <span className={classes.featuredCount}>{cancelcount}</span>
+                                <span className={classes.featuredCount}>{recievedcount}</span>
                             </div>
                         </div>
                     </Paper>
 
                 </div>
                 <Box>
-                    <Box style={{ display: 'flex', justifyContent: 'space-between', padding: '5px', marginLeft: '36px', marginRight:'36px', marginTop:'40px' }}>
+                    <Box style={{ display: 'flex', justifyContent: 'space-between', padding: '5px', marginLeft: '36px', marginRight: '36px', marginTop: '40px' }}>
                         <Button className={classes.toggleButton} variant="outlined" onClick={() => toggleTab(1)}>Pending Orders</Button>
                         <Button className={classes.toggleButton} variant="outlined" onClick={() => toggleTab(2)}>Accepted Orders</Button>
                         <Button className={classes.toggleButton} variant="outlined" onClick={() => toggleTab(7)}>Advance Paid Orders</Button>
@@ -190,184 +202,196 @@ const CustomizeOrderTable = () => {
                         <Button className={classes.toggleButton} variant="outlined" onClick={() => toggleTab(6)}>Closed Orders</Button>
                     </Box>
 
-                    
-                    <Paper className={classes.pageContent} style={{margin:'30px', padding:'20px'}}>
-                    <container className={toggleState === 1 ? classes.activeContent : classes.hideContent}>
-                        <center>
-                        <Typography variant="h5" style={{ textAlign: 'center', backgroundColor: '#C6C6C6', padding: '20px', fontWeight: '600', letterSpacing: '5px' }}>PENDING ORDERS </Typography>
-                            <TableContainer style={{ marginTop: '30px', align: 'center', width: '100%' }} >
-                                <Table className={classes.table} aria-label="simple table" style={{ overflowWrap: 'anywhere' }}>
-                                    <TableHead>
-                                        <TableRow>
-                                            <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600, }}>Customer Name</TableCell>
-                                            <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600, }}>Customer Email</TableCell>
-                                            <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600, }}>Order No</TableCell>
-                                            <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600, }}>Price</TableCell>
-                                            <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600, }}>Order Status</TableCell>
-                                            <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600, }}></TableCell>
-                                            <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600, }}></TableCell>
-                                            <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600, }}></TableCell>
-                                        </TableRow>
-                                    </TableHead>
-                                    <TableBody>
-                                        {listOfOrderDetails
-                                            .map((value, index) => {
-                                                return (
-                                                    <TableRow key={index}>
-                                                        <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.customerName}</TableCell>
-                                                        <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.customerEmail}</TableCell>
-                                                        <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.orderNo}</TableCell>
-                                                        <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.price}</TableCell>
-                                                        <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.status}</TableCell>
-                                                        <TableCell align="center">
-                                                            <Button name="view"
-                                                                onClick={() => {
 
-                                                                    setOpenViewPopup(true);
+                    <Paper className={classes.pageContent} style={{ margin: '30px', padding: '20px' }}>
+                        <container className={toggleState === 1 ? classes.activeContent : classes.hideContent}>
+                            <center>
+                                <Typography variant="h5" style={{ textAlign: 'center', backgroundColor: '#C6C6C6', padding: '20px', fontWeight: '600', letterSpacing: '5px' }}>PENDING ORDERS </Typography>
+                                <TableContainer style={{ marginTop: '30px', align: 'center', width: '100%' }} >
+                                    <Table className={classes.table} aria-label="simple table" style={{ overflowWrap: 'anywhere' }}>
+                                        <TableHead>
+                                            <TableRow>
+                                                <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600, }}>Customer Name</TableCell>
+                                                <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600, }}>Customer Email</TableCell>
+                                                <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600, }}>Order No</TableCell>
+                                                <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600, }}>Price</TableCell>
+                                                <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600, }}>Order Status</TableCell>
+                                                <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600, }}></TableCell>
+                                                <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600, }}></TableCell>
+                                                <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600, }}></TableCell>
+                                            </TableRow>
+                                        </TableHead>
+                                        <TableBody>
+                                            {listOfOrderDetails
+                                                .map((value, index) => {
+                                                    return (
+                                                        <TableRow key={index}>
+                                                            <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.customerName}</TableCell>
+                                                            <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.customerEmail}</TableCell>
+                                                            <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.orderNo}</TableCell>
+                                                            <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.fixedPrice}</TableCell>
+                                                            <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.status}</TableCell>
+                                                            <TableCell align="center">
+                                                                <Button name="view"
+                                                                    onClick={() => {
+                                                                        onView(value.orderId)
 
-                                                                }}
-                                                                style={{ backgroundColor: 'black', color: 'white', fontSize: '12px', padding: '6px' }}
-                                                            >
-                                                                VIEW DESIGN
-                                                            </Button>
+                                                                    }}
+                                                                    style={{ backgroundColor: 'black', color: 'white', fontSize: '12px', padding: '6px' }}
+                                                                >
+                                                                    VIEW DESIGN
+                                                                </Button>
+
+
+
+                                                            </TableCell>
+                                                            <TableCell align="center">
+                                                                <Button name="accept"
+                                                                    className={value.status === 'Pending' ? classes.activeQuantity : classes.quantity}
+                                                                    style={{ backgroundColor: 'green', color: 'white', fontSize: '12px', padding: '6px' }}
+                                                                    onClick={() => {
+
+                                                                        setOpenPopup(true);
+                                                                        setoId(value.orderId)
+                                                                        setoNo(value.orderNo)
+                                                                        console.log(value.orderNo)
+                                                                    }}
+                                                                >
+                                                                    ACCEPT ORDER
+                                                                </Button>
+                                                            </TableCell>
+                                                            <TableCell align="center">
+                                                                <Button name="accept"
+                                                                    className={value.status === 'Pending' ? classes.activeQuantity : classes.quantity}
+                                                                    style={{ backgroundColor: 'red', color: 'white', fontSize: '12px', padding: '6px' }}
+
+                                                                    onClick={() => {
+
+                                                                        setOpenRejectPopup(true);
+                                                                        setoId(value.orderId)
+                                                                        setoNo(value.orderNo)
+                                                                    }}
+                                                                >
+                                                                    REJECT ORDER
+                                                                </Button>
+                                                            </TableCell>
 
                                                             <Popup
-                                                                title="Design"
-                                                                openPopup={openViewPopup}
-                                                                setOpenPopup={setOpenViewPopup}
+                                                                title="Send the Estimated Price"
+                                                                openPopup={openPopup}
+                                                                setOpenPopup={setOpenPopup}
                                                             >
-                                                                <Box>
-                                                                    <img height={200} align="center" src={'http://localhost:3001/' + value.image} alt=""></img>
-                                                                </Box>
+                                                                <Grid item xs={6}>
+                                                                    <Controls.Input
+                                                                        variant="outlined"
+                                                                        label="Price"
+                                                                        name="price"
+                                                                        onChange={changePrice}
+                                                                    />
+                                                                </Grid>
+                                                                <Grid item md={12} >
+                                                                    <Controls.Button
+                                                                        type="submit"
+                                                                        text="Send Price"
+                                                                        onClick={() => {
+                                                                            onAccept()
+                                                                        }}
+                                                                    />
+                                                                </Grid>
                                                             </Popup>
 
-                                                        </TableCell>
-                                                        <TableCell align="center">
-                                                            <Button name="accept"
-                                                                className={value.status === 'Pending' ? classes.activeQuantity : classes.quantity}
-                                                                style={{ backgroundColor: 'green', color: 'white', fontSize: '12px', padding: '6px' }}
-                                                                onClick={() => {
-
-                                                                    setOpenPopup(true);
-                                                                    setoId(value.orderId)
-                                                                    setoNo(value.orderNo)
-                                                                    console.log(value.orderNo)
-                                                                }}
+                                                            <Popup
+                                                                title="Reason for the rejection"
+                                                                openPopup={openRejectPopup}
+                                                                setOpenPopup={setOpenRejectPopup}
                                                             >
-                                                                ACCEPT ORDER
-                                                            </Button>
-                                                        </TableCell>
-                                                        <TableCell align="center">
-                                                            <Button name="accept"
-                                                                className={value.status === 'Pending' ? classes.activeQuantity : classes.quantity}
-                                                                style={{ backgroundColor: 'red', color: 'white', fontSize: '12px', padding: '6px' }}
+                                                                <Grid item >
+                                                                    <Controls.Input
+                                                                        variant="outlined"
+                                                                        label="Reason"
+                                                                        name="reason"
+                                                                        onChange={changeReason}
+                                                                    />
+                                                                </Grid>
+                                                                <Grid item md={12} >
+                                                                    <Controls.Button
+                                                                        type="submit"
+                                                                        text="Send"
+                                                                        onClick={() => {
+                                                                            onReject()
+                                                                            // console.log(value.orderId)
+                                                                        }}
+                                                                    />
+                                                                </Grid>
+                                                            </Popup>
+                                                        </TableRow>
 
-                                                                onClick={() => {
+                                                    );
+                                                })}
 
-                                                                    setOpenRejectPopup(true);
-                                                                    setoId(value.orderId)
-                                                                    setoNo(value.orderNo)
-                                                                }}
-                                                            >
-                                                                REJECT ORDER
-                                                            </Button>
-                                                        </TableCell>
+                                        </TableBody>
+                                    </Table>
+                                </TableContainer>
 
-                                                        <Popup
-                                                            title="Send the Estimated Price"
-                                                            openPopup={openPopup}
-                                                            setOpenPopup={setOpenPopup}
-                                                        >
-                                                            <Grid item xs={6}>
-                                                                <Controls.Input
-                                                                    variant="outlined"
-                                                                    label="Price"
-                                                                    name="price"
-                                                                    onChange={changePrice}
-                                                                />
-                                                            </Grid>
-                                                            <Grid item md={12} >
-                                                                <Controls.Button
-                                                                    type="submit"
-                                                                    text="Send Price"
-                                                                    onClick={() => {
-                                                                        onAccept()
-                                                                    }}
-                                                                />
-                                                            </Grid>
-                                                        </Popup>
+                                {order &&
 
-                                                        <Popup
-                                                            title="Reason for the rejection"
-                                                            openPopup={openRejectPopup}
-                                                            setOpenPopup={setOpenRejectPopup}
-                                                        >
-                                                            <Grid item >
-                                                                <Controls.Input
-                                                                    variant="outlined"
-                                                                    label="Reason"
-                                                                    name="reason"
-                                                                    onChange={changeReason}
-                                                                />
-                                                            </Grid>
-                                                            <Grid item md={12} >
-                                                                <Controls.Button
-                                                                    type="submit"
-                                                                    text="Send"
-                                                                    onClick={() => {
-                                                                        onReject()
-                                                                        // console.log(value.orderId)
-                                                                    }}
-                                                                />
-                                                            </Grid>
-                                                        </Popup>
-                                                    </TableRow>
+                                    <Popup
+                                        title="Design"
+                                        openPopup={openViewPopup}
+                                        setOpenPopup={setOpenViewPopup}
+                                    >
+                                        <Box>
 
-                                                );
-                                            })}
+                                            <TableCell align="center" style={{ fontFamily: 'Montserrat' }}><img height={200} align="center" src={'http://localhost:3001/' + order.image} alt=""></img></TableCell>
 
-                                    </TableBody>
-                                </Table>
-                            </TableContainer>
-                        </center>
-                    </container>
+                                            <Typography>Design Info</Typography>
+                                            <Typography>Order Id: {order.orderNo}</Typography>
+                                            <Typography>No of Text : {order.textCount}</Typography>
+                                            {order.imageCount === 0 ? <Typography>No Images</Typography> : <Typography>No of Images: {order.imageCount}</Typography>}
+                                        </Box>
+                                    </Popup>
 
-                    <Box className={toggleState === 2 ? classes.activeContent : classes.hideContent}>
-                        <AcceptedOrders />
-                    </Box>
 
-                    <Box className={toggleState === 3 ? classes.activeContent : classes.hideContent}>
-                        <PrintingOrders />
-                    </Box>
+                                }
+                            </center>
+                        </container>
 
-                    <Box className={toggleState === 4 ? classes.activeContent : classes.hideContent}>
-                        <PrintedOrders />
-                    </Box>
+                        <Box className={toggleState === 2 ? classes.activeContent : classes.hideContent}>
+                            <AcceptedOrders />
+                        </Box>
 
-                    <Box className={toggleState === 5 ? classes.activeContent : classes.hideContent}>
-                        <DispatchedOrders />
-                    </Box>
+                        <Box className={toggleState === 3 ? classes.activeContent : classes.hideContent}>
+                            <PrintingOrders />
+                        </Box>
 
-                    <Box className={toggleState === 6 ? classes.activeContent : classes.hideContent}>
-                        <ClosedOrders />
-                    </Box>
+                        <Box className={toggleState === 4 ? classes.activeContent : classes.hideContent}>
+                            <PrintedOrders />
+                        </Box>
 
-                    <Box className={toggleState === 7 ? classes.activeContent : classes.hideContent}>
-                        <AdvancePaidOrders />
-                    </Box>
+                        <Box className={toggleState === 5 ? classes.activeContent : classes.hideContent}>
+                            <DispatchedOrders />
+                        </Box>
 
-                    <Box className={toggleState === 8 ? classes.activeContent : classes.hideContent}>
-                        <PaidOrders />
-                    </Box>
+                        <Box className={toggleState === 6 ? classes.activeContent : classes.hideContent}>
+                            <ClosedOrders />
+                        </Box>
 
-                    <Notification notify={notify} setNotify={setNotify} />
+                        <Box className={toggleState === 7 ? classes.activeContent : classes.hideContent}>
+                            <AdvancePaidOrders />
+                        </Box>
 
-                    {<ConfirmDialog
-                        confirmDialog={confirmDialog}
-                    // setConfirmDialog={setConfirmDialog}
-                    />}
+                        <Box className={toggleState === 8 ? classes.activeContent : classes.hideContent}>
+                            <PaidOrders />
+                        </Box>
 
-                </Paper>
+                        <Notification notify={notify} setNotify={setNotify} />
+
+                        {<ConfirmDialog
+                            confirmDialog={confirmDialog}
+                        // setConfirmDialog={setConfirmDialog}
+                        />}
+
+                    </Paper>
                 </Box>
 
             </main>

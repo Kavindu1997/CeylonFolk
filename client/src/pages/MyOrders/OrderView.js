@@ -15,6 +15,7 @@ import { useHistory } from 'react-router-dom';
 import { MASTER_DATA } from '../../_constants/globalVariable';
 import { setPayment } from '../Checkout/payment';
 import moment from 'moment';
+import CommonNav from '../../components/Navbars/CommonNav';
 
 // const status='pending';
 
@@ -206,7 +207,7 @@ export default function OrderView() {
 
   return (
     <div>
-      <UserNav />
+      <CommonNav />
       <CssBaseline />
       <div className={classes.root}>
 

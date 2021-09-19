@@ -122,7 +122,7 @@ router.post("/newPassword", async (req, res) => {
 
 
 router.post("/", async (req, res) => {
-    const { firstName, lastName, email, contactNo, password,user_type_id } = req.body;
+    const { firstName, lastName, email, contactNo, password, user_type_id } = req.body;
 
     const user = await Users.findOne({ where: { email: email } });
     bcrypt.hash(password, 10).then((hash) => {
@@ -132,7 +132,7 @@ router.post("/", async (req, res) => {
             email: email,
             contactNo: contactNo,
             password: hash,
-            user_type_id:user_type_id
+            user_type_id: user_type_id
         })
         res.json("SUCCESS");
     });
@@ -140,42 +140,42 @@ router.post("/", async (req, res) => {
 });
 
 
-router.get('/',async(req,res)=>{
+router.get('/', async (req, res) => {
     try {
         const query = "SELECT users.id,firstName,lastName,email,contactNo,user_type_id,type FROM users INNER JOIN usertypes on users.user_type_id=usertypes.id";
         const userList = await sequelize.query(query, { type: sequelize.QueryTypes.SELECT });
         res.json(userList);
     } catch (error) {
-        res.status(404).json({message:error.message});
+        res.status(404).json({ message: error.message });
     }
-  });
+});
 
-  router.get('/getCount',async(req,res)=>{
+router.get('/getCount', async (req, res) => {
     try {
         const query = "SELECT COUNT(user_type_id) AS customer_count FROM users WHERE user_type_id='2'";
         const customerCount = await sequelize.query(query, { type: sequelize.QueryTypes.SELECT });
         res.json(customerCount);
     } catch (error) {
-        res.status(404).json({message:error.message});
+        res.status(404).json({ message: error.message });
     }
-  });
+});
 
 
-router.put("/:userId", async (req,res) => {
+router.put("/:userId", async (req, res) => {
     const userId = req.params.userId
-    const { firstName, lastName, email, contactNo,user_type_id } = req.body;
+    const { firstName, lastName, email, contactNo, user_type_id } = req.body;
     const query = "UPDATE users SET firstName='" + firstName + "',lastName='" + lastName + "',email='" + email + "',contactNo='" + contactNo + "',user_type_id='" + user_type_id + "' WHERE id='" + userId + "'";
-    const result = await sequelize.query(query, {type: sequelize.QueryTypes.UPDATE});
+    const result = await sequelize.query(query, { type: sequelize.QueryTypes.UPDATE });
     res.json(result);
 });
 
 
-router.delete("/:userId",async (req,res)=>{
-    const userId=req.params.userId;
+router.delete("/:userId", async (req, res) => {
+    const userId = req.params.userId;
 
-    await  Users.destroy({
-        where:{
-            id:userId,
+    await Users.destroy({
+        where: {
+            id: userId,
         },
     });
     res.json("DELETED SUCCESSFULLY");

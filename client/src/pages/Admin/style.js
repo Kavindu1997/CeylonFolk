@@ -5,6 +5,7 @@ const useStyles = makeStyles((theme) => ({
 
   root: {
     display: 'flex',
+    height: '100%'
   },
   toolbar: {
     paddingRight: 24, // keep right padding when drawer closed
@@ -92,23 +93,23 @@ const useStyles = makeStyles((theme) => ({
     height: 240,
   },
   stat: {
-    
+
     display: 'flex',
     justifyContent: 'space-between',
-},
-featured: {
-  flex: '1',
-  margin: '0px 20px',
-  padding: '30px',
-},
-featuredTitle: {
-  fontSize: '18px',
-  fontWeight: '300',
-},
-featuredCount: {
-  fontSize: '30px',
-  fontWeight: '600',
-},
+  },
+  featured: {
+    flex: '1',
+    margin: '0px 20px',
+    padding: '30px',
+  },
+  featuredTitle: {
+    fontSize: '18px',
+    fontWeight: '300',
+  },
+  featuredCount: {
+    fontSize: '30px',
+    fontWeight: '600',
+  },
 
   pageContent: {
     margin: theme.spacing(5),
@@ -214,7 +215,7 @@ featuredCount: {
     }
   },
 
-  
+
 
   headStyle: {
     fontFamily: 'Nunito',
@@ -238,7 +239,7 @@ featuredCount: {
     color: '#2C2D2D',
   },
 
-  toggleButton:{
+  toggleButton: {
     borderRadius: '50px',
     borderWidth: '2px',
     borderColor: 'black',
@@ -294,12 +295,12 @@ featuredCount: {
   },
 
   quantityMargin: {
-    
-    color:'black',
+
+    color: 'black',
   },
   activeQuantityMargin: {
 
-    color:'red',
+    color: 'red',
     fontWeight: 'bold',
 
   },
