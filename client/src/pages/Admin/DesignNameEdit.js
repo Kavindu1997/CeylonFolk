@@ -11,15 +11,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchColors } from '../../_actions/colorActions'
 import './adminStyles.css'
 
-var design_id = localStorage.getItem("design_id");
-console.log("dd");
-console.log(design_id);
-console.log("dd");
 
 var collection_id = localStorage.getItem("collection_id");
 
-
-const DesignNameEdit = () => {
+function DesignNameEdit({ selectedDesignId }) {
 
     const classes = useStyles();
     const [designName, setDesignName] = useState([]);
@@ -42,9 +37,7 @@ const DesignNameEdit = () => {
             designName: designName,
         }
 
- 
-
-        axios.put(`http://localhost:3001/designs/editDesignName/${design_id}`, Data).then((response) => {
+        axios.put(`http://localhost:3001/designs/editDesignName/${selectedDesignId.design_id}`, Data).then((response) => {
             alert('Image upload Successfull');
             history.push('/designs');
 
@@ -73,7 +66,7 @@ const DesignNameEdit = () => {
 
     useEffect(() => {
 
-        axios.get(`http://localhost:3001/designs/oneDesign/${design_id}`).then((response) => {
+        axios.get(`http://localhost:3001/designs/oneDesign/${selectedDesignId.design_id}`).then((response) => {
             // console.log(response.data);
             setListOfDesign(response.data);
         });

@@ -12,12 +12,7 @@ import ButtonGroup from '@material-ui/core/ButtonGroup';
 
 import '../adminStyles.css'
 
-
-var collection_id = localStorage.getItem("collection_id");
-// console.log(inventory_id);
-
-
-const OffersEdit = () => {
+function OffersEdit({ selectedCollectionId }) {
 
     const classes = useStyles();
 
@@ -40,7 +35,7 @@ const OffersEdit = () => {
         // e.preventDefault();
 
         const Data = {
-            collection_id: collection_id,
+            collection_id: selectedCollectionId.collection_id,
             rate: rate,
             to:to,
             
@@ -48,7 +43,7 @@ const OffersEdit = () => {
         }
 
         console.log(Data);
-        axios.put(`http://localhost:3001/offers/${collection_id}`, Data).then(() => {
+        axios.put(`http://localhost:3001/offers/${selectedCollectionId.collection_id}`, Data).then(() => {
             alert('Item Updated Successfully')
         });
         // props.resetForm();
@@ -58,7 +53,7 @@ const OffersEdit = () => {
 
     useEffect(() => {
 
-        axios.get(`http://localhost:3001/offers/offerItem/${collection_id}`).then((response) => {
+        axios.get(`http://localhost:3001/offers/offerItem/${selectedCollectionId.collection_id}`).then((response) => {
             // console.log(response.data);
             setListOfItem(response.data);
         });

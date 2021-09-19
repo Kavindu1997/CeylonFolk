@@ -5,8 +5,6 @@ import Controls from '../../components/Reusable/Controls';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
 
-var collection_id = localStorage.getItem("collection_id");
-
 function EditCollectionForm({ selectedCollectionId }) {
 
     console.log("hhhh");

@@ -92,7 +92,7 @@ const InventoryTable = () => {
 
     const [openPopup, setOpenPopup] = useState(false);
     const [openPopup1, setOpenPopup1] = useState(false);
-    const [choice, setChoice] = useState('');
+    const [inventoryId, setInventoryId] = useState([]);
 
     const [notify, setNotify] = useState({
         isOpen: false,
@@ -120,10 +120,10 @@ const InventoryTable = () => {
         },
     };
 
-    const onSetId = (id) => { //'Itom007'
-        localStorage.setItem("inventory_id", id);
-        console.log(id);
-    };
+    // const onSetId = (id) => { //'Itom007'
+    //     localStorage.setItem("inventory_id", id);
+    //     console.log(id);
+    // };
 
     const onRemove = (id) => {
 
@@ -182,6 +182,13 @@ const InventoryTable = () => {
                     return items.filter(x => x.size.toLowerCase().includes(target.value)||
                     x.types.toLowerCase().includes(target.value))
             }
+        })
+    }
+
+    function setInventoryIdtoChange(value) {
+        setOpenPopup1(true)
+        setInventoryId({
+            inventory_id: value.id,
         })
     }
 
@@ -259,10 +266,7 @@ const InventoryTable = () => {
                                             <TableCell align="center">
                                                 <Controls.Button
                                                     text="Edit"
-                                                    onClick={() => {
-                                                        onSetId(value.id)
-                                                        setOpenPopup1(true);
-                                                    }}
+                                                    onClick={() => setInventoryIdtoChange(value)}
                                                 />
                                             </TableCell>
                                        
@@ -303,7 +307,8 @@ const InventoryTable = () => {
                     openPopup={openPopup1}
                     setOpenPopup={setOpenPopup1}
                 >
-                    <InventoryEdit />
+                  
+                    <InventoryEdit selectedInventoryId={inventoryId} />
                 </Popup>
 
                 <Notification notify={notify} setNotify={setNotify} />

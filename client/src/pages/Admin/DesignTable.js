@@ -33,6 +33,7 @@ const DesignTable = () => {
     const [openPopup1, setOpenPopup1] = useState(false);
     const [openPopup2, setOpenPopup2] = useState(false);
     const [openPopup3, setOpenPopup3] = useState(false);
+    const [designId, setDesignId] = useState([]);
     const [notify, setNotify] = useState({
         isOpen: false,
         message: "",
@@ -75,11 +76,11 @@ const DesignTable = () => {
         })
     }, []);
 
-    const onSetId = (id) => { //'Itom007'
-        localStorage.setItem("design_id", id);
+    // const onSetId = (id) => { //'Itom007'
+    //     localStorage.setItem("design_id", id);
 
 
-    };
+    // };
 
 
     // function onProceed() {
@@ -153,6 +154,27 @@ const DesignTable = () => {
         })
     }
 
+    function setDesignNametoChange(value) {
+        setOpenPopup1(true)
+        setDesignId({
+            design_id: value.id,
+        })
+    }
+
+    function setImagetoChange(value) {
+        setOpenPopup2(true)
+        setDesignId({
+            design_id: value.id,
+        })
+    }
+
+    function setDesignPricetoChange(value) {
+        setOpenPopup3(true)
+        setDesignId({
+            design_id: value.id,
+        })
+    }
+
     return (
 
         <div style={{ display: "flex" }}>
@@ -220,10 +242,7 @@ const DesignTable = () => {
 
                                                             <Controls.ActionButton
                                                                 color="primary"
-                                                                onClick={() => {
-                                                                    onSetId(value.id)
-                                                                    setOpenPopup1(true)
-                                                                }}
+                                                                onClick={() => setDesignNametoChange(value)}
                                                             >
                                                                 <EditOutlinedIcon fontSize="small" />
                                                             </Controls.ActionButton>
@@ -235,10 +254,7 @@ const DesignTable = () => {
 
                                                             <Controls.ActionButton
                                                                 color="primary"
-                                                                onClick={() => {
-                                                                    onSetId(value.id)
-                                                                    setOpenPopup2(true)
-                                                                }}
+                                                                onClick={() => setImagetoChange(value)}
                                                             >
                                                                 <EditOutlinedIcon fontSize="small" />
                                                             </Controls.ActionButton>
@@ -256,10 +272,7 @@ const DesignTable = () => {
 
                                                             <Controls.ActionButton
                                                                 color="primary"
-                                                                onClick={() => {
-                                                                    onSetId(value.id)
-                                                                    setOpenPopup3(true)
-                                                                }}
+                                                                onClick={() => setDesignPricetoChange(value)}
                                                             >
                                                                 <EditOutlinedIcon fontSize="small" />
                                                             </Controls.ActionButton>
@@ -303,7 +316,8 @@ const DesignTable = () => {
                         openPopup={openPopup1}
                         setOpenPopup={setOpenPopup1}
                     >
-                        <DesignNameEdit />
+                       
+                        <DesignNameEdit  selectedDesignId={designId} />
                     </Popup>
 
                     
@@ -314,7 +328,8 @@ const DesignTable = () => {
                         openPopup={openPopup2}
                         setOpenPopup={setOpenPopup2}
                     >
-                        <DesignImageEdit />
+                       
+                        <DesignImageEdit  selectedDesignId={designId} />
                     </Popup>
 
                     
@@ -325,7 +340,8 @@ const DesignTable = () => {
                         openPopup={openPopup3}
                         setOpenPopup={setOpenPopup3}
                     >
-                        <DesignPriceEdit />
+                        
+                        <DesignPriceEdit  selectedDesignId={designId} />
                     </Popup>
 
                     <Notification notify={notify} setNotify={setNotify} />

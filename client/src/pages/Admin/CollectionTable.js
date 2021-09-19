@@ -161,7 +161,7 @@ const CollectionTable = () => {
         })
     }
 
-    function setCollectioIdtoChange(value) {
+    function setCollectionIdtoChange(value) {
         setOpenPopup1(true)
         setCollectionId({
             collection_id: value.id,
@@ -235,7 +235,7 @@ const CollectionTable = () => {
                                                         <TableCell align="center">
                                                             <Controls.Button
                                                                 text="Edit"
-                                                                onClick={() => setCollectioIdtoChange(value)}
+                                                                onClick={() => setCollectionIdtoChange(value)}
                                                             />
                                                         </TableCell>
 

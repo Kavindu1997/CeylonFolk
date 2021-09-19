@@ -25,12 +25,14 @@ const OffersTable = () => {
     const classes = useStyles();
     const [openPopup, setOpenPopup] = useState(false);
     const [openPopup1, setOpenPopup1] = useState(false);
+    const [collectionId, setCollectionId] = useState([]);
     const [notify, setNotify] = useState({
         isOpen: false,
         message: "",
         type: "",
     });
     const [confirmDialog, setConfirmDialog] = useState({ isOpen: false, title: '', subTitle: '' })
+    const today = new Date().toISOString().slice(0, 10);
     const dispatch = useDispatch();
 
     // const { TblContainer, TblHead, TblPagination, recordsAfterPagingAndSorting } =
@@ -100,11 +102,11 @@ const OffersTable = () => {
     //   }
 
 
-    const onSetId = (id) => { //'Itom007'
-        localStorage.setItem("collection_id", id);
+    // const onSetId = (id) => { //'Itom007'
+    //     localStorage.setItem("collection_id", id);
 
 
-    };
+    // };
 
 // search
 
@@ -125,6 +127,13 @@ const handleSearch = e => {
             else
                 return items.filter(x => x.collection_name.toLowerCase().includes(target.value))
         }
+    })
+}
+
+function setCollectionIdtoChange(value) {
+    setOpenPopup1(true)
+    setCollectionId({
+        collection_id: value.collection_id,
     })
 }
 
@@ -184,14 +193,11 @@ const handleSearch = e => {
                                                         <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.collection_name}</TableCell>
                                                         <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.rate}%</TableCell>
                                                         <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.from}</TableCell>
-                                                        <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.to}</TableCell>
+                                                        <TableCell align="center" style={{ fontFamily: 'Montserrat' }} className={value.to<=today? classes.activeQuantityMargin : classes.quantityMargin}>{value.to}</TableCell>
                                                         <TableCell align="center">
                                                             <Controls.Button
                                                                 text="Edit"
-                                                                onClick={() => {
-                                                                    onSetId(value.collection_id)
-                                                                    setOpenPopup1(true);
-                                                                }}
+                                                                onClick={() => setCollectionIdtoChange(value)}
                                                             />
                                                         </TableCell>
 
@@ -232,7 +238,8 @@ const handleSearch = e => {
                         openPopup={openPopup1}
                         setOpenPopup={setOpenPopup1}
                     >
-                        <OffersEdit />
+                       
+                        <OffersEdit  selectedCollectionId={collectionId} />
                     </Popup>
 
                     <Notification notify={notify} setNotify={setNotify} />

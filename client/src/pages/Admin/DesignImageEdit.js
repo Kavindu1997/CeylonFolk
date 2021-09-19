@@ -11,15 +11,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchColors } from '../../_actions/colorActions'
 import './adminStyles.css'
 
-var design_id = localStorage.getItem("design_id");
-console.log("dd");
-console.log(design_id);
-console.log("dd");
-
 var collection_id = localStorage.getItem("collection_id");
 
-
-const DesignImageEdit = () => {
+function DesignImageEdit({ selectedDesignId }) {
 
     const classes = useStyles();
     const [file, setfile] = useState(null);
@@ -48,7 +42,7 @@ const DesignImageEdit = () => {
 
         console.log(formData);
 
-        axios.put(`http://localhost:3001/designs/editImage/${design_id}`, formData, config).then((response) => {
+        axios.put(`http://localhost:3001/designs/editImage/${selectedDesignId.design_id}`, formData, config).then((response) => {
             alert('Image upload Successfull');
             history.push('/designs');
 
