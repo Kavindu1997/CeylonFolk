@@ -82,7 +82,7 @@ const InventoryForm = () => {
 
         console.log(Data);
         axios.post("http://localhost:3001/invent/inventory", Data).then(() => {
-            alert('Item Inserted Successfully')
+            // alert('Item Inserted Successfully')
         });
         // props.resetForm();
     };

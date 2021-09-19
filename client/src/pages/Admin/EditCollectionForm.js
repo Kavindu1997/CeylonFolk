@@ -14,9 +14,9 @@ function EditCollectionForm({ selectedCollectionId }) {
     const [collectionName, setCollectionName] = useState([]);
     let history = useHistory();
 
-    const onFormSubmit = (e, data) => {
+    const onFormSubmit = (e) => {
 
-        e.preventDefault();
+        // e.preventDefault();
 
         const formData = new FormData();
         formData.append('photo', file);
@@ -30,13 +30,9 @@ function EditCollectionForm({ selectedCollectionId }) {
 
 
         axios.put(`http://localhost:3001/collection/edit/${selectedCollectionId.collection_id}`, formData, config).then((response) => {
-            alert('Image upload Successfull');
             // history.push('/collections');
 
-
-        }).catch((err) => {
-            console.log('err', err);
-        })
+        });
     };
 
    

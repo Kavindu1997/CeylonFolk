@@ -30,7 +30,7 @@ function DesignNameEdit({ selectedDesignId }) {
 
     const onFormSubmit = (e) => {
 
-        e.preventDefault();
+        // e.preventDefault();
 
         const Data = {
            
@@ -38,13 +38,11 @@ function DesignNameEdit({ selectedDesignId }) {
         }
 
         axios.put(`http://localhost:3001/designs/editDesignName/${selectedDesignId.design_id}`, Data).then((response) => {
-            alert('Image upload Successfull');
-            history.push('/designs');
+            // alert('Image upload Successfull');
+            // history.push('/designs');
 
 
-        }).catch((err) => {
-            console.log('err', err);
-        })
+        });
     };
 
  

@@ -35,9 +35,9 @@ const DesignForm = () => {
 
     let history = useHistory();
 
-    const onFormSubmit = (e, data) => {
+    const onFormSubmit = (e) => {
 
-        e.preventDefault();
+        // e.preventDefault();
 
         const formData = new FormData();
         formData.append('photo', file);
@@ -53,17 +53,11 @@ const DesignForm = () => {
         };
 
 
-        console.log("check");
-        console.log(formData);
-
         axios.post("http://localhost:3001/designs", formData, config).then((response) => {
-            alert('Image upload Successfull');
-            history.push('/designs');
+            // alert('Image upload Successfull');
+            // history.push('/designs');
 
-
-        }).catch((err) => {
-            console.log('err', err);
-        })
+        });
     };
 
     const [listOfTypes, setListOfTypes] = useState([]);

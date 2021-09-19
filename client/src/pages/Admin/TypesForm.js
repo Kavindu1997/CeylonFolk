@@ -13,9 +13,9 @@ const TypesForm = () => {
     const [price, setPrice] = useState([]);
     let history = useHistory();
 
-    const onFormSubmit = (e, data) => {
+    const onFormSubmit = (e) => {
 
-        e.preventDefault();
+        // e.preventDefault();
 
         const formData = new FormData();
         formData.append('photo', file);
@@ -30,13 +30,8 @@ const TypesForm = () => {
 
 
         axios.post("http://localhost:3001/types", formData, config).then((response) => {
-            alert('Upload Successfull');
-            // history.push('/collections');
-
-
-        }).catch((err) => {
-            console.log('err', err);
-        })
+            
+        });
     };
 
     const onInputChange = (e) => {

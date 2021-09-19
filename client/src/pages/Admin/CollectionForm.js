@@ -12,9 +12,35 @@ const CollectionForm = () => {
     const [collectionName, setCollectionName] = useState([]);
     let history = useHistory();
 
-    const onFormSubmit = (e, data) => {
+    // const onFormSubmit = (e, data) => {
 
-        e.preventDefault();
+    //     e.preventDefault();
+
+    //     const formData = new FormData();
+    //     formData.append('photo', file);
+    //     console.log(file)
+    //     formData.append('collectionName', collectionName);
+    //     const config = {
+    //         headers: {
+    //             'content-type': 'multipart/form-data',
+    //         },
+    //     };
+
+
+
+    //     axios.post("http://localhost:3001/collection", formData, config).then((response) => {
+    //         // alert('Image upload Successfull');
+    //         // history.push('/collections');
+     
+
+    //     }).catch((err) => {
+    //         console.log('err', err);
+    //     })
+    // };
+
+    const onFormSubmit = (e) => {
+
+        // e.preventDefault();
 
         const formData = new FormData();
         formData.append('photo', file);
@@ -26,16 +52,15 @@ const CollectionForm = () => {
             },
         };
 
-
-
+        
         axios.post("http://localhost:3001/collection", formData, config).then((response) => {
-            alert('Image upload Successfull');
-            history.push('/collections');
+            // alert('Item Inserted Successfully')
+        });
 
-
-        }).catch((err) => {
-            console.log('err', err);
-        })
+       
+            // alert('Image upload Successfull');
+            // history.push('/collections');
+    
     };
 
     const onInputChange = (e) => {

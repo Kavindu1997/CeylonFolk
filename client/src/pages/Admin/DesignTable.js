@@ -111,15 +111,18 @@ const DesignTable = () => {
                 });
             } else {
 
+                
+                
                 setNotify({
                     isOpen: true,
                     message: 'Removed Successfully !',
                     type: 'success'
                 });
-                axios.get("http://localhost:3001/designs").then((response) => {
+                axios.get(`http://localhost:3001/designs/${collection_id}`).then((response) => {
                     console.log(response.data);
                     setListOfDesigns(response.data);
                 });
+
 
             }
 

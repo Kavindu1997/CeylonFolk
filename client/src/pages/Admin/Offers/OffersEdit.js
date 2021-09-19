@@ -44,7 +44,7 @@ function OffersEdit({ selectedCollectionId }) {
 
         console.log(Data);
         axios.put(`http://localhost:3001/offers/${selectedCollectionId.collection_id}`, Data).then(() => {
-            alert('Item Updated Successfully')
+            // alert('Item Updated Successfully')
         });
         // props.resetForm();
     };

@@ -45,7 +45,7 @@ function InventoryEdit ({ selectedInventoryId }) {
 
         console.log(Data);
         axios.put(`http://localhost:3001/invent/inventory/${selectedInventoryId.inventory_id}`, Data).then(() => {
-            alert('Item Inserted Successfully')
+            // alert('Item Inserted Successfully')
         });
         // props.resetForm();
     };
