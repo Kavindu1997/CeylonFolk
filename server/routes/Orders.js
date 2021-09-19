@@ -38,6 +38,41 @@ router.get("/depositedOrders/:id", async (req, res) => {
     res.json(orderHistoryDetails);
 })
 
+router.get("/depositedOrders/:id", async (req, res) => {
+    const id = req.params.id;
+    const query = "SELECT orders.orderId, orders.fullAmount, orders.status, STR_TO_DATE(orders.placedDate, '%Y-%m-%d') AS placedDate, masterdata.decription FROM orders INNER JOIN masterdata ON orders.status = masterdata.id WHERE orders.customerId = '" + id + "' AND orders.isDeleted='0' AND orders.status='5' ORDER BY placedDate DESC";
+    const orderHistoryDetails = await sequelize.query(query, { type: sequelize.QueryTypes.SELECT });
+    res.json(orderHistoryDetails);
+})
+
+router.get("/acceptedOrders/:id", async (req, res) => {
+    const id = req.params.id;
+    const query = "SELECT orders.orderId, orders.fullAmount, orders.status, STR_TO_DATE(orders.placedDate, '%Y-%m-%d') AS placedDate, masterdata.decription FROM orders INNER JOIN masterdata ON orders.status = masterdata.id WHERE orders.customerId = '" + id + "' AND orders.isDeleted='0' AND orders.status='3' ORDER BY placedDate DESC";
+    const orderHistoryDetails = await sequelize.query(query, { type: sequelize.QueryTypes.SELECT });
+    res.json(orderHistoryDetails);
+})
+
+router.get("/dispatchedOrders/:id", async (req, res) => {
+    const id = req.params.id;
+    const query = "SELECT orders.orderId, orders.fullAmount, orders.status, STR_TO_DATE(orders.placedDate, '%Y-%m-%d') AS placedDate, masterdata.decription FROM orders INNER JOIN masterdata ON orders.status = masterdata.id WHERE orders.customerId = '" + id + "' AND orders.isDeleted='0' AND orders.status='40' ORDER BY placedDate DESC";
+    const orderHistoryDetails = await sequelize.query(query, { type: sequelize.QueryTypes.SELECT });
+    res.json(orderHistoryDetails);
+})
+
+router.get("/closedOrders/:id", async (req, res) => {
+    const id = req.params.id;
+    const query = "SELECT orders.orderId, orders.fullAmount, orders.status, STR_TO_DATE(orders.placedDate, '%Y-%m-%d') AS placedDate, masterdata.decription FROM orders INNER JOIN masterdata ON orders.status = masterdata.id WHERE orders.customerId = '" + id + "' AND orders.isDeleted='0' AND orders.status='38' ORDER BY placedDate DESC";
+    const orderHistoryDetails = await sequelize.query(query, { type: sequelize.QueryTypes.SELECT });
+    res.json(orderHistoryDetails);
+})
+
+router.get("/delayOrders/:id", async (req, res) => {
+    const id = req.params.id;
+    const query = "SELECT orders.orderId, orders.fullAmount, orders.status, STR_TO_DATE(orders.placedDate, '%Y-%m-%d') AS placedDate, masterdata.decription FROM orders INNER JOIN masterdata ON orders.status = masterdata.id WHERE orders.customerId = '" + id + "' AND orders.isDeleted='0' AND orders.status='41' ORDER BY placedDate DESC";
+    const orderHistoryDetails = await sequelize.query(query, { type: sequelize.QueryTypes.SELECT });
+    res.json(orderHistoryDetails);
+})
+
 router.get("/order/:oId", async (req, res) => {
     const oId = req.params.oId;
     const query = "SELECT orders.fullAmount, orderitems.id AS orderitemId, designs.id, designs.coverImage, designs.design_name, orderitems.quantity, orderitems.size, designs.price, (SELECT sizes.id FROM sizes WHERE sizes.size=orderitems.size) AS sizeId, SUM( orderitems.quantity * orderitems.purchasedUnitPrice ) AS totals, CASE WHEN orders.PaymentMethod = '7' AND orders.status = '1' THEN 1 WHEN orders.PaymentMethod = '9' AND orders.status = '4' THEN 1 ELSE 0 END AS canbecancel FROM orderitems INNER JOIN designs ON designs.id = orderitems.itemId INNER JOIN orders ON orders.orderId = orderitems.orderId INNER JOIN masterdata ON masterdata.id = orders.status WHERE orders.orderId = '" + oId + "' AND orderitems.isDeleted='0' GROUP BY orderitems.orderId, orderitems.itemId, orderitems.size ORDER BY orders.placedDate";
@@ -70,7 +105,6 @@ router.post("/cancelItem", async (req, res) => {
         const totalItemValue = await sequelize.query(quety1, { type: sequelize.QueryTypes.SELECT });
         const quety2 = "SELECT deliveryValue, couponValue FROM orders WHERE orders.orderId = '"+orderId+"'";
         const ordervalues = await sequelize.query(quety2, { type: sequelize.QueryTypes.SELECT });
-        console.log(totalItemValue[0].itemTotal, ordervalues[0].deliveryValue, ordervalues[0].couponValue)
         var totals = Number(totalItemValue[0].itemTotal)+Number(ordervalues[0].deliveryValue)-Number(ordervalues[0].couponValue)
         const query3 = "UPDATE orders SET orders.notifications='edited', orders.fullAmount = "+totals+" WHERE orders.orderId = '"+orderId+"'";
         const deleteItem2 = await sequelize.query(query3, { type: sequelize.QueryTypes.UPDATE });
@@ -91,7 +125,7 @@ router.post("/cancelOrder", async (req, res) => {
 router.get("/byIdForUpdate/:id", async (req, res) => {
 
     const id = req.params.id;
-    const query1 = "SELECT sizes.size,sizes.id AS sizeId, inventories.id, inventories.quantity from `sizes` INNER JOIN `inventories` on inventories.size_id=sizes.id INNER JOIN `designs` on inventories.colour_id=designs.color_id WHERE designs.id='" + id + "'";
+    const query1 = "SELECT sizes.size,sizes.id AS sizeId, inventories.id, inventories.quantity from `sizes` INNER JOIN `inventories` on inventories.size_id=sizes.id INNER JOIN `designs` on inventories.colour_id=designs.color_id AND inventories.type_id=designs.type_id WHERE designs.id='" + id + "'";
     const sizeList = await sequelize.query(query1, { type: sequelize.QueryTypes.SELECT });
     res.json(sizeList);
 })
@@ -123,7 +157,6 @@ router.put("/updateOrder", async (req, res) => {
         const totalItemValue = await sequelize.query(quety1, { type: sequelize.QueryTypes.SELECT });
         const quety2 = "SELECT deliveryValue, couponValue FROM orders WHERE orders.orderId = '"+oId+"'";
         const ordervalues = await sequelize.query(quety2, { type: sequelize.QueryTypes.SELECT });
-        console.log(totalItemValue[0].itemTotal, ordervalues[0].deliveryValue, ordervalues[0].couponValue)
         var totals = Number(totalItemValue[0].itemTotal)+Number(ordervalues[0].deliveryValue)-Number(ordervalues[0].couponValue)
         const query3 = "UPDATE orders SET orders.notifications='edited', orders.fullAmount = "+totals+" WHERE orders.orderId = '"+oId+"'";
         const totalUpdate = await sequelize.query(query3, { type: sequelize.QueryTypes.UPDATE });
@@ -139,11 +172,9 @@ router.put("/updateOrder", async (req, res) => {
         }
         const query4 = "SELECT * FROM users WHERE id='" + uid + "'";
         const customerDetails = await sequelize.query(query4, { type: sequelize.QueryTypes.SELECT });
-        console.log(customerDetails)
 
         const query5 = "SELECT * FROM orders INNER JOIN masterdata ON orders.PaymentMethod=masterdata.id WHERE orderId='" + oId + "'";
         const orderDetails = await sequelize.query(query5, { type: sequelize.QueryTypes.SELECT });
-        console.log(orderDetails)
 
         var emailDetails = {
             name: uname,
@@ -179,7 +210,6 @@ router.put("/updateOrder", async (req, res) => {
 })
 
 async function sendEmail(emailDetails) {
-    console.log("email option")
     const htmlEmail = `
             <h4> ${emailDetails.message} <h4>
             <ul> 
@@ -201,7 +231,6 @@ async function sendEmail(emailDetails) {
             pass: "pkjjt@1234"
         }
     });
-    console.log(emailDetails)
     const mailOptions = {
         from: 'testceylonfolk@gmail.com', // sender address
         to: emailDetails.email, // list of receivers
@@ -211,15 +240,11 @@ async function sendEmail(emailDetails) {
         html: htmlEmail
 
     };
-    console.log("email option")
     await transporter.sendMail(mailOptions, (err, info) => {
         if (err) {
-            console.log("error in sending mail", err)
             return 0
         }
         else {
-            console.log("successfully send message", info)
-            alert("successfully send message");
             return 1
         }
     });
@@ -230,7 +255,6 @@ router.get("/getUserDetails/:uid", async (req, res) => {
     const uid = req.params.uid;
     const query = "SELECT * FROM users WHERE id='" + uid + "'";
     const deposits = await sequelize.query(query, { type: sequelize.QueryTypes.SELECT });
-    console.log(res)
     res.json(deposits);
 })
 

@@ -59,11 +59,9 @@ export const calculateTotalWhenChanged = productCart => {
 
     var newTotalValue= 0;
     let i=0;
-    console.log(productCart.length)
     for(i=0;i<=productCart.length-1;i++){
         productCart[i].totals=(productCart[i].discountedPrice==null? productCart[i].price:productCart[i].discountedPrice)*productCart[i].quantity;
         newTotalValue=newTotalValue+productCart[i].totals;
-       console.log(productCart[i].totals)
     }
     return {
         type: CART_CONSTS.CALCULATE_TOTAL_WHEN_CHANGED,
@@ -76,7 +74,6 @@ export const getCart = () => async (dispatch) => {
     if (id != '0') {
         const response = await ceylonforkapi.get("/check/items/"+ id)
         dispatch({ type: CART_CONSTS.GET_CART, payload: response.data })
-        console.log(response.data)
     }
 };
 
@@ -86,7 +83,6 @@ export const emptyCart = () => async (dispatch) => {
     if (id != '0') {
         const response = await ceylonforkapi.get("/check/items/"+ id)
         dispatch({ type: CART_CONSTS.GET_CART, payload:[] })
-        console.log(response.data)
     }
 };
 
@@ -95,7 +91,6 @@ export const emptyCartLogout = () => async (dispatch) => {
     if (id == '0') {
         const response = await ceylonforkapi.get("/check/items/"+ id)
         dispatch({ type: CART_CONSTS.GET_CART, payload:[] })
-        console.log(response.data)
     }
 };
 

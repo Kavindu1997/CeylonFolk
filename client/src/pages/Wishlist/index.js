@@ -12,7 +12,7 @@ import ConfirmDialog from '../../components/Reusable/ConfirmDialog';
 import Notification from '../../components/Reusable/Notification';
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProducts } from '../../_actions/productAction'
-
+import { API_URL } from '../../_constants';
 
 
 export default function Wishlist() {
@@ -26,8 +26,7 @@ export default function Wishlist() {
 
     useEffect(() => {
         const uid = localStorage.getItem("userId");
-        axios.get("http://localhost:3001/wishlist/" + uid).then((response) => {
-            console.log(response.data);
+        axios.get(API_URL+"/wishlist/" + uid).then((response) => {
             setListOfShirts(response.data);
         });
     }, []);
@@ -39,7 +38,7 @@ export default function Wishlist() {
         });
         var uid = localStorage.getItem("userId")
             const data = { userId: uid, itemId: id }
-            axios.put("http://localhost:3001/wishlist/remove/",data).then((response) => {
+            axios.put(API_URL+"/wishlist/remove/",data).then((response) => {
                 if (response.data.data==0){
                     setNotify({
                         isOpen: true,
@@ -52,8 +51,7 @@ export default function Wishlist() {
                         message: 'Removed Successfully !',
                         type: 'success'
                       });
-                      axios.get("http://localhost:3001/wishlist/" + uid).then((response) => {
-                        console.log(response.data);
+                      axios.get(API_URL+"/wishlist/" + uid).then((response) => {
                         setListOfShirts(response.data);
                     });
                     dispatch(fetchProducts());
@@ -93,8 +91,15 @@ export default function Wishlist() {
                                                     history.push(`/productDetails/${value.id}`);
                                                 }} /></TableCell>
                                                 <TableCell align="center" style={{ fontFamily: 'Montserrat' }}> {value.design_name} </TableCell>
-                                                <TableCell align="center" style={{ fontFamily: 'Montserrat' }}> {value.price} </TableCell>
-                                                {/* <TableCell align="center" style={{ fontFamily: 'Montserrat' }}> {value.margin} </TableCell> */}
+                                                <TableCell align="center" style={{ display: value.discountedPrice==null?'none':'', fontFamily: 'Montserrat' }}>
+                                                    <div style={{ textDecoration: 'line-through'}}>
+                                                    Rs. {value.price}
+                                                    </div>
+                                                    <div>
+                                                        Rs. {value.discountedPrice}
+                                                    </div>
+                                                </TableCell>
+                                                <TableCell align="center" style={{ display: value.discountedPrice==null?'':'none', fontFamily: 'Montserrat' }}>Rs. {value.price}</TableCell>
                                                 <TableCell align="center">
                                                     <Button name="remove" onClick={() => {
                                                         setConfirmDialog({

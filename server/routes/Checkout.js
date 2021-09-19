@@ -86,7 +86,6 @@ async function updateInventory(items) {
     for (let i = 0; i < items.length; i++) {
         const query = "SELECT inventories.id FROM inventories INNER JOIN designs on designs.color_id=inventories.colour_id AND designs.type_id=inventories.type_id INNER JOIN sizes ON sizes.id=inventories.size_id WHERE designs.id='" + items[i].itemId + "' AND sizes.size='" + items[i].size + "'";
         const inventoryId = await sequelize.query(query, { type: sequelize.QueryTypes.SELECT });
-        console.log(inventoryId)
         const updateQuery = "UPDATE inventories SET quantity=quantity-" + items[i].quantity + " WHERE id='" + inventoryId[0].id + "'";
         const quantityUpdate = await sequelize.query(updateQuery, { type: sequelize.QueryTypes.UPDATE });
     }
@@ -126,11 +125,9 @@ async function sendEmail(emailDetails){
         };
             await transporter.sendMail(mailOptions,(err,info) =>{
             if(err){
-                        console.log("error in sending mail",err)
                         return 0
                     }
                     else{
-                        console.log("successfully send message",info)
                         alert("successfully send message");
                         return 1
                     }
@@ -257,16 +254,13 @@ router.get("/district", async (req, res) => {
 
 router.get("/coupon", async (req, res) => {
     var data = { status:0 , data:[], msg:"" }
-    console.log(req.query.today, req.query.couponName)
     const couponName = req.query.couponName;
     const today = req.query.today;
     const query = "SELECT * FROM coupons WHERE coupon_number='" + couponName + "'";
     const couponInTable = await sequelize.query(query, { type: sequelize.QueryTypes.SELECT });
-    console.log(couponInTable.length)
     if(couponInTable.length>0){
         const query1 = "SELECT discount_amount FROM coupons WHERE coupon_number='" + couponName + "' AND end_date >= '" + today + "'";
         const couponValid = await sequelize.query(query1, { type: sequelize.QueryTypes.SELECT });
-        console.log(couponValid)
         if(couponValid.length>0){
             data.data=couponValid
             data.msg="Coupon has successfully applied !"

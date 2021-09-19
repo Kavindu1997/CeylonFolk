@@ -16,6 +16,7 @@ import { useHistory } from 'react-router-dom';
 import { useParams } from 'react-router';
 import UserSideNav from '../../components/Navbars/UserSideNav';
 import CommonNav from '../../components/Navbars/CommonNav';
+import { API_URL } from '../../_constants';
 
 export default function Deposit(props) {
     const classes = useStyles();
@@ -55,7 +56,6 @@ export default function Deposit(props) {
 
     function viewOrder(e) {
         e.preventDefault()
-        console.log(orderId)
         if (orderId.length == 0 && orderIdFromEmail != undefined) {
             orderId = orderIdFromEmail;
         }
@@ -64,7 +64,6 @@ export default function Deposit(props) {
             id: id,
             orderId: orderId
         }
-        console.log("here")
         var result = dispatch(viewOrderDetails(data))
         if (result == 0) {
             setNotify({
@@ -77,7 +76,6 @@ export default function Deposit(props) {
 
     const setOId = (event) => {
         setOrderId(event.target.value);
-        console.log(orderId)
     }
 
     const onInputChange = (e) => {
@@ -101,8 +99,7 @@ export default function Deposit(props) {
                 'content-type': 'multipart/form-data',
             },
         };
-        console.log(formData)
-        axios.post("http://localhost:3001/depositCollection", formData, config).then((response) => {
+        axios.post(API_URL+"/depositCollection", formData, config).then((response) => {
             if(response.data.data==0){
                 setNotify({
                     isOpen: true,
@@ -121,11 +118,13 @@ export default function Deposit(props) {
                 props.location.search = null
                 dispatch(claerOrderDetails())
                 orderIdFromEmail = null;
-                history.push("/myOrders")
+                setTimeout(function(){
+                    history.push("/myOrders")
+                }, 1000);
+                
             }
             
         }).catch((err) => {
-            console.log('err', err);
         })
     };
 
@@ -205,7 +204,7 @@ export default function Deposit(props) {
                                                 .map((value) => {
                                                     return (
                                                         <TableRow>
-                                                            <TableCell align="center" style={{ fontFamily: 'Montserrat' }}><img height={100} align="center" src={'http://localhost:3001/' + value.coverImage}></img></TableCell>
+                                                            <TableCell align="center" style={{ fontFamily: 'Montserrat' }}><img height={100} align="center" src={API_URL+'/' + value.coverImage}></img></TableCell>
                                                             <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.design_name}</TableCell>
                                                             <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.totals}</TableCell>
                                                         </TableRow>

@@ -1,10 +1,9 @@
 import React from 'react';
-import { Button, CssBaseline, Grid, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Box, Divider, Avatar, List, ListItem, ListItemAvatar, ListItemText } from '@material-ui/core';
-import { makeStyles } from '@material-ui/styles';
+import { Typography, Divider, Avatar, List, ListItem, ListItemAvatar, ListItemText } from '@material-ui/core';
 import { Link } from "react-router-dom";
 import { useHistory } from 'react-router-dom';
-import { useSelector, useDispatch } from "react-redux";
-import { decrementCartCount, actionGetTotalDeduct, actionDeleteItem, calculateCartCount, getCart, getTotal, deleteCartUsingID, updateCartQuantity, actionUpdateItem, calculateTotalWhenChanged, emtyTotalLogout, emptyCartLogout } from '../../_actions/index';
+import { useDispatch } from "react-redux";
+import { calculateCartCount, getCart, getTotal,emtyTotalLogout, emptyCartLogout } from '../../_actions/index';
 import { fetchProducts } from '../../_actions/productAction';
 
 export default function UserSideNav() {
@@ -14,9 +13,7 @@ export default function UserSideNav() {
     var avatar;
     if (localStorage.getItem("fullname") != null) {
         uName = localStorage.getItem("fullname")
-        console.log(uName)
         var splitted = uName.split(/[ ,]+/, 2);
-        console.log(splitted)
         avatar = splitted[0][0].toUpperCase() + splitted[1][0].toUpperCase();
     } else {
         avatar = []

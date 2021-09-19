@@ -9,3 +9,5 @@ export const MASTER_DATA = {
    payhere: 8,
    bank_tranfer: 9,   
 };
+
+export const API_URL = 'http://localhost:3001'
