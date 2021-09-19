@@ -7,7 +7,8 @@ export const MASTER_DATA = {
    placed: 6,
    cash_on_delivery: 7,
    payhere: 8,
-   bank_tranfer: 9,   
+   bank_tranfer: 9,
 };
 
 export const API_URL = 'http://localhost:3001'
+export const API_URLC = 'http://localhost:3000'

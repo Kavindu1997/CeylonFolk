@@ -100,15 +100,15 @@ router.post("/cancelItem", async (req, res) => {
         const query = "UPDATE orders SET isDeleted='1', notifications='deleted', flag='0' WHERE orderId='" + orderId + "'";
         const deleteItem1 = await sequelize.query(query, { type: sequelize.QueryTypes.UPDATE });
 
-    }else{
-        const quety1 = "SELECT SUM( CASE WHEN designs.discountedPrice IS NOT NULL THEN designs.discountedPrice * orderitems.quantity ELSE designs.price * orderitems.quantity END ) AS itemTotal FROM orderitems INNER JOIN designs ON designs.id = orderitems.itemId WHERE orderitems.orderId = '"+orderId+"' AND orderitems.isDeleted='0'";
+    } else {
+        const quety1 = "SELECT SUM( CASE WHEN designs.discountedPrice IS NOT NULL THEN designs.discountedPrice * orderitems.quantity ELSE designs.price * orderitems.quantity END ) AS itemTotal FROM orderitems INNER JOIN designs ON designs.id = orderitems.itemId WHERE orderitems.orderId = '" + orderId + "' AND orderitems.isDeleted='0'";
         const totalItemValue = await sequelize.query(quety1, { type: sequelize.QueryTypes.SELECT });
-        const quety2 = "SELECT deliveryValue, couponValue FROM orders WHERE orders.orderId = '"+orderId+"'";
+        const quety2 = "SELECT deliveryValue, couponValue FROM orders WHERE orders.orderId = '" + orderId + "'";
         const ordervalues = await sequelize.query(quety2, { type: sequelize.QueryTypes.SELECT });
         var totals = Number(totalItemValue[0].itemTotal)+Number(ordervalues[0].deliveryValue)-Number(ordervalues[0].couponValue)
         const query3 = "UPDATE orders SET orders.notifications='edited',orders.flag='0', orders.fullAmount = "+totals+" WHERE orders.orderId = '"+orderId+"'";
         const deleteItem2 = await sequelize.query(query3, { type: sequelize.QueryTypes.UPDATE });
-       
+
     }
     res.json(deleteItem);
 })
@@ -152,10 +152,10 @@ router.put("/updateOrder", async (req, res) => {
         const uname = req.body.uname;
         const query = "UPDATE orderitems SET quantity='" + quantity + "' , size='" + size + "' WHERE id='" + orderitemId + "'";
         const updateList = await sequelize.query(query, { type: sequelize.QueryTypes.UPDATE });
-        
-        const quety1 = "SELECT SUM( CASE WHEN designs.discountedPrice IS NOT NULL THEN designs.discountedPrice * orderitems.quantity ELSE designs.price * orderitems.quantity END ) AS itemTotal FROM orderitems INNER JOIN designs ON designs.id = orderitems.itemId WHERE orderitems.orderId = '"+oId+"' AND orderitems.isDeleted='0'";
+
+        const quety1 = "SELECT SUM( CASE WHEN designs.discountedPrice IS NOT NULL THEN designs.discountedPrice * orderitems.quantity ELSE designs.price * orderitems.quantity END ) AS itemTotal FROM orderitems INNER JOIN designs ON designs.id = orderitems.itemId WHERE orderitems.orderId = '" + oId + "' AND orderitems.isDeleted='0'";
         const totalItemValue = await sequelize.query(quety1, { type: sequelize.QueryTypes.SELECT });
-        const quety2 = "SELECT deliveryValue, couponValue FROM orders WHERE orders.orderId = '"+oId+"'";
+        const quety2 = "SELECT deliveryValue, couponValue FROM orders WHERE orders.orderId = '" + oId + "'";
         const ordervalues = await sequelize.query(quety2, { type: sequelize.QueryTypes.SELECT });
         var totals = Number(totalItemValue[0].itemTotal)+Number(ordervalues[0].deliveryValue)-Number(ordervalues[0].couponValue)
         const query3 = "UPDATE orders SET orders.notifications='edited',orders.flag='0',orders.fullAmount = "+totals+" WHERE orders.orderId = '"+oId+"'";
@@ -266,7 +266,7 @@ router.get("/getCount", async (req, res) => {
         printedOrders = '',
     ]
 
-    const query1 = "SELECT COUNT(status) AS pendingCount FROM orders WHERE status='1' OR status='4' OR status='5' OR status='6'";
+    const query1 = "SELECT COUNT(status) AS pendingCount FROM orders WHERE status='1' AND isDeleted='0' OR status='4'AND isDeleted='0' OR status='5' AND isDeleted='0' OR status='6' AND isDeleted='0'";
     const pending = await sequelize.query(query1, { type: sequelize.QueryTypes.SELECT });
 
     data = {
@@ -277,7 +277,7 @@ router.get("/getCount", async (req, res) => {
     }
 
 
-    const query2 = "SELECT COUNT(status) AS acceptCount FROM orders WHERE status='3'";
+    const query2 = "SELECT COUNT(status) AS acceptCount FROM orders WHERE status='3' AND isDeleted='0'";
     const accept = await sequelize.query(query2, { type: sequelize.QueryTypes.SELECT });
     data = {
         pendingOrders: pending[0].pendingCount,
@@ -287,7 +287,7 @@ router.get("/getCount", async (req, res) => {
     }
 
 
-    const query3 = "SELECT COUNT(status) AS dispatchCount FROM orders WHERE status='40'";
+    const query3 = "SELECT COUNT(status) AS dispatchCount FROM orders WHERE status='40' AND isDeleted='0'";
     const dispatched = await sequelize.query(query3, { type: sequelize.QueryTypes.SELECT });
     data = {
         pendingOrders: pending[0].pendingCount,
@@ -296,7 +296,7 @@ router.get("/getCount", async (req, res) => {
         printedOrders: '',
     }
 
-    const query4 = "SELECT COUNT(status) AS rejectCount FROM orders WHERE status='41'";
+    const query4 = "SELECT COUNT(status) AS rejectCount FROM orders WHERE status='41' AND isDeleted='0'";
     const rejected = await sequelize.query(query4, { type: sequelize.QueryTypes.SELECT });
     data = {
         pendingOrders: pending[0].pendingCount,
@@ -313,7 +313,7 @@ router.get("/getCustomizeCount", async (req, res) => {
         acceptedOrders = '',
         dispatchedOrders = '',
         rejectedOrders = '',
-        printedOrders='',
+        printedOrders = '',
     ]
 
     const query1 = "SELECT COUNT(status) AS pendingCount FROM customizeorders WHERE status='Pending'";
@@ -324,7 +324,7 @@ router.get("/getCustomizeCount", async (req, res) => {
         acceptedOrders: '',
         dispatchedOrders: '',
         rejectedOrders: '',
-        printedOrders:'',
+        printedOrders: '',
     }
 
     const query2 = "SELECT COUNT(status) AS acceptCount FROM customizeorders WHERE status='Accept'";
@@ -334,7 +334,7 @@ router.get("/getCustomizeCount", async (req, res) => {
         acceptedOrders: accept[0].acceptCount,
         dispatchedOrders: '',
         rejectedOrders: '',
-        printedOrders:'',
+        printedOrders: '',
     }
 
     const query3 = "SELECT COUNT(status) AS dispatchCount FROM customizeorders WHERE status='Dispatched'";
@@ -344,7 +344,7 @@ router.get("/getCustomizeCount", async (req, res) => {
         acceptedOrders: accept[0].acceptCount,
         dispatchedOrders: dispatched[0].dispatchCount,
         rejectedOrders: '',
-        printedOrders:'',
+        printedOrders: '',
     }
 
     const query4 = "SELECT COUNT(status) AS rejectCount FROM customizeorders WHERE status='Rejected'";
@@ -354,7 +354,7 @@ router.get("/getCustomizeCount", async (req, res) => {
         acceptedOrders: accept[0].acceptCount,
         dispatchedOrders: dispatched[0].dispatchCount,
         rejectedOrders: rejected[0].rejectCount,
-        printedOrders:'',
+        printedOrders: '',
     }
 
     const query5 = "SELECT COUNT(status) AS printedCount FROM customizeorders WHERE status='Printed'";
@@ -364,7 +364,7 @@ router.get("/getCustomizeCount", async (req, res) => {
         acceptedOrders: accept[0].acceptCount,
         dispatchedOrders: dispatched[0].dispatchCount,
         rejectedOrders: rejected[0].rejectCount,
-        printedOrders:printed[0].printedCount,
+        printedOrders: printed[0].printedCount,
     }
     res.json(data);
 })
@@ -372,7 +372,7 @@ router.get("/getCustomizeCount", async (req, res) => {
 router.get('/getSales', async (req, res) => {
     try {
         const query1 = "CREATE OR REPLACE VIEW total_sales AS SELECT COALESCE(SUM(fullAmount),0) AS sales_amount FROM orders  WHERE status='40' UNION ALL SELECT COALESCE(SUM(totalAmount),0) AS sales_amount FROM customizeorders  WHERE status='Dispatched';";
-        const query2="SELECT SUM(sales_amount) as sales_amount FROM total_sales;"
+        const query2 = "SELECT SUM(sales_amount) as sales_amount FROM total_sales;"
         const salesAmount = await sequelize.query(query2, { type: sequelize.QueryTypes.SELECT });
         res.json(salesAmount);
     } catch (error) {
@@ -380,16 +380,16 @@ router.get('/getSales', async (req, res) => {
     }
 });
 
-router.get('/getAllPendingCount',async(req,res)=>{
+router.get('/getAllPendingCount', async (req, res) => {
     try {
         const query1 = "CREATE OR REPLACE VIEW pendings AS SELECT COUNT(status) AS pendingCount FROM orders WHERE status='1' OR status='4' OR status='5' OR status='6' UNION ALL SELECT COUNT(status) AS pendingCount FROM customizeorders WHERE status='Pending' AND deleteFlag='f';";
-        const query2="SELECT SUM(pendingCount) as sum_of_pendings FROM pendings;"
+        const query2 = "SELECT SUM(pendingCount) as sum_of_pendings FROM pendings;"
         const sumOfPendingCount = await sequelize.query(query2, { type: sequelize.QueryTypes.SELECT });
         res.json(sumOfPendingCount);
     } catch (error) {
-        res.status(404).json({message:error.message});
+        res.status(404).json({ message: error.message });
     }
-  });
+});
 
 router.get('/getInhouseDistribution', async (req, res) => {
     try {
@@ -412,7 +412,7 @@ router.get('/getCustomizeDistribution', async (req, res) => {
 });
 
 router.get("/allOrders", async (req, res) => {
-    const query = "SELECT orders.orderId, users.firstName, users.lastName, users.contactNo, orders.fullAmount, masterdata.decription, ( SELECT masterdata.decription FROM `masterdata` WHERE masterdata.id = orders.PaymentMethod ) AS paymentMethodDescription FROM `orders` INNER JOIN `users` ON users.id = orders.customerId INNER JOIN `masterdata` ON masterdata.id = orders.status";
+    const query = "SELECT orders.orderId, users.firstName, users.lastName, users.contactNo, orders.fullAmount, DATE(orders.placedDate) AS placedDate, masterdata.decription, ( SELECT masterdata.decription FROM `masterdata` WHERE masterdata.id = orders.PaymentMethod ) AS paymentMethodDescription FROM `orders` INNER JOIN `users` ON users.id = orders.customerId INNER JOIN `masterdata` ON masterdata.id = orders.status WHERE orders.isDeleted = 0 ORDER BY orders.placedDate ASC";
     const orders = await sequelize.query(query, { type: sequelize.QueryTypes.SELECT });
     res.json(orders);
 })
@@ -421,22 +421,22 @@ router.get("/getOrders/:id", async (req, res) => {
     const id = req.params.id;
 
     if (id == 1) {
-        const query = "SELECT orders.orderId, users.firstName, users.lastName, users.contactNo, orders.fullAmount, masterdata.decription FROM `orders` INNER JOIN `users` ON users.id = orders.customerId INNER JOIN `masterdata` ON masterdata.id = orders.PaymentMethod WHERE orders.status='1' OR orders.status='4' OR orders.status='5' OR orders.status='6'";
+        const query = "SELECT orders.orderId, users.firstName, users.lastName, users.contactNo, orders.fullAmount, DATE(orders.placedDate) AS placedDate, masterdata.decription FROM `orders` INNER JOIN `users` ON users.id = orders.customerId INNER JOIN `masterdata` ON masterdata.id = orders.PaymentMethod WHERE status='1' AND isDeleted='0' OR status='4'AND isDeleted='0' OR status='5' AND isDeleted='0' OR status='6' AND isDeleted='0' ORDER BY orders.placedDate ASC";
         const orderDetails = await sequelize.query(query, { type: sequelize.QueryTypes.SELECT });
         res.json(orderDetails);
     }
     else if (id == 2) {
-        const query = "SELECT orders.orderId, users.firstName, users.lastName, users.contactNo, orders.fullAmount, masterdata.decription FROM `orders` INNER JOIN `users` ON users.id = orders.customerId INNER JOIN `masterdata` ON masterdata.id = orders.PaymentMethod WHERE orders.status='3'";
+        const query = "SELECT orders.orderId, users.firstName, users.lastName, users.contactNo, orders.fullAmount, DATE(orders.placedDate) AS placedDate, masterdata.decription FROM `orders` INNER JOIN `users` ON users.id = orders.customerId INNER JOIN `masterdata` ON masterdata.id = orders.PaymentMethod WHERE orders.status='3' AND isDeleted='0' ORDER BY orders.placedDate ASC";
         const orderDetails = await sequelize.query(query, { type: sequelize.QueryTypes.SELECT });
         res.json(orderDetails);
     }
     else if (id == 3) {
-        const query = "SELECT orders.orderId, users.firstName, users.lastName, users.contactNo, orders.fullAmount, masterdata.decription FROM `orders` INNER JOIN `users` ON users.id = orders.customerId INNER JOIN `masterdata` ON masterdata.id = orders.PaymentMethod WHERE orders.status='40'";
+        const query = "SELECT orders.orderId, users.firstName, users.lastName, users.contactNo, orders.fullAmount, DATE(orders.placedDate) AS placedDate, masterdata.decription FROM `orders` INNER JOIN `users` ON users.id = orders.customerId INNER JOIN `masterdata` ON masterdata.id = orders.PaymentMethod WHERE orders.status='40' AND isDeleted='0' ORDER BY orders.placedDate ASC";
         const orderDetails = await sequelize.query(query, { type: sequelize.QueryTypes.SELECT });
         res.json(orderDetails);
     }
     else {
-        const query = "SELECT orders.orderId, users.firstName, users.lastName, users.contactNo, orders.fullAmount, masterdata.decription FROM `orders` INNER JOIN `users` ON users.id = orders.customerId INNER JOIN `masterdata` ON masterdata.id = orders.PaymentMethod WHERE orders.status='41'";
+        const query = "SELECT orders.orderId, users.firstName, users.lastName, users.contactNo, orders.fullAmount, DATE(orders.placedDate) AS placedDate, masterdata.decription FROM `orders` INNER JOIN `users` ON users.id = orders.customerId INNER JOIN `masterdata` ON masterdata.id = orders.PaymentMethod WHERE orders.status='38' AND isDeleted='0' ORDER BY orders.placedDate ASC";
         const orderDetails = await sequelize.query(query, { type: sequelize.QueryTypes.SELECT });
         res.json(orderDetails);
     }
@@ -445,7 +445,7 @@ router.get("/getOrders/:id", async (req, res) => {
 
 router.get("/selectedOrderDetails/:oId", async (req, res) => {
     const id = req.params.oId;
-    const query = "SELECT orders.orderId, orders.fullAmount,orders.PaymentMethod, orders.status, users.firstName, users.lastName, users.contactNo FROM `orders`INNER JOIN `orderitems` ON orders.orderId = orderitems.orderId INNER JOIN `masterdata` ON masterdata.id = orders.status INNER JOIN `users` ON orders.customerId = users.id WHERE orders.orderId ='" + id + "' ";
+    const query = "SELECT DISTINCT orders.orderId, orders.fullAmount,orders.PaymentMethod, orders.status, orders.specialNotes, users.firstName, users.lastName, users.contactNo FROM `orders`INNER JOIN `orderitems` ON orders.orderId = orderitems.orderId INNER JOIN `masterdata` ON masterdata.id = orders.status INNER JOIN `users` ON orders.customerId = users.id WHERE orders.orderId ='" + id + "' ";
     const orderDetails = await sequelize.query(query, { type: sequelize.QueryTypes.SELECT });
     res.json(orderDetails);
 })
@@ -473,11 +473,5 @@ router.post("/statusChange", async (req, res) => {
     }
 })
 
-router.post("/cancelStatus", async (req, res) => {
-    const orderId = req.body.orderId;
-    const query = "UPDATE orders SET status = '41' WHERE orderId='" + orderId + "'";
-    const statusChanged = await sequelize.query(query, { type: sequelize.QueryTypes.UPDATE });
-    res.json(statusChanged);
-})
 
 module.exports = router;

@@ -95,10 +95,5 @@ export default function UserSideNav() {
             <Divider orientation="vertical" flexItem />
         </div>
 
-
-
-
-
-
     );
 };

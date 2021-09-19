@@ -1,22 +1,30 @@
 import React, { Fragment } from "react";
-import { Badge,  Button,IconButton,List,ListItem,ListItemAvatar,ListItemText,Menu,} from "@material-ui/core";
+import { Badge, Button, IconButton, List, ListItem, ListItemAvatar, ListItemText, Menu, } from "@material-ui/core";
 import { useStyles } from "./styles";
 import TransitEnterexitIcon from '@material-ui/icons/TransitEnterexit'
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
+import { useHistory } from 'react-router';
 
 export default function Logout() {
   const classes = useStyles();
+  let history = useHistory();
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
     console.log("handleClicked ", event.currentTarget);
   };
+
   const handleClose = () => {
     setAnchorEl(null);
-    // localStorage.clear();
-    // window.location.href = '/';
   };
+
+  const logout = () => {
+    localStorage.clear()
+    localStorage.setItem("userId", 0)
+    history.push("/")
+  };
+
 
   const dropDownData = [
     { label: "logout", icon: <TransitEnterexitIcon /> },
@@ -30,7 +38,7 @@ export default function Logout() {
         onClick={handleClick}
         color='inherit'>
         <Badge badgeContent={null} color='secondary'>
-          <ExitToAppIcon/>
+          <ExitToAppIcon />
         </Badge>
       </IconButton>
       <Menu
@@ -45,7 +53,7 @@ export default function Logout() {
             <ListItem
               key={i}
               component={Button}
-              onClick={handleClose}
+              onClick={logout}
               className={classes.listItem}>
               <ListItemAvatar>{item.icon}</ListItemAvatar>
               <ListItemText primary={item.label}></ListItemText>

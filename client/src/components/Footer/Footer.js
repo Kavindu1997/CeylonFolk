@@ -1,16 +1,8 @@
 import React from 'react';
-import { Container,Box,Grid,Link,Typography,makeStyles,Icon } from '@material-ui/core';
+import { Container,Box,Grid,Link,Typography,Icon } from '@material-ui/core';
 import FacebookIcon from '@material-ui/icons/Facebook';
 import InstagramIcon from '@material-ui/icons/Instagram';
-const useStyles=makeStyles((theme)=>({
-     root:{
-         backgroundColor:'#EBF9FD',
-         color:'black',
-         marginTop:theme.spacing(8),
-         paddingTop:theme.spacing(10),
-         paddingBottom:theme.spacing(10)
-     },   
-}));
+import useStyles from './style';
 
 const Footer = () => {
     const classes=useStyles();

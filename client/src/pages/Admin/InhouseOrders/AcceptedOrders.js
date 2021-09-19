@@ -5,6 +5,7 @@ import { Paper, TableBody, TableRow, TableCell, Typography, Table, TableContaine
 import { useParams } from 'react-router';
 import axios from 'axios';
 import OrderStatusChange from "./OrderStatusChange";
+import { API_URL } from '../../../_constants';
 
 function AcceptedOrders() {
     const classes = useStyles();
@@ -14,7 +15,7 @@ function AcceptedOrders() {
     const [orderId, setOrderId] = useState([]);
 
     useEffect(() => {
-        axios.get(`http://localhost:3001/order/getOrders/${id}`).then((response) => {
+        axios.get(API_URL + `/order/getOrders/${id}`).then((response) => {
             console.log(response.data);
             setOrderDetailsList(response.data);
         });
@@ -45,7 +46,7 @@ function AcceptedOrders() {
                             Dispatched orders
                         </Button>
                         <Button style={{ borderRadius: '50px', borderWidth: '2px', borderColor: 'black', marginRight: '40px', fontWeight: 'bold' }} variant="outlined" color="primary" href="http://localhost:3000/AdminOrders/4">
-                            Rejected orders
+                            Deposit Rejected
                         </Button>
                     </div>
                 </div>
@@ -62,6 +63,7 @@ function AcceptedOrders() {
                                         <TableCell align="center" style={{ fontSize: '16px', fontWeight: '600' }}>Customer Name</TableCell>
                                         <TableCell align="center" style={{ fontSize: '16px', fontWeight: '600' }}>Contact No</TableCell>
                                         <TableCell align="center" style={{ fontSize: '16px', fontWeight: '600' }}>Full Amount (LKR)</TableCell>
+                                        <TableCell align="center" style={{ fontSize: '16px', fontWeight: '600' }}>Placed Date</TableCell>
                                         <TableCell align="center" style={{ fontSize: '16px', fontWeight: '600' }}>Payment Method</TableCell>
                                         <TableCell align="center" style={{ fontSize: '16px', fontWeight: '600' }}>Actions</TableCell>
                                     </TableRow>
@@ -74,6 +76,7 @@ function AcceptedOrders() {
                                                 <TableCell align="center" style={{ fontSize: '16px', fontWeight: '500' }}>{value.firstName} {value.lastName}</TableCell>
                                                 <TableCell align="center" style={{ fontSize: '16px', fontWeight: '500' }}>{value.contactNo}</TableCell>
                                                 <TableCell align="center" style={{ fontSize: '16px', fontWeight: '500' }}>{value.fullAmount}.00</TableCell>
+                                                <TableCell align="center" style={{ fontSize: '16px', fontWeight: '500' }}>{value.placedDate}</TableCell>
                                                 <TableCell align="center" style={{ fontSize: '16px', fontWeight: '500' }}>{value.decription}</TableCell>
                                                 <TableCell align="center" style={{ fontSize: '16px', fontWeight: '500' }}>
                                                     <Button

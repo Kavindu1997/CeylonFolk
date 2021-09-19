@@ -8,6 +8,7 @@ import axios from 'axios';
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { useDispatch, useSelector } from "react-redux";
 import { calculateCartCount, getCart } from '../../_actions/index';
+import { API_URL } from '../../_constants';
 
 function Registration() {
     let history = useHistory();
@@ -40,7 +41,7 @@ function Registration() {
     });
 
     const register = (data) => {
-        axios.post("http://localhost:3001/auth/register", data).then((response) => {
+        axios.post(API_URL + "/auth/register", data).then((response) => {
             if (response.data.error) {
                 setNotify({
                     isOpen: true,
@@ -60,7 +61,7 @@ function Registration() {
 
                 if (uid == '0' && cart.cart.length > 0) {
                     console.log("login")
-                    const url = "http://localhost:3001/check/addToCartBatchwise/"
+                    const url = API_URL + "/check/addToCartBatchwise/"
                     var data = { uid: response.data[0].id, cart: cart.cart };
                     axios.post(url, data).then((response) => {
                         if (response.data.error) alert(response.data.error);

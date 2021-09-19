@@ -4,6 +4,7 @@ import { Grid, Typography, TableBody, TableRow, TableCell, Table, TableContainer
 import axios from "axios";
 import ConfirmDialog from "../../../components/Reusable/ConfirmDialog";
 import Notification from "../../../components/Reusable/Notification";
+import { API_URL } from '../../../_constants';
 
 function OrderStatusChange({ selectedOrderId }) {
     let history = useHistory();
@@ -12,14 +13,13 @@ function OrderStatusChange({ selectedOrderId }) {
     const [confirmDialog, setConfirmDialog] = useState({ isOpen: false, title: '', subTitle: '' });
     const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' });
 
-
     useEffect(() => {
         axios
-            .get("http://localhost:3001/order/selectedOrderDetails/" + selectedOrderId.oId).then((response) => {
+            .get(API_URL + "/order/selectedOrderDetails/" + selectedOrderId.oId).then((response) => {
                 setorderDetails(response.data);
             });
         axios
-            .get("http://localhost:3001/order/selectedOrderItemDetails/" + selectedOrderId.oId).then((response) => {
+            .get(API_URL + "/order/selectedOrderItemDetails/" + selectedOrderId.oId).then((response) => {
                 setorderItemDetails(response.data);
             });
     }, []);
@@ -31,7 +31,7 @@ function OrderStatusChange({ selectedOrderId }) {
             isOpen: false
         });
         var data = { orderId: orderId, status: status }
-        axios.post("http://localhost:3001/order/statusChange", data).then((response) => {
+        axios.post(API_URL + "/order/statusChange", data).then((response) => {
             if (response.data.error) {
                 setNotify({
                     isOpen: true,
@@ -51,52 +51,53 @@ function OrderStatusChange({ selectedOrderId }) {
         })
     }
 
-    function cancelStatus(orderId) {
-        setConfirmDialog({
-            ...confirmDialog,
-            isOpen: false
-        });
-        var data = { orderId: orderId }
-        axios.post("http://localhost:3001/order/cancelStatus", data).then((response) => {
-            if (response.data.error) {
-                setNotify({
-                    isOpen: true,
-                    message: 'Confirmation cancelled !',
-                    type: 'error'
-                });
-            } else {
-                setNotify({
-                    isOpen: true,
-                    message: 'Order Canceled!',
-                    type: 'success'
-                });
-                setTimeout(() => {
-                    window.location.reload(true)
-                }, 1500)
-            }
-        })
-    }
 
     return (
         <div>
             <div>
                 {orderDetails.map((value) => {
-                    return (
-                        <Grid container>
-                            <Grid item>
-                                <Typography style={{ fontSize: '18px' }}>Order ID </Typography>
-                                <Typography style={{ fontSize: '18px' }}>Customer Name </Typography>
-                                <Typography style={{ fontSize: '18px' }}>Contact No </Typography>
-                                <Typography style={{ fontSize: '18px' }}>Full Amount (LKR) </Typography>
+                    if (value.specialNotes == '') {
+                        return (
+                            <Grid container>
+                                <Grid item>
+                                    <Typography style={{ fontSize: '18px' }}>Order ID </Typography>
+                                    <Typography style={{ fontSize: '18px' }}>Customer Name </Typography>
+                                    <Typography style={{ fontSize: '18px' }}>Contact No </Typography>
+                                    <Typography style={{ fontSize: '18px' }}>Full Amount (LKR) </Typography>
+                                </Grid>
+                                <Grid item style={{ marginLeft: '20px' }}>
+                                    <Typography style={{ fontSize: '18px' }}>: {value.orderId}</Typography>
+                                    <Typography style={{ fontSize: '18px' }}>: {value.firstName} {value.lastName}</Typography>
+                                    <Typography style={{ fontSize: '18px' }}>: 0{value.contactNo}</Typography>
+                                    <Typography style={{ fontSize: '18px' }}>: {value.fullAmount}.00</Typography>
+                                </Grid>
+
                             </Grid>
-                            <Grid item style={{ marginLeft: '20px' }}>
-                                <Typography style={{ fontSize: '18px' }}>: {value.orderId}</Typography>
-                                <Typography style={{ fontSize: '18px' }}>: {value.firstName} {value.lastName}</Typography>
-                                <Typography style={{ fontSize: '18px' }}>: 0{value.contactNo}</Typography>
-                                <Typography style={{ fontSize: '18px' }}>: {value.fullAmount}.00</Typography>
+                        );
+                    }
+                    else {
+                        return (
+                            <Grid container>
+                                <Grid item>
+                                    <Typography style={{ fontSize: '18px' }}>Order ID </Typography>
+                                    <Typography style={{ fontSize: '18px' }}>Customer Name </Typography>
+                                    <Typography style={{ fontSize: '18px' }}>Contact No </Typography>
+                                    <Typography style={{ fontSize: '18px' }}>Full Amount (LKR) </Typography>
+                                    <Typography style={{ fontSize: '18px' }}>Special Notes </Typography>
+                                </Grid>
+                                <Grid item style={{ marginLeft: '20px' }}>
+                                    <Typography style={{ fontSize: '18px' }}>: {value.orderId}</Typography>
+                                    <Typography style={{ fontSize: '18px' }}>: {value.firstName} {value.lastName}</Typography>
+                                    <Typography style={{ fontSize: '18px' }}>: 0{value.contactNo}</Typography>
+                                    <Typography style={{ fontSize: '18px' }}>: {value.fullAmount}.00</Typography>
+                                    <Typography style={{ fontSize: '18px' }}>: {value.specialNotes}</Typography>
+                                </Grid>
+
                             </Grid>
-                        </Grid>
-                    );
+                        );
+
+                    }
+
                 })}
             </div>
             <div>
@@ -115,10 +116,9 @@ function OrderStatusChange({ selectedOrderId }) {
                                 return (
                                     <TableRow>
                                         <TableCell align="center" style={{ fontSize: '16px', fontWeight: '500' }}>{value.design_name}</TableCell>
-                                        <TableCell align="center" style={{ fontSize: '16px', fontWeight: '500' }}><img height={100} src={"http://localhost:3001/" + value.coverImage} /></TableCell>
+                                        <TableCell align="center" style={{ fontSize: '16px', fontWeight: '500' }}><img height={120} src={API_URL + "/" + value.coverImage} /></TableCell>
                                         <TableCell align="center" style={{ fontSize: '16px', fontWeight: '500' }}>{value.size}</TableCell>
                                         <TableCell align="center" style={{ fontSize: '16px', fontWeight: '500' }}>{value.quantity}</TableCell>
-
                                     </TableRow>
                                 );
                             })}
@@ -144,20 +144,7 @@ function OrderStatusChange({ selectedOrderId }) {
                                                     onConfirm: () => { statusChange(value.orderId, value.status) }
                                                 })
                                             }}
-                                        >Accept order</Button>
-                                        <Button
-                                            style={{ backgroundColor: 'red', color: 'white', margin: '20px' }}
-                                            variant="contained"
-                                            color="primary"
-                                            onClick={() => {
-                                                setConfirmDialog({
-                                                    isOpen: true,
-                                                    title: 'Are you sure to confirm this?',
-                                                    subTitle: "You can't undo this operation...",
-                                                    onConfirm: () => { cancelStatus(value.orderId) }
-                                                })
-                                            }}
-                                        >Cancel order</Button>
+                                        >Accept to print</Button>
                                     </div>
                                 </div>
                             );
@@ -170,7 +157,7 @@ function OrderStatusChange({ selectedOrderId }) {
                                             style={{ backgroundColor: 'green', color: 'white', margin: '20px', opacity: '0.5' }}
                                             variant="contained"
                                             disabled
-                                        >Accepted order</Button>
+                                        >Printed order</Button>
                                         <Button
                                             style={{ margin: '20px' }}
                                             variant="contained"
@@ -188,7 +175,7 @@ function OrderStatusChange({ selectedOrderId }) {
                                 </div>
                             );
                         }
-                        else if (value.status == 40) { // cash on delivery dispatched
+                        else { // cash on delivery dispatched
                             return (
                                 <div style={{ display: 'flex', justifyContent: 'center' }}>
                                     <div>
@@ -202,23 +189,9 @@ function OrderStatusChange({ selectedOrderId }) {
                                 </div>
                             );
                         }
-                        else { //cash on deliver cancel order
-                            return (
-                                <div style={{ display: 'flex', justifyContent: 'center' }}>
-                                    <div>
-                                        <Button
-                                            style={{ backgroundColor: 'red', color: 'white', margin: '20px', opacity: '0.5' }}
-                                            variant="contained"
-                                            disabled
-                                        >Order Has been Canceled</Button>
-                                    </div>
-                                </div>
-                            );
-
-                        }
                     }
                     else if (value.PaymentMethod == 8) {
-                        if (value.status == 6) { //online payement ordre place to processing
+                        if (value.status == 6) { //online payement order place to processing
                             return (
                                 <div style={{ display: 'flex', justifyContent: 'center' }}>
                                     <div>
@@ -233,19 +206,7 @@ function OrderStatusChange({ selectedOrderId }) {
                                                     onConfirm: () => { statusChange(value.orderId, value.status) }
                                                 })
                                             }}
-                                        >Accept order</Button>
-                                        <Button
-                                            style={{ backgroundColor: 'red', color: 'white', margin: '20px' }}
-                                            variant="contained"
-                                            onClick={() => {
-                                                setConfirmDialog({
-                                                    isOpen: true,
-                                                    title: 'Are you sure to confirm this?',
-                                                    subTitle: "You can't undo this operation...",
-                                                    onConfirm: () => { cancelStatus(value.orderId) }
-                                                })
-                                            }}
-                                        >Cancel order</Button>
+                                        >Accept to print</Button>
                                     </div>
                                 </div>
                             );
@@ -276,7 +237,7 @@ function OrderStatusChange({ selectedOrderId }) {
                                 </div>
                             );
                         }
-                        else if (value.status == 40) { // online payment dispatched
+                        else { // online payment dispatched
                             return (
                                 <div style={{ display: 'flex', justifyContent: 'center' }}>
                                     <div>
@@ -286,19 +247,6 @@ function OrderStatusChange({ selectedOrderId }) {
                                             disabled
                                             color="primary"
                                         >Order has been Dispatched</Button>
-                                    </div>
-                                </div>
-                            );
-                        }
-                        else { //online payment cancel order
-                            return (
-                                <div style={{ display: 'flex', justifyContent: 'center' }}>
-                                    <div>
-                                        <Button
-                                            style={{ backgroundColor: 'red', color: 'white', margin: '20px', opacity: '0.5' }}
-                                            variant="contained"
-                                            disabled
-                                        >Order Has been Canceled</Button>
                                     </div>
                                 </div>
                             );
@@ -318,7 +266,7 @@ function OrderStatusChange({ selectedOrderId }) {
                                     <div>
                                         <Button
                                             style={{ margin: '20px' }}
-                                            href="http://localhost:3000/depositlips"
+                                            onClick={() => { history.push(`/depositlips`); }}
                                             variant="contained"
                                             color="primary"
                                         >Check the validity of Bank Slip</Button>
@@ -366,15 +314,15 @@ function OrderStatusChange({ selectedOrderId }) {
                                 </div>
                             );
                         }
-                        else { //bank transfer cancel order
+                        else { // bank transfer dispatched
                             return (
                                 <div style={{ display: 'flex', justifyContent: 'center' }}>
                                     <div>
                                         <Button
-                                            style={{ backgroundColor: 'red', color: 'white', margin: '20px', opacity: '0.5' }}
+                                            style={{ margin: '20px', color: 'red', opacity: '0.5' }}
                                             variant="contained"
                                             disabled
-                                        >Order Has been Canceled</Button>
+                                        >Order Slip has been Rejected</Button>
                                     </div>
                                 </div>
                             );
