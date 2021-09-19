@@ -118,21 +118,21 @@ const CollectionTable = () => {
 
     };
 
-    
+
     function setColorNametoChange(value) {
         setOpenPopup1(true)
         setColorId({
             colour_id: value.id,
         })
     }
-    
+
     function setColortoChange(value) {
         setOpenPopup2(true)
         setColorId({
             colour_id: value.id,
         })
     }
-    
+
     function setPricetoChange(value) {
         setOpenPopup3(true)
         setColorId({
@@ -209,22 +209,9 @@ const CollectionTable = () => {
 
                                                     </TableCell>
                                                     <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{price}</TableCell>
-                                                
+
 
                                                     <TableCell align="center">
-                                                        <Button
-
-                                                            startIcon={<DeleteIcon />}
-                                                            name="remove"
-                                                            onClick={() => {
-                                                                setConfirmDialog({
-                                                                    isOpen: true,
-                                                                    title: 'Are you sure to delete this?',
-                                                                    subTitle: "You can't undo this operation...",
-                                                                    onConfirm: () => { onRemove(id) }
-                                                                })
-                                                            }}/>
-
 
                                                         <Controls.ActionButton
                                                             color="primary"
@@ -236,7 +223,9 @@ const CollectionTable = () => {
                                                     </TableCell>
 
                                                     <TableCell align="center">
-                                                        <Button name="remove" onClick={() => {
+                                                        <Button name="remove"
+                                                        startIcon={<DeleteIcon />}
+                                                        onClick={() => {
                                                             setConfirmDialog({
                                                                 isOpen: true,
                                                                 title: 'Are you sure to delete this?',
@@ -244,8 +233,24 @@ const CollectionTable = () => {
                                                                 onConfirm: () => { onRemove(id) }
                                                             })
                                                         }}>
-                                                            <i className="fa fa-times" aria-hidden="true"></i>
+                                                          
                                                         </Button>
+
+
+                                                        {/* <Button
+
+                                                            
+                                                            name="remove"
+                                                            onClick={() => {
+                                                                setConfirmDialog({
+                                                                    isOpen: true,
+                                                                    title: 'Are you sure to delete this?',
+                                                                    subTitle: "You can't undo this operation...",
+                                                                    onConfirm: () => { onRemove(id) }
+                                                                })
+                                                            }} /> */}
+
+
                                                     </TableCell>
                                                 </TableRow>
                                             );
@@ -270,7 +275,7 @@ const CollectionTable = () => {
                         openPopup={openPopup1}
                         setOpenPopup={setOpenPopup1}
                     >
-                       
+
                         <EditColourName selectedColourId={colourId} />
                     </Popup>
 
@@ -279,16 +284,16 @@ const CollectionTable = () => {
                         openPopup={openPopup2}
                         setOpenPopup={setOpenPopup2}
                     >
-                           <EditColour selectedColourId={colourId}/>
-                         
+                        <EditColour selectedColourId={colourId} />
+
                     </Popup>
                     <Popup
                         title="Edit Colour Price Form"
                         openPopup={openPopup3}
                         setOpenPopup={setOpenPopup3}
                     >
-                           <EditPrice selectedColourId={colourId} />
-                         
+                        <EditPrice selectedColourId={colourId} />
+
                     </Popup>
 
                     <Notification notify={notify} setNotify={setNotify} />

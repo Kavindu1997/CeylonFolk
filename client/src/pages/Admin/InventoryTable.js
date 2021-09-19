@@ -43,7 +43,8 @@ import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper
 import { Grid, TextField } from '@material-ui/core';
 // import Controls from "../../components/Reusable/Controls";
 import useStyles from './style';
-import AdminNav from "../../components/Reusable/AdminNav"
+import AdminNav from "../../components/Reusable/AdminNav";
+import DeleteIcon from '@material-ui/icons/Delete';
 
 
 // const headCells = [
@@ -272,7 +273,9 @@ const InventoryTable = () => {
                                        
                                        
                                             <TableCell align="center">
-                                                            <Button name="remove" onClick={() => {
+                                                            <Button name="remove" 
+                                                            startIcon={<DeleteIcon />}
+                                                            onClick={() => {
                                                                 setConfirmDialog({
                                                                     isOpen: true,
                                                                     title: 'Are you sure to delete this?',
@@ -280,7 +283,7 @@ const InventoryTable = () => {
                                                                     onConfirm: () => { onRemove(value.id) }
                                                                 })
                                                             }}>
-                                                                <i className="fa fa-times" aria-hidden="true"></i>
+                                                            
                                                             </Button>
                                                         </TableCell>
 

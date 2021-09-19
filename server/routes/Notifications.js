@@ -57,14 +57,19 @@ router.put("/unsolvedInquiries/:contactus_id", async (req, res) => {
     const contactus_id = req.params.contactus_id;
     const { response } = req.body;
 
+    const querySelect = "SELECT * from `contactus` WHERE id='" + contactus_id + "'";
+    const selectContactUs = await sequelize.query(querySelect, { type: sequelize.QueryTypes.SELECT });
+
+    console.log("ddd");
+    console.log(selectContactUs[0].enquiryType)
 
     const htmlEmail = `
-    <h3> ${response}</h3>
+    <h3> ${selectContactUs[0].enquiryType}</h3>
     <ul> 
-        <li>Name: ${response} </li>
-      
+        <li>Name: ${selectContactUs[0].fullName} </li>
+        <li>OrderId: ${selectContactUs[0].orderId} </li>
     </ul>
-    <h4> Message <h4>
+    <h4> Response <h4>
     <p>${response}</p>`
 
 const transporter = nodemailer.createTransport({
@@ -90,6 +95,7 @@ const mailOptions = {
     from:'testceylonfolk@gmail.com', // sender address
     to:'janani.gamage18@gmail.com' , // list of receivers
     replyTo: 'janani.gamage18@gmail.com' ,
+    subject: 'Response to Your inquiry',
     html: htmlEmail
 
 };
@@ -110,15 +116,18 @@ const mailOptions = {
             }
          } );  
 
+
+
+
 res.json("SUCCESS");
 
-         console.log("dataaaa"+response);
-         const query = "UPDATE `contactus` SET status='solved' , response='" + response + "' WHERE id='" + contactus_id + "'";
-         const updateContactus = await sequelize.query(query, { type: sequelize.QueryTypes.UPDATE });
-         res.json(updateContactus);
-         res.status(200).json({
-             success: "Success"
-         })
+        console.log("dataaaa"+response);
+    const query = "UPDATE `contactus` SET status='solved' , response='" + response + "' WHERE id='" + contactus_id + "'";
+    const updateContactus = await sequelize.query(query, { type: sequelize.QueryTypes.UPDATE });
+    res.json(updateContactus);
+    res.status(200).json({
+        success: "Success"
+    }) 
      
          
 

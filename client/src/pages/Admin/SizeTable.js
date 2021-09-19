@@ -19,7 +19,7 @@ import axios from 'axios';
 import { actionDeleteCollection } from '../../_actions/collections';
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from 'react-router-dom';
-
+import DeleteIcon from '@material-ui/icons/Delete';
 
 
 const SizeTable = () => {
@@ -149,7 +149,9 @@ const SizeTable = () => {
                                                         <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.size}</TableCell>
                                                     
                                                         <TableCell align="center">
-                                                            <Button name="remove" onClick={() => {
+                                                            <Button name="remove" 
+                                                            startIcon={<DeleteIcon />}
+                                                            onClick={() => {
                                                                 setConfirmDialog({
                                                                     isOpen: true,
                                                                     title: 'Are you sure to delete this?',
@@ -157,7 +159,7 @@ const SizeTable = () => {
                                                                     onConfirm: () => { onRemove(value.id) }
                                                                 })
                                                             }}>
-                                                                <i className="fa fa-times" aria-hidden="true"></i>
+                                                               
                                                             </Button>
                                                         </TableCell>
                                                     </TableRow>

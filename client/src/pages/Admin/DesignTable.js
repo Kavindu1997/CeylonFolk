@@ -22,6 +22,7 @@ import { useHistory } from 'react-router-dom';
 import DesignNameEdit from "./DesignNameEdit";
 import DesignImageEdit from "./DesignImageEdit";
 import DesignPriceEdit from "./DesignPriceEdit";
+import DeleteIcon from '@material-ui/icons/Delete';
 
 
 var collection_id = localStorage.getItem("collection_id");
@@ -280,7 +281,9 @@ const DesignTable = () => {
                                                         </TableCell>
 
                                                         <TableCell align="center">
-                                                            <Button name="remove" onClick={() => {
+                                                            <Button name="remove" 
+                                                            startIcon={<DeleteIcon />}
+                                                            onClick={() => {
                                                                 setConfirmDialog({
                                                                     isOpen: true,
                                                                     title: 'Are you sure to delete this?',
@@ -288,7 +291,7 @@ const DesignTable = () => {
                                                                     onConfirm: () => { onRemove(value.id) }
                                                                 })
                                                             }}>
-                                                                <i className="fa fa-times" aria-hidden="true"></i>
+                                                               
                                                             </Button>
                                                         </TableCell>
                                                     </TableRow>
