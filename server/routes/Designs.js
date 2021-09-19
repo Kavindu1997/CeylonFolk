@@ -126,31 +126,75 @@ router.delete("/remove", async (req,res) => {
     res.json(collectionRemove);
 });
 
-router.put("/edit/:design_id", upload.single('photo'), async(req, res) => {
+// router.put("/edit/:design_id", upload.single('photo'), async(req, res) => {
+//     const design_id = req.params.design_id
+//     const { designName,color,types,price,collection_id } = req.body;
+//     const imagePath = 'public/designs/' + req.file.filename;
+
+//     console.log("sssss");
+
+//     const colour_id_query = "SELECT id FROM colors WHERE colors.color='" + color + "' ";
+//     const colour_id = await sequelize.query(colour_id_query, {type: sequelize.QueryTypes.SELECT});
+//     // res.json(colour_id.colors.id);
+//     // console.log(colour_id[0].id);
+//     const id_colour = colour_id[0].id;
+
+//     const type_id_query = "SELECT types.id FROM types WHERE types.types='" + types + "' ";
+//     const type_id = await sequelize.query(type_id_query, {type: sequelize.QueryTypes.SELECT});
+//     // res.json(type_id);
+//     const id_type = type_id[0].id;
+
+//     const query = "UPDATE designs SET collection_id='" + collection_id + "' ,design_name='" + designName + "' ,color_id='" + id_colour+ "',type_id='" + id_type + "', coverImage='" + imagePath + "', price='" + price + "' WHERE designs.id='" + design_id + "'";
+//     const updateDesign = await sequelize.query(query, {type: sequelize.QueryTypes.UPDATE});
+//     res.json(updateDesign); 
+//     res.status(200).json({
+//         success: "Success"
+//     })
+// });
+
+
+router.put("/editImage/:design_id", upload.single('photo'), async(req, res) => {
     const design_id = req.params.design_id
-    const { designName,color,types,price,collection_id } = req.body;
     const imagePath = 'public/designs/' + req.file.filename;
 
-    console.log("sssss");
-
-    const colour_id_query = "SELECT id FROM colors WHERE colors.color='" + color + "' ";
-    const colour_id = await sequelize.query(colour_id_query, {type: sequelize.QueryTypes.SELECT});
-    // res.json(colour_id.colors.id);
-    // console.log(colour_id[0].id);
-    const id_colour = colour_id[0].id;
-
-    const type_id_query = "SELECT types.id FROM types WHERE types.types='" + types + "' ";
-    const type_id = await sequelize.query(type_id_query, {type: sequelize.QueryTypes.SELECT});
-    // res.json(type_id);
-    const id_type = type_id[0].id;
-
-    const query = "UPDATE designs SET collection_id='" + collection_id + "' ,design_name='" + designName + "' ,color_id='" + id_colour+ "',type_id='" + id_type + "', coverImage='" + imagePath + "', price='" + price + "' WHERE designs.id='" + design_id + "'";
+    const query = "UPDATE designs SET coverImage='" + imagePath + "'WHERE designs.id='" + design_id + "'";
     const updateDesign = await sequelize.query(query, {type: sequelize.QueryTypes.UPDATE});
     res.json(updateDesign); 
     res.status(200).json({
         success: "Success"
     })
 });
+
+router.put("/editPrice/:design_id", async(req, res) => {
+    const design_id = req.params.design_id
+    const price= req.body.price;
+
+    const query = "UPDATE designs SET price='" + price + "'WHERE designs.id='" + design_id + "'";
+    const updateDesign = await sequelize.query(query, {type: sequelize.QueryTypes.UPDATE});
+    res.json(updateDesign); 
+    res.status(200).json({
+        success: "Success"
+    })
+});
+
+router.put("/editDesignName/:design_id", async(req, res) => {
+    const design_id = req.params.design_id
+    const designName= req.body.designName;
+
+    const countDesignsQuery = "SELECT count(id) as count FROM `designs` where designs.design_name='" + designName + "'";
+    const countDesigns = await sequelize.query(countDesignsQuery, {type: sequelize.QueryTypes.SELECT});
+
+    if(countDesigns[0].count==0){
+    const query = "UPDATE designs SET design_name='" + designName + "'WHERE designs.id='" + design_id + "'";
+    const updateDesign = await sequelize.query(query, {type: sequelize.QueryTypes.UPDATE});
+    res.json(updateDesign); 
+    res.status(200).json({
+        success: "Success"
+    })
+}
+});
+
+
 
 router.delete("/", async (req,res) => {
 

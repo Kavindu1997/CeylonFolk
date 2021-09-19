@@ -19,7 +19,10 @@ import axios from 'axios';
 import { actionDeleteCollection } from '../../_actions/collections';
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from 'react-router-dom';
-import DesignEdit from "./EditDesignForm";
+import DesignNameEdit from "./DesignNameEdit";
+import DesignImageEdit from "./DesignImageEdit";
+import DesignPriceEdit from "./DesignPriceEdit";
+
 
 var collection_id = localStorage.getItem("collection_id");
 console.log(collection_id);
@@ -28,12 +31,14 @@ const DesignTable = () => {
     const classes = useStyles();
     const [openPopup, setOpenPopup] = useState(false);
     const [openPopup1, setOpenPopup1] = useState(false);
+    const [openPopup2, setOpenPopup2] = useState(false);
+    const [openPopup3, setOpenPopup3] = useState(false);
     const [notify, setNotify] = useState({
         isOpen: false,
         message: "",
         type: "",
     });
-  
+
     const [confirmDialog, setConfirmDialog] = useState({ isOpen: false, title: '', subTitle: '' });
     const dispatch = useDispatch();
 
@@ -90,33 +95,33 @@ const DesignTable = () => {
         setConfirmDialog({
             ...confirmDialog,
             isOpen: false
-          });
+        });
 
         const data = { id: id }
 
         axios.delete(`http://localhost:3001/designs`, { data }).then((response) => {
 
-            if (response.data.data==0){
+            if (response.data.data == 0) {
                 setNotify({
                     isOpen: true,
                     message: 'Removed Failed !',
                     type: 'error'
                 });
-            }else{
-               
+            } else {
+
                 setNotify({
                     isOpen: true,
                     message: 'Removed Successfully !',
                     type: 'success'
-                  });
-                  axios.get("http://localhost:3001/designs").then((response) => {
+                });
+                axios.get("http://localhost:3001/designs").then((response) => {
                     console.log(response.data);
                     setListOfDesigns(response.data);
                 });
-               
-            } 
 
-          
+            }
+
+
 
         });
 
@@ -260,11 +265,13 @@ const DesignTable = () => {
                                     <TableHead>
                                         <TableRow>
                                             <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Design Name</TableCell>
+                                            <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Change Design Name</TableCell>
                                             <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Image</TableCell>
+                                            <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Change Image</TableCell>
                                             <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Colour</TableCell>
                                             <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Type</TableCell>
                                             <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Price</TableCell>
-                                            <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Update</TableCell>
+                                            <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Change Price</TableCell>
                                             <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Delete</TableCell>
                                         </TableRow>
                                     </TableHead>
@@ -274,7 +281,35 @@ const DesignTable = () => {
                                                 return (
                                                     <TableRow>
                                                         <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.design_name}</TableCell>
+                                                        <TableCell align="center">
+
+
+                                                            <Controls.ActionButton
+                                                                color="primary"
+                                                                onClick={() => {
+                                                                    onSetId(value.id)
+                                                                    setOpenPopup1(true)
+                                                                }}
+                                                            >
+                                                                <EditOutlinedIcon fontSize="small" />
+                                                            </Controls.ActionButton>
+
+                                                        </TableCell>
                                                         <TableCell align="center" style={{ fontFamily: 'Montserrat' }}><img height={100} align="center" src={'http://localhost:3001/' + value.coverImage} alt=""></img></TableCell>
+                                                        <TableCell align="center">
+
+
+                                                            <Controls.ActionButton
+                                                                color="primary"
+                                                                onClick={() => {
+                                                                    onSetId(value.id)
+                                                                    setOpenPopup2(true)
+                                                                }}
+                                                            >
+                                                                <EditOutlinedIcon fontSize="small" />
+                                                            </Controls.ActionButton>
+
+                                                        </TableCell>
                                                         <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>
                                                             <Box style={{ display: 'flex', justifyContent: 'center' }}>
                                                                 <span className={classes.swatchVisible} style={{ backgroundColor: value.color }}></span>
@@ -283,13 +318,18 @@ const DesignTable = () => {
                                                         <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.types}</TableCell>
                                                         <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.price}</TableCell>
                                                         <TableCell align="center">
-                                                            <Controls.Button
-                                                                text="Edit"
+
+
+                                                            <Controls.ActionButton
+                                                                color="primary"
                                                                 onClick={() => {
                                                                     onSetId(value.id)
-                                                                    setOpenPopup1(true);
+                                                                    setOpenPopup3(true)
                                                                 }}
-                                                            />
+                                                            >
+                                                                <EditOutlinedIcon fontSize="small" />
+                                                            </Controls.ActionButton>
+
                                                         </TableCell>
 
                                                         <TableCell align="center">
@@ -329,7 +369,29 @@ const DesignTable = () => {
                         openPopup={openPopup1}
                         setOpenPopup={setOpenPopup1}
                     >
-                        <DesignEdit />
+                        <DesignNameEdit />
+                    </Popup>
+
+                    
+                    <Popup
+
+                        title="Edit Design Form"
+
+                        openPopup={openPopup2}
+                        setOpenPopup={setOpenPopup2}
+                    >
+                        <DesignImageEdit />
+                    </Popup>
+
+                    
+                    <Popup
+
+                        title="Edit Design Form"
+
+                        openPopup={openPopup3}
+                        setOpenPopup={setOpenPopup3}
+                    >
+                        <DesignPriceEdit />
                     </Popup>
 
                     <Notification notify={notify} setNotify={setNotify} />

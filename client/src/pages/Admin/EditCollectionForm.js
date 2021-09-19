@@ -66,6 +66,7 @@ const EditCollectionForm = () => {
                 {listOfCollection
                                             .map((value) => {
                                                 return (
+
                     <Grid container>
                         <Grid item xs={6}>
                             <Controls.Input
@@ -85,6 +86,11 @@ const EditCollectionForm = () => {
                                 onChange={onInputChange}
                             />
                         </Grid>
+                        <Grid item xs={12}>
+
+                        <img height={100} align="center" src={'http://localhost:3001/' + value.coverImage} alt=""></img>
+                        </Grid>
+
                         {/* <input type='file' name='photo' onChange={onInputChange} /> */}
 
 

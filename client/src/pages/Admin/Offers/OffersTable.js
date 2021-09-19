@@ -79,9 +79,9 @@ const OffersTable = () => {
         const data = { id: id }
 
 
-        axios.delete(`http://localhost:3001/sizes/remove/`, { data }).then((response) => {
+        axios.delete(`http://localhost:3001/offers`, { data }).then((response) => {
 
-            axios.get("http://localhost:3001/sizes").then((response) => {
+            axios.get("http://localhost:3001/offers").then((response) => {
                 console.log(response.data);
                 setListOfOffers(response.data);
             });
@@ -102,11 +102,42 @@ const OffersTable = () => {
 
 
     const onSetId = (id) => { //'Itom007'
-        localStorage.setItem("sizes_id", id);
+        localStorage.setItem("collection_id", id);
 
 
     };
 
+// search
+const headCells = [
+    { id: 'collection_id', label: 'collection_id' },
+    { id: 'rate', label: 'rate' },
+    { id: 'from', label: 'from' },
+    { id: 'to', label: 'to' },
+    { id: 'collection_name', label: 'collectionName' },
+   
+]
+const [filterFn, setFilterFn] = useState({ fn: items => { return items; } });
+const {
+    TblContainer,
+    TblHead,
+    TblPagination,
+    recordsAfterPagingAndSorting
+} = useTable(listOfOffers, filterFn);
+
+const handleSearch = e => {
+    let target = e.target;
+    setFilterFn({
+        fn: items => {
+            if (target.value === "")
+                return items;
+            else
+                return items.filter(x => x.firstName.toLowerCase().includes(target.value) ||
+                    x.lastName.toLowerCase().includes(target.value) ||
+                    x.type.toLowerCase().includes(target.value) ||
+                    x.email.toLowerCase().includes(target.value))
+        }
+    })
+}
 
     return (
 
@@ -125,9 +156,10 @@ const OffersTable = () => {
                                     <InputAdornment position="start">
                                         <Search />
                                     </InputAdornment>
+                                    
                                 ),
                             }}
-                        //onChange={handleSearch}
+                        onChange={handleSearch}
                         />
                         <Controls.Button
                             text="Add New Offer"
@@ -168,7 +200,7 @@ const OffersTable = () => {
                                                             <Controls.Button
                                                                 text="Edit"
                                                                 onClick={() => {
-                                                                    onSetId(value.id)
+                                                                    onSetId(value.collection_id)
                                                                     setOpenPopup1(true);
                                                                 }}
                                                             />
@@ -180,7 +212,7 @@ const OffersTable = () => {
                                                                     isOpen: true,
                                                                     title: 'Are you sure to delete this?',
                                                                     subTitle: "You can't undo this operation...",
-                                                                    onConfirm: () => { onRemove(value.id) }
+                                                                    onConfirm: () => { onRemove(value.collection_id) }
                                                                 })
                                                             }}>
                                                                 <i className="fa fa-times" aria-hidden="true"></i>

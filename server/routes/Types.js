@@ -61,6 +61,15 @@ router.get("/", async (req, res) => {
     res.json(listOfTypes);
 });
 
+router.get("/:types_id", async (req,res) => {
+
+    const types_id = req.params.types_id;
+
+    const query= "SELECT * from `types` WHERE types.id='" + types_id + "' ";
+    const listOfTypes = await sequelize.query(query, {type: sequelize.QueryTypes.SELECT});
+
+    res.json(listOfTypes);
+});
 
 router.delete("/", async (req,res) => {
 
@@ -68,14 +77,58 @@ router.delete("/", async (req,res) => {
         console.log(req.body);
         const id = req.body.id;
         const query = "DELETE FROM types WHERE types.id='" + id + "' ";
-    
         const typeRemove = await sequelize.query(query, {type: sequelize.QueryTypes.DELETE});
+
+        const queryInventory = "DELETE FROM inventories WHERE type_id='" + id + "' ";
+        const inventoryRemove = await sequelize.query(queryInventory, {type: sequelize.QueryTypes.DELETE});
+
+        const queryDesigns = "DELETE FROM designs WHERE type_id='" + id + "' ";
+        const designRemove = await sequelize.query(queryDesigns, {type: sequelize.QueryTypes.DELETE});
+
         res.json({data:1});
     }
     catch(e){
         res.json({data:0});
     }
 
+
+});
+
+
+
+router.put("/:types_id", async (req,res) => {
+
+    const types_id = req.params.types_id;
+    const types = req.body.types;
+    const price= req.body.price;
+
+    console.log(types)
+
+
+        if(types=='' && price!=''){
+            
+            const query = "UPDATE types SET price='" + price + "' WHERE types.id='" + types_id + "'";
+            const updateTypes = await sequelize.query(query, {type: sequelize.QueryTypes.UPDATE});
+            res.json(updateTypes); 
+            
+    
+        }
+        else if(types!='' && price==''){
+
+            const query = "UPDATE types SET types='" + types + "' WHERE types.id='" + types_id + "'";
+            const updateTypes = await sequelize.query(query, {type: sequelize.QueryTypes.UPDATE});
+            res.json(updateTypes); 
+      
+        }
+        else if(types!='' && price!=''){
+
+            const query = "UPDATE types SET types='" + types + "',price='" + price + "' WHERE types.id='" + types_id + "'";
+            const updateTypes = await sequelize.query(query, {type: sequelize.QueryTypes.UPDATE});
+            res.json(updateTypes); 
+
+
+              
+            }
 
 });
 

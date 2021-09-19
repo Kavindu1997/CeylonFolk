@@ -40,7 +40,9 @@ import Notification from "../../components/Reusable/Notification";
 import ceylonforkapi from "../../api/index";
 
 
+
 const Shop = () => {
+
     const classes = useStyles1();
     const [checked, setChecked] = useState(false);
 
@@ -84,6 +86,8 @@ const Shop = () => {
     //     });
 
     //   }
+
+    
 
     useEffect(() => {
         dispatch(fetchProducts());

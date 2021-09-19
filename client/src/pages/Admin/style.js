@@ -293,6 +293,17 @@ featuredCount: {
 
   },
 
+  quantityMargin: {
+    
+    color:'black',
+  },
+  activeQuantityMargin: {
+
+    color:'red',
+    fontWeight: 'bold',
+
+  },
+
   iconForOffers: {
     fill: 'white',
     padding: '18px',

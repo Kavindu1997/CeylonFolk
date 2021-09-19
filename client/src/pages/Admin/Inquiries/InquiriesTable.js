@@ -77,7 +77,8 @@ const InquiriesTable = () => {
     }, []);
 
 
-    const onSetId = (id) => { //'Itom007'
+    const onSetId = (id) => { 
+      
         localStorage.setItem("contactus_id", id);
 
     };
@@ -114,7 +115,7 @@ const InquiriesTable = () => {
                                             <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Order ID</TableCell>
                                             <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Contact No</TableCell>
                                             <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Email</TableCell>
-                                            <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Message</TableCell>
+                                            {/* <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Message</TableCell> */}
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
@@ -126,11 +127,12 @@ const InquiriesTable = () => {
                                                         <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.orderId}</TableCell>
                                                         <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.contactNo}</TableCell>
                                                         <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.email}</TableCell>
-                                                        <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.message}</TableCell>
+                                                        {/* <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.message}</TableCell> */}
 
                                                         <TableCell align="center">
                                                             <Controls.Button
-                                                                text="Resolve"
+                                                          
+                                                                text="View Message"
                                                                 onClick={() => {
                                                                     onSetId(value.id)
                                                                     setOpenPopup(true);
