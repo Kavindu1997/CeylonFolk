@@ -21,7 +21,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from 'react-router-dom';
 
 
-
 const OffersTable = () => {
     const classes = useStyles();
     const [openPopup, setOpenPopup] = useState(false);
@@ -108,21 +107,14 @@ const OffersTable = () => {
     };
 
 // search
-const headCells = [
-    { id: 'collection_id', label: 'collection_id' },
-    { id: 'rate', label: 'rate' },
-    { id: 'from', label: 'from' },
-    { id: 'to', label: 'to' },
-    { id: 'collection_name', label: 'collectionName' },
-   
-]
+
 const [filterFn, setFilterFn] = useState({ fn: items => { return items; } });
 const {
     TblContainer,
     TblHead,
     TblPagination,
     recordsAfterPagingAndSorting
-} = useTable(listOfOffers, filterFn);
+} = useTable(listOfOffers,"", filterFn);
 
 const handleSearch = e => {
     let target = e.target;
@@ -131,10 +123,7 @@ const handleSearch = e => {
             if (target.value === "")
                 return items;
             else
-                return items.filter(x => x.firstName.toLowerCase().includes(target.value) ||
-                    x.lastName.toLowerCase().includes(target.value) ||
-                    x.type.toLowerCase().includes(target.value) ||
-                    x.email.toLowerCase().includes(target.value))
+                return items.filter(x => x.collection_name.toLowerCase().includes(target.value))
         }
     })
 }
@@ -149,7 +138,7 @@ const handleSearch = e => {
                 <Paper className={classes.pageContent}>
                     <Toolbar>
                         <Controls.Input
-                            label="Search Size"
+                            label="Search Offer"
                             className={classes.searchInput}
                             InputProps={{
                                 startAdornment: (
@@ -188,7 +177,7 @@ const handleSearch = e => {
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                        {listOfOffers
+                                        {recordsAfterPagingAndSorting()
                                             .map((value) => {
                                                 return (
                                                     <TableRow>

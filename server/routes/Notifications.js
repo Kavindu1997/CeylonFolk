@@ -57,21 +57,15 @@ router.put("/unsolvedInquiries/:contactus_id", async (req, res) => {
     const contactus_id = req.params.contactus_id;
     const { response } = req.body;
 
-    const query = "UPDATE `contactus` SET status='solved' , response='" + response + "' WHERE id='" + contactus_id + "'";
-    const updateContactus = await sequelize.query(query, { type: sequelize.QueryTypes.UPDATE });
-    res.json(updateContactus);
-    res.status(200).json({
-        success: "Success"
-    })
 
     const htmlEmail = `
-    <h3> ${req.body}</h3>
+    <h3> ${response}</h3>
     <ul> 
-        <li>Response: ${req.body} </li>
+        <li>Name: ${response} </li>
       
     </ul>
     <h4> Message <h4>
-    <p>${req.body}</p>`
+    <p>${response}</p>`
 
 const transporter = nodemailer.createTransport({
     host: 'smtp.gmail.com',
@@ -93,11 +87,9 @@ const transporter = nodemailer.createTransport({
 //   });
 
 const mailOptions = {
-    from: 'janani.gamage18@gmail.com', // sender address
-    to: 'testceylonfolk@gmail.com', // list of receivers
-    replyTo: 'janani.gamage18@gmail.com',
-    subject: req.body, // Subject line
-    text: req.body, // plain text body
+    from:'testceylonfolk@gmail.com', // sender address
+    to:'janani.gamage18@gmail.com' , // list of receivers
+    replyTo: 'janani.gamage18@gmail.com' ,
     html: htmlEmail
 
 };
@@ -118,6 +110,17 @@ const mailOptions = {
             }
          } );  
 
+res.json("SUCCESS");
+
+         console.log("dataaaa"+response);
+         const query = "UPDATE `contactus` SET status='solved' , response='" + response + "' WHERE id='" + contactus_id + "'";
+         const updateContactus = await sequelize.query(query, { type: sequelize.QueryTypes.UPDATE });
+         res.json(updateContactus);
+         res.status(200).json({
+             success: "Success"
+         })
+     
+         
 
 });
 
