@@ -8,6 +8,7 @@ import Notification from '../../components/Reusable/Notification';
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { useDispatch, useSelector } from "react-redux";
 import { calculateCartCount, getCart, emptyCart, emtyTotal } from '../../_actions/index';
+import { API_URL } from '../../_constants';
 
 function Login() {
     const classes = useStyles();
@@ -17,8 +18,6 @@ function Login() {
     const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' });
 
     let history = useHistory();
-
-
 
     const initialLoginValues = {
         loginEmail: '',
@@ -32,7 +31,7 @@ function Login() {
 
 
     const login = (data, props) => {
-        axios.post("http://localhost:3001/auth/login", data).then((response) => {
+        axios.post(API_URL + "/auth/login", data).then((response) => {
             if (response.data.error) {
                 setNotify({
                     isOpen: true,
@@ -57,27 +56,29 @@ function Login() {
             }
             else {
                 console.log(response.data)
-                dispatch(getCart())
-                dispatch(calculateCartCount())
+
                 var uid = localStorage.getItem("userId");
 
                 if (uid == '0' && cart.cart.length > 0) {
                     console.log("login")
-                    const url = "http://localhost:3001/check/addToCartBatchwise/"
+                    const url = API_URL + "/check/addToCartBatchwise/"
                     var data = { uid: response.data.id, cart: cart.cart };
                     axios.post(url, data).then((response) => {
                         if (response.data.error) alert(response.data.error);
 
                     });
                 }
-
+                dispatch(emptyCart())
+                dispatch(emtyTotal())
+                dispatch(getCart())
+                dispatch(calculateCartCount())
                 localStorage.setItem("userId", response.data.id);
                 localStorage.setItem("fullname", response.data.firstName + ' ' + response.data.lastName)
                 localStorage.setItem("userEmail", response.data.email);
 
                 if (localStorage.getItem("fromTheCart") == "true") {
-                    dispatch(emptyCart())
-                    dispatch(emtyTotal())
+                    dispatch(getCart())
+                    dispatch(calculateCartCount())
                     history.push("/cart");
                     localStorage.setItem("fromTheCart", false);
                 } else if (localStorage.getItem("fromTheEmail") == "true") {

@@ -121,6 +121,12 @@ export default function OrderHistory(props) {
             setOrders(response.data)
         })
     }
+    function delay(){
+        var id = localStorage.getItem("userId");
+        axios.get("http://localhost:3001/order/delayOrders/"+id).then((response) => {
+            setOrders(response.data)
+        })
+    }
     function all(){
         var id = localStorage.getItem("userId");
         axios.get("http://localhost:3001/order/getHistory/"+id).then((response) => {
@@ -154,6 +160,34 @@ export default function OrderHistory(props) {
                         </Grid>
                         <Divider orientation="vertical" flexItem />
                         <Grid item xs={12} sm={12} md={8} lg={7}>
+                        {/* <div className={classes.info}>
+                    <div className={classes.pageLinks}>
+                        <Button onClick={() => pending()} style={{ borderRadius: '50px', borderWidth: '2px', borderColor: 'black', marginRight: '40px', fontWeight: 'bold', backgroundColor: '#bbd8ff' }} variant="outlined" color="primary">
+                        Pending Orders
+                        </Button>
+                        <Button onClick={() => placed()} style={{ borderRadius: '50px', borderWidth: '2px', borderColor: 'black', marginRight: '40px', fontWeight: 'bold' }} variant="outlined" color="primary">
+                        Placed Orders
+                        </Button>
+                        <Button onClick={() => notDeposited()} style={{ borderRadius: '50px', borderWidth: '2px', borderColor: 'black', marginRight: '40px', fontWeight: 'bold' }} variant="outlined" color="primary">
+                        Waiting to Deposit Oders
+                        </Button>
+                        <Button onClick={() => deposited()} style={{ borderRadius: '50px', borderWidth: '2px', borderColor: 'black', marginRight: '40px', fontWeight: 'bold' }} variant="outlined" color="primary">
+                        Deposit Verifying Orders
+                        </Button>
+                        <Button onClick={() => accepted()} style={{ borderRadius: '50px', borderWidth: '2px', borderColor: 'black', marginRight: '40px', fontWeight: 'bold' }} variant="outlined" color="primary">
+                        Processing Orders
+                        </Button>
+                        <Button onClick={() => dispatched()} style={{ borderRadius: '50px', borderWidth: '2px', borderColor: 'black', marginRight: '40px', fontWeight: 'bold' }} variant="outlined" color="primary">
+                        Dispatched Orders
+                        </Button>
+                        <Button onClick={() => closed()} style={{ borderRadius: '50px', borderWidth: '2px', borderColor: 'black', marginRight: '40px', fontWeight: 'bold' }} variant="outlined" color="primary">
+                        Deposit Verification failed Orders
+                        </Button>
+                        <Button onClick={() => all()} style={{ borderRadius: '50px', borderWidth: '2px', borderColor: 'black', marginRight: '40px', fontWeight: 'bold' }} variant="outlined" color="primary">
+                        All Orders
+                        </Button>
+                    </div>
+                </div> */}
                             <Box style={{ display: 'flex', padding: '24px 10px 0px 48px' }}>
                                 <Divider orientation="vertical" flexItem />
                                 <Button onClick={() => pending()}>Pending Orders</Button>
@@ -164,11 +198,13 @@ export default function OrderHistory(props) {
                                 <Divider orientation="vertical" flexItem />
                                 <Button onClick={() => deposited()}>Deposit Verifying Orders</Button>
                                 <Divider orientation="vertical" flexItem />
+                                <Button onClick={() => closed()}>Deposit Verification Falied Orders</Button>
+                                <Divider orientation="vertical" flexItem />
                                 <Button onClick={() => accepted()}>Processing Orders</Button>
                                 <Divider orientation="vertical" flexItem />
-                                <Button onClick={() => dispatched()}>Dispatched Orders</Button>
+                                <Button onClick={() => delay()}>Order Delays</Button>
                                 <Divider orientation="vertical" flexItem />
-                                <Button onClick={() => closed()}>cancelled Orders</Button>
+                                <Button onClick={() => dispatched()}>Dispatched Orders</Button>
                                 <Divider orientation="vertical" flexItem />
                                 <Button onClick={() => all()}>All</Button>
                                 <Divider orientation="vertical" flexItem />

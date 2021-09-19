@@ -16,14 +16,13 @@ import Controls from "../../components/Reusable/Controls";
 import Popup from "../../components/Reusable/Popup";
 import EditOrderForm from "./EditOrderForm";
 import ceylonforkapi from '../../api/index';
-
+import { API_URL } from '../../_constants';
 
 export default function OrderDetail() {
     const classes = useStyles();
     let history = useHistory();
     const dispatch = useDispatch();
     let { oId } = useParams();
-    console.log(oId)
     const orderDetails = useSelector(state => state.orderHistory.selectedOrder);
     const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' });
     const [confirmDialog, setConfirmDialog] = useState({ isOpen: false, title: '', subTitle: '' });
@@ -130,9 +129,6 @@ export default function OrderDetail() {
                 dispatch(viewOrderDetail(cancelItem.orderId));
             }
         });
-        // if (orderDetails.length == 1) {
-        //     history.push("/myOrders")
-        // }
     }
 
     return (
@@ -180,7 +176,7 @@ export default function OrderDetail() {
                                                 .map((value) => {
                                                     return (
                                                         <TableRow>
-                                                            <TableCell align="center" style={{ fontFamily: 'Montserrat' }}><img height={100} align="center" src={'http://localhost:3001/' + value.coverImage} onClick={() => { history.push(`/productDetails/${value.id}`); }} /></TableCell>
+                                                            <TableCell align="center" style={{ fontFamily: 'Montserrat' }}><img height={100} align="center" src={API_URL+'/' + value.coverImage} onClick={() => { history.push(`/productDetails/${value.id}`); }} /></TableCell>
                                                             <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.design_name}</TableCell>
                                                             <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.size}</TableCell>
                                                             <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.quantity}</TableCell>
@@ -231,7 +227,7 @@ export default function OrderDetail() {
                                         style={{color: 'red'}}
                                         className={classes.submit}
                                         onClick={() => deletewholeOrder(oId)}
-                                    >Delete Whole Order
+                                    >Cancel Whole Order
                                     </Button>
 
 

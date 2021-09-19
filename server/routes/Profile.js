@@ -32,7 +32,7 @@ router.put("/updateUser", async(req,res) => {
         var userupdate
         if(shouldchangepw == 1){
             bcrypt.hash(password, 10).then(async(hash) =>  {
-                const query = "UPDATE users SET firstName='"+fName+"', lastName='"+lName+"', password='"+hash+"' WHERE id='"+uid+"'";
+                const query = "UPDATE users SET firstName='"+fName+"', lastName='"+lName+"',contactNo='"+contactNo+"', password='"+hash+"' WHERE id='"+uid+"'";
                 userupdate = await sequelize.query(query, { type: sequelize.QueryTypes.UPDATE });
             })
         }else{

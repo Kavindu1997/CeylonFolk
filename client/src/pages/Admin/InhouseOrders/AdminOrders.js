@@ -11,6 +11,8 @@ import PendingOrders from "./PendingOrders";
 import DispatchedOrders from "./DispatchedOrders";
 import AcceptedOrders from "./AcceptedOrders";
 import RejectedOrders from "./RejectedOrders";
+import { API_URL } from '../../../_constants';
+
 
 function AdminOrders() {
     const classes = useStyles();
@@ -21,7 +23,7 @@ function AdminOrders() {
     const [cancelcount, setCancelCount] = useState();
 
     useEffect(() => {
-        axios.get("http://localhost:3001/order/getCount").then((response) => {
+        axios.get(API_URL + "/order/getCount").then((response) => {
             console.log(response.data.pendingOrders);
             setPendingCount(response.data.pendingOrders);
             setAcceptCount(response.data.acceptedOrders);
@@ -65,7 +67,7 @@ function AdminOrders() {
                     </Paper>
                     <Paper elevation={3} className={classes.featured}>
                         <div className={classes.featuredItem}>
-                            <span className={classes.featuredTitle}>Rejected Orders</span>
+                            <span className={classes.featuredTitle}>Delayed Orders</span>
                             <div className={classes.featuredItemCount}>
                                 <span className={classes.featuredCount}>{cancelcount}</span>
                             </div>

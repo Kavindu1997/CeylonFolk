@@ -14,7 +14,6 @@ import MyCart from './pages/Cart'
 import Checkout from './pages/Checkout'
 import Wishlist from './pages/Wishlist';
 import About from './pages/AboutUs';
-import Profile from './pages/MyAccount';
 import ProfileWishlist from './pages/Wishlist/userWishlist';
 import OrderHistory from './pages/MyOrders';
 import Customize from './pages/Customize';
@@ -134,7 +133,6 @@ class App extends Component {
               <Route exact path={"/productDetails/:id"} component={Product_detail} />
               <Route exact path={"/deposit"} component={Deposit} />
               <Route exact path={"/deposit/:id/:orderIdFromEmail"} component={Deposit} />
-              <Route exact path={"/profile1"} component={Profile} />
               <Route exact path={"/profile"} component={Profile1} />
               <Route exact path={"/myOrders"} component={OrderHistory} />
               <Route exact path={"/myOrders/:id"} component={OrderHistory} />

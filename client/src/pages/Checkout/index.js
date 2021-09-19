@@ -20,10 +20,11 @@ import InputLabel from '@material-ui/core/InputLabel';
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from 'yup';
 import Notification from '../../components/Reusable/Notification';
-import ceylonforkapi from '../../api/index'
+import ceylonforkapi from '../../api/index';
+import {API_URL} from '../../_constants';
 
 function onLinkClick(event) {
-    console.log('onLinkClick'); // never called
+    // never called
 }
 
 export default function Checkout() {
@@ -135,7 +136,7 @@ export default function Checkout() {
 
     const couponName = (event) => {
         getCustomerCoupon(event.target.value)
-        console.log(customerCoupon)
+      
         if(isCouponValidated==1){
             setValidCoupon(0)
         }
@@ -150,7 +151,7 @@ export default function Checkout() {
             }
         }
         ).then((response) => { 
-            console.log(response.data)
+          
             if (response.data.status==1) {
                 setNotify({
                     isOpen: true,
@@ -169,12 +170,12 @@ export default function Checkout() {
                 message: response.data.msg,
                 type: "success",
             });
-            console.log(response.data.data)
+          
             setValidCoupon(response.data.data[0].discount_amount)
             setIsCouponValidated(1)
         }
         })
-        console.log(validCoupon)
+       
     }
 
     function validateFormFields(){
@@ -295,9 +296,6 @@ export default function Checkout() {
     };
 
     const createPaymentDetails = (pm, uid, status) => {
-        console.log(customerCoupon)
-        console.log(isCouponValidated)
-        console.log(customerCoupon.length)
         let orderId = new Date().getTime();
         var date = moment().format();
         var total = Number(totalDetails) + Number(districtvalue) - Number(validCoupon);
@@ -330,7 +328,6 @@ export default function Checkout() {
     }
 
     window.payhere.onCompleted = function onCompleted(orderId) {
-        console.log("Payment completed. OrderID:" + orderId);
         history.push("/Checkout");
         ceylonforkapi.post("/check/cashOn/",paymentItem).then((response) => { 
                     if (response.data.data==0) {
@@ -359,13 +356,11 @@ export default function Checkout() {
     // Called when user closes the payment without completing
     window.payhere.onDismissed = function onDismissed() {
         //Note: Prompt user to pay again or show an error page
-        console.log("Payment dismissed");
     };
 
     // Called when error happens when initializing payment such as invalid parameters
     window.payhere.onError = function onError(error) {
         // Note: show an error page
-        console.log("Error:" + error);
     };
 
 
@@ -532,7 +527,7 @@ export default function Checkout() {
                                             .map((value, index) => {
                                                 return (
                                                     <TableRow key={index}>
-                                                        <TableCell align="left" style={{ fontFamily: 'Montserrat' }}><img height={100} align="center" src={'http://localhost:3001/' + value.image} /></TableCell>
+                                                        <TableCell align="left" style={{ fontFamily: 'Montserrat' }}><img height={100} align="center" src={API_URL+'/' + value.image} /></TableCell>
                                                         <TableCell align="left" style={{ fontFamily: 'Montserrat' }}>{value.name} x {value.quantity}</TableCell>
                                                         <TableCell align="left" style={{ fontFamily: 'Montserrat' }}>{value.size}</TableCell>
                                                         <TableCell align="left" style={{ fontFamily: 'Montserrat' }}>{value.totals}</TableCell>

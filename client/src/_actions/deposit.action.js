@@ -4,7 +4,6 @@ import { deposit } from "../_reducers/deposit.reducer";
 
 export const viewOrderDetails = (data) => async (dispatch) => {
     const response = await ceylonforkapi.post("/deposit/order/",data)
-    console.log(response.data.length)
     if(response.data.length==0){
         return 0;
     }else{

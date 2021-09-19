@@ -2,13 +2,11 @@ import React, { useState, useEffect } from "react";
 import PageHeader from "../PageHeader";
 import LayersIcon from "@material-ui/icons/Layers";
 import { Search } from "@material-ui/icons";
-import AddIcon from "@material-ui/icons/Add";
-import { makeStyles, Paper, TableBody, TableRow, Divider, TableCell, Toolbar, InputAdornment, Typography, Table, TableContainer, TableHead, Button, Link, Box, Grid } from "@material-ui/core";
+import { Paper, TableBody, TableRow,  TableCell, Toolbar, InputAdornment, Typography, Table, TableContainer, TableHead, Button, Link, Box, Grid } from "@material-ui/core";
 import Controls from "../../../components/Reusable/Controls";
 import Popup from "../../../components/Reusable/Popup";
 import Notification from "../../../components/Reusable/Notification";
 import ConfirmDialog from "../../../components/Reusable/ConfirmDialog";
-import Collection from "../../../images/collection.json";
 import AdminNav from "../../../components/Reusable/AdminNav"
 import useStyles from '../style';
 import axios from 'axios';
@@ -22,6 +20,7 @@ import DispatchedOrders from "../CustomizeOrder/DispatchedOrders";
 import ClosedOrders from "../CustomizeOrder/ClosedOrders";
 import { viewOrderDetail } from "../../../_actions/orderHistory.action";
 import ViewOrderForm from "./viewOrder";
+import {API_URL} from '../../../_constants';
 
 
 const DepositSlips = () => {
@@ -32,12 +31,11 @@ const DepositSlips = () => {
     const [confirmDialog, setConfirmDialog] = useState({ isOpen: false, title: '', subTitle: '' })
     const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' });
     const [listOfDeposits, setlistOfDeposits] = useState([]);
-    const [price, setprice] = useState()
     const [isDisable, setIsDisable] = useState(false)
 
 
     useEffect(() => {
-        axios.get('http://localhost:3001/deposit/allDepositSlips').then((response) => {
+        axios.get(API_URL+'/deposit/allDepositSlips').then((response) => {
             setlistOfDeposits(response.data);
         })
     }, []);
@@ -47,9 +45,8 @@ const DepositSlips = () => {
             ...confirmDialog,
             isOpen: false
         });
-        console.log(orderId)
         var data = { orderId: orderId }
-        axios.post("http://localhost:3001/deposit/paymentAccepted/", data).then((response) => {
+        axios.post(API_URL+"/deposit/paymentAccepted/", data).then((response) => {
             if (response.data.error) {
                 setNotify({
                     isOpen: true,
@@ -66,7 +63,7 @@ const DepositSlips = () => {
                 setIsDisable(true)
 
             }
-            axios.get('http://localhost:3001/deposit/allDepositSlips').then((response) => {
+            axios.get(API_URL+'/deposit/allDepositSlips').then((response) => {
                 setlistOfDeposits(response.data);
             })
         })
@@ -78,9 +75,8 @@ const DepositSlips = () => {
             ...confirmDialog,
             isOpen: false
         });
-        console.log(orderId)
         var data = { orderId: orderId }
-        axios.post("http://localhost:3001/deposit/paymentRejected/", data).then((response) => {
+        axios.post(API_URL+"/deposit/paymentRejected/", data).then((response) => {
             if (response.data.error) {
                 setNotify({
                     isOpen: true,
@@ -97,7 +93,7 @@ const DepositSlips = () => {
                 setIsDisable(true)
 
             }
-            axios.get('http://localhost:3001/deposit/allDepositSlips').then((response) => {
+            axios.get(API_URL+'/deposit/allDepositSlips').then((response) => {
                 setlistOfDeposits(response.data);
             })
         })
@@ -163,29 +159,11 @@ const DepositSlips = () => {
                     </Toolbar>
 
                     <Typography variant="h5" style={{ marginTop: '80px', textAlign: 'center', backgroundColor: '#C6C6C6', padding: '30px', fontFamily: 'Montserrat' }}>BANK DEPOSIT SLIPS </Typography>
-
-                    {/* <Box style={{display:'flex', padding: '24px 10px 0px 48px'}}>
-                    <Divider orientation="vertical" flexItem />
-                        <Button onClick={() => toggleTab(1)}>Pending Orders</Button>
-                        <Divider orientation="vertical" flexItem />
-                        <Button onClick={() => toggleTab(2)}>Accepted Orders</Button>
-                        <Divider orientation="vertical" flexItem />
-                        <Button onClick={() => toggleTab(3)}>Printing Orders</Button>
-                        <Divider orientation="vertical" flexItem />
-                        <Button onClick={() => toggleTab(4)}>Printed Orders</Button>
-                        <Divider orientation="vertical" flexItem />
-                        <Button onClick={() => toggleTab(5)}>Dispatched</Button>
-                        <Divider orientation="vertical" flexItem />
-                        <Button onClick={() => toggleTab(6)}>Closed Orders</Button>
-                        <Divider orientation="vertical" flexItem />
-                    </Box> */}
-
-
                     <container>
                         <center>
 
-                            <TableContainer style={{ marginTop: '30px', align: 'center', width: '1100px' }} className={toggleState === 1 ? classes.activeContent : classes.hideContent}>
-                                <Table className={classes.table} aria-label="simple table">
+                            <TableContainer style={{ marginTop: '30px', align: 'center' }} className={toggleState === 1 ? classes.activeContent : classes.hideContent}>
+                                <Table className={classes.table} aria-label="simple table" style={{ overflowWrap: 'anywhere' }}>
                                     <TableHead>
                                         <TableRow>
                                             <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Customer Name</TableCell>
@@ -206,10 +184,10 @@ const DepositSlips = () => {
                                                         <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.contactNo}</TableCell>
                                                         <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.orderId}</TableCell>
                                                         <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.decription}</TableCell>
-                                                        <TableCell align="center" style={{ fontFamily: 'Montserrat' }}><img height={100} align="center" src={'http://localhost:3001/' + value.slip} alt=""></img></TableCell>
+                                                        <TableCell align="center" style={{ fontFamily: 'Montserrat' }}><img height={100} align="center" src={API_URL+'/' + value.slip} alt=""></img></TableCell>
                                                         <TableCell align="center">
                                                             <Button name="view"
-                                                                onClick={() => window.location.href = "http://localhost:3001/" + value.slip}
+                                                                onClick={() => window.location.href = API_URL+"/" + value.slip}
                                                             >
                                                                 VIEW SLIP
                                                             </Button>

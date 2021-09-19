@@ -13,7 +13,6 @@ export const cart = (state = initState, action) => {
 
     switch (action.type) {
         case CART_CONSTS.ADD_TO_CART:
-            console.log(state.cart)
             updatedCart = [...state.cart];
             let isProdutInCart = false
 
@@ -44,7 +43,6 @@ export const cart = (state = initState, action) => {
             };
 
         case CART_CONSTS.CALCULATE_TOTAL_WHEN_CHANGED:
-            console.log(state.cart)
             return {
                 ...state,
                 cart: action.payload.cart,
@@ -59,10 +57,7 @@ export const cart = (state = initState, action) => {
 
 
         case CART_CONSTS.DELETE_ITEM:
-            console.log(action.payload.id)
-            console.log(action.payload.size)
             updatedCart = [...state.cart];
-            console.log(updatedCart)
             updatedItemIndex = updatedCart.findIndex(
                 item => (item.productId === action.payload.id && item.size === action.payload.size)
             );

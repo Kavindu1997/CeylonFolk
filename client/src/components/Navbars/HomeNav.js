@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { Popper, MenuItem, MenuList, AppBar, Typography, Button, IconButton, Toolbar, Link, Paper, ClickAwayListener, Grow } from '@material-ui/core';
-import { makeStyles } from '@material-ui/styles';
 import logo from '../../images/logo.png';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import PermIdentityOutlinedIcon from '@material-ui/icons/PermIdentityOutlined';
@@ -10,177 +9,12 @@ import SearchOutlinedIcon from '@material-ui/icons/SearchOutlined';
 import { NavLink } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
 import axios from 'axios';
-import { decrementCartCount, actionGetTotalDeduct, actionDeleteItem, calculateCartCount, getCart, getTotal, deleteCartUsingID, updateCartQuantity, actionUpdateItem, calculateTotalWhenChanged, emtyTotalLogout, emptyCartLogout } from '../../_actions/index';
+import {calculateCartCount, getCart, getTotal,  emtyTotalLogout, emptyCartLogout } from '../../_actions/index';
 import { fetchProducts } from '../../_actions/productAction';
 import { useHistory } from 'react-router';
+import {API_URL} from '../../_constants';
+import useStyles from './HomeStyles';
 
-const useStyles = makeStyles((theme) => ({
-    root: {
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        fontFamily: 'Segoe UI',
-        color: 'white',
-        textDecoration: 'none'
-    },
-    appbar: {
-        display: 'flex',
-        padding: '5px',
-        width: '100%',
-        justifyContent: 'spaceBetween',
-        alignItems: 'center',
-        background: 'none'
-
-    },
-    appbarsolid: {
-        backgroundColor: 'white',
-        border: '#2d2d2d'
-
-    },
-    icon: {
-        color: 'black',
-        fontSize: '1.5rem',
-        marginLeft: '24px',
-        marginRight: '10px',
-        fontWeight: '300',
-        '&:hover': {
-            background: 'none',
-        }
-    },
-    iconCart: {
-        color: 'black',
-        fontSize: '1.5rem',
-        marginLeft: '24px',
-        marginRight: '3px',
-        fontWeight: '300',
-        visibility: 'visible'
-    },
-    appbarTitle: {
-        flexGrow: '1',
-        color: '#fff',
-        display: 'flex',
-        fontFamily: 'Open Sans',
-        textDecoration: 'none'
-    },
-    appbarTitle2: {
-        flexGrow: '1',
-        color: '#fff',
-        justifyContent: 'center',
-        textDecoration: 'none'
-    },
-    appbarWrapper: {
-        color: 'black',
-        width: '100%',
-        margin: '0 auto'
-    },
-    colorText: {
-        color: 'white'
-    },
-    navbartext: {
-        color: 'white',
-        fontFamily: 'Segoe UI',
-        textTransform: 'none',
-        fontSize: '15px',
-        textDecoration: 'none'
-    },
-    goDown: {
-        color: '#fff',
-        fontSize: '1rem',
-    },
-
-    appbarLeft: {
-        display: 'flex',
-        color: 'black',
-        fontColor: 'black',
-        fontFamily: 'Open Sans',
-        textDecoration: 'none',
-        marginLeft: '10px',
-        marginRight: '10px'
-    },
-
-    appbarMiddle: {
-        display: 'flex',
-        flexGrow: '1',
-        color: '#fff',
-        justifyContent: 'center',
-        textDecoration: 'none'
-    },
-    appbarRight: {
-        display: 'flex',
-        flexGrow: '1',
-        justifyContent: 'right',
-    },
-
-    appbarlink: {
-        color: 'black',
-        position: 'relative',
-        textTransform: 'uppercase',
-        fontWeight: '600',
-        fontSize: '15px',
-        paddingLeft: '10px',
-        textDecoration: 'none',
-        '&:hover': {
-            textDecoration: 'none'
-        }
-    },
-    appbarlink2: {
-        color: 'black',
-        position: 'relative',
-        textTransform: 'uppercase',
-        fontWeight: '600',
-        fontSize: '15px',
-        paddingLeft: '10px',
-        textDecoration: 'none',
-        '&:hover': {
-            textDecoration: 'none'
-        }
-    },
-
-    count: {
-        top: '4%',
-        right: '7.2%',
-        height: '25px',
-        width: "25px",
-        /* margin: 3px; */
-        verticalAlign: 'middle',
-        justifyContent: 'center',
-        textAlign: 'center',
-        padding: '2px',
-        position: 'absolute',
-        background: '#020303',
-        borderRadius: '50%',
-        color: 'white',
-
-    },
-    navlinkvisibility: {
-        pointerEvents: "none",
-    },
-    navlinkvisibilityTrue: {
-        pointerEvents: "auto",
-    },
-    visibility: {
-        visibility: 'hidden'
-    },
-    navActive:{
-        color: 'black',
-        position: 'relative',
-        textTransform: 'uppercase',
-        fontWeight: '600',
-        fontSize: '15px',
-        paddingLeft: '10px',
-        textDecoration: 'none',
-        '&:hover': {
-            textDecoration: 'none'
-        }
-
-    },
-    navInactive:{
-        display: 'none',
-
-    }
-
-
-}))
 
 const CommonNav = () => {
     const cartcount = useSelector(state => state.cart.cartCount)
@@ -189,19 +23,13 @@ const CommonNav = () => {
     const [countDetails, countOfItems] = useState([]);
     let history = useHistory()
     const classes = useStyles();
-
-    //     const dispatch = useDispatch();
-    //     const [countDetails, countOfItems] = useState([]);
-
-    //     const classes = useStyles();
-
     const [navBackground, setNavBackground] = useState('appbar')
     const navRef = React.useRef()
     navRef.current = navBackground
     useEffect(() => {
         var id = localStorage.getItem("userId");
         if (id != '0') {
-            const url = "http://localhost:3001/check/count/" + id;
+            const url = API_URL+"/check/count/" + id;
             axios.get(url).then((response) => {
                 countOfItems(response.data);
             });

@@ -90,6 +90,17 @@ const useStyles = makeStyles((theme) => ({
       visibility:{
         display: 'none'
     },
+    info: {
+        width: '100%',
+        display: 'flex',
+        justifyContent: 'space-between',
+    },
+    pageLinks: {
+        flex: '1',
+        marginTop: '20px',
+        // marginLeft: '400px',
+        padding: '30px',
+    },
 
 }));
 
