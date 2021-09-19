@@ -46,7 +46,7 @@ function RejectedOrders() {
                             Dispatched orders
                         </Button>
                         <Button style={{ borderRadius: '50px', borderWidth: '2px', borderColor: 'black', marginRight: '40px', fontWeight: 'bold', backgroundColor: '#bbd8ff' }} variant="outlined" color="primary" href="http://localhost:3000/AdminOrders/4">
-                            Rejected orders
+                            Deposit Rejected
                         </Button>
                     </div>
                 </div>
