@@ -33,6 +33,7 @@ function AllOrders() {
     const [orderId, setOrderId] = useState([]);
     const [filterFn, setFilterFn] = useState({ fn: items => { return items; } });
     const {
+        TblPagination,
         recordsAfterPagingAndSorting
     } = useTable(orderList, "", filterFn);
 
@@ -176,6 +177,7 @@ function AllOrders() {
                                         })}
                                     </TableBody>
                                 </Table>
+                                <TblPagination />
                             </TableContainer>
                         </Paper>
                     </div>

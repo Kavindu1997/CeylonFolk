@@ -127,7 +127,7 @@ const DesignTable = () => {
     // }, []);
 
     // Search Records here 
-  
+
 
     const [filterFn, setFilterFn] = useState({ fn: items => { return items; } });
     const {
@@ -135,8 +135,8 @@ const DesignTable = () => {
         TblHead,
         TblPagination,
         recordsAfterPagingAndSorting
-    } = useTable(listOfDesigns,"", filterFn);
-    
+    } = useTable(listOfDesigns, "", filterFn);
+
     const handleSearch = e => {
         let target = e.target;
         setFilterFn({
@@ -144,9 +144,9 @@ const DesignTable = () => {
                 if (target.value === "")
                     return items;
                 else
-                return items.filter(x => x.design_name.toLowerCase().includes(target.value) ||
-                x.collection_name.toLowerCase().includes(target.value) ||
-                x.types.toLowerCase().includes(target.value))
+                    return items.filter(x => x.design_name.toLowerCase().includes(target.value) ||
+                        x.collection_name.toLowerCase().includes(target.value) ||
+                        x.types.toLowerCase().includes(target.value))
             }
         })
     }
@@ -160,7 +160,7 @@ const DesignTable = () => {
                 <PageHeader title="AVAILABLE DESIGNS" icon={<LayersIcon fontSize="large" />} />
                 <Paper className={classes.pageContent}>
                     <Toolbar>
-                    <Controls.Input
+                        <Controls.Input
                             label="Search Design"
                             className={classes.searchInput}
                             InputProps={{
@@ -168,12 +168,12 @@ const DesignTable = () => {
                                     <InputAdornment position="start">
                                         <Search />
                                     </InputAdornment>
-                                    
+
                                 ),
                             }}
-                        onChange={handleSearch}
+                            onChange={handleSearch}
                         />
-                        
+
                         {/* <Controls.Button
                             text="Add New Design"
                             variant="outlined"
@@ -233,6 +233,7 @@ const DesignTable = () => {
                                             })}
                                     </TableBody>
                                 </Table>
+                                <TblPagination />
                             </TableContainer>
                         </center>
                     </container>
