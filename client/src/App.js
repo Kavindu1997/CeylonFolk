@@ -51,6 +51,7 @@ import ViewDesigns from './pages/Admin/ViewDesignTable';
 import DepositSlips from './pages/Admin/Deposit/depositSlips';
 import AdminOrders from './pages/Admin/InhouseOrders/AdminOrders';
 import CustomizeOrderDetails from './pages/Admin/CustomizeOrder/CustomizeOrderTable';
+import OfferCollections from './pages/SpecialOffers/OfferCollections';
 
 
 import Manager from './pages/Manager';
@@ -181,6 +182,7 @@ class App extends Component {
               <Route exact path={"/types/:id"} component={Types} />
               <Route exact path={"/orderView/:id"} component={OrderView} />
               <Route exact path={"/customize/checkout/:id"} component={CustomizeCheckout} />
+              <Route path="/offerCollections" exact render={() => <OfferCollections />} />
 
               <Route path="/*" exact render={() => <NotFound />} />
             </Switch>

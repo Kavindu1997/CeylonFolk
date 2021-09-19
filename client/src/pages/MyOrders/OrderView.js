@@ -89,6 +89,7 @@ export default function OrderView() {
       orderNo: orderNo,
       email: email,
       userId: uid,
+      totalAmount: price,
       fullName: fullName,
     }
 

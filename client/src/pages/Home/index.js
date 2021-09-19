@@ -311,7 +311,11 @@ const Home = () => {
                             )
                         })}
                     </Grid>
-                    <Typography className={classes.view}>
+                    <Typography className={classes.view}
+                    onClick={() => {
+                        history.push('/offerCollections');
+
+                    }}>
                         + VIEW MORE
                     </Typography>
 

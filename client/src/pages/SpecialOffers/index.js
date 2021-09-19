@@ -44,10 +44,11 @@ import { useParams } from 'react-router';
 const collection_offer_id = localStorage.getItem("collection_offer_id");
 console.log(collection_offer_id);
 
+
 const Shop = () => {
     const classes = useStyles1();
     const [checked, setChecked] = useState(false);
-    let { id } = useParams();
+
 
 
     const [notify, setNotify] = useState({
@@ -81,6 +82,7 @@ const Shop = () => {
     // const products = useSelector((state) => state.productReducer.productObject)
 
     const dispatch = useDispatch();
+    let { id } = useParams();
 
     // const fetchProducts = async () =>{
     //     axios.get('http://localhost:3001/shop').then((response) => {
@@ -168,11 +170,17 @@ const Shop = () => {
 
     const loadRecordAgain = () => {
 
+
             const uid = localStorage.getItem("userId")
             axios.post(`http://localhost:3001/shop/specialOffers/`,{collection_offer_id:id,uid:uid})
                 .then( (response) => {
                     setRecord(response.data);
                     console.log(response.data)
+      
+//             var response = fetch(`http://localhost:3001/shop/specialOffers/${id}`)
+//                 .then(function (response) {
+//                     return response.json();
+
                 })
     
 
