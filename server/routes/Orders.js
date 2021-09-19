@@ -97,7 +97,7 @@ router.post("/cancelItem", async (req, res) => {
     const query = "UPDATE orderitems SET isDeleted='1' WHERE orderId='" + orderId + "' AND itemId='" + itemId + "' AND size='" + size + "'";
     const deleteItem = await sequelize.query(query, { type: sequelize.QueryTypes.UPDATE });
     if (removeWholeOrder == 1) {
-        const query = "UPDATE orders SET isDeleted='1', notifications='deleted' WHERE orderId='" + orderId + "'";
+        const query = "UPDATE orders SET isDeleted='1', notifications='deleted', flag='0' WHERE orderId='" + orderId + "'";
         const deleteItem1 = await sequelize.query(query, { type: sequelize.QueryTypes.UPDATE });
 
     } else {
@@ -105,8 +105,8 @@ router.post("/cancelItem", async (req, res) => {
         const totalItemValue = await sequelize.query(quety1, { type: sequelize.QueryTypes.SELECT });
         const quety2 = "SELECT deliveryValue, couponValue FROM orders WHERE orders.orderId = '" + orderId + "'";
         const ordervalues = await sequelize.query(quety2, { type: sequelize.QueryTypes.SELECT });
-        var totals = Number(totalItemValue[0].itemTotal) + Number(ordervalues[0].deliveryValue) - Number(ordervalues[0].couponValue)
-        const query3 = "UPDATE orders SET orders.notifications='edited', orders.fullAmount = " + totals + " WHERE orders.orderId = '" + orderId + "'";
+        var totals = Number(totalItemValue[0].itemTotal)+Number(ordervalues[0].deliveryValue)-Number(ordervalues[0].couponValue)
+        const query3 = "UPDATE orders SET orders.notifications='edited',orders.flag='0', orders.fullAmount = "+totals+" WHERE orders.orderId = '"+orderId+"'";
         const deleteItem2 = await sequelize.query(query3, { type: sequelize.QueryTypes.UPDATE });
 
     }
@@ -117,7 +117,7 @@ router.post("/cancelOrder", async (req, res) => {
     const orderId = req.body.orderId;
     const query = "UPDATE orderitems SET isDeleted='1' WHERE orderitems.orderId='" + orderId + "'";
     const deleteOrder = await sequelize.query(query, { type: sequelize.QueryTypes.UPDATE });
-    const query1 = "UPDATE orders SET isDeleted='1', notifications='deleted' WHERE orderId='" + orderId + "'";
+    const query1 = "UPDATE orders SET isDeleted='1', notifications='deleted', flag='0' WHERE orderId='" + orderId + "'";
     const deleteOrder1 = await sequelize.query(query1, { type: sequelize.QueryTypes.UPDATE });
     res.json(deleteOrder);
 })
@@ -157,8 +157,8 @@ router.put("/updateOrder", async (req, res) => {
         const totalItemValue = await sequelize.query(quety1, { type: sequelize.QueryTypes.SELECT });
         const quety2 = "SELECT deliveryValue, couponValue FROM orders WHERE orders.orderId = '" + oId + "'";
         const ordervalues = await sequelize.query(quety2, { type: sequelize.QueryTypes.SELECT });
-        var totals = Number(totalItemValue[0].itemTotal) + Number(ordervalues[0].deliveryValue) - Number(ordervalues[0].couponValue)
-        const query3 = "UPDATE orders SET orders.notifications='edited', orders.fullAmount = " + totals + " WHERE orders.orderId = '" + oId + "'";
+        var totals = Number(totalItemValue[0].itemTotal)+Number(ordervalues[0].deliveryValue)-Number(ordervalues[0].couponValue)
+        const query3 = "UPDATE orders SET orders.notifications='edited',orders.flag='0',orders.fullAmount = "+totals+" WHERE orders.orderId = '"+oId+"'";
         const totalUpdate = await sequelize.query(query3, { type: sequelize.QueryTypes.UPDATE });
         // const query1 = "UPDATE orders SET orders.notifications='edited', orders.fullAmount =( SELECT SUM( designs.price * orderitems.quantity ) FROM orderitems INNER JOIN designs ON designs.id = orderitems.itemId WHERE orderitems.orderId = orders.orderId ) WHERE orders.orderId = '" + oId + "'";
         // const totalUpdate = await sequelize.query(query1, { type: sequelize.QueryTypes.UPDATE });
