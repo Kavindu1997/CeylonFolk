@@ -139,7 +139,7 @@ class App extends Component {
               <Route exact path={"/myOrders/:id"} component={OrderHistory} />
               <Route exact path={"/orderDetail/:oId"} component={OrderDetail} />
               <Route exact path={"/myWishlist"} component={ProfileWishlist} />
-              <Route exact path={"/specialOffers"} component={SpecialOffers} />
+              <Route exact path={"/specialOffers/:id"} component={SpecialOffers} />
               <Route exact path="/admin" component={AdminPanel} />
               <Route exact path="/users" exact render={() => <Users />} />
               <Route exact path="/collections" exact render={() => <Collections />} />

@@ -277,7 +277,8 @@ const Home = () => {
 
                                                     onClick={() => {
                                                         onSetId(value.id);
-                                                        history.push(`/specialOffers`);
+                                                        history.push(`/specialOffers/${value.id}`);
+
 
                                                     }}
 
