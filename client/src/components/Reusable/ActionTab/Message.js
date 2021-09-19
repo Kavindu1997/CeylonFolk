@@ -118,6 +118,20 @@ export default function Messages() {
       setplacedOrders(response.data);
 
 
+
+    })
+  }, []);
+
+  const [bankDeposits, setbankDeposits] = useState([]);
+
+  useEffect(() => {
+
+    axios.get("http://localhost:3001/notifications/bankDeposits").then((response) => {
+      console.log(response.data);
+
+      setbankDeposits(response.data);
+
+
     })
   }, []);
 
@@ -131,10 +145,24 @@ export default function Messages() {
     axios.put(`http://localhost:3001/notifications/contactUs`).then((response) => {
 
 
+
     }).catch((err) => {
       console.log('err', err);
     })
   };
+
+  const viewEditedOrders = (event) => {
+
+    axios.put(`http://localhost:3001/notifications/editedorders`).then((response) => {
+
+
+
+    }).catch((err) => {
+      console.log('err', err);
+    })
+  };
+
+  const viewDeletedOrders = (event) => {
 
 
   if (listOfContactUs.length > 0) {
@@ -144,13 +172,231 @@ export default function Messages() {
     var ContactUsValue = 0;
   }
 
+    axios.put(`http://localhost:3001/notifications/deletedorders`).then((response) => {
+
+
+
+    }).catch((err) => {
+      console.log('err', err);
+    })
+  };
+
+  const viewPlacedOrders = (event) => {
 
 
   if (listOfContactUs.length != listOfUnsolvedInquiries.length) {
     var UnsolvedValue = 1;
   }
 
+    axios.put(`http://localhost:3001/notifications/placedorders`).then((response) => {
 
+
+
+    }).catch((err) => {
+      console.log('err', err);
+    })
+  };
+
+  const viewBankDeposits = (event) => {
+
+    axios.put(`http://localhost:3001/notifications/bankDeposits`).then((response) => {
+
+
+    }).catch((err) => {
+      console.log('err', err);
+    })
+  };
+
+  const [pendingCO, setpendingCO] = useState([]);
+
+  useEffect(() => {
+
+    axios.get("http://localhost:3001/notifications/pendingCO").then((response) => {
+      console.log(response.data);
+
+      setpendingCO(response.data);
+
+
+    })
+  }, []);
+
+  const [recievedCO, setrecievedCO] = useState([]);
+
+  useEffect(() => {
+
+    axios.get("http://localhost:3001/notifications/recievedCO").then((response) => {
+      console.log(response.data);
+
+      setrecievedCO(response.data);
+
+
+    })
+  }, []);
+
+  const [advancepaidCO, setadvancepaidCO] = useState([]);
+
+  useEffect(() => {
+
+    axios.get("http://localhost:3001/notifications/advancepaidCO").then((response) => {
+      console.log(response.data);
+
+      setadvancepaidCO(response.data);
+
+
+    })
+  }, []);
+
+  const [paidCO, setpaidCO] = useState([]);
+
+  useEffect(() => {
+
+    axios.get("http://localhost:3001/notifications/paidCO").then((response) => {
+      console.log(response.data);
+
+      setpaidCO(response.data);
+
+
+    })
+  }, []);
+
+  const [canceledCO, setcanceledCO] = useState([]);
+
+  useEffect(() => {
+
+    axios.get("http://localhost:3001/notifications/canceledCO").then((response) => {
+      console.log(response.data);
+
+      setcanceledCO(response.data);
+
+
+    })
+  }, []);
+
+  const viewPendingCO = (event) => {
+
+    axios.put(`http://localhost:3001/notifications/pendingCO`).then((response) => {
+
+
+    }).catch((err) => {
+      console.log('err', err);
+    })
+  };
+
+  const viewRecievedCO = (event) => {
+
+    axios.put(`http://localhost:3001/notifications/recievedCO`).then((response) => {
+
+
+    }).catch((err) => {
+      console.log('err', err);
+    })
+  };
+
+  const viewAdvancePaidCO = (event) => {
+
+    axios.put(`http://localhost:3001/notifications/advancepaidCO`).then((response) => {
+
+
+    }).catch((err) => {
+      console.log('err', err);
+    })
+  };
+
+  const viewPaidCO = (event) => {
+
+    axios.put(`http://localhost:3001/notifications/paidCO`).then((response) => {
+
+
+    }).catch((err) => {
+      console.log('err', err);
+    })
+  };
+
+  const viewCanceledCO = (event) => {
+
+    axios.put(`http://localhost:3001/notifications/canceledCO`).then((response) => {
+
+
+    }).catch((err) => {
+      console.log('err', err);
+    })
+  };
+
+  if (listOfContactUs.length > 0) {
+    var ContactUsValue = 1;
+  }
+  else {
+    var ContactUsValue = 0;
+  }
+
+  if (editedOrders.length > 0) {
+    var editedOrdersCnt = 1;
+  }
+  else {
+    var editedOrdersCnt = 0;
+  }
+
+  if (deletedOrders.length > 0) {
+    var deletedOrdersCnt = 1;
+  }
+  else {
+    var deletedOrdersCnt = 0;
+  }
+
+  if (placedOrders.length > 0) {
+    var placedOrdersCnt = 1;
+  }
+  else {
+    var placedOrdersCnt = 0;
+  }
+
+  if (bankDeposits.length > 0) {
+    var bankDepositsCnt = 1;
+  }
+  else {
+    var bankDepositsCnt = 0;
+  }
+
+
+  if (listOfContactUs.length != listOfUnsolvedInquiries.length) {
+    var UnsolvedValue = 1;
+  }
+
+  
+  if (pendingCO.length > 0) {
+    var pendingCOCnt = 1;
+  }
+  else {
+    var pendingCOCnt = 0;
+  }
+
+  if (recievedCO.length > 0) {
+    var recievedCOCnt = 1;
+  }
+  else {
+    var recievedCOCnt = 0;
+  }
+
+  if (advancepaidCO.length > 0) {
+    var advancepaidCOCnt = 1;
+  }
+  else {
+    var advancepaidCOCnt = 0;
+  }
+
+  if (paidCO.length > 0) {
+    var paidCOCnt = 1;
+  }
+  else {
+    var paidCOCnt = 0;
+  }
+
+  if (canceledCO.length > 0) {
+    var canceledCOCnt = 1;
+  }
+  else {
+    var canceledCOCnt = 0;
+  }
 
   return (
 
@@ -161,7 +407,9 @@ export default function Messages() {
         onClick={handleClick}
         color='inherit'>
         {/* <Badge badgeContent={(listOfContactUs.length + listOfContactUs.length)} color='secondary'> */}
-        <Badge badgeContent={ContactUsValue + UnsolvedValue + reOrderLevel.length + offerDate.length + editedOrders.length + placedOrders.length + deletedOrders.length} color='secondary'>
+
+        <Badge badgeContent={ContactUsValue + UnsolvedValue + reOrderLevel.length + offerDate.length + editedOrdersCnt + placedOrdersCnt + deletedOrdersCnt+bankDepositsCnt + pendingCOCnt+recievedCOCnt+advancepaidCOCnt + paidCOCnt +canceledCOCnt} color='secondary'>
+
           <ForumIcon />
         </Badge>
       </IconButton>
@@ -217,55 +465,167 @@ export default function Messages() {
             })}
 
           {/* edited orders notifications */}
-          {editedOrders
-            .map((value) => {
-              return (
-                <ListItem
-                  // key={i}
-                  component={Button}
-                  component={Link} to="/AdminOrders/0"
-                  className={classes.listItemNotification}>
 
-                  <Typography variant="h8" component="div" whiteSpace="normal" >Order Id:{value.orderId} is edited </Typography>
+//           {editedOrders
+//             .map((value) => {
+//               return (
+//                 <ListItem
+//                   // key={i}
+//                   component={Button}
+//                   component={Link} to="/AdminOrders/0"
+//                   className={classes.listItemNotification}>
+
+//                   <Typography variant="h8" component="div" whiteSpace="normal" >Order Id:{value.orderId} is edited </Typography>
 
 
-                </ListItem>
-              );
-            })}
+//                 </ListItem>
+//               );
+//             })}
+
+//           {/* deleted orders notifications */}
+//           {deletedOrders
+//             .map((value) => {
+//               return (
+//                 <ListItem
+//                   // key={i}
+//                   component={Button}
+//                   component={Link} to="/AdminOrders/0"
+//                   className={classes.listItemNotification}>
+
+//                   <Typography variant="h8" component="div" whiteSpace="normal" >Order Id:{value.orderId} is deleted </Typography>
+
+
+//                 </ListItem>
+//               );
+//             })}
+
+//           {/* placed orders notifications */}
+//           {placedOrders
+//             .map((value) => {
+//               return (
+//                 <ListItem
+//                   // key={i}
+//                   component={Button}
+//                   component={Link} to="/AdminOrders/0"
+//                   className={classes.listItemNotification}>
+
+//                   <Typography variant="h8" component="div" whiteSpace="normal" >Order Id:{value.orderId} is placed </Typography>
+
+
+//                 </ListItem>
+//               );
+//             })}
+
+
+          <ListItem
+            // key={i}
+            component={Button}
+            onClick={viewEditedOrders}
+            component={Link} to="/AdminOrders/0"
+            className={classes.listItemNotification}>
+            <Typography className={editedOrdersCnt != 0 && editedOrders.length != 1 ? classes.activeNotifi : classes.notifi} variant="h8" component="div" whiteSpace="normal" > {(editedOrders.length)} orders are edited</Typography>
+            <Typography className={editedOrdersCnt != 0 && editedOrders.length == 1 ? classes.activeNotifi : classes.notifi} variant="h8" component="div" whiteSpace="normal" >{(editedOrders.length)} order is edited</Typography>
+
+          </ListItem>
+
 
           {/* deleted orders notifications */}
-          {deletedOrders
-            .map((value) => {
-              return (
-                <ListItem
-                  // key={i}
-                  component={Button}
-                  component={Link} to="/AdminOrders/0"
-                  className={classes.listItemNotification}>
+          <ListItem
+            // key={i}
+            component={Button}
+            onClick={viewDeletedOrders}
+            component={Link} to="/AdminOrders/0"
+            className={classes.listItemNotification}>
+            <Typography className={deletedOrdersCnt != 0 && deletedOrders.length != 1 ? classes.activeNotifi : classes.notifi} variant="h8" component="div" whiteSpace="normal" > {(deletedOrders.length)} orders are deleted</Typography>
+            <Typography className={deletedOrdersCnt != 0 && deletedOrders.length == 1 ? classes.activeNotifi : classes.notifi} variant="h8" component="div" whiteSpace="normal" >{(deletedOrders.length)} order is deleted</Typography>
 
-                  <Typography variant="h8" component="div" whiteSpace="normal" >Order Id:{value.orderId} is deleted </Typography>
+          </ListItem>
 
-
-                </ListItem>
-              );
-            })}
 
           {/* placed orders notifications */}
-          {placedOrders
-            .map((value) => {
-              return (
+          <ListItem
+            // key={i}
+            component={Button}
+            onClick={viewPlacedOrders}
+            component={Link} to="/AdminOrders/0"
+            className={classes.listItemNotification}>
+            <Typography className={placedOrdersCnt != 0 && placedOrders.length != 1 ? classes.activeNotifi : classes.notifi} variant="h8" component="div" whiteSpace="normal" > {(placedOrders.length)} orders are placed</Typography>
+            <Typography className={placedOrdersCnt != 0 && placedOrders.length == 1 ? classes.activeNotifi : classes.notifi} variant="h8" component="div" whiteSpace="normal" >{(placedOrders.length)} order is placed</Typography>
+
+          </ListItem>
+
+                {/* bank deposits notifications */}
                 <ListItem
-                  // key={i}
-                  component={Button}
-                  component={Link} to="/AdminOrders/0"
-                  className={classes.listItemNotification}>
+            // key={i}
+            component={Button}
+            onClick={viewBankDeposits}
+            component={Link} to="/depositlips"
+            className={classes.listItemNotification}>
+            <Typography className={bankDepositsCnt != 0 && bankDeposits.length != 1 ? classes.activeNotifi : classes.notifi} variant="h8" component="div" whiteSpace="normal" > {(bankDeposits.length)} New Bank deposits</Typography>
+            <Typography className={bankDepositsCnt != 0 && bankDeposits.length == 1 ? classes.activeNotifi : classes.notifi} variant="h8" component="div" whiteSpace="normal" >{(bankDeposits.length)} new bank deposit</Typography>
 
-                  <Typography variant="h8" component="div" whiteSpace="normal" >Order Id:{value.orderId} is placed </Typography>
+          </ListItem>
+
+           {/* pending customize orders notifications */}
+           <ListItem
+            // key={i}
+            component={Button}
+            onClick={viewPendingCO}
+            component={Link} to="/customizeOrders"
+            className={classes.listItemNotification}>
+            <Typography className={pendingCOCnt != 0 && pendingCO.length != 1 ? classes.activeNotifi : classes.notifi} variant="h8" component="div" whiteSpace="normal" > {(pendingCO.length)} customize orders are pending</Typography>
+            <Typography className={pendingCOCnt != 0 && pendingCO.length == 1 ? classes.activeNotifi : classes.notifi} variant="h8" component="div" whiteSpace="normal" >{(pendingCO.length)} customize order is pending</Typography>
+
+          </ListItem>
+
+            {/* recieved customize orders notifications */}
+            <ListItem
+            // key={i}
+            component={Button}
+            onClick={viewRecievedCO}
+            component={Link} to="/customizeOrders"
+            className={classes.listItemNotification}>
+            <Typography className={recievedCOCnt != 0 && recievedCO.length != 1 ? classes.activeNotifi : classes.notifi} variant="h8" component="div" whiteSpace="normal" > {(recievedCO.length)} customize orders are recieved</Typography>
+            <Typography className={recievedCOCnt != 0 && recievedCO.length == 1 ? classes.activeNotifi : classes.notifi} variant="h8" component="div" whiteSpace="normal" >{(recievedCO.length)} customize order is recieved</Typography>
+
+          </ListItem>
 
 
-                </ListItem>
-              );
-            })}
+            {/* advance paid customize orders notifications */}
+            <ListItem
+            // key={i}
+            component={Button}
+            onClick={viewAdvancePaidCO}
+            component={Link} to="/customizeOrders"
+            className={classes.listItemNotification}>
+            <Typography className={advancepaidCOCnt != 0 && advancepaidCO.length != 1 ? classes.activeNotifi : classes.notifi} variant="h8" component="div" whiteSpace="normal" > {(advancepaidCO.length)} customize orders are paid the advance</Typography>
+            <Typography className={advancepaidCOCnt != 0 && advancepaidCO.length == 1 ? classes.activeNotifi : classes.notifi} variant="h8" component="div" whiteSpace="normal" >{(advancepaidCO.length)} customize order is paid the advance</Typography>
+
+          </ListItem>
+
+  {/*  paid customize orders notifications */}
+  <ListItem
+            // key={i}
+            component={Button}
+            onClick={viewPaidCO}
+            component={Link} to="/customizeOrders"
+            className={classes.listItemNotification}>
+            <Typography className={paidCOCnt != 0 && paidCO.length != 1 ? classes.activeNotifi : classes.notifi} variant="h8" component="div" whiteSpace="normal" > {(paidCO.length)} customize orders are paid </Typography>
+            <Typography className={paidCOCnt != 0 && paidCO.length == 1 ? classes.activeNotifi : classes.notifi} variant="h8" component="div" whiteSpace="normal" >{(paidCO.length)} customize order is paid</Typography>
+
+          </ListItem>
+
+            {/*  canceled customize orders notifications */}
+  <ListItem
+            // key={i}
+            component={Button}
+            onClick={viewCanceledCO}
+            component={Link} to="/customizeOrders"
+            className={classes.listItemNotification}>
+            <Typography className={canceledCOCnt != 0 && canceledCO.length != 1 ? classes.activeNotifi : classes.notifi} variant="h8" component="div" whiteSpace="normal" > {(canceledCO.length)} customize orders are canceled </Typography>
+            <Typography className={canceledCOCnt != 0 && canceledCO.length == 1 ? classes.activeNotifi : classes.notifi} variant="h8" component="div" whiteSpace="normal" >{(canceledCO.length)} customize order is canceled</Typography>
+
+          </ListItem>
 
 
           {/* expired offer date notifications */}
@@ -292,7 +652,9 @@ export default function Messages() {
             component={Button}
             onClick={handleClose}
             className={classes.listItemNotification}>
-            <Typography className={(ContactUsValue + UnsolvedValue + reOrderLevel.length + offerDate.length + editedOrders.length + placedOrders.length + deletedOrders.length) == 0 ? classes.activeNotifi : classes.notifi} variant="h8" component="div" whiteSpace="normal" >No new Notifications </Typography>
+
+            <Typography className={(ContactUsValue + UnsolvedValue + reOrderLevel.length + offerDate.length + editedOrdersCnt + placedOrdersCnt + deletedOrdersCnt+bankDepositsCnt+pendingCOCnt+recievedCOCnt+advancepaidCOCnt +paidCOCnt + canceledCOCnt) == 0 ? classes.activeNotifi : classes.notifi} variant="h8" component="div" whiteSpace="normal" >No new Notifications </Typography>
+
 
           </ListItem>
 
