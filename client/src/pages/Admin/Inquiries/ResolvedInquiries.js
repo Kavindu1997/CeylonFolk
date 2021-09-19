@@ -44,11 +44,11 @@ const ResolvedInquiries = () => {
 
     // const { TblContainer, TblHead, TblPagination, recordsAfterPagingAndSorting } =
     //     useTable("", headCells, "");
-    const onSetId = (id) => { 
+    // const onSetId = (id) => { 
       
-        localStorage.setItem("contactus_id", id);
+    //     localStorage.setItem("contactus_id", id);
 
-    };
+    // };
 
     const defaultOptions = {
         loop: true,
@@ -60,7 +60,7 @@ const ResolvedInquiries = () => {
     };
 
     const [listOfResolvedInquiries, setListOfResolvedInquiries] = useState([]);
-
+    const [inquiryId, setInquiryId] = useState([]);
 
     useEffect(() => {
         axios.get("http://localhost:3001/notifications/resolvedInquiries").then((response) => {
@@ -68,6 +68,13 @@ const ResolvedInquiries = () => {
             setListOfResolvedInquiries(response.data);
         })
     }, []);
+
+    function setInquiryIdtoChange(value) {
+        setOpenPopup(true)
+        setInquiryId({
+            contactus_id: value.id,
+        })
+    }
 
     return (
 
@@ -106,10 +113,7 @@ const ResolvedInquiries = () => {
                                                             <Controls.Button
                                                           
                                                                 text="View"
-                                                                onClick={() => {
-                                                                    onSetId(value.id)
-                                                                    setOpenPopup(true);
-                                                                }}
+                                                                onClick={() => setInquiryIdtoChange(value)}
                                                             />
                                                         </TableCell>
                                                     
@@ -128,7 +132,7 @@ const ResolvedInquiries = () => {
                         openPopup={openPopup}
                         setOpenPopup={setOpenPopup}
                     >
-                        <ViewMessageResponse />
+                        <ViewMessageResponse  selectedInquiryId={inquiryId} />
                     </Popup>
 
 

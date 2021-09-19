@@ -11,15 +11,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchColors } from '../../_actions/colorActions'
 import './adminStyles.css'
 
-var design_id = localStorage.getItem("design_id");
-console.log("dd");
-console.log(design_id);
-console.log("dd");
-
 var collection_id = localStorage.getItem("collection_id");
 
-
-const DesignPriceEdit = () => {
+function DesignPriceEdit({ selectedDesignId }) {
 
     const classes = useStyles();
     const [price, setPrice] = useState([]);
@@ -42,7 +36,7 @@ const DesignPriceEdit = () => {
 
      
 
-        axios.put(`http://localhost:3001/designs/editPrice/${design_id}`,Data).then((response) => {
+        axios.put(`http://localhost:3001/designs/editPrice/${selectedDesignId.design_id}`,Data).then((response) => {
             alert('Image upload Successfull');
             history.push('/designs');
 
@@ -70,7 +64,7 @@ const DesignPriceEdit = () => {
 
     useEffect(() => {
 
-        axios.get(`http://localhost:3001/designs/oneDesign/${design_id}`).then((response) => {
+        axios.get(`http://localhost:3001/designs/oneDesign/${selectedDesignId.design_id}`).then((response) => {
             // console.log(response.data);
             setListOfDesign(response.data);
         });

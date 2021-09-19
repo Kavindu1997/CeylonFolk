@@ -8,7 +8,7 @@ import useStyles from '../style';
 
 var contactus_id = localStorage.getItem("contactus_id");
 
-const UnresolvedInquiries = () => {
+function UnresolvedInquiries({ selectedInquiryId }) {
 
     const classes = useStyles();
     const [response, setResponse] = useState([]);
@@ -20,7 +20,7 @@ const UnresolvedInquiries = () => {
 
 
     useEffect(() => {
-        axios.get(`http://localhost:3001/notifications/unsolvedInquiries/${contactus_id}`).then((response) => {
+        axios.get(`http://localhost:3001/notifications/unsolvedInquiries/${selectedInquiryId.contactus_id}`).then((response) => {
             console.log(response.data);
             setListOfUnsolvedInquiries(response.data);
         })
@@ -34,7 +34,7 @@ const UnresolvedInquiries = () => {
         }
 
 
-        axios.put(`http://localhost:3001/notifications/unsolvedInquiries/${contactus_id}`, Data).then((response) => {
+        axios.put(`http://localhost:3001/notifications/unsolvedInquiries/${selectedInquiryId.contactus_id}`, Data).then((response) => {
             alert('insert Successfull');
             // history.push('/collections');
 

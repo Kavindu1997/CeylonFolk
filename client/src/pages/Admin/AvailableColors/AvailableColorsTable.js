@@ -53,6 +53,8 @@ const CollectionTable = () => {
         },
     };
 
+    const [colourId, setColorId] = useState([]);
+
     const addOrEdit = (data, resetForm) => {
 
         //  userService.updateUser(user);
@@ -116,6 +118,28 @@ const CollectionTable = () => {
 
     };
 
+    
+    function setColorNametoChange(value) {
+        setOpenPopup1(true)
+        setColorId({
+            colour_id: value.id,
+        })
+    }
+    
+    function setColortoChange(value) {
+        setOpenPopup2(true)
+        setColorId({
+            colour_id: value.id,
+        })
+    }
+    
+    function setPricetoChange(value) {
+        setOpenPopup3(true)
+        setColorId({
+            colour_id: value.id,
+        })
+    }
+
     return (
         <div style={{ display: "flex" }}>
             <AdminNav />
@@ -161,10 +185,7 @@ const CollectionTable = () => {
 
                                                         <Controls.ActionButton
                                                             color="primary"
-                                                            onClick={() => {
-                                                                onSetId(id)
-                                                                setOpenPopup1(true)
-                                                            }}
+                                                            onClick={() => setColorNametoChange(pickColor)}
                                                         >
                                                             <EditOutlinedIcon fontSize="small" />
                                                         </Controls.ActionButton>
@@ -181,10 +202,7 @@ const CollectionTable = () => {
 
                                                         <Controls.ActionButton
                                                             color="primary"
-                                                            onClick={() => {
-                                                                onSetId(id)
-                                                                setOpenPopup2(true)
-                                                            }}
+                                                            onClick={() => setColortoChange(pickColor)}
                                                         >
                                                             <EditOutlinedIcon fontSize="small" />
                                                         </Controls.ActionButton>
@@ -210,10 +228,7 @@ const CollectionTable = () => {
 
                                                         <Controls.ActionButton
                                                             color="primary"
-                                                            onClick={() => {
-                                                                onSetId(id)
-                                                                setOpenPopup3(true)
-                                                            }}
+                                                            onClick={() => setPricetoChange(pickColor)}
                                                         >
                                                             <EditOutlinedIcon fontSize="small" />
                                                         </Controls.ActionButton>
@@ -255,7 +270,8 @@ const CollectionTable = () => {
                         openPopup={openPopup1}
                         setOpenPopup={setOpenPopup1}
                     >
-                        <EditColourName />
+                       
+                        <EditColourName selectedColourId={colourId} />
                     </Popup>
 
                     <Popup
@@ -263,14 +279,16 @@ const CollectionTable = () => {
                         openPopup={openPopup2}
                         setOpenPopup={setOpenPopup2}
                     >
-                           <EditColour/>
+                           <EditColour selectedColourId={colourId}/>
+                         
                     </Popup>
                     <Popup
                         title="Edit Colour Price Form"
                         openPopup={openPopup3}
                         setOpenPopup={setOpenPopup3}
                     >
-                           <EditPrice />
+                           <EditPrice selectedColourId={colourId} />
+                         
                     </Popup>
 
                     <Notification notify={notify} setNotify={setNotify} />

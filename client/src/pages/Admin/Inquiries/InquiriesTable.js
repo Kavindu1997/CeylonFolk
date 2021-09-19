@@ -36,6 +36,7 @@ const InquiriesTable = () => {
         subTitle: "",
     });
     const dispatch = useDispatch();
+    const [inquiryId, setInquiryId] = useState([]);
 
     // const { TblContainer, TblHead, TblPagination, recordsAfterPagingAndSorting } =
     //     useTable("", headCells, "");
@@ -77,12 +78,18 @@ const InquiriesTable = () => {
     }, []);
 
 
-    const onSetId = (id) => { 
+    // const onSetId = (id) => { 
       
-        localStorage.setItem("contactus_id", id);
+    //     localStorage.setItem("contactus_id", id);
 
-    };
+    // };
 
+    function setInquiryIdtoChange(value) {
+        setOpenPopup(true)
+        setInquiryId({
+            contactus_id: value.id,
+        })
+    }
 
     return (
 
@@ -133,10 +140,7 @@ const InquiriesTable = () => {
                                                             <Controls.Button
                                                           
                                                                 text="View Message"
-                                                                onClick={() => {
-                                                                    onSetId(value.id)
-                                                                    setOpenPopup(true);
-                                                                }}
+                                                              onClick={() => setInquiryIdtoChange(value)}
                                                             />
                                                         </TableCell>
                                                     
@@ -155,7 +159,8 @@ const InquiriesTable = () => {
                         openPopup={openPopup}
                         setOpenPopup={setOpenPopup}
                     >
-                        <UnresolvedInquiries />
+                     
+                        <UnresolvedInquiries selectedInquiryId={inquiryId} />
                     </Popup>
 
 

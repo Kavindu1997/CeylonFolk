@@ -8,7 +8,9 @@ import { ChromePicker } from 'react-color';
 import { Typography, Button, Box } from '@material-ui/core';
 import { fetchColors } from '../../../_actions/colorActions'
 
-const EditColour = () => {
+function  EditColour({ selectedColourId }) {
+
+    const colour_id=selectedColourId.colour_id;
 
     const [colorPrice, setColorPrice] = useState('');
     const [colorName, setColorName] = useState('');

@@ -8,7 +8,7 @@ import useStyles from '../style';
 
 var contactus_id = localStorage.getItem("contactus_id");
 
-const ViewMessageResponse = () => {
+function ViewMessageResponse({ selectedInquiryId }) {
 
     const classes = useStyles();
     const [response, setResponse] = useState([]);
@@ -20,7 +20,7 @@ const ViewMessageResponse = () => {
 
 
     useEffect(() => {
-        axios.get(`http://localhost:3001/notifications/solvedInquiries/${contactus_id}`).then((response) => {
+        axios.get(`http://localhost:3001/notifications/solvedInquiries/${selectedInquiryId.contactus_id}`).then((response) => {
             console.log(response.data);
             setListOfSolvedInquiries(response.data);
         })

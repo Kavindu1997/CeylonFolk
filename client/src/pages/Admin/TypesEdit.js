@@ -5,9 +5,8 @@ import Controls from '../../components/Reusable/Controls';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
 
-var types_id = localStorage.getItem("types_id");
 
-const TypesEdit = () => {
+function TypesEdit({ selectedTypeId }) {
 
     // const [file, setfile] = useState(null);
     const [types, setTypes] = useState([]);
@@ -18,7 +17,7 @@ const TypesEdit = () => {
 
 
     useEffect(() => {
-        axios.get(`http://localhost:3001/types/${types_id}`).then((response) => {
+        axios.get(`http://localhost:3001/types/${selectedTypeId.types_id}`).then((response) => {
             console.log(response.data);
             setListOfTypes(response.data);
         })
@@ -45,7 +44,7 @@ const TypesEdit = () => {
 
 
 
-        axios.put(`http://localhost:3001/types/${types_id}`, Data).then((response) => {
+        axios.put(`http://localhost:3001/types/${selectedTypeId.types_id}`, Data).then((response) => {
             alert('Upload Successfull');
             // history.push('/collections');
 
