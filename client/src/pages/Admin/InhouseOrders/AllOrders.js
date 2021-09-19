@@ -45,17 +45,33 @@ function AllOrders() {
 
     const downloadPdf=()=>{
         const doc = new jsPDF("portrait","px","a4");
+        doc.roundedRect(20, 20, doc.internal.pageSize.width - 40, doc.internal.pageSize.height - 40, 3,3,'S');
         doc.addImage(logo,'PNG',20,5,36,0);
-        doc.text("All Orders Report",20,35);
+        doc.text("All Orders Report",160,33);
         doc.autoTable({
             columns:columns.map(col=>({...col,header:col.label,dataKey:col.id})),
             body:orderList,
             margin: {
-                top: 45,
-            }
+                top: 40,
+            },
+            styles: {
+                cellPadding: 3,
+                fontSize: 10,
+                valign: 'middle',
+                overflow: 'linebreak',
+                tableWidth: 'auto',
+                lineWidth: 0,
+            },
+       
         });
+
+        const pageCount = doc.internal.getNumberOfPages();
+        for(var i = 1; i <= pageCount; i++) {
+        doc.setPage(i);
+        doc.text('Page ' + String(i) + ' of ' + String(pageCount),270-20,600-30,null,null,"right");
+        }
         doc.save("all-orders-report.pdf");
-    }
+ }
 
     return (
         <>
