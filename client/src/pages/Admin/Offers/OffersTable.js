@@ -19,6 +19,7 @@ import useStyles from '../style';
 import axios from 'axios';
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from 'react-router-dom';
+import DeleteIcon from '@material-ui/icons/Delete';
 
 
 const OffersTable = () => {
@@ -202,7 +203,9 @@ function setCollectionIdtoChange(value) {
                                                         </TableCell>
 
                                                         <TableCell align="center">
-                                                            <Button name="remove" onClick={() => {
+                                                            <Button name="remove"
+                                                            startIcon={<DeleteIcon />}
+                                                            onClick={() => {
                                                                 setConfirmDialog({
                                                                     isOpen: true,
                                                                     title: 'Are you sure to delete this?',
@@ -210,7 +213,7 @@ function setCollectionIdtoChange(value) {
                                                                     onConfirm: () => { onRemove(value.collection_id) }
                                                                 })
                                                             }}>
-                                                                <i className="fa fa-times" aria-hidden="true"></i>
+                                                          
                                                             </Button>
                                                         </TableCell>
                                                     </TableRow>

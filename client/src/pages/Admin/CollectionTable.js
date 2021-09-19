@@ -20,6 +20,7 @@ import { actionDeleteCollection } from '../../_actions/collections';
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from 'react-router-dom';
 import CollectionEdit from "./EditCollectionForm";
+import DeleteIcon from '@material-ui/icons/Delete';
 
 
 const CollectionTable = () => {
@@ -244,7 +245,9 @@ const CollectionTable = () => {
                                                  
                                                      
                                                         <TableCell align="center">
-                                                            <Button name="remove" onClick={() => {
+                                                            <Button name="remove" 
+                                                            startIcon={<DeleteIcon />}
+                                                            onClick={() => {
                                                                 setConfirmDialog({
                                                                     isOpen: true,
                                                                     title: 'Are you sure to delete this?',
@@ -252,7 +255,7 @@ const CollectionTable = () => {
                                                                     onConfirm: () => { onRemove(value.id) }
                                                                 })
                                                             }}>
-                                                                <i className="fa fa-times" aria-hidden="true"></i>
+                                                               
                                                             </Button>
                                                         </TableCell>
                                                     </TableRow>
