@@ -74,7 +74,7 @@ const CollectionTable = () => {
         setConfirmDialog({
             ...confirmDialog,
             isOpen: false
-          });
+        });
 
 
         dispatch(actionDeleteCollection(id));
@@ -97,27 +97,27 @@ const CollectionTable = () => {
 
         axios.delete(`http://localhost:3001/collection/remove/`, { data }).then((response) => {
 
-            if (response.data.data==0){
+            if (response.data.data == 0) {
                 setNotify({
                     isOpen: true,
                     message: 'Removed Failed !',
                     type: 'error'
                 });
-            }else{
-               
+            } else {
+
                 setNotify({
                     isOpen: true,
                     message: 'Removed Successfully !',
                     type: 'success'
-                  });
-                  axios.get("http://localhost:3001/collection").then((response) => {
+                });
+                axios.get("http://localhost:3001/collection").then((response) => {
                     console.log(response.data);
                     setListOfCollections(response.data);
                 });
-               
-            } 
 
-            
+            }
+
+
 
         });
 
@@ -134,7 +134,7 @@ const CollectionTable = () => {
     //   }
 
 
-    const onSetId = (id) => { 
+    const onSetId = (id) => {
         localStorage.setItem("collection_id", id);
 
 
@@ -146,10 +146,10 @@ const CollectionTable = () => {
         TblHead,
         TblPagination,
         recordsAfterPagingAndSorting
-    } = useTable(listOfCollections,"", filterFn);
+    } = useTable(listOfCollections, "", filterFn);
 
 
-    
+
     const handleSearch = e => {
         let target = e.target;
         setFilterFn({
@@ -178,7 +178,7 @@ const CollectionTable = () => {
                 <PageHeader title="COLLECTIONS" icon={<LayersIcon fontSize="large" />} />
                 <Paper className={classes.pageContent}>
                     <Toolbar>
-                    <Controls.Input
+                        <Controls.Input
                             label="Search Collection"
                             className={classes.searchInput}
                             InputProps={{
@@ -186,10 +186,10 @@ const CollectionTable = () => {
                                     <InputAdornment position="start">
                                         <Search />
                                     </InputAdornment>
-                                    
+
                                 ),
                             }}
-                        onChange={handleSearch}
+                            onChange={handleSearch}
                         />
                         <Controls.Button
                             text="Add New Collection"
@@ -205,8 +205,8 @@ const CollectionTable = () => {
                     <container>
                         <center>
                             <Typography variant="h5" style={{ marginTop: '80px', textAlign: 'center', backgroundColor: '#C6C6C6', padding: '30px', fontFamily: 'Montserrat' }}>COLLECTIONS</Typography>
-                            <TableContainer style={{ marginTop: '30px', align: 'center', width: '1100px' }}>
-                                <Table className={classes.table} aria-label="simple table">
+                            <TableContainer style={{ marginTop: '30px', align: 'center', width: '1100px', height: '100%' }}>
+                                <Table aria-label="simple table">
                                     <TableHead>
                                         <TableRow>
                                             <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Collection Name</TableCell>
@@ -240,22 +240,22 @@ const CollectionTable = () => {
                                                             />
                                                         </TableCell>
 
-                                                         
-                                                                {/* <i className="fa fa-times" aria-hidden="true"></i> */}
-                                                 
-                                                     
+
+                                                        {/* <i className="fa fa-times" aria-hidden="true"></i> */}
+
+
                                                         <TableCell align="center">
-                                                            <Button name="remove" 
-                                                            startIcon={<DeleteIcon />}
-                                                            onClick={() => {
-                                                                setConfirmDialog({
-                                                                    isOpen: true,
-                                                                    title: 'Are you sure to delete this?',
-                                                                    subTitle: "You can't undo this operation...",
-                                                                    onConfirm: () => { onRemove(value.id) }
-                                                                })
-                                                            }}>
-                                                               
+                                                            <Button name="remove"
+                                                                startIcon={<DeleteIcon />}
+                                                                onClick={() => {
+                                                                    setConfirmDialog({
+                                                                        isOpen: true,
+                                                                        title: 'Are you sure to delete this?',
+                                                                        subTitle: "You can't undo this operation...",
+                                                                        onConfirm: () => { onRemove(value.id) }
+                                                                    })
+                                                                }}>
+
                                                             </Button>
                                                         </TableCell>
                                                     </TableRow>
@@ -263,6 +263,7 @@ const CollectionTable = () => {
                                             })}
                                     </TableBody>
                                 </Table>
+                                <TblPagination />
                             </TableContainer>
                         </center>
                     </container>
@@ -284,7 +285,7 @@ const CollectionTable = () => {
                         openPopup={openPopup1}
                         setOpenPopup={setOpenPopup1}
                     >
-                      
+
                         <CollectionEdit selectedCollectionId={collectionId} />
                     </Popup>
 
