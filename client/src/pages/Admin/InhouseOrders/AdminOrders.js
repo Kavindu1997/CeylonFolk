@@ -65,16 +65,8 @@ function AdminOrders() {
                             </div>
                         </div>
                     </Paper>
-                    <Paper elevation={3} className={classes.featured}>
-                        <div className={classes.featuredItem}>
-                            <span className={classes.featuredTitle}>Delayed Orders</span>
-                            <div className={classes.featuredItemCount}>
-                                <span className={classes.featuredCount}>{cancelcount}</span>
-                            </div>
-                        </div>
-                    </Paper>
-
                 </div>
+
                 <Box className={id == 0 ? classes.activeContent : classes.hideContent}>
                     <AllOrders />
                 </Box>
