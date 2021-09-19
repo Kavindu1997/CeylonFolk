@@ -7,7 +7,10 @@ import { useHistory } from 'react-router-dom';
 
 var collection_id = localStorage.getItem("collection_id");
 
-const EditCollectionForm = () => {
+function EditCollectionForm({ selectedCollectionId }) {
+
+    console.log("hhhh");
+    console.log(selectedCollectionId.collection_id);
 
     const [file, setfile] = useState(null);
     const [collectionName, setCollectionName] = useState([]);
@@ -28,7 +31,7 @@ const EditCollectionForm = () => {
 
 
 
-        axios.put(`http://localhost:3001/collection/edit/${collection_id}`, formData, config).then((response) => {
+        axios.put(`http://localhost:3001/collection/edit/${selectedCollectionId.collection_id}`, formData, config).then((response) => {
             alert('Image upload Successfull');
             // history.push('/collections');
 
@@ -53,7 +56,7 @@ const EditCollectionForm = () => {
 
     useEffect(() => {
 
-        axios.get(`http://localhost:3001/collection/oneCollection/${collection_id}`).then((response) => {
+        axios.get(`http://localhost:3001/collection/oneCollection/${selectedCollectionId.collection_id}`).then((response) => {
             // console.log(response.data);
             setListOfCollection(response.data);
         });
