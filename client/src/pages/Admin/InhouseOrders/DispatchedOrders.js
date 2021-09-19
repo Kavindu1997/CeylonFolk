@@ -62,6 +62,7 @@ function DispatchedOrders() {
                                         <TableCell align="center" style={{ fontSize: '16px', fontWeight: '600' }}>Customer Name</TableCell>
                                         <TableCell align="center" style={{ fontSize: '16px', fontWeight: '600' }}>Contact No</TableCell>
                                         <TableCell align="center" style={{ fontSize: '16px', fontWeight: '600' }}>Full Amount (LKR)</TableCell>
+                                        <TableCell align="center" style={{ fontSize: '16px', fontWeight: '600' }}>Placed Date</TableCell>
                                         <TableCell align="center" style={{ fontSize: '16px', fontWeight: '600' }}>Payment Method</TableCell>
                                         <TableCell align="center" style={{ fontSize: '16px', fontWeight: '600' }}>Actions</TableCell>
                                     </TableRow>
@@ -74,6 +75,7 @@ function DispatchedOrders() {
                                                 <TableCell align="center" style={{ fontSize: '16px', fontWeight: '500' }}>{value.firstName} {value.lastName}</TableCell>
                                                 <TableCell align="center" style={{ fontSize: '16px', fontWeight: '500' }}>{value.contactNo}</TableCell>
                                                 <TableCell align="center" style={{ fontSize: '16px', fontWeight: '500' }}>{value.fullAmount}.00</TableCell>
+                                                <TableCell align="center" style={{ fontSize: '16px', fontWeight: '500' }}>{value.placedDate}</TableCell>
                                                 <TableCell align="center" style={{ fontSize: '16px', fontWeight: '500' }}>{value.decription}</TableCell>
                                                 <TableCell align="center" style={{ fontSize: '16px', fontWeight: '500' }}>
                                                     <Button

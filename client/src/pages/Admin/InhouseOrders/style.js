@@ -36,6 +36,7 @@ const useStyles = makeStyles((theme) => ({
     },
     orderDetails: {
         flex: '1',
+        width: '100%',
         margin: '10px 30px',
     },
     table: {
@@ -47,6 +48,10 @@ const useStyles = makeStyles((theme) => ({
 
     hideContent: {
         display: 'none'
+    },
+    searchInput: {
+        margin: '50px',
+        width: "50%",
     },
 
 }));

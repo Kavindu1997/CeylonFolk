@@ -144,7 +144,7 @@ function OrderStatusChange({ selectedOrderId }) {
                                                     onConfirm: () => { statusChange(value.orderId, value.status) }
                                                 })
                                             }}
-                                        >Accept order</Button>
+                                        >ACCEPT TO PRINT</Button>
                                         <Button
                                             style={{ backgroundColor: 'red', color: 'white', margin: '20px' }}
                                             variant="contained"
@@ -157,7 +157,7 @@ function OrderStatusChange({ selectedOrderId }) {
                                                     onConfirm: () => { cancelStatus(value.orderId) }
                                                 })
                                             }}
-                                        >Cancel order</Button>
+                                        >DELAY THIS ORDER</Button>
                                     </div>
                                 </div>
                             );
@@ -170,7 +170,7 @@ function OrderStatusChange({ selectedOrderId }) {
                                             style={{ backgroundColor: 'green', color: 'white', margin: '20px', opacity: '0.5' }}
                                             variant="contained"
                                             disabled
-                                        >Accepted order</Button>
+                                        >Printed order</Button>
                                         <Button
                                             style={{ margin: '20px' }}
                                             variant="contained"

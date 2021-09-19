@@ -65,7 +65,7 @@ function AdminOrders() {
                     </Paper>
                     <Paper elevation={3} className={classes.featured}>
                         <div className={classes.featuredItem}>
-                            <span className={classes.featuredTitle}>Rejected Orders</span>
+                            <span className={classes.featuredTitle}>Delayed Orders</span>
                             <div className={classes.featuredItemCount}>
                                 <span className={classes.featuredCount}>{cancelcount}</span>
                             </div>

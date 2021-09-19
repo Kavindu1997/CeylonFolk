@@ -63,6 +63,7 @@ const AvailableColorsForm = () => {
                             variant="outlined"
                             label="Colour Name"
                             name="colorName"
+                            required
                             onChange={changeColourName}
                         />
                     </Grid>
@@ -71,6 +72,7 @@ const AvailableColorsForm = () => {
                             variant="outlined"
                             label="Price"
                             name="colorPrice"
+                            required
                             onChange={changePrice}
                         />
                     </Grid>
