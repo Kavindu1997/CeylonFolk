@@ -29,7 +29,7 @@ function PendingOrders() {
 
     return (
         <div style={{ display: "flex" }}>
-            <center>
+            <center style={{ width: '100%' }}>
                 <div className={classes.info}>
                     <div className={classes.pageLinks}>
                         <Button style={{ borderRadius: '50px', borderWidth: '2px', borderColor: 'black', marginRight: '40px', fontWeight: 'bold' }} variant="outlined" color="primary" href="http://localhost:3000/AdminOrders/0">
@@ -61,6 +61,7 @@ function PendingOrders() {
                                         <TableCell align="center" style={{ fontSize: '16px', fontWeight: '600' }}>Customer Name</TableCell>
                                         <TableCell align="center" style={{ fontSize: '16px', fontWeight: '600' }}>Contact No</TableCell>
                                         <TableCell align="center" style={{ fontSize: '16px', fontWeight: '600' }}>Full Amount (LKR)</TableCell>
+                                        <TableCell align="center" style={{ fontSize: '16px', fontWeight: '600' }}>Placed Date</TableCell>
                                         <TableCell align="center" style={{ fontSize: '16px', fontWeight: '600' }}>Payment Method</TableCell>
                                         <TableCell align="center" style={{ fontSize: '16px', fontWeight: '600' }}>Actions</TableCell>
                                     </TableRow>
@@ -73,6 +74,7 @@ function PendingOrders() {
                                                 <TableCell align="center" style={{ fontSize: '16px', fontWeight: '500' }}>{value.firstName} {value.lastName}</TableCell>
                                                 <TableCell align="center" style={{ fontSize: '16px', fontWeight: '500' }}>{value.contactNo}</TableCell>
                                                 <TableCell align="center" style={{ fontSize: '16px', fontWeight: '500' }}>{value.fullAmount}.00</TableCell>
+                                                <TableCell align="center" style={{ fontSize: '16px', fontWeight: '500' }}>{value.placedDate}</TableCell>
                                                 <TableCell align="center" style={{ fontSize: '16px', fontWeight: '500' }}>{value.decription}</TableCell>
                                                 <TableCell align="center" style={{ fontSize: '16px', fontWeight: '500' }}>
                                                     <Button
