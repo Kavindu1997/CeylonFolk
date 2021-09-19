@@ -9,9 +9,9 @@ import useStyles from '../style';
 import { useDispatch, useSelector } from "react-redux";
 import '../adminStyles.css'
 
-var colour_id = localStorage.getItem("colour_id");
+// var colour_id = localStorage.getItem("colour_id");
 
-const EditColourName = () => {
+function  EditColourName ({ selectedColourId }) {
 
     const classes = useStyles();
     const [colorName, setColorName] = useState([]);
@@ -34,7 +34,7 @@ const EditColourName = () => {
 
  
 
-        axios.put(`http://localhost:3001/availableColors/editColorName/${colour_id}`, Data).then((response) => {
+        axios.put(`http://localhost:3001/availableColors/editColorName/${selectedColourId.colour_id}`, Data).then((response) => {
             alert('Image upload Successfull');
             history.push('/colors');
 
@@ -63,7 +63,7 @@ const EditColourName = () => {
 
     useEffect(() => {
 
-        axios.get(`http://localhost:3001/availableColors/fetchColors/${colour_id}`).then((response) => {
+        axios.get(`http://localhost:3001/availableColors/fetchColors/${selectedColourId.colour_id}`).then((response) => {
             console.log(response.data);
             setListOfColor(response.data);
         });

@@ -56,6 +56,7 @@ const TypesTable = () => {
             preserveAspectRatio: "xMidYMid slice",
         },
     };
+    const [typeId, setTypeId] = useState([]);
 
     const [listOfTypes, setListOfTypes] = useState([]);
 
@@ -106,12 +107,18 @@ const TypesTable = () => {
 
     };
 
-    const onSetId = (id) => { //'Itom007'
-        localStorage.setItem("types_id", id);
+    // const onSetId = (id) => { //'Itom007'
+    //     localStorage.setItem("types_id", id);
 
 
-    };
+    // };
 
+    function setTypeIdtoChange(value) {
+        setOpenPopup1(true)
+        setTypeId({
+            types_id: value.id,
+        })
+    }
 
     return (
 
@@ -159,10 +166,7 @@ const TypesTable = () => {
                                                         <TableCell align="center">
                                                             <Controls.Button
                                                                 text="Edit"
-                                                                onClick={() => {
-                                                                    onSetId(value.id)
-                                                                    setOpenPopup1(true);
-                                                                }}
+                                                                onClick={() => setTypeIdtoChange(value)}
                                                             />
                                                         </TableCell>
 
@@ -203,7 +207,8 @@ const TypesTable = () => {
                         openPopup={openPopup1}
                         setOpenPopup={setOpenPopup1}
                     >
-                        <TypesEdit />
+                    
+                    <TypesEdit selectedTypeId={typeId} />
                     </Popup>
 
                     <Notification notify={notify} setNotify={setNotify} />

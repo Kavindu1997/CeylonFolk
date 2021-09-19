@@ -12,11 +12,7 @@ import { useForm, Form } from '../../components/Reusable/useForm';
 import './adminStyles.css'
 
 
-var inventory_id = localStorage.getItem("inventory_id");
-console.log(inventory_id);
-
-
-const InventoryEdit = () => {
+function InventoryEdit ({ selectedInventoryId }) {
 
     const classes = useStyles();
 
@@ -48,7 +44,7 @@ const InventoryEdit = () => {
         }
 
         console.log(Data);
-        axios.put(`http://localhost:3001/invent/inventory/${inventory_id}`, Data).then(() => {
+        axios.put(`http://localhost:3001/invent/inventory/${selectedInventoryId.inventory_id}`, Data).then(() => {
             alert('Item Inserted Successfully')
         });
         // props.resetForm();
@@ -62,7 +58,7 @@ const InventoryEdit = () => {
 
     useEffect(() => {
 
-        axios.get(`http://localhost:3001/invent/inventoryItem/${inventory_id}`).then((response) => {
+        axios.get(`http://localhost:3001/invent/inventoryItem/${selectedInventoryId.inventory_id}`).then((response) => {
             // console.log(response.data);
             setListOfItem(response.data);
         });
