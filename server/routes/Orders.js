@@ -176,7 +176,6 @@ router.put("/updateOrder", async (req, res) => {
         res.json({ data: 0 });
 
     }
-
 })
 
 async function sendEmail(emailDetails) {
@@ -304,7 +303,6 @@ router.get("/getCustomizeCount", async (req, res) => {
         printedOrders:'',
     }
 
-
     const query2 = "SELECT COUNT(status) AS acceptCount FROM customizeorders WHERE status='Accept'";
     const accept = await sequelize.query(query2, { type: sequelize.QueryTypes.SELECT });
     data = {
@@ -314,7 +312,6 @@ router.get("/getCustomizeCount", async (req, res) => {
         rejectedOrders: '',
         printedOrders:'',
     }
-
 
     const query3 = "SELECT COUNT(status) AS dispatchCount FROM customizeorders WHERE status='Dispatched'";
     const dispatched = await sequelize.query(query3, { type: sequelize.QueryTypes.SELECT });
@@ -353,7 +350,6 @@ router.get('/getSales', async (req, res) => {
         const query1 = "CREATE OR REPLACE VIEW total_sales AS SELECT COALESCE(SUM(fullAmount),0) AS sales_amount FROM orders  WHERE status='40' UNION ALL SELECT COALESCE(SUM(totalAmount),0) AS sales_amount FROM customizeorders  WHERE status='Dispatched';";
         const query2="SELECT SUM(sales_amount) as sales_amount FROM total_sales;"
         const salesAmount = await sequelize.query(query2, { type: sequelize.QueryTypes.SELECT });
-       // console.log(salesAmount);
         res.json(salesAmount);
     } catch (error) {
         res.status(404).json({ message: error.message });
@@ -380,7 +376,6 @@ router.get('/getInhouseDistribution', async (req, res) => {
         res.status(404).json({ message: error.message });
     }
 });
-// SELECT MONTHNAME(placedDate) Month, SUM(fullAmount) AS 'monthly_amount' FROM orders WHERE YEAR(placedDate) = '2021' && status='40' GROUP BY MONTH(placedDate);
 
 router.get('/getCustomizeDistribution', async (req, res) => {
     try {
@@ -421,8 +416,6 @@ router.get("/getOrders/:id", async (req, res) => {
         const orderDetails = await sequelize.query(query, { type: sequelize.QueryTypes.SELECT });
         res.json(orderDetails);
     }
-
-
 
 })
 
