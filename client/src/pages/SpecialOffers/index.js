@@ -120,19 +120,18 @@ const Shop = () => {
 
     let history = useHistory();
 
-    function addToWishlist(id, isInWishList) {
-        console.log(id)
+    function addToWishlist(id1, isInWishList) {
         const uid = localStorage.getItem("userId");
         if (localStorage.getItem("userId") != "0") {
             const data = {
                 uid: uid,
-                id: id,
+                id: id1,
                 Collection: Collection,
                 Colour: Colour,
                 Type: Type,
                 Size: Size,
+                collectionId: id
             };
-            console.log(data)
             if (isInWishList == 1) {
                 setNotify({
                     isOpen: true,

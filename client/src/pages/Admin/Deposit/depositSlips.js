@@ -21,6 +21,7 @@ import ClosedOrders from "../CustomizeOrder/ClosedOrders";
 import { viewOrderDetail } from "../../../_actions/orderHistory.action";
 import ViewOrderForm from "./viewOrder";
 import {API_URL} from '../../../_constants';
+import BankSlip from "./bankSlip";
 
 
 const DepositSlips = () => {
@@ -31,7 +32,8 @@ const DepositSlips = () => {
     const [confirmDialog, setConfirmDialog] = useState({ isOpen: false, title: '', subTitle: '' })
     const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' });
     const [listOfDeposits, setlistOfDeposits] = useState([]);
-    const [isDisable, setIsDisable] = useState(false)
+    const [isDisable, setIsDisable] = useState(false);
+    const [openViewPopup, setOpenViewPopup] = useState(false);
 
 
     useEffect(() => {
@@ -112,6 +114,19 @@ const DepositSlips = () => {
         })
     }
 
+    const [selectOrderSlip, setSelectOrderSlip] = useState([])
+    function setOpenBankSlip(value) {
+        setConfirmDialog({
+            ...confirmDialog,
+            isOpen: false
+        });
+        setOpenViewPopup(true)
+        setSelectOrderSlip({
+            oId: value.orderId,
+            slip: value.slip
+        })
+    }
+
     const [filterFn, setFilterFn] = useState({ fn: items => { return items; } });
     const {
         TblContainer,
@@ -172,27 +187,33 @@ const DepositSlips = () => {
                                     </TableHead>
                                     <TableBody>
                                         {recordsAfterPagingAndSorting()
-                                            .map((value) => {
+                                            .map((value,index) => {
                                                 return (
 
 
-                                                    <TableRow>
+                                                    <TableRow key={index}>
                                                         <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.firstName + " " + value.lastName}</TableCell>
                                                         <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.contactNo}</TableCell>
                                                         <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.orderId}</TableCell>
                                                         <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.decription}</TableCell>
-                                                        <TableCell align="center" style={{ fontFamily: 'Montserrat' }}><img height={100} align="center" src={API_URL+'/' + value.slip} alt=""></img></TableCell>
+                                                        <TableCell align="center" style={{ fontFamily: 'Montserrat' }}><img height={100} width={200} align="center" src={API_URL+'/' + value.slip} alt=""></img></TableCell>
                                                         <TableCell align="center">
                                                             <Button name="view"
-                                                                onClick={() => window.location.href = API_URL+"/" + value.slip}
+                                                                onClick={() => {
+
+                                                                    setOpenBankSlip(value)
+                                                                }}
+                                                                style={{ backgroundColor: 'black', color: 'white', fontSize: '12px', padding: '6px' }}
                                                             >
                                                                 VIEW SLIP
                                                             </Button>
 
                                                         </TableCell>
+
                                                         <TableCell align="center">
                                                             <Button name="order"
                                                                 onClick={() => setOrderToEdit(value)}
+                                                                style={{ backgroundColor: 'black', color: 'white', fontSize: '12px', padding: '6px' }}
                                                             >
                                                                 VIEW ORDER
                                                             </Button>
@@ -210,6 +231,7 @@ const DepositSlips = () => {
                                                                         onConfirm: () => { acceptPayment(value.orderId) }
                                                                     })
                                                                 }}
+                                                                style={{ backgroundColor: 'green', color: 'white', fontSize: '12px', padding: '6px' }}
                                                             >
                                                                 ACCEPT PAYMENT
                                                             </Button>
@@ -224,6 +246,7 @@ const DepositSlips = () => {
                                                                         onConfirm: () => { rejectPayment(value.orderId) }
                                                                     })
                                                                 }}
+                                                                style={{ backgroundColor: 'red', color: 'white', fontSize: '12px', padding: '6px', marginTop: '5px' }}
                                                             >
                                                                 REJECT PAYMENT
                                                             </Button>
@@ -280,6 +303,14 @@ const DepositSlips = () => {
                         setOpenPopup={setOpenPopup}
                     >
                         <ViewOrderForm selectedOrderToEdit={selectedOrderToEdit} />
+                    </Popup>
+
+                    <Popup
+                        title="Deposit Slip"
+                        openPopup={openViewPopup}
+                        setOpenPopup={setOpenViewPopup}
+                    >
+                        <BankSlip selectOrderSlip={selectOrderSlip} />
                     </Popup>
 
                 </Paper>

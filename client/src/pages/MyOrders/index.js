@@ -31,6 +31,7 @@ import UserSideNav from "../../components/Navbars/UserSideNav";
 import CommonNav from "../../components/Navbars/CommonNav";
 import ceylonforkapi from '../../api/index';
 import axios from 'axios';
+import { API_URL } from "../../_constants";
 
 export default function OrderHistory(props) {
     const classes = useStyles();
@@ -81,55 +82,49 @@ export default function OrderHistory(props) {
 
     function pending(){
         var id = localStorage.getItem("userId");
-        axios.get("http://localhost:3001/order/pendingOrders/"+id).then((response) => {
+        axios.get(API_URL+"/order/pendingOrders/"+id).then((response) => {
             setOrders(response.data)
         })      
     }
     function placed(){
         var id = localStorage.getItem("userId");
-        axios.get("http://localhost:3001/order/placedOrders/"+id).then((response) => {
+        axios.get(API_URL+"/order/placedOrders/"+id).then((response) => {
             setOrders(response.data)
         })
     }
     function notDeposited(){
         var id = localStorage.getItem("userId");
-        axios.get("http://localhost:3001/order/notDepositedOrders/"+id).then((response) => {
+        axios.get(API_URL+"/order/notDepositedOrders/"+id).then((response) => {
             setOrders(response.data)
         })
     }
     function deposited(){
         var id = localStorage.getItem("userId");
-        axios.get("http://localhost:3001/order/depositedOrders/"+id).then((response) => {
+        axios.get(API_URL+"/order/depositedOrders/"+id).then((response) => {
             setOrders(response.data)
         })
     }
     function accepted(){
         var id = localStorage.getItem("userId");
-        axios.get("http://localhost:3001/order/acceptedOrders/"+id).then((response) => {
+        axios.get(API_URL+"/order/acceptedOrders/"+id).then((response) => {
             setOrders(response.data)
         })
     }
     function dispatched(){
         var id = localStorage.getItem("userId");
-        axios.get("http://localhost:3001/order/dispatchedOrders/"+id).then((response) => {
+        axios.get(API_URL+"/order/dispatchedOrders/"+id).then((response) => {
             setOrders(response.data)
         })
     }
     function closed(){
         var id = localStorage.getItem("userId");
-        axios.get("http://localhost:3001/order/closedOrders/"+id).then((response) => {
-            setOrders(response.data)
-        })
-    }
-    function delay(){
-        var id = localStorage.getItem("userId");
-        axios.get("http://localhost:3001/order/delayOrders/"+id).then((response) => {
+        axios.get(API_URL+"/order/closedOrders/"+id).then((response) => {
             setOrders(response.data)
         })
     }
     function all(){
         var id = localStorage.getItem("userId");
-        axios.get("http://localhost:3001/order/getHistory/"+id).then((response) => {
+        axios.get(API_URL+"/order/getHistory/"+id).then((response) => {
             setOrders(response.data)
         })
     }
@@ -201,8 +196,6 @@ export default function OrderHistory(props) {
                                 <Button onClick={() => closed()}>Deposit Verification Falied Orders</Button>
                                 <Divider orientation="vertical" flexItem />
                                 <Button onClick={() => accepted()}>Processing Orders</Button>
-                                <Divider orientation="vertical" flexItem />
-                                <Button onClick={() => delay()}>Order Delays</Button>
                                 <Divider orientation="vertical" flexItem />
                                 <Button onClick={() => dispatched()}>Dispatched Orders</Button>
                                 <Divider orientation="vertical" flexItem />

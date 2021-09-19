@@ -243,7 +243,7 @@ export default function Checkout() {
                                                 required
                                                 fullWidth
                                                 id="number"
-                                                label="Phone Number"
+                                                label="Mobile Number"
                                                 name="number"
                                                 defaultValue={value.contactNo}
                                                 autoComplete="number"
