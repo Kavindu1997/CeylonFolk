@@ -35,15 +35,8 @@ export default function AboutUs() {
                                     products and reasonable price. Delighted customers are the company's utmost wealth.
                                 </Typography>
                             </div>
-                            {/* <div>
-            <Typography variant="h5" style={{marginTop:'50px',textAlign: 'center',fontFamily:'Montserrat'}}>OUR MISSION</Typography>
-            <Typography className={classes.subText} style={{marginTop:'20px',marginLeft:'90px',marginRight:'95px',fontFamily:'Montserrat',textAlign:'justify'}}>Get featured in your "favourite obsession" Wear Ceylonfolk 
-            #ceylonfolk #customtshirts #fashion #tshirts #customizedtshirts  #customtees #customtshirts #tshirts 
-            #smallbusiness #apparel  #shoplocal #supportsmallbusiness #madeinsrilanka #customizedtshirt</Typography>
-            </div> */}
                         </Grid>
                     </Grid>
-
                 </center>
             </container>
             <Footer />
