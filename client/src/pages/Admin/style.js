@@ -91,6 +91,24 @@ const useStyles = makeStyles((theme) => ({
   fixedHeight: {
     height: 240,
   },
+  stat: {
+    
+    display: 'flex',
+    justifyContent: 'space-between',
+},
+featured: {
+  flex: '1',
+  margin: '0px 20px',
+  padding: '30px',
+},
+featuredTitle: {
+  fontSize: '18px',
+  fontWeight: '300',
+},
+featuredCount: {
+  fontSize: '30px',
+  fontWeight: '600',
+},
 
   pageContent: {
     margin: theme.spacing(5),
@@ -220,6 +238,16 @@ const useStyles = makeStyles((theme) => ({
     color: '#2C2D2D',
   },
 
+  toggleButton:{
+    borderRadius: '50px',
+    borderWidth: '2px',
+    borderColor: 'black',
+    fontWeight: 'bold',
+    padding: '5px',
+    fontSize: '12px',
+
+  },
+
   activeContent: {
     display: 'block'
   },
@@ -262,6 +290,17 @@ const useStyles = makeStyles((theme) => ({
   activeQuantity: {
 
     display: 'block',
+
+  },
+
+  quantityMargin: {
+    
+    color:'black',
+  },
+  activeQuantityMargin: {
+
+    color:'red',
+    fontWeight: 'bold',
 
   },
 

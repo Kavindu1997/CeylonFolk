@@ -3,7 +3,7 @@ import { Pie } from 'react-chartjs-2';
 import axios from 'axios';
 import { useStyles } from "./styles";
 import { Card, CardContent,  Divider,  Grid, Paper, Typography, } from "@material-ui/core";
-import { blue, brown, cyan, deepOrange, green, grey, indigo, lightGreen, lime, pink, red, teal, yellow } from "@material-ui/core/colors";
+import { blue, green, red, yellow } from "@material-ui/core/colors";
 
 const PieChart = () => {
     const classes=useStyles();

@@ -10,6 +10,15 @@ import ConfirmDialog from "../../../components/Reusable/ConfirmDialog";
 import AdminNav from "../../../components/Reusable/AdminNav"
 import useStyles from '../style';
 import axios from 'axios';
+import useTable from "../../../components/Reusable/useTable";
+import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from 'react-router-dom';
+import AcceptedOrders from '../CustomizeOrder/AcceptedOrders';
+import PrintingOrders from '../CustomizeOrder/PrintingOrders';
+import PrintedOrders from '../CustomizeOrder/PrintedOrders';
+import DispatchedOrders from "../CustomizeOrder/DispatchedOrders";
+import ClosedOrders from "../CustomizeOrder/ClosedOrders";
+import { viewOrderDetail } from "../../../_actions/orderHistory.action";
 import ViewOrderForm from "./viewOrder";
 import {API_URL} from '../../../_constants';
 
@@ -103,6 +112,25 @@ const DepositSlips = () => {
         })
     }
 
+    const [filterFn, setFilterFn] = useState({ fn: items => { return items; } });
+    const {
+        TblContainer,
+        TblHead,
+        TblPagination,
+        recordsAfterPagingAndSorting
+    } = useTable(listOfDeposits,"", filterFn);
+    
+    const handleSearch = e => {
+        let target = e.target;
+        setFilterFn({
+            fn: items => {
+                if (target.value === "")
+                    return items;
+                else
+                    return items.filter(x => x.collection_name.toLowerCase().includes(target.value))
+            }
+        })
+    }
 
     return (
 
@@ -112,17 +140,18 @@ const DepositSlips = () => {
                 <PageHeader title="Bank Deposit Slips" icon={<LayersIcon fontSize="large" />} />
                 <Paper className={classes.pageContent}>
                     <Toolbar>
-                        <Controls.Input
-                            label="Search Orders"
+                    <Controls.Input
+                            label="Search Bank Deposits"
                             className={classes.searchInput}
                             InputProps={{
                                 startAdornment: (
                                     <InputAdornment position="start">
                                         <Search />
                                     </InputAdornment>
+                                    
                                 ),
                             }}
-                        //onChange={handleSearch}
+                        onChange={handleSearch}
                         />
                     </Toolbar>
 
@@ -142,7 +171,7 @@ const DepositSlips = () => {
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                        {listOfDeposits
+                                        {recordsAfterPagingAndSorting()
                                             .map((value) => {
                                                 return (
 

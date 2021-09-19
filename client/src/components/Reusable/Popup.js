@@ -15,7 +15,6 @@ const useStyles=makeStyles((theme)=>({
 
 }));
 
-
 const Popup = (props) => {
     const classes=useStyles();
     const {title,children,openPopup,setOpenPopup}=props;

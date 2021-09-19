@@ -1,11 +1,10 @@
 import React from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
-import { CssBaseline, Drawer, Box, AppBar, Toolbar, List, Typography, Divider, IconButton, Badge, Container, Grid, Paper, Link, } from '@material-ui/core';
+import { CssBaseline, Drawer, AppBar, Toolbar, List, Typography, Divider, IconButton} from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import { mainListItems, secondListItems } from '../../pages/Admin/ListItems';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
 import Profile from './ActionTab/Profile';
 import Messages from './ActionTab/Message';
 import Logout from './ActionTab/Logout';
@@ -16,7 +15,6 @@ const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
-    // position: 'fixed',
   },
   toolbar: {
     paddingRight: 24, // keep right padding when drawer closed

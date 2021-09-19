@@ -430,7 +430,7 @@ const multer = require('multer');
     });
 
     router.get("/closedOrders", async (req,res) => {
-        const query = "SELECT * FROM customizeorders WHERE status='Order Closed'";
+        const query = "SELECT * FROM customizeorders WHERE status='Closed'";
         const listOfDispatchedOrders = await sequelize.query(query, { type: sequelize.QueryTypes.SELECT });
         res.json(listOfDispatchedOrders);
         // res.render("upload");
@@ -556,6 +556,21 @@ const multer = require('multer');
         // res.render("upload");
     });
 
+    router.get("/selectPaid", async (req,res) => {
+        const query = "SELECT * FROM customizeorders WHERE status='Paid'";
+        const listOfPaidOrders = await sequelize.query(query, { type: sequelize.QueryTypes.SELECT });
+        res.json(listOfPaidOrders);
+        // res.render("upload");
+    });
+
+    router.put("/recieved", async (req,res) => {
+        const id = req.body.id;
+        const query = "UPDATE customizeorders SET status='Closed' WHERE orderId='"+id+"'";
+        const updateStatus = await sequelize.query(query, { type: sequelize.QueryTypes.UPDATE });
+        res.json(updateStatus);
+        // res.render("upload");
+    });
+
     router.put("/reject", async (req,res) => {
         const id = req.body.id;
         const email = req.body.email;
@@ -672,6 +687,55 @@ const multer = require('multer');
     
     res.json(updateStatus);
     });
+
+    router.get("/getCount", async (req, res) => {
+        let data = [
+            pendingOrders = '',
+            printingOrders = '',
+            dispatchedOrders = '',
+            rejectedOrders = '',
+        ]
+    
+        const query1 = "SELECT COUNT(status) AS pendingCount FROM customizeorders WHERE status='Pending'";
+        const pending = await sequelize.query(query1, { type: sequelize.QueryTypes.SELECT });
+    
+        data = {
+            pendingOrders: pending[0].pendingCount,
+            printingOrders: '',
+            dispatchedOrders: '',
+            rejectedOrders: '',
+        }
+    
+    
+        const query2 = "SELECT COUNT(status) AS printingCount FROM customizeorders WHERE status='Printing'";
+        const printing = await sequelize.query(query2, { type: sequelize.QueryTypes.SELECT });
+        data = {
+            pendingOrders: pending[0].pendingCount,
+            printingOrders: printing[0].acceptCount,
+            dispatchedOrders: '',
+            rejectedOrders: '',
+        }
+    
+    
+        const query3 = "SELECT COUNT(status) AS dispatchCount FROM customizeorders WHERE status='Dispatched'";
+        const dispatched = await sequelize.query(query3, { type: sequelize.QueryTypes.SELECT });
+        data = {
+            pendingOrders: pending[0].pendingCount,
+            printingOrders: accept[0].acceptCount,
+            dispatchedOrders: dispatched[0].dispatchCount,
+            rejectedOrders: '',
+        }
+    
+        const query4 = "SELECT COUNT(status) AS rejectCount FROM customizeorders WHERE status='Printed'";
+        const printed = await sequelize.query(query4, { type: sequelize.QueryTypes.SELECT });
+        data = {
+            pendingOrders: pending[0].pendingCount,
+            acceptedOrders: accept[0].acceptCount,
+            dispatchedOrders: dispatched[0].dispatchCount,
+            rejectedOrders: printed[0].rejectCount,
+        }
+        res.json(data);
+    })
 
 
 

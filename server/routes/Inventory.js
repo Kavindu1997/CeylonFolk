@@ -128,31 +128,81 @@ router.put("/inventory/:inventory_id", async (req,res) => {
     const inventory_id = req.params.inventory_id
   
     console.log(req.body);
-    const colour = req.body.color;
-    const size = req.body.size;
-    const type = req.body.type;
+    // const colour = req.body.color;
+    // const size = req.body.size;
+    // const type = req.body.type;
     const quantity = req.body.quantity;
     const margin = req.body.margin;
 
-    const colour_id_query = "SELECT id FROM colors WHERE colors.color='" + colour + "' ";
-    const colour_id = await sequelize.query(colour_id_query, {type: sequelize.QueryTypes.SELECT});
-    // res.json(colour_id.colors.id);
-    console.log(colour_id[0].id);
-    const colourID = colour_id[0].id;
+    // const colour_id_query = "SELECT id FROM colors WHERE colors.color='" + colour + "' ";
+    // const colour_id = await sequelize.query(colour_id_query, {type: sequelize.QueryTypes.SELECT});
+    // // res.json(colour_id.colors.id);
+    // console.log(colour_id[0].id);
+    // const colourID = colour_id[0].id;
 
-    const size_id_query = "SELECT sizes.id FROM sizes WHERE sizes.size='" + size + "' ";
-    const size_id = await sequelize.query(size_id_query, {type: sequelize.QueryTypes.SELECT});
+    // const size_id_query = "SELECT sizes.id FROM sizes WHERE sizes.size='" + size + "' ";
+    // const size_id = await sequelize.query(size_id_query, {type: sequelize.QueryTypes.SELECT});
+    // // res.json(size_id);
+    // const sizeID = size_id[0].id;
+
+    // const type_id_query = "SELECT types.id FROM types WHERE types.types='" + type + "' ";
+    // const type_id = await sequelize.query(type_id_query, {type: sequelize.QueryTypes.SELECT});
+    // // res.json(type_id);
+    // const typeID = type_id[0].id;
+
+    const margin_quantity_query = "SELECT margin,quantity FROM inventories WHERE inventories.id='" + inventory_id + "' ";
+    const margin_quantity = await sequelize.query(margin_quantity_query, {type: sequelize.QueryTypes.SELECT});
     // res.json(size_id);
-    const sizeID = size_id[0].id;
+    console.log("margin and quantity");
+    console.log(margin_quantity[0].quantity);
+    console.log(margin_quantity[0].margin);
 
-    const type_id_query = "SELECT types.id FROM types WHERE types.types='" + type + "' ";
-    const type_id = await sequelize.query(type_id_query, {type: sequelize.QueryTypes.SELECT});
-    // res.json(type_id);
-    const typeID = type_id[0].id;
+        if(quantity=='' && margin!=''){
 
-    const query = "UPDATE inventories SET colour_id='" + colourID + "', size_id='" + sizeID + "', type_id='" + typeID + "', quantity='" + quantity + "', margin='" + margin + "' WHERE inventories.id='" + inventory_id + "'";
-    const updateInvent = await sequelize.query(query, {type: sequelize.QueryTypes.UPDATE});
-    res.json(updateInvent); 
+            if(margin_quantity[0].quantity>=margin){
+
+                
+            const query = "UPDATE inventories SET margin='" + margin + "' WHERE inventories.id='" + inventory_id + "'";
+            const updateInvent = await sequelize.query(query, {type: sequelize.QueryTypes.UPDATE});
+            res.json(updateInvent); 
+            }
+
+
+    
+        }
+        else if(quantity!='' && margin==''){
+
+            if(quantity>= margin_quantity[0].margin){
+
+                const query = "UPDATE inventories SET quantity='" + quantity + "'WHERE inventories.id='" + inventory_id + "'";
+                const updateInvent = await sequelize.query(query, {type: sequelize.QueryTypes.UPDATE});
+                res.json(updateInvent); 
+            }
+            
+      
+        }
+        else if(quantity!='' && margin!=''){
+
+            if(quantity>=margin){
+                const query = "UPDATE inventories SET quantity='" + quantity + "' ,margin='" + margin + "' WHERE inventories.id='" + inventory_id + "'";
+                const updateInvent = await sequelize.query(query, {type: sequelize.QueryTypes.UPDATE});
+                res.json(updateInvent); 
+
+            }
+            
+           
+            }
+    
+
+
+    
+
+
+
+
+    // const query = "UPDATE inventories SET colour_id='" + colourID + "', size_id='" + sizeID + "', type_id='" + typeID + "', quantity='" + quantity + "', margin='" + margin + "' WHERE inventories.id='" + inventory_id + "'";
+    // const updateInvent = await sequelize.query(query, {type: sequelize.QueryTypes.UPDATE});
+    // res.json(updateInvent); 
   
 
 });

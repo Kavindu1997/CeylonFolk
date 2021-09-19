@@ -43,7 +43,8 @@ import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper
 import { Grid, TextField } from '@material-ui/core';
 // import Controls from "../../components/Reusable/Controls";
 import useStyles from './style';
-import AdminNav from "../../components/Reusable/AdminNav"
+import AdminNav from "../../components/Reusable/AdminNav";
+import DeleteIcon from '@material-ui/icons/Delete';
 
 
 // const headCells = [
@@ -62,8 +63,6 @@ const InventoryTable = () => {
     //Search Bar Things
 
     const classes = useStyles();
-    const [search, setSearch] = useState('');
-    const [record, setRecord] = useState([]);
     const dispatch = useDispatch();
 
 
@@ -81,81 +80,20 @@ const InventoryTable = () => {
     //     loadInventoryDetail();
     // }, []);
 
-    // Search Records here 
-    const searchRecords = () => {
-        console.log("jjjjk");
-        console.log(choice);
-        // // console.log(search);
-        if (choice == 'type') {
 
-            axios.get(`http://localhost:3001/inventSearch/searchRecordType/${search}`)
-                .then(response => {
-                    setRecord(response.data);
-                });
+    const [listOfItems, setListOfItems] = useState([]);
 
-        }
-        else if (choice == 'size') {
-
-            axios.get(`http://localhost:3001/inventSearch/searchRecordSize/${search}`)
-                .then(response => {
-                    setRecord(response.data);
-                });
-
-        }
-        else if (choice == 'quantity') {
-
-            axios.get(`http://localhost:3001/inventSearch/searchRecordQuantity/${search}`)
-                .then(response => {
-                    setRecord(response.data);
-                });
-
-        }
-
-        else if (choice == 'margin') {
-
-            axios.get(`http://localhost:3001/inventSearch/searchRecordMargin/${search}`)
-                .then(response => {
-                    setRecord(response.data);
-                });
-
-        }
-
-
-
-    }
-
-    const loadRecordAgain = () => {
-        var response = fetch('http://localhost:3001/inventSearch')
-            .then(function (response) {
-                return response.json();
-            })
-            .then(function (myJson) {
-                setRecord(myJson);
-            });
-
-    }
     useEffect(() => {
-        loadRecordAgain();
-        dispatch(fetchColors());
+
+        axios.get("http://localhost:3001/invent/inventory").then((response) => {
+            // console.log(response.data);
+            setListOfItems(response.data);
+        });
     }, []);
-
-    //Inventory Things
-
-    // const classes = useStyles();
-
-    // const [listOfItems, setListOfItems] = useState([]);
-
-    // useEffect(() => {
-
-    //     axios.get("http://localhost:3001/invent/inventory").then((response) => {
-    //         // console.log(response.data);
-    //         setListOfItems(response.data);
-    //     });
-    // }, []);
 
     const [openPopup, setOpenPopup] = useState(false);
     const [openPopup1, setOpenPopup1] = useState(false);
-    const [choice, setChoice] = useState('');
+    const [inventoryId, setInventoryId] = useState([]);
 
     const [notify, setNotify] = useState({
         isOpen: false,
@@ -183,14 +121,10 @@ const InventoryTable = () => {
         },
     };
 
-    const onSetId = (id) => { //'Itom007'
-        localStorage.setItem("inventory_id", id);
-        console.log(id);
-    };
-
-    const onChoice = (e) => {
-        setChoice(e.target.value)
-    }
+    // const onSetId = (id) => { //'Itom007'
+    //     localStorage.setItem("inventory_id", id);
+    //     console.log(id);
+    // };
 
     const onRemove = (id) => {
 
@@ -231,6 +165,34 @@ const InventoryTable = () => {
     };
 
 
+    const [filterFn, setFilterFn] = useState({ fn: items => { return items; } });
+    const {
+        TblContainer,
+        TblHead,
+        TblPagination,
+        recordsAfterPagingAndSorting
+    } = useTable(listOfItems,"", filterFn);
+    
+    const handleSearch = e => {
+        let target = e.target;
+        setFilterFn({
+            fn: items => {
+                if (target.value === "")
+                    return items;
+                else
+                    return items.filter(x => x.size.toLowerCase().includes(target.value)||
+                    x.types.toLowerCase().includes(target.value))
+            }
+        })
+    }
+
+    function setInventoryIdtoChange(value) {
+        setOpenPopup1(true)
+        setInventoryId({
+            inventory_id: value.id,
+        })
+    }
+
     return (
 
        
@@ -248,27 +210,19 @@ const InventoryTable = () => {
                                                 
                                                 {/* <input type="text" id="form1" onKeyDown={loadRecordAgain} onKeyUp={searchRecords} onChange={(e) => setSearch(e.target.value)} class="form-control" placeholder="Search Item Here" style={{ backgroundColor: "#ececec", boxShadow: 'none', padding: '10px' }}  /> */}
                                                 <Controls.Input
-                                                type="text" id="form1" onKeyDown={loadRecordAgain} onKeyUp={searchRecords} onChange={(e) => setSearch(e.target.value)}
-                                                    label="Search Inventory"
-                                                    className={classes.searchInput}
-                                                    InputProps={{
-                                                        startAdornment: (
-                                                            <InputAdornment position="start">
-                                                                <Search />
-                                                            </InputAdornment>
-                                                        ),
-                                                    }}
-                                                //onChange={handleSearch}
-                                                />
-                                                <select className={classes.iconForSearch} name="choice" onChange={onChoice}>
-                                                    <option value="">Select</option>
-                                                    <option value="size">Size</option>
-                                                    <option value="type">Type</option>
-                                                    <option value="quantity">Quantity</option>
-                                                    <option value="margin">Margin</option>
-
-
-                                                </select>
+                            label="Search Inventory"
+                            className={classes.searchInput}
+                            InputProps={{
+                                startAdornment: (
+                                    <InputAdornment position="start">
+                                        <Search />
+                                    </InputAdornment>
+                                    
+                                ),
+                            }}
+                        onChange={handleSearch}
+                        />
+                                               
                                                 <Controls.Button
                                                     text="Add new item to the Inventory"
                                                     variant="outlined"
@@ -299,7 +253,7 @@ const InventoryTable = () => {
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                {record.map((value) =>
+                                {recordsAfterPagingAndSorting().map((value) =>
                                         <TableRow>
                                             <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>
                                                 <Box style={{ display: 'flex', justifyContent: 'center' }}>
@@ -308,21 +262,20 @@ const InventoryTable = () => {
                                             </TableCell>
                                             <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.size}</TableCell>
                                             <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.types}</TableCell>
-                                            <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.quantity}</TableCell>
+                                            <TableCell align="center" style={{ fontFamily: 'Montserrat'}} className={value.quantity<=value.margin? classes.activeQuantityMargin : classes.quantityMargin} >{value.quantity}</TableCell>
                                             <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.margin}</TableCell>
                                             <TableCell align="center">
                                                 <Controls.Button
                                                     text="Edit"
-                                                    onClick={() => {
-                                                        onSetId(value.id)
-                                                        setOpenPopup1(true);
-                                                    }}
+                                                    onClick={() => setInventoryIdtoChange(value)}
                                                 />
                                             </TableCell>
                                        
                                        
                                             <TableCell align="center">
-                                                            <Button name="remove" onClick={() => {
+                                                            <Button name="remove" 
+                                                            startIcon={<DeleteIcon />}
+                                                            onClick={() => {
                                                                 setConfirmDialog({
                                                                     isOpen: true,
                                                                     title: 'Are you sure to delete this?',
@@ -330,7 +283,7 @@ const InventoryTable = () => {
                                                                     onConfirm: () => { onRemove(value.id) }
                                                                 })
                                                             }}>
-                                                                <i className="fa fa-times" aria-hidden="true"></i>
+                                                            
                                                             </Button>
                                                         </TableCell>
 
@@ -357,7 +310,8 @@ const InventoryTable = () => {
                     openPopup={openPopup1}
                     setOpenPopup={setOpenPopup1}
                 >
-                    <InventoryEdit />
+                  
+                    <InventoryEdit selectedInventoryId={inventoryId} />
                 </Popup>
 
                 <Notification notify={notify} setNotify={setNotify} />

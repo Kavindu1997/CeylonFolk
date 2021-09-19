@@ -207,7 +207,6 @@ useEffect(() => {
                  <LineChartCustomize/>
                )
              } 
-      {/* <LineChart/> */}
     </Box>
        </main>
        </>

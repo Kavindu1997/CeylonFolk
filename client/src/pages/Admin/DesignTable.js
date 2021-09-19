@@ -19,7 +19,11 @@ import axios from 'axios';
 import { actionDeleteCollection } from '../../_actions/collections';
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from 'react-router-dom';
-import DesignEdit from "./EditDesignForm";
+import DesignNameEdit from "./DesignNameEdit";
+import DesignImageEdit from "./DesignImageEdit";
+import DesignPriceEdit from "./DesignPriceEdit";
+import DeleteIcon from '@material-ui/icons/Delete';
+
 
 var collection_id = localStorage.getItem("collection_id");
 console.log(collection_id);
@@ -28,12 +32,15 @@ const DesignTable = () => {
     const classes = useStyles();
     const [openPopup, setOpenPopup] = useState(false);
     const [openPopup1, setOpenPopup1] = useState(false);
+    const [openPopup2, setOpenPopup2] = useState(false);
+    const [openPopup3, setOpenPopup3] = useState(false);
+    const [designId, setDesignId] = useState([]);
     const [notify, setNotify] = useState({
         isOpen: false,
         message: "",
         type: "",
     });
-  
+
     const [confirmDialog, setConfirmDialog] = useState({ isOpen: false, title: '', subTitle: '' });
     const dispatch = useDispatch();
 
@@ -70,11 +77,11 @@ const DesignTable = () => {
         })
     }, []);
 
-    const onSetId = (id) => { //'Itom007'
-        localStorage.setItem("design_id", id);
+    // const onSetId = (id) => { //'Itom007'
+    //     localStorage.setItem("design_id", id);
 
 
-    };
+    // };
 
 
     // function onProceed() {
@@ -90,33 +97,33 @@ const DesignTable = () => {
         setConfirmDialog({
             ...confirmDialog,
             isOpen: false
-          });
+        });
 
         const data = { id: id }
 
         axios.delete(`http://localhost:3001/designs`, { data }).then((response) => {
 
-            if (response.data.data==0){
+            if (response.data.data == 0) {
                 setNotify({
                     isOpen: true,
                     message: 'Removed Failed !',
                     type: 'error'
                 });
-            }else{
-               
+            } else {
+
                 setNotify({
                     isOpen: true,
                     message: 'Removed Successfully !',
                     type: 'success'
-                  });
-                  axios.get("http://localhost:3001/designs").then((response) => {
+                });
+                axios.get("http://localhost:3001/designs").then((response) => {
                     console.log(response.data);
                     setListOfDesigns(response.data);
                 });
-               
-            } 
 
-          
+            }
+
+
 
         });
 
@@ -125,86 +132,49 @@ const DesignTable = () => {
     };
 
 
-    const [search, setSearch] = useState('');
-    const [record, setRecord] = useState([]);
-    const [choice, setChoice] = useState('');
 
 
-    // On Page load display all records 
-    // const loadInventoryDetail = async () => {
-    //     var response = fetch('http://localhost:3001/inventSearch')
-    //         .then(function (response) {
-    //             return response.json();
-    //         })
-    //         .then(function (myJson) {
-    //             setRecord(myJson);
-    //         });
-    // }
-    // useEffect(() => {
-    //     loadInventoryDetail();
-    // }, []);
-
-    // Search Records here 
-    const searchRecords = () => {
-        console.log(choice);
-        // // console.log(search);
-        if (choice == 'design_name') {
-
-            axios.get(`http://localhost:3001/designs/searchRecordDesignName/${search}/${collection_id}`)
-                .then(response => {
-                    setRecord(response.data);
-                });
-
-        }
-        else if (choice == 'collection_name') {
-
-            axios.get(`http://localhost:3001/designs/searchRecordCollectionName/${search}`)
-                .then(response => {
-                    setRecord(response.data);
-                });
-
-        }
-        else if (choice == 'type') {
-
-            axios.get(`http://localhost:3001/designs/searchRecordType/${search}`)
-                .then(response => {
-                    setRecord(response.data);
-                });
-
-        }
-
-        else if (choice == 'price') {
-
-            axios.get(`http://localhost:3001/designs/searchRecordPrice/${search}`)
-                .then(response => {
-                    setRecord(response.data);
-                });
-
-        }
-
-
-
+    const [filterFn, setFilterFn] = useState({ fn: items => { return items; } });
+    const {
+        TblContainer,
+        TblHead,
+        TblPagination,
+        recordsAfterPagingAndSorting
+    } = useTable(listOfDesigns,"", filterFn);
+    
+    const handleSearch = e => {
+        let target = e.target;
+        setFilterFn({
+            fn: items => {
+                if (target.value === "")
+                    return items;
+                else
+                return items.filter(x => x.design_name.toLowerCase().includes(target.value) ||
+                x.types.toLowerCase().includes(target.value))
+            }
+        })
     }
 
-    const loadRecordAgain = () => {
-        var response = fetch(`http://localhost:3001/designs/${collection_id}`)
-            .then(function (response) {
-                return response.json();
-            })
-            .then(function (myJson) {
-                setRecord(myJson);
-            });
-
-    }
-    useEffect(() => {
-        loadRecordAgain();
-        // dispatch(fetchColors());
-    }, []);
-
-    const onChoice = (e) => {
-        setChoice(e.target.value)
+    function setDesignNametoChange(value) {
+        setOpenPopup1(true)
+        setDesignId({
+            design_id: value.id,
+        })
     }
 
+    function setImagetoChange(value) {
+        setOpenPopup2(true)
+        setDesignId({
+            design_id: value.id,
+        })
+    }
+
+    function setDesignPricetoChange(value) {
+        setOpenPopup3(true)
+        setDesignId({
+            design_id: value.id,
+        })
+    }
 
     return (
 
@@ -215,28 +185,20 @@ const DesignTable = () => {
                 <PageHeader title="DESIGNS" icon={<LayersIcon fontSize="large" />} />
                 <Paper className={classes.pageContent}>
                     <Toolbar>
-                        <Controls.Input
-                            type="text" id="form1" onKeyDown={loadRecordAgain} onKeyUp={searchRecords} onChange={(e) => setSearch(e.target.value)}
-                            label="Search Inventory"
+                    <Controls.Input
+                            label="Search Design"
                             className={classes.searchInput}
                             InputProps={{
                                 startAdornment: (
                                     <InputAdornment position="start">
                                         <Search />
                                     </InputAdornment>
+                                    
                                 ),
                             }}
-                        //onChange={handleSearch}
+                        onChange={handleSearch}
                         />
-                        <select className={classes.iconForSearch} name="choice" onChange={onChoice}>
-                            <option value="">Select</option>
-                            <option value="design_name">Design Name</option>
-                            <option value="collection_name">Collection Name</option>
-                            <option value="type">Type</option>
-                            <option value="price">Price</option>
-
-
-                        </select>
+                        
                         <Controls.Button
                             text="Add New Design"
                             variant="outlined"
@@ -260,21 +222,45 @@ const DesignTable = () => {
                                     <TableHead>
                                         <TableRow>
                                             <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Design Name</TableCell>
+                                            <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Change Design Name</TableCell>
                                             <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Image</TableCell>
+                                            <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Change Image</TableCell>
                                             <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Colour</TableCell>
                                             <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Type</TableCell>
                                             <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Price</TableCell>
-                                            <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Update</TableCell>
+                                            <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Change Price</TableCell>
                                             <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Delete</TableCell>
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                        {record
+                                        {recordsAfterPagingAndSorting()
                                             .map((value) => {
                                                 return (
                                                     <TableRow>
                                                         <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.design_name}</TableCell>
+                                                        <TableCell align="center">
+
+
+                                                            <Controls.ActionButton
+                                                                color="primary"
+                                                                onClick={() => setDesignNametoChange(value)}
+                                                            >
+                                                                <EditOutlinedIcon fontSize="small" />
+                                                            </Controls.ActionButton>
+
+                                                        </TableCell>
                                                         <TableCell align="center" style={{ fontFamily: 'Montserrat' }}><img height={100} align="center" src={'http://localhost:3001/' + value.coverImage} alt=""></img></TableCell>
+                                                        <TableCell align="center">
+
+
+                                                            <Controls.ActionButton
+                                                                color="primary"
+                                                                onClick={() => setImagetoChange(value)}
+                                                            >
+                                                                <EditOutlinedIcon fontSize="small" />
+                                                            </Controls.ActionButton>
+
+                                                        </TableCell>
                                                         <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>
                                                             <Box style={{ display: 'flex', justifyContent: 'center' }}>
                                                                 <span className={classes.swatchVisible} style={{ backgroundColor: value.color }}></span>
@@ -283,17 +269,21 @@ const DesignTable = () => {
                                                         <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.types}</TableCell>
                                                         <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.price}</TableCell>
                                                         <TableCell align="center">
-                                                            <Controls.Button
-                                                                text="Edit"
-                                                                onClick={() => {
-                                                                    onSetId(value.id)
-                                                                    setOpenPopup1(true);
-                                                                }}
-                                                            />
+
+
+                                                            <Controls.ActionButton
+                                                                color="primary"
+                                                                onClick={() => setDesignPricetoChange(value)}
+                                                            >
+                                                                <EditOutlinedIcon fontSize="small" />
+                                                            </Controls.ActionButton>
+
                                                         </TableCell>
 
                                                         <TableCell align="center">
-                                                            <Button name="remove" onClick={() => {
+                                                            <Button name="remove" 
+                                                            startIcon={<DeleteIcon />}
+                                                            onClick={() => {
                                                                 setConfirmDialog({
                                                                     isOpen: true,
                                                                     title: 'Are you sure to delete this?',
@@ -301,7 +291,7 @@ const DesignTable = () => {
                                                                     onConfirm: () => { onRemove(value.id) }
                                                                 })
                                                             }}>
-                                                                <i className="fa fa-times" aria-hidden="true"></i>
+                                                               
                                                             </Button>
                                                         </TableCell>
                                                     </TableRow>
@@ -329,7 +319,32 @@ const DesignTable = () => {
                         openPopup={openPopup1}
                         setOpenPopup={setOpenPopup1}
                     >
-                        <DesignEdit />
+                       
+                        <DesignNameEdit  selectedDesignId={designId} />
+                    </Popup>
+
+                    
+                    <Popup
+
+                        title="Edit Design Form"
+
+                        openPopup={openPopup2}
+                        setOpenPopup={setOpenPopup2}
+                    >
+                       
+                        <DesignImageEdit  selectedDesignId={designId} />
+                    </Popup>
+
+                    
+                    <Popup
+
+                        title="Edit Design Form"
+
+                        openPopup={openPopup3}
+                        setOpenPopup={setOpenPopup3}
+                    >
+                        
+                        <DesignPriceEdit  selectedDesignId={designId} />
                     </Popup>
 
                     <Notification notify={notify} setNotify={setNotify} />

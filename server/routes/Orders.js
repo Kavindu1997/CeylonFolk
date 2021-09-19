@@ -207,7 +207,6 @@ router.put("/updateOrder", async (req, res) => {
         res.json({ data: 0 });
 
     }
-
 })
 
 async function sendEmail(emailDetails) {
@@ -264,7 +263,7 @@ router.get("/getCount", async (req, res) => {
         pendingOrders = '',
         acceptedOrders = '',
         dispatchedOrders = '',
-        rejectedOrders = '',
+        printedOrders = '',
     ]
 
     const query1 = "SELECT COUNT(status) AS pendingCount FROM orders WHERE status='1' OR status='4' OR status='5' OR status='6'";
@@ -274,7 +273,7 @@ router.get("/getCount", async (req, res) => {
         pendingOrders: pending[0].pendingCount,
         acceptedOrders: '',
         dispatchedOrders: '',
-        rejectedOrders: '',
+        printedOrders: '',
     }
 
 
@@ -284,7 +283,7 @@ router.get("/getCount", async (req, res) => {
         pendingOrders: pending[0].pendingCount,
         acceptedOrders: accept[0].acceptCount,
         dispatchedOrders: '',
-        rejectedOrders: '',
+        printedOrders: '',
     }
 
 
@@ -294,7 +293,7 @@ router.get("/getCount", async (req, res) => {
         pendingOrders: pending[0].pendingCount,
         acceptedOrders: accept[0].acceptCount,
         dispatchedOrders: dispatched[0].dispatchCount,
-        rejectedOrders: '',
+        printedOrders: '',
     }
 
     const query4 = "SELECT COUNT(status) AS rejectCount FROM orders WHERE status='41'";
@@ -303,7 +302,7 @@ router.get("/getCount", async (req, res) => {
         pendingOrders: pending[0].pendingCount,
         acceptedOrders: accept[0].acceptCount,
         dispatchedOrders: dispatched[0].dispatchCount,
-        rejectedOrders: rejected[0].rejectCount,
+        printedOrders: rejected[0].rejectCount,
     }
     res.json(data);
 })
@@ -328,7 +327,6 @@ router.get("/getCustomizeCount", async (req, res) => {
         printedOrders:'',
     }
 
-
     const query2 = "SELECT COUNT(status) AS acceptCount FROM customizeorders WHERE status='Accept'";
     const accept = await sequelize.query(query2, { type: sequelize.QueryTypes.SELECT });
     data = {
@@ -338,7 +336,6 @@ router.get("/getCustomizeCount", async (req, res) => {
         rejectedOrders: '',
         printedOrders:'',
     }
-
 
     const query3 = "SELECT COUNT(status) AS dispatchCount FROM customizeorders WHERE status='Dispatched'";
     const dispatched = await sequelize.query(query3, { type: sequelize.QueryTypes.SELECT });
@@ -403,7 +400,6 @@ router.get('/getInhouseDistribution', async (req, res) => {
         res.status(404).json({ message: error.message });
     }
 });
-// SELECT MONTHNAME(placedDate) Month, SUM(fullAmount) AS 'monthly_amount' FROM orders WHERE YEAR(placedDate) = '2021' && status='40' GROUP BY MONTH(placedDate);
 
 router.get('/getCustomizeDistribution', async (req, res) => {
     try {
@@ -444,8 +440,6 @@ router.get("/getOrders/:id", async (req, res) => {
         const orderDetails = await sequelize.query(query, { type: sequelize.QueryTypes.SELECT });
         res.json(orderDetails);
     }
-
-
 
 })
 

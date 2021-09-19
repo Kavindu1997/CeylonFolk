@@ -19,11 +19,11 @@ import axios from 'axios';
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from 'react-router-dom';
 import SkipPreviousIcon from '@material-ui/icons/SkipPrevious';
-
+import ViewMessageResponse from "./ViewMessageResponse";
 
 const ResolvedInquiries = () => {
     const classes = useStyles();
-   
+    const [openPopup, setOpenPopup] = useState(false);
     const [notify, setNotify] = useState({
         isOpen: false,
         message: "",
@@ -36,8 +36,19 @@ const ResolvedInquiries = () => {
     });
     const dispatch = useDispatch();
 
+    const openInPopup = (item) => {
+        // setRecordForEdit(item);
+        setOpenPopup(true);
+    };
+
+
     // const { TblContainer, TblHead, TblPagination, recordsAfterPagingAndSorting } =
     //     useTable("", headCells, "");
+    // const onSetId = (id) => { 
+      
+    //     localStorage.setItem("contactus_id", id);
+
+    // };
 
     const defaultOptions = {
         loop: true,
@@ -49,7 +60,7 @@ const ResolvedInquiries = () => {
     };
 
     const [listOfResolvedInquiries, setListOfResolvedInquiries] = useState([]);
-
+    const [inquiryId, setInquiryId] = useState([]);
 
     useEffect(() => {
         axios.get("http://localhost:3001/notifications/resolvedInquiries").then((response) => {
@@ -57,6 +68,13 @@ const ResolvedInquiries = () => {
             setListOfResolvedInquiries(response.data);
         })
     }, []);
+
+    function setInquiryIdtoChange(value) {
+        setOpenPopup(true)
+        setInquiryId({
+            contactus_id: value.id,
+        })
+    }
 
     return (
 
@@ -78,8 +96,8 @@ const ResolvedInquiries = () => {
                                             <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Order ID</TableCell>
                                             <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Contact No</TableCell>
                                             <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Email</TableCell>
-                                            <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Message</TableCell>
-                                            <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Response</TableCell>
+                                            <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Message and Response</TableCell>
+                                           
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
@@ -91,10 +109,13 @@ const ResolvedInquiries = () => {
                                                         <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.orderId}</TableCell>
                                                         <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.contactNo}</TableCell>
                                                         <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.email}</TableCell>
-                                                        <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.message}</TableCell>
-                                                        <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.response}</TableCell>
-
-                                        
+                                                        <TableCell align="center">
+                                                            <Controls.Button
+                                                          
+                                                                text="View"
+                                                                onClick={() => setInquiryIdtoChange(value)}
+                                                            />
+                                                        </TableCell>
                                                     
                                                     </TableRow>
                                                 );
@@ -104,6 +125,15 @@ const ResolvedInquiries = () => {
                             </TableContainer>
                         </center>
                     </container>
+
+
+                    <Popup
+                        title="Resolved Inquiries"
+                        openPopup={openPopup}
+                        setOpenPopup={setOpenPopup}
+                    >
+                        <ViewMessageResponse  selectedInquiryId={inquiryId} />
+                    </Popup>
 
 
                 

@@ -21,7 +21,7 @@ import moment from 'moment';
 
 
 function getSteps() {
-  return ['Pending', 'Accept', 'Advance Paid', 'Printing', 'Printed', 'Dispatched', 'Recieved'];
+  return ['Pending', 'Accept', 'Advance Paid', 'Printing', 'Printed', 'Paid', 'Dispatched', 'Recieved'];
 }
 
 
@@ -34,6 +34,7 @@ export default function OrderView() {
   const [openPopup, setOpenPopup] = useState(false);
   const [openPopupEditDesign, setOpenEditDesignPopup] = useState(false);
   const [openPopupCancelDesign, setOpenCancelDesignPopup] = useState(false);
+  const [openClosePopup, setOpenClosePopup] = useState(false)
   const [price, setprice] = useState('')
   const [orderNo, setorderNo] = useState('')
   const [oId, setoId] = useState('')
@@ -183,6 +184,26 @@ export default function OrderView() {
         })
   }
 
+  const onRecieved = () => {
+    console.log('canceled')
+    console.log(orderNo)
+    setOpenClosePopup(false)
+
+    const data = {
+      id: oId,
+      email: email,
+      userId: uid,
+      fullName: fullName,
+      orderNo: orderNo
+      
+  }
+    axios.put('http://localhost:3001/customizeOrders/recieved/',data).then((response) => {
+            // console.log(response.data);
+            alert('Order Canceled')
+            // setlistOfOrderDetails(response.data);
+        })
+  }
+
   return (
     <div>
       <UserNav />
@@ -197,7 +218,7 @@ export default function OrderView() {
                 <Typography variant="h4">Order Summery</Typography>
 
 
-                <Stepper style={{ backgroundColor: '#ebf9fd' }} activeStep={orderDetails.status === 'Pending' ? 1 : orderDetails.status === 'Accept' ? 2 : orderDetails.status === 'Advance Paid' ? 3 : orderDetails.status === 'Printing' ? 4 : orderDetails.status === 'Printed' ? 5 : orderDetails.status === 'Dispatched' ? 6 : null} alternativeLabel>
+                <Stepper style={{ backgroundColor: '#ebf9fd' }} activeStep={orderDetails.status === 'Pending' ? 1 : orderDetails.status === 'Accept' ? 2 : orderDetails.status === 'Advance Paid' ? 3 : orderDetails.status === 'Printing' ? 4 : orderDetails.status === 'Printed' ? 5 : orderDetails.status === 'Paid' ? 6 : orderDetails.status === 'Dispatched' ? 7 : null} alternativeLabel>
                   {steps.map((label) => (
                     <Step key={label}>
                       <StepLabel>{label}</StepLabel>
@@ -251,6 +272,18 @@ export default function OrderView() {
                   }}
                   >
                     Edit Design
+                  </Button>
+
+                  <Button
+                  style={{ backgroundColor: 'black', color: 'white', margin: '20px' }}
+                  className={orderDetails.status === 'Dispatched' ? classes.activeQuantity :  classes.quantity}
+                  onClick={() => {
+                    setOpenClosePopup(true);
+                    setorderNo(orderDetails.orderNo)
+                      setoId(orderDetails.orderId)
+                  }}
+                  >
+                    Order Recieved
                   </Button>
                   
                   
@@ -352,6 +385,34 @@ export default function OrderView() {
                       // onClick={placeOrders}
                       type="submit"
                       text="YES"
+                    // onClick={() => {
+                    //     history.push('/Checkout');
+                    // }}
+                    />
+                  </Grid>
+                </Popup>
+
+                <Popup
+                  title="Close Order"
+                  openPopup={openClosePopup}
+                  setOpenPopup={setOpenClosePopup}
+                >
+                  <Grid item xs={4}>
+                    <Typography>Have you recieved the order</Typography>
+                    <Box>Then Close the Order</Box>
+
+                  </Grid>
+                  <Grid item md={12} >
+                    <Controls.Button
+                      onClick={() => {
+
+                        onRecieved()
+                        // 
+                      }}
+
+                      // onClick={placeOrders}
+                      type="submit"
+                      text="Close Order"
                     // onClick={() => {
                     //     history.push('/Checkout');
                     // }}

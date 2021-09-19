@@ -19,19 +19,21 @@ import useStyles from '../style';
 import axios from 'axios';
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from 'react-router-dom';
-
+import DeleteIcon from '@material-ui/icons/Delete';
 
 
 const OffersTable = () => {
     const classes = useStyles();
     const [openPopup, setOpenPopup] = useState(false);
     const [openPopup1, setOpenPopup1] = useState(false);
+    const [collectionId, setCollectionId] = useState([]);
     const [notify, setNotify] = useState({
         isOpen: false,
         message: "",
         type: "",
     });
     const [confirmDialog, setConfirmDialog] = useState({ isOpen: false, title: '', subTitle: '' })
+    const today = new Date().toISOString().slice(0, 10);
     const dispatch = useDispatch();
 
     // const { TblContainer, TblHead, TblPagination, recordsAfterPagingAndSorting } =
@@ -79,9 +81,9 @@ const OffersTable = () => {
         const data = { id: id }
 
 
-        axios.delete(`http://localhost:3001/sizes/remove/`, { data }).then((response) => {
+        axios.delete(`http://localhost:3001/offers`, { data }).then((response) => {
 
-            axios.get("http://localhost:3001/sizes").then((response) => {
+            axios.get("http://localhost:3001/offers").then((response) => {
                 console.log(response.data);
                 setListOfOffers(response.data);
             });
@@ -101,12 +103,40 @@ const OffersTable = () => {
     //   }
 
 
-    const onSetId = (id) => { //'Itom007'
-        localStorage.setItem("sizes_id", id);
+    // const onSetId = (id) => { //'Itom007'
+    //     localStorage.setItem("collection_id", id);
 
 
-    };
+    // };
 
+// search
+
+const [filterFn, setFilterFn] = useState({ fn: items => { return items; } });
+const {
+    TblContainer,
+    TblHead,
+    TblPagination,
+    recordsAfterPagingAndSorting
+} = useTable(listOfOffers,"", filterFn);
+
+const handleSearch = e => {
+    let target = e.target;
+    setFilterFn({
+        fn: items => {
+            if (target.value === "")
+                return items;
+            else
+                return items.filter(x => x.collection_name.toLowerCase().includes(target.value))
+        }
+    })
+}
+
+function setCollectionIdtoChange(value) {
+    setOpenPopup1(true)
+    setCollectionId({
+        collection_id: value.collection_id,
+    })
+}
 
     return (
 
@@ -118,16 +148,17 @@ const OffersTable = () => {
                 <Paper className={classes.pageContent}>
                     <Toolbar>
                         <Controls.Input
-                            label="Search Size"
+                            label="Search Offer"
                             className={classes.searchInput}
                             InputProps={{
                                 startAdornment: (
                                     <InputAdornment position="start">
                                         <Search />
                                     </InputAdornment>
+                                    
                                 ),
                             }}
-                        //onChange={handleSearch}
+                        onChange={handleSearch}
                         />
                         <Controls.Button
                             text="Add New Offer"
@@ -156,34 +187,33 @@ const OffersTable = () => {
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                        {listOfOffers
+                                        {recordsAfterPagingAndSorting()
                                             .map((value) => {
                                                 return (
                                                     <TableRow>
                                                         <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.collection_name}</TableCell>
                                                         <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.rate}%</TableCell>
                                                         <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.from}</TableCell>
-                                                        <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.to}</TableCell>
+                                                        <TableCell align="center" style={{ fontFamily: 'Montserrat' }} className={value.to<=today? classes.activeQuantityMargin : classes.quantityMargin}>{value.to}</TableCell>
                                                         <TableCell align="center">
                                                             <Controls.Button
                                                                 text="Edit"
-                                                                onClick={() => {
-                                                                    onSetId(value.id)
-                                                                    setOpenPopup1(true);
-                                                                }}
+                                                                onClick={() => setCollectionIdtoChange(value)}
                                                             />
                                                         </TableCell>
 
                                                         <TableCell align="center">
-                                                            <Button name="remove" onClick={() => {
+                                                            <Button name="remove"
+                                                            startIcon={<DeleteIcon />}
+                                                            onClick={() => {
                                                                 setConfirmDialog({
                                                                     isOpen: true,
                                                                     title: 'Are you sure to delete this?',
                                                                     subTitle: "You can't undo this operation...",
-                                                                    onConfirm: () => { onRemove(value.id) }
+                                                                    onConfirm: () => { onRemove(value.collection_id) }
                                                                 })
                                                             }}>
-                                                                <i className="fa fa-times" aria-hidden="true"></i>
+                                                          
                                                             </Button>
                                                         </TableCell>
                                                     </TableRow>
@@ -211,7 +241,8 @@ const OffersTable = () => {
                         openPopup={openPopup1}
                         setOpenPopup={setOpenPopup1}
                     >
-                        <OffersEdit />
+                       
+                        <OffersEdit  selectedCollectionId={collectionId} />
                     </Popup>
 
                     <Notification notify={notify} setNotify={setNotify} />

@@ -3,7 +3,7 @@ import { Line} from 'react-chartjs-2';
 import axios from 'axios';
 import { useStyles } from "./styles";
 import { Card, CardContent,  Divider,  Grid, Paper, Typography, } from "@material-ui/core";
-import { amber, blue, blueGrey, brown, cyan, deepOrange, green, grey, indigo, lightGreen, lime, pink, red, teal, yellow } from "@material-ui/core/colors";
+import {grey } from "@material-ui/core/colors";
 
 const LineChart = () => {
     const classes=useStyles();

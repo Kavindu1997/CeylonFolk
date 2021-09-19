@@ -20,6 +20,7 @@ import { actionDeleteCollection } from '../../_actions/collections';
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from 'react-router-dom';
 import CollectionEdit from "./EditCollectionForm";
+import DeleteIcon from '@material-ui/icons/Delete';
 
 
 const CollectionTable = () => {
@@ -33,6 +34,7 @@ const CollectionTable = () => {
     });
     const [confirmDialog, setConfirmDialog] = useState({ isOpen: false, title: '', subTitle: '' })
     const dispatch = useDispatch();
+    const [collectionId, setCollectionId] = useState([]);
 
     // const { TblContainer, TblHead, TblPagination, recordsAfterPagingAndSorting } =
     //     useTable("", headCells, "");
@@ -132,43 +134,40 @@ const CollectionTable = () => {
     //   }
 
 
-    const onSetId = (id) => { //'Itom007'
+    const onSetId = (id) => { 
         localStorage.setItem("collection_id", id);
 
 
     };
 
-    const [search, setSearch] = useState('');
-    const [record, setRecord] = useState([]);
+    const [filterFn, setFilterFn] = useState({ fn: items => { return items; } });
+    const {
+        TblContainer,
+        TblHead,
+        TblPagination,
+        recordsAfterPagingAndSorting
+    } = useTable(listOfCollections,"", filterFn);
 
 
-
-
-    const searchRecords = () => {
-
-
-        axios.get(`http://localhost:3001/collection/searchRecord/${search}`)
-            .then(response => {
-                setRecord(response.data);
-            });
-
+    
+    const handleSearch = e => {
+        let target = e.target;
+        setFilterFn({
+            fn: items => {
+                if (target.value === "")
+                    return items;
+                else
+                    return items.filter(x => x.collection_name.toLowerCase().includes(target.value))
+            }
+        })
     }
 
-    const loadRecordAgain = () => {
-        var response = fetch('http://localhost:3001/collection')
-            .then(function (response) {
-                return response.json();
-            })
-            .then(function (myJson) {
-                setRecord(myJson);
-            });
-
+    function setCollectionIdtoChange(value) {
+        setOpenPopup1(true)
+        setCollectionId({
+            collection_id: value.id,
+        })
     }
-    useEffect(() => {
-        loadRecordAgain();
-        // dispatch(fetchColors());
-    }, []);
-
 
     return (
 
@@ -179,18 +178,18 @@ const CollectionTable = () => {
                 <PageHeader title="COLLECTIONS" icon={<LayersIcon fontSize="large" />} />
                 <Paper className={classes.pageContent}>
                     <Toolbar>
-                        <Controls.Input
-                            type="text" id="form1" onKeyDown={loadRecordAgain} onKeyUp={searchRecords} onChange={(e) => setSearch(e.target.value)}
-                            label="Search Collections"
+                    <Controls.Input
+                            label="Search Collection"
                             className={classes.searchInput}
                             InputProps={{
                                 startAdornment: (
                                     <InputAdornment position="start">
                                         <Search />
                                     </InputAdornment>
+                                    
                                 ),
                             }}
-                        //onChange={handleSearch}
+                        onChange={handleSearch}
                         />
                         <Controls.Button
                             text="Add New Collection"
@@ -218,7 +217,7 @@ const CollectionTable = () => {
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                        {record
+                                        {recordsAfterPagingAndSorting()
                                             .map((value) => {
                                                 return (
                                                     <TableRow>
@@ -237,10 +236,7 @@ const CollectionTable = () => {
                                                         <TableCell align="center">
                                                             <Controls.Button
                                                                 text="Edit"
-                                                                onClick={() => {
-                                                                    onSetId(value.id)
-                                                                    setOpenPopup1(true);
-                                                                }}
+                                                                onClick={() => setCollectionIdtoChange(value)}
                                                             />
                                                         </TableCell>
 
@@ -249,7 +245,9 @@ const CollectionTable = () => {
                                                  
                                                      
                                                         <TableCell align="center">
-                                                            <Button name="remove" onClick={() => {
+                                                            <Button name="remove" 
+                                                            startIcon={<DeleteIcon />}
+                                                            onClick={() => {
                                                                 setConfirmDialog({
                                                                     isOpen: true,
                                                                     title: 'Are you sure to delete this?',
@@ -257,7 +255,7 @@ const CollectionTable = () => {
                                                                     onConfirm: () => { onRemove(value.id) }
                                                                 })
                                                             }}>
-                                                                <i className="fa fa-times" aria-hidden="true"></i>
+                                                               
                                                             </Button>
                                                         </TableCell>
                                                     </TableRow>
@@ -286,7 +284,8 @@ const CollectionTable = () => {
                         openPopup={openPopup1}
                         setOpenPopup={setOpenPopup1}
                     >
-                        <CollectionEdit />
+                      
+                        <CollectionEdit selectedCollectionId={collectionId} />
                     </Popup>
 
                     <Notification notify={notify} setNotify={setNotify} />

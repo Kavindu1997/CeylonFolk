@@ -96,9 +96,9 @@ const AcceptedOrders = () => {
 
                     <container>
                         <center>
-                            
-                            <TableContainer style={{ marginTop: '30px', align: 'center', width: '1200px' }}>
-                                <Table className={classes.table} aria-label="simple table">
+                        <Typography variant="h5" style={{ textAlign: 'center', backgroundColor: '#C6C6C6', padding: '20px', fontWeight: '600', letterSpacing: '5px' }}>PRINTED ORDERS </Typography>
+                            <TableContainer style={{ marginTop: '30px', align: 'center', width: '100%' }}>
+                                <Table className={classes.table} aria-label="simple table" style={{ overflowWrap: 'anywhere' }}>
                                     <TableHead>
                                         <TableRow>
                                             <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Customer ID</TableCell>
@@ -122,7 +122,7 @@ const AcceptedOrders = () => {
                                                         <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.status}</TableCell>
                                                         <TableCell align="center" style={{ fontFamily: 'Montserrat' }}><img height={100} align="center" src={'http://localhost:3001/' + value.image} alt=""></img></TableCell>                                                       
                                                         
-                                                        <TableCell align="center">
+                                                        {/* <TableCell align="center">
                                                             <Button name="accept" 
                                                             onClick={() => {
                                                                 // onDispatched(value.orderId)
@@ -133,7 +133,7 @@ const AcceptedOrders = () => {
                                                             >
                                                                 DISPATCHED
                                                             </Button>
-                                                        </TableCell>
+                                                        </TableCell> */}
                                                     </TableRow>
                                                 );
                                             })}
@@ -144,7 +144,7 @@ const AcceptedOrders = () => {
                     </container>
 
 
-                    <Popup
+                    {/* <Popup
                         title="Ready to Dispatch"
                         openPopup={openPopup}
                         setOpenPopup={setOpenPopup}
@@ -165,7 +165,7 @@ const AcceptedOrders = () => {
                     {<ConfirmDialog
                         confirmDialog={confirmDialog}
                         setConfirmDialog={setConfirmDialog}
-                    />}
+                    />} */}
                 
             </main>
         </div>

@@ -1,30 +1,28 @@
 import React, { useState, useEffect } from "react";
 import PageHeader from "../PageHeader";
 import LayersIcon from "@material-ui/icons/Layers";
-import { Search } from "@material-ui/icons";
-import AddIcon from "@material-ui/icons/Add";
-import { makeStyles, Paper, TableBody, TableRow, Divider, TableCell, Toolbar, InputAdornment, Typography, Table, TableContainer, TableHead, Button, Link, Box, Grid } from "@material-ui/core";
+import { Paper, TableBody, TableRow, TableCell, Typography, Table, TableContainer, TableHead, Button, Box, Grid } from "@material-ui/core";
 import Controls from "../../../components/Reusable/Controls";
 import Popup from "../../../components/Reusable/Popup";
 import Notification from "../../../components/Reusable/Notification";
 import ConfirmDialog from "../../../components/Reusable/ConfirmDialog";
-import Collection from "../../../images/collection.json";
 import AdminNav from "../../../components/Reusable/AdminNav"
 import useStyles from '../style';
 import axios from 'axios';
-import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from 'react-router-dom';
 import AcceptedOrders from './AcceptedOrders';
 import PrintingOrders from './PrintingOrders';
 import PrintedOrders from './PrintedOrders';
 import DispatchedOrders from "./DispatchedOrders";
 import ClosedOrders from "./ClosedOrders";
 import AdvancePaidOrders from "./AdvancePaidOrders";
-
+import PaidOrders from "./PaidOrders";
 
 const CustomizeOrderTable = () => {
-    
+
     const classes = useStyles();
+
+    var email = localStorage.getItem("userEmail");
+
     const [openPopup, setOpenPopup] = useState(false);
     const [openRejectPopup, setOpenRejectPopup] = useState(false);
     const [toggleState, setToggleState] = useState(1);
@@ -40,16 +38,14 @@ const CustomizeOrderTable = () => {
         title: "",
         subTitle: "",
     });
-    
     const [listOfOrderDetails, setlistOfOrderDetails] = useState([]);
     const [price, setprice] = useState()
     const [reason, setReason] = useState()
-    
-    const dispatch = useDispatch();
-
-
-    let history = useHistory();
-
+    const [openViewPopup, setOpenViewPopup] = useState(false)
+    const [pendingcount, setPendingCount] = useState();
+    const [acceptcount, setAcceptCount] = useState();
+    const [dispatchcount, setDispatchCount] = useState();
+    const [cancelcount, setPrintedCount] = useState();
     const changePrice = (e) => {
         setprice(e.target.value)
     }
@@ -60,12 +56,17 @@ const CustomizeOrderTable = () => {
 
     useEffect(() => {
         axios.get('http://localhost:3001/customizeOrders/orderDetails').then((response) => {
-            // console.log(response.data);
             setlistOfOrderDetails(response.data);
         })
-    }, []);
 
-    var email = localStorage.getItem("userEmail");
+        axios.get("http://localhost:3001/customizeOrders/getCount").then((response) => {
+            console.log(response.data.pendingOrders);
+            setPendingCount(response.data.pendingOrders);
+            setAcceptCount(response.data.acceptedOrders);
+            setDispatchCount(response.data.dispatchedOrders);
+            setPrintedCount(response.data.printedOrders);
+        });
+    }, []);
 
     const onAccept = () => {
         console.log('oId')
@@ -81,16 +82,13 @@ const CustomizeOrderTable = () => {
             email: email
         }
 
-        axios.put('http://localhost:3001/customizeOrders/orderAccepted/',data).then((response) => {
-            // console.log(response.data);
+        axios.put('http://localhost:3001/customizeOrders/orderAccepted/', data).then((response) => {
             alert('Order Accepted')
             setlistOfOrderDetails(response.data);
-            <AcceptedOrders/>
-            // setlistOfOrderDetails(response.data);
+            <AcceptedOrders />
         })
 
         axios.get('http://localhost:3001/customizeOrders/orderDetails').then((response) => {
-            // console.log(response.data);
             setlistOfOrderDetails(response.data);
         })
         // setToggleState(2);
@@ -105,16 +103,15 @@ const CustomizeOrderTable = () => {
 
         const data = {
             id: oId,
-            notification:reason,
+            notification: reason,
             email: email,
             orderNo: oNo,
-            
+
         }
         console.log(oId)
         setOpenRejectPopup(false);
 
-        axios.put('http://localhost:3001/customizeOrders/reject/',data).then((response) => {
-            // console.log(response.data);
+        axios.put('http://localhost:3001/customizeOrders/reject/', data).then((response) => {
             alert('Order Rejected')
             // setlistOfOrderDetails(response.data);
         })
@@ -125,14 +122,14 @@ const CustomizeOrderTable = () => {
         })
         setToggleState(2);
 
-        <AcceptedOrders/>
+        <AcceptedOrders />
     };
 
     const toggleTab = (index) => {
         setToggleState(index);
-      };
+    };
 
-      const openInPopup = (item) => {
+    const openInPopup = (item) => {
         // setRecordForEdit(item);
         setOpenPopup(true);
     };
@@ -143,126 +140,143 @@ const CustomizeOrderTable = () => {
         <div style={{ display: "flex" }}>
             <AdminNav />
             <main className={classes.content}>
-
                 <PageHeader title="CustomizedOrders" icon={<LayersIcon fontSize="large" />} />
-                
-                <Paper className={classes.pageContent}>
 
-                
+                <div className={classes.stat} style={{marginLeft: '36px', marginRight:'36px',}}>
 
-                    <Toolbar>
-                        <Controls.Input
-                            label="Search Orders"
-                            className={classes.searchInput}
-                            InputProps={{
-                                startAdornment: (
-                                    <InputAdornment position="start">
-                                        <Search />
-                                    </InputAdornment>
-                                ),
-                            }}
-                        //onChange={handleSearch}
-                        />
-                    </Toolbar>
+                    <Paper elevation={3} className={classes.featured}>
+                        <div className={classes.featuredItem}>
+                            <span className={classes.featuredTitle}>Pending Orders</span>
+                            <div className={classes.featuredItemCount}>
+                                <span className={classes.featuredCount}>{pendingcount}</span>
+                            </div>
+                        </div>
+                    </Paper>
+                    <Paper elevation={3} className={classes.featured}>
+                        <div className={classes.featuredItem}>
+                            <span className={classes.featuredTitle}>Printing Orders</span>
+                            <div className={classes.featuredItemCount}>
+                                <span className={classes.featuredCount}>{acceptcount}</span>
+                            </div>
+                        </div>
+                    </Paper>
+                    <Paper elevation={3} className={classes.featured}>
+                        <div className={classes.featuredItem}>
+                            <span className={classes.featuredTitle}>Dispatched Orders</span>
+                            <div className={classes.featuredItemCount}>
+                                <span className={classes.featuredCount}>{dispatchcount}</span>
+                            </div>
+                        </div>
+                    </Paper>
+                    <Paper elevation={3} className={classes.featured}>
+                        <div className={classes.featuredItem}>
+                            <span className={classes.featuredTitle}>Rejected Orders</span>
+                            <div className={classes.featuredItemCount}>
+                                <span className={classes.featuredCount}>{cancelcount}</span>
+                            </div>
+                        </div>
+                    </Paper>
 
-                    <Typography variant="h5" style={{ marginTop: '80px', textAlign: 'center', backgroundColor: '#C6C6C6', padding: '30px', fontFamily: 'Montserrat' }}>CUSTOMIZED ORDERS </Typography>
-
-                    <Box style={{display:'flex', padding: '24px 10px 0px 48px'}}>
-                    <Divider orientation="vertical" flexItem />
-                        <Button onClick={() => toggleTab(1)}>Pending Orders</Button>
-                        <Divider orientation="vertical" flexItem />
-                        <Button onClick={() => toggleTab(2)}>Accepted Orders</Button>
-                        <Divider orientation="vertical" flexItem />
-                        <Button onClick={() => toggleTab(7)}>Advance Paid Orders</Button>
-                        <Divider orientation="vertical" flexItem />
-                        <Button onClick={() => toggleTab(3)}>Printing Orders</Button>
-                        <Divider orientation="vertical" flexItem />
-                        <Button onClick={() => toggleTab(4)}>Printed Orders</Button>
-                        <Divider orientation="vertical" flexItem />
-                        <Button onClick={() => toggleTab(5)}>Dispatched</Button>
-                        <Divider orientation="vertical" flexItem />
-                        <Button onClick={() => toggleTab(6)}>Closed Orders</Button>
-                        <Divider orientation="vertical" flexItem />
+                </div>
+                <Box>
+                    <Box style={{ display: 'flex', justifyContent: 'space-between', padding: '5px', marginLeft: '36px', marginRight:'36px', marginTop:'40px' }}>
+                        <Button className={classes.toggleButton} variant="outlined" onClick={() => toggleTab(1)}>Pending Orders</Button>
+                        <Button className={classes.toggleButton} variant="outlined" onClick={() => toggleTab(2)}>Accepted Orders</Button>
+                        <Button className={classes.toggleButton} variant="outlined" onClick={() => toggleTab(7)}>Advance Paid Orders</Button>
+                        <Button className={classes.toggleButton} variant="outlined" onClick={() => toggleTab(3)}>Printing Orders</Button>
+                        <Button className={classes.toggleButton} variant="outlined" onClick={() => toggleTab(4)}>Printed Orders</Button>
+                        <Button className={classes.toggleButton} variant="outlined" onClick={() => toggleTab(8)}>Paid Orders</Button>
+                        <Button className={classes.toggleButton} variant="outlined" onClick={() => toggleTab(5)}>Dispatched</Button>
+                        <Button className={classes.toggleButton} variant="outlined" onClick={() => toggleTab(6)}>Closed Orders</Button>
                     </Box>
 
-
-                    <container>
+                    
+                    <Paper className={classes.pageContent} style={{margin:'30px', padding:'20px'}}>
+                    <container className={toggleState === 1 ? classes.activeContent : classes.hideContent}>
                         <center>
-                            
-                            <TableContainer style={{ marginTop: '30px', align: 'center', width: '1200px' }} className={toggleState === 1 ? classes.activeContent : classes.hideContent}>
-                                <Table className={classes.table} aria-label="simple table">
+                        <Typography variant="h5" style={{ textAlign: 'center', backgroundColor: '#C6C6C6', padding: '20px', fontWeight: '600', letterSpacing: '5px' }}>PENDING ORDERS </Typography>
+                            <TableContainer style={{ marginTop: '30px', align: 'center', width: '100%' }} >
+                                <Table className={classes.table} aria-label="simple table" style={{ overflowWrap: 'anywhere' }}>
                                     <TableHead>
                                         <TableRow>
-                                            <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Customer ID</TableCell>
-                                            <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Customer Name</TableCell>
-                                            <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Customer Email</TableCell>
-                                            <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Order No</TableCell>
-                                            <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Order Status</TableCell>
-                                            <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Design</TableCell>
-                                            <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}></TableCell>
-                                            <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}></TableCell>
-                                            <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}></TableCell>
+                                            <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600, }}>Customer Name</TableCell>
+                                            <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600, }}>Customer Email</TableCell>
+                                            <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600, }}>Order No</TableCell>
+                                            <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600, }}>Price</TableCell>
+                                            <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600, }}>Order Status</TableCell>
+                                            <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600, }}></TableCell>
+                                            <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600, }}></TableCell>
+                                            <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600, }}></TableCell>
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                    {listOfOrderDetails
-                                            .map((value,index) => {
-                                                // console.log(value.orderId)
+                                        {listOfOrderDetails
+                                            .map((value, index) => {
                                                 return (
-
-                                        
                                                     <TableRow key={index}>
-                                                        
-                                                        <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.customerId}</TableCell>
                                                         <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.customerName}</TableCell>
                                                         <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.customerEmail}</TableCell>
                                                         <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.orderNo}</TableCell>
+                                                        <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.price}</TableCell>
                                                         <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.status}</TableCell>
-                                                        <TableCell align="center" style={{ fontFamily: 'Montserrat' }}><img height={100} align="center" src={'http://localhost:3001/' + value.image} alt=""></img></TableCell>                                                       
                                                         <TableCell align="center">
-                                                            <Button name="view" 
-                                                            onClick={() => window.location.href = "http://localhost:3001/" + value.image}
-                                                            style={{backgroundColor:'black', color:'white', fontSize: '10px', padding: '4px'}}
+                                                            <Button name="view"
+                                                                onClick={() => {
+
+                                                                    setOpenViewPopup(true);
+
+                                                                }}
+                                                                style={{ backgroundColor: 'black', color: 'white', fontSize: '12px', padding: '6px' }}
                                                             >
                                                                 VIEW DESIGN
                                                             </Button>
-                                                            
+
+                                                            <Popup
+                                                                title="Design"
+                                                                openPopup={openViewPopup}
+                                                                setOpenPopup={setOpenViewPopup}
+                                                            >
+                                                                <Box>
+                                                                    <img height={200} align="center" src={'http://localhost:3001/' + value.image} alt=""></img>
+                                                                </Box>
+                                                            </Popup>
+
                                                         </TableCell>
                                                         <TableCell align="center">
-                                                            <Button name="accept" 
-                                                            className={value.status === 'Pending' ? classes.activeQuantity : classes.quantity}
-                                                            style={{backgroundColor:'green', color:'white', fontSize: '10px', padding: '4px'}}
-                                                            onClick={() => {
-                                                                
-                                                                setOpenPopup(true);
-                                                                setoId(value.orderId)
-                                                                setoNo(value.orderNo)
-                                                                console.log(value.orderNo)
-                                                            }}
+                                                            <Button name="accept"
+                                                                className={value.status === 'Pending' ? classes.activeQuantity : classes.quantity}
+                                                                style={{ backgroundColor: 'green', color: 'white', fontSize: '12px', padding: '6px' }}
+                                                                onClick={() => {
+
+                                                                    setOpenPopup(true);
+                                                                    setoId(value.orderId)
+                                                                    setoNo(value.orderNo)
+                                                                    console.log(value.orderNo)
+                                                                }}
                                                             >
                                                                 ACCEPT ORDER
                                                             </Button>
                                                         </TableCell>
                                                         <TableCell align="center">
-                                                            <Button name="accept" 
-                                                            className={value.status === 'Pending' ? classes.activeQuantity : classes.quantity}
-                                                            style={{backgroundColor:'red', color:'white', fontSize: '10px', padding: '4px'}}
-                                                            
-                                                            onClick={() => {
-                                                                
-                                                                setOpenRejectPopup(true);
-                                                                setoId(value.orderId)
-                                                                setoNo(value.orderNo)
-                                                            }}
+                                                            <Button name="accept"
+                                                                className={value.status === 'Pending' ? classes.activeQuantity : classes.quantity}
+                                                                style={{ backgroundColor: 'red', color: 'white', fontSize: '12px', padding: '6px' }}
+
+                                                                onClick={() => {
+
+                                                                    setOpenRejectPopup(true);
+                                                                    setoId(value.orderId)
+                                                                    setoNo(value.orderNo)
+                                                                }}
                                                             >
                                                                 REJECT ORDER
                                                             </Button>
                                                         </TableCell>
 
                                                         <Popup
-                                                        title="Send the Estimated Price"
-                                                        openPopup={openPopup}
-                                                        setOpenPopup={setOpenPopup}
+                                                            title="Send the Estimated Price"
+                                                            openPopup={openPopup}
+                                                            setOpenPopup={setOpenPopup}
                                                         >
                                                             <Grid item xs={6}>
                                                                 <Controls.Input
@@ -278,17 +292,15 @@ const CustomizeOrderTable = () => {
                                                                     text="Send Price"
                                                                     onClick={() => {
                                                                         onAccept()
-                                                                        // console.log('hi idddd')
-                                                                        // console.log(value.orderId)
                                                                     }}
                                                                 />
                                                             </Grid>
                                                         </Popup>
 
                                                         <Popup
-                                                        title="Reason for the rejection"
-                                                        openPopup={openRejectPopup}
-                                                        setOpenPopup={setOpenRejectPopup}
+                                                            title="Reason for the rejection"
+                                                            openPopup={openRejectPopup}
+                                                            setOpenPopup={setOpenRejectPopup}
                                                         >
                                                             <Grid item >
                                                                 <Controls.Input
@@ -309,60 +321,55 @@ const CustomizeOrderTable = () => {
                                                                 />
                                                             </Grid>
                                                         </Popup>
-                                                        
                                                     </TableRow>
 
-                                                    
+                                                );
+                                            })}
 
-);
-})}
-                                                
                                     </TableBody>
                                 </Table>
                             </TableContainer>
                         </center>
                     </container>
 
-
-
                     <Box className={toggleState === 2 ? classes.activeContent : classes.hideContent}>
-                    <AcceptedOrders />
+                        <AcceptedOrders />
                     </Box>
 
                     <Box className={toggleState === 3 ? classes.activeContent : classes.hideContent}>
-                    <PrintingOrders />
+                        <PrintingOrders />
                     </Box>
 
                     <Box className={toggleState === 4 ? classes.activeContent : classes.hideContent}>
-                    <PrintedOrders />
+                        <PrintedOrders />
                     </Box>
 
                     <Box className={toggleState === 5 ? classes.activeContent : classes.hideContent}>
-                    <DispatchedOrders />
+                        <DispatchedOrders />
                     </Box>
 
                     <Box className={toggleState === 6 ? classes.activeContent : classes.hideContent}>
-                    <ClosedOrders />
+                        <ClosedOrders />
                     </Box>
 
                     <Box className={toggleState === 7 ? classes.activeContent : classes.hideContent}>
-                    <AdvancePaidOrders />
+                        <AdvancePaidOrders />
                     </Box>
 
-                    
+                    <Box className={toggleState === 8 ? classes.activeContent : classes.hideContent}>
+                        <PaidOrders />
+                    </Box>
 
                     <Notification notify={notify} setNotify={setNotify} />
 
                     {<ConfirmDialog
                         confirmDialog={confirmDialog}
-                        // setConfirmDialog={setConfirmDialog}
+                    // setConfirmDialog={setConfirmDialog}
                     />}
 
-                    
-
                 </Paper>
+                </Box>
 
-                
             </main>
         </div>
     );
