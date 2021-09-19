@@ -211,6 +211,7 @@ const Shop = () => {
         //             setRecord(myJson);
         //         });
         // }
+                })
     };
 
     useEffect(() => {
