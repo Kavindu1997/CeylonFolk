@@ -5,6 +5,7 @@ import { Paper, TableBody, TableRow, TableCell, Typography, Table, TableContaine
 import { useParams } from 'react-router';
 import axios from 'axios';
 import OrderStatusChange from "./OrderStatusChange";
+import { API_URL } from '../../../_constants';
 
 function RejectedOrders() {
     const classes = useStyles();
@@ -14,7 +15,7 @@ function RejectedOrders() {
     const [orderId, setOrderId] = useState([]);
 
     useEffect(() => {
-        axios.get(`http://localhost:3001/order/getOrders/${id}`).then((response) => {
+        axios.get(API_URL + `/order/getOrders/${id}`).then((response) => {
             console.log(response.data);
             setOrderDetailsList(response.data);
         });

@@ -5,6 +5,7 @@ import * as Yup from 'yup';
 import { CssBaseline, TextField, Button, Grid, Typography, Link } from '@material-ui/core';
 import axios from 'axios';
 import { Formik, Form, Field, ErrorMessage } from "formik";
+import { API_URL } from '../../_constants';
 
 
 function ForgotPassword() {
@@ -22,7 +23,7 @@ function ForgotPassword() {
 
     const forgot = (data, props) => {
         console.log(data);
-        axios.post("http://localhost:3001/auth/forgotPassword", data).then((response) => {
+        axios.post(API_URL + "/auth/forgotPassword", data).then((response) => {
             if (response.data.error) {
                 alert(response.data.error);
             }
@@ -65,7 +66,6 @@ function ForgotPassword() {
                                 </Form>
                             )}
                         </Formik>
-
                     </Grid>
                 </Grid>
             </div >
