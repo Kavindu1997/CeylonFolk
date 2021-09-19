@@ -1,7 +1,0 @@
-export const CouponActionTypes = {
-    FETCH_COUPONS: "FETCH_COUPONS",
-    CREATE_COUPON:"CREATE_COUPON",
-    DELETE_COUPON:"DELETE_COUPON",
-    UPDATE_COUPON:"UPDATE_COUPON",
-  };
-  

@@ -7,7 +7,7 @@ import { Search } from '@material-ui/icons';
 import AddIcon from '@material-ui/icons/Add';
 import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 import CloseIcon from '@material-ui/icons/Close';
-import { makeStyles, Paper, TableBody, TableRow, TableCell, Toolbar, InputAdornment,Typography, IconButton } from '@material-ui/core';
+import { Paper, TableBody, TableRow, TableCell, Toolbar, InputAdornment,Typography, IconButton } from '@material-ui/core';
 import useTable from '../../../components/Reusable/useTable';
 import Controls from '../../../components/Reusable/Controls';
 import Popup from '../../../components/Reusable/Popup';
@@ -15,14 +15,11 @@ import Notification from '../../../components/Reusable/Notification';
 import ConfirmDialog from '../../../components/Reusable/ConfirmDialog';
 import useStyles from '../style';
 import AdminNav from "../../../components/Reusable/AdminNav"
-import Lottie from 'react-lottie';
-import User from '../../../images/user.json';
 import axios from 'axios';
 import PictureAsPdfIcon from '@material-ui/icons/PictureAsPdf';
 import logo from '../../../images/logo.png';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
-
 
 
 const headCells = [
@@ -133,15 +130,7 @@ const UserTable = () => {
         });
 
     }
-    const defaultOptions = {
-        loop: true,
-        autoplay: true,
-        animationData: User,
-        rendererSettings: {
-            preserveAspectRatio: "xMidYMid slice"
-        }
-    };
-
+ 
     const downloadPdf=()=>{
         const doc = new jsPDF("portrait","px","a4");
         doc.addImage(logo,'PNG',20,5,36,0);
@@ -169,7 +158,6 @@ const UserTable = () => {
                                     <PictureAsPdfIcon fontSize="large"/>
                     </IconButton>
                
-                {/* <Lottie options={defaultOptions} height={150} width={150} style={{marginTop:'-150px',marginRight:'30px'}} /> */}
 
                 <Paper className={classes.pageContent}>
 
@@ -225,7 +213,7 @@ const UserTable = () => {
                                                         subTitle: "You can't undo this operation...",
                                                         onConfirm: () => { onDelete(item.id) }
                                                     })
-                                                    //  onDelete(item.id)
+                                                 
                                                 }}>
                                                 <CloseIcon fontSize="small" />
                                             </Controls.ActionButton>

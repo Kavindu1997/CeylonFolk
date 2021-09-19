@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import { ChromePicker } from 'react-color';
 import { Typography, Button} from '@material-ui/core';
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch,} from "react-redux";
 import {setColors} from '../../_actions/colorActions'
 
 const ColorPicker = () => {
@@ -36,9 +36,6 @@ const ColorPicker = () => {
             <Typography>You Picked {pickerColor}</Typography>
             <Button type='submit' onClick={pickedCOlor}>Picked Color</Button>
         </div>
-
-
-        
 
     );
 };

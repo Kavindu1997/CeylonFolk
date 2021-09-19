@@ -3,7 +3,7 @@ import { Doughnut } from 'react-chartjs-2';
 import axios from 'axios';
 import { useStyles } from "./styles";
 import { Card, CardContent,  Divider,  Grid, Paper, Typography, } from "@material-ui/core";
-import { blue, brown, cyan, deepOrange, green, grey, indigo, lightGreen, lime, pink, purple, red, teal, yellow } from "@material-ui/core/colors";
+import { blue,green, purple, red, yellow } from "@material-ui/core/colors";
 
 const DoughNut = () => {
     const classes=useStyles();
@@ -16,7 +16,6 @@ const DoughNut = () => {
 
     useEffect(() => {
         axios.get("http://localhost:3001/order/getCustomizeCount").then((response) => {
-            //console.log(response.data.pendingOrders);
             setPendingCount(response.data.pendingOrders);
             setAcceptCount(response.data.acceptedOrders);
             setPrintedCount(response.data.printedOrders);

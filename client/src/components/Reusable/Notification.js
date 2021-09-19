@@ -8,7 +8,6 @@ const useStyles=makeStyles(theme=>({
      }
 }));
 
-
 const Notification = (props) => {
     const classes=useStyles();
     const {notify,setNotify}=props;

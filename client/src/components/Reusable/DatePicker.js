@@ -6,7 +6,6 @@ export default function DatePicker(props) {
 
     const { name, label, value, onChange } = props
 
-
     const convertToDefEventPara = (name, value) => ({
         target: {
             name, value
@@ -21,7 +20,6 @@ export default function DatePicker(props) {
                 name={name}
                 value={value}
                 onChange={date =>onChange(convertToDefEventPara(name,date))}
-
             />
         </MuiPickersUtilsProvider>
     )

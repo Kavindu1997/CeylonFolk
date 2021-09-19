@@ -15,8 +15,6 @@ import Notification from '../../../components/Reusable/Notification';
 import ConfirmDialog from '../../../components/Reusable/ConfirmDialog';
 import useStyles from '../style';
 import AdminNav from "../../../components/Reusable/AdminNav"
-import Lottie from 'react-lottie';
-import Coupon from '../../../images/coupon.json';
 import axios from 'axios';
 
 
@@ -125,14 +123,6 @@ const CouponTable = () => {
 
     }
 
-    const defaultOptions = {
-        loop: true,
-        autoplay: true,
-        animationData: Coupon,
-        rendererSettings: {
-            preserveAspectRatio: "xMidYMid slice"
-        }
-    };
     return (
         <div style={{display:"flex"}}>
         <AdminNav/>
@@ -141,8 +131,6 @@ const CouponTable = () => {
             title="COUPONS"
             icon={<LoyaltyIcon fontSize="large"/>}
             />
-
-        {/* <Lottie options={defaultOptions} height={150} width={150} style={{marginTop:'-150px',marginRight:'30px'}} /> */}
 
         <Paper className={classes.pageContent}>
          
@@ -196,7 +184,6 @@ const CouponTable = () => {
                                                         subTitle: "You can't undo this operation...",
                                                         onConfirm: () => { onDelete(item.id) }
                                                     })
-                                                    //  onDelete(item.id)
                                                 }}>
                                                 <CloseIcon fontSize="small" />
                                             </Controls.ActionButton>

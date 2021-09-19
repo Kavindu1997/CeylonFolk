@@ -104,7 +104,6 @@ router.post("/newPassword", async (req, res) => {
     const sentToken = req.body.token;
 
     const user = await Users.findOne({ where: { resetToken: sentToken } });
-    // console.log(user)
     if (!user) {
         return res.json({ error: "Session Expire" });
     }
@@ -145,9 +144,6 @@ router.get('/',async(req,res)=>{
     try {
         const query = "SELECT users.id,firstName,lastName,email,contactNo,user_type_id,type FROM users INNER JOIN usertypes on users.user_type_id=usertypes.id";
         const userList = await sequelize.query(query, { type: sequelize.QueryTypes.SELECT });
-        // const userList=await Users.findAll({
-        //     attributes:{exclude:["createdAt","updatedAt"]}
-        // });
         res.json(userList);
     } catch (error) {
         res.status(404).json({message:error.message});
@@ -184,10 +180,5 @@ router.delete("/:userId",async (req,res)=>{
     });
     res.json("DELETED SUCCESSFULLY");
 })
-
-
-
-
-
 
 module.exports = router;

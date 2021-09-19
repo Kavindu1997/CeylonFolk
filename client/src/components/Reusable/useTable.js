@@ -129,7 +129,6 @@ const useTable = (records,headCells,filterFn) => {
         recordsAfterPagingAndSorting
     } 
        
-    
 };
 
 export default useTable;
