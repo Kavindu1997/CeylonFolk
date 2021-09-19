@@ -11,7 +11,6 @@ const nodemailer = require('nodemailer');
 router.post("/order", async (req, res) => {
     var uid = req.body.id;
     var oId = req.body.orderId;
-    console.log(uid)
     const query = "SELECT designs.coverImage,designs.design_name, orderitems.quantity, orderitems.size, orderitems.purchasedUnitPrice AS price, SUM(orderitems.quantity*orderitems.purchasedUnitPrice) AS totals FROM orderitems INNER JOIN designs ON designs.id=orderitems.itemId INNER JOIN orders ON orders.orderId=orderitems.orderId INNER JOIN masterdata ON masterdata.id=orders.status WHERE orders.customerId='" + uid + "' AND orders.orderId='" + oId + "' AND masterdata.id='4' AND orderitems.isDeleted='0' GROUP BY orderitems.itemId, orderitems.size";
     const fetchOrder = await sequelize.query(query, { type: sequelize.QueryTypes.SELECT });
     res.json(fetchOrder);
@@ -52,7 +51,6 @@ router.post("/", upload.single('photo'), async (req, res) => {
         const imagePath = 'public/bankSlips/' + req.file.filename;
         const uid = req.body.uid;
         const date = req.body.date;
-        console.log(date)
         const query = "INSERT INTO deposits (customerId,orderId,slip,uploadedDate) VALUES('"+uid+"','"+orderId+"','"+imagePath+"','"+date+"')";
         const uploadslip = await sequelize.query(query, { type: sequelize.QueryTypes.INSERT });
         const query1 = "UPDATE orders SET status='5' WHERE orderId='"+orderId+"'";
@@ -72,7 +70,6 @@ router.get("/allDepositSlips", async(req,res) => {
 })
 
 router.post("/paymentAccepted", async(req,res) => {
-    console.log(req.body)
     const orderId = req.body.orderId;
     const query = "UPDATE deposits SET isValidated = '1',isProcessed='1' WHERE orderId='"+orderId+"' AND isValidated='0' AND isProcessed='0'";
     const acceptPayment = await sequelize.query(query, { type: sequelize.QueryTypes.UPDATE });
@@ -121,7 +118,6 @@ router.post("/paymentRejected", async(req,res) => {
 })
 
 async function sendEmail(emailDetails){
-    console.log("email option")
     const htmlEmail = `
             <h4> ${emailDetails.message} <h4>
             <ul> 
@@ -142,7 +138,6 @@ async function sendEmail(emailDetails){
                 pass: "pkjjt@1234"
             }
         });
-        console.log(emailDetails)
         const mailOptions = {
             from: 'testceylonfolk@gmail.com', // sender address
             to: 'januyash8@gmail.com', // list of receivers
@@ -152,15 +147,11 @@ async function sendEmail(emailDetails){
             html: htmlEmail
 
         };
-console.log("email option")
             await transporter.sendMail(mailOptions,(err,info) =>{
             if(err){
-                        console.log("error in sending mail",err)
                         return 0
                     }
                     else{
-                        console.log("successfully send message",info)
-                        alert("successfully send message");
                         return 1
                     }
                  } );  

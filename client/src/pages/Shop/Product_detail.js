@@ -58,8 +58,6 @@ export default function Product_detail() {
   const [quantity, setQuantity] = useState();
   const oneProduct = useSelector((state) => state.selectProductReducer)
   const { coverImage, design_name, price, discountedPrice } = oneProduct;
-  console.log(oneProduct)
-  // console.log(designName)
   const [productSize, setProductSize] = useState();
   const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' });
   const [rate, setrate] = useState();
@@ -67,21 +65,6 @@ export default function Product_detail() {
 
   var isSizeRequired = false;
 
-  
-
-  // console.log('hello from redux')
-  // console.log(products)
-  // const {Category} = products[0];
-  // console.log(Category)
-
-  // const fetchProductDetails = async () =>{
-  //   axios.get(`http://localhost:3001/ProductDetails/byPid/${id}`).then((response) => {
-  //     // setProductObject(response.data);
-  //     console.log(response.data)
-  //     console.log('hello from response from shop server')
-  //     dispatch(selectedProduct(response.data))
-  //   });
-  // }
 
   useEffect(() => {
     if (id && id !== '') dispatch(fetchProduct(id));
@@ -93,20 +76,14 @@ export default function Product_detail() {
   useEffect(() => {
     axios.get(`http://localhost:3001/ProductDetails/byId/${id}`).then((response) => {
       setProductO(response.data);
-      console.log('hello from product')
-      console.log(response.data)
-      console.log('hello from product')
     });
 
     axios.get(`http://localhost:3001/ProductDetails/byIdImages/${id}`).then((response) => {
       setImageArray(response.data);
-      // console.log(response)
     });
 
     axios.get(`http://localhost:3001/ProductDetails/rate/${id}`).then((response) => {
       setrate(response.data[0].rate);
-      console.log("hiiirate")
-      console.log(response.data[0].rate)
     });
 
     // axios.get(`http://localhost:3001/ProductDetails/byPid/${id}`).then((response) => {
@@ -126,9 +103,6 @@ export default function Product_detail() {
 
     axios.get(`http://localhost:3001/ProductDetails/quantity/${id}`).then((response) => {
       setQuantity(response.data);
-      console.log('hello handle2')
-      console.log(response.data)
-      console.log('hello handle2')
     });
 
   }, []);
@@ -164,17 +138,16 @@ export default function Product_detail() {
   }
 
   var [index1, setIndex1] = useState(0);
-  console.log(index1)
+
 
   var [sizeSelect,setSizeSelect] = useState(false);
   var [selectedSizeValue, setSelectedSizeValue] = useState(false);
 
   var handleTab1 = (index1) => {
     // alert(index1)
-    console.log('hello handle')
+
     setIndex1(index1)
-    console.log(index1)
-    console.log('hello handle')
+
   }
 
   const [toggleState, setToggleState] = useState(0);
@@ -213,7 +186,6 @@ export default function Product_detail() {
   const setSize = (event) => {
     setProductSize(event.target.value);
     setIsSizeSelected(false)
-    console.log(event.target.value)
     if(event.target.value != undefined){
       setSizeSelect(true)
     }else{
@@ -236,7 +208,6 @@ export default function Product_detail() {
     }else{
       setIsSizeSelected(false)
     }
-    console.log(discountedPrice)
     var uid = localStorage.getItem("userId");
     if (uid != '0') {
       var dummyItem = {
@@ -249,7 +220,6 @@ export default function Product_detail() {
         discountedPrice: discountedPrice,
         totals: discountedPrice==null?itemQuantity * price:itemQuantity*discountedPrice
       }
-      console.log(dummyItem)
       // var result = dispatch(sendProductsToDB(dummyItem))
       ceylonforkapi.post("/check/addToCart/",dummyItem).then((response) => {
         if (response.data.data==0) {

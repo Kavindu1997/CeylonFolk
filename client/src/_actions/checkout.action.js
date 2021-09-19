@@ -8,14 +8,12 @@ export const actionGetCustomerDetails = details => async (dispatch)=> {
     if (id != '0') {
         const response = await ceylonforkapi.get("/check/customer/"+ id)
         dispatch({ type: CHECKOUT_CONSTS.GET_DETAILS, payload: response.data })
-        console.log(response.data)
     }    
 };
 
 export const actionGetDistricts = delivery => async (dispatch)=> {
         const response = await ceylonforkapi.get("/check/district/")
         dispatch({ type: CHECKOUT_CONSTS.GET_DISTRICT, payload: response.data })
-        console.log(response.data)  
 };
 
 export const actionSendToDB = (item) => async (dispatch)=> {
@@ -45,7 +43,6 @@ export const actionDeleteItem = (item) => async (dispatch)=> {
 };
 
 export const errorMsg = (msg) => async (dispatch)=> {
-    console.log(msg)
     dispatch({ type: CHECKOUT_CONSTS.ERROR_MSG, payload: msg })
 };
 

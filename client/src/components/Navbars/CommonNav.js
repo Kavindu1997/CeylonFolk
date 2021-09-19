@@ -1,18 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { AppBar, Typography, Button, IconButton, Toolbar, Grow, Paper, Popper, MenuItem, MenuList, ClickAwayListener, Hidden } from '@material-ui/core';
+import { AppBar, Typography, Button, Toolbar, Grow, Paper, Popper, MenuItem, MenuList, ClickAwayListener, Hidden } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import PermIdentityOutlinedIcon from '@material-ui/icons/PermIdentityOutlined';
 import LocalMallOutlinedIcon from '@material-ui/icons/LocalMallOutlined';
 import FavoriteBorderOutlinedIcon from '@material-ui/icons/FavoriteBorderOutlined';
-import SearchOutlinedIcon from '@material-ui/icons/SearchOutlined';
-import axios from 'axios';
 import { useSelector, useDispatch } from "react-redux";
 import { NavLink } from 'react-router-dom';
 import { useHistory } from 'react-router';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import { decrementCartCount, actionGetTotalDeduct, actionDeleteItem, calculateCartCount, getCart, getTotal, deleteCartUsingID, updateCartQuantity, actionUpdateItem, calculateTotalWhenChanged, emtyTotalLogout, emptyCartLogout } from '../../_actions/index';
+import { calculateCartCount, getCart, getTotal, emtyTotalLogout, emptyCartLogout } from '../../_actions/index';
 import { fetchProducts } from '../../_actions/productAction';
+import { API_URL } from '../../_constants';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -159,7 +157,6 @@ const useStyles = makeStyles((theme) => ({
         right: '7.2%',
         height: '25px',
         width: "25px",
-        /* margin: 3px; */
         verticalAlign: 'middle',
         justifyContent: 'center',
         textAlign: 'center',

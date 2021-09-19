@@ -11,8 +11,8 @@ import { decrementCartCount, actionGetTotalDeduct, actionDeleteItem, calculateCa
 import NumericInput from 'react-numeric-input';
 import Notification from '../../components/Reusable/Notification';
 import ConfirmDialog from '../../components/Reusable/ConfirmDialog';
-import { fetchProducts } from '../../_actions/productAction';
 import ceylonforkapi from '../../api/index';
+import {API_URL} from '../../_constants';
 
 export default function Cart() {
   const classes = useStyles();
@@ -90,14 +90,11 @@ export default function Cart() {
 
   const updateQty = (event) => {
     changedValue = event;
-    console.log(event)
   }
   
   const selectedQty = (index,quantity) => {
-    console.log(index, quantity)
     setDisable(false);
 
-    console.log(changedValue)
     let updatedItem = productCart[index];
     if (changedValue === undefined) {
 
@@ -152,17 +149,6 @@ export default function Cart() {
     }
   }
 
-  function onLogout() {
-    localStorage.clear()
-    localStorage.setItem("userId", 0)
-    history.push("./")
-    dispatch(getCart())
-    dispatch(getTotal())
-    dispatch(emptyCartLogout());
-    dispatch(emtyTotalLogout());
-    dispatch(calculateCartCount())
-    dispatch(fetchProducts());
-  }
 
   return (
     <div>
@@ -189,23 +175,23 @@ export default function Cart() {
                   .map((value, index) => {
                     return (
                       <TableRow key={index}>
-                        <TableCell align="center" style={{ fontFamily: 'Montserrat' }}><img height={100} align="center" src={'http://localhost:3001/' + value.image} onClick={() => {
+                        <TableCell align="center" style={{ fontFamily: 'Montserrat' }}><img height={100} align="center" src={API_URL+'/' + value.image} onClick={() => {
                           history.push(`/productDetails/${value.productId}`);
                         }} /></TableCell>
                         <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.name}</TableCell>
                         <TableCell align="center" style={{ display: value.discountedPrice==null?'none':'', fontFamily: 'Montserrat' }}>
                           <div style={{ textDecoration: 'line-through'}}>
-                          Rs.{value.actualPrice}
+                          Rs. {value.actualPrice}
                           </div>
                           <div>
-                            Rs.{value.discountedPrice}
+                            Rs. {value.discountedPrice}
                           </div>
                         </TableCell>
                         <TableCell align="center" style={{ display: value.discountedPrice==null?'':'none', fontFamily: 'Montserrat' }}>Rs. {value.price}</TableCell>
                         <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.size}</TableCell>
                         <TableCell align="center">
                           <div onClick={() => selectedQty(index,value.quantity)}>
-                          <NumericInput mobile min={1} max={value.stockMargin } defaultValue={value.quantity}  step={ 1 } precision={ 0 } size={ 1 }  onChange={updateQty}  onKeyDown={(event) => {event.preventDefault();console.log(event)}}  />
+                          <NumericInput mobile min={1} max={value.stockMargin } defaultValue={value.quantity}  step={ 1 } precision={ 0 } size={ 1 }  onChange={updateQty}  onKeyDown={(event) => {event.preventDefault();}}  />
                           </div>
                         </TableCell>
                         {/* <TableCell align="center" className={classes.numeric} style={{ fontFamily: 'Montserrat' }}>{value.quantity}</TableCell> */}
@@ -221,7 +207,7 @@ export default function Cart() {
                             <i className="fa fa-times" aria-hidden="true"></i>
                           </Button>
                         </TableCell>
-                        <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>Rs.{value.totals}</TableCell>
+                        <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>Rs. {value.totals}</TableCell>
                       </TableRow>
                     );
                   })}
@@ -286,22 +272,6 @@ export default function Cart() {
                   <TableCell align="left" style={{ fontWeight: 600, fontFamily: 'Montserrat' }}>SHIPPING</TableCell>
                   <TableCell align="center" style={{ fontWeight: 400, fontFamily: 'Montserrat' }}>Charges will be calculated <br />in the checkout process</TableCell>
                 </TableRow>
-                {/* <TableRow>
-                  <TableCell align="left" style={{ fontWeight: 600, fontFamily: 'Montserrat' }}>ADD COUPON</TableCell>
-                  <TableCell align="center" style={{ fontWeight: 600, fontFamily: 'Montserrat' }}>
-                    <div>
-                      <TextField underlineShow={false} label="Coupon ID" style={{ width: 130, borderRadius: 25 }} />
-                      <br />  <br />
-                      <Button
-                        type="submit"
-                        variant="contained"
-                        color="primary"
-                        className={classes.coupon}
-                      >Apply Coupon
-                      </Button>
-                    </div>
-                  </TableCell>
-                </TableRow> */}
                 <TableRow>
                   <TableCell align="left" style={{ fontWeight: 600, fontFamily: 'Montserrat' }}>TOTAL</TableCell>
                   <TableCell align="center" style={{ fontWeight: 600, fontFamily: 'Montserrat' }}>Rs. {Number(cartTotal)}</TableCell>
@@ -314,15 +284,6 @@ export default function Cart() {
                 m={1}
                 className={`${classes.spreadBox} ${classes.box}`}
               >
-                {/* <Button
-                  type="submit"
-                  onClick={onLogout}
-                  variant="contained"
-                  color="primary"
-                  className={classes.submit}
-                >Logout
-                </Button> */}
-
                 <Button
                   type="submit"
                   disabled={proceedDisable}

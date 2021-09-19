@@ -10,9 +10,10 @@ import SearchOutlinedIcon from '@material-ui/icons/SearchOutlined';
 import { NavLink } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
 import axios from 'axios';
-import { decrementCartCount, actionGetTotalDeduct, actionDeleteItem, calculateCartCount, getCart, getTotal, deleteCartUsingID, updateCartQuantity, actionUpdateItem, calculateTotalWhenChanged, emtyTotalLogout, emptyCartLogout } from '../../_actions/index';
+import {calculateCartCount, getCart, getTotal,  emtyTotalLogout, emptyCartLogout } from '../../_actions/index';
 import { fetchProducts } from '../../_actions/productAction';
 import { useHistory } from 'react-router';
+import {API_URL} from '../../_constants';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -189,19 +190,13 @@ const CommonNav = () => {
     const [countDetails, countOfItems] = useState([]);
     let history = useHistory()
     const classes = useStyles();
-
-    //     const dispatch = useDispatch();
-    //     const [countDetails, countOfItems] = useState([]);
-
-    //     const classes = useStyles();
-
     const [navBackground, setNavBackground] = useState('appbar')
     const navRef = React.useRef()
     navRef.current = navBackground
     useEffect(() => {
         var id = localStorage.getItem("userId");
         if (id != '0') {
-            const url = "http://localhost:3001/check/count/" + id;
+            const url = API_URL+"/check/count/" + id;
             axios.get(url).then((response) => {
                 countOfItems(response.data);
             });

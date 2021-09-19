@@ -23,9 +23,10 @@ import Notification from '../../components/Reusable/Notification';
 import UserSideNav from '../../components/Navbars/UserSideNav';
 import Switch from '@material-ui/core/Switch';
 import ceylonforkapi from '../../api/index';
+import {API_URL} from '../../_constants'
 
 function onLinkClick(event) {
-    console.log('onLinkClick'); // never called
+     // never called
 }
 
 export default function Checkout() {
@@ -103,8 +104,7 @@ export default function Checkout() {
             loginEmail: customerDetails[0].email,
             loginPassword: event.target.value,
         }
-        axios.post('http://localhost:3001/profileroute/getUserPassword', data).then((response) => {
-            console.log(response.data.data)
+        axios.post(API_URL+'/profileroute/getUserPassword', data).then((response) => {
             if (response.data.data == 1) {
                 setCurrentPWvalidation(false)
                 // setIsDisabled(true)
@@ -151,7 +151,7 @@ export default function Checkout() {
             password: confirmPw,
             shouldchangeps: state.checkedB ? 1 : 0
         }
-        axios.put('http://localhost:3001/profileroute/updateUser', data).then((response) => {
+        axios.put(API_URL+'/profileroute/updateUser', data).then((response) => {
             if (response.data.data==0) {
                 setNotify({
                     isOpen: true,

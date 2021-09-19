@@ -14,6 +14,7 @@ import { fetchProducts } from '../../_actions/productAction';
 import ConfirmDialog from '../../components/Reusable/ConfirmDialog';
 import Notification from '../../components/Reusable/Notification';
 import useStyles1 from './style1';
+import { API_URL } from '../../_constants';
 
 export default function ProfileWishlist() {
     const classes = useStyles1();
@@ -30,7 +31,7 @@ export default function ProfileWishlist() {
 
     useEffect(() => {
         const uid = localStorage.getItem("userId");
-        axios.get("http://localhost:3001/wishlist/" + uid).then((response) => {
+        axios.get(API_URL+"/wishlist/" + uid).then((response) => {
             console.log(response.data);
             setListOfShirts(response.data);
         });
@@ -43,7 +44,7 @@ export default function ProfileWishlist() {
         });
         var uid = localStorage.getItem("userId")
             const data = { userId: uid, itemId: id }
-            axios.put("http://localhost:3001/wishlist/remove/",data).then((response) => {
+            axios.put(API_URL+"/wishlist/remove/",data).then((response) => {
                 if (response.data.data==0){
                     setNotify({
                         isOpen: true,
@@ -56,7 +57,7 @@ export default function ProfileWishlist() {
                         message: 'Removed Successfully !',
                         type: 'success'
                       });
-                      axios.get("http://localhost:3001/wishlist/" + uid).then((response) => {
+                      axios.get(API_URL+"/wishlist/" + uid).then((response) => {
                         console.log(response.data);
                         setListOfShirts(response.data);
                     });
@@ -101,7 +102,15 @@ export default function ProfileWishlist() {
                                                     history.push(`/productDetails/${value.id}`);
                                                 }} /></TableCell>
                                             <TableCell align="center" style={{ fontFamily: 'Montserrat' }}> {value.design_name} </TableCell>
-                                            <TableCell align="center" style={{ fontFamily: 'Montserrat' }}> {value.price} </TableCell>
+                                            <TableCell align="center" style={{ display: value.discountedPrice==null?'none':'', fontFamily: 'Montserrat' }}>
+                                                <div style={{ textDecoration: 'line-through'}}>
+                                                Rs. {value.price}
+                                                </div>
+                                                <div>
+                                                    Rs. {value.discountedPrice}
+                                                </div>
+                                            </TableCell>
+                                            <TableCell align="center" style={{ display: value.discountedPrice==null?'':'none', fontFamily: 'Montserrat' }}>Rs. {value.price}</TableCell>
                                             <TableCell align="center">
                                                     <Button name="remove" onClick={() => {
                                                         setConfirmDialog({
