@@ -65,7 +65,7 @@ router.post("/cancelItem", async (req, res) => {
         const query = "UPDATE orders SET isDeleted='1', notifications='deleted' WHERE orderId='" + orderId + "'";
         const deleteItem1 = await sequelize.query(query, { type: sequelize.QueryTypes.UPDATE });
 
-    }
+    }else{
         const quety1 = "SELECT SUM( CASE WHEN designs.discountedPrice IS NOT NULL THEN designs.discountedPrice * orderitems.quantity ELSE designs.price * orderitems.quantity END ) AS itemTotal FROM orderitems INNER JOIN designs ON designs.id = orderitems.itemId WHERE orderitems.orderId = '"+orderId+"' AND orderitems.isDeleted='0'";
         const totalItemValue = await sequelize.query(quety1, { type: sequelize.QueryTypes.SELECT });
         const quety2 = "SELECT deliveryValue, couponValue FROM orders WHERE orders.orderId = '"+orderId+"'";
@@ -74,7 +74,9 @@ router.post("/cancelItem", async (req, res) => {
         var totals = Number(totalItemValue[0].itemTotal)+Number(ordervalues[0].deliveryValue)-Number(ordervalues[0].couponValue)
         const query3 = "UPDATE orders SET orders.notifications='edited', orders.fullAmount = "+totals+" WHERE orders.orderId = '"+orderId+"'";
         const deleteItem2 = await sequelize.query(query3, { type: sequelize.QueryTypes.UPDATE });
-        res.json(deleteItem2);
+       
+    }
+    res.json(deleteItem);
 })
 
 router.post("/cancelOrder", async (req, res) => {

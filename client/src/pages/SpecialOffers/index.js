@@ -40,6 +40,7 @@ import Notification from "../../components/Reusable/Notification";
 import ceylonforkapi from "../../api/index";
 import { useParams } from 'react-router';
 
+
 const collection_offer_id = localStorage.getItem("collection_offer_id");
 console.log(collection_offer_id);
 
@@ -47,6 +48,8 @@ console.log(collection_offer_id);
 const Shop = () => {
     const classes = useStyles1();
     const [checked, setChecked] = useState(false);
+
+
 
     const [notify, setNotify] = useState({
         isOpen: false,
@@ -169,17 +172,17 @@ const Shop = () => {
     const loadRecordAgain = () => {
 
 
-        const uid = localStorage.getItem("userId")
-        axios.post(`http://localhost:3001/shop/specialOffers/`, { collection_offer_id: collection_offer_id, uid: uid })
-            .then((response) => {
-                setRecord(response.data);
-                console.log(response.data)
 
-                //             var response = fetch(`http://localhost:3001/shop/specialOffers/${id}`)
-                //                 .then(function (response) {
-                //                     return response.json();
+            const uid = localStorage.getItem("userId")
+            axios.post(`http://localhost:3001/shop/specialOffers/`,{collection_offer_id:id,uid:uid})
+                .then( (response) => {
+                    setRecord(response.data);
+                    console.log(response.data)
+      
+//             var response = fetch(`http://localhost:3001/shop/specialOffers/${id}`)
+//                 .then(function (response) {
+//                     return response.json();
 
-            })
 
 
         // console.log(collection_offer_id);

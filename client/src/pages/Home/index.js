@@ -279,6 +279,7 @@ const Home = () => {
                                                         onSetId(value.id);
                                                         history.push(`/specialOffers/${value.id}`);
 
+
                                                     }}
 
 
