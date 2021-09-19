@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import useStyles from './style';
 import Popup from "../../../components/Reusable/Popup";
-import { Paper, TableBody, TableRow, TableCell, Typography, Table, TableContainer, TableHead, Button, IconButton } from "@material-ui/core";
+import { Paper, TableBody, TableRow, TableCell, Typography, Table, TableContainer, TableHead, Button, IconButton, InputAdornment } from "@material-ui/core";
 import { useParams } from 'react-router';
 import axios from 'axios';
 import OrderStatusChange from "./OrderStatusChange";
@@ -9,7 +9,10 @@ import PictureAsPdfIcon from '@material-ui/icons/PictureAsPdf';
 import logo from '../../../images/logo.png';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
-
+import Controls from '../../../components/Reusable/Controls';
+import { Search } from '@material-ui/icons';
+import useTable from '../../../components/Reusable/useTable';
+import { API_URL } from '../../../_constants';
 
 const columns = [
     { id: 'orderId', label: 'Order ID' },
@@ -20,13 +23,6 @@ const columns = [
     { id: 'paymentMethodDescription', label: 'Payment Method' },
     { id: 'decription', label: 'Status' },
 ]
-import { Paper, TableBody, TableRow, TableCell, Typography, Table, TableContainer, TableHead, Button, InputAdornment } from "@material-ui/core";
-import Controls from '../../../components/Reusable/Controls';
-import { useParams } from 'react-router';
-import axios from 'axios';
-import OrderStatusChange from "./OrderStatusChange";
-import { Search } from '@material-ui/icons';
-import useTable from '../../../components/Reusable/useTable';
 
 
 function AllOrders() {
@@ -41,7 +37,7 @@ function AllOrders() {
     } = useTable(orderList, "", filterFn);
 
     useEffect(() => {
-        axios.get("http://localhost:3001/order/allOrders").then((response) => {
+        axios.get(API_URL + "/order/allOrders").then((response) => {
             console.log(response.data);
             setOrderList(response.data);
         });

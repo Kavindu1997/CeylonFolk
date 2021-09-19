@@ -5,6 +5,7 @@ import * as Yup from 'yup';
 import { CssBaseline, TextField, Button, Grid, Typography, Link } from '@material-ui/core';
 import axios from 'axios';
 import { Formik, Form, Field, ErrorMessage } from "formik";
+import { API_URL } from '../../_constants';
 
 function NewPassword() {
     const classes = useStyles();
@@ -30,7 +31,7 @@ function NewPassword() {
             token: token,
         }
 
-        axios.post("http://localhost:3001/auth/newPassword", data1).then((response) => {
+        axios.post(API_URL + "/auth/newPassword", data1).then((response) => {
             if (response.data.error) {
                 alert(response.data.error);
             }
@@ -86,7 +87,6 @@ function NewPassword() {
                                 </Form>
                             )}
                         </Formik>
-
                     </Grid>
                 </Grid>
             </div >

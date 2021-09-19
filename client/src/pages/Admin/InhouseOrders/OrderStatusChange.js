@@ -4,6 +4,7 @@ import { Grid, Typography, TableBody, TableRow, TableCell, Table, TableContainer
 import axios from "axios";
 import ConfirmDialog from "../../../components/Reusable/ConfirmDialog";
 import Notification from "../../../components/Reusable/Notification";
+import { API_URL, API_URLC } from '../../../_constants';
 
 function OrderStatusChange({ selectedOrderId }) {
     let history = useHistory();
@@ -15,11 +16,11 @@ function OrderStatusChange({ selectedOrderId }) {
 
     useEffect(() => {
         axios
-            .get("http://localhost:3001/order/selectedOrderDetails/" + selectedOrderId.oId).then((response) => {
+            .get(API_URL + "/order/selectedOrderDetails/" + selectedOrderId.oId).then((response) => {
                 setorderDetails(response.data);
             });
         axios
-            .get("http://localhost:3001/order/selectedOrderItemDetails/" + selectedOrderId.oId).then((response) => {
+            .get(API_URL + "/order/selectedOrderItemDetails/" + selectedOrderId.oId).then((response) => {
                 setorderItemDetails(response.data);
             });
     }, []);
@@ -31,7 +32,7 @@ function OrderStatusChange({ selectedOrderId }) {
             isOpen: false
         });
         var data = { orderId: orderId, status: status }
-        axios.post("http://localhost:3001/order/statusChange", data).then((response) => {
+        axios.post(API_URL + "/order/statusChange", data).then((response) => {
             if (response.data.error) {
                 setNotify({
                     isOpen: true,
@@ -57,7 +58,7 @@ function OrderStatusChange({ selectedOrderId }) {
             isOpen: false
         });
         var data = { orderId: orderId }
-        axios.post("http://localhost:3001/order/cancelStatus", data).then((response) => {
+        axios.post(API_URL + "/order/cancelStatus", data).then((response) => {
             if (response.data.error) {
                 setNotify({
                     isOpen: true,
@@ -115,7 +116,7 @@ function OrderStatusChange({ selectedOrderId }) {
                                 return (
                                     <TableRow>
                                         <TableCell align="center" style={{ fontSize: '16px', fontWeight: '500' }}>{value.design_name}</TableCell>
-                                        <TableCell align="center" style={{ fontSize: '16px', fontWeight: '500' }}><img height={100} src={"http://localhost:3001/" + value.coverImage} /></TableCell>
+                                        <TableCell align="center" style={{ fontSize: '16px', fontWeight: '500' }}><img height={100} src={API_URL + "/" + value.coverImage} /></TableCell>
                                         <TableCell align="center" style={{ fontSize: '16px', fontWeight: '500' }}>{value.size}</TableCell>
                                         <TableCell align="center" style={{ fontSize: '16px', fontWeight: '500' }}>{value.quantity}</TableCell>
 
@@ -318,7 +319,7 @@ function OrderStatusChange({ selectedOrderId }) {
                                     <div>
                                         <Button
                                             style={{ margin: '20px' }}
-                                            href="http://localhost:3000/depositlips"
+                                            onClick={() => { history.push(`/depositlips`); }}
                                             variant="contained"
                                             color="primary"
                                         >Check the validity of Bank Slip</Button>
