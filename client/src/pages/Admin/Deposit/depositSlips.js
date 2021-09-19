@@ -234,7 +234,7 @@ const DepositSlips = () => {
                                                                         onConfirm: () => { acceptPayment(value.orderId) }
                                                                     })
                                                                 }}
-                                                                style={{ backgroundColor: 'green', color: 'white', fontSize: '12px', padding: '6px' }}
+                                                                
                                                             >
                                                                 ACCEPT PAYMENT
                                                             </Button>
@@ -249,7 +249,7 @@ const DepositSlips = () => {
                                                                         onConfirm: () => { rejectPayment(value.orderId) }
                                                                     })
                                                                 }}
-                                                                style={{ backgroundColor: 'red', color: 'white', fontSize: '12px', padding: '6px', marginTop: '5px' }}
+                                                                
                                                             >
                                                                 REJECT PAYMENT
                                                             </Button>
