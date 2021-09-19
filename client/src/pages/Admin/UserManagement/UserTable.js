@@ -7,7 +7,7 @@ import { Search } from '@material-ui/icons';
 import AddIcon from '@material-ui/icons/Add';
 import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 import CloseIcon from '@material-ui/icons/Close';
-import { makeStyles, Paper, TableBody, TableRow, TableCell, Toolbar, InputAdornment,Typography } from '@material-ui/core';
+import { makeStyles, Paper, TableBody, TableRow, TableCell, Toolbar, InputAdornment,Typography, IconButton } from '@material-ui/core';
 import useTable from '../../../components/Reusable/useTable';
 import Controls from '../../../components/Reusable/Controls';
 import Popup from '../../../components/Reusable/Popup';
@@ -18,6 +18,11 @@ import AdminNav from "../../../components/Reusable/AdminNav"
 import Lottie from 'react-lottie';
 import User from '../../../images/user.json';
 import axios from 'axios';
+import PictureAsPdfIcon from '@material-ui/icons/PictureAsPdf';
+import logo from '../../../images/logo.png';
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
+
 
 
 const headCells = [
@@ -137,6 +142,20 @@ const UserTable = () => {
         }
     };
 
+    const downloadPdf=()=>{
+        const doc = new jsPDF("portrait","px","a4");
+        doc.addImage(logo,'PNG',20,5,36,0);
+        doc.text("User Details Report",20,30);
+        doc.autoTable({
+            columns:headCells.slice(0,-1).map(col=>({...col,header:col.label,dataKey:col.id})),
+            body:records,
+            margin: {
+                top: 35,
+            }
+        });
+        doc.save("user-details-report.pdf");
+    }
+
     return (
         <div style={{ display: "flex" }}>
             <AdminNav />
@@ -146,7 +165,10 @@ const UserTable = () => {
                     title="USER HANDLING"
                     icon={< GroupIcon fontSize="large" />}
                 />
-
+                   <IconButton onClick={()=>{downloadPdf()}} style={{marginTop:'-225px',marginLeft:'1100px',color:'#e74c3c'}}>
+                                    <PictureAsPdfIcon fontSize="large"/>
+                    </IconButton>
+               
                 {/* <Lottie options={defaultOptions} height={150} width={150} style={{marginTop:'-150px',marginRight:'30px'}} /> */}
 
                 <Paper className={classes.pageContent}>

@@ -11,7 +11,7 @@ const LineChart = () => {
     const [amount, setAmount] = useState([]);
 
     useEffect(() => {
-        axios.get("http://localhost:3001/order/getSalesDistribution").then((response) => {
+        axios.get("http://localhost:3001/order/getInhouseDistribution").then((response) => {
            const months=[];
            const amounts=[];
            for(var i=0;i<response.data.length;i++){
@@ -50,8 +50,8 @@ console.log(month);
                             {
                               label: 'Inhouse Sales Amount (Rs)',
                               data:amount,
-                              backgroundColor: [teal["A700"]],
-                              borderColor:[teal[400]],
+                              backgroundColor: [grey[900]],
+                              borderColor:[grey[800]],
                               borderWidth: 2,
                             },
                           ],

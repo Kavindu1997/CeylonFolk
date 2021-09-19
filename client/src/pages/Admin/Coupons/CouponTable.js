@@ -1,6 +1,5 @@
 import React, { useState,useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import PageHeader from './PageHeader';
+import PageHeader from '../PageHeader';
 import { Search } from '@material-ui/icons';
 import AddIcon from '@material-ui/icons/Add';
 import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
@@ -8,17 +7,16 @@ import CloseIcon from '@material-ui/icons/Close';
 import LoyaltyIcon from '@material-ui/icons/Loyalty';
 import CouponForm from './CouponForm';
 import EditCouponForm from './EditCouponForm';
-import { makeStyles, Paper,TableBody,TableRow,TableCell,Toolbar, InputAdornment,Typography} from '@material-ui/core';
-import useTable from '../../components/Reusable/useTable';
-import Controls from '../../components/Reusable/Controls';
-import Popup from '../../components/Reusable/Popup';
-import Notification from '../../components/Reusable/Notification';
-import ConfirmDialog from '../../components/Reusable/ConfirmDialog';
-import useStyles from './style';
-import AdminNav from "../../components/Reusable/AdminNav"
+import { Paper,TableBody,TableRow,TableCell,Toolbar, InputAdornment,Typography} from '@material-ui/core';
+import useTable from '../../../components/Reusable/useTable';
+import Controls from '../../../components/Reusable/Controls';
+import Popup from '../../../components/Reusable/Popup';
+import Notification from '../../../components/Reusable/Notification';
+import ConfirmDialog from '../../../components/Reusable/ConfirmDialog';
+import useStyles from '../style';
+import AdminNav from "../../../components/Reusable/AdminNav"
 import Lottie from 'react-lottie';
-import Coupon from '../../images/coupon.json';
-import {fetchCoupons,createCoupon,deleteCoupon,updateCoupon } from '../../_actions/couponAction';
+import Coupon from '../../../images/coupon.json';
 import axios from 'axios';
 
 
@@ -39,11 +37,7 @@ const CouponTable = () => {
                   setRecords(response.data);
         });
     },[]);
-    // const couponRecords=useSelector((state)=>state.couponReducer.coupons);
-    // const dispatch=useDispatch();
-    // useEffect(()=>{
-    //    dispatch(fetchCoupons());
-    // },[]);
+
     const [recordForEdit, setRecordForEdit] = useState(null)
     const [filterFn, setFilterFn] = useState({ fn: items => { return items; } });
     const [openPopup, setOpenPopup] = useState(false);
@@ -76,12 +70,9 @@ const CouponTable = () => {
                     setRecords(response.data);
                 });
          });
-        //dispatch(createCoupon(data));
-        // window.location.reload(true);
          resetForm();
          setRecordForEdit(null);
          setOpenPopup(false);
-        // dispatch(fetchCoupons());
         axios.get("http://localhost:3001/coupons/").then((response)=>{
             setRecords(response.data);
             });
@@ -92,7 +83,6 @@ const CouponTable = () => {
          });
         
         }else{
-       // dispatch(updateCoupon(data,data.id));
        axios.put(`/coupons/${data.id}`,data).then(() => {
         axios.get("http://localhost:3001/coupons/").then((response)=>{
             setRecords(response.data);
@@ -101,7 +91,6 @@ const CouponTable = () => {
         resetForm();
         setRecordForEdit(null);
         setOpenEditPopup(false);
-        //dispatch(fetchCoupons());
         axios.get("http://localhost:3001/coupons/").then((response)=>{
             setRecords(response.data);
             });
@@ -110,7 +99,6 @@ const CouponTable = () => {
             message: 'Edited Successfully !',
             type: 'info'
         });
-        //window.location.reload(true);
     }
     }
     const openInPopup = item => {
@@ -124,8 +112,6 @@ const CouponTable = () => {
             isOpen: false
         });
      
-      //  dispatch(deleteCoupon(id));
-      //   window.location.reload(true);
       axios.delete(`http://localhost:3001/coupons/${id}`).then(()=>{
         axios.get("http://localhost:3001/coupons/").then((response)=>{
         setRecords(response.data);

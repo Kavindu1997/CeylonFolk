@@ -99,10 +99,10 @@ const Shop = () => {
         setChecked(true);
 
         axios.get(`http://localhost:3001/ProductDetails/offerrate/${id}`).then((response) => {
-      setrate(response.data[0].rate);
-      console.log("hiiirate")
-      console.log(response.data[0])
-    });
+            setrate(response.data[0].rate);
+            console.log("hiiirate")
+            console.log(response.data[0])
+        });
     }, []);
 
     // useEffect(() => {
@@ -124,13 +124,14 @@ const Shop = () => {
         console.log(id)
         const uid = localStorage.getItem("userId");
         if (localStorage.getItem("userId") != "0") {
-            const data = { uid: uid, 
+            const data = {
+                uid: uid,
                 id: id,
                 Collection: Collection,
                 Colour: Colour,
                 Type: Type,
                 Size: Size,
-             };
+            };
             console.log(data)
             if (isInWishList == 1) {
                 setNotify({
@@ -142,7 +143,7 @@ const Shop = () => {
                 ceylonforkapi
                     .post("/ProductDetails/addwishlist/", data)
                     .then((response) => {
-                        if (response.data.status==0) {
+                        if (response.data.status == 0) {
                             setNotify({
                                 isOpen: true,
                                 message: "Not successfully added to your wishlist !",
@@ -171,6 +172,7 @@ const Shop = () => {
     const loadRecordAgain = () => {
 
 
+
             const uid = localStorage.getItem("userId")
             axios.post(`http://localhost:3001/shop/specialOffers/`,{collection_offer_id:id,uid:uid})
                 .then( (response) => {
@@ -181,8 +183,7 @@ const Shop = () => {
 //                 .then(function (response) {
 //                     return response.json();
 
-                })
-    
+
 
         // console.log(collection_offer_id);
         // console.log("kamaal");
@@ -190,7 +191,7 @@ const Shop = () => {
         // .then(response => {
         //     setRecord(response.data);
         // });
-        
+
 
         // const uid = localStorage.getItem("userId");
         // if (uid == "0") {
@@ -214,7 +215,7 @@ const Shop = () => {
 
     useEffect(() => {
         loadRecordAgain();
-        
+
     }, []);
 
     return (
@@ -232,7 +233,7 @@ const Shop = () => {
                     <Grid container spacing={0}>
 
                         {products.map((product, index) => {
-                            const { ID,id, coverImage, design_name, price, isInWishList, discountedPrice } = product;
+                            const { ID, id, coverImage, design_name, price, isInWishList, discountedPrice } = product;
 
                             return (
                                 <Grid item xs={12} sm={6} md={3}>
@@ -261,7 +262,7 @@ const Shop = () => {
                                                 ></img>
 
                                                 <CardContent>
-                                                    <div style={{display:'flex',justifyContent: 'space-between'}}>
+                                                    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                                                         <Typography
                                                             gutterBottom
                                                             variant="h9"
@@ -271,8 +272,10 @@ const Shop = () => {
                                                             {design_name}
                                                         </Typography>
                                                         <IconButton
-                                                        style={{padding: '0px',
-                                                        borderRadius: '0px'}}
+                                                            style={{
+                                                                padding: '0px',
+                                                                borderRadius: '0px'
+                                                            }}
                                                             onClick={() => {
                                                                 addToWishlist(ID, isInWishList);
                                                             }}
@@ -305,7 +308,7 @@ const Shop = () => {
                                                             </Typography>
                                                             :
                                                             <div>
-                                                                <div style={{display:'flex'}}>
+                                                                <div style={{ display: 'flex' }}>
                                                                     <Typography
                                                                         gutterBottom
                                                                         variant="h6"
@@ -335,7 +338,7 @@ const Shop = () => {
                                                             </div>
 
                                                         }
-                                                        
+
                                                     </div>
                                                 </CardContent>
                                             </CardActionArea>

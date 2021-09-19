@@ -7,11 +7,10 @@ import axios from 'axios';
 import { Paper, Box } from "@material-ui/core";
 import { useParams } from 'react-router';
 import AllOrders from './AllOrders';
-import CashOnDelivery from "./CashOnDelivery";
-import OnlinePayments from "./OnlinePayments";
-import BankTransfer from "./BankTransfer";
-
-
+import PendingOrders from "./PendingOrders";
+import DispatchedOrders from "./DispatchedOrders";
+import AcceptedOrders from "./AcceptedOrders";
+import RejectedOrders from "./RejectedOrders";
 
 function AdminOrders() {
     const classes = useStyles();
@@ -77,14 +76,17 @@ function AdminOrders() {
                 <Box className={id == 0 ? classes.activeContent : classes.hideContent}>
                     <AllOrders />
                 </Box>
-                <Box className={id == 7 ? classes.activeContent : classes.hideContent}>
-                    <CashOnDelivery />
+                <Box className={id == 1 ? classes.activeContent : classes.hideContent}>
+                    <PendingOrders />
                 </Box>
-                <Box className={id == 8 ? classes.activeContent : classes.hideContent}>
-                    <OnlinePayments />
+                <Box className={id == 2 ? classes.activeContent : classes.hideContent}>
+                    <AcceptedOrders />
                 </Box>
-                <Box className={id == 9 ? classes.activeContent : classes.hideContent}>
-                    <BankTransfer />
+                <Box className={id == 3 ? classes.activeContent : classes.hideContent}>
+                    <DispatchedOrders />
+                </Box>
+                <Box className={id == 4 ? classes.activeContent : classes.hideContent}>
+                    <RejectedOrders />
                 </Box>
             </div>
         </div>

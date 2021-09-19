@@ -40,7 +40,7 @@ import Users from './pages/Admin/UserManagement/UserTable';
 import Collections from './pages/Admin/CollectionTable';
 import Designs from './pages/Admin/DesignTable';
 import Inventory from './pages/Admin/InventoryTable';
-import Coupon from './pages/Admin/CouponTable';
+import Coupon from './pages/Admin/Coupons/CouponTable';
 import Offers from './pages/Admin/Offers/OffersTable';
 import AvailableColors from './pages/Admin/AvailableColors/AvailableColorsTable';
 import AvailableSizes from './pages/Admin/SizeTable';

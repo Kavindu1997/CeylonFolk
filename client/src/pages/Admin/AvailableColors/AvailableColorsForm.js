@@ -52,16 +52,13 @@ const AvailableColorsForm = () => {
         //     //   window.location.reload(true)
         //     //   setColorPrice(''); 
         // }
-
     };
 
     return (
         <div>
             <div>
-                <Grid container>
-                    <div>
-                    
-                    <Grid item xs={6}>
+                <Grid container xs={12}>
+                    <Grid item xs={4}>
                         <Controls.Input
                             variant="outlined"
                             label="Colour Name"
@@ -69,7 +66,7 @@ const AvailableColorsForm = () => {
                             onChange={changeColourName}
                         />
                     </Grid>
-                    <Grid item xs={6}>
+                    <Grid item xs={4}>
                         <Controls.Input
                             variant="outlined"
                             label="Price"
@@ -77,16 +74,17 @@ const AvailableColorsForm = () => {
                             onChange={changePrice}
                         />
                     </Grid>
-                 
-                    
-
-                      
-                    </div>
-                   
-                    
-
-                    <Box>
-                    <Button style={{ margin: '10px', padding: '10px', background: 'black', color: 'white' }} onClick={() => setShowColorPicker(showColorPicker => !showColorPicker)}>{showColorPicker ? 'Close Color Picker' : 'Pick a Color'}</Button>
+                    <Grid item xs={4}>
+                        <Button
+                            style={{ marginLeft: '50px', padding: '10px', background: 'green', color: 'white', }}
+                            onClick={pickedCOlor}>ADD COLOR
+                        </Button>
+                    </Grid>
+                    <Grid item xs={3}>
+                        <Button
+                            style={{ margin: '10px', padding: '10px', background: 'black', color: 'white' }}
+                            onClick={() => setShowColorPicker(showColorPicker => !showColorPicker)}>{showColorPicker ? 'Close Color Picker' : 'Pick a Color'}
+                        </Button>
                         {showColorPicker && (
                             <ChromePicker
                                 color={pickerColor}
@@ -94,17 +92,11 @@ const AvailableColorsForm = () => {
                             />
                         )
                         }
-
-                        <Typography>You Picked {pickerColor}</Typography>
+                    </Grid>
+                    <Grid item xs={3}>
+                        <Typography style={{ marginTop: '20px', marginLeft: '10px' }}>You Picked : {pickerColor}</Typography>
                         {/* <Button type='submit' onClick={pickedCOlor}>Picked Color</Button> */}
-
-                        </Box>
-                        <Box>
-                        <Button style={{ margin: '10px', padding: '10px', background: 'black', color: 'white' }}
-
-                            onClick={pickedCOlor}>ADD COLOR</Button>
-                             </Box>
-               
+                    </Grid>
                 </Grid>
             </div>
         </div >

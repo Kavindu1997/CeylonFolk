@@ -9,7 +9,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import UserTable from './UserManagement/UserTable';
 import Dashboard from './Dashboard/Dashboard'
 import CollectionTable from './CollectionTable';
-import CouponTable from './CouponTable';
+import CouponTable from './Coupons/CouponTable';
 import DesignTable from './DesignTable';
 import InventoryTable from './InventoryTable';
 import ViewDesignTable from './ViewDesignTable';
