@@ -18,12 +18,20 @@ import { Link } from 'react-router-dom';
 import { fetchColors } from '../../../_actions/colorActions';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
+import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
+import EditColour from "./EditColour";
+import EditColourName from "./EditColourName";
+import EditPrice from "./EditPrice";
 
 
 
 const CollectionTable = () => {
     const classes = useStyles();
     const [openPopup, setOpenPopup] = useState(false);
+    const [openPopup1, setOpenPopup1] = useState(false);
+    const [openPopup2, setOpenPopup2] = useState(false);
+    const [openPopup3, setOpenPopup3] = useState(false);
+
     const [notify, setNotify] = useState({
         isOpen: false,
         message: "",
@@ -72,7 +80,7 @@ const CollectionTable = () => {
     // dispatch(fetchColors());
 
     const onSetId = (id) => { //'Itom007'
-        localStorage.setItem("collection_id", id);
+        localStorage.setItem("colour_id", id);
     };
 
     const onRemove = (id) => {
@@ -133,10 +141,12 @@ const CollectionTable = () => {
                                 <Table className={classes.table} aria-label="simple table">
                                     <TableHead>
                                         <TableRow>
-                                            <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Colour</TableCell>
                                             <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Colour Name</TableCell>
+                                            <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Edit Colour Name</TableCell>
+                                            <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Colour</TableCell>
+                                            <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Edit Colour</TableCell>
                                             <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Price</TableCell>
-                                            <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Edit</TableCell>
+                                            <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Edit Price</TableCell>
                                             <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Delete</TableCell>
                                         </TableRow>
                                     </TableHead>
@@ -146,21 +156,42 @@ const CollectionTable = () => {
                                             return (
                                                 <TableRow>
                                                     <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{color_name}</TableCell>
+                                                    <TableCell align="center">
+
+
+                                                        <Controls.ActionButton
+                                                            color="primary"
+                                                            onClick={() => {
+                                                                onSetId(id)
+                                                                setOpenPopup1(true)
+                                                            }}
+                                                        >
+                                                            <EditOutlinedIcon fontSize="small" />
+                                                        </Controls.ActionButton>
+
+                                                    </TableCell>
                                                     <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>
                                                         {/* <img height={100} align="center" src={'http://localhost:3001/' + value.coverImage} alt=""></img> */}
 
                                                         <span className={classes.swatchVisible} style={{ backgroundColor: color }}></span>
 
                                                     </TableCell>
-                                                    <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{price}</TableCell>
                                                     <TableCell align="center">
-                                                        <Button
-                                                            name="remove"
-                                                            startIcon={<EditIcon />}
-                                                        // onClick={() => onRemove(value.id)}
+
+
+                                                        <Controls.ActionButton
+                                                            color="primary"
+                                                            onClick={() => {
+                                                                onSetId(id)
+                                                                setOpenPopup2(true)
+                                                            }}
                                                         >
-                                                        </Button>
+                                                            <EditOutlinedIcon fontSize="small" />
+                                                        </Controls.ActionButton>
+
                                                     </TableCell>
+                                                    <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{price}</TableCell>
+                                                
 
                                                     <TableCell align="center">
                                                         <Button
@@ -174,7 +205,31 @@ const CollectionTable = () => {
                                                                     subTitle: "You can't undo this operation...",
                                                                     onConfirm: () => { onRemove(id) }
                                                                 })
-                                                            }}>
+                                                            }}/>
+
+
+                                                        <Controls.ActionButton
+                                                            color="primary"
+                                                            onClick={() => {
+                                                                onSetId(id)
+                                                                setOpenPopup3(true)
+                                                            }}
+                                                        >
+                                                            <EditOutlinedIcon fontSize="small" />
+                                                        </Controls.ActionButton>
+
+                                                    </TableCell>
+
+                                                    <TableCell align="center">
+                                                        <Button name="remove" onClick={() => {
+                                                            setConfirmDialog({
+                                                                isOpen: true,
+                                                                title: 'Are you sure to delete this?',
+                                                                subTitle: "Inventory data and designs which are related to this colour will be automatically deleted. You can't undo this operation.",
+                                                                onConfirm: () => { onRemove(id) }
+                                                            })
+                                                        }}>
+                                                            <i className="fa fa-times" aria-hidden="true"></i>
                                                         </Button>
                                                     </TableCell>
                                                 </TableRow>
@@ -186,15 +241,36 @@ const CollectionTable = () => {
                         </center>
                     </container>
 
-
                     <Popup
-                        title="Add Colors Form"
+                        title="Add Colour Form"
                         openPopup={openPopup}
                         setOpenPopup={setOpenPopup}
                     >
-                        <AvailableColorsForm
-                            addOrEdit={addOrEdit}
-                        />
+                        <AvailableColorsForm />
+                    </Popup>
+
+
+                    <Popup
+                        title="Edit Colour Name Form"
+                        openPopup={openPopup1}
+                        setOpenPopup={setOpenPopup1}
+                    >
+                        <EditColourName />
+                    </Popup>
+
+                    <Popup
+                        title="Edit Colour Form"
+                        openPopup={openPopup2}
+                        setOpenPopup={setOpenPopup2}
+                    >
+                           <EditColour/>
+                    </Popup>
+                    <Popup
+                        title="Edit Colour Price Form"
+                        openPopup={openPopup3}
+                        setOpenPopup={setOpenPopup3}
+                    >
+                           <EditPrice />
                     </Popup>
 
                     <Notification notify={notify} setNotify={setNotify} />

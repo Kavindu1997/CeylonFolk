@@ -18,7 +18,6 @@ const OffersForm = () => {
     const classes = useStyles();
 
     const [collection_id, setCollectionID] = useState('');
-    const [from, setFrom] = useState('');
     const [rate, setRate] = useState('');
     const [to, setTo] = useState('');
   
@@ -31,10 +30,6 @@ const OffersForm = () => {
 
     const onrate = (e) => {
         setRate(e.target.value)
-    }
-
-    const onfrom = (e) => {
-        setFrom(e.target.value)
     }
 
     const onto = (e) => {
@@ -50,7 +45,6 @@ const OffersForm = () => {
         const Data = {
             collection_id: collection_id,
             rate: rate,
-            from: from,
             to:to,
             
 
@@ -108,20 +102,7 @@ const OffersForm = () => {
                             onChange={onrate}
                         />
                     </Grid>
-                    <Grid item xs={6}>
-                        <TextField
-                            className={classes.date}
-                            id="date"
-                            label="Starting Date"
-                            type="date"
-                            name="from"
-                            InputLabelProps={{
-                                shrink: true,
-                            }}
-                            onChange={onfrom}
-                        />
-                       
-                    </Grid>
+                  
                     <Grid item xs={6}>
                         <TextField
                             className={classes.date}

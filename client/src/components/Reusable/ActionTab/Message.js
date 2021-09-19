@@ -52,6 +52,22 @@ export default function Messages() {
     })
   }, []);
 
+  const [reOrderLevel, setReOrderLevel] = useState([]);
+
+  useEffect(() => {
+
+    axios.get("http://localhost:3001/notifications/reorderlevel").then((response) => {
+      console.log(response.data);
+      // console.log("ssss");
+      setReOrderLevel(response.data);
+      
+  //   setTimeout(() => {
+  //     window.location.reload(true)
+  // }, 1500)
+
+    })
+  }, []);
+
 
   console.log(listOfContactUs);
 
@@ -93,7 +109,7 @@ if(listOfContactUs.length!=listOfUnsolvedInquiries.length){
         onClick={handleClick}
         color='inherit'>
         {/* <Badge badgeContent={(listOfContactUs.length + listOfContactUs.length)} color='secondary'> */}
-        <Badge badgeContent={ContactUsValue+UnsolvedValue} color='secondary'>
+        <Badge badgeContent={ContactUsValue+UnsolvedValue+reOrderLevel.length} color='secondary'>
           <ForumIcon />
         </Badge>
       </IconButton>
@@ -131,12 +147,31 @@ if(listOfContactUs.length!=listOfUnsolvedInquiries.length){
                
             </ListItem>
 
+{/* reorder level notifications */}
+{reOrderLevel
+                                            .map((value) => {
+                                                return (
+              <ListItem
+              // key={i}
+              component={Button}
+              component={Link} to="/inventory"
+              className={classes.listItemNotification}> 
+              
+              <Typography  variant="h8" component="div" whiteSpace="normal" >Refill Inventory Id:{value.id} from Inventory </Typography>
+  
+          
+              </ListItem>
+                  );
+                })}
+
+
+{/* no new notifications */}
             <ListItem
              
               component={Button}
               onClick={handleClose}
               className={classes.listItemNotification}> 
-              <Typography className={ (ContactUsValue+UnsolvedValue) == 0 ? classes.activeNotifi : classes.notifi} variant="h8" component="div" whiteSpace="normal" >No new Notifications </Typography>
+              <Typography className={ (ContactUsValue+UnsolvedValue+reOrderLevel.length) == 0 ? classes.activeNotifi : classes.notifi} variant="h8" component="div" whiteSpace="normal" >No new Notifications </Typography>
                
             </ListItem>
 

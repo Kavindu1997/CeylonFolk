@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Grid } from '@material-ui/core';
+import { Grid,Typography } from '@material-ui/core';
 import { useForm, Form } from '../../../components/Reusable/useForm';
 import Controls from '../../../components/Reusable/Controls';
 import axios from 'axios';
@@ -14,6 +14,17 @@ const UnresolvedInquiries = () => {
     const [response, setResponse] = useState([]);
     
     let history = useHistory();
+
+            
+    const [listOfUnsolvedInquiries, setListOfUnsolvedInquiries] = useState([]);
+
+
+    useEffect(() => {
+        axios.get(`http://localhost:3001/notifications/unsolvedInquiries/${contactus_id}`).then((response) => {
+            console.log(response.data);
+            setListOfUnsolvedInquiries(response.data);
+        })
+    }, []);
 
     const onFormSubmit = (e) => {
 
@@ -42,7 +53,14 @@ const UnresolvedInquiries = () => {
 
     return (
         <div>
+             {listOfUnsolvedInquiries
+                                            .map((value) => {
+                                                return (
             <div>
+           
+            <Typography variant="h5" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Message</Typography>
+            <Typography variant="h7" style={{ fontFamily: 'Montserrat' }}>{value.message}</Typography>
+         
                 <form onSubmit={onFormSubmit}>
                     <Grid container>
                         <Grid item xs={12}>
@@ -62,7 +80,10 @@ const UnresolvedInquiries = () => {
                     </Grid>
 
                 </form>
+                 
             </div>
+              );
+            })}
         </div >
         // {/* <Form onSubmit={handleSubmit}>
         //     <Grid container>

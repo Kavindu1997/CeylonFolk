@@ -308,7 +308,7 @@ const InventoryTable = () => {
                                             </TableCell>
                                             <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.size}</TableCell>
                                             <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.types}</TableCell>
-                                            <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.quantity}</TableCell>
+                                            <TableCell align="center" style={{ fontFamily: 'Montserrat'}} className={value.quantity<=value.margin? classes.activeQuantityMargin : classes.quantityMargin} >{value.quantity}</TableCell>
                                             <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.margin}</TableCell>
                                             <TableCell align="center">
                                                 <Controls.Button

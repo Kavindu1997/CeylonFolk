@@ -102,15 +102,6 @@ const SizeTable = () => {
 
     };
 
-    // function onProceed() {
-        
-
-    //       history.push('/collections');
-        
-    
-    //   }
-
-
     const onSetId = (id) => { //'Itom007'
         localStorage.setItem("sizes_id",id);
       
