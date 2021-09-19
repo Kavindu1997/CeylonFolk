@@ -139,8 +139,6 @@ const CommonNav = (props) => {
                                                     <NavLink to={"/custcustomizeOrders"} style={{ textDecoration: 'none' }}><MenuItem onClick={handleClose} style={{ fontWeight: '600', fontSize: '15px', color: 'black' }}>Customerize Orders</MenuItem></NavLink>
                                                     <NavLink to={"/"} style={{ textDecoration: 'none' }} onClick={onLogout}><MenuItem onClick={handleClose} style={{ fontWeight: '600', fontSize: '15px', color: 'black' }}>Logout</MenuItem></NavLink>
                                                 </MenuList>
-
-
                                             </ClickAwayListener>
                                         </Paper>
                                     </Grow>
@@ -149,7 +147,6 @@ const CommonNav = (props) => {
                         </div>
                     </div>
                 </Toolbar>
-
             </AppBar>
 
         </div>
