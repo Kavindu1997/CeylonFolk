@@ -46,13 +46,11 @@ const OffersForm = () => {
             collection_id: collection_id,
             rate: rate,
             to:to,
-            
-
         }
 
         console.log(Data);
         axios.post("http://localhost:3001/offers", Data).then(() => {
-            alert('Item Inserted Successfully')
+            // alert('Item Inserted Successfully')
         });
         // props.resetForm();
     };

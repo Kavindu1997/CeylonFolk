@@ -34,16 +34,14 @@ function DesignPriceEdit({ selectedDesignId }) {
             price: price,
         }
 
-     
-
         axios.put(`http://localhost:3001/designs/editPrice/${selectedDesignId.design_id}`,Data).then((response) => {
-            alert('Image upload Successfull');
-            history.push('/designs');
+        //     alert('Image upload Successfull');
+        //     history.push('/designs');
 
 
-        }).catch((err) => {
-            console.log('err', err);
-        })
+        // }).catch((err) => {
+        //     console.log('err', err);
+        });
     };
 
 

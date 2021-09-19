@@ -54,6 +54,7 @@ const CollectionTable = () => {
     };
 
     const [colourId, setColorId] = useState([]);
+  
 
     const addOrEdit = (data, resetForm) => {
 
@@ -108,7 +109,9 @@ const CollectionTable = () => {
                     message: 'Removed Successfully !',
                     type: 'success'
                 });
-
+                axios.get("http://localhost:3001/availableColors").then((response) => {
+                 
+                });
 
             }
 
@@ -257,6 +260,7 @@ const CollectionTable = () => {
                                         })}
                                     </TableBody>
                                 </Table>
+                               
                             </TableContainer>
                         </center>
                     </container>

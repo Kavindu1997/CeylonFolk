@@ -29,7 +29,7 @@ function DesignImageEdit({ selectedDesignId }) {
 
     const onFormSubmit = (e, data) => {
 
-        e.preventDefault();
+        // e.preventDefault();
 
         const formData = new FormData();
         formData.append('photo', file);
@@ -43,13 +43,7 @@ function DesignImageEdit({ selectedDesignId }) {
         console.log(formData);
 
         axios.put(`http://localhost:3001/designs/editImage/${selectedDesignId.design_id}`, formData, config).then((response) => {
-            alert('Image upload Successfull');
-            history.push('/designs');
-
-
-        }).catch((err) => {
-            console.log('err', err);
-        })
+    });
     };
 
 

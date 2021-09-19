@@ -18,7 +18,7 @@ const SizeForm = () => {
 
     const onFormSubmit = (e) => {
 
-        e.preventDefault();
+        // e.preventDefault();
 
         const Data = {
             size: size

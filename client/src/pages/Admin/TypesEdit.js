@@ -45,13 +45,10 @@ function TypesEdit({ selectedTypeId }) {
 
 
         axios.put(`http://localhost:3001/types/${selectedTypeId.types_id}`, Data).then((response) => {
-            alert('Upload Successfull');
+            // alert('Upload Successfull');
             // history.push('/collections');
 
-
-        }).catch((err) => {
-            console.log('err', err);
-        })
+        });
     };
 
     // const onInputChange = (e) => {

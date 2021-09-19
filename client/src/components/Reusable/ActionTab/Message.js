@@ -464,59 +464,7 @@ export default function Messages() {
               );
             })}
 
-          {/* edited orders notifications */}
-
-//           {editedOrders
-//             .map((value) => {
-//               return (
-//                 <ListItem
-//                   // key={i}
-//                   component={Button}
-//                   component={Link} to="/AdminOrders/0"
-//                   className={classes.listItemNotification}>
-
-//                   <Typography variant="h8" component="div" whiteSpace="normal" >Order Id:{value.orderId} is edited </Typography>
-
-
-//                 </ListItem>
-//               );
-//             })}
-
-//           {/* deleted orders notifications */}
-//           {deletedOrders
-//             .map((value) => {
-//               return (
-//                 <ListItem
-//                   // key={i}
-//                   component={Button}
-//                   component={Link} to="/AdminOrders/0"
-//                   className={classes.listItemNotification}>
-
-//                   <Typography variant="h8" component="div" whiteSpace="normal" >Order Id:{value.orderId} is deleted </Typography>
-
-
-//                 </ListItem>
-//               );
-//             })}
-
-//           {/* placed orders notifications */}
-//           {placedOrders
-//             .map((value) => {
-//               return (
-//                 <ListItem
-//                   // key={i}
-//                   component={Button}
-//                   component={Link} to="/AdminOrders/0"
-//                   className={classes.listItemNotification}>
-
-//                   <Typography variant="h8" component="div" whiteSpace="normal" >Order Id:{value.orderId} is placed </Typography>
-
-
-//                 </ListItem>
-//               );
-//             })}
-
-
+{/* edited orders notifications */}
           <ListItem
             // key={i}
             component={Button}

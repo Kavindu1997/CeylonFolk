@@ -150,10 +150,9 @@ const InventoryTable = () => {
                     message: 'Removed Successfully !',
                     type: 'success'
                   });
-                //   axios.get("http://localhost:3001/invent").then((response) => {
-                //     console.log(response.data);
-                //     setListOfDesigns(response.data);
-                // });
+                  axios.get("http://localhost:3001/invent/inventory").then((response) => {
+                    setListOfItems(response.data);
+                });
                
             } 
 
@@ -291,6 +290,7 @@ const InventoryTable = () => {
                                         )}
                                 </TableBody>
                             </Table>
+                            <TblPagination />
                         </center>
                     </Container>
                 </Paper>
