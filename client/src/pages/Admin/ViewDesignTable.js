@@ -110,9 +110,6 @@ const DesignTable = () => {
     //   }
 
 
-    const [search, setSearch] = useState('');
-    const [record, setRecord] = useState([]);
-    const [choice, setChoice] = useState('');
 
 
     // On Page load display all records 
@@ -130,66 +127,29 @@ const DesignTable = () => {
     // }, []);
 
     // Search Records here 
-    const searchRecords = () => {
-        console.log(choice);
-        // // console.log(search);
-        if (choice == 'design_name') {
+  
 
-            axios.get(`http://localhost:3001/designs/searchRecordDesignName/${search}`)
-                .then(response => {
-                    setRecord(response.data);
-                });
-
-        }
-        else if (choice == 'collection_name') {
-
-            axios.get(`http://localhost:3001/designs/searchRecordCollectionName/${search}`)
-                .then(response => {
-                    setRecord(response.data);
-                });
-
-        }
-        else if (choice == 'type') {
-
-            axios.get(`http://localhost:3001/designs/searchRecordType/${search}`)
-                .then(response => {
-                    setRecord(response.data);
-                });
-
-        }
-
-        else if (choice == 'price') {
-
-            axios.get(`http://localhost:3001/designs/searchRecordPrice/${search}`)
-                .then(response => {
-                    setRecord(response.data);
-                });
-
-        }
-
-
-
+    const [filterFn, setFilterFn] = useState({ fn: items => { return items; } });
+    const {
+        TblContainer,
+        TblHead,
+        TblPagination,
+        recordsAfterPagingAndSorting
+    } = useTable(listOfDesigns,"", filterFn);
+    
+    const handleSearch = e => {
+        let target = e.target;
+        setFilterFn({
+            fn: items => {
+                if (target.value === "")
+                    return items;
+                else
+                return items.filter(x => x.design_name.toLowerCase().includes(target.value) ||
+                x.collection_name.toLowerCase().includes(target.value) ||
+                x.types.toLowerCase().includes(target.value))
+            }
+        })
     }
-
-    const loadRecordAgain = () => {
-        var response = fetch(`http://localhost:3001/designs/viewDesign/${collection_id}`)
-            .then(function (response) {
-                return response.json();
-            })
-            .then(function (myJson) {
-                setRecord(myJson);
-            });
-
-    }
-    useEffect(() => {
-        loadRecordAgain();
-        // dispatch(fetchColors());
-    }, []);
-
-    const onChoice = (e) => {
-        setChoice(e.target.value)
-    }
-
 
     return (
 
@@ -200,28 +160,20 @@ const DesignTable = () => {
                 <PageHeader title="AVAILABLE DESIGNS" icon={<LayersIcon fontSize="large" />} />
                 <Paper className={classes.pageContent}>
                     <Toolbar>
-                        <Controls.Input
-                            type="text" id="form1" onKeyDown={loadRecordAgain} onKeyUp={searchRecords} onChange={(e) => setSearch(e.target.value)}
-                            label="Search Designs"
+                    <Controls.Input
+                            label="Search Design"
                             className={classes.searchInput}
                             InputProps={{
                                 startAdornment: (
                                     <InputAdornment position="start">
                                         <Search />
                                     </InputAdornment>
+                                    
                                 ),
                             }}
-                        //onChange={handleSearch}
+                        onChange={handleSearch}
                         />
-                        <select className={classes.iconForSearch} name="choice" onChange={onChoice}>
-                            <option value="">Select</option>
-                            <option value="design_name">Design Name</option>
-                            <option value="collection_name">Collection Name</option>
-                            <option value="type">Type</option>
-                            <option value="price">Price</option>
-
-
-                        </select>
+                        
                         {/* <Controls.Button
                             text="Add New Design"
                             variant="outlined"
@@ -251,7 +203,7 @@ const DesignTable = () => {
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                        {record
+                                        {recordsAfterPagingAndSorting()
                                             .map((value) => {
                                                 return (
                                                     <TableRow>
