@@ -127,7 +127,10 @@ const DepositSlips = () => {
                 if (target.value === "")
                     return items;
                 else
-                    return items.filter(x => x.collection_name.toLowerCase().includes(target.value))
+                    return items.filter(x => x.firstName.toLowerCase().includes(target.value) ||
+                    x.lastName.toLowerCase().includes(target.value) ||
+                    x.decription.toLowerCase().includes(target.value) ||
+                    x.orderId.includes(target.value))
             }
         })
     }

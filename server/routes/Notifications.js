@@ -52,86 +52,127 @@ router.get("/reorderlevel", async (req, res) => {
     res.json(reorderlevel);
 });
 
-router.put("/unsolvedInquiries/:contactus_id", async (req, res) => {
+router.get("/offerdate", async (req, res) => {
 
-    const contactus_id = req.params.contactus_id;
-    const { response } = req.body;
+    const today = new Date().toISOString().slice(0, 10);
 
-    const querySelect = "SELECT * from `contactus` WHERE id='" + contactus_id + "'";
-    const selectContactUs = await sequelize.query(querySelect, { type: sequelize.QueryTypes.SELECT });
+    const query = "SELECT collections.collection_name, offers.to from `collections` INNER JOIN `offers` on collections.id=offers.collection_id WHERE offers.to<= '" + today + "'";
+    const offerDate = await sequelize.query(query, { type: sequelize.QueryTypes.SELECT });
 
-    console.log("ddd");
-    console.log(selectContactUs[0].enquiryType)
-
-    const htmlEmail = `
-    <h3> ${selectContactUs[0].enquiryType}</h3>
-    <ul> 
-        <li>Name: ${selectContactUs[0].fullName} </li>
-        <li>OrderId: ${selectContactUs[0].orderId} </li>
-    </ul>
-    <h4> Response <h4>
-    <p>${response}</p>`
-
-const transporter = nodemailer.createTransport({
-    host: 'smtp.gmail.com',
-    port: 465,
-    secure: true,
-    auth: {
-        user: "testceylonfolk@gmail.com",
-        pass: "pkjjt@1234"
-    }
+    res.json(offerDate);
 });
 
+router.get("/editedorders", async (req, res) => {
+
+    const today = new Date().toISOString().slice(0, 10);
+
+    const query = "SELECT * from `orders` WHERE orders.placedDate== '" + today + "' and orders.notification=='edited'";
+    const editedOrders = await sequelize.query(query, { type: sequelize.QueryTypes.SELECT });
+
+    res.json(editedOrders);
+});
+
+router.get("/deletedorders", async (req, res) => {
+
+    const today = new Date().toISOString().slice(0, 10);
+
+    const query = "SELECT * from `orders` WHERE orders.placedDate== '" + today + "' and orders.notification=='deleted'";
+    const deletedOrders = await sequelize.query(query, { type: sequelize.QueryTypes.SELECT });
+
+    res.json(deletedOrders);
+});
+
+router.get("/placedorders", async (req, res) => {
+
+    const today = new Date().toISOString().slice(0, 10);
+
+    const query = "SELECT * from `orders` WHERE orders.placedDate== '" + today + "' and orders.notification=='placed'";
+    const placedOrders = await sequelize.query(query, { type: sequelize.QueryTypes.SELECT });
+
+    res.json(placedOrders);
+});
+
+
+// router.put("/unsolvedInquiries/:contactus_id", async (req, res) => {
+
+//     const contactus_id = req.params.contactus_id;
+//     const { response } = req.body;
+
+//     const querySelect = "SELECT * from `contactus` WHERE id='" + contactus_id + "'";
+//     const selectContactUs = await sequelize.query(querySelect, { type: sequelize.QueryTypes.SELECT });
+
+//     console.log("ddd");
+//     console.log(selectContactUs[0].enquiryType)
+
+//     const htmlEmail = `
+//     <h3> ${selectContactUs[0].enquiryType}</h3>
+//     <ul> 
+//         <li>Name: ${selectContactUs[0].fullName} </li>
+//         <li>OrderId: ${selectContactUs[0].orderId} </li>
+//     </ul>
+//     <h4> Response <h4>
+//     <p>${response}</p>`
+
 // const transporter = nodemailer.createTransport({
-//     host: 'smtp.sendgrid.net',
-//     port: 25,
+//     host: 'smtp.gmail.com',
+//     port: 465,
+//     secure: true,
 //     auth: {
-//       user: apikey,
-//       pass: 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
+//         user: "testceylonfolk@gmail.com",
+//         pass: "pkjjt@1234"
 //     }
-//   });
+// });
 
-const mailOptions = {
-    from:'testceylonfolk@gmail.com', // sender address
-    to:'janani.gamage18@gmail.com' , // list of receivers
-    replyTo: 'janani.gamage18@gmail.com' ,
-    subject: 'Response to Your inquiry',
-    html: htmlEmail
+// // const transporter = nodemailer.createTransport({
+// //     host: 'smtp.sendgrid.net',
+// //     port: 25,
+// //     auth: {
+// //       user: apikey,
+// //       pass: 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
+// //     }
+// //   });
 
-};
+// const mailOptions = {
+//     from:'testceylonfolk@gmail.com', // sender address
+//     to:'janani.gamage18@gmail.com' , // list of receivers
+//     replyTo: 'janani.gamage18@gmail.com' ,
+//     subject: 'Response to Your inquiry',
+//     html: htmlEmail
 
-    await transporter.sendMail(mailOptions,(err,info) =>{
-    if(err){
-                console.log("error in sending mail",err)
-                return res.status(400).json({
-                    message:`error in sending the mail${err}`
-                })
-            }
-            else{
-                console.log("successfully send message",info)
-                alert("successfully send message");
-                return res.json({
-                    message:info
-                })
-            }
-         } );  
+// };
+
+//     await transporter.sendMail(mailOptions,(err,info) =>{
+//     if(err){
+//                 console.log("error in sending mail",err)
+//                 return res.status(400).json({
+//                     message:`error in sending the mail${err}`
+//                 })
+//             }
+//             else{
+//                 console.log("successfully send message",info)
+//                 alert("successfully send message");
+//                 return res.json({
+//                     message:info
+//                 })
+//             }
+//          } );  
 
 
 
 
-res.json("SUCCESS");
+// res.json("SUCCESS");
 
-        console.log("dataaaa"+response);
-    const query = "UPDATE `contactus` SET status='solved' , response='" + response + "' WHERE id='" + contactus_id + "'";
-    const updateContactus = await sequelize.query(query, { type: sequelize.QueryTypes.UPDATE });
-    res.json(updateContactus);
-    res.status(200).json({
-        success: "Success"
-    }) 
+//         console.log("dataaaa"+response);
+//     const query = "UPDATE `contactus` SET status='solved' , response='" + response + "' WHERE id='" + contactus_id + "'";
+//     const updateContactus = await sequelize.query(query, { type: sequelize.QueryTypes.UPDATE });
+//     res.json(updateContactus);
+//     res.status(200).json({
+//         success: "Success"
+//     }) 
      
          
 
-});
+// });
 
 router.put("/contactUs", async (req, res) => {
 
