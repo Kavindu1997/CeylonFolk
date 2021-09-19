@@ -39,9 +39,15 @@ const multer = require('multer');
         customerName: req.body.customerName,
       customerEmail: req.body.customerEmail,
         status: 'Pending',
+        notificationStatus: 'Pending',
         price: req.body.price,
+        textCount: req.body.textCount,
+        imageCount: req.body.imageCount,
+        fixedPrice: req.body.price,
+        size: req.body.size,
+        notificationFlag: 0,
         
-        deleteFlag: 'f',
+        deleteFlag: 'false',
 
             image: imagePath
         })
@@ -116,7 +122,7 @@ const multer = require('multer');
     )
 
     router.get("/orderDetails", async (req,res) => {
-        const query = "SELECT * FROM customizeorders WHERE (status='Pending' AND deleteFlag='f')";
+        const query = "SELECT * FROM customizeorders WHERE (status='Pending' AND deleteFlag='false')";
         const listOfCustomizedOrders = await sequelize.query(query, { type: sequelize.QueryTypes.SELECT });
         res.json(listOfCustomizedOrders);
         // res.render("upload");
@@ -217,7 +223,7 @@ const multer = require('multer');
     router.get("/custCustomizeOrders/:id", async (req,res) => {
         const id = req.params.id
         console.log(id)
-        const query = "SELECT * FROM customizeorders WHERE customerId='"+id+"' AND deleteFlag='f'";
+        const query = "SELECT * FROM customizeorders WHERE customerId='"+id+"' AND deleteFlag='false'";
         const listOfAcceptedOrders = await sequelize.query(query, { type: sequelize.QueryTypes.SELECT });
         res.json(listOfAcceptedOrders);
         // res.render("upload");
@@ -430,7 +436,7 @@ const multer = require('multer');
     });
 
     router.get("/closedOrders", async (req,res) => {
-        const query = "SELECT * FROM customizeorders WHERE status='Closed'";
+        const query = "SELECT * FROM customizeorders WHERE status='Recieved'";
         const listOfDispatchedOrders = await sequelize.query(query, { type: sequelize.QueryTypes.SELECT });
         res.json(listOfDispatchedOrders);
         // res.render("upload");
@@ -526,7 +532,7 @@ const multer = require('multer');
             
 
         
-        const query = "UPDATE customizeorders SET status='Advance Paid', price='"+price+"', totalAmount='"+price+"' WHERE orderId='"+id+"'";
+        const query = "UPDATE customizeorders SET status='Advance Paid', notificationStatus='Advance Paid', notificationFlag=0, price='"+price+"', totalAmount='"+price+"' WHERE orderId='"+id+"'";
         const updateStatus = await sequelize.query(query, { type: sequelize.QueryTypes.UPDATE });
     
     res.json(updateStatus);
@@ -537,13 +543,15 @@ const multer = require('multer');
         // const orderNo = req.body.orderNo;
         const totalAmount = req.body.totalAmount;
         const address = req.body.delivery;
-        const date = req.body.placedDate
+        const date = req.body.placedDate;
+        const note = req.body.note;
+        const fixedPrice = req.body.totalAmount;
         console.log(id)
     
             
 
         
-        const query = "UPDATE customizeorders SET status='Paid',  totalAmount='"+totalAmount+"', address='"+address+"', placedDate='"+date+"' WHERE orderId='"+id+"'";
+        const query = "UPDATE customizeorders SET status='Paid',  totalAmount='"+totalAmount+"', fixedPrice='"+fixedPrice+"', address='"+address+"', notificationStatus='Paid', notificationFlag=0, note='"+note+"', placedDate='"+date+"' WHERE orderId='"+id+"'";
         const updateStatus = await sequelize.query(query, { type: sequelize.QueryTypes.UPDATE });
     
     res.json(updateStatus);
@@ -565,7 +573,7 @@ const multer = require('multer');
 
     router.put("/recieved", async (req,res) => {
         const id = req.body.id;
-        const query = "UPDATE customizeorders SET status='Closed' WHERE orderId='"+id+"'";
+        const query = "UPDATE customizeorders SET status='Recieved', notificationStatus='Recieved', notificationFlag=0, WHERE orderId='"+id+"'";
         const updateStatus = await sequelize.query(query, { type: sequelize.QueryTypes.UPDATE });
         res.json(updateStatus);
         // res.render("upload");
@@ -624,7 +632,7 @@ const multer = require('multer');
                     }
                  } );
 
-        const query = "UPDATE customizeorders SET status='Rejected', deleteFlag='reject', notificationStatus='0', notification='"+notification+"' WHERE orderId='"+id+"'";
+        const query = "UPDATE customizeorders SET status='Rejected', deleteFlag='reject' WHERE orderId='"+id+"'";
         const updateStatus = await sequelize.query(query, { type: sequelize.QueryTypes.UPDATE });
     
     res.json(updateStatus);
@@ -682,7 +690,7 @@ const multer = require('multer');
                  } );
 
 
-        const query = "UPDATE customizeorders SET status='Canceled', deleteFlag='reject', notificationStatus='0', notification='"+notification+"' WHERE orderId='"+id+"'";
+        const query = "UPDATE customizeorders SET status='Canceled', deleteFlag='reject', notificationStatus='Canceled', notificationFlag=0, WHERE orderId='"+id+"'";
         const updateStatus = await sequelize.query(query, { type: sequelize.QueryTypes.UPDATE });
     
     res.json(updateStatus);
@@ -692,8 +700,8 @@ const multer = require('multer');
         let data = [
             pendingOrders = '',
             printingOrders = '',
-            dispatchedOrders = '',
-            rejectedOrders = '',
+            printedOrders = '',
+            recievedOrders = '',
         ]
     
         const query1 = "SELECT COUNT(status) AS pendingCount FROM customizeorders WHERE status='Pending'";
@@ -702,8 +710,8 @@ const multer = require('multer');
         data = {
             pendingOrders: pending[0].pendingCount,
             printingOrders: '',
-            dispatchedOrders: '',
-            rejectedOrders: '',
+            printedOrders: '',
+            recievedOrders: '',
         }
     
     
@@ -711,31 +719,38 @@ const multer = require('multer');
         const printing = await sequelize.query(query2, { type: sequelize.QueryTypes.SELECT });
         data = {
             pendingOrders: pending[0].pendingCount,
-            printingOrders: printing[0].acceptCount,
-            dispatchedOrders: '',
-            rejectedOrders: '',
+            printingOrders: printing[0].printingCount ,
+            printedOrders: '',
+            recievedOrders: '',
         }
     
     
-        const query3 = "SELECT COUNT(status) AS dispatchCount FROM customizeorders WHERE status='Dispatched'";
+        const query3 = "SELECT COUNT(status) AS printedCount FROM customizeorders WHERE status='Printed'";
         const dispatched = await sequelize.query(query3, { type: sequelize.QueryTypes.SELECT });
         data = {
             pendingOrders: pending[0].pendingCount,
-            printingOrders: accept[0].acceptCount,
-            dispatchedOrders: dispatched[0].dispatchCount,
-            rejectedOrders: '',
+            printingOrders: printing[0].printingCount,
+            printedOrders: dispatched[0].printedCount,
+            recievedOrders: '',
         }
     
-        const query4 = "SELECT COUNT(status) AS rejectCount FROM customizeorders WHERE status='Printed'";
+        const query4 = "SELECT COUNT(status) AS recievedCount FROM customizeorders WHERE status='Closed'";
         const printed = await sequelize.query(query4, { type: sequelize.QueryTypes.SELECT });
         data = {
             pendingOrders: pending[0].pendingCount,
-            acceptedOrders: accept[0].acceptCount,
-            dispatchedOrders: dispatched[0].dispatchCount,
-            rejectedOrders: printed[0].rejectCount,
+            printingOrders: printing[0].printingCount,
+            printedOrders: dispatched[0].printedCount,
+            recievedOrders: printed[0].recievedCount,
         }
         res.json(data);
     })
+
+    router.get("/allOrders/:id", async (req, res) => {
+        const id = req.params.id;
+        const product = await CustomizeOrders.findByPk(id)
+        console.log(product)
+        res.json(product);
+    });
 
 
 
