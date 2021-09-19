@@ -161,6 +161,17 @@ const useStyles = makeStyles((theme) => ({
         width:'100%'
         
       },
+      icon: {
+        fill: 'white',
+        padding: '8px',
+        borderRadius: '50px',
+        background: 'light blue',
+        
+        height: '78',
+        color: 'black',
+        boxShadow: 'none',
+    
+      },
       tshirtDiv:{
         width: '530px',
         height: '500px',

@@ -29,6 +29,9 @@ import LogoLayer from './Layer/LogoLayer';
 import axios from 'axios';
 import Popup from "../../components/Reusable/Popup";
 import sleeveDesign from "../../images/new/sleeveDesign.png";
+import Notification from '../../components/Reusable/Notification';
+import { useHistory } from 'react-router-dom';
+import ButtonGroup from '@material-ui/core/ButtonGroup';
 
 
 const Customize = () => {
@@ -65,10 +68,18 @@ const Customize = () => {
   const [openPopup, setOpenPopup] = useState(false);
   const [openSleevePopup, setopenSleevePopup] = useState(false);
   const [customizeprice, setcustomizePrice] = useState(1100);
+  const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' });
+  const [notifySize, setNotifySize] = useState({ isOpen: false, message: '', type: '' });
+  const [listOfSizes, setListOfSizes] = useState([]);
+  const [size2, setSize] = useState('');
 
   useEffect(() => {
     setCanvas(initCanvas());
     setImage(getImage());
+    axios.get("http://localhost:3001/invent/sizes").then((response) => {
+            // console.log(response.data);
+            setListOfSizes(response.data);
+        });
 
   }, []);
 
@@ -106,7 +117,10 @@ const Customize = () => {
 
   } 
 
+
+
   const dispatch = useDispatch();
+  let history = useHistory();
 
   const pickedItemColors = useSelector((state) => state.colorReducer.pickerColor)
 
@@ -122,6 +136,10 @@ const Customize = () => {
   };
 
   var size = Object.size(pickedItemColors);
+
+  const onsize = (e) => {
+    setSize(e.target.value)
+}
 
   var array = [];
   var i = 0;
@@ -338,14 +356,25 @@ const Customize = () => {
   const handleSaveClick = () => {
     console.log('hello')
     console.log(exportT)
+    if(size2=='')
+    {
+      setNotify({
+        isOpen: true,
+        message: 'Select a Size !',
+        type: 'error'
+    });
+    }
+    else{
+      setOpenPopup(false)
     var id = localStorage.getItem("userId");
     var fullname = localStorage.getItem("fullname");
     var userEmail = localStorage.getItem("userEmail");
+
     
     
     let orderNo =  'cust' + Math.round(  (Math.random() * Math.pow(10, 6)) + '' + new Date().getTime());
-
-
+    let textCount = pickerColorArray.length
+    let imageCount = imageSrcArray.length
 
     const data = {
       customerId: id,
@@ -355,11 +384,21 @@ const Customize = () => {
       userName:userName,
       image: exportT,
       price: price,
+      textCount: textCount,
+      imageCount: imageCount,
+      size: size2,
     }
 
     axios.post('http://localhost:3001/customizeOrders/upload/image', data).then((response) => {
-      alert('Image sent Successfull');
+      // alert('Image sent Successfull');
+      setNotify({
+        isOpen: true,
+        message: 'Design Sent Successfully !',
+        type: 'success'
     });
+    });
+
+  }
   }
 
   return (
@@ -419,7 +458,7 @@ const Customize = () => {
             <Box className={toggleState === 4 ? classes.activeContent : classes.content}>
               <Grid Container className={classes.bar3} >
                 <Grid item md={2.4} style={{ width: '100%' }}>
-                  <a href="#">
+                  <a>
                     <button className={classes.barBtn2} onClick={(e) => changeCloth({ target: { value: 'tshirt' } })} value="tshirt">
                       <img height={50} src={addTshirt} />
                       <Typography textDecoration='none' className={classes.barFont}>T SHIRT</Typography>
@@ -427,7 +466,7 @@ const Customize = () => {
                   </a>
                 </Grid>
                 <Grid item xs={12} sm={6} md={2.4} >
-                  <a href="#">
+                  <a>
                     <button className={classes.barBtn2} onClick={(e) => changeCloth({ target: { value: 'cropTop' } })} value="cropTop" className={classes.barBtn2}>
                       <img height={50} src={cropTop} />
                       <Typography textDecoration='none' className={classes.barFont}>CROP TOP</Typography>
@@ -435,7 +474,7 @@ const Customize = () => {
                   </a>
                 </Grid>
                 <Grid item md={2.4} style={{ width: '100%' }}>
-                  <a href="#">
+                  <a>
                     <button className={classes.barBtn2} onClick={(e) => changeCloth({ target: { value: 'kids' } })} value="kids">
                       <img height={50} src={kids} />
                       <Typography textDecoration='none' className={classes.barFont}>KIDS</Typography>
@@ -596,24 +635,43 @@ const Customize = () => {
           </center>
         </Grid>
         <Popup
-          title="Approximate Price"
+          title="Approximate Price for your Design"
           openPopup={openPopup}
           setOpenPopup={setOpenPopup}
         >
-          <Grid item xs={4}>
-            <Typography>You are approximate price is bla bla</Typography>
-            <Typography>get the real price and confirmation</Typography>
+          <center>
+          <Grid >
+            <Box style={{textAlign:'center', padding: '10px', fontSize:'16px'}}>You are approximate price is LKR {price}.00</Box>
+            <Box style={{textAlign:'center', padding: '10px', fontSize:'14px'}}>The actial price of the design could be change with the admin acceptance</Box>
 
           </Grid>
+          <Grid item xs={6}>
+                    <ButtonGroup variant="contained" color="primary" aria-label="split button" style={{ boxShadow: 'none' }}>
+                    <select className={classes.icon} name="Select"  onChange={onsize}>
+                                    <option value="">SELECT SIZE</option>
+                                   
+                                    {listOfSizes
+                                            .map((value) => {
+                                                return (
+
+                                                    <option value={value.size}>{value.size}</option>
+                                                    );
+                                                })}
+
+                                </select>
+                                </ButtonGroup>
+                   
+                    </Grid>
           <Grid item md={12} >
             <Button
               className={classes.slevebtn}
               onClick={() => {
                 handleSaveClick()
-                setOpenPopup(false)
+                
               }}
-            >Send Design</Button>
+            >Get the Acceptance</Button>
           </Grid>
+          </center>
         </Popup>
         <Grid md={1} >
           <Grid item md={2.4} style={{ width: '100%' }}>
@@ -654,19 +712,34 @@ const Customize = () => {
             openPopup={openSleevePopup}
             setOpenPopup={setopenSleevePopup}
           >
+            <center>
             <Grid style={{ alignItems: 'center' }}>
               <Typography style={{ textAlign: 'center' }}>More design areas to make you stand out</Typography>
               <Typography style={{ textAlign: 'center' }}>Give us a call to add to your design, get a quote, and place your order.</Typography>
-              <Typography style={{ textAlign: 'center' }}>Call us at 011-2345678</Typography>
+              <Button
+              className={classes.slevebtn}
+              onClick={() => {
+                history.push('/contactus')
+              }}
+            >CONTACT US</Button>
               <center>
                 <img style={{ alignItems: 'center' }} src={sleeveDesign} style={{ height: '300px' }} />
               </center>
 
 
             </Grid>
+            </center>
           </Popup>
 
         </Grid>
+        <Notification
+                    notify={notify}
+                    setNotify={setNotify}
+                />
+                <Notification
+                    notify={notifySize}
+                    setNotify={setNotifySize}
+                />
       </div>
 
       <Footer />

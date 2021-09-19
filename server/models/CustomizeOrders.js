@@ -39,6 +39,11 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: true,
         },
 
+        fixedPrice: {
+            type: DataTypes.STRING,
+            allowNull: true,
+        },
+
         totalAmount: {
             type: DataTypes.STRING,
             allowNull: true,
@@ -46,11 +51,6 @@ module.exports = (sequelize, DataTypes) => {
 
         placedDate: {
             type: DataTypes.DATE,
-            allowNull: true,
-        },
-
-        paymentMethod: {
-            type: DataTypes.STRING,
             allowNull: true,
         },
 
@@ -64,17 +64,37 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: true,
         },
 
+        size: {
+            type: DataTypes.CHAR,
+            allowNull: true,
+        },
+
+        textCount: {
+            type: DataTypes.INTEGER,
+            allowNull: true,
+        },
+
+        notificationFlag: {
+            type: DataTypes.INTEGER,
+            allowNull: true,
+        },
+
+        imageCount: {
+            type: DataTypes.INTEGER,
+            allowNull: true,
+        },
+
         deleteFlag: {
             type: DataTypes.STRING,
             allowNull: true,
         },
 
-        notificationStatus: {
+        note: {
             type: DataTypes.STRING,
             allowNull: true,
         },
 
-        notification: {
+        notificationStatus: {
             type: DataTypes.STRING,
             allowNull: true,
         },
