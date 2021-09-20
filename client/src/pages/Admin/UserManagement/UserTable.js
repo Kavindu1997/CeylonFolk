@@ -20,6 +20,7 @@ import PictureAsPdfIcon from '@material-ui/icons/PictureAsPdf';
 import logo from '../../../images/logo.png';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
+import { API_URL } from '../../../_constants';
 
 
 const headCells = [
@@ -35,7 +36,7 @@ const UserTable = () => {
     const classes = useStyles();
     const [records, setRecords] = useState([]);
     useEffect(() => {
-        axios.get("http://localhost:3001/auth/").then((response) => {
+        axios.get(API_URL+"/auth/").then((response) => {
             setRecords(response.data);
         });
     }, []);
@@ -70,15 +71,15 @@ const UserTable = () => {
 
     const addOrEdit = (data, resetForm) => {
         if (data.id === 0) {
-            axios.post("http://localhost:3001/auth/", data).then(() => {
-                axios.get("http://localhost:3001/auth/").then((response) => {
+            axios.post(API_URL+"/auth/", data).then(() => {
+                axios.get(API_URL+"/auth/").then((response) => {
                     setRecords(response.data);
                 });
             });
             resetForm();
             setRecordForEdit(null);
             setOpenPopup(false);
-            axios.get("http://localhost:3001/auth/").then((response) => {
+            axios.get(API_URL+"/auth/").then((response) => {
                 setRecords(response.data);
             });
             setNotify({
@@ -89,14 +90,14 @@ const UserTable = () => {
 
         } else {
             axios.put(`/auth/${data.id}`, data).then(() => {
-                axios.get("http://localhost:3001/auth/").then((response) => {
+                axios.get(API_URL+"/auth/").then((response) => {
                     setRecords(response.data);
                 });
             });;
             resetForm();
             setRecordForEdit(null);
             setOpenEditPopup(false);
-            axios.get("http://localhost:3001/auth/").then((response) => {
+            axios.get(API_URL+"/auth/").then((response) => {
                 setRecords(response.data);
             });
             setNotify({
@@ -118,8 +119,8 @@ const UserTable = () => {
             ...confirmDialog,
             isOpen: false
         });
-        axios.delete(`http://localhost:3001/auth/${id}`).then(() => {
-            axios.get("http://localhost:3001/auth/").then((response) => {
+        axios.delete(API_URL+`/auth/${id}`).then(() => {
+            axios.get(API_URL+"/auth/").then((response) => {
                 setRecords(response.data);
             }); //refresh the records array
         });

@@ -16,6 +16,7 @@ import PieChart from "./PieChart";
 import LineChart from "./LineChart";
 import DoughNut from "./DoughNut";
 import LineChartCustomize from "./LineChartCustomize";
+import { API_URL } from "../../../_constants";
 
 const Dashboard = () => {
     const classes = useStyles();
@@ -26,14 +27,14 @@ const Dashboard = () => {
     const [component, setComponent] = useState('inhouse')
 
     useEffect(() => {
-      axios.get("http://localhost:3001/auth/getCount").then((response) => {
+      axios.get(API_URL+"/auth/getCount").then((response) => {
           setCustomers(response.data[0].customer_count);
           
       });
   }, []);
 
   useEffect(() => {
-    axios.get("http://localhost:3001/order/getALLPendingCount").then((response) => {
+    axios.get(API_URL+"/order/getALLPendingCount").then((response) => {
         console.log(response.data[0].sum_of_pendings);
         setPendingOrders(response.data[0].sum_of_pendings);
     });
@@ -41,7 +42,7 @@ const Dashboard = () => {
 
 
 useEffect(() => {
-  axios.get("http://localhost:3001/order/getSales").then((response) => {
+  axios.get(API_URL+"/order/getSales").then((response) => {
       console.log(response.data);
       setSales(response.data[0].sales_amount);
   });

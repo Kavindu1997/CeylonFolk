@@ -4,6 +4,7 @@ import axios from 'axios';
 import { useStyles } from "./styles";
 import { Card, CardContent,  Divider,  Grid, Paper, Typography, } from "@material-ui/core";
 import { blue,green, purple, red, yellow } from "@material-ui/core/colors";
+import { API_URL } from "../../../_constants";
 
 const DoughNut = () => {
     const classes=useStyles();
@@ -15,7 +16,7 @@ const DoughNut = () => {
     
 
     useEffect(() => {
-        axios.get("http://localhost:3001/order/getCustomizeCount").then((response) => {
+        axios.get( API_URL+"/order/getCustomizeCount").then((response) => {
             setPendingCount(response.data.pendingOrders);
             setAcceptCount(response.data.acceptedOrders);
             setPrintedCount(response.data.printedOrders);

@@ -4,6 +4,7 @@ import axios from 'axios';
 import { useStyles } from "./styles";
 import { Card, CardContent,  Divider,  Grid, Paper, Typography, } from "@material-ui/core";
 import { blue, green, red, yellow } from "@material-ui/core/colors";
+import { API_URL } from "../../../_constants";
 
 const PieChart = () => {
     const classes=useStyles();
@@ -13,7 +14,7 @@ const PieChart = () => {
     const [cancelCount, setCancelCount] = useState(0);
 
     useEffect(() => {
-        axios.get("http://localhost:3001/order/getCount").then((response) => {
+        axios.get( API_URL+"/order/getCount").then((response) => {
             console.log(response.data.pendingOrders);
             setPendingCount(response.data.pendingOrders);
             setAcceptCount(response.data.acceptedOrders);

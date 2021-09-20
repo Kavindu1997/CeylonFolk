@@ -16,7 +16,7 @@ import ConfirmDialog from '../../../components/Reusable/ConfirmDialog';
 import useStyles from '../style';
 import AdminNav from "../../../components/Reusable/AdminNav"
 import axios from 'axios';
-
+import { API_URL } from '../../../_constants';
 
 const headCells=[
     {id:'coupon_number',label:'Coupon Number'},
@@ -31,7 +31,7 @@ const CouponTable = () => {
     const classes=useStyles();
     const [records,setRecords]=useState([]);
     useEffect(()=>{
-        axios.get("http://localhost:3001/coupons/").then((response)=>{
+        axios.get(API_URL+"/coupons/").then((response)=>{
                   setRecords(response.data);
         });
     },[]);
@@ -63,15 +63,15 @@ const CouponTable = () => {
 
     const addOrEdit = (data, resetForm) => {
         if (data.id === 0){
-            axios.post("http://localhost:3001/coupons/", data).then(() => {
-                axios.get("http://localhost:3001/coupons/").then((response)=>{
+            axios.post(API_URL+"/coupons/", data).then(() => {
+                axios.get(API_URL+"/coupons/").then((response)=>{
                     setRecords(response.data);
                 });
          });
          resetForm();
          setRecordForEdit(null);
          setOpenPopup(false);
-        axios.get("http://localhost:3001/coupons/").then((response)=>{
+        axios.get(API_URL+"/coupons/").then((response)=>{
             setRecords(response.data);
             });
          setNotify({
@@ -82,14 +82,14 @@ const CouponTable = () => {
         
         }else{
        axios.put(`/coupons/${data.id}`,data).then(() => {
-        axios.get("http://localhost:3001/coupons/").then((response)=>{
+        axios.get(API_URL+"/coupons/").then((response)=>{
             setRecords(response.data);
         });
     });;
         resetForm();
         setRecordForEdit(null);
         setOpenEditPopup(false);
-        axios.get("http://localhost:3001/coupons/").then((response)=>{
+        axios.get(API_URL+"/coupons/").then((response)=>{
             setRecords(response.data);
             });
         setNotify({
@@ -110,8 +110,8 @@ const CouponTable = () => {
             isOpen: false
         });
      
-      axios.delete(`http://localhost:3001/coupons/${id}`).then(()=>{
-        axios.get("http://localhost:3001/coupons/").then((response)=>{
+      axios.delete(API_URL+`/coupons/${id}`).then(()=>{
+        axios.get(API_URL+"/coupons/").then((response)=>{
         setRecords(response.data);
     }); //refresh the records array
     });

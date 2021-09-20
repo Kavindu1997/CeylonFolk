@@ -4,6 +4,7 @@ import axios from 'axios';
 import { useStyles } from "./styles";
 import { Card, CardContent,  Divider,  Grid, Paper, Typography, } from "@material-ui/core";
 import {  indigo } from "@material-ui/core/colors";
+import { API_URL } from "../../../_constants";
 
 const LineChartCustomize = () => {
     const classes=useStyles();
@@ -11,7 +12,7 @@ const LineChartCustomize = () => {
     const [amount, setAmount] = useState([]);
 
     useEffect(() => {
-        axios.get("http://localhost:3001/order/getCustomizeDistribution").then((response) => {
+        axios.get( API_URL+"/order/getCustomizeDistribution").then((response) => {
            const months=[];
            const amounts=[];
            for(var i=0;i<response.data.length;i++){
