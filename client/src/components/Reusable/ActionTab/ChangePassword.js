@@ -4,29 +4,29 @@ import { useForm,Form } from '../useForm';
 import Controls from '../Controls';
 
 const initialFvalues = {
-    id: 0,
+    id:'',
     newPassword: '',
     confirmPassword: ''
 }
    
 
-const ChangePassword = () => {
+const ChangePassword = (props) => {
 
-    // const { addOrEdit} = props;
+    const { addOrEdit} = props;
 
-    // const validate = (fieldValues = values) => {
-    //     let temp = { ...errors }
-    //     if ('newPassword' in fieldValues)
-    //         temp.newPassword = (/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/).test(fieldValues.newPassword) ? "" :  "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character" 
-    //     if ('confirmPassword' in fieldValues)
-    //         temp.confirmPassword=((fieldValues.newPassword === fieldValues.confirmPassword) ? "" : "Passwords must match")
-    //         setErrors({
-    //         ...temp
-    //     })
+    const validate = (fieldValues = values) => {
+        let temp = { ...errors }
+        if ('newPassword' in fieldValues)
+            temp.newPassword = (/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/).test(fieldValues.newPassword) ? "" :  "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character" 
+        if ('confirmPassword' in fieldValues)
+            temp.confirmPassword=((fieldValues.newPassword === fieldValues.confirmPassword) ? "" : "Passwords must match")
+            setErrors({
+            ...temp
+        })
 
-    //     if (fieldValues === values)
-    //         return Object.values(temp).every(x => x === "");            //temp<- error messages
-    // }
+        if (fieldValues === values)
+            return Object.values(temp).every(x => x === "");            //temp<- error messages
+    }
 
     const {
         values,
@@ -35,13 +35,13 @@ const ChangePassword = () => {
         setErrors,
         handleInputChange,
         resetForm
-    } = useForm(initialFvalues, true,'')
+    } = useForm(initialFvalues, true,validate)
 
     const handleSubmit = e => {
-        // e.preventDefault();
-        // if (validate()) {
-        //     addOrEdit(values, resetForm);
-        // }
+        e.preventDefault();
+        if (validate()) {
+            addOrEdit(values, resetForm);
+        }
     }
 
 
