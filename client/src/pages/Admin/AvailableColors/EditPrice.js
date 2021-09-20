@@ -1,32 +1,21 @@
 import React, { useState, useEffect } from 'react';
-// import { Grid } from '@material-ui/core';
-import { Grid, Typography, Box } from '@material-ui/core';
+import { Grid} from '@material-ui/core';
 import Controls from '../../../components/Reusable/Controls';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
-import ButtonGroup from '@material-ui/core/ButtonGroup';
 import useStyles from '../style';
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch} from "react-redux";
 import '../adminStyles.css'
 
-// var colour_id = localStorage.getItem("colour_id");
 
 function  EditPrice ({ selectedColourId }) {
 
     const classes = useStyles();
     const [price, setPrice] = useState([]);
-    const [check, setCheck] = useState()
-
     const dispatch = useDispatch();
- 
-
-
     let history = useHistory();
 
     const onFormSubmit = (e) => {
-
-        // e.preventDefault();
-
         const Data = {
            
             price: price,
@@ -40,7 +29,7 @@ function  EditPrice ({ selectedColourId }) {
 
 
         }).catch((err) => {
-            console.log('err', err);
+          
         })
     };
 
@@ -48,23 +37,15 @@ function  EditPrice ({ selectedColourId }) {
 
     const changeColor = (e) => {
         setPrice(e.target.value);
-        console.log(e.target.value);
+        
     };
 
-
-    const handleCheck = (e) => {
-        // const { name, value } = e.target;
-
-    setCheck(e.target.value);
-
-    }
 
     const [listOfColor, setListOfColor] = useState([]);
 
     useEffect(() => {
 
         axios.get(`http://localhost:3001/availableColors/fetchColors/${selectedColourId.colour_id}`).then((response) => {
-            console.log(response.data);
             setListOfColor(response.data);
         });
     }, []);

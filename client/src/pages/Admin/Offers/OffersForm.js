@@ -40,7 +40,6 @@ const OffersForm = () => {
 
     const sendItem = (e) => {
 
-        // e.preventDefault();
 
         const Data = {
             collection_id: collection_id,
@@ -48,11 +47,10 @@ const OffersForm = () => {
             to:to,
         }
 
-        console.log(Data);
         axios.post("http://localhost:3001/offers", Data).then(() => {
-            // alert('Item Inserted Successfully')
+           
         });
-        // props.resetForm();
+       
     };
 
     const [listOfCollections, setListOfCollections] = useState([]);
@@ -60,7 +58,7 @@ const OffersForm = () => {
     useEffect(() => {
 
         axios.get("http://localhost:3001/collection").then((response) => {
-            // console.log(response.data);
+            
             setListOfCollections(response.data);
         });
     }, []);

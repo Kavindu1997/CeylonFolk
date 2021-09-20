@@ -1,14 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Grid, Typography, Box, Radio } from '@material-ui/core';
+import { Grid,Box} from '@material-ui/core';
 import Controls from '../../components/Reusable/Controls';
 import axios from 'axios';
 import "yup-phone";
 import useStyles from './style';
-import { CirclePicker } from "react-color";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch} from "react-redux";
 import { fetchColors } from '../../_actions/colorActions'
-import ButtonGroup from '@material-ui/core/ButtonGroup';
-import { useForm, Form } from '../../components/Reusable/useForm';
 import './adminStyles.css'
 
 
@@ -32,22 +29,21 @@ function InventoryEdit ({ selectedInventoryId }) {
     const onquantity = (e) => {
         setQuantity(e.target.value)
     }
-    // console.log(pickerColorArray)
+   
 
     const onSubmit1 = (e) => {
 
-        // e.preventDefault();
+       
 
         const Data = {
             margin: margin,
             quantity: quantity,
         }
 
-        console.log(Data);
         axios.put(`http://localhost:3001/invent/inventory/${selectedInventoryId.inventory_id}`, Data).then(() => {
-            // alert('Item Inserted Successfully')
+           
         });
-        // props.resetForm();
+      
     };
 
 
@@ -59,7 +55,7 @@ function InventoryEdit ({ selectedInventoryId }) {
     useEffect(() => {
 
         axios.get(`http://localhost:3001/invent/inventoryItem/${selectedInventoryId.inventory_id}`).then((response) => {
-            // console.log(response.data);
+          
             setListOfItem(response.data);
         });
     }, []);

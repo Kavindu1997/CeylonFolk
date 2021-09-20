@@ -32,9 +32,7 @@ function OffersEdit({ selectedCollectionId }) {
 
     const sendItem = (e) => {
 
-        // e.preventDefault();
-
-        const Data = {
+      const Data = {
             collection_id: selectedCollectionId.collection_id,
             rate: rate,
             to:to,
@@ -42,11 +40,11 @@ function OffersEdit({ selectedCollectionId }) {
 
         }
 
-        console.log(Data);
+       
         axios.put(`http://localhost:3001/offers/${selectedCollectionId.collection_id}`, Data).then(() => {
             // alert('Item Updated Successfully')
         });
-        // props.resetForm();
+        
     };
 
     const [listOfItem, setListOfItem] = useState([]);
@@ -54,7 +52,7 @@ function OffersEdit({ selectedCollectionId }) {
     useEffect(() => {
 
         axios.get(`http://localhost:3001/offers/offerItem/${selectedCollectionId.collection_id}`).then((response) => {
-            // console.log(response.data);
+          
             setListOfItem(response.data);
         });
     }, []);

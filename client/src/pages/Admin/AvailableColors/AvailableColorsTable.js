@@ -78,8 +78,6 @@ const CollectionTable = () => {
 
     const pickedItemColors = useSelector((state) => state.colorReducer.pickerColor)
 
-    console.log("color check" + pickedItemColors);
-
     // dispatch(fetchColors());
 
     const onSetId = (id) => { //'Itom007'

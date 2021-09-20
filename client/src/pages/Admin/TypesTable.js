@@ -35,16 +35,13 @@ const TypesTable = () => {
     const [confirmDialog, setConfirmDialog] = useState({ isOpen: false, title: '', subTitle: '' });
     const dispatch = useDispatch();
 
-    // const { TblContainer, TblHead, TblPagination, recordsAfterPagingAndSorting } =
-    //     useTable("", headCells, "");
-
     const openInPopup = (item) => {
-        // setRecordForEdit(item);
+       
         setOpenPopup(true);
     };
 
     const openInPopup1 = (item) => {
-        // setRecordForEdit(item);
+        
         setOpenPopup1(true);
     };
 
@@ -63,7 +60,7 @@ const TypesTable = () => {
 
     useEffect(() => {
         axios.get("http://localhost:3001/types").then((response) => {
-            console.log(response.data);
+           
             setListOfTypes(response.data);
         })
     }, []);
@@ -107,12 +104,6 @@ const TypesTable = () => {
 
     };
 
-
-    // const onSetId = (id) => { //'Itom007'
-    //     localStorage.setItem("types_id", id);
-
-
-    // };
 
     function setTypeIdtoChange(value) {
         setOpenPopup1(true)

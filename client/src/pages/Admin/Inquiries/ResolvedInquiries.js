@@ -1,13 +1,7 @@
 import React, { useState, useEffect } from "react";
 import PageHeader from "../PageHeader";
 import LayersIcon from "@material-ui/icons/Layers";
-import { Search } from "@material-ui/icons";
-import AddIcon from "@material-ui/icons/Add";
-import CloseIcon from "@material-ui/icons/Close";
-import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
-// import CollectionForm from "./CollectionForm";
-import { makeStyles, Paper, TableBody, TableRow, TableCell, Toolbar, InputAdornment, Typography, Table, TableContainer, TableHead, Button } from "@material-ui/core";
-import useTable from "../../../components/Reusable/useTable";
+import { Paper, TableBody, TableRow, TableCell,Typography, Table, TableContainer, TableHead } from "@material-ui/core";
 import Controls from "../../../components/Reusable/Controls";
 import Popup from "../../../components/Reusable/Popup";
 import Notification from "../../../components/Reusable/Notification";
@@ -16,9 +10,7 @@ import Collection from "../../../images/collection.json";
 import AdminNav from "../../../components/Reusable/AdminNav"
 import useStyles from '../style';
 import axios from 'axios';
-import { useDispatch, useSelector } from "react-redux";
-import { Link } from 'react-router-dom';
-import SkipPreviousIcon from '@material-ui/icons/SkipPrevious';
+import { useDispatch} from "react-redux";
 import ViewMessageResponse from "./ViewMessageResponse";
 
 const ResolvedInquiries = () => {
@@ -37,18 +29,9 @@ const ResolvedInquiries = () => {
     const dispatch = useDispatch();
 
     const openInPopup = (item) => {
-        // setRecordForEdit(item);
+    
         setOpenPopup(true);
     };
-
-
-    // const { TblContainer, TblHead, TblPagination, recordsAfterPagingAndSorting } =
-    //     useTable("", headCells, "");
-    // const onSetId = (id) => { 
-      
-    //     localStorage.setItem("contactus_id", id);
-
-    // };
 
     const defaultOptions = {
         loop: true,
@@ -64,7 +47,6 @@ const ResolvedInquiries = () => {
 
     useEffect(() => {
         axios.get("http://localhost:3001/notifications/resolvedInquiries").then((response) => {
-            console.log(response.data);
             setListOfResolvedInquiries(response.data);
         })
     }, []);

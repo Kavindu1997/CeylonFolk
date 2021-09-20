@@ -36,16 +36,13 @@ const CollectionTable = () => {
     const dispatch = useDispatch();
     const [collectionId, setCollectionId] = useState([]);
 
-    // const { TblContainer, TblHead, TblPagination, recordsAfterPagingAndSorting } =
-    //     useTable("", headCells, "");
-
     const openInPopup = (item) => {
-        // setRecordForEdit(item);
+       
         setOpenPopup(true);
     };
 
     const openInPopup1 = (item) => {
-        // setRecordForEdit(item);
+     
         setOpenPopup1(true);
     };
 
@@ -63,7 +60,7 @@ const CollectionTable = () => {
 
     useEffect(() => {
         axios.get("http://localhost:3001/collection").then((response) => {
-            console.log(response.data);
+          
             setListOfCollections(response.data);
         })
     }, []);
@@ -79,22 +76,9 @@ const CollectionTable = () => {
 
         dispatch(actionDeleteCollection(id));
 
-        //   const url = "http://localhost:3001/check/remove/"
+       
         const data = { id: id }
-        //   axios.put(url, data).then((response) => {
-        //     if (response.data.error) alert(response.data.error);
-        //     else {
-        //       const url1 = "http://localhost:3001/check/items/" + uid;
-        //       axios.get(url1).then((response) => {
-        //         setOfItems(response.data);
-        //       });
-        //       const url2 = "http://localhost:3001/check/total/" + uid;
-        //       axios.get(url2).then((response) => {
-        //         setOftotals(response.data);
-        //       });
-        //     }
-        //   });
-
+       
         axios.delete(`http://localhost:3001/collection/remove/`, { data }).then((response) => {
 
             if (response.data.data == 0) {
@@ -124,15 +108,6 @@ const CollectionTable = () => {
 
 
     };
-
-    // function onProceed() {
-
-
-    //       history.push('/collections');
-
-
-    //   }
-
 
     const onSetId = (id) => {
         localStorage.setItem("collection_id", id);
@@ -239,10 +214,6 @@ const CollectionTable = () => {
                                                                 onClick={() => setCollectionIdtoChange(value)}
                                                             />
                                                         </TableCell>
-
-
-                                                        {/* <i className="fa fa-times" aria-hidden="true"></i> */}
-
 
                                                         <TableCell align="center">
                                                             <Button name="remove"

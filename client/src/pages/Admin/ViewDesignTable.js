@@ -2,11 +2,8 @@ import React, { useState, useEffect } from "react";
 import PageHeader from "./PageHeader";
 import LayersIcon from "@material-ui/icons/Layers";
 import { Search } from "@material-ui/icons";
-import AddIcon from "@material-ui/icons/Add";
-import CloseIcon from "@material-ui/icons/Close";
-import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 import DesignForm from "./DesignForm";
-import { makeStyles, Paper, TableBody, TableRow, TableCell, Toolbar, InputAdornment, Typography, Table, TableContainer, TableHead, Box, Button } from "@material-ui/core";
+import { Paper, TableBody, TableRow, TableCell, Toolbar, InputAdornment, Typography, Table, TableContainer, TableHead, Box} from "@material-ui/core";
 import useTable from "../../components/Reusable/useTable";
 import Controls from "../../components/Reusable/Controls";
 import Popup from "../../components/Reusable/Popup";
@@ -22,7 +19,6 @@ import { useHistory } from 'react-router-dom';
 
 
 var collection_id = localStorage.getItem("collection_id");
-console.log(collection_id);
 
 const DesignTable = () => {
     const classes = useStyles();
@@ -39,11 +35,8 @@ const DesignTable = () => {
     });
     const dispatch = useDispatch();
 
-    // const { TblContainer, TblHead, TblPagination, recordsAfterPagingAndSorting } =
-    //     useTable("", headCells, "");
-
     const openInPopup = (item) => {
-        // setRecordForEdit(item);
+        
         setOpenPopup(true);
     };
     const defaultOptions = {
@@ -61,7 +54,7 @@ const DesignTable = () => {
 
     useEffect(() => {
         axios.get(`http://localhost:3001/designs/viewDesign/${collection_id}`).then((response) => {
-            console.log(response.data);
+         
             setListOfDesigns(response.data);
         })
     }, []);
@@ -72,26 +65,13 @@ const DesignTable = () => {
 
         dispatch(actionDeleteCollection(id));
 
-        //   const url = "http://localhost:3001/check/remove/"
         const data = { id: id }
-        //   axios.put(url, data).then((response) => {
-        //     if (response.data.error) alert(response.data.error);
-        //     else {
-        //       const url1 = "http://localhost:3001/check/items/" + uid;
-        //       axios.get(url1).then((response) => {
-        //         setOfItems(response.data);
-        //       });
-        //       const url2 = "http://localhost:3001/check/total/" + uid;
-        //       axios.get(url2).then((response) => {
-        //         setOftotals(response.data);
-        //       });
-        //     }
-        //   });
+    
 
         axios.delete(`http://localhost:3001/collection/remove/`, { data }).then((response) => {
 
             axios.get("http://localhost:3001/collection").then((response) => {
-                console.log(response.data);
+              
                 setListOfDesigns(response.data);
             });
 
@@ -101,34 +81,7 @@ const DesignTable = () => {
 
     };
 
-    // function onProceed() {
-    //     // var id = localStorage.getItem("userId");
-
-    //       history.push('/inventory');
-
-
-    //   }
-
-
-
-
-    // On Page load display all records 
-    // const loadInventoryDetail = async () => {
-    //     var response = fetch('http://localhost:3001/inventSearch')
-    //         .then(function (response) {
-    //             return response.json();
-    //         })
-    //         .then(function (myJson) {
-    //             setRecord(myJson);
-    //         });
-    // }
-    // useEffect(() => {
-    //     loadInventoryDetail();
-    // }, []);
-
-    // Search Records here 
-
-
+  
     const [filterFn, setFilterFn] = useState({ fn: items => { return items; } });
     const {
         TblContainer,
@@ -174,15 +127,7 @@ const DesignTable = () => {
                             onChange={handleSearch}
                         />
 
-                        {/* <Controls.Button
-                            text="Add New Design"
-                            variant="outlined"
-                            startIcon={<AddIcon />}
-                            className={classes.newButton}
-                            onClick={() => {
-                                setOpenPopup(true);
-                            }}
-                        /> */}
+                       
                     </Toolbar>
 
                     <container>
@@ -198,8 +143,7 @@ const DesignTable = () => {
                                             <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Colour</TableCell>
                                             <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Type</TableCell>
                                             <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Price</TableCell>
-                                            {/* <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Update</TableCell>
-                                            <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Delete</TableCell> */}
+                           
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
@@ -217,17 +161,8 @@ const DesignTable = () => {
                                                         </TableCell>
                                                         <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.types}</TableCell>
                                                         <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.price}</TableCell>
-                                                        {/* <TableCell align="center">
-                                                            <Button name="remove" onClick={() => onRemove(value.id)}>
-                                                                <i className="fa fa-times" aria-hidden="true"></i>
-                                                            </Button>
-                                                        </TableCell>
-
-                                                        <TableCell align="center">
-                                                            <Button name="remove" onClick={() => onRemove(value.id)}>
-                                                                <i className="fa fa-times" aria-hidden="true"></i>
-                                                            </Button>
-                                                        </TableCell> */}
+                                                     
+                                      
                                                     </TableRow>
                                                 );
                                             })}

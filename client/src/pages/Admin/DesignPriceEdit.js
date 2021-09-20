@@ -1,31 +1,24 @@
 import React, { useState, useEffect } from 'react';
-// import { Grid } from '@material-ui/core';
-import { Grid, Typography, Box } from '@material-ui/core';
-import { useForm, Form } from '../../components/Reusable/useForm';
+import { Grid} from '@material-ui/core';
 import Controls from '../../components/Reusable/Controls';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
-import ButtonGroup from '@material-ui/core/ButtonGroup';
 import useStyles from './style';
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch} from "react-redux";
 import { fetchColors } from '../../_actions/colorActions'
 import './adminStyles.css'
-
-var collection_id = localStorage.getItem("collection_id");
 
 function DesignPriceEdit({ selectedDesignId }) {
 
     const classes = useStyles();
     const [price, setPrice] = useState([]);
-    const [check, setCheck] = useState()
+   
 
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(fetchColors());
     }, []);
 
-
-    let history = useHistory();
 
     const onFormSubmit = (e) => {
 
@@ -35,12 +28,7 @@ function DesignPriceEdit({ selectedDesignId }) {
         }
 
         axios.put(`http://localhost:3001/designs/editPrice/${selectedDesignId.design_id}`,Data).then((response) => {
-        //     alert('Image upload Successfull');
-        //     history.push('/designs');
-
-
-        // }).catch((err) => {
-        //     console.log('err', err);
+        
         });
     };
 
@@ -48,22 +36,16 @@ function DesignPriceEdit({ selectedDesignId }) {
 
     const changeCollectionPrice = (e) => {
         setPrice(e.target.value);
-        console.log(e.target.value);
+       
     };
 
-    const handleCheck = (e) => {
-        // const { name, value } = e.target;
-
-    setCheck(e.target.value);
-
-    }
 
     const [listOfDesign, setListOfDesign] = useState([]);
 
     useEffect(() => {
 
         axios.get(`http://localhost:3001/designs/oneDesign/${selectedDesignId.design_id}`).then((response) => {
-            // console.log(response.data);
+        
             setListOfDesign(response.data);
         });
     }, []);
