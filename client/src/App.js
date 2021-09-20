@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core';
 import { StoreProvider } from "./_util";
+import ProtectedRoute from "./ProtectedRoute";
 
 import Home from './pages/Home';
 import Shop from './pages/Shop';
@@ -56,6 +57,7 @@ import OfferCollections from './pages/SpecialOffers/OfferCollections';
 import Manager from './pages/Manager';
 import Assistant from './pages/Assistant';
 import NotFound from './pages/PageNotFound/Notfound';
+
 
 
 const theme = createMuiTheme({
@@ -117,7 +119,6 @@ const theme = createMuiTheme({
   },
 });
 
-
 class App extends Component {
   render() {
     return (
@@ -139,50 +140,71 @@ class App extends Component {
               <Route exact path={"/orderDetail/:oId"} component={OrderDetail} />
               <Route exact path={"/myWishlist"} component={ProfileWishlist} />
               <Route exact path={"/specialOffers/:id"} component={SpecialOffers} />
-              <Route exact path="/admin" component={AdminPanel} />
-              <Route exact path="/users" exact render={() => <Users />} />
-              <Route exact path="/collections" exact render={() => <Collections />} />
-              <Route exact path="/inquiries" exact render={() => <Inquiries />} />
-              <Route exact path="/resolvedinquiries" exact render={() => <ResolvedInquiries />} />
-              <Route exact path="/designs" exact render={() => <Designs />} />
-              <Route exact path="/inventory" exact render={() => <Inventory />} />
-              <Route exact path="/coupon" exact render={() => <Coupon />} />
-              <Route exact path="/offers" exact render={() => <Offers />} />
-              <Route exact path="/availableColors" exact render={() => <AvailableColors />} />
-              <Route exact path="/availableSizes" exact render={() => <AvailableSizes />} />
-              <Route exact path="/availableTypes" exact render={() => <AvailableTypes />} />
-              <Route exact path="/viewDesigns" exact render={() => <ViewDesigns />} />
-              <Route exact path="/checkout" exact render={() => <Checkout />} />
-              <Route exact path="/wishlist" exact render={() => <Wishlist />} />
-              <Route exact path="/aboutUs" exact render={() => <About />} />
-
-
-              <Route exact path="/forgotPassword" component={ForgotPassword} />
-              <Route exact path="/reset/:token" component={NewPassword} />
-              <Route exact path={"/AdminOrders/:id"} component={AdminOrders} />
-
-              <Route path="/customize" exact render={() => <Customize />} />
-              <Route path="/termnconditions" exact render={() => <Termnconditions />} />
-              <Route path="/tab" exact render={() => <Tab />} />
-              <Route path="/form" exact render={() => <CreateForm />} />
-              <Route path="/productD" exact render={() => <ProductD />} />
-              <Route path="/canvas" exact render={() => <MyCanvas />} />
-
-              <Route path="/myLayers" exact render={() => <MyLayers />} />
-              <Route path="/myLayers2" exact render={() => <MyLayers2 />} />
-              <Route path="/tText" exact render={() => <TransformText />} />
-
-              <Route path="/manager" exact render={() => <Manager />} />
-              <Route path="/assistant" exact render={() => <Assistant />} />
-              <Route path="/customizeOrders" exact render={() => <CustomizeOrderDetails />} />
-              <Route path="/custcustomizeOrders" exact render={() => <CustCustomizeOrderDetails />} />
-              <Route path="/depositlips" exact render={() => <DepositSlips />} />
-              <Route exact path={"/types/:id"} component={Types} />
-              <Route exact path={"/orderView/:id"} component={OrderView} />
+              <Route exact path={"/checkout"} component={Checkout} />
+              <Route exact path={"/wishlist"} component={Wishlist} />
+              <Route exact path={"/aboutUs"} component={About} />
+              <Route exact path={"/forgotPassword"} component={ForgotPassword} />
+              <Route exact path={"/reset/:token"} component={NewPassword} />
+              <Route exact path={"/customize"} component={Customize} />
+              <Route exact path={"/termnconditions"} component={Termnconditions} />
+              <Route exact path={"/custcustomizeOrders"} component={CustCustomizeOrderDetails} />
               <Route exact path={"/customize/checkout/:id"} component={CustomizeCheckout} />
-              <Route path="/offerCollections" exact render={() => <OfferCollections />} />
+              <Route exact path={"/orderView/:id"} component={OrderView} />
+              <Route exact path={"/offerCollections"} component={OfferCollections} />
+              <Route exact path={"/types/:id"} component={Types} />
 
-              <Route path="/*" exact render={() => <NotFound />} />
+              <ProtectedRoute exact path={"/admin"} component={AdminPanel} guardFunctionArgs={{ 'one': 'one' }} guardFunction={(args) => {
+                const isAuth = localStorage.getItem('userType'); if (isAuth) return true; else return false;
+              }} />
+              <ProtectedRoute exact path={"/users"} component={Users} guardFunctionArgs={{ 'one': 'one' }} guardFunction={(args) => {
+                const isAuth = localStorage.getItem('userType'); if (isAuth) return true; else return false;
+              }} />
+              <ProtectedRoute exact path={"/collections"} component={Collections} guardFunctionArgs={{ 'one': 'one' }} guardFunction={(args) => {
+                const isAuth = localStorage.getItem('userType'); if (isAuth) return true; else return false;
+              }} />
+              <ProtectedRoute exact path={"/inquiries"} component={Inquiries} guardFunctionArgs={{ 'one': 'one' }} guardFunction={(args) => {
+                const isAuth = localStorage.getItem('userType'); if (isAuth) return true; else return false;
+              }} />
+              <ProtectedRoute exact path={"/resolvedinquiries"} component={ResolvedInquiries} guardFunctionArgs={{ 'one': 'one' }} guardFunction={(args) => {
+                const isAuth = localStorage.getItem('userType'); if (isAuth) return true; else return false;
+              }} />
+              <ProtectedRoute exact path={"/designs"} component={Designs} guardFunctionArgs={{ 'one': 'one' }} guardFunction={(args) => {
+                const isAuth = localStorage.getItem('userType'); if (isAuth) return true; else return false;
+              }} />
+              <ProtectedRoute exact path={"/inventory"} component={Inventory} guardFunctionArgs={{ 'one': 'one' }} guardFunction={(args) => {
+                const isAuth = localStorage.getItem('userType'); if (isAuth) return true; else return false;
+              }} />
+              <ProtectedRoute exact path={"/coupon"} component={Coupon} guardFunctionArgs={{ 'one': 'one' }} guardFunction={(args) => {
+                const isAuth = localStorage.getItem('userType'); if (isAuth) return true; else return false;
+              }} />
+              <ProtectedRoute exact path={"/offers"} component={Offers} guardFunctionArgs={{ 'one': 'one' }} guardFunction={(args) => {
+                const isAuth = localStorage.getItem('userType'); if (isAuth) return true; else return false;
+              }} />
+              <ProtectedRoute exact path={"/availableColors"} component={AvailableColors} guardFunctionArgs={{ 'one': 'one' }} guardFunction={(args) => {
+                const isAuth = localStorage.getItem('userType'); if (isAuth) return true; else return false;
+              }} />
+              <ProtectedRoute exact path={"/availableSizes"} component={AvailableSizes} guardFunctionArgs={{ 'one': 'one' }} guardFunction={(args) => {
+                const isAuth = localStorage.getItem('userType'); if (isAuth) return true; else return false;
+              }} />
+              <ProtectedRoute exact path={"/availableTypes"} component={AvailableTypes} guardFunctionArgs={{ 'one': 'one' }} guardFunction={(args) => {
+                const isAuth = localStorage.getItem('userType'); if (isAuth) return true; else return false;
+              }} />
+              <ProtectedRoute exact path={"/viewDesigns"} component={ViewDesigns} guardFunctionArgs={{ 'one': 'one' }} guardFunction={(args) => {
+                const isAuth = localStorage.getItem('userType'); if (isAuth) return true; else return false;
+              }} />
+              <ProtectedRoute exact path={"/AdminOrders/:id"} component={AdminOrders} guardFunctionArgs={{ 'one': 'one' }} guardFunction={(args) => {
+                const isAuth = localStorage.getItem('userType'); if (isAuth) return true; else return false;
+              }} />
+              <ProtectedRoute exact path={"/customizeOrders"} component={CustomizeOrderDetails} guardFunctionArgs={{ 'one': 'one' }} guardFunction={(args) => {
+                const isAuth = localStorage.getItem('userType'); if (isAuth) return true; else return false;
+              }} />
+              <ProtectedRoute exact path={"/depositlips"} component={DepositSlips} guardFunctionArgs={{ 'one': 'one' }} guardFunction={(args) => {
+                const isAuth = localStorage.getItem('userType'); if (isAuth) return true; else return false;
+              }} />
+
+              <Route exact path={"/manager"} component={Manager} />
+              <Route exact path={"/assistant"} component={Assistant} />
+              <Route exact path="/*" component={NotFound} />
             </Switch>
           </BrowserRouter>
         </ThemeProvider>

@@ -67,7 +67,7 @@ const Home = () => {
             setListOfOffers(response.data);
         });
 
-        axios.get("http://localhost:3001/shop/topseller/"+uId).then((response) => {
+        axios.get("http://localhost:3001/shop/topseller/" + uId).then((response) => {
             console.log(response.data);
             setListOfTopSellers(response.data);
         });
@@ -168,18 +168,18 @@ const Home = () => {
 
                     <Grid container spacing={0} className={classes.svgContainer}>
                         <Grid item xs={12} sm={6} md={4} className={classes.svgs}>
-                            <a href="/types/2"><button className={classes.svgBtn}><img height={50} src={icont} />
+                            <a href="/types/6"><button className={classes.svgBtn}><img height={50} src={icont} />
                                 <Typography textDecoration='none' className={classes.svgFont}>T-Shirts</Typography></button></a>
                         </Grid>
                         {/* <Grid md={5} style={{marginLeft:'100px'}}>
                     <img src={mockup} style={{width:'100%'}}/>
                 </Grid> */}
                         <Grid item xs={12} sm={6} md={4} className={classes.svgs}>
-                            <a href="/types/1"><button className={classes.svgBtn}><img height={50} src={iconcp} />
+                            <a href="/types/8"><button className={classes.svgBtn}><img height={50} src={iconcp} />
                                 <Typography textDecoration='none' className={classes.svgFont}>Crop Tops</Typography></button></a>
                         </Grid>
                         <Grid item xs={12} sm={6} md={4} className={classes.svgs}>
-                            <a href="/types/3"><button className={classes.svgBtn}><img height={50} src={iconk} />
+                            <a href="/types/9"><button className={classes.svgBtn}><img height={50} src={iconk} />
                                 <Typography textDecoration='none' className={classes.svgFont}>Kids</Typography></button></a>
                         </Grid>
                     </Grid>
@@ -204,84 +204,86 @@ const Home = () => {
                                                 ></img>
                                             </CardMedia>
                                             <CardContent>
-                                                    <div style={{display:'flex',justifyContent: 'space-between'}}>
+                                                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                                                    <Typography
+                                                        gutterBottom
+                                                        variant="h9"
+                                                        component="h2"
+                                                        style={{ textAlign: "left", fontSize: "16px" }}
+                                                    >
+                                                        {value.design_name}
+                                                    </Typography>
+                                                    <IconButton
+                                                        style={{
+                                                            padding: '0px',
+                                                            borderRadius: '0px'
+                                                        }}
+                                                        onClick={() => {
+                                                            addToWishlist(value.itemId, value.isInWishList);
+                                                        }}
+                                                    >
+                                                        <FavoriteBorderOutlinedIcon
+                                                            className={classes.icon1}
+                                                            style={{
+                                                                fill:
+                                                                    value.isInWishList == 1
+                                                                        ? "red"
+                                                                        : "primary",
+                                                            }}
+                                                        />
+                                                    </IconButton>
+                                                </div>
+                                                <div
+                                                    style={{
+                                                        display: "flex",
+                                                        justifyContent: "space-between",
+                                                    }}
+                                                >
+                                                    {value.discountedPrice === null ?
                                                         <Typography
                                                             gutterBottom
-                                                            variant="h9"
+                                                            variant="h6"
                                                             component="h2"
                                                             style={{ textAlign: "left", fontSize: "16px" }}
                                                         >
-                                                            {value.design_name}
+                                                            {"LKR " + value.price}
                                                         </Typography>
-                                                        <IconButton
-                                                        style={{padding: '0px',
-                                                            borderRadius: '0px'}}
-                                                            onClick={() => {
-                                                                addToWishlist(value.itemId, value.isInWishList);
-                                                            }}
-                                                        >
-                                                            <FavoriteBorderOutlinedIcon
-                                                                className={classes.icon1}
-                                                                style={{
-                                                                    fill:
-                                                                    value.isInWishList == 1
-                                                                            ? "red"
-                                                                            : "primary",
-                                                                }}
-                                                            />
-                                                        </IconButton>
-                                                    </div>
-                                                    <div
-                                                        style={{
-                                                            display: "flex",
-                                                            justifyContent: "space-between",
-                                                        }}
-                                                    >
-                                                        {value.discountedPrice === null ?
-                                                            <Typography
-                                                                gutterBottom
-                                                                variant="h6"
-                                                                component="h2"
-                                                                style={{ textAlign: "left", fontSize: "16px" }}
-                                                            >
-                                                                {"LKR " + value.price}
-                                                            </Typography>
-                                                            :
-                                                            <div>
-                                                                <div style={{display:'flex'}}>
-                                                                    <Typography
-                                                                        gutterBottom
-                                                                        variant="h6"
-                                                                        component="h2"
-                                                                        style={{ textAlign: "left", fontSize: "16px" }}
-                                                                    >
-
-                                                                        {"LKR " + value.discountedPrice}
-
-                                                                    </Typography>
-                                                                    <div>
-                                                                        <Typography style={{ marginLeft: '10px', paddingLeft: '10px', background: '#31c5ee' }} className={classes.offer}>
-                                                                            {value.rate}%
-                                                                        </Typography>
-
-                                                                    </div>
-                                                                </div>
+                                                        :
+                                                        <div>
+                                                            <div style={{ display: 'flex' }}>
                                                                 <Typography
                                                                     gutterBottom
                                                                     variant="h6"
                                                                     component="h2"
                                                                     style={{ textAlign: "left", fontSize: "16px" }}
                                                                 >
-                                                                    <s>{"LKR " + value.price}</s>
+
+                                                                    {"LKR " + value.discountedPrice}
+
                                                                 </Typography>
+                                                                <div>
+                                                                    <Typography style={{ marginLeft: '10px', paddingLeft: '10px', background: '#31c5ee' }} className={classes.offer}>
+                                                                        {value.rate}%
+                                                                    </Typography>
 
+                                                                </div>
                                                             </div>
+                                                            <Typography
+                                                                gutterBottom
+                                                                variant="h6"
+                                                                component="h2"
+                                                                style={{ textAlign: "left", fontSize: "16px" }}
+                                                            >
+                                                                <s>{"LKR " + value.price}</s>
+                                                            </Typography>
 
-                                                        }
+                                                        </div>
 
-                                                        
-                                                    </div>
-                                                </CardContent>
+                                                    }
+
+
+                                                </div>
+                                            </CardContent>
                                         </CardActionArea>
                                     </Card>
                                 </Grid>
@@ -335,10 +337,10 @@ const Home = () => {
                         })}
                     </Grid>
                     <Typography className={classes.view}
-                    onClick={() => {
-                        history.push('/offerCollections');
+                        onClick={() => {
+                            history.push('/offerCollections');
 
-                    }}>
+                        }}>
                         + VIEW MORE
                     </Typography>
 
@@ -437,7 +439,7 @@ const Home = () => {
 
             </div>
             <Footer />
- <Notification notify={notify} setNotify={setNotify} />
+            <Notification notify={notify} setNotify={setNotify} />
         </div>
 
     );
