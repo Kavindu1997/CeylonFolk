@@ -413,9 +413,11 @@ export default function Messages() {
         <List dense={true} className={classes.dropdownlist}>
 
 
-          {/* new inquiry */}
-          <ListItem
-          className={ContactUsValue != 0? classes.activeNotifi : classes.notifi} 
+<div className={ContactUsValue != 0? classes.activeNotifi : classes.notifi} >
+  
+   {/* new inquiry */}
+   <ListItem
+          
             // key={i}
             component={Button}
             onClick={viewInquiries}
@@ -425,11 +427,15 @@ export default function Messages() {
             <Typography className={ContactUsValue != 0 && listOfContactUs.length == 1 ? classes.activeNotifi : classes.notifi} variant="h8" component="div" whiteSpace="normal" >You have {(listOfContactUs.length)} new inquiry </Typography>
 
           </ListItem>
+  
+  </div>
+         
 
+<div className={UnsolvedValue != 0? classes.activeNotifi : classes.notifi}>
 
-          {/* to be resolved */}
-          <ListItem
-          className={UnsolvedValue != 0? classes.activeNotifi : classes.notifi}
+    {/* to be resolved */}
+    <ListItem
+          
             // key={i}
             component={Button}
             onClick={viewInquiries}
@@ -438,11 +444,14 @@ export default function Messages() {
             <Typography className={UnsolvedValue == 1 && listOfUnsolvedInquiries.length != 0 ? classes.activeNotifi : classes.notifi} variant="h8" component="div" whiteSpace="normal" >You {(listOfUnsolvedInquiries.length)} more inquiries to resolve </Typography>
 
           </ListItem>
-
-          {/* reorder level notifications */}
+</div>
         
-                <ListItem
-                className={reOrderLevel.length != 0? classes.activeNotifi : classes.notifi}
+
+          <div  className={reOrderLevel.length != 0? classes.activeNotifi : classes.notifi}>
+               {/* reorder level notifications */}
+        
+               <ListItem
+               
                   // key={i}
                   component={Button}
                   component={Link} to="/inventory"
@@ -453,11 +462,14 @@ export default function Messages() {
 
 
                 </ListItem>
+          </div>
+       
             
-
-{/* edited orders notifications */}
+                <div  className={editedOrders.length != 0? classes.activeNotifi : classes.notifi}>
+                  {/* edited orders notifications */}
           <ListItem
             // key={i}
+           
             component={Button}
             onClick={viewEditedOrders}
             component={Link} to="/AdminOrders/0"
@@ -466,11 +478,14 @@ export default function Messages() {
             <Typography className={editedOrdersCnt != 0 && editedOrders.length == 1 ? classes.activeNotifi : classes.notifi} variant="h8" component="div" whiteSpace="normal" >{(editedOrders.length)} order is edited</Typography>
 
           </ListItem>
+                </div>
 
 
-          {/* deleted orders notifications */}
+          <div className={deletedOrders.length != 0? classes.activeNotifi : classes.notifi}>
+              {/* deleted orders notifications */}
           <ListItem
             // key={i}
+        
             component={Button}
             onClick={viewDeletedOrders}
             component={Link} to="/AdminOrders/0"
@@ -479,11 +494,14 @@ export default function Messages() {
             <Typography className={deletedOrdersCnt != 0 && deletedOrders.length == 1 ? classes.activeNotifi : classes.notifi} variant="h8" component="div" whiteSpace="normal" >{(deletedOrders.length)} order is deleted</Typography>
 
           </ListItem>
+          </div>
+        
 
-
-          {/* placed orders notifications */}
+          <div  className={placedOrders.length != 0? classes.activeNotifi : classes.notifi}>
+              {/* placed orders notifications */}
           <ListItem
             // key={i}
+           
             component={Button}
             onClick={viewPlacedOrders}
             component={Link} to="/AdminOrders/0"
@@ -492,10 +510,14 @@ export default function Messages() {
             <Typography className={placedOrdersCnt != 0 && placedOrders.length == 1 ? classes.activeNotifi : classes.notifi} variant="h8" component="div" whiteSpace="normal" >{(placedOrders.length)} order is placed</Typography>
 
           </ListItem>
+          </div>
+        
 
-                {/* bank deposits notifications */}
-                <ListItem
+          <div  className={bankDeposits.length != 0? classes.activeNotifi : classes.notifi}>
+                 {/* bank deposits notifications */}
+                 <ListItem
             // key={i}
+           
             component={Button}
             onClick={viewBankDeposits}
             component={Link} to="/depositlips"
@@ -504,10 +526,14 @@ export default function Messages() {
             <Typography className={bankDepositsCnt != 0 && bankDeposits.length == 1 ? classes.activeNotifi : classes.notifi} variant="h8" component="div" whiteSpace="normal" >{(bankDeposits.length)} new bank deposit</Typography>
 
           </ListItem>
+          </div>
+           
 
-           {/* pending customize orders notifications */}
+          <div  className={pendingCO.length != 0? classes.activeNotifi : classes.notifi}>
+             {/* pending customize orders notifications */}
            <ListItem
             // key={i}
+           
             component={Button}
             onClick={viewPendingCO}
             component={Link} to="/customizeOrders"
@@ -516,10 +542,14 @@ export default function Messages() {
             <Typography className={pendingCOCnt != 0 && pendingCO.length == 1 ? classes.activeNotifi : classes.notifi} variant="h8" component="div" whiteSpace="normal" >{(pendingCO.length)} customize order is pending</Typography>
 
           </ListItem>
+          </div>
+          
 
-            {/* recieved customize orders notifications */}
-            <ListItem
+          <div  className={recievedCO.length != 0? classes.activeNotifi : classes.notifi}>
+               {/* recieved customize orders notifications */}
+               <ListItem
             // key={i}
+           
             component={Button}
             onClick={viewRecievedCO}
             component={Link} to="/customizeOrders"
@@ -528,11 +558,14 @@ export default function Messages() {
             <Typography className={recievedCOCnt != 0 && recievedCO.length == 1 ? classes.activeNotifi : classes.notifi} variant="h8" component="div" whiteSpace="normal" >{(recievedCO.length)} customize order is recieved</Typography>
 
           </ListItem>
+          </div>
+         
 
-
-            {/* advance paid customize orders notifications */}
-            <ListItem
+          <div>
+             {/* advance paid customize orders notifications */}
+             <ListItem
             // key={i}
+            className={advancepaidCO.length != 0? classes.activeNotifi : classes.notifi}
             component={Button}
             onClick={viewAdvancePaidCO}
             component={Link} to="/customizeOrders"
@@ -541,10 +574,14 @@ export default function Messages() {
             <Typography className={advancepaidCOCnt != 0 && advancepaidCO.length == 1 ? classes.activeNotifi : classes.notifi} variant="h8" component="div" whiteSpace="normal" >{(advancepaidCO.length)} customize order is paid the advance</Typography>
 
           </ListItem>
+          </div>
+           
 
-  {/*  paid customize orders notifications */}
+          <div className={paidCO.length != 0? classes.activeNotifi : classes.notifi}>
+            {/*  paid customize orders notifications */}
   <ListItem
             // key={i}
+         
             component={Button}
             onClick={viewPaidCO}
             component={Link} to="/customizeOrders"
@@ -553,10 +590,14 @@ export default function Messages() {
             <Typography className={paidCOCnt != 0 && paidCO.length == 1 ? classes.activeNotifi : classes.notifi} variant="h8" component="div" whiteSpace="normal" >{(paidCO.length)} customize order is paid</Typography>
 
           </ListItem>
+          </div>
+  
 
-            {/*  canceled customize orders notifications */}
+          <div className={canceledCO.length != 0? classes.activeNotifi : classes.notifi}>
+                      {/*  canceled customize orders notifications */}
   <ListItem
             // key={i}
+         
             component={Button}
             onClick={viewCanceledCO}
             component={Link} to="/customizeOrders"
@@ -565,14 +606,17 @@ export default function Messages() {
             <Typography className={canceledCOCnt != 0 && canceledCO.length == 1 ? classes.activeNotifi : classes.notifi} variant="h8" component="div" whiteSpace="normal" >{(canceledCO.length)} customize order is canceled</Typography>
 
           </ListItem>
+          </div>
+  
 
-
-          {/* expired offer date notifications */}
+          <div>
+               {/* expired offer date notifications */}
           {offerDate
             .map((value) => {
               return (
                 <ListItem
                   // key={i}
+                  className={offerDate.length != 0? classes.activeNotifi : classes.notifi}
                   component={Button}
                   component={Link} to="/offers"
                   className={classes.listItemNotification}>
@@ -583,6 +627,8 @@ export default function Messages() {
                 </ListItem>
               );
             })}
+          </div>
+       
 
 
           {/* no new notifications */}

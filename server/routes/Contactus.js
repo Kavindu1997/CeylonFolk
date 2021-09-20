@@ -4,9 +4,7 @@ const { Contactus } = require('../models/');
 const nodemailer = require('nodemailer');
 
 router.post("/contactus", async(req, res) => {
-   
-        try {
-          
+         
             const { fullName,orderId, mobile, email, message, enquiryType} = req.body;
                
                 await Contactus.create({
@@ -81,10 +79,7 @@ router.post("/contactus", async(req, res) => {
         
         
             // res.json({ data: 1 });
-        }
-        catch (e) {
-            res.json({ data: 0 });
-        }
+       
 
 
 });
