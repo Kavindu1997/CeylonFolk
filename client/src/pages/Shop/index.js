@@ -417,8 +417,8 @@ const Shop = () => {
                                                                 {"LKR " + price}
                                                             </Typography>
                                                             :
-                                                            <div>
-                                                                <div style={{display:'flex'}}>
+                                                            <div style={{display:'flex'}}>
+                                                                <div >
                                                                     <Typography
                                                                         gutterBottom
                                                                         variant="h6"
@@ -430,13 +430,7 @@ const Shop = () => {
 
                                                                     </Typography>
                                                                     <div>
-                                                                        <Typography style={{ marginLeft: '10px', paddingLeft: '10px', background: '#31c5ee' }} className={classes.offer}>
-                                                                            {rate}%
-                                                                        </Typography>
-
-                                                                    </div>
-                                                                </div>
-                                                                <Typography
+                                                                    <Typography
                                                                     gutterBottom
                                                                     variant="h6"
                                                                     component="h2"
@@ -444,6 +438,16 @@ const Shop = () => {
                                                                 >
                                                                     <s>{"LKR " + price}</s>
                                                                 </Typography>
+
+                                                                    </div>
+                                                                </div>
+                                                                <div>
+                                                                        <Typography style={{ marginLeft: '10px', paddingLeft: '10px', background: '#31c5ee' }} className={classes.offer}>
+                                                                            {rate}%
+                                                                        </Typography>
+
+                                                                    </div>
+                                                                
 
                                                             </div>
 

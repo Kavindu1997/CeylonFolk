@@ -84,7 +84,13 @@ const CustomizeOrderTable = () => {
         }
 
         axios.put('http://localhost:3001/customizeOrders/orderAccepted/', data).then((response) => {
-            alert('Order Accepted')
+            // alert('Order Accepted')
+            setNotify({
+                isOpen: true,
+                message: 'Order Accepted !',
+                type: 'success'
+            });
+            
             setlistOfOrderDetails(response.data);
             <AcceptedOrders />
         })
@@ -124,7 +130,12 @@ const CustomizeOrderTable = () => {
         setOpenRejectPopup(false);
 
         axios.put('http://localhost:3001/customizeOrders/reject/', data).then((response) => {
-            alert('Order Rejected')
+            // alert('Order Rejected')
+            setNotify({
+                isOpen: true,
+                message: 'Order Rejected !',
+                type: 'error'
+            });
             // setlistOfOrderDetails(response.data);
         })
 

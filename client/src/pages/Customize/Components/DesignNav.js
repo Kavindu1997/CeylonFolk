@@ -6,6 +6,7 @@ import addTshirt from '../../../images/tshirt.svg'
 import addTextBar from '../../../images/text.svg'
 import image from '../../../images/image.svg'
 import addColor from '../../../images/drop.svg'
+import note from '../../../images/sticky-notes.svg'
 
 const DesignNav = (props) => {
 
@@ -48,6 +49,16 @@ const DesignNav = (props) => {
               <button className={props.toggleState === 5 ? classes.activeTabs : classes.tabs} onClick={() => props.toggleTab(5)}>
                 <img height={50} src={addColor} />
                 <Typography textDecoration='none' className={classes.barFont}>COLOR</Typography>
+              </button>
+            </a>
+          </Grid>
+        </Box>
+        <Box className={classes.tabs}>
+          <Grid item xs={12} sm={6} md={2.4} >
+            <a href="#">
+              <button className={props.toggleState === 5 ? classes.activeTabs : classes.tabs} onClick={() => props.toggleTab(6)}>
+                <img height={50} src={note} />
+                <Typography textDecoration='none' className={classes.barFont}>ADD NOTE</Typography>
               </button>
             </a>
           </Grid>

@@ -49,12 +49,19 @@ const Home = () => {
     }
 
     const [listOfOffers, setListOfOffers] = useState([]);
+    const [listOfOfTopSellers, setListOfTopSellers] = useState([]);
+
 
     useEffect(() => {
 
         axios.get("http://localhost:3001/shop/offers").then((response) => {
             console.log(response.data);
             setListOfOffers(response.data);
+        });
+
+        axios.get("http://localhost:3001/shop/topseller").then((response) => {
+            console.log(response.data);
+            setListOfTopSellers(response.data);
         });
     }, []);
 
@@ -132,123 +139,104 @@ const Home = () => {
             <center>
                 <Container className={classes.collectionContainer} maxWidth="lg">
                     <Typography variant="h4" className={classes.collectionTitle}>TOP SELLER</Typography>
-                    <Grid container spacing={0} >
-                        <Grid item xs={12} sm={6} md={3}>
-                            <Card className={classes.card}>
-                                <CardActionArea>
-                                    <CardMedia>
-                                        <img src={Collection1} style={{ width: '100%' }} />
-                                    </CardMedia>
-                                    <CardContent style={{ display: 'flex' }}>
-                                        <div>
-                                            <Typography gutterBottom variant="h5" component="h2" style={{ textAlign: 'left' }} className={classes.productTitle}>
-                                                BUTTER
-                                            </Typography>
-                                            <Typography gutterBottom variant="h6" component="h2" style={{ textAlign: 'left' }} className={classes.productSubTitle}>
-                                                LKR 1300.00
-                                            </Typography>
+                    <Grid container spacing={0}>
+                        {listOfOfTopSellers.map((value) => {
+                            return (
+                                <Grid item xs={12} sm={6} md={3}>
+                                    <Card className={classes.card} >
+                                        <CardActionArea>
+                                            <CardMedia>
+                                                <img align="center" src={'http://localhost:3001/' + value.coverImage} alt="" style={{ width: '100%' }}
 
-                                        </div>
-                                        <div>
-                                            {/* <Link href="/wishlist"> */}
+                                                    onClick={() => {
+                                                        history.push(`/productDetails/${value.itemId}`);
+                                                    }}
+                                                ></img>
+                                            </CardMedia>
+                                            <CardContent>
+                                                    <div style={{display:'flex',justifyContent: 'space-between'}}>
+                                                        <Typography
+                                                            gutterBottom
+                                                            variant="h9"
+                                                            component="h2"
+                                                            style={{ textAlign: "left", fontSize: "16px" }}
+                                                        >
+                                                            {value.design_name}
+                                                        </Typography>
+                                                        {/* <IconButton
+                                                        style={{padding: '0px',
+                                                            borderRadius: '0px'}}
+                                                            onClick={() => {
+                                                                addToWishlist(id, isInWishList);
+                                                            }}
+                                                        >
+                                                            <FavoriteBorderOutlinedIcon
+                                                                className={classes.icon1}
+                                                                style={{
+                                                                    fill:
+                                                                        product.isInWishList == 1
+                                                                            ? "red"
+                                                                            : "primary",
+                                                                }}
+                                                            />
+                                                        </IconButton> */}
+                                                    </div>
+                                                    <div
+                                                        style={{
+                                                            display: "flex",
+                                                            justifyContent: "space-between",
+                                                        }}
+                                                    >
+                                                        {value.discountedPrice === null ?
+                                                            <Typography
+                                                                gutterBottom
+                                                                variant="h6"
+                                                                component="h2"
+                                                                style={{ textAlign: "left", fontSize: "16px" }}
+                                                            >
+                                                                {"LKR " + value.price}
+                                                            </Typography>
+                                                            :
+                                                            <div>
+                                                                <div style={{display:'flex'}}>
+                                                                    <Typography
+                                                                        gutterBottom
+                                                                        variant="h6"
+                                                                        component="h2"
+                                                                        style={{ textAlign: "left", fontSize: "16px" }}
+                                                                    >
 
-                                            <FavoriteBorderOutlinedIcon className={classes.icon1} />
+                                                                        {"LKR " + value.discountedPrice}
 
-                                            {/* </Link> */}
-                                        </div>
+                                                                    </Typography>
+                                                                    <div>
+                                                                        <Typography style={{ marginLeft: '10px', paddingLeft: '10px', background: '#31c5ee' }} className={classes.offer}>
+                                                                            {value.rate}%
+                                                                        </Typography>
 
-                                    </CardContent>
-                                </CardActionArea>
-                            </Card>
-                        </Grid>
-                        <Grid item xs={12} sm={6} md={3}>
-                            <Card className={classes.card}>
-                                <CardActionArea>
-                                    <CardMedia>
-                                        <img src={Collection2} style={{ width: '100%' }} />
-                                    </CardMedia>
+                                                                    </div>
+                                                                </div>
+                                                                <Typography
+                                                                    gutterBottom
+                                                                    variant="h6"
+                                                                    component="h2"
+                                                                    style={{ textAlign: "left", fontSize: "16px" }}
+                                                                >
+                                                                    <s>{"LKR " + value.price}</s>
+                                                                </Typography>
 
-                                    <CardContent style={{ display: 'flex' }}>
-                                        <div>
-                                            <Typography gutterBottom variant="h5" component="h2" style={{ textAlign: 'left' }} className={classes.productTitle}>
-                                                FRIENDS
-                                            </Typography>
-                                            <Typography gutterBottom variant="h6" component="h2" style={{ textAlign: 'left' }} className={classes.productSubTitle}>
-                                                LKR 1300.00
-                                            </Typography>
+                                                            </div>
 
-                                        </div>
-                                        <div>
-                                            {/* <Link href="/wishlist"> */}
+                                                        }
 
-                                            <FavoriteBorderOutlinedIcon className={classes.icon1} />
-
-                                            {/* </Link> */}
-
-                                        </div>
-
-                                    </CardContent>
-                                </CardActionArea>
-                            </Card>
-                        </Grid>
-                        <Grid item xs={12} sm={6} md={3}>
-                            <Card className={classes.card}>
-                                <CardActionArea>
-                                    <CardMedia>
-                                        <img src={Collection3} style={{ width: '100%' }} />
-                                    </CardMedia>
-                                    <CardContent style={{ display: 'flex' }}>
-                                        <div>
-                                            <Typography gutterBottom variant="h5" component="h2" style={{ textAlign: 'left' }} className={classes.productTitle}>
-                                                BUTTER
-                                            </Typography>
-                                            <Typography gutterBottom variant="h6" component="h2" style={{ textAlign: 'left' }} className={classes.productSubTitle}>
-                                                LKR 1300.00
-                                            </Typography>
-
-                                        </div>
-                                        <div>
-                                            {/* <Link href="/wishlist"> */}
-
-                                            <FavoriteBorderOutlinedIcon className={classes.icon1} />
-
-                                            {/* </Link> */}
-
-                                        </div>
-
-                                    </CardContent>
-                                </CardActionArea>
-                            </Card>
-                        </Grid>
-                        <Grid item xs={12} sm={6} md={3}>
-                            <Card className={classes.card}>
-                                <CardActionArea>
-                                    <CardMedia>
-                                        <img src={Collection4} style={{ width: '100%' }} />
-                                    </CardMedia>
-                                    <CardContent style={{ display: 'flex' }}>
-                                        <div>
-                                            <Typography gutterBottom variant="h5" component="h2" style={{ textAlign: 'left' }} className={classes.productTitle}>
-                                                FRIENDS
-                                            </Typography>
-                                            <Typography gutterBottom variant="h6" component="h2" style={{ textAlign: 'left' }} className={classes.productSubTitle}>
-                                                LKR 1300.00
-                                            </Typography>
-
-                                        </div>
-                                        <div>
-                                            {/* <Link href="/wishlist"> */}
-
-                                            <FavoriteBorderOutlinedIcon className={classes.icon1} />
-
-                                            {/* </Link> */}
-
-                                        </div>
-
-                                    </CardContent>
-                                </CardActionArea>
-                            </Card>
-                        </Grid>
+                                                        
+                                                    </div>
+                                                </CardContent>
+                                        </CardActionArea>
+                                    </Card>
+                                </Grid>
+                            )
+                        })}
                     </Grid>
                     <Typography className={classes.view}>
                         + VIEW MORE
@@ -266,13 +254,8 @@ const Home = () => {
                             return (
                                 <Grid item xs={12} sm={6} md={3}>
                                     <Card className={classes.card} >
-
                                         <CardActionArea>
-
-
-
                                             <CardMedia>
-
                                                 <img align="center" src={'http://localhost:3001/' + value.coverImage} alt="" style={{ width: '100%' }}
 
                                                     onClick={() => {
@@ -281,8 +264,6 @@ const Home = () => {
 
 
                                                     }}
-
-
                                                 ></img>
                                             </CardMedia>
                                             <CardContent style={{ display: 'flex', justifyContent: 'space-between', marginTop: '10px' }}>
@@ -295,17 +276,9 @@ const Home = () => {
                                                     <Typography gutterBottom variant="h5" component="h2" style={{ marginLeft: '10px', paddingLeft: '10px', background: '#31c5ee' }} className={classes.offer}>
                                                         {value.rate}%
                                                     </Typography>
-
                                                 </div>
-
-
-
                                             </CardContent>
-
-
-
                                         </CardActionArea>
-
                                     </Card>
                                 </Grid>
                             )

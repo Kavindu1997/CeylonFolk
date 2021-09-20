@@ -52,6 +52,19 @@ router.get("/alloffers", async (req, res) => {
 
 });
 
+router.get("/topseller", async (req, res) => {
+
+    
+
+    const query = "select orderitems.itemId,designs.design_name,designs.coverImage,designs.price,designs.discountedPrice,offers.rate, sum(orderitems.quantity) from orderitems INNER JOIN designs ON orderitems.itemId=designs.id LEFT JOIN offers ON designs.collection_id=offers.collection_id WHERE isDeleted=0 group by itemId order by sum(orderitems.quantity) desc limit 4";
+    const listOfTopSellers = await sequelize.query(query, { type: sequelize.QueryTypes.SELECT });
+    console.log(listOfTopSellers);
+    
+    res.json(listOfTopSellers);
+
+
+});
+
 
 router.get("/shops/:id", async (req, res) => {
     const uid = req.params.id;
