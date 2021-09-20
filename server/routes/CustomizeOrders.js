@@ -207,7 +207,7 @@ const multer = require('multer');
     });
 
     router.get("/acceptedOrders", async (req,res) => {
-        const query = "SELECT * FROM customizeorders WHERE status='Accept' AND deleteFlag='f'";
+        const query = "SELECT * FROM customizeorders WHERE status='Accept' AND deleteFlag='false'";
         const listOfAcceptedOrders = await sequelize.query(query, { type: sequelize.QueryTypes.SELECT });
         res.json(listOfAcceptedOrders);
         // res.render("upload");
