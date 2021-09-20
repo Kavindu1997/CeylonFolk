@@ -32,6 +32,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectedProduct, fetchProduct, removeSelectedProduct } from '../../_actions/productAction';
 import Notification from '../../components/Reusable/Notification';
 import ceylonforkapi from '../../api/index'
+import Popup from "../../components/Reusable/Popup";
+import sizeTshirt from "../../images/sizeTshirt.jpg";
+import sizeKids from "../../images/sizeKids.jpg";
+import sizeCropTop from "../../images/sizeCropTop.jpg";
+import { NavLink } from 'react-router-dom';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+
 
 function Copyright() {
   return (
@@ -57,10 +64,12 @@ export default function Product_detail() {
   const [mapSize, setMapSize] = useState();
   const [quantity, setQuantity] = useState();
   const oneProduct = useSelector((state) => state.selectProductReducer)
-  const { coverImage, design_name, price, discountedPrice } = oneProduct;
+  const { coverImage, design_name, price, discountedPrice, type_id } = oneProduct;
   const [productSize, setProductSize] = useState();
   const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' });
   const [rate, setrate] = useState();
+  const [email, setemail] = useState('')
+  const [openSleevePopup, setopenSleevePopup] = useState(false);
 
 
   var isSizeRequired = false;
@@ -107,6 +116,11 @@ export default function Product_detail() {
 
   }, []);
 
+  const changeemail = (e) => {
+    setemail(e.target.value)
+
+  }
+
 
   // console.log('hello from product store')
 
@@ -152,6 +166,8 @@ export default function Product_detail() {
 
   const [toggleState, setToggleState] = useState(0);
 
+  let history = useHistory();
+
   const toggleTab = (index) => {
     setToggleState(index);
   };
@@ -193,6 +209,32 @@ export default function Product_detail() {
     }
   }
 
+  const sendEmail = (data, props) => {
+    var uid = localStorage.getItem("userId");
+    var uname = localStorage.getItem("fullname");
+
+    var data = {
+      
+      productId: id,
+      userId: uid,
+      userName: uname,
+      size: productSize,
+      email: email,
+    }
+
+
+    axios.post("http://localhost:3001/ProductDetails/stockrefill", data).then((response) => {
+      console.log(data);
+      if (response.data.error) alert(response.data.error);
+              else {
+                  alert("Message sent Successfully");
+                  history.push('/shop')
+              }
+    });
+    console.log(data);
+    
+  };
+
 
   var itemQuantity = 1
   const getQty = (event) => {
@@ -200,6 +242,7 @@ export default function Product_detail() {
   }
  
   const [isSizeSelected,setIsSizeSelected] = useState(false)
+  const [typ, settyp] = useState('')
 
   const addToCart = () => {
     if(productSize == undefined){
@@ -266,6 +309,12 @@ export default function Product_detail() {
     }
   };
 
+  const sizeGuide = (type) => {
+    settyp(type)
+    setopenSleevePopup(true);
+
+  }
+
   return (
     <div>
       <CssBaseline />
@@ -293,7 +342,11 @@ export default function Product_detail() {
             <Grid item xs={2} sm={8} md={6} elevation={6} square>
               <Formik>
                 <Box className={classes.productDetails}>
-                  <Box className={classes.goback}><Link>GO BACK</Link></Box>
+                
+
+                  <Box className={classes.goback}>
+                  <ArrowBackIcon />
+                    <NavLink to={'/shop'} style={{textDecoration: 'none'}}>GO BACK</NavLink></Box>
                   <Box>
                     <Typography className={classes.productTitle}>{design_name}</Typography>
                     {discountedPrice === null ?
@@ -321,6 +374,7 @@ export default function Product_detail() {
                                                                     <div>
                                                                         <Typography style={{ marginLeft: '10px', paddingLeft: '10px', background: '#31c5ee' }} className={classes.offer}>
                                                                             {rate}%
+                                                                            {type_id}
                                                                         </Typography>
 
                                                                     </div>
@@ -393,32 +447,57 @@ export default function Product_detail() {
 
                         {/* <div>{quantity && <span className={classes.swatchVisible}>{quantity[index1].quantity}</span>}</div> */}
 
-                        <center>
-                          <a href='../pages/customize' style={{ textDecoration: 'none' }}><Button variant="outlined" className={classes.designbtn}>SIZE GUIDE</Button></a>
-                        </center>
+                        <Button
+              className={classes.slevebtn}
+              onClick={() => {
+                // setopenSleevePopup(true);
+                sizeGuide(type_id)
+              }}
+            >Size Guide</Button>
                       </Box>
                       {/* <div className={toggleState === 1 ? classes.activeQuantity : classes.quantity}>{quantity && <span>{quantity[index].quantity + " in stock"}</span>}</div> */}
                       <div className={toggleState === 1 ? classes.activeQuantity : classes.quantity}>{quantity && <span>{quantity[index1].quantity + " in stock"}</span>}</div>
                         <div style={{visibility:isSizeSelected==true?"visible":"hidden"}}><Typography style={{color:"red"}}>*You should select a size*</Typography></div>
                     </Box>
 
+                    <Popup
+            title="Size Guide"
+            openPopup={openSleevePopup}
+            setOpenPopup={setopenSleevePopup}
+          >
+            <center>
+              {typ===6 ? <img src={sizeTshirt} style={{width:'30%'}}/> :typ===8 ? <img src={sizeCropTop} style={{width:'30%'}}/> : typ===9 ? <img src={sizeKids} style={{width:'30%'}}/>: null}
+              </center>
+          </Popup>
+
+                    {quantity &&
+                    <Box className={productSize == undefined ? classes.activeQuantity : classes.quantity}>
+
                     <Box className={classes.tBox}>
                       <Typography className={classes.productColor}>QUANTITY</Typography>
                       <div>{quantity && <NumericInput mobile min={1} max={quantity[index1].quantity} value={1} size={1} onChange={getQty} />}</div>
                     </Box>
+                    </Box>}
 
                     {quantity &&
-                      <Box className={quantity[index1].quantity > 0 ? classes.activeQuantity : classes.quantity}>
+                    <Box className={quantity[index1].quantity > 0 ? classes.activeQuantity : classes.quantity}>
+
+                        <Box className={classes.tBox}>
+                        <Typography className={classes.productColor}>QUANTITY</Typography>
+                        <div><NumericInput mobile min={1} max={quantity[index1].quantity} value={1} size={1} onChange={getQty} /></div>
+                        </Box>
+                      
                         <Button style={{ background: '#2c2d2d', color: 'white' }} onClick={addToCart}>ADD TO CART</Button>
 
+                      
                       </Box>}
 
                     {quantity &&
-                      <Box className={quantity[index1].quantity === 0 ? classes.activeQuantity : classes.quantity}>
-                        <Formik initialValues={initialValues} validationSchema={validationSchema}>
-                          {(props) => (
-                            <Form>
-                              <Field as={TextField}
+                    <Box className={quantity[index1].quantity === 0 && productSize != undefined ? classes.activeQuantity : classes.quantity}>
+
+                    <Typography>Enter your email. We will be notify you after replenish</Typography>
+                      
+                        <TextField
                                 className={classes.textField}
                                 variant="outlined"
                                 margin="normal"
@@ -428,6 +507,7 @@ export default function Product_detail() {
                                 label="Email Address"
                                 name="email"
                                 autoComplete="email"
+                                onChange={changeemail}
                                 helperText={<ErrorMessage name="email" />}
                               />
                               <Button
@@ -436,11 +516,11 @@ export default function Product_detail() {
                                 variant="contained"
                                 color="primary"
                                 className={classes.submit}
+                                onClick={sendEmail}
                               >Send Email</Button>
-                            </Form>
-                          )}
-                        </Formik>
+                            
 
+                      
                       </Box>}
 
                   </Box>

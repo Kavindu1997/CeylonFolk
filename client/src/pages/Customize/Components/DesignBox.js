@@ -15,15 +15,15 @@ const DesignBox = (props) => {
         <Box className={props.toggleState === 0 ? classes.activeContent : classes.content}>
               <Grid md={8} Container className={classes.bar5} >
                 <Grid item md={2.4} style={{ width: '100%' }}>
-                  <a href="#">
+                  <a >
                     <button className={classes.barBtn2}><img height={50} src={addTextBar} onClick={() => props.toggleTab(1)} />
                       <Typography textDecoration='none' className={classes.barFont}>ADD TEXT</Typography>
                     </button>
                   </a>
                 </Grid>
                 <Grid item xs={12} sm={6} md={2.4} >
-                  <a href="#">
-                    <button className={classes.barBtn2}><img height={50} src={addColor} onClick={() => props.toggleTab(2)}/>
+                  <a >
+                    <button className={classes.barBtn2}><img height={50} src={addColor} onClick={() => props.toggleTab(5)}/>
                       <Typography textDecoration='none' className={classes.barFont}>ADD COLOR</Typography>
                     </button>
                   </a>
@@ -31,14 +31,14 @@ const DesignBox = (props) => {
               </Grid>
               <Grid md={8} Container className={classes.bar5} >
               <Grid item md={2.4} style={{ width: '100%' }}>
-                  <a href="#">
+                  <a >
                     <button className={classes.barBtn2}><img height={50} src={upload} onClick={() => props.toggleTab(3)} />
                       <Typography textDecoration='none' className={classes.barFont}>UPLOAD</Typography>
                     </button>
                   </a>
                 </Grid>
                 <Grid item xs={12} sm={6} md={2.4} >
-                  <a href="#">
+                  <a >
                     <button className={classes.barBtn2}><img height={50} src={addTshirt} onClick={() => props.toggleTab(4)}/>
                       <Typography textDecoration='none' className={classes.barFont}>SELECT TYPE</Typography>
                     </button>

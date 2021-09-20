@@ -98,7 +98,14 @@ const CustomizeOrderTable = () => {
         axios.get('http://localhost:3001/customizeOrders/orderDetails').then((response) => {
             setlistOfOrderDetails(response.data);
         })
-        // setToggleState(2);
+        window.location.reload(false);
+
+        setNotify({
+            isOpen: true,
+            message: 'Order Accepted !',
+            type: 'success'
+        });
+        setToggleState(2);
 
         // <AcceptedOrders/>
     };
@@ -110,7 +117,7 @@ const CustomizeOrderTable = () => {
             setOpenViewPopup(true);
         })
 
-        // setOpenViewPopup(true);
+        setOpenViewPopup(true);
 
     }
 
@@ -138,6 +145,8 @@ const CustomizeOrderTable = () => {
             });
             // setlistOfOrderDetails(response.data);
         })
+
+        window.location.reload(false);
 
         axios.get('http://localhost:3001/customizeOrders/orderDetails').then((response) => {
             // console.log(response.data);
@@ -288,16 +297,18 @@ const CustomizeOrderTable = () => {
                                                             </TableCell>
 
                                                             <Popup
-                                                                title="Send the Estimated Price"
+                                                                title="Send the Real Price"
                                                                 openPopup={openPopup}
                                                                 setOpenPopup={setOpenPopup}
                                                             >
-                                                                <Grid item xs={6}>
+                                                                <center>
+                                                                <Grid >
                                                                     <Controls.Input
                                                                         variant="outlined"
                                                                         label="Price"
                                                                         name="price"
                                                                         onChange={changePrice}
+                                                                        style={{margin:'10px'}}
                                                                     />
                                                                 </Grid>
                                                                 <Grid item md={12} >
@@ -309,6 +320,7 @@ const CustomizeOrderTable = () => {
                                                                         }}
                                                                     />
                                                                 </Grid>
+                                                                </center>
                                                             </Popup>
 
                                                             <Popup
@@ -316,12 +328,14 @@ const CustomizeOrderTable = () => {
                                                                 openPopup={openRejectPopup}
                                                                 setOpenPopup={setOpenRejectPopup}
                                                             >
-                                                                <Grid item >
+                                                                <center>
+                                                                <Grid>
                                                                     <Controls.Input
                                                                         variant="outlined"
                                                                         label="Reason"
                                                                         name="reason"
                                                                         onChange={changeReason}
+                                                                        style={{margin:'10px'}}
                                                                     />
                                                                 </Grid>
                                                                 <Grid item md={12} >
@@ -334,6 +348,7 @@ const CustomizeOrderTable = () => {
                                                                         }}
                                                                     />
                                                                 </Grid>
+                                                                </center>
                                                             </Popup>
                                                         </TableRow>
 
@@ -351,15 +366,18 @@ const CustomizeOrderTable = () => {
                                         openPopup={openViewPopup}
                                         setOpenPopup={setOpenViewPopup}
                                     >
+                                        <center>
                                         <Box>
 
-                                            <TableCell align="center" style={{ fontFamily: 'Montserrat' }}><img height={200} align="center" src={'http://localhost:3001/' + order.image} alt=""></img></TableCell>
+                                            <TableCell align="center" ><img height={200} align="center" src={'http://localhost:3001/' + order.image} alt=""></img></TableCell>
 
-                                            <Typography>Design Info</Typography>
+                                            <Typography style={{ fontFamily: 'Montserrat', fontWeight:'700' }}>Design Info</Typography>
                                             <Typography>Order Id: {order.orderNo}</Typography>
-                                            <Typography>No of Text : {order.textCount}</Typography>
+                                            {order.textCount === 0 ? <Typography>No Texts</Typography> :<Typography>No of Text : {order.textCount}</Typography>}
                                             {order.imageCount === 0 ? <Typography>No Images</Typography> : <Typography>No of Images: {order.imageCount}</Typography>}
+                                            {order.note === ' ' ? <Typography>No Notes</Typography> : <Typography>Note: {order.note}</Typography>}
                                         </Box>
+                                        </center>
                                     </Popup>
 
 

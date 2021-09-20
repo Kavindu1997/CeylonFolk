@@ -46,6 +46,7 @@ const multer = require('multer');
         fixedPrice: req.body.price,
         size: req.body.size,
         notificationFlag: 0,
+        note:req.body.note,
         
         deleteFlag: 'false',
 
@@ -196,10 +197,10 @@ const multer = require('multer');
     
             
 
-        const query = "UPDATE customizeorders SET status='Accept', price='"+price+"' WHERE orderId='"+id+"'";
+        const query = "UPDATE customizeorders SET status='Accept', price='"+price+"', notificationStatus='False', WHERE orderId='"+id+"'";
         const updateStatus = await sequelize.query(query, { type: sequelize.QueryTypes.UPDATE });
 
-        const query2 = "SELECT * FROM customizeorders WHERE (status='Pending' AND deleteFlag='f')";
+        const query2 = "SELECT * FROM customizeorders WHERE (status='Pending' AND deleteFlag='false')";
         const listOfCustomizedOrders = await sequelize.query(query2, { type: sequelize.QueryTypes.SELECT });
         res.json(listOfCustomizedOrders);
     
@@ -544,7 +545,6 @@ const multer = require('multer');
         const totalAmount = req.body.totalAmount;
         const address = req.body.delivery;
         const date = req.body.placedDate;
-        const note = req.body.note;
         const fixedPrice = req.body.totalAmount;
         console.log(id)
     
@@ -574,6 +574,14 @@ const multer = require('multer');
     router.put("/recieved", async (req,res) => {
         const id = req.body.id;
         const query = "UPDATE customizeorders SET status='Recieved', notificationStatus='Recieved', notificationFlag=0, WHERE orderId='"+id+"'";
+        const updateStatus = await sequelize.query(query, { type: sequelize.QueryTypes.UPDATE });
+        res.json(updateStatus);
+        // res.render("upload");
+    });
+
+    router.put("/changeStatus", async (req,res) => {
+        const id = req.body.id;
+        const query = "UPDATE customizeorders SET status='Pending' WHERE orderId='"+id+"'";
         const updateStatus = await sequelize.query(query, { type: sequelize.QueryTypes.UPDATE });
         res.json(updateStatus);
         // res.render("upload");
@@ -632,7 +640,7 @@ const multer = require('multer');
                     }
                  } );
 
-        const query = "UPDATE customizeorders SET status='Rejected', deleteFlag='reject' WHERE orderId='"+id+"'";
+        const query = "UPDATE customizeorders SET status='Rejected', deleteFlag='reject', notificationStatus='false' WHERE orderId='"+id+"'";
         const updateStatus = await sequelize.query(query, { type: sequelize.QueryTypes.UPDATE });
     
     res.json(updateStatus);
@@ -690,7 +698,7 @@ const multer = require('multer');
                  } );
 
 
-        const query = "UPDATE customizeorders SET status='Canceled', deleteFlag='reject', notificationStatus='Canceled', notificationFlag=0, WHERE orderId='"+id+"'";
+        const query = "UPDATE customizeorders SET status='Canceled', deleteFlag='cancel', notificationStatus='Canceled', notificationFlag=0 WHERE orderId='"+id+"'";
         const updateStatus = await sequelize.query(query, { type: sequelize.QueryTypes.UPDATE });
     
     res.json(updateStatus);

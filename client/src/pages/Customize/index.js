@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import CommonNav from '../../components/Navbars/CommonNav';
 import Footer from '../../components/Footer/Footer';
 import useStyles from './style';
-import { CssBaseline, Box, Typography, Grid, Button } from '@material-ui/core';
+import { CssBaseline, Box, Typography, Grid, Button, TextareaAutosize } from '@material-ui/core';
 import image from '../../images/image.svg'
 import upload from '../../images/upload.svg'
 import addTshirt from '../../images/tshirt.svg'
@@ -72,6 +72,8 @@ const Customize = () => {
   const [notifySize, setNotifySize] = useState({ isOpen: false, message: '', type: '' });
   const [listOfSizes, setListOfSizes] = useState([]);
   const [size2, setSize] = useState('');
+  const [specialNote,setSpecialNote] = useState('');
+  
 
   useEffect(() => {
     setCanvas(initCanvas());
@@ -353,6 +355,10 @@ const Customize = () => {
   var userName = localStorage.getItem("fullname");
     console.log(userName)
 
+    const setNote = (event) => {
+      setSpecialNote(event.target.value)
+  }
+
   const handleSaveClick = () => {
     console.log('hello')
     console.log(exportT)
@@ -387,6 +393,7 @@ const Customize = () => {
       textCount: textCount,
       imageCount: imageCount,
       size: size2,
+      note:specialNote,
     }
 
     axios.post('http://localhost:3001/customizeOrders/upload/image', data).then((response) => {
@@ -496,6 +503,13 @@ const Customize = () => {
                       console.log(color)
                     }}
                   />
+                </div>
+              </Grid>
+            </Box>
+            <Box className={toggleState === 6 ? classes.activeContent : classes.content}>
+              <Grid Container className={classes.bar3} >
+                <div className="color-picker">
+                <TextareaAutosize aria-label="minimum height" placeholder="Add Note" onChange={setNote} style={{ width: '400px', height: '200px', textAlign: 'justify', padding: '15px', fontFamily: 'Montserrat', marginTop: '30px', borderRadius: '5px' }} />
                 </div>
               </Grid>
             </Box>

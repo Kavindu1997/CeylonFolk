@@ -16,6 +16,7 @@ import { MASTER_DATA } from '../../_constants/globalVariable';
 import { setPayment } from '../Checkout/payment';
 import moment from 'moment';
 import CommonNav from '../../components/Navbars/CommonNav';
+import Notification from "../../components/Reusable/Notification";
 
 // const status='pending';
 
@@ -38,6 +39,11 @@ export default function OrderView() {
   const [openClosePopup, setOpenClosePopup] = useState(false)
   const [price, setprice] = useState('')
   const [orderNo, setorderNo] = useState('')
+  const [notify, setNotify] = useState({
+    isOpen: false,
+    message: "",
+    type: "",
+});
   const [oId, setoId] = useState('')
   const steps = getSteps();
   let { id } = useParams();
@@ -165,6 +171,26 @@ export default function OrderView() {
   var email = localStorage.getItem("userEmail");
   var fullName = localStorage.getItem("fullname");
 
+  const changeStatus = (orId) => {
+
+    const data = {
+      id: orId
+      
+  }
+    axios.put('http://localhost:3001/customizeOrders/statusChange/',data).then((response) => {
+            // console.log(response.data);
+            // alert('Order Canceled')
+            // setlistOfOrderDetails(response.data);
+        })
+
+        setNotify({
+          isOpen: true,
+          message: 'Status Changed to Pending !',
+          type: 'success'
+      });
+
+  }
+
   const onCansel = () => {
     console.log('canceled')
     console.log(orderNo)
@@ -180,7 +206,12 @@ export default function OrderView() {
   }
     axios.put('http://localhost:3001/customizeOrders/orderCanceled/',data).then((response) => {
             // console.log(response.data);
-            alert('Order Canceled')
+            // alert('Order Canceled')
+            setNotify({
+              isOpen: true,
+              message: 'Order Canceled !',
+              type: 'success'
+          });
             // setlistOfOrderDetails(response.data);
         })
   }
@@ -200,7 +231,12 @@ export default function OrderView() {
   }
     axios.put('http://localhost:3001/customizeOrders/recieved/',data).then((response) => {
             // console.log(response.data);
-            alert('Order Canceled')
+            // alert('Order Canceled')
+            setNotify({
+              isOpen: true,
+              message: 'Order Closed !',
+              type: 'success'
+          });
             // setlistOfOrderDetails(response.data);
         })
   }
@@ -269,6 +305,7 @@ export default function OrderView() {
                   style={{ backgroundColor: 'black', color: 'white', margin: '20px' }}
                   className={orderDetails.status === 'Pending' ? classes.activeQuantity : orderDetails.status === 'Accept' ? classes.activeQuantity : orderDetails.status === 'Printing' ? classes.activeQuantity : classes.quantity}
                   onClick={() => {
+                    changeStatus(orderDetails.orderId)
                     setOpenEditDesignPopup(true);
                   }}
                   >
@@ -371,60 +408,43 @@ export default function OrderView() {
                   openPopup={openPopupCancelDesign}
                   setOpenPopup={setOpenCancelDesignPopup}
                 >
-                  <Grid item xs={4}>
-                    <Typography>Do you want to cancel the order</Typography>
-
+                  <center>
+                  <Grid>
+                    <Typography>Are you sure that you want to cancel the order</Typography>
                   </Grid>
                   <Grid item md={12} >
                     <Controls.Button
                       onClick={() => {
-
                         onCansel()
-                        // 
                       }}
-
-                      // onClick={placeOrders}
                       type="submit"
                       text="YES"
-                    // onClick={() => {
-                    //     history.push('/Checkout');
-                    // }}
                     />
                   </Grid>
+                  </center>
                 </Popup>
 
                 <Popup
-                  title="Close Order"
+                  title="Recieved Order"
                   openPopup={openClosePopup}
                   setOpenPopup={setOpenClosePopup}
                 >
-                  <Grid item xs={4}>
+                  <Grid>
                     <Typography>Have you recieved the order</Typography>
                     <Box>Then Close the Order</Box>
-
                   </Grid>
                   <Grid item md={12} >
                     <Controls.Button
                       onClick={() => {
-
                         onRecieved()
-                        // 
                       }}
-
-                      // onClick={placeOrders}
                       type="submit"
-                      text="Close Order"
-                    // onClick={() => {
-                    //     history.push('/Checkout');
-                    // }}
+                      text="Recieved Order"
                     />
                   </Grid>
                 </Popup>
-
-
-
+                <Notification notify={notify} setNotify={setNotify} />
               </div>
-
             }
           </div>
         </center>
@@ -436,18 +456,4 @@ export default function OrderView() {
 
 
 
-// export default function OrderView() { 
 
-//   return (
-//     <div>
-//       <CssBaseline />
-//       <CommonNav />
-
-
-
-
-
-//       <Footer />
-//     </div>
-//   );
-// };

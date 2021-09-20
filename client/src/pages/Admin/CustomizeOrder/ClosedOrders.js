@@ -65,7 +65,12 @@ const ClosedOrders = () => {
 
         axios.put('http://localhost:3001/customizeOrders/orderClosed/',data).then((response) => {
             console.log(response.data);
-            alert('Printed')
+            // alert('Printed')
+            setNotify({
+                isOpen: true,
+                message: 'Printed !',
+                type: 'success'
+            });
             // setlistOfOrderDetails(response.data);
         })
 

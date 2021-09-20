@@ -110,18 +110,15 @@ const OfferCollections = () => {
 
                                                 ></img>
                                             </CardMedia>
-                                            <CardContent style={{ display: 'flex', justifyContent: 'space-between', marginTop: '10px' }}>
-                                                <div>
+                                            <CardContent style={{height:'80px', display:'flex', justifyContent: 'space-between'}}>
+                                                
                                                     <Typography gutterBottom variant="h5" component="h5" style={{ textAlign: 'left', fontSize: '18px' }} className={classes.productTitle}>
                                                         {value.collection_name}
                                                     </Typography>
-                                                </div>
-                                                <div>
-                                                    <Typography gutterBottom variant="h5" component="h2" style={{ marginLeft: '10px', paddingLeft: '10px', background: '#31c5ee' }} className={classes.offer}>
+                                                
+                                                    <span style={{marginLeft: '220px'}} className={classes.offer22}>
                                                         {value.rate}%
-                                                    </Typography>
-
-                                                </div>
+                                                    </span>
 
 
 
