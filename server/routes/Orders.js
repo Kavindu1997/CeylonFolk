@@ -382,7 +382,7 @@ router.get('/getSales', async (req, res) => {
 
 router.get('/getAllPendingCount', async (req, res) => {
     try {
-        const query1 = "CREATE OR REPLACE VIEW pendings AS SELECT COUNT(status) AS pendingCount FROM orders WHERE status='1' OR status='4' OR status='5' OR status='6' UNION ALL SELECT COUNT(status) AS pendingCount FROM customizeorders WHERE status='Pending' AND deleteFlag='false';";
+        const query1 = "CREATE OR REPLACE VIEW pendings AS SELECT COUNT(status) AS pendingCount FROM orders WHERE status='1' AND isDeleted='0' OR status='4'AND isDeleted='0' OR status='5' AND isDeleted='0' OR status='6' AND isDeleted='0' UNION ALL SELECT COUNT(status) AS pendingCount FROM customizeorders WHERE status='Pending' AND deleteFlag='false';";
         const query2 = "SELECT SUM(pendingCount) as sum_of_pendings FROM pendings;"
         const sumOfPendingCount = await sequelize.query(query2, { type: sequelize.QueryTypes.SELECT });
         res.json(sumOfPendingCount);
