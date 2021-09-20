@@ -4,13 +4,19 @@ import { useForm, Form } from '../../components/Reusable/useForm';
 import Controls from '../../components/Reusable/Controls';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
-
+import Notification from "../../components/Reusable/Notification";
 
 const CollectionForm = () => {
 
     const [file, setfile] = useState(null);
     const [collectionName, setCollectionName] = useState([]);
     let history = useHistory();
+
+    const [notify, setNotify] = useState({
+        isOpen: false,
+        message: "",
+        type: "",
+    });
 
     const onFormSubmit = (e) => {
 
@@ -25,11 +31,12 @@ const CollectionForm = () => {
 
         
         axios.post("http://localhost:3001/collection", formData, config).then((response) => {
-        
+ 
         });
 
     
     };
+
 
     const onInputChange = (e) => {
         setfile(e.target.files[0])
@@ -71,7 +78,9 @@ const CollectionForm = () => {
                     </Grid>
 
                 </form>
+             
             </div>
+            <Notification notify={notify} setNotify={setNotify} />
         </div >
       
     );

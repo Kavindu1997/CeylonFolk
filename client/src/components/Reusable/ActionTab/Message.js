@@ -165,12 +165,7 @@ export default function Messages() {
   const viewDeletedOrders = (event) => {
 
 
-  if (listOfContactUs.length > 0) {
-    var ContactUsValue = 1;
-  }
-  else {
-    var ContactUsValue = 0;
-  }
+ 
 
     axios.put(`http://localhost:3001/notifications/deletedorders`).then((response) => {
 
@@ -182,12 +177,6 @@ export default function Messages() {
   };
 
   const viewPlacedOrders = (event) => {
-
-
-  if (listOfContactUs.length != listOfUnsolvedInquiries.length) {
-    var UnsolvedValue = 1;
-  }
-
     axios.put(`http://localhost:3001/notifications/placedorders`).then((response) => {
 
 
@@ -322,6 +311,8 @@ export default function Messages() {
     })
   };
 
+
+
   if (listOfContactUs.length > 0) {
     var ContactUsValue = 1;
   }
@@ -356,7 +347,6 @@ export default function Messages() {
   else {
     var bankDepositsCnt = 0;
   }
-
 
   if (listOfContactUs.length != listOfUnsolvedInquiries.length) {
     var UnsolvedValue = 1;

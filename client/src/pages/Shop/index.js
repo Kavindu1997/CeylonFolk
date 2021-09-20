@@ -196,6 +196,8 @@ const Shop = () => {
         });
     }, []);
 
+
+    
     const doFilter = (e) => {
         axios
             .get("http://localhost:3001/shop/filterRecords", {
@@ -216,6 +218,30 @@ const Shop = () => {
     };
 
     const loadRecordAgain = () => {
+
+        const uid = localStorage.getItem("userId");
+        if (uid == "0") {
+            var response = fetch(`http://localhost:3001/shop`)
+                .then(function (response) {
+                    return response.json();
+                })
+                .then(function (myJson) {
+                    setRecord(myJson);
+                });
+            console.log('thash')
+            console.log(response.data)
+        } else {
+            var response = fetch(`http://localhost:3001/shop/shops/` + uid)
+                .then(function (response) {
+                    return response.json();
+                })
+                .then(function (myJson) {
+                    setRecord(myJson);
+                });
+        }
+    };
+
+    const doAll = () => {
 
         const uid = localStorage.getItem("userId");
         if (uid == "0") {
@@ -335,6 +361,10 @@ const Shop = () => {
                             </ButtonGroup>
                             <Button variant="contained" color="primary" onClick={doFilter}>
                                 Filter
+                            </Button>
+
+                            <Button variant="contained"  onClick={doAll}>
+                                All
                             </Button>
                         </div>
                     </Grid>

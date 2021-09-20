@@ -33,8 +33,7 @@ const upload = multer({
     fileFilter: isImage,
 });
 
-router.post("/", upload.single('photo'),
-    async (req, res) => {
+router.post("/", upload.single('photo'), async (req, res) => {
         const { collectionName } = req.body;
         const imagePath = 'public/collections/' + req.file.filename;
 
@@ -44,14 +43,15 @@ router.post("/", upload.single('photo'),
 
         if (countCollections[0].cnt == 0) {
 
-
             Collections.create({
                 collection_name: collectionName,
                 coverImage: imagePath
             })
+           
             res.status(200).json({
-                success: "Success"
+                data:1
             })
+
         }
     }
 );

@@ -41,10 +41,10 @@ const CollectionTable = () => {
         setOpenPopup(true);
     };
 
-    const openInPopup1 = (item) => {
+    // const openInPopup1 = (item) => {
      
-        setOpenPopup1(true);
-    };
+    //     setOpenPopup1(true);
+    // };
 
     const defaultOptions = {
         loop: true,
