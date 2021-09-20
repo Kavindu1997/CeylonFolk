@@ -8,7 +8,7 @@ import Notification from '../../components/Reusable/Notification';
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { useDispatch, useSelector } from "react-redux";
 import { calculateCartCount, getCart, emptyCart, emtyTotal } from '../../_actions/index';
-import { API_URL } from '../../_constants';
+import { API_URL, isAuth } from '../../_constants';
 
 function Login() {
     const classes = useStyles();
@@ -16,6 +16,7 @@ function Login() {
     var cart = [];
     cart = useSelector(state => state.cart);
     const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' });
+    //const [isAuth, setNotify] = useState
 
     let history = useHistory();
 
@@ -42,6 +43,7 @@ function Login() {
             else if (response.data.user_type_id == 1) {
                 localStorage.setItem("userId", response.data.id);
                 localStorage.setItem("email", response.data.email);
+                localStorage.setItem("userType", response.data.user_type_id);
                 history.push("/admin");
             }
             else if (response.data.user_type_id == 3) {
@@ -55,8 +57,6 @@ function Login() {
                 history.push("/assistant");
             }
             else {
-                console.log(response.data)
-
                 var uid = localStorage.getItem("userId");
 
                 if (uid == '0' && cart.cart.length > 0) {
