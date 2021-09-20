@@ -100,16 +100,13 @@ router.post("/addwishlist", async (req, res) => {
     var data = { status: 0, data: [] }
     const itemId = req.body.id;
     const uId = req.body.uid;
-    console.log(itemId)
     const Collection = req.body.Collection === "" ? "collections.collection_name" : "'" + req.body.Collection + "'";
     const Colour = req.body.Colour === "" ? "colors.color_name" : "'" + req.body.Colour + "'";
     const Type = req.body.Type === "" ? "types.types" : "'" + req.body.Type + "'";
     const Size = req.body.Size === "" ? "sizes.size" : "'" + req.body.Size + "'";
-    console.log(req.body.Collection, req.body.Colour, req.body.Type, req.body.Size)
     try {
         const query1 = "SELECT itemId FROM wishlists WHERE itemId ='" + itemId + "' AND userId='" + uId + "'";
         const wishlistItem = await sequelize.query(query1, { type: sequelize.QueryTypes.SELECT });
-        console.log(wishlistItem)
         if (wishlistItem.length > 0) {
             const query2 = "DELETE FROM wishlists WHERE userId='" + uId + "' AND itemId='" + itemId + "'";
             const removewishlist = await sequelize.query(query2, { type: sequelize.QueryTypes.DELETE });

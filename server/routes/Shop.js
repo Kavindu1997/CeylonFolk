@@ -52,11 +52,9 @@ router.get("/alloffers", async (req, res) => {
 
 });
 
-router.get("/topseller", async (req, res) => {
-
-    
-
-    const query = "select orderitems.itemId,designs.design_name,designs.coverImage,designs.price,designs.discountedPrice,offers.rate, sum(orderitems.quantity) from orderitems INNER JOIN designs ON orderitems.itemId=designs.id LEFT JOIN offers ON designs.collection_id=offers.collection_id WHERE isDeleted=0 group by itemId order by sum(orderitems.quantity) desc limit 4";
+router.get("/topseller/:uId", async (req, res) => {
+    const uId = req.params.uId;
+    const query = "SELECT orderitems.itemId, designs.design_name, designs.coverImage, designs.price, designs.discountedPrice, offers.rate, SUM(orderitems.quantity), CASE WHEN wishlists.itemId IS NOT NULL THEN 1 ELSE 0 END AS isInWishList FROM orderitems INNER JOIN designs ON orderitems.itemId = designs.id LEFT JOIN offers ON designs.collection_id = offers.collection_id LEFT JOIN wishlists ON wishlists.itemId = designs.id AND wishlists.userId = '"+uId+"' WHERE isDeleted = 0 GROUP BY itemId ORDER BY SUM(orderitems.quantity) DESC LIMIT 4";
     const listOfTopSellers = await sequelize.query(query, { type: sequelize.QueryTypes.SELECT });
     console.log(listOfTopSellers);
     
@@ -64,6 +62,36 @@ router.get("/topseller", async (req, res) => {
 
 
 });
+
+router.post("/addwishlist", async (req, res) => {
+    var data = { status: 0, data: [] }
+    const itemId = req.body.id;
+    const uId = req.body.uid;
+    try {
+        const query1 = "SELECT itemId FROM wishlists WHERE itemId ='" + itemId + "' AND userId='" + uId + "'";
+        const wishlistItem = await sequelize.query(query1, { type: sequelize.QueryTypes.SELECT });
+        console.log(wishlistItem)
+        if (wishlistItem.length > 0) {
+            const query2 = "DELETE FROM wishlists WHERE userId='" + uId + "' AND itemId='" + itemId + "'";
+            const removewishlist = await sequelize.query(query2, { type: sequelize.QueryTypes.DELETE });
+            // res.json(removewishlist);
+        } else {
+            const query = "INSERT INTO wishlists(`itemId`,`userId`) VALUES('" + itemId + "','" +uId + "')";
+            const wishlist = await sequelize.query(query, { type: sequelize.QueryTypes.INSERT });
+            // res.json(wishlist);
+
+        }
+        data.status = 1
+    }
+    catch (e) {
+        data.status = 0
+    }
+
+    const query = "SELECT orderitems.itemId, designs.design_name, designs.coverImage, designs.price, designs.discountedPrice, offers.rate, SUM(orderitems.quantity), CASE WHEN wishlists.itemId IS NOT NULL THEN 1 ELSE 0 END AS isInWishList FROM orderitems INNER JOIN designs ON orderitems.itemId = designs.id LEFT JOIN offers ON designs.collection_id = offers.collection_id LEFT JOIN wishlists ON wishlists.itemId = designs.id AND wishlists.userId = '"+uId+"' WHERE isDeleted = 0 GROUP BY itemId ORDER BY SUM(orderitems.quantity) DESC LIMIT 4"
+    const listOfDesignsDB = await sequelize.query(query, { type: sequelize.QueryTypes.SELECT });
+    data.data = listOfDesignsDB
+    res.json(data);
+})
 
 
 router.get("/shops/:id", async (req, res) => {
