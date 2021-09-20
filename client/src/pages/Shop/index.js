@@ -87,7 +87,7 @@ const Shop = () => {
 
     //   }
 
-    
+
 
     useEffect(() => {
         dispatch(fetchProducts());
@@ -392,6 +392,7 @@ const Shop = () => {
                                                 <img
                                                     style={{
                                                         width: "100%",
+                                                        height: '290px',
                                                         overflow: "hidden",
                                                         objectFit: "cover",
                                                         hight: "293px",
@@ -403,8 +404,8 @@ const Shop = () => {
                                                     }}
                                                 ></img>
 
-                                                <CardContent>
-                                                    <div style={{display:'flex',justifyContent: 'space-between'}}>
+                                                <CardContent style={{height:'120px'}}>
+                                                    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                                                         <Typography
                                                             gutterBottom
                                                             variant="h9"
@@ -414,8 +415,10 @@ const Shop = () => {
                                                             {design_name}
                                                         </Typography>
                                                         <IconButton
-                                                        style={{padding: '0px',
-                                                            borderRadius: '0px'}}
+                                                            style={{
+                                                                padding: '0px',
+                                                                borderRadius: '0px'
+                                                            }}
                                                             onClick={() => {
                                                                 addToWishlist(id, isInWishList);
                                                             }}
@@ -447,7 +450,7 @@ const Shop = () => {
                                                                 {"LKR " + price}
                                                             </Typography>
                                                             :
-                                                            <div style={{display:'flex'}}>
+                                                            <div style={{ display: 'flex' }}>
                                                                 <div >
                                                                     <Typography
                                                                         gutterBottom
@@ -461,29 +464,33 @@ const Shop = () => {
                                                                     </Typography>
                                                                     <div>
                                                                     <Typography
-                                                                    gutterBottom
-                                                                    variant="h6"
-                                                                    component="h2"
-                                                                    style={{ textAlign: "left", fontSize: "16px" }}
-                                                                >
-                                                                    <s>{"LKR " + price}</s>
-                                                                </Typography>
+                                                                        gutterBottom
+                                                                        variant="h6"
+                                                                        component="h2"
+                                                                        style={{ textAlign: "left", fontSize: "16px" }}
+                                                                    >
+                                                                        <s>{"LKR " + price}</s>
+                                                                    </Typography>
+                                                                        
+
 
                                                                     </div>
                                                                 </div>
                                                                 <div>
-                                                                        <Typography style={{ marginLeft: '10px', paddingLeft: '10px', background: '#31c5ee' }} className={classes.offer}>
+                                                                <span className={classes.offer22}>
                                                                             {rate}%
-                                                                        </Typography>
+                                                                        </span>
 
-                                                                    </div>
-                                                                
+                                                                    
+
+                                                                </div>
+
 
                                                             </div>
 
                                                         }
 
-                                                        
+
                                                     </div>
                                                 </CardContent>
                                             </CardActionArea>

@@ -26,6 +26,7 @@ const AcceptedOrders = () => {
         subTitle: "",
     });
     const [openViewPopup, setOpenViewPopup] = useState(false)
+    const [order, setOrder] = useState();
     const openInPopup = (item) => {
         // setRecordForEdit(item);
         setOpenPopup(true);
@@ -49,11 +50,31 @@ const AcceptedOrders = () => {
 
         axios.put('http://localhost:3001/customizeOrders/orderPrinting/',data).then((response) => {
             console.log(response.data);
-            alert('Start Printing')
+            // alert('Start Printing')
+            setNotify({
+                isOpen: true,
+                message: 'Order Accepted !',
+                type: 'success'
+            });
             
             // setlistOfOrderDetails(response.data);
         })
     };
+
+    const onView = (id) => {
+
+        axios.get('http://localhost:3001/customizeOrders/allOrders/' + id).then((response) => {
+            setOrder(response.data);
+            setOpenViewPopup(true);
+        })
+
+        setOpenViewPopup(true);
+
+    }
+
+
+
+
 
     return (
 
@@ -90,24 +111,13 @@ const AcceptedOrders = () => {
                                                         <TableCell align="center">
                                                             <Button name="view"
                                                                 onClick={() => {
-
-                                                                    setOpenViewPopup(true);
+                                                                    onView(value.orderId)
 
                                                                 }}
                                                                 style={{ backgroundColor: 'black', color: 'white', fontSize: '12px', padding: '6px' }}
                                                             >
                                                                 VIEW DESIGN
                                                             </Button>
-
-                                                            <Popup
-                                                                title="Design"
-                                                                openPopup={openViewPopup}
-                                                                setOpenPopup={setOpenViewPopup}
-                                                            >
-                                                                <Box>
-                                                                    <img height={200} align="center" src={'http://localhost:3001/' + value.image} alt=""></img>
-                                                                </Box>
-                                                            </Popup>
 
                                                         </TableCell>
                                                     </TableRow>
@@ -118,6 +128,30 @@ const AcceptedOrders = () => {
                             </TableContainer>
                         </center>
                     </container>
+
+                    {order &&
+
+<Popup
+    title="Design"
+    openPopup={openViewPopup}
+    setOpenPopup={setOpenViewPopup}
+>
+    <center>
+    <Box>
+
+        <TableCell align="center" ><img height={200} align="center" src={'http://localhost:3001/' + order.image} alt=""></img></TableCell>
+
+        <Typography style={{ fontFamily: 'Montserrat', fontWeight:'700' }}>Design Info</Typography>
+        <Typography>Order Id: {order.orderNo}</Typography>
+        {order.textCount === 0 ? <Typography>No Texts</Typography> :<Typography>No of Text : {order.textCount}</Typography>}
+        {order.imageCount === 0 ? <Typography>No Images</Typography> : <Typography>No of Images: {order.imageCount}</Typography>}
+        {order.note === ' ' ? <Typography>No Notes</Typography> : <Typography>Note: {order.note}</Typography>}
+    </Box>
+    </center>
+</Popup>
+
+
+}
 
 
                     <Popup

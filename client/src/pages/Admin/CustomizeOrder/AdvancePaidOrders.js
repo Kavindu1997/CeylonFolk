@@ -80,7 +80,12 @@ const AdvancePaidOrders = () => {
 
         axios.put('http://localhost:3001/customizeOrders/orderPrinting/',data).then((response) => {
             console.log(response.data);
-            alert('Start Printing')
+            // alert('Start Printing')
+            setNotify({
+                isOpen: true,
+                message: 'Start Printing !',
+                type: 'success'
+            });
             // setlistOfOrderDetails(response.data);
         })
 

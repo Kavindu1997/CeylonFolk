@@ -25,6 +25,7 @@ router.post("/contactus", async(req, res) => {
                 <li>Name: ${req.body.fullName} </li>
                 <li>Phone: ${req.body.mobile} </li>
                 <li>Email: ${req.body.email} </li>
+                <li>Order No: ${req.body.orderId} </li>
                 <li>Name: ${req.body.orderId} </li>
             </ul>
             <h4> Message <h4>

@@ -183,6 +183,24 @@ const useStyles = makeStyles((theme) => ({
         borderRadius: '30px',
         float: 'left',
         fontSize: '20px'
+    },
+    offer2: {
+        marginLeft: '20px',
+    padding: '5px',
+    width: '43px',
+    height: '43px',
+    borderRadius: '50%',
+    alignItems: 'center',
+    textAlign: 'center',
+    background: 'rgb(49, 197, 238)',
+    color: 'white',
+    position: 'absolute',
+    justifyContent: 'center',
+    verticalAlign: 'middle',
+    marginLeft: '20px',
+    padding: '0.8rem 0',
+    fontSize: '16px',
+    fontWeight: '600',
     }
 
   }));

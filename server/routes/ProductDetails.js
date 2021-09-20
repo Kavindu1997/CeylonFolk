@@ -2,6 +2,7 @@ const { response } = require("express");
 const express = require("express");
 const router = express.Router();
 const { Designs, sequelize } = require('../models');
+const nodemailer = require('nodemailer');
 
 router.get("/byId/:id", async (req, res) => {
     const id = req.params.id
@@ -32,6 +33,8 @@ router.get("/byPid/:id", async (req, res) => {
     console.log(product)
     res.json(product);
 });
+
+
 
 router.get("/rate/:id", async (req, res) => {
     const id = req.params.id;
@@ -89,6 +92,8 @@ router.get("/quantity/:id", async (req, res) => {
     res.json(designSizeList);
 });
 
+
+
 // router.post("/",async (req, res) => {
 //     //     console.log(req.file);
 //         const post = req.body;
@@ -128,6 +133,70 @@ router.post("/addwishlist", async (req, res) => {
     data.data = listOfDesignsDB
     res.json(data);
 })
+
+router.post("/stockrefill", async(req, res) => {
+    console.log(req.body)
+    const { fullName,orderId, mobile, email, message, enquiryType} = req.body;
+        
+
+        const htmlEmail = `
+            <h3>'Stock Empty'</h3>
+            <ul> 
+                <li>Customer ID: ${req.body.userId} </li>
+                <li>Customer Name: ${req.body.userName} </li>
+                <li>Design Id: ${req.body.productId} </li>
+                <li>Email: ${req.body.email} </li>
+                <li>Size: ${req.body.size} </li>
+            </ul>
+            `
+        
+        const transporter = nodemailer.createTransport({
+            host: 'smtp.gmail.com',
+            port: 465,
+            secure: true,
+            auth: {
+                user: "testceylonfolk@gmail.com",
+                pass: "pkjjt@1234"
+            }
+        });
+
+        // const transporter = nodemailer.createTransport({
+        //     host: 'smtp.sendgrid.net',
+        //     port: 25,
+        //     auth: {
+        //       user: apikey,
+        //       pass: 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
+        //     }
+        //   });
+        
+        const mailOptions = {
+            from: req.body.email, // sender address
+            to: 'testceylonfolk@gmail.com', // list of receivers
+            replyTo: req.body.email,
+            subject: req.body.enquiryType, // Subject line
+            text: req.body.message, // plain text body
+            html: htmlEmail
+
+        };
+
+            await transporter.sendMail(mailOptions,(err,info) =>{
+            if(err){
+                        console.log("error in sending mail",err)
+                        return res.status(400).json({
+                            message:`error in sending the mail${err}`
+                        })
+                    }
+                    else{
+                        console.log("successfully send message",info)
+                        alert("successfully send message");
+                        return res.json({
+                            message:info
+                        })
+                    }
+                 } );  
+
+        res.json("SUCCESS");
+});
 
 
 module.exports = router;

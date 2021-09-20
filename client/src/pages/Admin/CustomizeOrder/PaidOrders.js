@@ -45,7 +45,12 @@ const PaidOrders = () => {
 
         axios.put('http://localhost:3001/customizeOrders/orderDispatched/',data).then((response) => {
             console.log(response.data);
-            alert('Dispatched')
+            // alert('Dispatched')
+            setNotify({
+                isOpen: true,
+                message: 'Order Dispatched !',
+                type: 'success'
+            });
             // setlistOfOrderDetails(response.data);
         })
 

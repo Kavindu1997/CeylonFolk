@@ -203,7 +203,7 @@ const Home = () => {
                                                     }}
                                                 ></img>
                                             </CardMedia>
-                                            <CardContent>
+                                            <CardContent style={{ height: '120px' }}>
                                                 <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                                                     <Typography
                                                         gutterBottom
@@ -233,56 +233,58 @@ const Home = () => {
                                                         />
                                                     </IconButton>
                                                 </div>
+                                                
+
                                                 <div
-                                                    style={{
-                                                        display: "flex",
-                                                        justifyContent: "space-between",
-                                                    }}
-                                                >
-                                                    {value.discountedPrice === null ?
-                                                        <Typography
-                                                            gutterBottom
-                                                            variant="h6"
-                                                            component="h2"
-                                                            style={{ textAlign: "left", fontSize: "16px" }}
-                                                        >
-                                                            {"LKR " + value.price}
-                                                        </Typography>
-                                                        :
-                                                        <div>
-                                                            <div style={{ display: 'flex' }}>
-                                                                <Typography
-                                                                    gutterBottom
-                                                                    variant="h6"
-                                                                    component="h2"
-                                                                    style={{ textAlign: "left", fontSize: "16px" }}
-                                                                >
-
-                                                                    {"LKR " + value.discountedPrice}
-
-                                                                </Typography>
-                                                                <div>
-                                                                    <Typography style={{ marginLeft: '10px', paddingLeft: '10px', background: '#31c5ee' }} className={classes.offer}>
-                                                                        {value.rate}%
-                                                                    </Typography>
-
-                                                                </div>
-                                                            </div>
+                                                        style={{
+                                                            display: "flex",
+                                                            justifyContent: "space-between",
+                                                        }}
+                                                    >
+                                                        {value.discountedPrice === null ?
                                                             <Typography
                                                                 gutterBottom
                                                                 variant="h6"
                                                                 component="h2"
                                                                 style={{ textAlign: "left", fontSize: "16px" }}
                                                             >
-                                                                <s>{"LKR " + value.price}</s>
+                                                                {"LKR " + value.price}
                                                             </Typography>
+                                                            :
+                                                            <div>
+                                                                <div style={{display:'flex'}}>
+                                                                    <Typography
+                                                                        gutterBottom
+                                                                        variant="h6"
+                                                                        component="h2"
+                                                                        style={{ textAlign: "left", fontSize: "16px" }}
+                                                                    >
 
-                                                        </div>
+                                                                        {"LKR " + value.discountedPrice}
 
-                                                    }
+                                                                    </Typography>
+                                                                    <div>
+                                                                        <span className={classes.offer2}>
+                                                                            {value.rate}%
+                                                                        </span>
 
+                                                                    </div>
+                                                                </div>
+                                                                <Typography
+                                                                    gutterBottom
+                                                                    variant="h6"
+                                                                    component="h2"
+                                                                    style={{ textAlign: "left", fontSize: "16px" }}
+                                                                >
+                                                                    <s>{"LKR " + value.price}</s>
+                                                                </Typography>
 
-                                                </div>
+                                                            </div>
+
+                                                        }
+
+                                                        
+                                                    </div>
                                             </CardContent>
                                         </CardActionArea>
                                     </Card>
@@ -290,9 +292,6 @@ const Home = () => {
                             )
                         })}
                     </Grid>
-                    <Typography className={classes.view}>
-                        + VIEW MORE
-                    </Typography>
                 </Container>
 
 
@@ -318,17 +317,15 @@ const Home = () => {
                                                     }}
                                                 ></img>
                                             </CardMedia>
-                                            <CardContent style={{ display: 'flex', justifyContent: 'space-between', marginTop: '10px' }}>
-                                                <div>
-                                                    <Typography gutterBottom variant="h5" component="h5" style={{ textAlign: 'left', fontSize: '18px' }} className={classes.productTitle}>
-                                                        {value.collection_name}
-                                                    </Typography>
-                                                </div>
-                                                <div>
-                                                    <Typography gutterBottom variant="h5" component="h2" style={{ marginLeft: '10px', paddingLeft: '10px', background: '#31c5ee' }} className={classes.offer}>
-                                                        {value.rate}%
-                                                    </Typography>
-                                                </div>
+                                            <CardContent style={{ height: '80px', display: 'flex' }}>
+
+                                                <Typography gutterBottom variant="h5" component="h5" style={{ textAlign: 'left', fontSize: '18px' }} className={classes.productTitle}>
+                                                    {value.collection_name}
+                                                </Typography>
+
+                                                <span style={{ marginLeft: '210px' }} className={classes.offer2}>
+                                                    {value.rate}%
+                                                </span>
                                             </CardContent>
                                         </CardActionArea>
                                     </Card>

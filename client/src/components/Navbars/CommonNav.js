@@ -18,6 +18,10 @@ const CommonNav = (props) => {
     const classes = useStyles();
     const cartcount = useSelector(state => state.cart.cartCount)
     const [countDetails, countOfItems] = useState([]);
+    // const [shop, setshop] = useState(1)
+
+    
+
     let history = useHistory()
     useEffect(() => {
         var id = localStorage.getItem("userId");
@@ -28,7 +32,18 @@ const CommonNav = (props) => {
             // });
         }
 
+        localStorage.setItem("shop", 1);
+
+        
+        
+
     }, []);
+
+
+    const setshop = (num)=>{
+        localStorage.setItem("shop", num);
+
+        }
 
     const [open, setOpen] = React.useState(false);
     const anchorRef = React.useRef(null);
@@ -82,13 +97,19 @@ const CommonNav = (props) => {
                 <Toolbar className={classes.appbarWrapper}>
                     <div className={classes.appbarLeft}>
                         <NavLink to={"/"} className={classes.appbarlink}> <Typography className={classes.appbarlink2}>Home</Typography></NavLink>
-                        <NavLink to={'/shop'} className={classes.appbarlink} >
+                        <NavLink to={'/shop'} 
+                        className={classes.appbarlink} 
+                        onClick={() => {
+                            setshop(1);
+                        }} 
+                        >
                             <Typography
                                 className={classes.appbarlink2}
                                 //change "endIcon to "endicon" for remove the warning - pramuka (check it)
                                 endicon={<KeyboardArrowDownIcon>
                                     fontSize="0.5rem"
                                 </KeyboardArrowDownIcon>}
+                                
                             >
                                 Shop
                             </Typography>

@@ -25,7 +25,7 @@ const DesignNav = (props) => {
         </Box>
         <Box >
           <Grid item xs={12} sm={6} md={2.4} >
-            <a href="#">
+            <a>
               <button className={props.toggleState === 3 ? classes.activeTabs : classes.tabs} onClick={() => props.toggleTab(3)}>
                 <img height={50} src={upload} />
                 <Typography textDecoration='none' className={classes.barFont}>UPLOAD</Typography>
@@ -35,7 +35,7 @@ const DesignNav = (props) => {
         </Box>
         <Box >
           <Grid item xs={12} sm={6} md={2.4} >
-            <a href="#">
+            <a >
               <button className={props.toggleState === 4 ? classes.activeTabs : classes.tabs} onClick={() => props.toggleTab(4)}>
                 <img height={50} src={addTshirt} />
                 <Typography textDecoration='none' className={classes.barFont}>SELECT TYPE</Typography>
@@ -45,7 +45,7 @@ const DesignNav = (props) => {
         </Box>
         <Box className={classes.tabs}>
           <Grid item xs={12} sm={6} md={2.4} >
-            <a href="#">
+            <a >
               <button className={props.toggleState === 5 ? classes.activeTabs : classes.tabs} onClick={() => props.toggleTab(5)}>
                 <img height={50} src={addColor} />
                 <Typography textDecoration='none' className={classes.barFont}>COLOR</Typography>
@@ -55,7 +55,7 @@ const DesignNav = (props) => {
         </Box>
         <Box className={classes.tabs}>
           <Grid item xs={12} sm={6} md={2.4} >
-            <a href="#">
+            <a >
               <button className={props.toggleState === 5 ? classes.activeTabs : classes.tabs} onClick={() => props.toggleTab(6)}>
                 <img height={50} src={note} />
                 <Typography textDecoration='none' className={classes.barFont}>ADD NOTE</Typography>
