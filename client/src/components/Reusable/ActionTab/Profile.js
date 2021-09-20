@@ -6,7 +6,6 @@ import EditIcon from '@material-ui/icons/Edit';
 import VpnKeyIcon from '@material-ui/icons/VpnKey';
 import Controls from "../Controls";
 import Popup from "../Popup";
-import Notification from "../Notification";
 import ChangePassword from "./ChangePassword";
 import axios from 'axios';
 import {API_URL }from '../../../_constants';
@@ -14,10 +13,8 @@ import {API_URL }from '../../../_constants';
 export default function Profile() {
   const classes = useStyles();
   const [records,setRecords]=useState([]);
-  const [recordForEdit, setRecordForEdit] = useState(null)
   const [open,setOpen]=useState(false);
-  const [openEditPopup, setOpenEditPopup] = useState(false);
-  const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' });
+  const [openPopup, setOpenPopup] = useState(false);
   const [anchorEl, setAnchorEl] =useState('top');
 
   const handleClick = (event) => {
@@ -26,20 +23,7 @@ export default function Profile() {
     
   };
   const addOrEdit = (data, resetForm) => {
-    axios.put(`/auth/changePassword/${data.id}`, data);
-    resetForm();
-    setRecordForEdit(null);
-    setOpenEditPopup(false);
-    setNotify({
-        isOpen: true,
-        message: 'Password Updated Successfully !',
-        type: 'info'
-    });
-}
-
-const openInPopup = item => {
-  setRecordForEdit(item);
-  setOpenEditPopup(true);
+     
 }
 
 
@@ -66,15 +50,14 @@ useEffect(() => {
         </Badge>
       </IconButton>
     </Tooltip>
-    {/* {records.map((item)=>{return( */}
-
+  
       <Drawer
       anchor={anchorEl}
       open={open}
       onClose={()=>setOpen(false)}
       >
        
-              <div style={{height:'450px'}}  className={classes.drawer}>
+              <div style={{height:'380px'}}  className={classes.drawer}>
               <ListItemAvatar>
                 <Avatar className={classes.profileImg}>P</Avatar>
               </ListItemAvatar>
@@ -95,7 +78,7 @@ useEffect(() => {
                                 <Typography className={classes.profileDetail} variant="subtitle1" color="textSecondary">{records.type}</Typography>
                  </Grid>
               </Grid>
-          <Grid container style={{ justifyContent: 'center',marginTop:'35px'}}>
+          {/* <Grid container style={{ justifyContent: 'center',marginTop:'35px'}}>
               <Controls.Button
                             text="Edit Profile"
                             variant="contained"
@@ -109,31 +92,23 @@ useEffect(() => {
                             color="secondary"
                             startIcon={<VpnKeyIcon/>}
                             className={classes.newButton}
-                            onClick={() => { openInPopup(records.id); }}
+                            onClick={() => { setOpenPopup(true); }}
                         />
-          </Grid>
+          </Grid> */}
               </div>
 
 
               <Popup
                     title="Change Password"
-                    openPopup={openEditPopup}
-                    setOpenPopup={setOpenEditPopup}
+                    openPopup={openPopup}
+                    setOpenPopup={setOpenPopup}
                 >
                     <ChangePassword
-                        recordForEdit={recordForEdit}
                         addOrEdit={addOrEdit}
                     />
                 </Popup>
-
-                <Notification
-                    notify={notify}
-                    setNotify={setNotify}
-                />
                 
       </Drawer>
-      
-  {/* )})}  */}
 
     </>
   );
