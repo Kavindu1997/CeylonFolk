@@ -24,6 +24,8 @@ import mockup from '../../images/tmockup.png'
 import useStyles from './style';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
+import Notification from "../../components/Reusable/Notification";
+import ceylonforkapi from "../../api/index";
 
 
 const Home = () => {
@@ -31,6 +33,12 @@ const Home = () => {
     const classes = useStyles();
     const [checked, setChecked] = useState(false);
     let history = useHistory();
+    const [notify, setNotify] = useState({
+        isOpen: false,
+        message: "",
+        type: "",
+    });
+
     useEffect(() => {
         setChecked(true);
     }, []);
@@ -53,13 +61,13 @@ const Home = () => {
 
 
     useEffect(() => {
-
+        const uId = localStorage.getItem("userId")
         axios.get("http://localhost:3001/shop/offers").then((response) => {
             console.log(response.data);
             setListOfOffers(response.data);
         });
 
-        axios.get("http://localhost:3001/shop/topseller").then((response) => {
+        axios.get("http://localhost:3001/shop/topseller/"+uId).then((response) => {
             console.log(response.data);
             setListOfTopSellers(response.data);
         });
@@ -71,6 +79,48 @@ const Home = () => {
 
     };
 
+    function addToWishlist(id, isInWishList) {
+        const uid = localStorage.getItem("userId");
+        if (localStorage.getItem("userId") != "0") {
+            const data = {
+                uid: uid,
+                id: id,
+            };
+            console.log(data)
+            if (isInWishList == 1) {
+                setNotify({
+                    isOpen: true,
+                    message: "This product is already in your wishlist !",
+                    type: "error",
+                });
+            } else {
+                ceylonforkapi
+                    .post("/shop/addwishlist/", data)
+                    .then((response) => {
+                        if (response.data.status == 0) {
+                            setNotify({
+                                isOpen: true,
+                                message: "Not successfully added to your wishlist !",
+                                type: "error",
+                            });
+                        } else {
+                            setListOfTopSellers(response.data.data);
+                            setNotify({
+                                isOpen: true,
+                                message: "Successfully added to your wishlist !",
+                                type: "success",
+                            });
+                        }
+                    });
+            }
+        } else {
+            setNotify({
+                isOpen: true,
+                message: "Customer has not logged in !",
+                type: "error",
+            });
+        }
+    }
 
     return (
 
@@ -163,23 +213,23 @@ const Home = () => {
                                                         >
                                                             {value.design_name}
                                                         </Typography>
-                                                        {/* <IconButton
+                                                        <IconButton
                                                         style={{padding: '0px',
                                                             borderRadius: '0px'}}
                                                             onClick={() => {
-                                                                addToWishlist(id, isInWishList);
+                                                                addToWishlist(value.itemId, value.isInWishList);
                                                             }}
                                                         >
                                                             <FavoriteBorderOutlinedIcon
                                                                 className={classes.icon1}
                                                                 style={{
                                                                     fill:
-                                                                        product.isInWishList == 1
+                                                                    value.isInWishList == 1
                                                                             ? "red"
                                                                             : "primary",
                                                                 }}
                                                             />
-                                                        </IconButton> */}
+                                                        </IconButton>
                                                     </div>
                                                     <div
                                                         style={{
@@ -387,7 +437,7 @@ const Home = () => {
 
             </div>
             <Footer />
-
+ <Notification notify={notify} setNotify={setNotify} />
         </div>
 
     );
