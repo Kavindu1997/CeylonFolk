@@ -12,13 +12,68 @@ import PaletteIcon from '@material-ui/icons/Palette';
 import ZoomOutMapIcon from '@material-ui/icons/ZoomOutMap';
 import ExtensionIcon from '@material-ui/icons/Extension';
 import StorageIcon from '@material-ui/icons/Storage';
-
 import ListAltIcon from '@material-ui/icons/ListAlt';
 import AccountBalanceIcon from '@material-ui/icons/AccountBalance';
-
 import LocalOfferIcon from '@material-ui/icons/LocalOffer';
 import ContactSupportIcon from '@material-ui/icons/ContactSupport';
 import ViewListIcon from '@material-ui/icons/ViewList';
+import axios from 'axios';
+
+const viewInquiries = (event) => {
+
+  axios.put(`http://localhost:3001/notifications/contactUs`).then((response) => {
+
+
+
+  }).catch((err) => {
+    console.log('err', err);
+  })
+};
+
+const viewBankDeposits = (event) => {
+
+  axios.put(`http://localhost:3001/notifications/bankDeposits`).then((response) => {
+
+
+  }).catch((err) => {
+    console.log('err', err);
+  })
+};
+
+const viewCO = (event) => {
+
+  axios.put(`http://localhost:3001/notifications/pendingCO`).then((response) => {
+  });
+
+  axios.put(`http://localhost:3001/notifications/recievedCO`).then((response) => {
+  });
+
+  axios.put(`http://localhost:3001/notifications/advancepaidCO`).then((response) => {
+  });
+
+  axios.put(`http://localhost:3001/notifications/paidCO`).then((response) => {
+  });
+
+  axios.put(`http://localhost:3001/notifications/canceledCO`).then((response) => {
+  });
+
+
+
+};
+
+const viewOrders = (event) => {
+
+  axios.put(`http://localhost:3001/notifications/editedorders`).then((response) => {
+
+  });
+  axios.put(`http://localhost:3001/notifications/deletedorders`).then((response) => {
+  });
+
+  axios.put(`http://localhost:3001/notifications/placedorders`).then((response) => {
+  });
+
+};
+
 
 
 export const mainListItems = (
@@ -83,26 +138,26 @@ export const mainListItems = (
       </ListItemIcon>
       <ListItemText primary="Available Types" />
     </ListItem>
-    <ListItem button component={Link} to="/AdminOrders/0">
+    <ListItem button component={Link} to="/AdminOrders/0" onClick={viewOrders}>
       <ListItemIcon>
         <ViewListIcon />
       </ListItemIcon>
       <ListItemText primary="Inhouse Orders" />
     </ListItem>
-    <ListItem button component={Link} to="/customizeOrders">
+    <ListItem button component={Link} to="/customizeOrders" onClick={viewCO} >
       <ListItemIcon>
         <ListAltIcon />
       </ListItemIcon>
       <ListItemText primary="Customized Orders" />
     </ListItem>
-    <ListItem button component={Link} to="/depositlips">
+    <ListItem button component={Link} to="/depositlips" onClick={viewBankDeposits}>
       <ListItemIcon>
         <AccountBalanceIcon />
       </ListItemIcon>
       <ListItemText primary="Bank Deposit Slips" />
     </ListItem>
 
-    <ListItem button component={Link} to="/inquiries">
+    <ListItem button component={Link} to="/inquiries" onClick={viewInquiries}>
       <ListItemIcon>
         <ContactSupportIcon />
       </ListItemIcon>
