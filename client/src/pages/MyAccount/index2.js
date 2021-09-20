@@ -48,6 +48,10 @@ export default function Checkout() {
     const [newPw, setnewPw] = useState([]);
     const [confirmPw, setConfirmPw] = useState([]);
 
+    if (localStorage.getItem("userId") == "0") {
+        history.push("/auth");
+    }
+
     useEffect(() => {
         var id = localStorage.getItem("userId")
         ceylonforkapi.get("/check/customer/"+ id).then((response) => {

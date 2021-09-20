@@ -25,6 +25,10 @@ export default function Deposit(props) {
     const dispatch = useDispatch();
     let id, orderIdFromEmail;
 
+    if (localStorage.getItem("userId") == "0") {
+        history.push("/auth");
+    }
+
     if (props.location.search) {
         var splitted = props.location.search.split("?id=", 2);
         var splitted2 = splitted[1].split("&orderIdFromEmail=", 2)
