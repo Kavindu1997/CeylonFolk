@@ -5,8 +5,11 @@ import Controls from '../../components/Reusable/Controls';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
 import Notification from "../../components/Reusable/Notification";
+import useStyles from './style';
 
 const CollectionForm = () => {
+
+    const classes = useStyles();
 
     const [file, setfile] = useState(null);
     const [collectionName, setCollectionName] = useState([]);
@@ -31,6 +34,35 @@ const CollectionForm = () => {
 
         
         axios.post("http://localhost:3001/collection", formData, config).then((response) => {
+
+            if (response.data.data == 0) {
+                setNotify({
+                    isOpen: true,
+                    message: 'Not successfully added ! Image not found',
+                    type: 'error'
+                });
+            }else if (response.data.data == 1) {
+                setNotify({
+                    isOpen: true,
+                    message: 'Successfully Added !',
+                    type: 'success'
+                });
+            } 
+            
+            else if(response.data.data == 2) {
+                setNotify({
+                    isOpen: true,
+                    message: 'This collection is already exist !',
+                    type: 'error'
+                });
+            }
+            else if(response.data.data == 3) {
+                setNotify({
+                    isOpen: true,
+                    message: 'Not successfully added ! Add Collection Name',
+                    type: 'error'
+                });
+            }
  
         });
 
@@ -55,7 +87,10 @@ const CollectionForm = () => {
                     <Grid container>
                         <Grid item xs={6}>
                             <Controls.Input
+                                className={classes.textField}
                                 variant="outlined"
+                                margin="normal"
+                                required
                                 label="Collection Name"
                                 name="collectionName"
                                 onChange={changeCollection}
@@ -66,6 +101,7 @@ const CollectionForm = () => {
                             <Controls.Input
                                 variant="outlined"
                                 name="photo"
+                                required
                                 type="file"
                                 onChange={onInputChange}
                             />

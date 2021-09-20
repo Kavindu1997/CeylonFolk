@@ -34,25 +34,51 @@ const upload = multer({
 });
 
 router.post("/", upload.single('photo'), async (req, res) => {
-        const { collectionName } = req.body;
-        const imagePath = 'public/collections/' + req.file.filename;
+      
 
-        const count = "SELECT count(id) as cnt FROM `collections` where collections.collection_name='" + collectionName + "' ";
-        const countCollections = await sequelize.query(count, { type: sequelize.QueryTypes.SELECT });
-        // console.log(countColors[0].cnt);
+        try {
+  
+            const { collectionName } = req.body;
+            const imagePath = 'public/collections/' + req.file.filename;
+    
+            const count = "SELECT count(id) as cnt FROM `collections` where collections.collection_name='" + collectionName + "' ";
+            const countCollections = await sequelize.query(count, { type: sequelize.QueryTypes.SELECT });
+            // console.log(countColors[0].cnt);
+            if(collectionName!=''){
 
-        if (countCollections[0].cnt == 0) {
 
-            Collections.create({
-                collection_name: collectionName,
-                coverImage: imagePath
-            })
-           
-            res.status(200).json({
-                data:1
-            })
+                if (countCollections[0].cnt == 0) {
+    
+                    Collections.create({
+                        collection_name: collectionName,
+                        coverImage: imagePath
+                    })
+                   
+                    // res.status(200).json({
+                    //     success: "Success"
+                    // })
+    
+                    res.json({ data: 1 });
+        
+                }
+                else{
+    
+                    res.json({ data: 2 });
+                }
 
+
+            }
+            else{
+                res.json({ data: 3 });
+            }
+
+          
         }
+        catch (e) {
+            res.json({ data: 0 });
+        }
+
+
     }
 );
 
@@ -87,61 +113,58 @@ router.delete("/remove", async (req, res) => {
 
 
 router.put("/edit/:collection_id", upload.single('photo'), async (req, res) => {
-    const collection_id = req.params.collection_id
-    const { collectionName, photo } = req.body;
-    // const imagePath = 'public/collections/' + req.file.filename;
 
-    // const img=req.file.filename;
-
-
-
-    console.log("image");
-
-    console.log(collectionName);
-    console.log(photo)
-
-    if (photo == null) {
-        console.log("kkk");
+    try {
+     
+        const collection_id = req.params.collection_id
+        const { collectionName, photo } = req.body;
+        // const imagePath = 'public/collections/' + req.file.filename;
+    
+        // const img=req.file.filename;
+    
+        const count = "SELECT count(id) as cnt FROM `collections` where collections.collection_name='" + collectionName + "' ";
+        const countCollections = await sequelize.query(count, { type: sequelize.QueryTypes.SELECT });
+        // console.log(countColors[0].cnt);
+    
+        if (countCollections[0].cnt == 0) {
+        
+        if (collectionName != '' && photo != null) {
+    
+            const query = "UPDATE collections SET collection_name='" + collectionName + "'  WHERE collections.id='" + collection_id + "'";
+            const updateCollection = await sequelize.query(query, { type: sequelize.QueryTypes.UPDATE });
+            res.json({ data: 1 });
+    
+        }
+        else if (collectionName == '' && photo == null) {
+    
+            const imagePath = 'public/collections/' + req.file.filename;
+    
+            const query = "UPDATE collections SET coverImage='" + imagePath + "' WHERE collections.id='" + collection_id + "'";
+            const updateCollection = await sequelize.query(query, { type: sequelize.QueryTypes.UPDATE });
+            res.json({ data: 1 });
+    
+        }
+        else if (photo == null && collectionName != '') {
+    
+            const imagePath = 'public/collections/' + req.file.filename;
+            const query = "UPDATE collections SET collection_name='" + collectionName + "' , coverImage='" + imagePath + "' WHERE collections.id='" + collection_id + "'";
+            const updateCollection = await sequelize.query(query, { type: sequelize.QueryTypes.UPDATE });
+            res.json({ data: 1 });
+    
+        }
+      
+    }
+    else{
+        
+        res.json({ data: 2 });
+    }
+        
+    }
+    catch (e) {
+        res.json({ data: 0 });
     }
 
-
-
-    if (collectionName != '' && photo != null) {
-
-        const query = "UPDATE collections SET collection_name='" + collectionName + "'  WHERE collections.id='" + collection_id + "'";
-        const updateCollection = await sequelize.query(query, { type: sequelize.QueryTypes.UPDATE });
-        res.json(updateCollection);
-        res.status(200).json({
-            success: "Success"
-        })
-
-    }
-    else if (collectionName == '' && photo == null) {
-
-        const imagePath = 'public/collections/' + req.file.filename;
-
-        const query = "UPDATE collections SET coverImage='" + imagePath + "' WHERE collections.id='" + collection_id + "'";
-        const updateCollection = await sequelize.query(query, { type: sequelize.QueryTypes.UPDATE });
-        res.json(updateCollection);
-        res.status(200).json({
-            success: "Success"
-        })
-
-
-    }
-    else if (photo == null && collectionName != '') {
-
-        const imagePath = 'public/collections/' + req.file.filename;
-        const query = "UPDATE collections SET collection_name='" + collectionName + "' , coverImage='" + imagePath + "' WHERE collections.id='" + collection_id + "'";
-        const updateCollection = await sequelize.query(query, { type: sequelize.QueryTypes.UPDATE });
-        res.json(updateCollection);
-        res.status(200).json({
-            success: "Success"
-        })
-
-    }
-
-
+  
 });
 
 // router.put("/edit/:collection_id",  upload.single('photo'), async(req,res) => {

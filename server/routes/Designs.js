@@ -35,48 +35,67 @@ const upload = multer({
 
 router.post("/", upload.single('photo'), async(req, res) => {
 
-
- 
+try {
+  
     const { designName,color,types,price,collection_id } = req.body;
-
-    
     const imagePath = 'public/designs/' + req.file.filename;
-
     const colour_id_query = "SELECT id FROM colors WHERE colors.color='" + color + "' ";
     const colour_id = await sequelize.query(colour_id_query, {type: sequelize.QueryTypes.SELECT});
-    // res.json(colour_id.colors.id);
-    // console.log(colour_id[0].id);
+    
     const id_colour = colour_id[0].id;
 
     const type_id_query = "SELECT types.id FROM types WHERE types.types='" + types + "' ";
     const type_id = await sequelize.query(type_id_query, {type: sequelize.QueryTypes.SELECT});
-    // res.json(type_id);
     const id_type = type_id[0].id;
 
     const count = "SELECT count(id) as cnt FROM `inventories` where inventories.colour_id='" + id_colour + "' AND inventories.type_id='" + id_type + "'";
     const countInventory = await sequelize.query(count, {type: sequelize.QueryTypes.SELECT});
-    console.log(countInventory[0].cnt);
+  
 
     const countDesignsQuery = "SELECT count(id) as count FROM `designs` where designs.design_name='" + designName + "'";
     const countDesigns = await sequelize.query(countDesignsQuery, {type: sequelize.QueryTypes.SELECT});
-    // console.log(countInventory[0].cnt);
+ 
   
 if(countDesigns[0].count==0){
     if(countInventory[0].cnt!=0){
+        if(price>0){
 
-    Designs.create({
-        collection_id:collection_id,
-        design_name: designName,
-        color_id:id_colour,
-        type_id:id_type,
-        coverImage: imagePath,
-        price:price,
-    })
-    res.status(200).json({
-        success: "Success"
-    })
+            Designs.create({
+                collection_id:collection_id,
+                design_name: designName,
+                color_id:id_colour,
+                type_id:id_type,
+                coverImage: imagePath,
+                price:price,
+            })
+            res.json({ data: 1 });
+        }
+        else{
+            res.json({ data: 4 }); 
+        }
+
+
+    
 }
+else{
+
+    res.json({ data: 2 });
 }
+
+}
+else{
+    res.json({ data: 3 });
+
+}
+
+
+  
+}
+catch (e) {
+    res.json({ data: 0 });
+}
+ 
+
 });
 
 // router.get("/", async (req, res) => {
@@ -154,30 +173,53 @@ router.delete("/remove", async (req,res) => {
 
 
 router.put("/editImage/:design_id", upload.single('photo'), async(req, res) => {
-    const design_id = req.params.design_id
-    const imagePath = 'public/designs/' + req.file.filename;
+  
+    try {
+   
+        const design_id = req.params.design_id
+        const imagePath = 'public/designs/' + req.file.filename;
+    
+        const query = "UPDATE designs SET coverImage='" + imagePath + "'WHERE designs.id='" + design_id + "'";
+        const updateDesign = await sequelize.query(query, {type: sequelize.QueryTypes.UPDATE});
+       
+        res.json({ data: 1 });
+    }
+    catch (e) {
+        res.json({ data: 0 });
+    }
 
-    const query = "UPDATE designs SET coverImage='" + imagePath + "'WHERE designs.id='" + design_id + "'";
-    const updateDesign = await sequelize.query(query, {type: sequelize.QueryTypes.UPDATE});
-    res.json(updateDesign); 
-    res.status(200).json({
-        success: "Success"
-    })
+
 });
 
 router.put("/editPrice/:design_id", async(req, res) => {
-    const design_id = req.params.design_id
-    const price= req.body.price;
+   
+    try {
+        const design_id = req.params.design_id
+        const price= req.body.price;
 
-    const query = "UPDATE designs SET price='" + price + "'WHERE designs.id='" + design_id + "'";
-    const updateDesign = await sequelize.query(query, {type: sequelize.QueryTypes.UPDATE});
-    res.json(updateDesign); 
-    res.status(200).json({
-        success: "Success"
-    })
+        if(price>0){
+            const query = "UPDATE designs SET price='" + price + "'WHERE designs.id='" + design_id + "'";
+            const updateDesign = await sequelize.query(query, {type: sequelize.QueryTypes.UPDATE});
+            res.json({ data: 1 });
+        }
+        else{
+            res.json({ data: 2 });  
+        }
+    
+     
+    }
+    catch (e) {
+        res.json({ data: 0 });
+    }
+
+
 });
 
 router.put("/editDesignName/:design_id", async(req, res) => {
+  
+
+try {
+   
     const design_id = req.params.design_id
     const designName= req.body.designName;
 
@@ -187,11 +229,20 @@ router.put("/editDesignName/:design_id", async(req, res) => {
     if(countDesigns[0].count==0){
     const query = "UPDATE designs SET design_name='" + designName + "'WHERE designs.id='" + design_id + "'";
     const updateDesign = await sequelize.query(query, {type: sequelize.QueryTypes.UPDATE});
-    res.json(updateDesign); 
-    res.status(200).json({
-        success: "Success"
-    })
+    
+    res.json({ data: 1 });
 }
+else{
+
+    res.json({ data: 2 });
+}
+
+   
+}
+catch (e) {
+    res.json({ data: 0 });
+}
+
 });
 
 

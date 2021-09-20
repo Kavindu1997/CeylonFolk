@@ -136,6 +136,7 @@ const InventoryTable = () => {
                     return items;
                 else
                     return items.filter(x => x.size.toLowerCase().includes(target.value)||
+                    x.color_name.toLowerCase().includes(target.value) ||
                     x.types.toLowerCase().includes(target.value))
             }
         })
@@ -198,6 +199,7 @@ const InventoryTable = () => {
                                 <TableHead>
                                     <TableRow>
                                         <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Colour</TableCell>
+                                        <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Colour Name</TableCell>
                                         <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Size</TableCell>
                                         <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Type</TableCell>
                                         <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Quantity</TableCell>
@@ -214,6 +216,7 @@ const InventoryTable = () => {
                                                     <span className={classes.swatchVisible} style={{ backgroundColor: value.color }}></span>
                                                 </Box>
                                             </TableCell>
+                                            <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.color_name}</TableCell>
                                             <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.size}</TableCell>
                                             <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.types}</TableCell>
                                             <TableCell align="center" style={{ fontFamily: 'Montserrat'}} className={value.quantity<=value.margin? classes.activeQuantityMargin : classes.quantityMargin} >{value.quantity}</TableCell>

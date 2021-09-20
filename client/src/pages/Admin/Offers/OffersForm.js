@@ -8,7 +8,7 @@ import { CirclePicker } from "react-color";
 import { useDispatch, useSelector } from "react-redux";
 import TextField from '@material-ui/core/TextField';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
-
+import Notification from "../../../components/Reusable/Notification";
 
 import '../adminStyles.css'
 
@@ -23,6 +23,11 @@ const OffersForm = () => {
   
     const [check, setCheck] = useState()
 
+    const [notify, setNotify] = useState({
+        isOpen: false,
+        message: "",
+        type: "",
+    });
 
     const oncollectionID = (e) => {
         setCollectionID(e.target.value)
@@ -47,7 +52,21 @@ const OffersForm = () => {
             to:to,
         }
 
-        axios.post("http://localhost:3001/offers", Data).then(() => {
+        axios.post("http://localhost:3001/offers", Data).then((response) => {
+
+            if (response.data.data == 0) {
+                setNotify({
+                    isOpen: true,
+                    message: 'Not successfully Added',
+                    type: 'error'
+                });
+            }else {
+                setNotify({
+                    isOpen: true,
+                    message: 'Successfully Added !',
+                    type: 'success'
+                });
+            } 
            
         });
        
@@ -103,6 +122,7 @@ const OffersForm = () => {
                         <TextField
                             className={classes.date}
                             id="date"
+                            required
                             label="Ending Date"
                             type="date"
                             name="to"
@@ -121,6 +141,7 @@ const OffersForm = () => {
                     />
                 </Box>
             </form>
+            <Notification notify={notify} setNotify={setNotify} />
         </div>
     );
 };

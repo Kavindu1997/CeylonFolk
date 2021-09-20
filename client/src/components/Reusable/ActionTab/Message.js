@@ -415,6 +415,7 @@ export default function Messages() {
 
           {/* new inquiry */}
           <ListItem
+          className={ContactUsValue != 0? classes.activeNotifi : classes.notifi} 
             // key={i}
             component={Button}
             onClick={viewInquiries}
@@ -428,6 +429,7 @@ export default function Messages() {
 
           {/* to be resolved */}
           <ListItem
+          className={UnsolvedValue != 0? classes.activeNotifi : classes.notifi}
             // key={i}
             component={Button}
             onClick={viewInquiries}
@@ -438,21 +440,20 @@ export default function Messages() {
           </ListItem>
 
           {/* reorder level notifications */}
-          {reOrderLevel
-            .map((value) => {
-              return (
+        
                 <ListItem
+                className={reOrderLevel.length != 0? classes.activeNotifi : classes.notifi}
                   // key={i}
                   component={Button}
                   component={Link} to="/inventory"
                   className={classes.listItemNotification}>
 
-                  <Typography variant="h8" component="div" whiteSpace="normal" >Refill Inventory Id:{value.id} from Inventory </Typography>
+                  {/* <Typography variant="h8" component="div" whiteSpace="normal" >Refill Inventory Id:{value.id} from Inventory </Typography> */}
+                  <Typography className={reOrderLevel.length != 0? classes.activeNotifi : classes.notifi} variant="h8" component="div" whiteSpace="normal" >You have {(reOrderLevel.length)} inventory items to refill </Typography>
 
 
                 </ListItem>
-              );
-            })}
+            
 
 {/* edited orders notifications */}
           <ListItem

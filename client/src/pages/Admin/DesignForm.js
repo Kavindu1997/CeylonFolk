@@ -8,7 +8,8 @@ import ButtonGroup from '@material-ui/core/ButtonGroup';
 import useStyles from './style';
 import { useDispatch, useSelector } from "react-redux";
 import { fetchColors } from '../../_actions/colorActions'
-import './adminStyles.css'
+import './adminStyles.css';
+import Notification from "../../components/Reusable/Notification";
 
 var collection_id = localStorage.getItem("collection_id");
 console.log(collection_id);
@@ -30,6 +31,12 @@ const DesignForm = () => {
         dispatch(fetchColors());
     }, []);
 
+    const [notify, setNotify] = useState({
+        isOpen: false,
+        message: "",
+        type: "",
+    });
+
 
     let history = useHistory();
 
@@ -50,7 +57,44 @@ const DesignForm = () => {
 
 
         axios.post("http://localhost:3001/designs", formData, config).then((response) => {
-    
+
+
+            if (response.data.data == 0) {
+                setNotify({
+                    isOpen: true,
+                    message: 'Not successfully Added!',
+                    type: 'error'
+                });
+            }
+            else if (response.data.data == 1) {
+                setNotify({
+                    isOpen: true,
+                    message: 'Successfully Added !',
+                    type: 'success'
+                });
+            }
+            else if (response.data.data == 2) {
+                setNotify({
+                    isOpen: true,
+                    message: 'This type and Colour is not in the inventory !',
+                    type: 'error'
+                });
+            }
+            else if (response.data.data == 3) {
+                setNotify({
+                    isOpen: true,
+                    message: 'This Design name is already exist !',
+                    type: 'error'
+                });
+            }
+            else if (response.data.data == 4) {
+                setNotify({
+                    isOpen: true,
+                    message: 'Price is not valid!',
+                    type: 'error'
+                });
+            }
+
         });
     };
 
@@ -111,12 +155,13 @@ const DesignForm = () => {
                                 variant="outlined"
                                 label="Design Name"
                                 name="designName"
+                                required
                                 onChange={changeCollectionDesign}
                             />
                         </Grid>
                         <Grid item xs={6}>
 
-                            <ButtonGroup variant="contained" color="primary" aria-label="split button" style={{ boxShadow: 'none' }}>
+                            <ButtonGroup variant="contained" color="primary" aria-label="split button" style={{ boxShadow: 'none' }} required>
                                 <select className={classes.icon} name="type" onChange={changeCollectionTypes}>
                                     <option value="">Type</option>
 
@@ -136,6 +181,7 @@ const DesignForm = () => {
                                 variant="outlined"
                                 name="photo"
                                 type="file"
+                                required
                                 onChange={onInputChange}
                             />
 
@@ -146,6 +192,7 @@ const DesignForm = () => {
                                 variant="outlined"
                                 label="Price"
                                 name="price"
+                                required
                                 onChange={changeCollectionPrice}
                             />
                         </Grid>
@@ -153,7 +200,8 @@ const DesignForm = () => {
 
                         <Box className={classes.tBox}>
                         <Typography>Select Color</Typography>
-                        <Box style={{ display: 'flex' }}>
+                        <Box style={{ display: 'flex' }} required>
+                            
                             {pickedItemColors.map((pickColor) => {
                                 const { color,id } = pickColor;
                                 return (
@@ -191,6 +239,7 @@ const DesignForm = () => {
 
                 </form>
             </div>
+            <Notification notify={notify} setNotify={setNotify} />
         </div >
        
     );

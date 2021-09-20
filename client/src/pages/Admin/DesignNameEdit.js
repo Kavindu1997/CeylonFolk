@@ -8,8 +8,8 @@ import ButtonGroup from '@material-ui/core/ButtonGroup';
 import useStyles from './style';
 import { useDispatch, useSelector } from "react-redux";
 import { fetchColors } from '../../_actions/colorActions'
-import './adminStyles.css'
-
+import './adminStyles.css';
+import Notification from "../../components/Reusable/Notification";
 
 var collection_id = localStorage.getItem("collection_id");
 
@@ -18,6 +18,12 @@ function DesignNameEdit({ selectedDesignId }) {
     const classes = useStyles();
     const [designName, setDesignName] = useState([]);
     const [check, setCheck] = useState()
+
+    const [notify, setNotify] = useState({
+        isOpen: false,
+        message: "",
+        type: "",
+    });
 
     const dispatch = useDispatch();
     useEffect(() => {
@@ -37,6 +43,27 @@ function DesignNameEdit({ selectedDesignId }) {
 
         axios.put(`http://localhost:3001/designs/editDesignName/${selectedDesignId.design_id}`, Data).then((response) => {
             
+            if (response.data.data == 0) {
+                setNotify({
+                    isOpen: true,
+                    message: 'Not successfully edited!',
+                    type: 'error'
+                });
+            }
+            else if (response.data.data == 1) {
+                setNotify({
+                    isOpen: true,
+                    message: 'Successfully Edited!',
+                    type: 'success'
+                });
+            }
+            else if (response.data.data == 2) {
+                setNotify({
+                    isOpen: true,
+                    message: 'Design name is already exist !',
+                    type: 'error'
+                });
+            }
 
 
         });
@@ -104,6 +131,7 @@ function DesignNameEdit({ selectedDesignId }) {
 })}
                 </form>
             </div>
+            <Notification notify={notify} setNotify={setNotify} />
         </div >
        
 
