@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-// import { Grid } from '@material-ui/core';
 import { Grid, Typography, Box } from '@material-ui/core';
 import { useForm, Form } from '../../components/Reusable/useForm';
 import Controls from '../../components/Reusable/Controls';
@@ -20,7 +19,6 @@ const DesignForm = () => {
     const classes = useStyles();
     const [file, setfile] = useState(null);
     const [designName, setDesignName] = useState([]);
-    // const [colour, setColour] = useState([]);
     const [color, setColor] = useState(["#ffffff"]);
     const [types, setTypes] = useState([]);
     const [price, setPrice] = useState([]);
@@ -37,8 +35,6 @@ const DesignForm = () => {
 
     const onFormSubmit = (e) => {
 
-        // e.preventDefault();
-
         const formData = new FormData();
         formData.append('photo', file);
         formData.append('designName', designName);
@@ -54,9 +50,7 @@ const DesignForm = () => {
 
 
         axios.post("http://localhost:3001/designs", formData, config).then((response) => {
-            // alert('Image upload Successfull');
-            // history.push('/designs');
-
+    
         });
     };
 
@@ -65,7 +59,7 @@ const DesignForm = () => {
     useEffect(() => {
 
         axios.get("http://localhost:3001/invent/types").then((response) => {
-            // console.log(response.data);
+         
             setListOfTypes(response.data);
         });
     }, []);
@@ -78,26 +72,26 @@ const DesignForm = () => {
 
     const changeCollectionDesign = (e) => {
         setDesignName(e.target.value);
-        console.log(e.target.value);
+    
     };
 
     const setCol = (e) => {
         setColor(e.target.value)
-        console.log(e.target.value)
+       
     }
 
     const changeCollectionTypes = (e) => {
         setTypes(e.target.value);
-        console.log(e.target.value);
+      
     };
 
     const changeCollectionPrice = (e) => {
         setPrice(e.target.value);
-        console.log(e.target.value);
+     
     };
 
     const handleCheck = (e) => {
-        // const { name, value } = e.target;
+     
 
     setCheck(e.target.value);
 
@@ -173,18 +167,11 @@ const DesignForm = () => {
                                             </label>
                                         </li>
                                     </ul>
-                                    // setPickerColorArray([...pickerColorArray, color])
+                                   
                                 );
                             })}
 
-                            {/* <CirclePicker id="circle-picker" width="max-content"
-                            circleSize={circleSize}
-                            colors={tshirt}
-                            onChange={color => {
-                                setColor(color.hex);;
-                                console.log(color.hex)
-                            }}
-                        /> */}
+                          
                         </Box>
                     </Box>
                             
@@ -205,62 +192,7 @@ const DesignForm = () => {
                 </form>
             </div>
         </div >
-        // {/* <Form onSubmit={handleSubmit}>
-        //     <Grid container>
-        //         <Grid item xs={6}>
-        //             <Controls.Input
-        //                 variant="outlined"
-        //                 label="Collection Name"
-        //                 name="collectionId"
-        //                 value={values.collectionId}
-        //                 onChange={handleInputChange}
-        //                 error={errors.collectionId}
-        //             />
-
-        //             <Controls.Input
-        //                 variant="outlined"
-        //                 label="Colour"
-        //                 name="collectionName"
-        //                 value={values.collectionName}
-        //                 onChange={handleInputChange}
-        //                 error={errors.collectionName}
-        //             />
-        //         </Grid>
-        //         <Grid item xs={6}>
-        //             <Controls.Input
-        //                 variant="outlined"
-        //                 label="Collection Type"
-        //                 name="collectionName"
-        //                 value={values.collectionName}
-        //                 onChange={handleInputChange}
-        //                 error={errors.collectionName}
-        //             />
-        //             <Controls.Input
-        //                 variant="outlined"
-        //                 label="Cover Image"
-        //                 name="collectionName"
-        //                 value={values.collectionName}
-        //                 onChange={handleInputChange}
-        //                 error={errors.collectionName}
-        //             />
-        //         </Grid>
-        //         <Grid item xs={12}>
-        //             <div style={{ paddingTop: '20px' }}>
-        //                 <Controls.Button
-        //                     type="submit"
-        //                     text="Add New Collection"
-        //                 />
-
-        //                 <Controls.Button
-        //                     color="default"
-        //                     text="Reset"
-        //                     onClick={resetForm}
-        //                 />
-        //             </div>
-        //         </Grid>
-        //     </Grid>
-        // </Form> */}
-
+       
     );
 };
 

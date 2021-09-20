@@ -12,39 +12,10 @@ const CollectionForm = () => {
     const [collectionName, setCollectionName] = useState([]);
     let history = useHistory();
 
-    // const onFormSubmit = (e, data) => {
-
-    //     e.preventDefault();
-
-    //     const formData = new FormData();
-    //     formData.append('photo', file);
-    //     console.log(file)
-    //     formData.append('collectionName', collectionName);
-    //     const config = {
-    //         headers: {
-    //             'content-type': 'multipart/form-data',
-    //         },
-    //     };
-
-
-
-    //     axios.post("http://localhost:3001/collection", formData, config).then((response) => {
-    //         // alert('Image upload Successfull');
-    //         // history.push('/collections');
-     
-
-    //     }).catch((err) => {
-    //         console.log('err', err);
-    //     })
-    // };
-
     const onFormSubmit = (e) => {
-
-        // e.preventDefault();
 
         const formData = new FormData();
         formData.append('photo', file);
-        console.log(file)
         formData.append('collectionName', collectionName);
         const config = {
             headers: {
@@ -54,12 +25,9 @@ const CollectionForm = () => {
 
         
         axios.post("http://localhost:3001/collection", formData, config).then((response) => {
-            // alert('Item Inserted Successfully')
+        
         });
 
-       
-            // alert('Image upload Successfull');
-            // history.push('/collections');
     
     };
 
@@ -69,7 +37,7 @@ const CollectionForm = () => {
 
     const changeCollection = (e) => {
         setCollectionName(e.target.value);
-        console.log(e.target.value);
+      
     };
 
 
@@ -95,10 +63,7 @@ const CollectionForm = () => {
                                 onChange={onInputChange}
                             />
                         </Grid>
-                        {/* <input type='file' name='photo' onChange={onInputChange} /> */}
-
-
-                        {/* <button type='submit'> Upload </button> */}
+                        
                         <Controls.Button
                             type="submit"
                             text="Add New Collection"
@@ -108,62 +73,7 @@ const CollectionForm = () => {
                 </form>
             </div>
         </div >
-        // {/* <Form onSubmit={handleSubmit}>
-        //     <Grid container>
-        //         <Grid item xs={6}>
-        //             <Controls.Input
-        //                 variant="outlined"
-        //                 label="Collection Name"
-        //                 name="collectionId"
-        //                 value={values.collectionId}
-        //                 onChange={handleInputChange}
-        //                 error={errors.collectionId}
-        //             />
-
-        //             <Controls.Input
-        //                 variant="outlined"
-        //                 label="Colour"
-        //                 name="collectionName"
-        //                 value={values.collectionName}
-        //                 onChange={handleInputChange}
-        //                 error={errors.collectionName}
-        //             />
-        //         </Grid>
-        //         <Grid item xs={6}>
-        //             <Controls.Input
-        //                 variant="outlined"
-        //                 label="Collection Type"
-        //                 name="collectionName"
-        //                 value={values.collectionName}
-        //                 onChange={handleInputChange}
-        //                 error={errors.collectionName}
-        //             />
-        //             <Controls.Input
-        //                 variant="outlined"
-        //                 label="Cover Image"
-        //                 name="collectionName"
-        //                 value={values.collectionName}
-        //                 onChange={handleInputChange}
-        //                 error={errors.collectionName}
-        //             />
-        //         </Grid>
-        //         <Grid item xs={12}>
-        //             <div style={{ paddingTop: '20px' }}>
-        //                 <Controls.Button
-        //                     type="submit"
-        //                     text="Add New Collection"
-        //                 />
-
-        //                 <Controls.Button
-        //                     color="default"
-        //                     text="Reset"
-        //                     onClick={resetForm}
-        //                 />
-        //             </div>
-        //         </Grid>
-        //     </Grid>
-        // </Form> */}
-
+      
     );
 };
 

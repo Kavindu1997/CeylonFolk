@@ -18,13 +18,10 @@ const SizeForm = () => {
 
     const onFormSubmit = (e) => {
 
-        // e.preventDefault();
-
         const Data = {
             size: size
         }
 
-        console.log(Data);
         axios.post("http://localhost:3001/sizes", Data).then((response) => {
 
             if (response.data.data==0){
@@ -43,12 +40,12 @@ const SizeForm = () => {
             } 
           
         });
-        // props.resetForm();
+      
     };
 
     const changeSize = (e) => {
         setSize(e.target.value);
-        console.log(e.target.value);
+     
     };
 
 

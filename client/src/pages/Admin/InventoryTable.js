@@ -1,15 +1,10 @@
-// import React, { useState } from "react";
 import PageHeader from "./PageHeader";
 import LayersIcon from "@material-ui/icons/Layers";
-// import { Grid, TextField } from '@material-ui/core';
 import { Search } from "@material-ui/icons";
 import AddIcon from "@material-ui/icons/Add";
-import CloseIcon from "@material-ui/icons/Close";
-import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 import InventoryForm from "./InventoryForm";
 import InventoryEdit from "./InventoryEdit";
 import {
-    makeStyles,
     Toolbar,
     InputAdornment,
 } from "@material-ui/core";
@@ -18,75 +13,27 @@ import Controls from "../../components/Reusable/Controls";
 import Popup from "../../components/Reusable/Popup";
 import Notification from "../../components/Reusable/Notification";
 import ConfirmDialog from "../../components/Reusable/ConfirmDialog";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchColors } from '../../_actions/colorActions'
-
-import Lottie from "react-lottie";
+import { useDispatch } from "react-redux";
 import Collection from "../../images/collection.json";
-// import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography, Button, Box } from '@material-ui/core';
 import axios from 'axios';
-// import { useEffect, useState } from 'react';
-// import InventorySearch from './InventorySearch';
-
-// import SearchBar from "material-ui-search-bar";
-
 import React, { useState, useEffect } from "react";
-
-
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography, Button, Box, Container } from '@material-ui/core';
-// import Popup from "../../components/Reusable/Popup";
-// import {
-//   makeStyles,
-//   Toolbar,
-//   InputAdornment,
-// } from "@material-ui/core";
-import { Grid, TextField } from '@material-ui/core';
-// import Controls from "../../components/Reusable/Controls";
+import { Table, TableBody, TableCell, TableHead, TableRow, Paper, Typography, Button, Box, Container } from '@material-ui/core';
 import useStyles from './style';
 import AdminNav from "../../components/Reusable/AdminNav";
 import DeleteIcon from '@material-ui/icons/Delete';
 
 
-// const headCells = [
-//     { id: "code", label: "Code" },
-//     { id: "colour", label: "Colour" },
-//     { id: "size", label: "Size" },
-//     { id: "type", label: "Type" },
-//     { id: "quantity", label: "Quantity" },
-//     { id: "margin", label: "Margin" },
-//     // { id: "code", label: "Code", disableSorting: true },
-// ];
-
 const InventoryTable = () => {
-
-
-    //Search Bar Things
 
     const classes = useStyles();
     const dispatch = useDispatch();
-
-
-    // On Page load display all records 
-    // const loadInventoryDetail = async () => {
-    //     var response = fetch('http://localhost:3001/inventSearch')
-    //         .then(function (response) {
-    //             return response.json();
-    //         })
-    //         .then(function (myJson) {
-    //             setRecord(myJson);
-    //         });
-    // }
-    // useEffect(() => {
-    //     loadInventoryDetail();
-    // }, []);
-
 
     const [listOfItems, setListOfItems] = useState([]);
 
     useEffect(() => {
 
         axios.get("http://localhost:3001/invent/inventory").then((response) => {
-            // console.log(response.data);
+          
             setListOfItems(response.data);
         });
     }, []);
@@ -103,12 +50,12 @@ const InventoryTable = () => {
     const [confirmDialog, setConfirmDialog] = useState({ isOpen: false, title: '', subTitle: '' })
 
     const openInPopup = (item) => {
-        // setRecordForEdit(item);
+      
         setOpenPopup(true);
     };
 
     const openInPopup1 = (item) => {
-        // setRecordForEdit(item);
+  
         setOpenPopup1(true);
     };
 
@@ -121,10 +68,7 @@ const InventoryTable = () => {
         },
     };
 
-    // const onSetId = (id) => { //'Itom007'
-    //     localStorage.setItem("inventory_id", id);
-    //     console.log(id);
-    // };
+  
 
     const onRemove = (id) => {
 
@@ -166,8 +110,6 @@ const InventoryTable = () => {
 
     const [filterFn, setFilterFn] = useState({ fn: items => { return items; } });
     const {
-        TblContainer,
-        TblHead,
         TblPagination,
         recordsAfterPagingAndSorting
     } = useTable(listOfItems,"", filterFn);
@@ -202,12 +144,11 @@ const InventoryTable = () => {
             <main className={classes.content}>
            
                 <PageHeader title="INVENTORY MANAGEMENT" icon={<LayersIcon fontSize="large" />} />
-                {/* <Lottie options={defaultOptions} height={150} width={150} style={{marginRight:'30px'}} />marginTop:'-150px', */}
+          
                 <Paper className={classes.pageContent}>
                     <Toolbar>
                         
-                                                
-                                                {/* <input type="text" id="form1" onKeyDown={loadRecordAgain} onKeyUp={searchRecords} onChange={(e) => setSearch(e.target.value)} class="form-control" placeholder="Search Item Here" style={{ backgroundColor: "#ececec", boxShadow: 'none', padding: '10px' }}  /> */}
+                           
                                                 <Controls.Input
                             label="Search Inventory"
                             className={classes.searchInput}

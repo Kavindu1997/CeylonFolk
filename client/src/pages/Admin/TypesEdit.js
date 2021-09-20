@@ -8,7 +8,7 @@ import { useHistory } from 'react-router-dom';
 
 function TypesEdit({ selectedTypeId }) {
 
-    // const [file, setfile] = useState(null);
+ 
     const [types, setTypes] = useState([]);
     const [price, setPrice] = useState([]);
     let history = useHistory();
@@ -18,50 +18,35 @@ function TypesEdit({ selectedTypeId }) {
 
     useEffect(() => {
         axios.get(`http://localhost:3001/types/${selectedTypeId.types_id}`).then((response) => {
-            console.log(response.data);
+        
             setListOfTypes(response.data);
         })
     }, []);
 
     const onFormSubmit = (e) => {
 
-        // e.preventDefault();
+      
 
         const Data = {
             types: types,
             price: price,
         }
 
-        // // const formData = new FormData();
-        // // formData.append('photo', file);
-        // formData.append('types', types);
-        // formData.append('price', price);
-        // const config = {
-        //     headers: {
-        //         'content-type': 'multipart/form-data',
-        //     },
-        // };
-
-
-
+       
         axios.put(`http://localhost:3001/types/${selectedTypeId.types_id}`, Data).then((response) => {
-            // alert('Upload Successfull');
-            // history.push('/collections');
+        
 
         });
     };
 
-    // const onInputChange = (e) => {
-    //     setfile(e.target.files[0])
-    // };
 
     const changeType = (e) => {
         setTypes(e.target.value);
-        console.log(e.target.value);
+      
     };
     const changePrice = (e) => {
         setPrice(e.target.value);
-        console.log(e.target.value);
+      
     };
 
 
@@ -82,15 +67,7 @@ function TypesEdit({ selectedTypeId }) {
                                 onChange={changeType}
                             />
                         </Grid>
-                        {/* <Grid item xs={6}>
-
-                            <Controls.Input
-                                variant="outlined"
-                                name="photo"
-                                type="file"
-                                onChange={onInputChange}
-                            />
-                        </Grid> */}
+                        
                         <Grid item xs={6}>
                             <Controls.Input
                                 variant="outlined"

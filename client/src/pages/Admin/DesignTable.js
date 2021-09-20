@@ -3,10 +3,9 @@ import PageHeader from "./PageHeader";
 import LayersIcon from "@material-ui/icons/Layers";
 import { Search } from "@material-ui/icons";
 import AddIcon from "@material-ui/icons/Add";
-import CloseIcon from "@material-ui/icons/Close";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 import DesignForm from "./DesignForm";
-import { makeStyles, Paper, TableBody, TableRow, TableCell, Toolbar, InputAdornment, Typography, Table, TableContainer, TableHead, Box, Button } from "@material-ui/core";
+import { Paper, TableBody, TableRow, TableCell, Toolbar, InputAdornment, Typography, Table, TableContainer, TableHead, Box, Button } from "@material-ui/core";
 import useTable from "../../components/Reusable/useTable";
 import Controls from "../../components/Reusable/Controls";
 import Popup from "../../components/Reusable/Popup";
@@ -16,8 +15,7 @@ import Collection from "../../images/collection.json";
 import AdminNav from "../../components/Reusable/AdminNav"
 import useStyles from './style';
 import axios from 'axios';
-import { actionDeleteCollection } from '../../_actions/collections';
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch} from "react-redux";
 import { useHistory } from 'react-router-dom';
 import DesignNameEdit from "./DesignNameEdit";
 import DesignImageEdit from "./DesignImageEdit";
@@ -26,7 +24,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 
 
 var collection_id = localStorage.getItem("collection_id");
-console.log(collection_id);
+
 
 const DesignTable = () => {
     const classes = useStyles();
@@ -44,16 +42,13 @@ const DesignTable = () => {
     const [confirmDialog, setConfirmDialog] = useState({ isOpen: false, title: '', subTitle: '' });
     const dispatch = useDispatch();
 
-    // const { TblContainer, TblHead, TblPagination, recordsAfterPagingAndSorting } =
-    //     useTable("", headCells, "");
-
     const openInPopup = (item) => {
-        // setRecordForEdit(item);
+       
         setOpenPopup(true);
     };
 
     const openInPopup1 = (item) => {
-        // setRecordForEdit(item);
+       
         setOpenPopup1(true);
     };
 
@@ -68,29 +63,15 @@ const DesignTable = () => {
 
     const [listOfDesigns, setListOfDesigns] = useState([]);
 
-    let history = useHistory();
+  
 
     useEffect(() => {
         axios.get(`http://localhost:3001/designs/${collection_id}`).then((response) => {
-            console.log(response.data);
+       
             setListOfDesigns(response.data);
         })
     }, []);
 
-    // const onSetId = (id) => { //'Itom007'
-    //     localStorage.setItem("design_id", id);
-
-
-    // };
-
-
-    // function onProceed() {
-    //     // var id = localStorage.getItem("userId");
-
-    //       history.push('/inventory');
-
-
-    //   }
 
     const onRemove = (id) => {
 
@@ -119,7 +100,7 @@ const DesignTable = () => {
                     type: 'success'
                 });
                 axios.get(`http://localhost:3001/designs/${collection_id}`).then((response) => {
-                    console.log(response.data);
+                 
                     setListOfDesigns(response.data);
                 });
 
@@ -139,8 +120,7 @@ const DesignTable = () => {
 
     const [filterFn, setFilterFn] = useState({ fn: items => { return items; } });
     const {
-        TblContainer,
-        TblHead,
+      
         TblPagination,
         recordsAfterPagingAndSorting
     } = useTable(listOfDesigns, "", filterFn);

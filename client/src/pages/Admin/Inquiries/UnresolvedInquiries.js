@@ -21,7 +21,6 @@ function UnresolvedInquiries({ selectedInquiryId }) {
 
     useEffect(() => {
         axios.get(`http://localhost:3001/notifications/unsolvedInquiries/${selectedInquiryId.contactus_id}`).then((response) => {
-            console.log(response.data);
             setListOfUnsolvedInquiries(response.data);
         })
     }, []);
@@ -36,18 +35,18 @@ function UnresolvedInquiries({ selectedInquiryId }) {
 
         axios.put(`http://localhost:3001/notifications/unsolvedInquiries/${selectedInquiryId.contactus_id}`, Data).then((response) => {
             alert('insert Successfull');
-            // history.push('/collections');
+           
 
 
         }).catch((err) => {
-            console.log('err', err);
+       
         })
     };
 
 
     const changeResponse = (e) => {
         setResponse(e.target.value);
-        console.log(e.target.value);
+      
     };
  
 
@@ -85,62 +84,7 @@ function UnresolvedInquiries({ selectedInquiryId }) {
               );
             })}
         </div >
-        // {/* <Form onSubmit={handleSubmit}>
-        //     <Grid container>
-        //         <Grid item xs={6}>
-        //             <Controls.Input
-        //                 variant="outlined"
-        //                 label="Collection Name"
-        //                 name="collectionId"
-        //                 value={values.collectionId}
-        //                 onChange={handleInputChange}
-        //                 error={errors.collectionId}
-        //             />
-
-        //             <Controls.Input
-        //                 variant="outlined"
-        //                 label="Colour"
-        //                 name="collectionName"
-        //                 value={values.collectionName}
-        //                 onChange={handleInputChange}
-        //                 error={errors.collectionName}
-        //             />
-        //         </Grid>
-        //         <Grid item xs={6}>
-        //             <Controls.Input
-        //                 variant="outlined"
-        //                 label="Collection Type"
-        //                 name="collectionName"
-        //                 value={values.collectionName}
-        //                 onChange={handleInputChange}
-        //                 error={errors.collectionName}
-        //             />
-        //             <Controls.Input
-        //                 variant="outlined"
-        //                 label="Cover Image"
-        //                 name="collectionName"
-        //                 value={values.collectionName}
-        //                 onChange={handleInputChange}
-        //                 error={errors.collectionName}
-        //             />
-        //         </Grid>
-        //         <Grid item xs={12}>
-        //             <div style={{ paddingTop: '20px' }}>
-        //                 <Controls.Button
-        //                     type="submit"
-        //                     text="Add New Collection"
-        //                 />
-
-        //                 <Controls.Button
-        //                     color="default"
-        //                     text="Reset"
-        //                     onClick={resetForm}
-        //                 />
-        //             </div>
-        //         </Grid>
-        //     </Grid>
-        // </Form> */}
-
+       
     );
 };
 

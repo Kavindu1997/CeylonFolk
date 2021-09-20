@@ -33,11 +33,8 @@ const SizeTable = () => {
     const [confirmDialog, setConfirmDialog] = useState({ isOpen: false, title: '', subTitle: '' });
     const dispatch = useDispatch();
 
-    // const { TblContainer, TblHead, TblPagination, recordsAfterPagingAndSorting } =
-    //     useTable("", headCells, "");
-
     const openInPopup = (item) => {
-        // setRecordForEdit(item);
+       
         setOpenPopup(true);
     };
     const defaultOptions = {
@@ -54,7 +51,7 @@ const SizeTable = () => {
 
     useEffect(() => {
         axios.get("http://localhost:3001/sizes").then((response) => {
-            console.log(response.data);
+          
             setListOfSizes(response.data);
         })
     }, []);
@@ -89,7 +86,7 @@ const SizeTable = () => {
                   });
                  
             axios.get("http://localhost:3001/sizes").then((response) => {
-                console.log(response.data);
+            
                 setListOfSizes(response.data);
             });
                
@@ -102,7 +99,7 @@ const SizeTable = () => {
 
     };
 
-    const onSetId = (id) => { //'Itom007'
+    const onSetId = (id) => { 
         localStorage.setItem("sizes_id",id);
       
     

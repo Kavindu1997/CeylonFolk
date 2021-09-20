@@ -23,12 +23,12 @@ const AvailableColorsForm = () => {
 
     const changePrice = (e) => {
         setColorPrice(e.target.value);
-        console.log(e.target.value);
+      
     };
 
     const changeColourName = (e) => {
         setColorName(e.target.value);
-        console.log(e.target.value);
+        
     };
 
     const pickedCOlor = (props) => {
@@ -38,20 +38,10 @@ const AvailableColorsForm = () => {
             color_name: colorName,
         }
 
-        console.log(colors)
+   
         // setPickerColorArray([...pickerColorArray, pickerColor]);
         var result = dispatch(setColors(colors))
-        // console.log(result)
-
-        // if (result == 0) {
-        //     alert("Not Added to Color")
-        //     dispatch(fetchColors());
-        //     props.resetForm();
-        // } else {
-        //     alert("Added to color");
-        //     //   window.location.reload(true)
-        //     //   setColorPrice(''); 
-        // }
+       
     };
 
     return (

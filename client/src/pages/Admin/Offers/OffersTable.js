@@ -34,17 +34,13 @@ const OffersTable = () => {
     });
     const [confirmDialog, setConfirmDialog] = useState({ isOpen: false, title: '', subTitle: '' })
     const today = new Date().toISOString().slice(0, 10);
-    const dispatch = useDispatch();
-
-    // const { TblContainer, TblHead, TblPagination, recordsAfterPagingAndSorting } =
-    //     useTable("", headCells, "");
 
     const openInPopup = (item) => {
-        // setRecordForEdit(item);
+       
         setOpenPopup(true);
     };
     const openInPopup1 = (item) => {
-        // setRecordForEdit(item);
+      
         setOpenPopup1(true);
     };
 
@@ -62,37 +58,12 @@ const OffersTable = () => {
 
     useEffect(() => {
         axios.get("http://localhost:3001/offers").then((response) => {
-            console.log(response.data);
+           
             setListOfOffers(response.data);
         })
     }, []);
 
 
-    // const onRemove = (id) => {
-
-    //     setConfirmDialog({
-    //         ...confirmDialog,
-    //         isOpen: false
-    //       });
-
-
-    //     // dispatch(actionDeleteCollection(id));
-
-    //     const data = { id: id }
-
-
-    //     axios.delete(`http://localhost:3001/offers`, { data }).then((response) => {
-
-    //         axios.get("http://localhost:3001/offers").then((response) => {
-    //             console.log(response.data);
-    //             setListOfOffers(response.data);
-    //         });
-
-    //     });
-
-
-
-    // };
     
     const onRemove = (id) => {
 
@@ -121,7 +92,7 @@ const OffersTable = () => {
                     type: 'success'
                 });
                 axios.get("http://localhost:3001/offers").then((response) => {
-                    console.log(response.data);
+                
                     setListOfOffers(response.data);
                 });
 
@@ -137,28 +108,9 @@ const OffersTable = () => {
     };
 
 
-    // function onProceed() {
-
-
-    //       history.push('/collections');
-
-
-    //   }
-
-
-    // const onSetId = (id) => { //'Itom007'
-    //     localStorage.setItem("collection_id", id);
-
-
-    // };
-
-// search
-
+   
 const [filterFn, setFilterFn] = useState({ fn: items => { return items; } });
 const {
-    TblContainer,
-    TblHead,
-    TblPagination,
     recordsAfterPagingAndSorting
 } = useTable(listOfOffers,"", filterFn);
 

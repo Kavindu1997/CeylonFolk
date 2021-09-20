@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-// import { Grid } from '@material-ui/core';
 import { Grid, Typography, Box } from '@material-ui/core';
 import { useForm, Form } from '../../components/Reusable/useForm';
 import Controls from '../../components/Reusable/Controls';
@@ -30,7 +29,6 @@ function DesignNameEdit({ selectedDesignId }) {
 
     const onFormSubmit = (e) => {
 
-        // e.preventDefault();
 
         const Data = {
            
@@ -38,8 +36,7 @@ function DesignNameEdit({ selectedDesignId }) {
         }
 
         axios.put(`http://localhost:3001/designs/editDesignName/${selectedDesignId.design_id}`, Data).then((response) => {
-            // alert('Image upload Successfull');
-            // history.push('/designs');
+            
 
 
         });
@@ -49,7 +46,7 @@ function DesignNameEdit({ selectedDesignId }) {
 
     const changeCollectionDesign = (e) => {
         setDesignName(e.target.value);
-        console.log(e.target.value);
+      
     };
 
 
@@ -65,7 +62,7 @@ function DesignNameEdit({ selectedDesignId }) {
     useEffect(() => {
 
         axios.get(`http://localhost:3001/designs/oneDesign/${selectedDesignId.design_id}`).then((response) => {
-            // console.log(response.data);
+           
             setListOfDesign(response.data);
         });
     }, []);

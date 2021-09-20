@@ -1,13 +1,7 @@
 import React, { useState, useEffect } from "react";
 import PageHeader from "../PageHeader";
 import LayersIcon from "@material-ui/icons/Layers";
-import { Search } from "@material-ui/icons";
-import AddIcon from "@material-ui/icons/Add";
-import CloseIcon from "@material-ui/icons/Close";
-import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
-// import CollectionForm from "./CollectionForm";
-import { makeStyles, Paper, TableBody, TableRow, TableCell, Toolbar, InputAdornment, Typography, Table, TableContainer, TableHead, Button } from "@material-ui/core";
-import useTable from "../../../components/Reusable/useTable";
+import { Paper, TableBody, TableRow, TableCell, Toolbar,Typography, Table, TableContainer, TableHead} from "@material-ui/core";
 import Controls from "../../../components/Reusable/Controls";
 import Popup from "../../../components/Reusable/Popup";
 import Notification from "../../../components/Reusable/Notification";
@@ -16,7 +10,6 @@ import Collection from "../../../images/collection.json";
 import AdminNav from "../../../components/Reusable/AdminNav"
 import useStyles from '../style';
 import axios from 'axios';
-import { useDispatch, useSelector } from "react-redux";
 import { Link } from 'react-router-dom';
 import UnresolvedInquiries from "./UnresolvedInquiries";
 import SkipPreviousIcon from '@material-ui/icons/SkipPrevious';
@@ -35,18 +28,13 @@ const InquiriesTable = () => {
         title: "",
         subTitle: "",
     });
-    const dispatch = useDispatch();
+   
     const [inquiryId, setInquiryId] = useState([]);
 
-    // const { TblContainer, TblHead, TblPagination, recordsAfterPagingAndSorting } =
-    //     useTable("", headCells, "");
 
     const openInPopup = (item) => {
-        // setRecordForEdit(item);
         setOpenPopup(true);
     };
-
-
 
     const defaultOptions = {
         loop: true,
@@ -76,13 +64,6 @@ const InquiriesTable = () => {
             setListOfSolvedInquiries(response.data);
         })
     }, []);
-
-
-    // const onSetId = (id) => { 
-      
-    //     localStorage.setItem("contactus_id", id);
-
-    // };
 
     function setInquiryIdtoChange(value) {
         setOpenPopup(true)
@@ -122,7 +103,7 @@ const InquiriesTable = () => {
                                             <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Order ID</TableCell>
                                             <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Contact No</TableCell>
                                             <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Email</TableCell>
-                                            {/* <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Message</TableCell> */}
+                                            
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
@@ -134,7 +115,7 @@ const InquiriesTable = () => {
                                                         <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.orderId}</TableCell>
                                                         <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.contactNo}</TableCell>
                                                         <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.email}</TableCell>
-                                                        {/* <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.message}</TableCell> */}
+                                                       
 
                                                         <TableCell align="center">
                                                             <Controls.Button

@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Grid, Typography, Box, Radio } from '@material-ui/core';
+import { Grid, Typography, Box} from '@material-ui/core';
 import Controls from '../../components/Reusable/Controls';
 import axios from 'axios';
 import "yup-phone";
 import useStyles from './style';
-import { CirclePicker } from "react-color";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchColors } from '../../_actions/colorActions'
 
@@ -17,9 +16,6 @@ import './adminStyles.css'
 const InventoryForm = () => {
 
     const classes = useStyles();
-
-    const [tshirt, setTshirt] = useState(["#fafafa", "#ffffff"]);
-    const [circleSize, setCircleSize] = useState(35);
     const [color, setColor] = useState(["#ffffff"]);
     const [size, setSize] = useState('');
     const [type, setType] = useState('');
@@ -35,9 +31,6 @@ const InventoryForm = () => {
     }, []);
 
     const pickedItemColors = useSelector((state) => state.colorReducer.pickerColor)
-    console.log('hello')
-    console.log(pickedItemColors)
-    console.log('hello')
 
     const onsize = (e) => {
         setSize(e.target.value)
@@ -54,23 +47,21 @@ const InventoryForm = () => {
     const onquantity = (e) => {
         setQuantity(e.target.value)
     }
-    // console.log(pickerColorArray)
+  
 
     const setCol = (e) => {
         setColor(e.target.value)
-        console.log(e.target.value)
+      
     }
 
     const handleCheck = (e) => {
-        // const { name, value } = e.target;
+     
 
     setCheck(e.target.value);
 
     }
 
     const sendItem = (e) => {
-
-        // e.preventDefault();
 
         const Data = {
             size: size,
@@ -82,9 +73,9 @@ const InventoryForm = () => {
 
         console.log(Data);
         axios.post("http://localhost:3001/invent/inventory", Data).then(() => {
-            // alert('Item Inserted Successfully')
+           
         });
-        // props.resetForm();
+    
     };
 
     const [listOfSizes, setListOfSizes] = useState([]);
@@ -92,7 +83,7 @@ const InventoryForm = () => {
     useEffect(() => {
 
         axios.get("http://localhost:3001/invent/sizes").then((response) => {
-            // console.log(response.data);
+          
             setListOfSizes(response.data);
         });
     }, []);
@@ -102,7 +93,7 @@ const InventoryForm = () => {
     useEffect(() => {
 
         axios.get("http://localhost:3001/invent/types").then((response) => {
-            // console.log(response.data);
+       
             setListOfTypes(response.data);
         });
     }, []);
@@ -187,18 +178,11 @@ const InventoryForm = () => {
                                             </label>
                                         </li>
                                     </ul>
-                                    // setPickerColorArray([...pickerColorArray, color])
+                                   
                                 );
                             })}
 
-                            {/* <CirclePicker id="circle-picker" width="max-content"
-                            circleSize={circleSize}
-                            colors={tshirt}
-                            onChange={color => {
-                                setColor(color.hex);;
-                                console.log(color.hex)
-                            }}
-                        /> */}
+                           
                         </Box>
                     </Box>
                 </Grid>

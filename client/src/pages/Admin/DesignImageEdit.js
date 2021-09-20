@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-// import { Grid } from '@material-ui/core';
 import { Grid, Typography, Box } from '@material-ui/core';
 import { useForm, Form } from '../../components/Reusable/useForm';
 import Controls from '../../components/Reusable/Controls';
@@ -29,8 +28,7 @@ function DesignImageEdit({ selectedDesignId }) {
 
     const onFormSubmit = (e, data) => {
 
-        // e.preventDefault();
-
+    
         const formData = new FormData();
         formData.append('photo', file);
         formData.append('collection_id', collection_id);
@@ -40,8 +38,7 @@ function DesignImageEdit({ selectedDesignId }) {
             },
         };
 
-        console.log(formData);
-
+       
         axios.put(`http://localhost:3001/designs/editImage/${selectedDesignId.design_id}`, formData, config).then((response) => {
     });
     };
@@ -56,7 +53,7 @@ function DesignImageEdit({ selectedDesignId }) {
    
 
     const handleCheck = (e) => {
-        // const { name, value } = e.target;
+       
 
     setCheck(e.target.value);
 
