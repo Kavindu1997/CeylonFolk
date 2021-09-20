@@ -13,6 +13,8 @@ import "yup-phone";
 import Select from '../../components/FormsUI/Select';
 import types from '../../components/Data/types.json';
 import useStyles from './style';
+import { useEffect, useState } from 'react';
+import Notification from '../../components/Reusable/Notification';
 
 const initialValues = {
   fullName: '',
@@ -33,23 +35,37 @@ const validationSchema = Yup.object().shape({
 
 });
 
-const onSubmit = (data, props) => {
-  axios.post("http://localhost:3001/contact/contactus", data).then((response) => {
-    console.log(data);
-    if (response.data.error) alert(response.data.error);
-            else {
-                alert("Message sent Successfully");
-            }
-  });
-  console.log(data);
-  props.resetForm();
-};
+
+
+
 
 
 export default function ContactUs() {
   const classes = useStyles();
 
   const [age, setAge] = React.useState('');
+  const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' });
+  const onSubmit = (data, props) => {
+    axios.post("http://localhost:3001/contact/contactus", data).then((response) => {
+      console.log(data);
+      if (response.data.error) {
+        setNotify({
+          isOpen: true,
+          message: 'Message Not Successfullt Sent !',
+          type: 'error'
+        });
+      }
+              else {
+                setNotify({
+                  isOpen: true,
+                  message: 'Message Successfullt Sent !',
+                  type: 'success'
+                });
+              }
+    });
+    console.log(data);
+    props.resetForm();
+  };
 
   const handleChange = (event) => {
     setAge(event.target.value);
@@ -176,6 +192,10 @@ export default function ContactUs() {
         </Grid>
       </Paper>
       <Footer/>
+      <Notification
+        notify={notify}
+        setNotify={setNotify}
+      />
     </container>
 
   );

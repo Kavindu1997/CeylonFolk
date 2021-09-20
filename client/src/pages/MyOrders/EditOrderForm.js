@@ -183,7 +183,7 @@ const EditOrderForm = ({ selectedOrderToEdit }) => {
                         <Grid item md={12} >
                             <Controls.Button
                                 type="submit"
-                                text="Confrim Edit"
+                                text="Confirm Edit"
                                 style={{ marginTop: "10px", marginLeft: "40%" }}
                                 onClick={onFormSubmit}
                                 disabled={isDisable}
