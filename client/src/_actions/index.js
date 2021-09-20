@@ -77,6 +77,15 @@ export const getCart = () => async (dispatch) => {
     }
 };
 
+export const moveToTempCart = () => async (dispatch) => {
+        dispatch({ type: CART_CONSTS.REMOVE_TEMPORARY})
+    
+};
+
+export const refreshCart = () => async (dispatch) => {
+    dispatch({ type: CART_CONSTS.REFRESH_CART})
+
+};
 
 export const emptyCart = () => async (dispatch) => {
     var id = localStorage.getItem("userId");
