@@ -17,16 +17,13 @@ import { useParams } from 'react-router';
 import UserSideNav from '../../components/Navbars/UserSideNav';
 import CommonNav from '../../components/Navbars/CommonNav';
 import { API_URL } from '../../_constants';
+import ceylonforkapi from '../../api/index'
 
 export default function Deposit(props) {
     const classes = useStyles();
     let history = useHistory();
     const dispatch = useDispatch();
     let id, orderIdFromEmail;
-   
-    // if(localStorage.getItem("userId")=='0'){
-    //     history.push("/auth")
-    // }
 
     if (props.location.search) {
         var splitted = props.location.search.split("?id=", 2);
@@ -39,8 +36,9 @@ export default function Deposit(props) {
 
     var [orderId, setOrderId] = useState([]);
     const [file, setfile] = useState(null);
-    const orderDetails = useSelector(state => state.deposit.order);
     const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' });
+    const [orderDetails, setOrderDeatils] = useState([])
+    const  [isDisabled, setIsDisabled] = useState(true)
 
     const uid = localStorage.getItem("userId");
 
@@ -64,14 +62,19 @@ export default function Deposit(props) {
             id: id,
             orderId: orderId
         }
-        var result = dispatch(viewOrderDetails(data))
-        if (result == 0) {
-            setNotify({
-                isOpen: true,
-                message: 'Slip has already uploaded',
-                type: 'error'
-            });
-        }
+        ceylonforkapi.post("/deposit/order/",data).then((response) => {
+            if(response.data.length == 0){
+                setIsDisabled(true)
+                setNotify({
+                    isOpen: true,
+                    message: 'Slip has already uploaded',
+                    type: 'error'
+                });
+            }else{
+                setIsDisabled(false)
+                setOrderDeatils(response.data)
+            }
+        })
     }
 
     const setOId = (event) => {
@@ -101,6 +104,7 @@ export default function Deposit(props) {
         };
         axios.post(API_URL+"/depositCollection", formData, config).then((response) => {
             if(response.data.data==0){
+                localStorage.removeItem("orderIdFromEmail")
                 setNotify({
                     isOpen: true,
                     message: 'Slip is not successfully updated !',
@@ -184,7 +188,7 @@ export default function Deposit(props) {
                                             type="submit"
                                             variant="contained"
                                             color="primary"
-                                          
+                                          disabled={isDisabled}
                                         >Upload Slip
                                         </Button>
                                    
@@ -196,9 +200,10 @@ export default function Deposit(props) {
                                             <TableRow>
                                                 <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Image</TableCell>
                                                 <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Product</TableCell>
+                                                <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Quantity</TableCell>
                                                 <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Totals</TableCell>
                                             </TableRow>
-                                        </TableHead>
+                                        </TableHead>                        
                                         <TableBody>
                                             {orderDetails
                                                 .map((value) => {
@@ -206,6 +211,7 @@ export default function Deposit(props) {
                                                         <TableRow>
                                                             <TableCell align="center" style={{ fontFamily: 'Montserrat' }}><img height={100} align="center" src={API_URL+'/' + value.coverImage}></img></TableCell>
                                                             <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.design_name}</TableCell>
+                                                            <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.quantity }</TableCell>
                                                             <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.totals}</TableCell>
                                                         </TableRow>
                                                     );
