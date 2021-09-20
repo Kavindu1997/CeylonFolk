@@ -6,13 +6,19 @@ import { useHistory } from 'react-router-dom';
 import useStyles from './style';
 import { useDispatch} from "react-redux";
 import { fetchColors } from '../../_actions/colorActions'
-import './adminStyles.css'
+import './adminStyles.css';
+import Notification from "../../components/Reusable/Notification";
 
 function DesignPriceEdit({ selectedDesignId }) {
 
     const classes = useStyles();
     const [price, setPrice] = useState([]);
    
+    const [notify, setNotify] = useState({
+        isOpen: false,
+        message: "",
+        type: "",
+    });
 
     const dispatch = useDispatch();
     useEffect(() => {
@@ -28,6 +34,27 @@ function DesignPriceEdit({ selectedDesignId }) {
         }
 
         axios.put(`http://localhost:3001/designs/editPrice/${selectedDesignId.design_id}`,Data).then((response) => {
+            if (response.data.data == 0) {
+                setNotify({
+                    isOpen: true,
+                    message: 'Not successfully edited',
+                    type: 'error'
+                });
+            }else if (response.data.data == 1) {
+                setNotify({
+                    isOpen: true,
+                    message: 'Successfully edited!',
+                    type: 'success'
+                });
+            } 
+            
+            else if(response.data.data == 2) {
+                setNotify({
+                    isOpen: true,
+                    message: 'Invalid Price !',
+                    type: 'error'
+                });
+            }
         
         });
     };
@@ -88,6 +115,7 @@ function DesignPriceEdit({ selectedDesignId }) {
 })}
                 </form>
             </div>
+            <Notification notify={notify} setNotify={setNotify} />
         </div >
        
 

@@ -4,6 +4,7 @@ import { useForm, Form } from '../../components/Reusable/useForm';
 import Controls from '../../components/Reusable/Controls';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
+import Notification from "../../components/Reusable/Notification";
 
 
 const SizeForm = () => {
@@ -15,6 +16,8 @@ const SizeForm = () => {
         message: "",
         type: "",
     });
+
+   
 
     const onFormSubmit = (e) => {
 
@@ -30,14 +33,21 @@ const SizeForm = () => {
                     message: 'Insert Failed !',
                     type: 'error'
                 });
-            }else{
+            }
+            else if (response.data.data == 1) {
                 setNotify({
                     isOpen: true,
-                    message: 'Added Successfully !',
+                    message: 'Successfully Added !',
                     type: 'success'
-                  });
-                      
-            } 
+                });
+            }
+            else if (response.data.data == 2) {
+                setNotify({
+                    isOpen: true,
+                    message: 'Already Exist !',
+                    type: 'error'
+                });
+            }
           
         });
       
@@ -59,6 +69,7 @@ const SizeForm = () => {
                                 variant="outlined"
                                 label="Size"
                                 name="size"
+                                required
                                 onChange={changeSize}
                             />
                         </Grid>
@@ -71,6 +82,7 @@ const SizeForm = () => {
 
                 </form>
             </div>
+            <Notification notify={notify} setNotify={setNotify} />
         </div >
  
 

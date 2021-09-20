@@ -3,13 +3,19 @@ import { Grid } from '@material-ui/core';
 import Controls from '../../components/Reusable/Controls';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
+import Notification from "../../components/Reusable/Notification";
+
 
 function EditCollectionForm({ selectedCollectionId }) {
 
     const [file, setfile] = useState(null);
     const [collectionName, setCollectionName] = useState([]);
   
-
+    const [notify, setNotify] = useState({
+        isOpen: false,
+        message: "",
+        type: "",
+    });
     const onFormSubmit = (e) => {
 
      
@@ -27,7 +33,28 @@ function EditCollectionForm({ selectedCollectionId }) {
 
         axios.put(`http://localhost:3001/collection/edit/${selectedCollectionId.collection_id}`, formData, config).then((response) => {
            
-
+            if (response.data.data == 0) {
+                setNotify({
+                    isOpen: true,
+                    message: 'Not successfully edited',
+                    type: 'error'
+                });
+            }else if (response.data.data == 1) {
+                setNotify({
+                    isOpen: true,
+                    message: 'Successfully Edited!',
+                    type: 'success'
+                });
+            } 
+            
+            else if(response.data.data == 2) {
+                setNotify({
+                    isOpen: true,
+                    message: 'This collection is already exist !',
+                    type: 'error'
+                });
+            }
+         
         });
     };
 
@@ -95,6 +122,8 @@ function EditCollectionForm({ selectedCollectionId }) {
                 </form>
               
             </div>
+            
+            <Notification notify={notify} setNotify={setNotify} />
         </div >
        
     );

@@ -32,9 +32,10 @@ const upload = multer({
 });
 
 router.post("/", upload.single('photo'), async(req, res) => {
-
-
  
+try{
+  
+
     const { types,price} = req.body;
 
     const count = "SELECT count(id) as cnt FROM `types` where types.types='" + types + "'";
@@ -42,18 +43,36 @@ router.post("/", upload.single('photo'), async(req, res) => {
     
     const imagePath = 'public/tshirt_types/' + req.file.filename;
 
-    if(countTypes[0].cnt==0){
-    Types.create({
-        types:types,
-        coverImage: imagePath,
-        price:price,
-    })
-    res.status(200).json({
-        success: "Success"
-    })
-}
+    if(price>0){
+
+        if(countTypes[0].cnt==0){
+            Types.create({
+                types:types,
+                coverImage: imagePath,
+                price:price,
+            })
+            res.status(200).json({
+                success: "Success"
+            })
+        
+            res.json({data:1});
+        }
+        else{
+            res.json({data:3}); 
+        }
+
+    }
+    else{
+        res.json({data:2}); 
+    }
 
     
+}
+catch(e){
+    res.json({data:0});
+}
+
+
 });
 
 router.get("/", async (req, res) => {
@@ -98,36 +117,61 @@ router.delete("/", async (req,res) => {
 
 router.put("/:types_id", async (req,res) => {
 
-    const types_id = req.params.types_id;
-    const types = req.body.types;
-    const price= req.body.price;
-
-    console.log(types)
-
-
-        if(types=='' && price!=''){
-            
-            const query = "UPDATE types SET price='" + price + "' WHERE types.id='" + types_id + "'";
-            const updateTypes = await sequelize.query(query, {type: sequelize.QueryTypes.UPDATE});
-            res.json(updateTypes); 
-            
+   
+            try {
+               
+                const types_id = req.params.types_id;
+                const types = req.body.types;
+                const price= req.body.price;
     
-        }
-        else if(types!='' && price==''){
+            
+                    if(types=='' && price!=''){
+                        if(price>0){
+                            const query = "UPDATE types SET price='" + price + "' WHERE types.id='" + types_id + "'";
+                            const updateTypes = await sequelize.query(query, {type: sequelize.QueryTypes.UPDATE});
+                            res.json({ data: 1 });
 
-            const query = "UPDATE types SET types='" + types + "' WHERE types.id='" + types_id + "'";
-            const updateTypes = await sequelize.query(query, {type: sequelize.QueryTypes.UPDATE});
-            res.json(updateTypes); 
-      
-        }
-        else if(types!='' && price!=''){
+                        }
+                          
+                
+                    }
+                    else if(types!='' && price==''){
 
-            const query = "UPDATE types SET types='" + types + "',price='" + price + "' WHERE types.id='" + types_id + "'";
-            const updateTypes = await sequelize.query(query, {type: sequelize.QueryTypes.UPDATE});
-            res.json(updateTypes); 
+                        const count = "SELECT count(id) as cnt FROM `types` where types.types='" + types + "'";
+                        const countTypes = await sequelize.query(count, {type: sequelize.QueryTypes.SELECT});
 
+                        if(countTypes[0].cnt==0){
+                            const query = "UPDATE types SET types='" + types + "' WHERE types.id='" + types_id + "'";
+                        const updateTypes = await sequelize.query(query, {type: sequelize.QueryTypes.UPDATE});
+                        res.json({ data: 1 });
+                  
+                        }
+            
+                        
+                    }
+                    else if(types!='' && price!=''){
+                        const count = "SELECT count(id) as cnt FROM `types` where types.types='" + types + "'";
+                        const countTypes = await sequelize.query(count, {type: sequelize.QueryTypes.SELECT});
 
+                        if(price>0){
+
+                            if(countTypes[0].cnt==0){
+                                const query = "UPDATE types SET types='" + types + "',price='" + price + "' WHERE types.id='" + types_id + "'";
+                            const updateTypes = await sequelize.query(query, {type: sequelize.QueryTypes.UPDATE});
+                            res.json({ data: 1 });
+                            }
+                            
+                
+                        }
+            
+                          
+                        }
+            
+            
               
+            }
+            catch (e) {
+                res.json({ data: 0 });
             }
 
 });
