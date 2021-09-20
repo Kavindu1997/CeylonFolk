@@ -213,10 +213,29 @@ router.delete("/inventory", async (req,res) => {
          
     console.log(req.body);
     const id = req.body.id;
+
+    const count = "SELECT count(inventories.id) as cnt FROM `inventories` INNER JOIN `designs` on inventories.colour_id=designs.color_id and inventories.type_id=designs.type_id where inventories.id='" + id + "' ";
+    const countDesigns = await sequelize.query(count, { type: sequelize.QueryTypes.SELECT });
+    console.log(countDesigns[0].cnt);
+  
+if(countDesigns[0].cnt==0){
+
     const query = "DELETE FROM inventories WHERE inventories.id='" + id + "' ";
 
     const inventoryItemRemove = await sequelize.query(query, {type: sequelize.QueryTypes.DELETE});
         res.json({data:1});
+
+}
+else{
+
+    const query = "UPDATE inventories SET quantity='0' WHERE inventories.id='" + id + "'";
+    const updateInvent = await sequelize.query(query, {type: sequelize.QueryTypes.UPDATE});
+    res.json({data:2});
+
+
+}
+
+
     }
     catch(e){
         res.json({data:0});

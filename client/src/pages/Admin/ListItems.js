@@ -12,10 +12,8 @@ import PaletteIcon from '@material-ui/icons/Palette';
 import ZoomOutMapIcon from '@material-ui/icons/ZoomOutMap';
 import ExtensionIcon from '@material-ui/icons/Extension';
 import StorageIcon from '@material-ui/icons/Storage';
-
 import ListAltIcon from '@material-ui/icons/ListAlt';
 import AccountBalanceIcon from '@material-ui/icons/AccountBalance';
-
 import LocalOfferIcon from '@material-ui/icons/LocalOffer';
 import ContactSupportIcon from '@material-ui/icons/ContactSupport';
 import ViewListIcon from '@material-ui/icons/ViewList';

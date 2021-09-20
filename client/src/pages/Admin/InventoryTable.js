@@ -87,11 +87,25 @@ const InventoryTable = () => {
                     message: 'Removed Failed !',
                     type: 'error'
                 });
-            }else{
-               
+            }
+            else if(response.data.data==1){
                 setNotify({
                     isOpen: true,
                     message: 'Removed Successfully !',
+                    type: 'success'
+                  });
+                  axios.get("http://localhost:3001/invent/inventory").then((response) => {
+                    setListOfItems(response.data);
+                });
+
+            }
+            else  if(response.data.data==2){
+               
+                
+
+                setNotify({
+                    isOpen: true,
+                    message: 'Updated Quantity as 0 !',
                     type: 'success'
                   });
                   axios.get("http://localhost:3001/invent/inventory").then((response) => {
@@ -219,7 +233,7 @@ const InventoryTable = () => {
                                                                 setConfirmDialog({
                                                                     isOpen: true,
                                                                     title: 'Are you sure to delete this?',
-                                                                    subTitle: "You can't undo this operation...",
+                                                                    subTitle: "If there are designs which are related to this inventory item, then the quantity will set to 0. Otherwise this item will be deleted",
                                                                     onConfirm: () => { onRemove(value.id) }
                                                                 })
                                                             }}>
