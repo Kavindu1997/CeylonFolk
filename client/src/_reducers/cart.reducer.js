@@ -5,6 +5,7 @@ const initState = {
     cartCount: 0,
     totalAmount: 0,
     totalAmountDeduct: 0,
+    temporaryCart:[],
 }
 
 export const cart = (state = initState, action) => {
@@ -42,6 +43,20 @@ export const cart = (state = initState, action) => {
                 cart: action.payload,
             };
 
+        case CART_CONSTS.REMOVE_TEMPORARY:
+            return {
+                ...state,
+                temporaryCart: state.cart,
+                cart: [],
+            };
+
+        case CART_CONSTS.REFRESH_CART:
+            return{
+                ...state,
+                cart: state.temporaryCart,
+                temporaryCart: [],
+            }
+
         case CART_CONSTS.CALCULATE_TOTAL_WHEN_CHANGED:
             return {
                 ...state,
@@ -62,6 +77,8 @@ export const cart = (state = initState, action) => {
                 item => (item.productId === action.payload.id && item.size === action.payload.size)
             );
             updatedCart.splice(updatedItemIndex, 1);
+            console.log(updatedCart)
+            state.cart= []
             return { ...state, cart: updatedCart };
 
         case CART_CONSTS.GET_TOTAL:
