@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import useStyles from './style';
 import { useDispatch, useSelector } from "react-redux";
-import { decrementCartCount, actionGetTotalDeduct, actionDeleteItem, calculateCartCount, getCart, getTotal, deleteCartUsingID, updateCartQuantity, actionUpdateItem, calculateTotalWhenChanged, emtyTotalLogout, emptyCartLogout } from '../../_actions/index';
+import { refreshCart,moveToTempCart, decrementCartCount, actionGetTotalDeduct, actionDeleteItem, calculateCartCount, getCart, getTotal, deleteCartUsingID, updateCartQuantity, actionUpdateItem, calculateTotalWhenChanged, emtyTotalLogout, emptyCartLogout, emptyCart } from '../../_actions/index';
 import NumericInput from 'react-numeric-input';
 import Notification from '../../components/Reusable/Notification';
 import ConfirmDialog from '../../components/Reusable/ConfirmDialog';
@@ -43,7 +43,7 @@ export default function Cart() {
       isOpen: false
     });
     var uid = localStorage.getItem("userId")
-    if (uid > 0) {
+    if (uid != '0') {
       // dispatch(deleteCartUsingID(id,size))
       const data = { userId: uid, itemId: id, size: size }
       ceylonforkapi.put("/check/remove/", data).then((response) => {
@@ -55,6 +55,7 @@ export default function Cart() {
           });
         }
         else {
+          // dispatch(emptyCart())
           dispatch(getCart())
           dispatch(getTotal())
           dispatch(decrementCartCount());
@@ -70,6 +71,8 @@ export default function Cart() {
     else {
       var item = { id: id, size: size }
       dispatch(actionDeleteItem(id, size));
+      // dispatch(moveToTempCart())
+      // dispatch(refreshCart())
       dispatch(decrementCartCount())
       dispatch(actionGetTotalDeduct());
       setNotify({
@@ -82,6 +85,9 @@ export default function Cart() {
   };
 
   useEffect(() => {
+    if(localStorage.getItem("userId")!='0'){
+      dispatch(emptyCart())
+    }
     dispatch(getCart())
     dispatch(getTotal())
   }, []);
@@ -191,7 +197,7 @@ export default function Cart() {
                         <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.size}</TableCell>
                         <TableCell align="center">
                           <div onClick={() => selectedQty(index,value.quantity)}>
-                          <NumericInput mobile min={1} max={value.stockMargin } defaultValue={value.quantity}  step={ 1 } precision={ 0 } size={ 1 }  onChange={updateQty}  onKeyDown={(event) => {event.preventDefault();}}  />
+                          <NumericInput mobile min={1} max={value.stockMargin } value={value.quantity}  step={ 1 } precision={ 0 } size={ 1 }  onChange={updateQty}  onKeyDown={(event) => {event.preventDefault();}}  />
                           </div>
                         </TableCell>
                         {/* <TableCell align="center" className={classes.numeric} style={{ fontFamily: 'Montserrat' }}>{value.quantity}</TableCell> */}

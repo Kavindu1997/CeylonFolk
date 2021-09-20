@@ -70,15 +70,11 @@ function Login() {
                 }
                 dispatch(emptyCart())
                 dispatch(emtyTotal())
-                dispatch(getCart())
-                dispatch(calculateCartCount())
                 localStorage.setItem("userId", response.data.id);
                 localStorage.setItem("fullname", response.data.firstName + ' ' + response.data.lastName)
                 localStorage.setItem("userEmail", response.data.email);
 
                 if (localStorage.getItem("fromTheCart") == "true") {
-                    dispatch(getCart())
-                    dispatch(calculateCartCount())
                     history.push("/cart");
                     localStorage.setItem("fromTheCart", false);
                 } else if (localStorage.getItem("fromTheEmail") == "true") {
