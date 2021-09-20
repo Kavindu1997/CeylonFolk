@@ -222,7 +222,7 @@ const CollectionTable = () => {
                                                                     setConfirmDialog({
                                                                         isOpen: true,
                                                                         title: 'Are you sure to delete this?',
-                                                                        subTitle: "You can't undo this operation...",
+                                                                        subTitle: "The designs which are related to this collection will be automatically deleted",
                                                                         onConfirm: () => { onRemove(value.id) }
                                                                     })
                                                                 }}>

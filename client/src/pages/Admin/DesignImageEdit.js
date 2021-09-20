@@ -8,7 +8,8 @@ import ButtonGroup from '@material-ui/core/ButtonGroup';
 import useStyles from './style';
 import { useDispatch, useSelector } from "react-redux";
 import { fetchColors } from '../../_actions/colorActions'
-import './adminStyles.css'
+import './adminStyles.css';
+import Notification from "../../components/Reusable/Notification";
 
 var collection_id = localStorage.getItem("collection_id");
 
@@ -23,6 +24,11 @@ function DesignImageEdit({ selectedDesignId }) {
         dispatch(fetchColors());
     }, []);
 
+    const [notify, setNotify] = useState({
+        isOpen: false,
+        message: "",
+        type: "",
+    });
 
     let history = useHistory();
 
@@ -40,6 +46,21 @@ function DesignImageEdit({ selectedDesignId }) {
 
        
         axios.put(`http://localhost:3001/designs/editImage/${selectedDesignId.design_id}`, formData, config).then((response) => {
+
+            if (response.data.data == 0) {
+                setNotify({
+                    isOpen: true,
+                    message: 'Not successfully Edited',
+                    type: 'error'
+                });
+            }else {
+                setNotify({
+                    isOpen: true,
+                    message: 'Successfully Edited !',
+                    type: 'success'
+                });
+            } 
+
     });
     };
 
@@ -91,6 +112,7 @@ function DesignImageEdit({ selectedDesignId }) {
 
                 </form>
             </div>
+            <Notification notify={notify} setNotify={setNotify} />
         </div >
        
 

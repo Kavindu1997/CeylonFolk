@@ -4,7 +4,7 @@ import { useForm, Form } from '../../components/Reusable/useForm';
 import Controls from '../../components/Reusable/Controls';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
-
+import Notification from "../../components/Reusable/Notification";
 
 function TypesEdit({ selectedTypeId }) {
 
@@ -15,6 +15,11 @@ function TypesEdit({ selectedTypeId }) {
 
     const [listOfTypes, setListOfTypes] = useState([]);
 
+    const [notify, setNotify] = useState({
+        isOpen: false,
+        message: "",
+        type: "",
+    });
 
     useEffect(() => {
         axios.get(`http://localhost:3001/types/${selectedTypeId.types_id}`).then((response) => {
@@ -35,6 +40,19 @@ function TypesEdit({ selectedTypeId }) {
        
         axios.put(`http://localhost:3001/types/${selectedTypeId.types_id}`, Data).then((response) => {
         
+            if (response.data.data == 0) {
+                setNotify({
+                    isOpen: true,
+                    message: 'Not successfully edited',
+                    type: 'error'
+                });
+            }else if (response.data.data == 1) {
+                setNotify({
+                    isOpen: true,
+                    message: 'Successfully Edited !',
+                    type: 'success'
+                });
+            } 
 
         });
     };
@@ -88,6 +106,8 @@ function TypesEdit({ selectedTypeId }) {
             </div>
                  );
                 })}
+
+<Notification notify={notify} setNotify={setNotify} />
         </div >
 
     );

@@ -30,16 +30,20 @@ router.get("/offerItem/:collection_id", async (req,res) => {
 
 
 router.post("/", async (req,res) => {
-    
+ 
+
+try{
+
+      
     const today = new Date().toISOString().slice(0, 10);
     console.log("checkdate");
     console.log(today);
     const query= "SELECT * from offers";
     const listOfOffers = await sequelize.query(query, {type: sequelize.QueryTypes.SELECT});
-    // console.log(listOfOffers);
+    
 
     const { collection_id,rate,to } = req.body;
-    // console.log(fullName)
+   
 
     const count = "SELECT count(id) as cnt FROM `offers` where offers.collection_id='" + collection_id + "' ";
     const countOffers = await sequelize.query(count, {type: sequelize.QueryTypes.SELECT});
@@ -52,31 +56,13 @@ router.post("/", async (req,res) => {
         from: today,
         to:to
     })
-    res.json("SUCCESS");
-    console.log("success")
-
-    // const queryInsert = "INSERT INTO offers (collection_id,rate,from,to) VALUES ('" + collection_id + "','" + rate + "','" + from + "','" + to + "')";
-    // const addSize = await sequelize.query(queryInsert, {type: sequelize.QueryTypes.INSERT});
 
     const queryCount= "SELECT count(id) as count FROM `designs` WHERE designs.collection_id='" + collection_id + "' ";
     const Countoffers = await sequelize.query(queryCount, {type: sequelize.QueryTypes.SELECT});
-    console.log(Countoffers[0].count);
     const cnt=Countoffers[0].count;
 
-    // const queryNew = "SELECT designs.id as design_id, designs.price as design_price, count(id) as count FROM `designs` WHERE designs.collection_id='" + collection_id + "' ";
     const queryNew = "SELECT * FROM `designs` WHERE designs.collection_id='" + collection_id + "' ";
     const NewOffer = await sequelize.query(queryNew, {type: sequelize.QueryTypes.SELECT});
-    console.log("new");
-    // console.log(NewOffer[0].design_id);
-    // // console.log(NewOffer[1].design_id);
-    // console.log(NewOffer[0].design_price);
-    // console.log(NewOffer[0].count);
-    console.log(NewOffer);
-    console.log(NewOffer[0].id);
-    console.log(NewOffer[1].id);
-    // console.log(NewOffer[0].design_price);
-
-   
 
     for (let i = 0; i < cnt; i++) {
 
@@ -90,17 +76,19 @@ router.post("/", async (req,res) => {
 
 
     }
-
+    res.json({data:1});
  
 }
+else{
 
+    res.json({data:0});
+}
 
-//    console.log(rate);
-
-
-    // res.json(addInvent); 
-
-   
+    
+}
+catch(e){
+    res.json({data:0});
+}  
   
   
 
@@ -131,103 +119,101 @@ router.delete("/", async (req,res) => {
 
 router.put("/:collection_id", async (req,res) => {
 
-    const collection_id = req.params.collection_id;
-    const today = new Date().toISOString().slice(0, 10);
-    const rate = req.body.rate;
-    const to = req.body.to;
-
-    console.log("ddd");
-    console.log(to);
-
-    console.log("datetime");
-    console.log(today);
-    console.log(to);
-
-    // const rate_to_query = "SELECT rate,to FROM offers WHERE offers.collection_id='" + collection_id + "' ";
-    // const rate_to = await sequelize.query(rate_to_query, {type: sequelize.QueryTypes.SELECT});
-  
-        if(rate=='' && to!=null){
-
-            if(to>=today){
-
+              try {
+          
+                const collection_id = req.params.collection_id;
+                const today = new Date().toISOString().slice(0, 10);
+                const rate = req.body.rate;
+                const to = req.body.to;
+            
+          
+                    if(rate=='' && to!=null){
+            
+                        if(to>=today){
+            
+                            
+                        const query = "UPDATE offers SET offers.to='" + to + "' WHERE offers.collection_id='" + collection_id + "'";
+                        const updateOffers = await sequelize.query(query, {type: sequelize.QueryTypes.UPDATE});
+                        res.json({ data: 1 });
+                        }
                 
-            const query = "UPDATE offers SET offers.to='" + to + "' WHERE offers.collection_id='" + collection_id + "'";
-            const updateOffers = await sequelize.query(query, {type: sequelize.QueryTypes.UPDATE});
-            res.json(updateOffers); 
-            }
-    
-        }
-        else if(rate!='' && to==''){
-
-            if(rate<100 && rate >0){
-         
-                const query = "UPDATE offers SET rate='" + rate + "' WHERE offers.collection_id='" + collection_id + "'";
-                const updateOffers = await sequelize.query(query, {type: sequelize.QueryTypes.UPDATE});
-                res.json(updateOffers);
-
-
-// update design table with new rate
-                const queryCount= "SELECT count(id) as count FROM `designs` WHERE designs.collection_id='" + collection_id + "' ";
-                const Countoffers = await sequelize.query(queryCount, {type: sequelize.QueryTypes.SELECT});
-                console.log(Countoffers[0].count);
-                const cnt=Countoffers[0].count;
+                    }
+                    else if(rate!='' && to==''){
             
-                const queryNew = "SELECT * FROM `designs` WHERE designs.collection_id='" + collection_id + "' ";
-                const NewOffer = await sequelize.query(queryNew, {type: sequelize.QueryTypes.SELECT});
-            
-                for (let i = 0; i < cnt; i++) {
-            
-                    const design_id=NewOffer[i].id;
-                    const price=NewOffer[i].price;
-                    const discounted_price = price- price*(rate/100);
-                    console.log("datacorrect=",discounted_price);
-            
-                    const queryDesign = "UPDATE designs SET discountedPrice='" + discounted_price + "'  WHERE designs.id='" + design_id + "' ";
-                    const updateColllection = await sequelize.query(queryDesign, {type: sequelize.QueryTypes.UPDATE});
+                        if(rate<100 && rate >0){
+                     
+                            const query = "UPDATE offers SET rate='" + rate + "' WHERE offers.collection_id='" + collection_id + "'";
+                            const updateOffers = await sequelize.query(query, {type: sequelize.QueryTypes.UPDATE});
+                         
             
             
-                }
-
-
-            }
-            
-      
-        }
-        else if(rate!='' && to!=''){
-
-            if(rate<100 && rate >0 && to>=today){
-
-                const query = "UPDATE offers SET rate='" + rate + "',offers.to='" + to + "'   WHERE offers.collection_id='" + collection_id + "'";
-                const updateOffers = await sequelize.query(query, {type: sequelize.QueryTypes.UPDATE});
-                res.json(updateOffers);
-
-            }
-
             // update design table with new rate
-            const queryCount= "SELECT count(id) as count FROM `designs` WHERE designs.collection_id='" + collection_id + "' ";
-            const Countoffers = await sequelize.query(queryCount, {type: sequelize.QueryTypes.SELECT});
-            console.log(Countoffers[0].count);
-            const cnt=Countoffers[0].count;
-        
-            const queryNew = "SELECT * FROM `designs` WHERE designs.collection_id='" + collection_id + "' ";
-            const NewOffer = await sequelize.query(queryNew, {type: sequelize.QueryTypes.SELECT});
-        
-            for (let i = 0; i < cnt; i++) {
-        
-                const design_id=NewOffer[i].id;
-                const price=NewOffer[i].price;
-                const discounted_price = price- price*(rate/100);
-                console.log("datacorrect=",discounted_price);
-        
-                const queryDesign = "UPDATE designs SET discountedPrice='" + discounted_price + "'  WHERE designs.id='" + design_id + "' ";
-                const updateColllection = await sequelize.query(queryDesign, {type: sequelize.QueryTypes.UPDATE});
-        
-        
-            }
+                            const queryCount= "SELECT count(id) as count FROM `designs` WHERE designs.collection_id='" + collection_id + "' ";
+                            const Countoffers = await sequelize.query(queryCount, {type: sequelize.QueryTypes.SELECT});
+                            const cnt=Countoffers[0].count;
+                        
+                            const queryNew = "SELECT * FROM `designs` WHERE designs.collection_id='" + collection_id + "' ";
+                            const NewOffer = await sequelize.query(queryNew, {type: sequelize.QueryTypes.SELECT});
+                        
+                            for (let i = 0; i < cnt; i++) {
+                        
+                                const design_id=NewOffer[i].id;
+                                const price=NewOffer[i].price;
+                                const discounted_price = price- price*(rate/100);
+                        
+                                const queryDesign = "UPDATE designs SET discountedPrice='" + discounted_price + "'  WHERE designs.id='" + design_id + "' ";
+                                const updateColllection = await sequelize.query(queryDesign, {type: sequelize.QueryTypes.UPDATE});
+                        
+                        
+                            }
+                            res.json({ data: 1 });
             
-           
-            }
+                        }
+                        
+                  
+                    }
+                    else if(rate!='' && to!=''){
+            
+                        if(rate<100 && rate >0 && to>=today){
+            
+                            const query = "UPDATE offers SET rate='" + rate + "',offers.to='" + to + "'   WHERE offers.collection_id='" + collection_id + "'";
+                            const updateOffers = await sequelize.query(query, {type: sequelize.QueryTypes.UPDATE});
+                            res.json({ data: 1 });
 
+                                  // update design table with new rate
+                        const queryCount= "SELECT count(id) as count FROM `designs` WHERE designs.collection_id='" + collection_id + "' ";
+                        const Countoffers = await sequelize.query(queryCount, {type: sequelize.QueryTypes.SELECT});
+                       
+                        const cnt=Countoffers[0].count;
+                    
+                        const queryNew = "SELECT * FROM `designs` WHERE designs.collection_id='" + collection_id + "' ";
+                        const NewOffer = await sequelize.query(queryNew, {type: sequelize.QueryTypes.SELECT});
+                    
+                        for (let i = 0; i < cnt; i++) {
+                    
+                            const design_id=NewOffer[i].id;
+                            const price=NewOffer[i].price;
+                            const discounted_price = price- price*(rate/100);
+                            
+                    
+                            const queryDesign = "UPDATE designs SET discountedPrice='" + discounted_price + "'  WHERE designs.id='" + design_id + "' ";
+                            const updateColllection = await sequelize.query(queryDesign, {type: sequelize.QueryTypes.UPDATE});
+                    
+                    
+                        }
+                        res.json({ data: 1 });
+                        }
+            
+                  
+                        
+                       
+                        }
+            
+               
+            }
+            catch (e) {
+                res.json({ data: 0 });
+            }
 });
 
 module.exports = router;

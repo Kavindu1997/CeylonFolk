@@ -16,24 +16,22 @@ router.get("/", async (req,res) => {
 
 router.post("/", async (req,res) => {
   
-  
-
     try{
-        console.log(req.body);
+       
         const size = req.body.size;
     
         const count = "SELECT count(id) as cnt FROM `sizes` where sizes.size='" + size + "'";
         const countSizes = await sequelize.query(count, {type: sequelize.QueryTypes.SELECT});
-        console.log(countSizes[0].cnt);
+     
 
         if(countSizes[0].cnt==0){
             const query = "INSERT INTO sizes (size) VALUES ('" + size + "')";
         const addSize = await sequelize.query(query, {type: sequelize.QueryTypes.INSERT});
-        // res.json(addSize); 
+       
         res.json({data:1});
         }
         else{
-            res.json({data:0});
+            res.json({data:2});
         }
        
         

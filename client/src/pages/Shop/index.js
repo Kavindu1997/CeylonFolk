@@ -252,8 +252,7 @@ const Shop = () => {
                 .then(function (myJson) {
                     setRecord(myJson);
                 });
-            console.log('thash')
-            console.log(response.data)
+          
         } else {
             var response = fetch(`http://localhost:3001/shop/shops/` + uid)
                 .then(function (response) {

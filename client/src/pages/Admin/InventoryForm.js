@@ -5,7 +5,8 @@ import axios from 'axios';
 import "yup-phone";
 import useStyles from './style';
 import { useDispatch, useSelector } from "react-redux";
-import { fetchColors } from '../../_actions/colorActions'
+import { fetchColors } from '../../_actions/colorActions';
+import Notification from "../../components/Reusable/Notification";
 
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 
@@ -29,6 +30,13 @@ const InventoryForm = () => {
     useEffect(() => {
         dispatch(fetchColors());
     }, []);
+
+    
+    const [notify, setNotify] = useState({
+        isOpen: false,
+        message: "",
+        type: "",
+    });
 
     const pickedItemColors = useSelector((state) => state.colorReducer.pickerColor)
 
@@ -72,7 +80,38 @@ const InventoryForm = () => {
         }
 
         console.log(Data);
-        axios.post("http://localhost:3001/invent/inventory", Data).then(() => {
+        axios.post("http://localhost:3001/invent/inventory", Data).then((response) => {
+
+            if (response.data.data == 0) {
+                setNotify({
+                    isOpen: true,
+                    message: 'Not successfully added ! ',
+                    type: 'error'
+                });
+            }else if (response.data.data == 1) {
+                setNotify({
+                    isOpen: true,
+                    message: 'Successfully Added !',
+                    type: 'success'
+                });
+            } 
+            
+            else if(response.data.data == 2) {
+                setNotify({
+                    isOpen: true,
+                    message: 'Quantity couldnt be greater than margin!',
+                    type: 'error'
+                });
+            }
+            else if(response.data.data == 3) {
+                setNotify({
+                    isOpen: true,
+                    message: 'This item is already exist ',
+                    type: 'error'
+                });
+            }
+ 
+
            
         });
     
@@ -193,6 +232,7 @@ const InventoryForm = () => {
                     />
                 </Box>
             </form>
+            <Notification notify={notify} setNotify={setNotify} />
         </div>
     );
 };

@@ -3,7 +3,7 @@ import { Grid } from '@material-ui/core';
 import Controls from '../../components/Reusable/Controls';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
-
+import Notification from "../../components/Reusable/Notification";
 
 const TypesForm = () => {
 
@@ -11,6 +11,12 @@ const TypesForm = () => {
     const [types, setTypes] = useState([]);
     const [price, setPrice] = useState([]);
     let history = useHistory();
+
+    const [notify, setNotify] = useState({
+        isOpen: false,
+        message: "",
+        type: "",
+    });
 
     const onFormSubmit = (e) => {
 
@@ -28,6 +34,35 @@ const TypesForm = () => {
 
 
         axios.post("http://localhost:3001/types", formData, config).then((response) => {
+
+            if (response.data.data == 0) {
+                setNotify({
+                    isOpen: true,
+                    message: 'Not successfully added!',
+                    type: 'error'
+                });
+            }else if (response.data.data == 1) {
+                setNotify({
+                    isOpen: true,
+                    message: 'Successfully Added !',
+                    type: 'success'
+                });
+            } 
+            
+            else if(response.data.data == 2) {
+                setNotify({
+                    isOpen: true,
+                    message: 'Invalid Price !',
+                    type: 'error'
+                });
+            }
+            else if(response.data.data == 3) {
+                setNotify({
+                    isOpen: true,
+                    message: 'Already exist',
+                    type: 'error'
+                });
+            }
             
         });
     };
@@ -56,6 +91,7 @@ const TypesForm = () => {
                                 variant="outlined"
                                 label="Type"
                                 name="types"
+                                required
                                 onChange={changeType}
                             />
                         </Grid>
@@ -65,6 +101,7 @@ const TypesForm = () => {
                                 variant="outlined"
                                 name="photo"
                                 type="file"
+                                required
                                 onChange={onInputChange}
                             />
                         </Grid>
@@ -73,6 +110,7 @@ const TypesForm = () => {
                                 variant="outlined"
                                 label="Price"
                                 name="price"
+                                required
                                 onChange={changePrice}
                             />
                         </Grid>
@@ -85,6 +123,7 @@ const TypesForm = () => {
 
                 </form>
             </div>
+            <Notification notify={notify} setNotify={setNotify} />
         </div >
        
     );

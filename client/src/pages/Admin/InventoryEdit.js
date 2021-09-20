@@ -7,6 +7,7 @@ import useStyles from './style';
 import { useDispatch} from "react-redux";
 import { fetchColors } from '../../_actions/colorActions'
 import './adminStyles.css'
+import Notification from "../../components/Reusable/Notification";
 
 
 function InventoryEdit ({ selectedInventoryId }) {
@@ -29,7 +30,11 @@ function InventoryEdit ({ selectedInventoryId }) {
     const onquantity = (e) => {
         setQuantity(e.target.value)
     }
-   
+    const [notify, setNotify] = useState({
+        isOpen: false,
+        message: "",
+        type: "",
+    });
 
     const onSubmit1 = (e) => {
 
@@ -40,7 +45,21 @@ function InventoryEdit ({ selectedInventoryId }) {
             quantity: quantity,
         }
 
-        axios.put(`http://localhost:3001/invent/inventory/${selectedInventoryId.inventory_id}`, Data).then(() => {
+        axios.put(`http://localhost:3001/invent/inventory/${selectedInventoryId.inventory_id}`, Data).then((response) => {
+
+            if (response.data.data == 0) {
+                setNotify({
+                    isOpen: true,
+                    message: 'Not successfully edited !',
+                    type: 'error'
+                });
+            } else {
+                setNotify({
+                    isOpen: true,
+                    message: 'Successfully edited !',
+                    type: 'success'
+                });
+            }
            
         });
       
@@ -112,6 +131,7 @@ function InventoryEdit ({ selectedInventoryId }) {
             </form>
                );
             })}
+            <Notification notify={notify} setNotify={setNotify} />
         </div>
     );
 };

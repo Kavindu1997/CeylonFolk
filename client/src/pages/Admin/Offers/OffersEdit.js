@@ -8,7 +8,7 @@ import { CirclePicker } from "react-color";
 import { useDispatch, useSelector } from "react-redux";
 import TextField from '@material-ui/core/TextField';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
-
+import Notification from "../../../components/Reusable/Notification";
 
 import '../adminStyles.css'
 
@@ -19,7 +19,12 @@ function OffersEdit({ selectedCollectionId }) {
     const [rate, setRate] = useState('');
     const [to, setTo] = useState('');
   
- 
+    const [notify, setNotify] = useState({
+        isOpen: false,
+        message: "",
+        type: "",
+    });
+
     const onrate = (e) => {
         setRate(e.target.value)
     }
@@ -41,8 +46,22 @@ function OffersEdit({ selectedCollectionId }) {
         }
 
        
-        axios.put(`http://localhost:3001/offers/${selectedCollectionId.collection_id}`, Data).then(() => {
-            // alert('Item Updated Successfully')
+        axios.put(`http://localhost:3001/offers/${selectedCollectionId.collection_id}`, Data).then((response) => {
+
+            if (response.data.data == 0) {
+                setNotify({
+                    isOpen: true,
+                    message: 'Not successfully Edited',
+                    type: 'error'
+                });
+            }else {
+                setNotify({
+                    isOpen: true,
+                    message: 'Successfully Edited !',
+                    type: 'success'
+                });
+            } 
+           
         });
         
     };
@@ -104,6 +123,8 @@ function OffersEdit({ selectedCollectionId }) {
             </form>
               );
             })}
+
+<Notification notify={notify} setNotify={setNotify} />
         </div>
     );
 };
