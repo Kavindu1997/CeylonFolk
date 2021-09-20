@@ -316,7 +316,7 @@ router.get("/getCustomizeCount", async (req, res) => {
         printedOrders = '',
     ]
 
-    const query1 = "SELECT COUNT(status) AS pendingCount FROM customizeorders WHERE status='Pending'";
+    const query1 = "SELECT COUNT(status) AS pendingCount FROM customizeorders WHERE status='Pending' AND deleteFlag='false'";
     const pending = await sequelize.query(query1, { type: sequelize.QueryTypes.SELECT });
 
     data = {
@@ -327,7 +327,7 @@ router.get("/getCustomizeCount", async (req, res) => {
         printedOrders: '',
     }
 
-    const query2 = "SELECT COUNT(status) AS acceptCount FROM customizeorders WHERE status='Accept'";
+    const query2 = "SELECT COUNT(status) AS acceptCount FROM customizeorders WHERE status='Accept' AND deleteFlag='false'";
     const accept = await sequelize.query(query2, { type: sequelize.QueryTypes.SELECT });
     data = {
         pendingOrders: pending[0].pendingCount,
@@ -337,7 +337,7 @@ router.get("/getCustomizeCount", async (req, res) => {
         printedOrders: '',
     }
 
-    const query3 = "SELECT COUNT(status) AS dispatchCount FROM customizeorders WHERE status='Dispatched'";
+    const query3 = "SELECT COUNT(status) AS dispatchCount FROM customizeorders WHERE status='Dispatched' AND deleteFlag='false'";
     const dispatched = await sequelize.query(query3, { type: sequelize.QueryTypes.SELECT });
     data = {
         pendingOrders: pending[0].pendingCount,
@@ -347,7 +347,7 @@ router.get("/getCustomizeCount", async (req, res) => {
         printedOrders: '',
     }
 
-    const query4 = "SELECT COUNT(status) AS rejectCount FROM customizeorders WHERE status='Rejected'";
+    const query4 = "SELECT COUNT(status) AS rejectCount FROM customizeorders WHERE status='Rejected' AND deleteFlag='false'";
     const rejected = await sequelize.query(query4, { type: sequelize.QueryTypes.SELECT });
     data = {
         pendingOrders: pending[0].pendingCount,
@@ -357,7 +357,7 @@ router.get("/getCustomizeCount", async (req, res) => {
         printedOrders: '',
     }
 
-    const query5 = "SELECT COUNT(status) AS printedCount FROM customizeorders WHERE status='Printed'";
+    const query5 = "SELECT COUNT(status) AS printedCount FROM customizeorders WHERE status='Printed' AND deleteFlag='false'";
     const printed = await sequelize.query(query5, { type: sequelize.QueryTypes.SELECT });
     data = {
         pendingOrders: pending[0].pendingCount,
@@ -382,7 +382,7 @@ router.get('/getSales', async (req, res) => {
 
 router.get('/getAllPendingCount', async (req, res) => {
     try {
-        const query1 = "CREATE OR REPLACE VIEW pendings AS SELECT COUNT(status) AS pendingCount FROM orders WHERE status='1' OR status='4' OR status='5' OR status='6' UNION ALL SELECT COUNT(status) AS pendingCount FROM customizeorders WHERE status='Pending' AND deleteFlag='f';";
+        const query1 = "CREATE OR REPLACE VIEW pendings AS SELECT COUNT(status) AS pendingCount FROM orders WHERE status='1' OR status='4' OR status='5' OR status='6' UNION ALL SELECT COUNT(status) AS pendingCount FROM customizeorders WHERE status='Pending' AND deleteFlag='false';";
         const query2 = "SELECT SUM(pendingCount) as sum_of_pendings FROM pendings;"
         const sumOfPendingCount = await sequelize.query(query2, { type: sequelize.QueryTypes.SELECT });
         res.json(sumOfPendingCount);
