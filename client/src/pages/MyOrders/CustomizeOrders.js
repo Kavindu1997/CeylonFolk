@@ -20,6 +20,10 @@ const CustCustomizeOrders = () => {
     const [openPopup, setOpenPopup] = useState(false);
     let history = useHistory();
 
+    if (localStorage.getItem("userId") == "0") {
+        history.push("/auth");
+    }
+
     useEffect(() => {
 
         var id = localStorage.getItem("userId");
