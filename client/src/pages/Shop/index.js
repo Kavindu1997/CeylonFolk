@@ -2,10 +2,6 @@ import React, { useEffect, useState } from "react";
 import { CssBaseline } from "@material-ui/core";
 import CommonNav from "../../components/Navbars/CommonNav";
 import Footer from "../../components/Footer/Footer";
-// import Product_grid from '../components/Product_grid/Product_grid';
-
-// import { DropDown } from '../components/Product_grid/DropDown';
-
 import {
     IconButton,
     Typography,
@@ -14,17 +10,10 @@ import {
     Grid,
     Card,
     CardActionArea,
-    CardActions,
     CardContent,
-    CardMedia,
     Link,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
-import Image from "../../images/cover6.jpg";
-import Collection1 from "../../images/ts1.jpg";
-import Collection2 from "../../images/ts2.jpg";
-import Collection3 from "../../images/ts3.jpg";
-import Collection4 from "../../images/ts4.jpg";
 import ButtonGroup from "@material-ui/core/ButtonGroup";
 import FavoriteBorderOutlinedIcon from "@material-ui/icons/FavoriteBorderOutlined";
 import axios from "axios";
@@ -38,7 +27,6 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import Notification from "../../components/Reusable/Notification";
 import ceylonforkapi from "../../api/index";
-
 
 
 const Shop = () => {
@@ -94,10 +82,7 @@ const Shop = () => {
         setChecked(true);
     }, []);
 
-    // useEffect(() => {
-    //     dispatch(fetchProducts());
-    //     setChecked(true);
-    // }, []);
+    
 
     const [listOfDesigns, setListOfDesigns] = useState([]);
 
@@ -197,7 +182,7 @@ const Shop = () => {
     }, []);
 
 
-    
+
     const doFilter = (e) => {
         axios
             .get("http://localhost:3001/shop/filterRecords", {
@@ -252,7 +237,7 @@ const Shop = () => {
                 .then(function (myJson) {
                     setRecord(myJson);
                 });
-          
+
         } else {
             var response = fetch(`http://localhost:3001/shop/shops/` + uid)
                 .then(function (response) {
@@ -275,10 +260,12 @@ const Shop = () => {
             <CommonNav />
             <div>
                 <center>
-                    <Typography variant="h4" className={classes.collectionTitle}>
+                    <Typography variant="h5" style={{ marginTop: '80px', textAlign: 'center', backgroundColor: '#C6C6C6', padding: '30px', fontFamily: 'Montserrat' }}>
                         SHOP
                     </Typography>
-                    <Grid item md={6}>
+                    <Grid item md={6}
+                    style={{ marginTop: "80px", marginBottom: "40px" }}
+                    >
                         <div className={classes.filter}>
                             <ButtonGroup
                                 variant="contained"
@@ -362,7 +349,7 @@ const Shop = () => {
                                 Filter
                             </Button>
 
-                            <Button variant="contained"  onClick={doAll}>
+                            <Button variant="contained" onClick={doAll}>
                                 All
                             </Button>
                         </div>
@@ -380,14 +367,6 @@ const Shop = () => {
                                     <Link style={{ textDecoration: "none" }}>
                                         <Card className={classes.card}>
                                             <CardActionArea>
-                                                {/* <CardMedia
-                                                    className={classes.media}
-                                                    style={{
-                                                        backgroundImage: `url('http://localhost:3001/${coverImage}')`
-                                                    }}
-                                                    title="Snowy"
-                                                /> */}
-
                                                 <img
                                                     style={{
                                                         width: "100%",
@@ -403,7 +382,7 @@ const Shop = () => {
                                                     }}
                                                 ></img>
 
-                                                <CardContent style={{height:'120px'}}>
+                                                <CardContent style={{ height: '120px' }}>
                                                     <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                                                         <Typography
                                                             gutterBottom
@@ -462,25 +441,25 @@ const Shop = () => {
 
                                                                     </Typography>
                                                                     <div>
-                                                                    <Typography
-                                                                        gutterBottom
-                                                                        variant="h6"
-                                                                        component="h2"
-                                                                        style={{ textAlign: "left", fontSize: "16px" }}
-                                                                    >
-                                                                        <s>{"LKR " + price}</s>
-                                                                    </Typography>
-                                                                        
+                                                                        <Typography
+                                                                            gutterBottom
+                                                                            variant="h6"
+                                                                            component="h2"
+                                                                            style={{ textAlign: "left", fontSize: "16px" }}
+                                                                        >
+                                                                            <s>{"LKR " + price}</s>
+                                                                        </Typography>
+
 
 
                                                                     </div>
                                                                 </div>
                                                                 <div>
-                                                                <span className={classes.offer22}>
-                                                                            {rate}%
-                                                                        </span>
+                                                                    <span className={classes.offer22}>
+                                                                        {rate}%
+                                                                    </span>
 
-                                                                    
+
 
                                                                 </div>
 

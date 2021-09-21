@@ -191,31 +191,23 @@ const Types = () => {
                     <Grid container spacing={0} >
 
                         {types.map((product) => {
-                            const { id, coverImage, design_name,price, isInWishList,ID,type_id } = product;
+                            const { id, coverImage, design_name,price, isInWishList,ID,type_id, discountedPrice, rate } = product;
                             return (
                                 <Grid item xs={12} sm={6} md={3} 
                                >
                                     <Link style={{ textDecoration: 'none' }}>
                                         <Card className={classes.card}>
                                             <CardActionArea>
-                                                {/* <CardMedia
-                                                    className={classes.media}
-                                                    style={{
-                                                        backgroundImage: `url('http://localhost:3001/${coverImage}')`
-                                                    }}
-                                                    title="Snowy"
-                                                /> */}
+                                                
                                                 <img style={{ width: '100%', overflow: 'hidden', objectFit: 'cover', hight: '293px' }} src={'http://localhost:3001/' + product.coverImage} alt=""  onClick={() => {
                                     history.push(`/productDetails/${ID}`);
                                 }}></img>
 
                                                 <CardContent>
-                                                    <div>
-                                                        <Typography gutterBottom variant="h9" component="h2" style={{ textAlign: 'left', fontSize: '16px' }}>{product.design_name}</Typography>
-                                                        
-                                                    </div>
+                                                    
                                                     <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                                                        <Typography gutterBottom variant="h6" component="h2" style={{ textAlign: 'left', fontSize: '16px' }}>{"LKR " + price}</Typography>
+                                                    <Typography gutterBottom variant="h9" component="h2" style={{ textAlign: 'left', fontSize: '16px' }}>{product.design_name}</Typography>
+                                                       
                                                         <IconButton
                                                             style={{
                                                                 padding: '0px',
@@ -236,6 +228,64 @@ const Types = () => {
                                                             />
                                                         </IconButton>
                                                         </div>
+                                                        <div
+                                                        style={{
+                                                            display: "flex",
+                                                            justifyContent: "space-between",
+                                                        }}
+                                                    >
+                                                        {discountedPrice === null ?
+                                                            <Typography
+                                                                gutterBottom
+                                                                variant="h6"
+                                                                component="h2"
+                                                                style={{ textAlign: "left", fontSize: "16px" }}
+                                                            >
+                                                                {"LKR " + price}
+                                                            </Typography>
+                                                            :
+                                                            <div style={{ display: 'flex' }}>
+                                                                <div >
+                                                                    <Typography
+                                                                        gutterBottom
+                                                                        variant="h6"
+                                                                        component="h2"
+                                                                        style={{ textAlign: "left", fontSize: "16px" }}
+                                                                    >
+
+                                                                        {"LKR " + discountedPrice}
+
+                                                                    </Typography>
+                                                                    <div>
+                                                                    <Typography
+                                                                        gutterBottom
+                                                                        variant="h6"
+                                                                        component="h2"
+                                                                        style={{ textAlign: "left", fontSize: "16px" }}
+                                                                    >
+                                                                        <s>{"LKR " + price}</s>
+                                                                    </Typography>
+                                                                        
+
+
+                                                                    </div>
+                                                                </div>
+                                                                <div>
+                                                                <span className={classes.offer22}>
+                                                                            {rate}%
+                                                                        </span>
+
+                                                                    
+
+                                                                </div>
+
+
+                                                            </div>
+
+                                                        }
+
+
+                                                    </div>
                                                 </CardContent>
                                             </CardActionArea>
                                             <CardActions></CardActions>
