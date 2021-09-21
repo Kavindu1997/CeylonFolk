@@ -29,7 +29,7 @@ const Footer = () => {
                         <Grid item xs={12} sm={4}>
                             <Typography variant="h5" component="div" gutterBottom>Get in Touch</Typography>
                             <Box>
-                                <Typography variant="body1" component="div" gutterBottom>+777123456</Typography>
+                                <Typography variant="body1" component="div" gutterBottom>+94 719 514 902</Typography>
                                 <Typography variant="body1" component="div" gutterBottom>ceylonfolk@gmail.com</Typography>
                                 <Icon>
                                     <Link style={{
@@ -37,13 +37,13 @@ const Footer = () => {
                                         '&:hover': {
                                             textDecoration: 'none'
                                         }
-                                    }} href="https://www.facebook.com/ceylonfolk"><FacebookIcon /> </Link>
+                                    }} href="https://www.facebook.com/ceylonfolk" target="_blank"><FacebookIcon /> </Link>
                                     <Link style={{
                                         textDecoration: 'none',
                                         '&:hover': {
                                             textDecoration: 'none'
                                         }
-                                    }} href="https://www.instagram.com/ceylonfolk/"><InstagramIcon /> </Link>
+                                    }} href="https://www.instagram.com/ceylonfolk/" target="_blank"><InstagramIcon /> </Link>
                                 </Icon>
                             </Box>
                         </Grid>
