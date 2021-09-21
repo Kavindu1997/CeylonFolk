@@ -76,7 +76,7 @@ router.post("/contactus", async(req, res) => {
                          } );  
         
               
-        
+                         res.json("SUCCESS");
         
             // res.json({ data: 1 });
        
