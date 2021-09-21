@@ -46,78 +46,85 @@ const upload = multer({
 });
 
 router.post("/", upload.single('photo'), async (req, res) => {
-    try{
+    try {
         const orderId = req.body.orderId;
         const imagePath = 'public/bankSlips/' + req.file.filename;
         const uid = req.body.uid;
         const date = req.body.date;
-        const query = "INSERT INTO deposits (customerId,orderId,slip,uploadedDate) VALUES('"+uid+"','"+orderId+"','"+imagePath+"','"+date+"')";
+        const query = "INSERT INTO deposits (customerId,orderId,slip,uploadedDate) VALUES('" + uid + "','" + orderId + "','" + imagePath + "','" + date + "')";
         const uploadslip = await sequelize.query(query, { type: sequelize.QueryTypes.INSERT });
-        const query1 = "UPDATE orders SET status='5' WHERE orderId='"+orderId+"'";
+        const query1 = "UPDATE orders SET status='5' WHERE orderId='" + orderId + "'";
         const updateOrder = await sequelize.query(query1, { type: sequelize.QueryTypes.UPDATE });
-        res.json({data:1});
+        res.json({ data: 1 });
     }
-    catch(e){
-        res.json({data:0});
+    catch (e) {
+        res.json({ data: 0 });
     }
-    
+
 });
 
-router.get("/allDepositSlips", async(req,res) => {
+router.get("/allDepositSlips", async (req, res) => {
     const query = "SELECT * FROM deposits INNER JOIN users ON users.id=deposits.customerId INNER JOIN orders ON orders.orderId=deposits.orderId INNER JOIN orderitems ON orderitems.orderId=orders.orderId INNER JOIN masterdata ON masterdata.id=orders.status GROUP BY deposits.orderId ORDER BY `orders`.`status` DESC";
     const deposits = await sequelize.query(query, { type: sequelize.QueryTypes.SELECT });
     res.json(deposits);
 })
 
-router.post("/paymentAccepted", async(req,res) => {
+router.get("/selectedDepositSlips/:oId", async (req, res) => {
+    const oId = req.params.oId;
+    const query = "SELECT * FROM deposits INNER JOIN users ON users.id=deposits.customerId INNER JOIN orders ON orders.orderId=deposits.orderId INNER JOIN orderitems ON orderitems.orderId=orders.orderId INNER JOIN masterdata ON masterdata.id=orders.status WHERE deposits.orderId = '" + oId + "' GROUP BY deposits.orderId ORDER BY `orders`.`status` DESC";
+    const deposits = await sequelize.query(query, { type: sequelize.QueryTypes.SELECT });
+    res.json(deposits);
+})
+
+router.post("/paymentAccepted", async (req, res) => {
     const orderId = req.body.orderId;
-    const query = "UPDATE deposits SET isValidated = '1',isProcessed='1' WHERE orderId='"+orderId+"' AND isValidated='0' AND isProcessed='0'";
+    const query = "UPDATE deposits SET isValidated = '1',isProcessed='1' WHERE orderId='" + orderId + "' AND isValidated='0' AND isProcessed='0'";
     const acceptPayment = await sequelize.query(query, { type: sequelize.QueryTypes.UPDATE });
-    const query1 = "UPDATE orders SET status = '3' WHERE orderId='"+orderId+"' AND status='5'";
+    const query1 = "UPDATE orders SET status = '3' WHERE orderId='" + orderId + "' AND status='5'";
     const orderproccessing = await sequelize.query(query1, { type: sequelize.QueryTypes.UPDATE });
-    const query2 = "SELECT * FROM users INNER JOIN deposits ON deposits.customerId=users.id INNER JOIN orders ON orders.orderId=deposits.orderId INNER JOIN masterdata ON masterdata.id=orders.PaymentMethod WHERE deposits.orderId='"+orderId+"'";
-    const customerDetails = await sequelize.query(query2, {type: sequelize.QueryTypes.SELECT});
+    const query2 = "SELECT * FROM users INNER JOIN deposits ON deposits.customerId=users.id INNER JOIN orders ON orders.orderId=deposits.orderId INNER JOIN masterdata ON masterdata.id=orders.PaymentMethod WHERE deposits.orderId='" + orderId + "'";
+    const customerDetails = await sequelize.query(query2, { type: sequelize.QueryTypes.SELECT });
     res.json(acceptPayment);
     var emailDetails = {
-        name: customerDetails[0].firstName +" "+ customerDetails[0].lastName,
+        name: customerDetails[0].firstName + " " + customerDetails[0].lastName,
         orderId: orderId,
         email: customerDetails[0].email,
         message: 'Dear customer, <br />Your payment has been successfully verified. Thank you for shopping with us.',
         description: customerDetails[0].decription,
-        url: 'http://localhost:3000/myOrders?id='+customerDetails[0].customerId+'',
+        url: 'http://localhost:3000/myOrders?id=' + customerDetails[0].customerId + '',
         subject: 'CeylonFolk payment confirmation',
         total: customerDetails[0].fullAmount,
         urlMsg: 'View order history'
     }
-   
-   var value = sendEmail(emailDetails)
+
+    var value = sendEmail(emailDetails)
 })
 
-router.post("/paymentRejected", async(req,res) => {
+router.post("/paymentRejected", async (req, res) => {
     const orderId = req.body.orderId;
-    const query = "UPDATE deposits SET isRejected = '1' WHERE orderId='"+orderId+"' AND isValidated='0' AND isProcessed='0' AND isRejected='0'";
+    const query = "UPDATE deposits SET isRejected = '1' WHERE orderId='" + orderId + "' AND isValidated='0' AND isProcessed='0' AND isRejected='0'";
     const rejectPayment = await sequelize.query(query, { type: sequelize.QueryTypes.UPDATE });
-    const query1 = "UPDATE orders SET status = '38' WHERE orderId='"+orderId+"' AND status='5'";
+    const query1 = "UPDATE orders SET status = '38' WHERE orderId='" + orderId + "' AND status='5'";
     const orderproccessing = await sequelize.query(query1, { type: sequelize.QueryTypes.UPDATE });
-    const query2 = "SELECT * FROM users INNER JOIN deposits ON deposits.customerId=users.id INNER JOIN orders ON orders.orderId=deposits.orderId INNER JOIN masterdata ON masterdata.id=orders.PaymentMethod WHERE deposits.orderId='"+orderId+"'";
-    const customerDetails = await sequelize.query(query2, {type: sequelize.QueryTypes.SELECT});
+    const query2 = "SELECT * FROM users INNER JOIN deposits ON deposits.customerId=users.id INNER JOIN orders ON orders.orderId=deposits.orderId INNER JOIN masterdata ON masterdata.id=orders.PaymentMethod WHERE deposits.orderId='" + orderId + "'";
+    const customerDetails = await sequelize.query(query2, { type: sequelize.QueryTypes.SELECT });
     res.json(rejectPayment);
     var emailDetails = {
-        name: customerDetails[0].firstName +" "+ customerDetails[0].lastName,
+        name: customerDetails[0].firstName + " " + customerDetails[0].lastName,
         orderId: orderId,
         email: customerDetails[0].email,
         message: 'Dear customer, <br />Your payment has been rejected. Please contact us: 0112345678',
         description: customerDetails[0].decription,
-        url: 'http://localhost:3000/myOrders?id='+customerDetails[0].customerId+'',
+        url: 'http://localhost:3000/myOrders?id=' + customerDetails[0].customerId + '',
         subject: 'CeylonFolk payment rejection',
         total: customerDetails[0].fullAmount,
         urlMsg: 'View order history'
     }
-   
-   var value = sendEmail(emailDetails)
+
+    var value = sendEmail(emailDetails)
 })
 
-async function sendEmail(emailDetails){
+async function sendEmail(emailDetails) {
     const htmlEmail = `
             <h4> ${emailDetails.message} <h4>
             <ul> 
@@ -128,33 +135,33 @@ async function sendEmail(emailDetails){
             </ul>
             
             <p>${emailDetails.urlMsg}: <a href=${emailDetails.url}>Click here to route to the site</a></p>`
-        
-        const transporter = nodemailer.createTransport({
-            host: 'smtp.gmail.com',
-            port: 465,
-            secure: true,
-            auth: {
-                user: "testceylonfolk@gmail.com",
-                pass: "pkjjt@1234"
-            }
-        });
-        const mailOptions = {
-            from: 'testceylonfolk@gmail.com', // sender address
-            to: 'januyash8@gmail.com', // list of receivers
-            replyTo: emailDetails.email,
-            subject: emailDetails.subject, // Subject line
-            text: emailDetails.message, // plain text body
-            html: htmlEmail
 
-        };
-            await transporter.sendMail(mailOptions,(err,info) =>{
-            if(err){
-                        return 0
-                    }
-                    else{
-                        return 1
-                    }
-                 } );  
+    const transporter = nodemailer.createTransport({
+        host: 'smtp.gmail.com',
+        port: 465,
+        secure: true,
+        auth: {
+            user: "testceylonfolk@gmail.com",
+            pass: "pkjjt@1234"
+        }
+    });
+    const mailOptions = {
+        from: 'testceylonfolk@gmail.com', // sender address
+        to: 'januyash8@gmail.com', // list of receivers
+        replyTo: emailDetails.email,
+        subject: emailDetails.subject, // Subject line
+        text: emailDetails.message, // plain text body
+        html: htmlEmail
+
+    };
+    await transporter.sendMail(mailOptions, (err, info) => {
+        if (err) {
+            return 0
+        }
+        else {
+            return 1
+        }
+    });
 }
 
 

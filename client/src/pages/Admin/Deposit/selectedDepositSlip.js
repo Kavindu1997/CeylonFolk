@@ -14,10 +14,11 @@ import useTable from "../../../components/Reusable/useTable";
 import ViewOrderForm from "./viewOrder";
 import { API_URL } from '../../../_constants';
 import BankSlip from "./bankSlip";
+import { useParams } from 'react-router';
 
 
-const DepositSlips = () => {
-
+const SelectedDepositSlips = () => {
+    let { oId } = useParams();
     const classes = useStyles();
     const [openPopup, setOpenPopup] = useState(false);
     const [toggleState, setToggleState] = useState(1);
@@ -29,7 +30,7 @@ const DepositSlips = () => {
 
 
     useEffect(() => {
-        axios.get(API_URL + '/deposit/allDepositSlips').then((response) => {
+        axios.get(API_URL + `/deposit/selectedDepositSlips/${oId}`).then((response) => {
             setlistOfDeposits(response.data);
         })
     }, []);
@@ -87,7 +88,7 @@ const DepositSlips = () => {
                 setIsDisable(true)
 
             }
-            axios.get(API_URL + '/deposit/allDepositSlips').then((response) => {
+            axios.get(API_URL + '/deposit/allDepositSlips/').then((response) => {
                 setlistOfDeposits(response.data);
             })
         })
@@ -285,4 +286,4 @@ const DepositSlips = () => {
     );
 };
 
-export default DepositSlips;
+export default SelectedDepositSlips;

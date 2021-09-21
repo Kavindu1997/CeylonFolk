@@ -154,7 +154,7 @@ export default function Product_detail() {
   var [index1, setIndex1] = useState(0);
 
 
-  var [sizeSelect,setSizeSelect] = useState(false);
+  var [sizeSelect, setSizeSelect] = useState(false);
   var [selectedSizeValue, setSelectedSizeValue] = useState(false);
 
   var handleTab1 = (index1) => {
@@ -198,13 +198,13 @@ export default function Product_detail() {
 
   });
 
-  
+
   const setSize = (event) => {
     setProductSize(event.target.value);
     setIsSizeSelected(false)
-    if(event.target.value != undefined){
+    if (event.target.value != undefined) {
       setSizeSelect(true)
-    }else{
+    } else {
       setSizeSelect(false)
     }
   }
@@ -214,7 +214,7 @@ export default function Product_detail() {
     var uname = localStorage.getItem("fullname");
 
     var data = {
-      
+
       productId: id,
       userId: uid,
       userName: uname,
@@ -225,26 +225,26 @@ export default function Product_detail() {
 
     axios.post("http://localhost:3001/ProductDetails/stockrefill", data).then((response) => {
       console.log(data);
-      if (response.data.error){
+      if (response.data.error) {
         setNotify({
           isOpen: true,
           message: 'Message Not Sent !',
           type: 'error'
         });
       }
-              else {
-                setNotify({
-                  isOpen: true,
-                  message: 'Message Sent Successfully !',
-                  type: 'success'
-                });
-                setTimeout(function(){
-                  history.push("/shop")
-              }, 1000);
-              }
+      else {
+        setNotify({
+          isOpen: true,
+          message: 'Message Sent Successfully !',
+          type: 'success'
+        });
+        setTimeout(function () {
+          history.push("/shop")
+        }, 1000);
+      }
     });
     console.log(data);
-    
+
   };
 
 
@@ -252,15 +252,15 @@ export default function Product_detail() {
   const getQty = (event) => {
     itemQuantity = event
   }
- 
-  const [isSizeSelected,setIsSizeSelected] = useState(false)
+
+  const [isSizeSelected, setIsSizeSelected] = useState(false)
   const [typ, settyp] = useState('')
 
   const addToCart = () => {
-    if(productSize == undefined){
+    if (productSize == undefined) {
       setIsSizeSelected(true)
-      return 
-    }else{
+      return
+    } else {
       setIsSizeSelected(false)
     }
     var uid = localStorage.getItem("userId");
@@ -271,29 +271,29 @@ export default function Product_detail() {
         quantity: itemQuantity,
         userId: uid,
         size: productSize,
-        price: discountedPrice==null?price:discountedPrice,
+        price: discountedPrice == null ? price : discountedPrice,
         discountedPrice: discountedPrice,
-        totals: discountedPrice==null?itemQuantity * price:itemQuantity*discountedPrice
+        totals: discountedPrice == null ? itemQuantity * price : itemQuantity * discountedPrice
       }
       // var result = dispatch(sendProductsToDB(dummyItem))
-      ceylonforkapi.post("/check/addToCart/",dummyItem).then((response) => {
-        if (response.data.data==0) {
-            setNotify({
-              isOpen: true,
-              message: 'Adding Failed !',
-              type: 'error'
-            });
+      ceylonforkapi.post("/check/addToCart/", dummyItem).then((response) => {
+        if (response.data.data == 0) {
+          setNotify({
+            isOpen: true,
+            message: 'Adding Failed !',
+            type: 'error'
+          });
         }
         else {
-            dispatch(incrementCartCount());
-            dispatch(actionAddToCart(dummyItem));
-            setNotify({
-              isOpen: true,
-              message: 'Added Successfully !',
-              type: 'success'
-            });
+          dispatch(incrementCartCount());
+          dispatch(actionAddToCart(dummyItem));
+          setNotify({
+            isOpen: true,
+            message: 'Added Successfully !',
+            type: 'success'
+          });
         }
-      });   
+      });
     }
     else {
       var dummyItem = {
@@ -305,8 +305,8 @@ export default function Product_detail() {
         size: productSize,
         discountedPrice: discountedPrice,
         actualPrice: price,
-        price: discountedPrice==null?price:discountedPrice,
-        totals: discountedPrice==null?itemQuantity * price:itemQuantity*discountedPrice,
+        price: discountedPrice == null ? price : discountedPrice,
+        totals: discountedPrice == null ? itemQuantity * price : itemQuantity * discountedPrice,
         stockMargin: quantity[index1].quantity
       }
       // dummyItem.totals = dummyItem.price * dummyItem.quantity;
@@ -354,56 +354,59 @@ export default function Product_detail() {
             <Grid item xs={2} sm={8} md={6} elevation={6} square>
               <Formik>
                 <Box className={classes.productDetails}>
-                
+
 
                   <Box className={classes.goback}>
-                  <ArrowBackIcon />
-                    <NavLink to={'/shop'} style={{textDecoration: 'none'}}>GO BACK</NavLink></Box>
+                    <ArrowBackIcon />
+                    <IconButton onClick={() => { history.goBack() }}>
+                      <span>Go Back</span>
+                    </IconButton>
+                  </Box>
                   <Box>
                     <Typography className={classes.productTitle}>{design_name}</Typography>
                     {discountedPrice === null ?
-                                                            <Typography
-                                                                gutterBottom
-                                                                variant="h6"
-                                                                component="h2"
-                                                                className={classes.productPrice}
-                                                            >
-                                                                {"LKR " + price + '.00'}
-                                                            </Typography>
-                                                            :
-                                                            <div>
-                                                                <div style={{display:'flex'}}>
-                                                                    <Typography
-                                                                        gutterBottom
-                                                                        variant="h6"
-                                                                        component="h2"
-                                                                        className={classes.productPrice}
-                                                                    >
+                      <Typography
+                        gutterBottom
+                        variant="h6"
+                        component="h2"
+                        className={classes.productPrice}
+                      >
+                        {"LKR " + price + '.00'}
+                      </Typography>
+                      :
+                      <div>
+                        <div style={{ display: 'flex' }}>
+                          <Typography
+                            gutterBottom
+                            variant="h6"
+                            component="h2"
+                            className={classes.productPrice}
+                          >
 
-                                                                        {"LKR " + discountedPrice + '.00'}
+                            {"LKR " + discountedPrice + '.00'}
 
-                                                                    </Typography>
-                                                                    <div>
-                                                                    <span className={classes.offer22}
-                                                                    style={{    padding: '0.6rem 0'}}
-                                                                    >
-                                                                            {rate}%
-                                                                        </span>
+                          </Typography>
+                          <div>
+                            <span className={classes.offer22}
+                              style={{ padding: '0.6rem 0' }}
+                            >
+                              {rate}%
+                            </span>
 
-                                                                    </div>
-                                                                </div>
-                                                                <Typography
-                                                                    gutterBottom
-                                                                    variant="h6"
-                                                                    component="h2"
-                                                                    className={classes.productPrice}
-                                                                >
-                                                                    <s>{"LKR " + price + '.00'}</s>
-                                                                </Typography>
+                          </div>
+                        </div>
+                        <Typography
+                          gutterBottom
+                          variant="h6"
+                          component="h2"
+                          className={classes.productPrice}
+                        >
+                          <s>{"LKR " + price + '.00'}</s>
+                        </Typography>
 
-                                                            </div>
+                      </div>
 
-                                                        }
+                    }
                     {/* <Box><Typography className={classes.productColor}>COLOR</Typography></Box> */}
                     <Box>
                       <Box style={{ display: 'flex' }}>
@@ -446,7 +449,7 @@ export default function Product_detail() {
 
                                       <input type="radio" onClick={setSize} name="size" className={classes.sizeOption} value={value.size} checked />
 
-                                      <span className={classes.swatchVisible} onClick={() => handleTab1(index)} style={{background:sizeSelect && productSize===value.size ==true?"#31c5ee":""}}>{value.size}</span>
+                                      <span className={classes.swatchVisible} onClick={() => handleTab1(index)} style={{ background: sizeSelect && productSize === value.size == true ? "#31c5ee" : "" }}>{value.size}</span>
                                     </div>
                                     {/* <div key={value.inventoryId}className={toggleState === 1 ? classes.activeQuantity : classes.quantity}><span className={classes.swatchVisible}>{value.quantity}</span></div> */}
                                   </div>
@@ -461,88 +464,88 @@ export default function Product_detail() {
                         {/* <div>{quantity && <span className={classes.swatchVisible}>{quantity[index1].quantity}</span>}</div> */}
 
                         <Button
-              className={classes.slevebtn}
-              onClick={() => {
-                // setopenSleevePopup(true);
-                sizeGuide(type_id)
-              }}
-            >Size Guide</Button>
+                          className={classes.slevebtn}
+                          onClick={() => {
+                            // setopenSleevePopup(true);
+                            sizeGuide(type_id)
+                          }}
+                        >Size Guide</Button>
                       </Box>
                       {/* <div className={toggleState === 1 ? classes.activeQuantity : classes.quantity}>{quantity && <span>{quantity[index].quantity + " in stock"}</span>}</div> */}
                       <div className={toggleState === 1 ? classes.activeQuantity : classes.quantity}>{quantity && <span>{quantity[index1].quantity + " in stock"}</span>}</div>
-                        <div style={{visibility:isSizeSelected==true?"visible":"hidden"}}><Typography style={{color:"red"}}>*You should select a size*</Typography></div>
+                      <div style={{ visibility: isSizeSelected == true ? "visible" : "hidden" }}><Typography style={{ color: "red" }}>*You should select a size*</Typography></div>
                     </Box>
 
                     <Popup
-            title="Size Guide"
-            openPopup={openSleevePopup}
-            setOpenPopup={setopenSleevePopup}
-          >
-            <center>
-              {typ===6 ? <img src={sizeTshirt} style={{width:'30%'}}/> :typ===8 ? <img src={sizeCropTop} style={{width:'30%'}}/> : typ===9 ? <img src={sizeKids} style={{width:'30%'}}/>: null}
-              </center>
-          </Popup>
+                      title="Size Guide"
+                      openPopup={openSleevePopup}
+                      setOpenPopup={setopenSleevePopup}
+                    >
+                      <center>
+                        {typ === 6 ? <img src={sizeTshirt} style={{ width: '30%' }} /> : typ === 8 ? <img src={sizeCropTop} style={{ width: '30%' }} /> : typ === 9 ? <img src={sizeKids} style={{ width: '30%' }} /> : null}
+                      </center>
+                    </Popup>
 
 
                     {quantity &&
-                    <Box className={productSize == undefined && quantity[index1].quantity === 0 ? classes.activeQuantity : classes.quantity}>
+                      <Box className={productSize == undefined && quantity[index1].quantity === 0 ? classes.activeQuantity : classes.quantity}>
 
-
-                    <Box className={classes.tBox}>
-                      <Typography className={classes.productColor}>QUANTITY</Typography>
-                      <div>{quantity && <NumericInput mobile min={1} max={quantity[index1].quantity} value={1} size={1} onChange={getQty} />}</div>
-                    </Box>
-
-                    <Button style={{ background: '#2c2d2d', color: 'white' }} onClick={addToCart}>ADD TO CART</Button>
-                    </Box>}
-
-
-                    {quantity &&
-                    <Box className={quantity[index1].quantity > 0 ? classes.activeQuantity : classes.quantity}>
 
                         <Box className={classes.tBox}>
-                        <Typography className={classes.productColor}>QUANTITY</Typography>
-                        <div><NumericInput mobile min={1} max={quantity[index1].quantity} value={1} size={1} onChange={getQty} /></div>
+                          <Typography className={classes.productColor}>QUANTITY</Typography>
+                          <div>{quantity && <NumericInput mobile min={1} max={quantity[index1].quantity} value={1} size={1} onChange={getQty} />}</div>
                         </Box>
-                      
+
+                        <Button style={{ background: '#2c2d2d', color: 'white' }} onClick={addToCart}>ADD TO CART</Button>
+                      </Box>}
+
+
+                    {quantity &&
+                      <Box className={quantity[index1].quantity > 0 ? classes.activeQuantity : classes.quantity}>
+
+                        <Box className={classes.tBox}>
+                          <Typography className={classes.productColor}>QUANTITY</Typography>
+                          <div><NumericInput mobile min={1} max={quantity[index1].quantity} value={1} size={1} onChange={getQty} /></div>
+                        </Box>
+
                         <Button style={{ background: '#2c2d2d', color: 'white' }} onClick={addToCart}>ADD TO CART</Button>
 
-                      
+
                       </Box>}
 
                     {quantity &&
-                    <Box className={quantity[index1].quantity === 0 && productSize != undefined ? classes.activeQuantity : classes.quantity}>
+                      <Box className={quantity[index1].quantity === 0 && productSize != undefined ? classes.activeQuantity : classes.quantity}>
 
-                    <Typography>Enter your email. We will be notify you after replenish</Typography>
-                      
+                        <Typography>Enter your email. We will be notify you after replenish</Typography>
+
                         <TextField
-                                className={classes.textField}
-                                variant="outlined"
-                                margin="normal"
-                                required
-                                fullWidth
-                                id="email"
-                                label="Email Address"
-                                name="email"
-                                autoComplete="email"
-                                onChange={changeemail}
-                                helperText={<ErrorMessage name="email" />}
-                              />
-                              <Button
-                                type="submit"
-                                fullWidth
-                                variant="contained"
-                                color="primary"
-                                className={classes.submit}
-                                onClick={sendEmail}
-                              >Send Email</Button>
-                            
+                          className={classes.textField}
+                          variant="outlined"
+                          margin="normal"
+                          required
+                          fullWidth
+                          id="email"
+                          label="Email Address"
+                          name="email"
+                          autoComplete="email"
+                          onChange={changeemail}
+                          helperText={<ErrorMessage name="email" />}
+                        />
+                        <Button
+                          type="submit"
+                          fullWidth
+                          variant="contained"
+                          color="primary"
+                          className={classes.submit}
+                          onClick={sendEmail}
+                        >Send Email</Button>
 
-                      
+
+
                       </Box>}
 
                   </Box>
-{/* 
+                  {/* 
                   <div className={toggleState === 1 ? classes.activeQuantity : classes.quantity}>{quantity && <span>{quantity[index1].quantity + " in stock"}</span>}</div>                */}
 
 
@@ -557,11 +560,11 @@ export default function Product_detail() {
 
 
       <Footer />
-      
-  <Notification
-    notify={notify}
-    setNotify={setNotify}
-  />
+
+      <Notification
+        notify={notify}
+        setNotify={setNotify}
+      />
     </div>
   );
 };

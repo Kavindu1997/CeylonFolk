@@ -49,6 +49,7 @@ import Inquiries from './pages/Admin/Inquiries/InquiriesTable';
 import ResolvedInquiries from './pages/Admin/Inquiries/ResolvedInquiries'
 import ViewDesigns from './pages/Admin/ViewDesignTable';
 import DepositSlips from './pages/Admin/Deposit/depositSlips';
+import SelectedDepositSlips from './pages/Admin/Deposit/selectedDepositSlip';
 import AdminOrders from './pages/Admin/InhouseOrders/AdminOrders';
 import CustomizeOrderDetails from './pages/Admin/CustomizeOrder/CustomizeOrderTable';
 import OfferCollections from './pages/SpecialOffers/OfferCollections';
@@ -199,6 +200,9 @@ class App extends Component {
                 const isAuth = localStorage.getItem('userType'); if (isAuth) return true; else return false;
               }} />
               <ProtectedRoute exact path={"/depositlips"} component={DepositSlips} guardFunctionArgs={{ 'one': 'one' }} guardFunction={(args) => {
+                const isAuth = localStorage.getItem('userType'); if (isAuth) return true; else return false;
+              }} />
+              <ProtectedRoute exact path={"/depositlips/:oId"} component={SelectedDepositSlips} guardFunctionArgs={{ 'one': 'one' }} guardFunction={(args) => {
                 const isAuth = localStorage.getItem('userType'); if (isAuth) return true; else return false;
               }} />
 
