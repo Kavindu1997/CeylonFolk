@@ -21,7 +21,7 @@ const CouponForm = (props) => {
         if('coupon_number' in fieldValues)
            temp.coupon_number=fieldValues.coupon_number ? "" : "Coupon Number is required"
         if('discount_amount' in fieldValues)   
-           temp.discount_amount=(/^[0-9]+\.?[0-9]{1,2}$/).test(fieldValues.discount_amount) ? "" : "Discount Amount is required"
+           temp.discount_amount=(/^[0-9]+\.?[0]{1,2}$/).test(fieldValues.discount_amount) ? "" : "Discount Amount is required"
         setErrors({
             ...temp
         })
