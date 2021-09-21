@@ -72,7 +72,19 @@ const CustomizeOrderTable = () => {
     const onAccept = () => {
         console.log('oId')
         console.log(oId)
-        console.log(oNo)
+        console.log(price)
+
+        if(price==undefined){
+            setNotify({
+                isOpen: true,
+                message: 'Enter Price !',
+                type: 'error'
+            });
+        }
+
+        else{
+
+
 
         setOpenPopup(false);
 
@@ -106,6 +118,7 @@ const CustomizeOrderTable = () => {
             type: 'success'
         });
         setToggleState(2);
+    }
 
         // <AcceptedOrders/>
     };
@@ -125,6 +138,16 @@ const CustomizeOrderTable = () => {
         console.log('oId')
         console.log(oId)
         console.log(oNo)
+
+        if(reason==undefined){
+            setNotify({
+                isOpen: true,
+                message: 'Enter the Reason !',
+                type: 'error'
+            });
+        }
+
+        else{
 
         const data = {
             id: oId,
@@ -155,6 +178,8 @@ const CustomizeOrderTable = () => {
         setToggleState(2);
 
         <AcceptedOrders />
+
+    }
     };
 
     const toggleTab = (index) => {
@@ -307,11 +332,13 @@ const CustomizeOrderTable = () => {
                                                                         variant="outlined"
                                                                         label="Price"
                                                                         name="price"
+                                                                        required
                                                                         onChange={changePrice}
                                                                         style={{margin:'10px'}}
                                                                     />
                                                                 </Grid>
                                                                 <Grid item md={12} >
+                                                                
                                                                     <Controls.Button
                                                                         type="submit"
                                                                         text="Send Price"
@@ -319,7 +346,7 @@ const CustomizeOrderTable = () => {
                                                                             onAccept()
                                                                         }}
                                                                     />
-                                                                </Grid>
+                                                                </Grid> 
                                                                 </center>
                                                             </Popup>
 
@@ -334,6 +361,7 @@ const CustomizeOrderTable = () => {
                                                                         variant="outlined"
                                                                         label="Reason"
                                                                         name="reason"
+                                                                        required
                                                                         onChange={changeReason}
                                                                         style={{margin:'10px'}}
                                                                     />

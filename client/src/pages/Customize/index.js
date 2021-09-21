@@ -655,7 +655,7 @@ const Customize = () => {
                 handleExportClick()
                 setOpenPopup(true);
               }}
-            >SAVE YOUR WORK</Button>
+            >SAVE AND GET THE ACCEPTANCE</Button>
 
           </center>
         </Grid>
@@ -666,7 +666,7 @@ const Customize = () => {
         >
           <center>
           <Grid >
-            <Box style={{textAlign:'center', padding: '10px', fontSize:'16px'}}>You are approximate price is LKR {price}.00</Box>
+            <Box style={{textAlign:'center', padding: '10px', fontSize:'16px'}}>Your approximate price is LKR {price}.00</Box>
             <Box style={{textAlign:'center', padding: '10px', fontSize:'14px'}}>The real price of the design could be change with the admin acceptance</Box>
 
           </Grid>
@@ -694,7 +694,7 @@ const Customize = () => {
                 handleSaveClick()
                 
               }}
-            >Get the Acceptance</Button>
+            >GET THE REAL PRICE</Button>
           </Grid>
           </center>
         </Popup>
