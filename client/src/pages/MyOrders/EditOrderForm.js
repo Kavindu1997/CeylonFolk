@@ -114,7 +114,7 @@ const EditOrderForm = ({ selectedOrderToEdit }) => {
             setQuantityError(true)
             setIsDisable(true)
         } else if(e.target.value<=0){
-            var msg = "Quantity cannot be a negative or 0 number"
+            var msg = "Quantity cannot be a negative value or zero"
             setQuantityErrorMsg(msg)
             setQuantityError(true)
             setIsDisable(true)

@@ -173,7 +173,7 @@ export default function Deposit(props) {
                                     color="primary"
                                     className={classes.submit}
                                     onClick={viewOrder}
-                                >View Order
+                                >Validate First
                                 </Button>
                                 </div>
                                 <div>
