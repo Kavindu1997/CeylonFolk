@@ -403,9 +403,15 @@ const Customize = () => {
         message: 'Design Sent Successfully !',
         type: 'success'
     });
+
+    history.push('/custcustomizeOrders')
     });
 
   }
+
+  
+
+
   }
 
   return (

@@ -226,13 +226,19 @@ export default function CustomizeCheckout() {
 
           axios.put('http://localhost:3001/customizeOrders/orderPaid/',data).then((response) => {
             // console.log(response.data);
-            alert('Paid')
+            // alert('Paid')
+            setNotify({
+                isOpen: true,
+                message: 'Successfully Paid !',
+                type: 'error'
+              });
             // setlistOfOrderDetails(response.data);
+            history.push(`/orderView/${id}`);
         })
 
 
         console.log("Payment completed. OrderID:" + orderId);
-        history.push(`/orderView/${id}`);
+        // history.push(`/orderView/${id}`);
         // dispatch(actionSendToDB(paymentItem))
         //Note: validate the payment and show success or failure page to the customer
     };

@@ -42,18 +42,18 @@ function Login() {
             }
             else if (response.data.user_type_id == 1) {
                 localStorage.setItem("userId", response.data.id);
-                localStorage.setItem("email", response.data.email);
+                localStorage.setItem("userEmail", response.data.email);
                 localStorage.setItem("userType", response.data.user_type_id);
                 history.push("/admin");
             }
             else if (response.data.user_type_id == 3) {
                 localStorage.setItem("userId", response.data.id);
-                localStorage.setItem("email", response.data.email);
+                localStorage.setItem("userEmail", response.data.email);
                 history.push("/manager");
             }
             else if (response.data.user_type_id == 4) {
                 localStorage.setItem("userId", response.data.id);
-                localStorage.setItem("email", response.data.email);
+                localStorage.setItem("userEmail", response.data.email);
                 history.push("/assistant");
             }
             else {

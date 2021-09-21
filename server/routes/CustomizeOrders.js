@@ -137,6 +137,9 @@ const multer = require('multer');
         const email = req.body.email
         console.log(price)
 
+        const query4 = "SELECT * FROM users INNER JOIN customizeorders ON users.id=customizeorders.customerId WHERE customizeorders.orderNo='" + oNo + "'";
+        const customerDetails = await sequelize.query(query4, { type: sequelize.QueryTypes.SELECT });
+
         const htmlEmail = `
         <center>
             <h4>Your ${oNo} order has been Accepted</h4>
@@ -158,9 +161,9 @@ const multer = require('multer');
             });
 
             const mailOptions = {
-                from: req.body.email, // sender address
-                to: email, // list of receivers
-                replyTo: req.body.email,
+                from: "testceylonfolk@gmail.com", // sender address
+                to: customerDetails[0].email, // list of receivers
+                replyTo: "testceylonfolk@gmail.com",
                 subject: "Customize Order Acceptance", // Subject line
                 text: 'Customize Order Acceptance', // plain text body
                 html: htmlEmail,
@@ -197,7 +200,7 @@ const multer = require('multer');
     
             
 
-        const query = "UPDATE customizeorders SET status='Accept', price='"+price+"', notificationStatus='False', WHERE orderId='"+id+"'";
+        const query = "UPDATE customizeorders SET status='Accept', price='"+price+"', notificationStatus='false' WHERE orderId='"+id+"'";
         const updateStatus = await sequelize.query(query, { type: sequelize.QueryTypes.UPDATE });
 
         const query2 = "SELECT * FROM customizeorders WHERE (status='Pending' AND deleteFlag='false')";
@@ -214,12 +217,12 @@ const multer = require('multer');
         // res.render("upload");
     });
 
-    router.get("/acceptedOrders", async (req,res) => {
-        const query = "SELECT * FROM customizeorders WHERE status='Accept'";
-        const listOfAcceptedOrders = await sequelize.query(query, { type: sequelize.QueryTypes.SELECT });
-        res.json(listOfAcceptedOrders);
-        // res.render("upload");
-    });
+    // router.get("/acceptedOrders", async (req,res) => {
+    //     const query = "SELECT * FROM customizeorders WHERE status='Accept'";
+    //     const listOfAcceptedOrders = await sequelize.query(query, { type: sequelize.QueryTypes.SELECT });
+    //     res.json(listOfAcceptedOrders);
+    //     // res.render("upload");
+    // });
 
     router.get("/custCustomizeOrders/:id", async (req,res) => {
         const id = req.params.id
@@ -241,7 +244,11 @@ const multer = require('multer');
 
     router.put("/orderPrinting", async (req,res) => {
         const id = req.body.id;
+        const orderNo = req.body.orderNo
         console.log(id)
+
+        const query4 = "SELECT * FROM users INNER JOIN customizeorders ON users.id=customizeorders.customerId WHERE customizeorders.orderNo='" + orderNo + "'";
+        const customerDetails = await sequelize.query(query4, { type: sequelize.QueryTypes.SELECT });
 
         const htmlEmail = `
         <center>
@@ -262,7 +269,7 @@ const multer = require('multer');
 
             const mailOptions = {
                 from: "testceylonfolk@gmail.com", // sender address
-                to: req.body.email, // list of receivers
+                to: customerDetails[0].email, // list of receivers
                 replyTo: "testceylonfolk@gmail.com",
                 subject: "Customize Order Acceptance", // Subject line
                 text: 'Customize Order Acceptance', // plain text body
@@ -304,7 +311,11 @@ const multer = require('multer');
 
     router.put("/orderReadyToDispatch", async (req,res) => {
         const id = req.body.id;
+        const orderNo = req.body.orderNo
         console.log(id)
+
+        const query4 = "SELECT * FROM users INNER JOIN customizeorders ON users.id=customizeorders.customerId WHERE customizeorders.orderNo='" + orderNo + "'";
+        const customerDetails = await sequelize.query(query4, { type: sequelize.QueryTypes.SELECT });
 
         const htmlEmail = `
         <center>
@@ -326,10 +337,10 @@ const multer = require('multer');
 
             const mailOptions = {
                 from: "testceylonfolk@gmail.com", // sender address
-                to: req.body.email, // list of receivers
+                to: customerDetails[0].email, // list of receivers
                 replyTo: "testceylonfolk@gmail.com",
-                subject: "Customize Order Acceptance", // Subject line
-                text: 'Customize Order Acceptance', // plain text body
+                subject: "Customize Order Ready to Dispatch", // Subject line
+                text: 'Customize Order Ready to Dispatch', // plain text body
                 html: htmlEmail,
                 
     
@@ -367,12 +378,16 @@ const multer = require('multer');
 
     router.put("/orderDispatched", async (req,res) => {
         const id = req.body.id;
+        const oNo = req.body.orderNo;
         console.log(id)
+
+        const query4 = "SELECT * FROM users INNER JOIN customizeorders ON users.id=customizeorders.customerId WHERE customizeorders.orderId='" + id + "'";
+        const customerDetails = await sequelize.query(query4, { type: sequelize.QueryTypes.SELECT });
 
         const htmlEmail = `
         <center>
-            <h4>Your ${req.body.oNo} dispatched</h4>
-            <h4>Order No : ${req.body.oNo}</h4>
+            <h4>Your ${req.body.orderNo} dispatched</h4>
+            <h4>Order No : ${req.body.orderNo}</h4>
             <h2 color='blue'>Thank you for Ordering with Ceylonfork</h2>
             <center>`
 
@@ -388,7 +403,7 @@ const multer = require('multer');
 
             const mailOptions = {
                 from: "testceylonfolk@gmail.com", // sender address
-                to: req.body.email, // list of receivers
+                to: customerDetails[0].email, // list of receivers
                 replyTo: "testceylonfolk@gmail.com",
                 subject: "Customize Order Acceptance", // Subject line
                 text: 'Customize Order Acceptance', // plain text body
@@ -449,6 +464,9 @@ const multer = require('multer');
         const price = req.body.price;
         console.log(id)
 
+        const query4 = "SELECT * FROM users INNER JOIN customizeorders ON users.id=customizeorders.customerId WHERE customizeorders.orderNo='" + orderNo + "'";
+        const customerDetails = await sequelize.query(query4, { type: sequelize.QueryTypes.SELECT });
+
         const htmlEmail = `
             <center>
         <h3>${req.body.fullName} Succseccfully made advance payent</h3>
@@ -469,9 +487,9 @@ const multer = require('multer');
             });
 
             const mailOptions = {
-                from: req.body.email, // sender address
+                from: customerDetails[0].email, // sender address
                 to: 'testceylonfolk@gmail.com', // list of receivers
-                replyTo: req.body.email,
+                replyTo: customerDetails[0].email,
                 html: 'Embedded image: <img src="cid:ceylon"/>',
                 subject: 'Advance Payment', // Subject line
                 text: 'Advance Payment', // plain text body
@@ -547,11 +565,97 @@ const multer = require('multer');
         const date = req.body.placedDate;
         const fixedPrice = req.body.totalAmount;
         console.log(id)
+
+        const query4 = "SELECT * FROM users INNER JOIN customizeorders ON users.id=customizeorders.customerId WHERE customizeorders.orderId='" + id + "'";
+        const customerDetails = await sequelize.query(query4, { type: sequelize.QueryTypes.SELECT });
+
+        const query5 = "SELECT * FROM customizeorders  WHERE customizeorders.orderId='" + id + "'";
+        const custoorderDetails = await sequelize.query(query5, { type: sequelize.QueryTypes.SELECT });
+
+        const htmlEmail = `
+            <center>
+        <h3>${customerDetails[0].firstName} ${customerDetails[0].lastName} Succseccfully made the rest payment</h3>
+                <h4>Customer ID: ${customerDetails[0].id}</h4>
+                <h4>Order No: ${custoorderDetails[0].orderNo} </h4>
+                <h4>Customer Name: ${customerDetails[0].firsName} ${customerDetails[0].lastName} </h4>
+                <h4>Customer Emali: ${customerDetails[0].email} </h4>
+            <center>`
+
+            const transporter = nodemailer.createTransport({
+                host: 'smtp.gmail.com',
+                port: 465,
+                secure: true,
+                auth: {
+                    user: "testceylonfolk@gmail.com",
+                    pass: "pkjjt@1234"
+                }
+            });
+
+            const mailOptions = {
+                from: customerDetails[0].email, // sender address
+                to: 'testceylonfolk@gmail.com', // list of receivers
+                replyTo: customerDetails[0].email,
+                html: 'Embedded image: <img src="cid:ceylon"/>',
+                subject: 'Rest Payment', // Subject line
+                text: 'Rest Payment', // plain text body
+                html: htmlEmail
+    
+            };
+
+            transporter.sendMail(mailOptions,(err,info) =>{
+                if(err){
+                            console.log("error in sending mail",err)
+                            return res.status(400).json({
+                                message:`error in sending the mail${err}`
+                            })
+                        }
+                        else{
+                            console.log("successfully send message",info)
+                            alert("successfully send message");
+                            return res.json({
+                                message:info
+                            })
+                        }
+                     } );  
+
+                     const htmlEmail2 = `
+            <center>
+        <h3>Succseccfully made advance payent</h3>
+        <h4>Order No: ${custoorderDetails[0].orderNo} </h4>
+            <center>`
+
+            const mailOptions2 = {
+                from: 'testceylonfolk@gmail.com', // sender address
+                to: customerDetails[0].email, // list of receivers
+                replyTo: 'testceylonfolk@gmail.com',
+                html: 'Embedded image: <img src="cid:ceylon"/>',
+                
+                subject: 'Rest Payment', // Subject line
+                text: 'Rest Payment', // plain text body
+                html: htmlEmail2
+    
+            };
+
+            transporter.sendMail(mailOptions2,(err,info) =>{
+                if(err){
+                            console.log("error in sending mail",err)
+                            return res.status(400).json({
+                                message:`error in sending the mail${err}`
+                            })
+                        }
+                        else{
+                            console.log("successfully send message",info)
+                            alert("successfully send message");
+                            return res.json({
+                                message:info
+                            })
+                        }
+                     } );
     
             
 
         
-        const query = "UPDATE customizeorders SET status='Paid',  totalAmount='"+totalAmount+"', fixedPrice='"+fixedPrice+"', address='"+address+"', notificationStatus='Paid', notificationFlag=0, note='"+note+"', placedDate='"+date+"' WHERE orderId='"+id+"'";
+        const query = "UPDATE customizeorders SET status='Paid',  totalAmount='"+totalAmount+"', fixedPrice='"+fixedPrice+"', address='"+address+"', notificationStatus='Paid', notificationFlag=0, placedDate='"+date+"' WHERE orderId='"+id+"'";
         const updateStatus = await sequelize.query(query, { type: sequelize.QueryTypes.UPDATE });
     
     res.json(updateStatus);
@@ -573,13 +677,67 @@ const multer = require('multer');
 
     router.put("/recieved", async (req,res) => {
         const id = req.body.id;
-        const query = "UPDATE customizeorders SET status='Recieved', notificationStatus='Recieved', notificationFlag=0, WHERE orderId='"+id+"'";
+
+        const query4 = "SELECT * FROM users INNER JOIN customizeorders ON users.id=customizeorders.customerId WHERE customizeorders.orderId='" + id + "'";
+        const customerDetails = await sequelize.query(query4, { type: sequelize.QueryTypes.SELECT });
+
+        const query5 = "SELECT * FROM customizeorders  WHERE customizeorders.orderId='" + id + "'";
+        const custoorderDetails = await sequelize.query(query5, { type: sequelize.QueryTypes.SELECT });
+
+        const htmlEmail = `
+            <center>
+        <h3>${customerDetails[0].firstName} ${customerDetails[0].lastName} Recieved the Order</h3>
+                <h4>Customer ID: ${customerDetails[0].id}</h4>
+                <h4>Order No: ${custoorderDetails[0].orderNo} </h4>
+                <h4>Customer Name: ${customerDetails[0].firsName} ${customerDetails[0].lastName} </h4>
+                <h4>Customer Emali: ${customerDetails[0].email} </h4>
+            <center>`
+
+            const transporter = nodemailer.createTransport({
+                host: 'smtp.gmail.com',
+                port: 465,
+                secure: true,
+                auth: {
+                    user: "testceylonfolk@gmail.com",
+                    pass: "pkjjt@1234"
+                }
+            });
+
+            const mailOptions = {
+                from: customerDetails[0].email, // sender address
+                to: 'testceylonfolk@gmail.com', // list of receivers
+                replyTo: customerDetails[0].email,
+                html: 'Embedded image: <img src="cid:ceylon"/>',
+                subject: 'Closed Order', // Subject line
+                text: 'Closed Order', // plain text body
+                html: htmlEmail
+    
+            };
+
+            transporter.sendMail(mailOptions,(err,info) =>{
+                if(err){
+                            console.log("error in sending mail",err)
+                            return res.status(400).json({
+                                message:`error in sending the mail${err}`
+                            })
+                        }
+                        else{
+                            console.log("successfully send message",info)
+                            alert("successfully send message");
+                            return res.json({
+                                message:info
+                            })
+                        }
+                     } );  
+
+
+        const query = "UPDATE customizeorders SET status='Recieved', notificationStatus='Recieved', notificationFlag=0 WHERE orderId='"+id+"'";
         const updateStatus = await sequelize.query(query, { type: sequelize.QueryTypes.UPDATE });
         res.json(updateStatus);
         // res.render("upload");
     });
 
-    router.put("/changeStatus", async (req,res) => {
+    router.put("/statusChange", async (req,res) => {
         const id = req.body.id;
         const query = "UPDATE customizeorders SET status='Pending' WHERE orderId='"+id+"'";
         const updateStatus = await sequelize.query(query, { type: sequelize.QueryTypes.UPDATE });
@@ -592,6 +750,9 @@ const multer = require('multer');
         const email = req.body.email;
         const notification = req.body.notification
         console.log(id)
+
+        const query4 = "SELECT * FROM users INNER JOIN customizeorders ON users.id=customizeorders.customerId WHERE customizeorders.orderId='" + id + "'";
+        const customerDetails = await sequelize.query(query4, { type: sequelize.QueryTypes.SELECT });
 
         const htmlEmail = `
         <center>
@@ -616,8 +777,8 @@ const multer = require('multer');
 
         const mailOptions = {
             from: 'testceylonfolk@gmail.com', // sender address
-            to: req.body.email, // list of receivers
-            replyTo: req.body.email,
+            to: customerDetails[0].email, // list of receivers
+            replyTo: 'testceylonfolk@gmail.com',
             subject: 'Order Rejection', // Subject line
             text: req.body.message, // plain text body
             html: htmlEmail
@@ -653,6 +814,9 @@ const multer = require('multer');
         console.log(id)
         // console.log(orderNo)
 
+        const query4 = "SELECT * FROM users INNER JOIN customizeorders ON users.id=customizeorders.customerId WHERE customizeorders.orderId='" + id + "'";
+        const customerDetails = await sequelize.query(query4, { type: sequelize.QueryTypes.SELECT });
+
         const htmlEmail = `
             <h3>${req.body.orderNo} Order Canceled</h3>
             <ul> 
@@ -672,9 +836,9 @@ const multer = require('multer');
         });
 
         const mailOptions = {
-            from: req.body.email, // sender address
+            from: customerDetails[0].email, // sender address
             to: "testceylonfolk@gmail.com", // list of receivers
-            replyTo: req.body.email,
+            replyTo: customerDetails[0].email,
             subject: req.body.enquiryType, // Subject line
             text: req.body.message, // plain text body
             html: htmlEmail
