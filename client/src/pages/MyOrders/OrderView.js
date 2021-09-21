@@ -194,7 +194,7 @@ export default function OrderView() {
               message: 'Status Changed to Pending !',
               type: 'success'
           });
-          history.push('/custcustomizeOrders')
+          
         })
 
         

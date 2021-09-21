@@ -26,6 +26,8 @@ import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 import Notification from "../../components/Reusable/Notification";
 import ceylonforkapi from "../../api/index";
+import InstagramFeed  from 'react-ig-feed'
+import 'react-ig-feed/dist/index.css'
 
 
 const Home = () => {
@@ -404,28 +406,15 @@ const Home = () => {
                             </Grid>
                         </Carousel>     
                     </Grid> */}
-                    <Grid container spacing={0} className={classes.cscontainer}>
-                        <Grid item xs={12} sm={6} md={2} className={classes.svgs}>
-                            <img height={250} src={cs1} style={{ width: '100%' }} />
-                        </Grid>
-                        <Grid item xs={12} sm={6} md={2} className={classes.svgs}>
-                            <img height={250} src={cs2} style={{ width: '100%' }} />
-                        </Grid>
-                        <Grid item xs={12} sm={6} md={2} className={classes.svgs}>
-                            <img height={250} src={cs3} style={{ width: '100%' }} />
-                        </Grid>
-                        <Grid item xs={12} sm={6} md={2} className={classes.svgs}>
-                            <img height={250} src={cs4} style={{ width: '100%' }} />
-                        </Grid>
-                        <Grid item xs={12} sm={6} md={2} className={classes.svgs}>
-                            <img height={250} src={cs5} style={{ width: '100%' }} />
-                        </Grid>
-                        <Grid item xs={12} sm={6} md={2} className={classes.svgs}>
-                            <img height={250} src={cs6} style={{ width: '100%' }} />
-                        </Grid>
-                    </Grid>
+
+<Box>
+            <InstagramFeed token="IGQVJWRmNjSWhCYnNiVnZAhb0dKS0E5R0VYajB2TGlaOUJzelE0cUNOd2h1NFlHdS1xSEFZASldESUpOa2VGUTNURzgxRVVRVmxxcTc2eEpHdVd5SlB4UlcxOFpKTm1pRXFjLVNLWmpITVVfc3NmWGFuegZDZD"  counter="6"/>
+                </Box>
+                    
                 </Container>
             </center>
+
+            
 
 
 

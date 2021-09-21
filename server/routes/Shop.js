@@ -20,13 +20,45 @@ router.post("/specialOffers/", async (req, res) => {
 
 
 
-router.get("/shop/:id", async (req, res) => {
-    const id = req.params.id
+router.post("/shop", async (req, res) => {
+    const id = req.body.id
+    const uId = req.body.uId;
     // console.log(id)
-    const query = "SELECT * FROM designs WHERE type_id='" + id + "'";
+    const query = "SELECT *, designs.id AS ID, CASE WHEN wishlists.itemId IS NOT NULL THEN 1 ELSE 0 END AS isInWishList FROM designs LEFT JOIN wishlists ON wishlists.itemId = designs.id AND wishlists.userId = '"+uId+"' LEFT JOIN offers ON offers.collection_id=designs.collection_id WHERE type_id = '"+id+"' GROUP by design_name";
     const listOftypes = await sequelize.query(query, { type: sequelize.QueryTypes.SELECT });
     res.json(listOftypes);
 });
+
+router.post("/addwishlistType", async (req, res) => {
+    var data = { status: 0, data: [] }
+    const id = req.body.id;
+    const uId = req.body.uid;
+    const typeid = req.body.typeid;
+    try {
+        const query1 = "SELECT itemId FROM wishlists WHERE itemId ='" + id + "' AND userId='" + uId + "'";
+        const wishlistItem = await sequelize.query(query1, { type: sequelize.QueryTypes.SELECT });
+        console.log(wishlistItem)
+        if (wishlistItem.length > 0) {
+            const query2 = "DELETE FROM wishlists WHERE userId='" + uId + "' AND itemId='" + id + "'";
+            const removewishlist = await sequelize.query(query2, { type: sequelize.QueryTypes.DELETE });
+            // res.json(removewishlist);
+        } else {
+            const query = "INSERT INTO wishlists(`itemId`,`userId`) VALUES('" + id + "','" +uId + "')";
+            const wishlist = await sequelize.query(query, { type: sequelize.QueryTypes.INSERT });
+            // res.json(wishlist);
+
+        }
+        data.status = 1
+    }
+    catch (e) {
+        data.status = 0
+    }
+
+    const query = "SELECT *, designs.id AS ID, CASE WHEN wishlists.itemId IS NOT NULL THEN 1 ELSE 0 END AS isInWishList FROM designs LEFT JOIN wishlists ON wishlists.itemId = designs.id AND wishlists.userId = '"+uId+"' LEFT JOIN offers ON offers.collection_id=designs.collection_id WHERE type_id = '"+typeid+"' GROUP by design_name"
+    const listOfDesignsDB = await sequelize.query(query, { type: sequelize.QueryTypes.SELECT });
+    data.data = listOfDesignsDB
+    res.json(data);
+})
 
 router.get("/offers", async (req, res) => {
 

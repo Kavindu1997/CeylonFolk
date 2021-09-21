@@ -67,7 +67,7 @@ const useStyles1 = makeStyles((theme) => ({
         display: 'block'
       },
 
-    offer22: {
+      offer22: {
         marginLeft: '20px',
     padding: '5px',
     width: '43px',

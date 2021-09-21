@@ -6,7 +6,7 @@ import Footer from '../../components/Footer/Footer';
 
 // import { DropDown } from '../components/Product_grid/DropDown';
 
-import { Typography, Button, Container, Grid, Card, CardActionArea, CardActions, CardContent, CardMedia, Link } from '@material-ui/core';
+import { IconButton, Typography, Button, Container, Grid, Card, CardActionArea, CardActions, CardContent, CardMedia, Link } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import Image from '../../images/cover6.jpg';
 import Collection1 from '../../images/ts1.jpg';
@@ -21,7 +21,8 @@ import useStyles1 from './style1';
 import { setProducts, fetchProducts } from '../../_actions/productAction'
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from 'react-router';
-
+import Notification from "../../components/Reusable/Notification";
+import ceylonforkapi from "../../api/index";
 
 const Types = () => {
 
@@ -51,16 +52,20 @@ const Types = () => {
     
 
     useEffect(() => {
+        const uId = localStorage.getItem("userId");
         if(id == 0){
             dispatch(fetchProducts());
         setChecked(true);
 
         }
         else{
-            
-            axios.get(`http://localhost:3001/shop/shop/${id}`).then((response) => {
+            const data={
+                id:id,
+                uId,uId
+            }
+            axios.post("http://localhost:3001/shop/shop",data).then((response) => {
             settypes(response.data);
-            console.log('hiiiiiiiiiiiiii')
+            console.log(response.data)
         });
             
 
@@ -83,6 +88,55 @@ const Types = () => {
 
     let history = useHistory()
 
+    const [notify, setNotify] = useState({
+        isOpen: false,
+        message: "",
+        type: "",
+    });
+
+    function addToWishlist(id1, isInWishList, typeid) {
+        const uid = localStorage.getItem("userId");
+        if (localStorage.getItem("userId") != "0") {
+            const data = {
+                uid: uid,
+                id: id1,
+                typeid:typeid
+            };
+            if (isInWishList == 1) {
+                setNotify({
+                    isOpen: true,
+                    message: "This product is already in your wishlist !",
+                    type: "error",
+                });
+            } else {
+                ceylonforkapi
+                    .post("/shop/addwishlistType/", data)
+                    .then((response) => {
+                        if (response.data.status == 0) {
+                            setNotify({
+                                isOpen: true,
+                                message: "Not successfully added to your wishlist !",
+                                type: "error",
+                            });
+                        } else {
+                            settypes(response.data.data)
+                            setNotify({
+                                isOpen: true,
+                                message: "Successfully added to your wishlist !",
+                                type: "success",
+                            });
+                        }
+                    });
+            }
+        } else {
+            setNotify({
+                isOpen: true,
+                message: "Customer has not logged in !",
+                type: "error",
+            });
+        }
+    }
+
 
     return (
         <div>
@@ -94,7 +148,7 @@ const Types = () => {
 
                 <center>
                     <Typography variant="h4" className={classes.collectionTitle}>SHOP</Typography>
-                    <Grid item md={6}>
+                    {/* <Grid item md={6}>
                         <div className={classes.filter}>
                             <ButtonGroup variant="contained" color="primary" aria-label="split button" style={{ boxShadow: 'none' }}>
                                 <select className={classes.icon}>
@@ -128,7 +182,7 @@ const Types = () => {
                                 Filter
                             </Button>
                         </div>
-                    </Grid>
+                    </Grid> */}
                 </center>
 
                 
@@ -137,12 +191,10 @@ const Types = () => {
                     <Grid container spacing={0} >
 
                         {types.map((product) => {
-                            const { id, coverImage, design_name, price } = product;
+                            const { id, coverImage, design_name,price, isInWishList,ID,type_id } = product;
                             return (
                                 <Grid item xs={12} sm={6} md={3} 
-                                onClick={() => {
-                                    history.push(`/productDetails/${id}`);
-                                }}>
+                               >
                                     <Link style={{ textDecoration: 'none' }}>
                                         <Card className={classes.card}>
                                             <CardActionArea>
@@ -153,16 +205,37 @@ const Types = () => {
                                                     }}
                                                     title="Snowy"
                                                 /> */}
-                                                <img style={{ width: '100%', overflow: 'hidden', objectFit: 'cover', hight: '293px' }} src={'http://localhost:3001/' + product.coverImage} alt=""></img>
+                                                <img style={{ width: '100%', overflow: 'hidden', objectFit: 'cover', hight: '293px' }} src={'http://localhost:3001/' + product.coverImage} alt=""  onClick={() => {
+                                    history.push(`/productDetails/${ID}`);
+                                }}></img>
 
                                                 <CardContent>
                                                     <div>
                                                         <Typography gutterBottom variant="h9" component="h2" style={{ textAlign: 'left', fontSize: '16px' }}>{product.design_name}</Typography>
-
+                                                        
                                                     </div>
                                                     <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                                                         <Typography gutterBottom variant="h6" component="h2" style={{ textAlign: 'left', fontSize: '16px' }}>{"LKR " + price}</Typography>
-                                                        <FavoriteBorderOutlinedIcon className={classes.icon1} /></div>
+                                                        <IconButton
+                                                            style={{
+                                                                padding: '0px',
+                                                                borderRadius: '0px'
+                                                            }}
+                                                            onClick={() => {
+                                                                addToWishlist(ID, isInWishList, type_id);
+                                                            }}
+                                                        >
+                                                            <FavoriteBorderOutlinedIcon
+                                                                className={classes.icon1}
+                                                                style={{
+                                                                    fill:
+                                                                        product.isInWishList == 1
+                                                                            ? "red"
+                                                                            : "primary",
+                                                                }}
+                                                            />
+                                                        </IconButton>
+                                                        </div>
                                                 </CardContent>
                                             </CardActionArea>
                                             <CardActions></CardActions>
@@ -176,6 +249,7 @@ const Types = () => {
                 </Container>
             </div>
             <Footer />
+            <Notification notify={notify} setNotify={setNotify} />
         </div>
     );
 };

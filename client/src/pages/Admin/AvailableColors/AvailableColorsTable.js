@@ -107,9 +107,7 @@ const CollectionTable = () => {
                     message: 'Removed Successfully !',
                     type: 'success'
                 });
-                axios.get("http://localhost:3001/availableColors").then((response) => {
-                 
-                });
+                dispatch(fetchColors());
 
             }
 

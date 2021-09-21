@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import PageHeader from "../PageHeader";
 import LayersIcon from "@material-ui/icons/Layers";
 import { Search } from "@material-ui/icons";
-import { Paper, TableBody, TableRow,  TableCell, Toolbar, InputAdornment, Typography, Table, TableContainer, TableHead, Button, Link, Box, Grid } from "@material-ui/core";
+import { Paper, TableBody, TableRow, TableCell, Toolbar, InputAdornment, Typography, Table, TableContainer, TableHead, Button, Link, Box, Grid } from "@material-ui/core";
 import Controls from "../../../components/Reusable/Controls";
 import Popup from "../../../components/Reusable/Popup";
 import Notification from "../../../components/Reusable/Notification";
@@ -20,7 +20,7 @@ import DispatchedOrders from "../CustomizeOrder/DispatchedOrders";
 import ClosedOrders from "../CustomizeOrder/ClosedOrders";
 import { viewOrderDetail } from "../../../_actions/orderHistory.action";
 import ViewOrderForm from "./viewOrder";
-import {API_URL} from '../../../_constants';
+import { API_URL } from '../../../_constants';
 import BankSlip from "./bankSlip";
 
 
@@ -37,7 +37,7 @@ const DepositSlips = () => {
 
 
     useEffect(() => {
-        axios.get(API_URL+'/deposit/allDepositSlips').then((response) => {
+        axios.get(API_URL + '/deposit/allDepositSlips').then((response) => {
             setlistOfDeposits(response.data);
         })
     }, []);
@@ -48,7 +48,7 @@ const DepositSlips = () => {
             isOpen: false
         });
         var data = { orderId: orderId }
-        axios.post(API_URL+"/deposit/paymentAccepted/", data).then((response) => {
+        axios.post(API_URL + "/deposit/paymentAccepted/", data).then((response) => {
             if (response.data.error) {
                 setNotify({
                     isOpen: true,
@@ -65,7 +65,7 @@ const DepositSlips = () => {
                 setIsDisable(true)
 
             }
-            axios.get(API_URL+'/deposit/allDepositSlips').then((response) => {
+            axios.get(API_URL + '/deposit/allDepositSlips').then((response) => {
                 setlistOfDeposits(response.data);
             })
         })
@@ -78,7 +78,7 @@ const DepositSlips = () => {
             isOpen: false
         });
         var data = { orderId: orderId }
-        axios.post(API_URL+"/deposit/paymentRejected/", data).then((response) => {
+        axios.post(API_URL + "/deposit/paymentRejected/", data).then((response) => {
             if (response.data.error) {
                 setNotify({
                     isOpen: true,
@@ -95,7 +95,7 @@ const DepositSlips = () => {
                 setIsDisable(true)
 
             }
-            axios.get(API_URL+'/deposit/allDepositSlips').then((response) => {
+            axios.get(API_URL + '/deposit/allDepositSlips').then((response) => {
                 setlistOfDeposits(response.data);
             })
         })
@@ -133,8 +133,8 @@ const DepositSlips = () => {
         TblHead,
         TblPagination,
         recordsAfterPagingAndSorting
-    } = useTable(listOfDeposits,"", filterFn);
-    
+    } = useTable(listOfDeposits, "", filterFn);
+
     const handleSearch = e => {
         let target = e.target;
         setFilterFn({
@@ -143,9 +143,9 @@ const DepositSlips = () => {
                     return items;
                 else
                     return items.filter(x => x.firstName.toLowerCase().includes(target.value) ||
-                    x.lastName.toLowerCase().includes(target.value) ||
-                    x.decription.toLowerCase().includes(target.value) ||
-                    x.orderId.includes(target.value))
+                        x.lastName.toLowerCase().includes(target.value) ||
+                        x.decription.toLowerCase().includes(target.value) ||
+                        x.orderId.includes(target.value))
             }
         })
     }
@@ -158,7 +158,7 @@ const DepositSlips = () => {
                 <PageHeader title="Bank Deposit Slips" icon={<LayersIcon fontSize="large" />} />
                 <Paper className={classes.pageContent}>
                     <Toolbar>
-                    <Controls.Input
+                        <Controls.Input
                             label="Search Bank Deposits"
                             className={classes.searchInput}
                             InputProps={{
@@ -166,10 +166,10 @@ const DepositSlips = () => {
                                     <InputAdornment position="start">
                                         <Search />
                                     </InputAdornment>
-                                    
+
                                 ),
                             }}
-                        onChange={handleSearch}
+                            onChange={handleSearch}
                         />
                     </Toolbar>
 
@@ -185,12 +185,11 @@ const DepositSlips = () => {
                                             <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Contact Number</TableCell>
                                             <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Order ID</TableCell>
                                             <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Order Status</TableCell>
-                                            <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Deposit Slip</TableCell>
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
                                         {recordsAfterPagingAndSorting()
-                                            .map((value,index) => {
+                                            .map((value, index) => {
                                                 return (
 
 
@@ -199,7 +198,6 @@ const DepositSlips = () => {
                                                         <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.contactNo}</TableCell>
                                                         <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.orderId}</TableCell>
                                                         <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.decription}</TableCell>
-                                                        <TableCell align="center" style={{ fontFamily: 'Montserrat' }}><img height={100} width={200} align="center" src={API_URL+'/' + value.slip} alt=""></img></TableCell>
                                                         <TableCell align="center">
                                                             <Button name="view"
                                                                 onClick={() => {
@@ -234,7 +232,7 @@ const DepositSlips = () => {
                                                                         onConfirm: () => { acceptPayment(value.orderId) }
                                                                     })
                                                                 }}
-                                                                
+
                                                             >
                                                                 ACCEPT PAYMENT
                                                             </Button>
@@ -249,7 +247,7 @@ const DepositSlips = () => {
                                                                         onConfirm: () => { rejectPayment(value.orderId) }
                                                                     })
                                                                 }}
-                                                                
+
                                                             >
                                                                 REJECT PAYMENT
                                                             </Button>
