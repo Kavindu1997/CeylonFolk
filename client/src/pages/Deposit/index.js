@@ -71,7 +71,7 @@ export default function Deposit(props) {
                 setIsDisabled(true)
                 setNotify({
                     isOpen: true,
-                    message: 'Slip has already uploaded',
+                    message: 'Slip has already uploaded or a invalid id !',
                     type: 'error'
                 });
             }else{
