@@ -1,4 +1,4 @@
-import React from 'react'
+import { React, useState } from 'react'
 import useStyles from './style';
 import { useHistory } from 'react-router-dom';
 import * as Yup from 'yup';
@@ -6,11 +6,12 @@ import { CssBaseline, TextField, Button, Grid, Typography, Link } from '@materia
 import axios from 'axios';
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { API_URL } from '../../_constants';
-
+import Notification from '../../components/Reusable/Notification';
 
 function ForgotPassword() {
     const classes = useStyles();
     let history = useHistory();
+    const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' });
 
     const initialForgotValues = {
         forgotEmail: '',
@@ -25,13 +26,28 @@ function ForgotPassword() {
         console.log(data);
         axios.post(API_URL + "/auth/forgotPassword", data).then((response) => {
             if (response.data.error) {
-                alert(response.data.error);
+                setNotify({
+                    isOpen: true,
+                    message: response.data.error,
+                    type: 'error'
+                });
+            }
+            else {
+                setNotify({
+                    isOpen: true,
+                    message: response.data.message,
+                    type: 'success'
+                });
             }
         });
         props.resetForm();
     }
     return (
         <div>
+            <Notification
+                notify={notify}
+                setNotify={setNotify}
+            />
             <CssBaseline />
             <div className={classes.forgotPass}>
                 <Grid container >
