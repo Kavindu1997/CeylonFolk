@@ -1,5 +1,5 @@
 import { makeStyles } from "@material-ui/core";
-import { blue, green } from "@material-ui/core/colors";
+import { blue, green, red } from "@material-ui/core/colors";
 import DrawerImg from '../../../images/drawer.jpg'
 
 export const useStyles = makeStyles((theme) => {
@@ -15,11 +15,12 @@ export const useStyles = makeStyles((theme) => {
     },
 
     green: {
-      width: "35px",
-      height: "35px",
-      borderRadius: "50%",
-      color: "White",
-      backgroundColor: green["388E3C"],
+      color: '#fff',
+      backgroundColor: green[500],
+    },
+    red: {
+      color:'#fff',
+      backgroundColor: red[500],
     },
 
     profileImg: {
@@ -105,10 +106,10 @@ export const useStyles = makeStyles((theme) => {
       textTransform: "capitalize",
       
       fill: 'white',
-      padding: '10px',
-      // borderRadius: '50px',
+      padding: '15px',
+      borderRadius: '50px',
       background: 'light blue',
-      width: '1000px',
+      width: '2000px',
       color: 'black',
       boxShadow: 'none',
       // marginTop:'0px'

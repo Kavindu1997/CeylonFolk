@@ -69,7 +69,7 @@ router.get("/editedorders", async (req, res) => {
     const editedOrders = await sequelize.query(query, { type: sequelize.QueryTypes.SELECT });
 
     res.json(editedOrders);
-    console.log(editedOrders);
+   
 });
 
 router.get("/deletedorders", async (req, res) => {
@@ -150,7 +150,7 @@ router.put("/pendingCO", async (req, res) => {
  
     const query = "UPDATE `customizeorders` SET notificationFlag='1' WHERE notificationFlag=0 and notificationStatus='Pending'";
     const updateCustomizeOrders = await sequelize.query(query, { type: sequelize.QueryTypes.UPDATE });
-    res.json(updateCustomizeOrders);
+
     res.status(200).json({
         success: "Success"
     })
@@ -161,7 +161,6 @@ router.put("/recievedCO", async (req, res) => {
 
     const query = "UPDATE `customizeorders` SET notificationFlag='1' WHERE notificationFlag=0  and notificationStatus='Recieved'";
     const updateCustomizeOrders = await sequelize.query(query, { type: sequelize.QueryTypes.UPDATE });
-    res.json(updateCustomizeOrders);
     res.status(200).json({
         success: "Success"
     })
@@ -170,9 +169,9 @@ router.put("/recievedCO", async (req, res) => {
 
 router.put("/advancepaidCO", async (req, res) => {
 
-    const query = "UPDATE `customizeorders` SET notificationFlag='1' WHERE notificationFlag=0  and notificationStatus=''Advance Paid''";
+    const query = "UPDATE `customizeorders` SET notificationFlag='1' WHERE notificationFlag=0  and notificationStatus='Advance Paid'";
     const updateCustomizeOrders = await sequelize.query(query, { type: sequelize.QueryTypes.UPDATE });
-    res.json(updateCustomizeOrders);
+
     res.status(200).json({
         success: "Success"
     })
@@ -183,7 +182,7 @@ router.put("/paidCO", async (req, res) => {
 
     const query = "UPDATE `customizeorders` SET notificationFlag='1' WHERE notificationFlag=0  and notificationStatus='Paid'";
     const updateCustomizeOrders = await sequelize.query(query, { type: sequelize.QueryTypes.UPDATE });
-    res.json(updateCustomizeOrders);
+  
     res.status(200).json({
         success: "Success"
     })
@@ -194,7 +193,7 @@ router.put("/canceledCO", async (req, res) => {
 
     const query = "UPDATE `customizeorders` SET notificationFlag='1' WHERE notificationFlag=0  and notificationStatus='Canceled'";
     const updateCustomizeOrders = await sequelize.query(query, { type: sequelize.QueryTypes.UPDATE });
-    res.json(updateCustomizeOrders);
+  
     res.status(200).json({
         success: "Success"
     })
@@ -206,7 +205,7 @@ router.put("/canceledCO", async (req, res) => {
 router.put("/editedorders", async (req, res) => {
     const query = "UPDATE `orders` SET flag='1' WHERE flag='0' and orders.notifications='edited'";
     const updateOrders = await sequelize.query(query, { type: sequelize.QueryTypes.UPDATE });
-    res.json(updateOrders);
+
     res.status(200).json({
         success: "Success"
     })
@@ -217,7 +216,7 @@ router.put("/deletedorders", async (req, res) => {
 
     const query = "UPDATE `orders` SET flag='1' WHERE flag='0' and orders.notifications='deleted' ";
     const updateOrders = await sequelize.query(query, { type: sequelize.QueryTypes.UPDATE });
-    res.json(updateOrders);
+
     res.status(200).json({
         success: "Success"
     })
@@ -227,7 +226,7 @@ router.put("/placedorders", async (req, res) => {
 
     const query = "UPDATE `orders` SET flag='1' WHERE flag='0' and orders.notifications='placed'";
     const updateOrders = await sequelize.query(query, { type: sequelize.QueryTypes.UPDATE });
-    res.json(updateOrders);
+
     res.status(200).json({
         success: "Success"
     })
@@ -236,7 +235,7 @@ router.put("/placedorders", async (req, res) => {
 router.put("/bankDeposits", async (req, res) => {
     const query = "UPDATE `deposits` SET flag='1' WHERE flag='0'";
     const updateDeposits = await sequelize.query(query, { type: sequelize.QueryTypes.UPDATE });
-    res.json(updateDeposits);
+
     res.status(200).json({
         success: "Success"
     })
@@ -250,9 +249,6 @@ router.put("/unsolvedInquiries/:contactus_id", async (req, res) => {
 
     const querySelect = "SELECT * from `contactus` WHERE id='" + contactus_id + "'";
     const selectContactUs = await sequelize.query(querySelect, { type: sequelize.QueryTypes.SELECT });
-
-    console.log("ddd");
-    console.log(selectContactUs[0].enquiryType)
 
     const htmlEmail = `
     <h3> ${selectContactUs[0].enquiryType}</h3>
@@ -311,11 +307,7 @@ const mailOptions = {
    
     const query = "UPDATE `contactus` SET status='solved' , response='" + response + "' WHERE id='" + contactus_id + "'";
     const updateContactus = await sequelize.query(query, { type: sequelize.QueryTypes.UPDATE });
-    res.json(updateContactus);
-    res.status(200).json({
-        success: "Success"
-    }) 
-     
+
          
 
 });
@@ -324,7 +316,7 @@ router.put("/contactUs", async (req, res) => {
 
     const query = "UPDATE `contactus` SET notifiFlag='1' WHERE notifiFlag='0'";
     const updateContactus = await sequelize.query(query, { type: sequelize.QueryTypes.UPDATE });
-    res.json(updateContactus);
+
     res.status(200).json({
         success: "Success"
     })
