@@ -225,10 +225,22 @@ export default function Product_detail() {
 
     axios.post("http://localhost:3001/ProductDetails/stockrefill", data).then((response) => {
       console.log(data);
-      if (response.data.error) alert(response.data.error);
+      if (response.data.error){
+        setNotify({
+          isOpen: true,
+          message: 'Message Not Sent !',
+          type: 'error'
+        });
+      }
               else {
-                  alert("Message sent Successfully");
-                  history.push('/shop')
+                setNotify({
+                  isOpen: true,
+                  message: 'Message Sent Successfully !',
+                  type: 'success'
+                });
+                setTimeout(function(){
+                  history.push("/shop")
+              }, 1000);
               }
     });
     console.log(data);
@@ -470,14 +482,14 @@ export default function Product_detail() {
               </center>
           </Popup>
 
-                    {quantity &&
+                    {/* {quantity &&
                     <Box className={productSize == undefined ? classes.activeQuantity : classes.quantity}>
 
                     <Box className={classes.tBox}>
                       <Typography className={classes.productColor}>QUANTITY</Typography>
                       <div>{quantity && <NumericInput mobile min={1} max={quantity[index1].quantity} value={1} size={1} onChange={getQty} />}</div>
                     </Box>
-                    </Box>}
+                    </Box>} */}
 
                     {quantity &&
                     <Box className={quantity[index1].quantity > 0 ? classes.activeQuantity : classes.quantity}>
