@@ -4,7 +4,7 @@ import { useForm,Form } from '../useForm';
 import Controls from '../Controls';
 
 const initialFvalues = {
-    id:'',
+    id:'0',
     newPassword: '',
     confirmPassword: ''
 }
@@ -12,7 +12,7 @@ const initialFvalues = {
 
 const ChangePassword = (props) => {
 
-    const { addOrEdit} = props;
+    const { addOrEditPwd} = props;
 
     const validate = (fieldValues = values) => {
         let temp = { ...errors }
@@ -40,7 +40,7 @@ const ChangePassword = (props) => {
     const handleSubmit = e => {
         e.preventDefault();
         if (validate()) {
-            addOrEdit(values, resetForm);
+            addOrEditPwd(values, resetForm);
         }
     }
 

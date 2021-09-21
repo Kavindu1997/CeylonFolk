@@ -120,13 +120,15 @@ router.post("/newPassword", async (req, res) => {
 
 });
 
-router.put("/changePassword/:userId", async (req, res) => {
-    const userId = req.params.userId
+router.put("/changePassword/:uid", async (req, res) => {
+    const userId = req.params.uid
     console.log(userId);
     const { newPassword,confirmPassword } = req.body;
-    const query = "UPDATE users SET password='" + newPassword + "'  WHERE id='" + userId + "'";
+    bcrypt.hash(newPassword, 10).then(async (hash) => {
+    const query = "UPDATE users SET password='" + hash + "'  WHERE id='" + userId + "'";
     const result = await sequelize.query(query, { type: sequelize.QueryTypes.UPDATE });
     res.json(result);
+   });
 });
 
 
