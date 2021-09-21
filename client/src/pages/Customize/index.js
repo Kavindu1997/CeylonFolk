@@ -32,6 +32,9 @@ import sleeveDesign from "../../images/new/sleeveDesign.png";
 import Notification from '../../components/Reusable/Notification';
 import { useHistory } from 'react-router-dom';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
+import sizeTshirt from "../../images/sizeTshirt.jpg";
+import sizeKids from "../../images/sizeKids.jpg";
+import sizeCropTop from "../../images/sizeCropTop.jpg";
 
 
 const Customize = () => {
@@ -67,6 +70,7 @@ const Customize = () => {
   const [exportT, setexportT] = useState(null)
   const [openPopup, setOpenPopup] = useState(false);
   const [openSleevePopup, setopenSleevePopup] = useState(false);
+  const [openSizePopup, setopenSizePopup] = useState(false);
   const [customizeprice, setcustomizePrice] = useState(1100);
   const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' });
   const [notifySize, setNotifySize] = useState({ isOpen: false, message: '', type: '' });
@@ -727,6 +731,14 @@ const Customize = () => {
               }}
             >SLEAVE DESIGNING</Button>
           </Grid>
+          <Grid>
+            <Button
+              className={classes.slevebtn}
+              onClick={() => {
+                setopenSizePopup(true);
+              }}
+            >SIZE GUIDE</Button>
+          </Grid>
 
           <Popup
             title="Special Design Areas"
@@ -746,6 +758,22 @@ const Customize = () => {
               <center>
                 <img style={{ alignItems: 'center' }} src={sleeveDesign} style={{ height: '300px' }} />
               </center>
+
+
+            </Grid>
+            </center>
+          </Popup>
+
+          <Popup
+            title="Size Guide"
+            openPopup={openSizePopup}
+            setOpenPopup={setopenSizePopup}
+          >
+            <center>
+            <Grid style={{ alignItems: 'center', display:'flex' }}>
+            <img src={sizeTshirt} style={{ width: '30%', padding:'10px' }} />
+            <img src={sizeCropTop} style={{ width: '30%', padding:'10px' }} /> 
+            <img src={sizeKids} style={{ width: '30%', padding:'10px' }} />
 
 
             </Grid>

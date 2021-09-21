@@ -347,65 +347,7 @@ const Home = () => {
 
                 <Container className={classes.collectionContainer} maxWidth="lg">
                     <Typography variant="h4" className={classes.collectionTitle}>Customer Snaps</Typography>
-                    {/* <Grid container spacing={0}>
-                        <Carousel>   
-                            <Grid item xs={12} sm={6} md={4}>
-                                <Card className={classes.card}>
-                                    <CardActionArea>
-                                        <CardMedia
-                                            className={classes.media}
-                                            style={{ backgroundImage:`url(${Snap1})`,height:'450px'}}
-                                            title="Snap1"
-                                        />      
-                                    </CardActionArea>
-                                </Card>
-                            </Grid>
-                            <Grid item xs={12} sm={6} md={4}>
-                                <Card className={classes.card}>
-                                    <CardActionArea>
-                                        <CardMedia
-                                            className={classes.media}
-                                            style={{ backgroundImage:`url(${Snap2})`,height:'450px'}}
-                                            title="Snap2"
-                                        />
-                                    </CardActionArea>
-                                </Card>
-                            </Grid>    
-                            <Grid item xs={12} sm={6} md={4}>
-                                <Card className={classes.card}>
-                                    <CardActionArea>
-                                            <CardMedia
-                                                className={classes.media}
-                                                style={{ backgroundImage:`url(${Snap3})`,height:'450px'}}
-                                                title="Snap3"
-                                            />                                          
-                                    </CardActionArea>
-                                </Card>
-                            </Grid>
-                            <Grid item xs={12} sm={6} md={4}>
-                                <Card className={classes.card}>
-                                    <CardActionArea>
-                                            <CardMedia
-                                                className={classes.media}
-                                                style={{ backgroundImage:`url(${Snap4})`,height:'450px'}}
-                                                title="Sanp4"
-                                            />                                          
-                                    </CardActionArea>
-                                </Card>
-                            </Grid>
-                            <Grid item xs={12} sm={6} md={4}>
-                                <Card className={classes.card}>
-                                    <CardActionArea>
-                                            <CardMedia
-                                                className={classes.media}
-                                                style={{ backgroundImage:`url(${Snap5})`,height:'450px'}}
-                                                title="Snap5"
-                                            />                                          
-                                    </CardActionArea>
-                                </Card>
-                            </Grid>
-                        </Carousel>     
-                    </Grid> */}
+                    
 
 <Box>
             <InstagramFeed token="IGQVJWRmNjSWhCYnNiVnZAhb0dKS0E5R0VYajB2TGlaOUJzelE0cUNOd2h1NFlHdS1xSEFZASldESUpOa2VGUTNURzgxRVVRVmxxcTc2eEpHdVd5SlB4UlcxOFpKTm1pRXFjLVNLWmpITVVfc3NmWGFuegZDZD"  counter="6"/>
