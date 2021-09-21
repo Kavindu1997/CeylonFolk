@@ -11,14 +11,6 @@ import AdminNav from "../../../components/Reusable/AdminNav"
 import useStyles from '../style';
 import axios from 'axios';
 import useTable from "../../../components/Reusable/useTable";
-import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from 'react-router-dom';
-import AcceptedOrders from '../CustomizeOrder/AcceptedOrders';
-import PrintingOrders from '../CustomizeOrder/PrintingOrders';
-import PrintedOrders from '../CustomizeOrder/PrintedOrders';
-import DispatchedOrders from "../CustomizeOrder/DispatchedOrders";
-import ClosedOrders from "../CustomizeOrder/ClosedOrders";
-import { viewOrderDetail } from "../../../_actions/orderHistory.action";
 import ViewOrderForm from "./viewOrder";
 import { API_URL } from '../../../_constants';
 import BankSlip from "./bankSlip";
@@ -175,24 +167,24 @@ const DepositSlips = () => {
 
                     <Typography variant="h5" style={{ marginTop: '80px', textAlign: 'center', backgroundColor: '#C6C6C6', padding: '30px', fontFamily: 'Montserrat' }}>BANK DEPOSIT SLIPS </Typography>
                     <container>
-                        <center>
-
-                            <TableContainer style={{ marginTop: '30px', align: 'center' }} className={toggleState === 1 ? classes.activeContent : classes.hideContent}>
-                                <Table className={classes.table} aria-label="simple table" style={{ overflowWrap: 'anywhere' }}>
+                        <center style={{ width: '100%' }}>
+                            <TableContainer style={{ marginTop: '30px', align: 'center', width: '100%' }} className={toggleState === 1 ? classes.activeContent : classes.hideContent}>
+                                <Table className={classes.table} aria-label="simple table" >
                                     <TableHead>
                                         <TableRow>
                                             <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Customer Name</TableCell>
                                             <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Contact Number</TableCell>
                                             <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Order ID</TableCell>
                                             <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Order Status</TableCell>
+                                            <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}></TableCell>
+                                            <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Action</TableCell>
+                                            <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}></TableCell>
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
                                         {recordsAfterPagingAndSorting()
                                             .map((value, index) => {
                                                 return (
-
-
                                                     <TableRow key={index}>
                                                         <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.firstName + " " + value.lastName}</TableCell>
                                                         <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.contactNo}</TableCell>
@@ -200,30 +192,27 @@ const DepositSlips = () => {
                                                         <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.decription}</TableCell>
                                                         <TableCell align="center">
                                                             <Button name="view"
-                                                                onClick={() => {
-
-                                                                    setOpenBankSlip(value)
-                                                                }}
-                                                                style={{ backgroundColor: 'black', color: 'white', fontSize: '12px', padding: '6px' }}
+                                                                onClick={() => { setOpenBankSlip(value) }}
+                                                                variant="contained"
+                                                                color="primary"
                                                             >
                                                                 VIEW SLIP
                                                             </Button>
-
                                                         </TableCell>
-
                                                         <TableCell align="center">
                                                             <Button name="order"
                                                                 onClick={() => setOrderToEdit(value)}
-                                                                style={{ backgroundColor: 'black', color: 'white', fontSize: '12px', padding: '6px' }}
+                                                                variant="contained"
+                                                                color="primary"
                                                             >
                                                                 VIEW ORDER
                                                             </Button>
-
                                                         </TableCell>
                                                         <TableCell align="center">
                                                             <Button name="accept"
                                                                 disabled={value.isValidated == '1' && value.isProcessed == '1' || value.isRejected == '1' ? true : false}
-
+                                                                style={{ backgroundColor: 'green', color: 'white', margin: '8px' }}
+                                                                variant="contained"
                                                                 onClick={() => {
                                                                     setConfirmDialog({
                                                                         isOpen: true,
@@ -238,7 +227,8 @@ const DepositSlips = () => {
                                                             </Button>
                                                             <Button name="reject"
                                                                 disabled={value.isValidated == '1' && value.isProcessed == '1' || value.isRejected == '1' ? true : false}
-
+                                                                style={{ backgroundColor: 'red', color: 'white', margin: '8px' }}
+                                                                variant="contained"
                                                                 onClick={() => {
                                                                     setConfirmDialog({
                                                                         isOpen: true,
@@ -253,9 +243,6 @@ const DepositSlips = () => {
                                                             </Button>
                                                         </TableCell>
                                                     </TableRow>
-
-
-
                                                 );
                                             })}
 
@@ -264,30 +251,6 @@ const DepositSlips = () => {
                             </TableContainer>
                         </center>
                     </container>
-
-
-
-                    {/* <Box className={toggleState === 2 ? classes.activeContent : classes.hideContent}>
-                    <AcceptedOrders />
-                    </Box>
-
-                    <Box className={toggleState === 3 ? classes.activeContent : classes.hideContent}>
-                    <PrintingOrders />
-                    </Box>
-
-                    <Box className={toggleState === 4 ? classes.activeContent : classes.hideContent}>
-                    <PrintedOrders />
-                    </Box>
-
-                    <Box className={toggleState === 5 ? classes.activeContent : classes.hideContent}>
-                    <DispatchedOrders />
-                    </Box>
-
-                    <Box className={toggleState === 6 ? classes.activeContent : classes.hideContent}>
-                    <ClosedOrders />
-                    </Box> */}
-
-
 
                     <Notification
                         notify={notify}

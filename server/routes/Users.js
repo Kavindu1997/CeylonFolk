@@ -86,11 +86,7 @@ router.post("/forgotPassword", async (req, res) => {
                     })
                 }
                 else {
-                    console.log("successfully send message", info)
-                    alert("successfully send message");
-                    return res.json({
-                        message: info
-                    })
+                    return res.json({ message: "Successfully sent Email." })
                 }
             });
 
@@ -123,9 +119,11 @@ router.post("/newPassword", async (req, res) => {
 router.put("/changePassword/:uid", async (req, res) => {
     const userId = req.params.uid
     console.log(userId);
+
     const { newPassword,confirmPassword } = req.body;
     bcrypt.hash(newPassword, 10).then(async (hash) => {
     const query = "UPDATE users SET password='" + hash + "'  WHERE id='" + userId + "'";
+
     const result = await sequelize.query(query, { type: sequelize.QueryTypes.UPDATE });
     res.json(result);
    });
@@ -167,7 +165,7 @@ router.get('/', async (req, res) => {
 router.get('/profile/:uid', async (req, res) => {
     const uid = req.params.uid
     try {
-        const query = "SELECT users.id,firstName,lastName,email,contactNo,user_type_id,type FROM users INNER JOIN usertypes on users.user_type_id=usertypes.id WHERE users.id="+uid;
+        const query = "SELECT users.id,firstName,lastName,email,contactNo,user_type_id,type FROM users INNER JOIN usertypes on users.user_type_id=usertypes.id WHERE users.id=" + uid;
         const user = await sequelize.query(query, { type: sequelize.QueryTypes.SELECT });
         res.json(user);
     } catch (error) {
