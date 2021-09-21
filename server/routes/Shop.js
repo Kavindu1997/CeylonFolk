@@ -24,7 +24,7 @@ router.post("/shop", async (req, res) => {
     const id = req.body.id
     const uId = req.body.uId;
     // console.log(id)
-    const query = "SELECT *, designs.id AS ID, CASE WHEN wishlists.itemId IS NOT NULL THEN 1 ELSE 0 END AS isInWishList FROM designs LEFT JOIN wishlists ON wishlists.itemId = designs.id AND wishlists.userId = '"+uId+"' WHERE type_id = '"+id+"' GROUP by design_name";
+    const query = "SELECT *, designs.id AS ID, CASE WHEN wishlists.itemId IS NOT NULL THEN 1 ELSE 0 END AS isInWishList FROM designs LEFT JOIN wishlists ON wishlists.itemId = designs.id AND wishlists.userId = '"+uId+"' LEFT JOIN offers ON offers.collection_id=designs.collection_id WHERE type_id = '"+id+"' GROUP by design_name";
     const listOftypes = await sequelize.query(query, { type: sequelize.QueryTypes.SELECT });
     res.json(listOftypes);
 });
@@ -54,7 +54,7 @@ router.post("/addwishlistType", async (req, res) => {
         data.status = 0
     }
 
-    const query = "SELECT *, designs.id AS ID, CASE WHEN wishlists.itemId IS NOT NULL THEN 1 ELSE 0 END AS isInWishList FROM designs LEFT JOIN wishlists ON wishlists.itemId = designs.id AND wishlists.userId = '"+uId+"' WHERE type_id = '"+typeid+"' GROUP by design_name"
+    const query = "SELECT *, designs.id AS ID, CASE WHEN wishlists.itemId IS NOT NULL THEN 1 ELSE 0 END AS isInWishList FROM designs LEFT JOIN wishlists ON wishlists.itemId = designs.id AND wishlists.userId = '"+uId+"' LEFT JOIN offers ON offers.collection_id=designs.collection_id WHERE type_id = '"+typeid+"' GROUP by design_name"
     const listOfDesignsDB = await sequelize.query(query, { type: sequelize.QueryTypes.SELECT });
     data.data = listOfDesignsDB
     res.json(data);
