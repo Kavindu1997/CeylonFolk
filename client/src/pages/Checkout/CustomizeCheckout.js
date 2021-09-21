@@ -186,7 +186,7 @@ export default function CustomizeCheckout() {
         let orderId = new Date().getTime();
         var date = moment().format();
         var total = Number(price) + Number(districtvalue) + Number(price);
-        var totalAmount = Number(price) + Number(price) + Number(districtvalue);
+        var totalAmount = Number(price) + Number(districtvalue) + Number(price);
         var address = "";
         if (isDeliveryDiffAdd != true) {
             address = cutomerAddress1 + ' ' + cutomerAddress2 + ' ' + cutomerAddress3;
@@ -196,7 +196,7 @@ export default function CustomizeCheckout() {
         const item = {
             userId: uid,
             orderId: orderId,
-            totalAmount: total,
+            totalAmount:  Number(districtvalue) + Number(price),
             payment: 'pm',
             status: 'status',
             // itemArray: itemDetails,
