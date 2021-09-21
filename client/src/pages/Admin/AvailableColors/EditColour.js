@@ -6,7 +6,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { setColors } from '../../../_actions/colorActions'
 import { ChromePicker } from 'react-color';
 import { Typography, Button, Box } from '@material-ui/core';
-import { fetchColors } from '../../../_actions/colorActions'
+import { fetchColors } from '../../../_actions/colorActions';
+import axios from 'axios';
+import { useHistory } from 'react-router-dom';
 
 function  EditColour({ selectedColourId }) {
 
@@ -18,6 +20,7 @@ function  EditColour({ selectedColourId }) {
     const [pickerColorArray, setPickerColorArray] = useState([]);
     const [showColorPicker, setShowColorPicker] = useState(false);
     const dispatch = useDispatch();
+    let history = useHistory();
 
     useEffect(() => {
         dispatch(fetchColors());
@@ -36,12 +39,16 @@ function  EditColour({ selectedColourId }) {
     const pickedCOlor = (props) => {
         var colors = {
             color: pickerColor,
-            price: colorPrice,
-            color_name: colorName,
+          
+
         }
+        axios.put(`http://localhost:3001/availableColors/editColor/${selectedColourId.colour_id}`, colors).then((response) => {
+            // alert('Image upload Successfull');
+            history.push('/availableColors');
 
+
+        })
   
-
     };
 
     return (
@@ -66,7 +73,7 @@ function  EditColour({ selectedColourId }) {
                         <Box>
                         <Button style={{ margin: '10px', padding: '10px', background: 'black', color: 'white' }}
 
-                            onClick={pickedCOlor}>ADD COLOR</Button>
+                            onClick={pickedCOlor}>EDIT COLOR</Button>
                              </Box>
                
                 </Grid>
