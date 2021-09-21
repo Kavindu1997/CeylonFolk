@@ -54,13 +54,27 @@ function OffersEdit({ selectedCollectionId }) {
                     message: 'Not successfully Edited',
                     type: 'error'
                 });
-            }else {
+            }else if(response.data.data == 1)  {
                 setNotify({
                     isOpen: true,
                     message: 'Successfully Edited !',
                     type: 'success'
                 });
             } 
+            else if (response.data.data == 2) {
+                setNotify({
+                    isOpen: true,
+                    message: 'Date shoudnt be a Past Date!',
+                    type: 'error'
+                });
+            }
+            else if (response.data.data == 3) {
+                setNotify({
+                    isOpen: true,
+                    message: 'Rate should be between 0-100!',
+                    type: 'error'
+                });
+            }
            
         });
         

@@ -71,7 +71,7 @@ export default function Deposit(props) {
                 setIsDisabled(true)
                 setNotify({
                     isOpen: true,
-                    message: 'Slip has already uploaded',
+                    message: 'Slip has already uploaded or a invalid id !',
                     type: 'error'
                 });
             }else{
@@ -117,7 +117,7 @@ export default function Deposit(props) {
             }else{
                 setNotify({
                     isOpen: true,
-                    message: 'Slip is successfully updated !',
+                    message: 'Slip is successfully uploaded. Will nofity the payment acceptance via an email !',
                     type: 'success'
                   }); 
                 localStorage.removeItem("orderIdFromEmail")
