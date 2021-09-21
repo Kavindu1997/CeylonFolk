@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 // import { Grid } from '@material-ui/core';
-import { Grid, Typography, Box, Select, MenuItem, InputLabel, FormControl } from '@material-ui/core';
+import { Grid, Typography, Box, Select, MenuItem, InputLabel, FormControl,Input } from '@material-ui/core';
 import { useForm, Form } from '../../components/Reusable/useForm';
 import Controls from '../../components/Reusable/Controls';
 import axios from 'axios';
@@ -113,7 +113,13 @@ const EditOrderForm = ({ selectedOrderToEdit }) => {
             setQuantityErrorMsg(msg)
             setQuantityError(true)
             setIsDisable(true)
-        } else {
+        } else if(e.target.value<=0){
+            var msg = "Quantity cannot be a negative or 0 number"
+            setQuantityErrorMsg(msg)
+            setQuantityError(true)
+            setIsDisable(true)
+        }
+         else {
             setQuantityError(false)
             setQuantityErrorMsg('')
             setIsDisable(false)
@@ -133,6 +139,7 @@ const EditOrderForm = ({ selectedOrderToEdit }) => {
                                 variant="outlined"
                                 label="Order ID"
                                 name="orderId"
+                                style={{marginTop:"15px"}}
                                 defaultValue={selectedOrderToEdit.oId}
                                 InputProps={{
                                     readOnly: true,
@@ -140,7 +147,19 @@ const EditOrderForm = ({ selectedOrderToEdit }) => {
                             />
                         </Grid>
                         <Grid item xs={4}>
-                            <Controls.Input
+                        <InputLabel id="quantity" style={{fontSize:"12px"}} >Quantity</InputLabel>
+                        <input type="number" 
+                        id="quantity"
+                            min="1" 
+                            step="1"
+                            defaultValue={selectedOrderToEdit.quantity}
+                            style={{height:"50px",borderRadius:'5px',marginTop:"3px", padding:"10px", fontFamily:"Montserrat", fontSize:"15px"}}
+                            onKeyDown={changeQuantity}
+                            onChange={changeQuantity}
+                            error={quantityError}/>
+                            {/* <Input
+                                type="number"
+                                min="0"
                                 variant="outlined"
                                 label="Quantity"
                                 name="quantity"
@@ -148,7 +167,7 @@ const EditOrderForm = ({ selectedOrderToEdit }) => {
                                 onChange={changeQuantity}
                                 error={quantityError}
 
-                            />
+                            /> */}
 
                         </Grid>
 
@@ -160,6 +179,7 @@ const EditOrderForm = ({ selectedOrderToEdit }) => {
                                     id="demo-simple-select-outlined"
                                     defaultValue={selectedOrderToEdit.sizeId}
                                     onChange={changeSize}
+                                    style={{marginTop:"15px"}}
                                     label="Size"
                                     className={classes.formControl}
                                 >
