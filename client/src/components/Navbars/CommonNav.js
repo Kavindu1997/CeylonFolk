@@ -20,7 +20,7 @@ const CommonNav = (props) => {
     const [countDetails, countOfItems] = useState([]);
     // const [shop, setshop] = useState(1)
 
-    
+
 
     let history = useHistory()
     useEffect(() => {
@@ -34,16 +34,16 @@ const CommonNav = (props) => {
 
         localStorage.setItem("shop", 1);
 
-        
-        
+
+
 
     }, []);
 
 
-    const setshop = (num)=>{
+    const setshop = (num) => {
         localStorage.setItem("shop", num);
 
-        }
+    }
 
     const [open, setOpen] = React.useState(false);
     const anchorRef = React.useRef(null);
@@ -97,11 +97,11 @@ const CommonNav = (props) => {
                 <Toolbar className={classes.appbarWrapper}>
                     <div className={classes.appbarLeft}>
                         <NavLink to={"/"} className={classes.appbarlink}> <Typography className={classes.appbarlink2}>Home</Typography></NavLink>
-                        <NavLink to={'/shop'} 
-                        className={classes.appbarlink} 
-                        onClick={() => {
-                            setshop(1);
-                        }} 
+                        <NavLink to={'/shop'}
+                            className={classes.appbarlink}
+                            onClick={() => {
+                                setshop(1);
+                            }}
                         >
                             <Typography
                                 className={classes.appbarlink2}
@@ -109,7 +109,7 @@ const CommonNav = (props) => {
                                 endicon={<KeyboardArrowDownIcon>
                                     fontSize="0.5rem"
                                 </KeyboardArrowDownIcon>}
-                                
+
                             >
                                 Shop
                             </Typography>
@@ -140,7 +140,7 @@ const CommonNav = (props) => {
 
                         >
                             <NavLink to={"/auth"} className={localStorage.getItem("userId") == '0' ? classes.navlinkvisibilityTrue : classes.navlinkvisibility}><PermIdentityOutlinedIcon className={classes.iconLogin} /></NavLink>
-                            {/* <Avatar>JP</Avatar> */}
+
                         </Button>
                         <div className={localStorage.getItem("userId") == '0' ? classes.visibility : classes.icon}>
                             <Popper open={open} anchorEl={anchorRef.current} role={undefined} transition disablePortal>

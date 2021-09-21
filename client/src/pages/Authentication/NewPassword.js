@@ -1,16 +1,18 @@
-import React from 'react'
+import { React, useState } from 'react'
 import useStyles from './style';
 import { useHistory, useParams } from 'react-router-dom';
 import * as Yup from 'yup';
 import { CssBaseline, TextField, Button, Grid, Typography, Link } from '@material-ui/core';
 import axios from 'axios';
 import { Formik, Form, Field, ErrorMessage } from "formik";
+import Notification from '../../components/Reusable/Notification';
 import { API_URL } from '../../_constants';
 
 function NewPassword() {
     const classes = useStyles();
     let history = useHistory();
     const { token } = useParams();
+    const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' });
     //console.log(token)
     const initialNewPasswordValues = {
         newPassword: '',
@@ -33,13 +35,25 @@ function NewPassword() {
 
         axios.post(API_URL + "/auth/newPassword", data1).then((response) => {
             if (response.data.error) {
-                alert(response.data.error);
+                setNotify({
+                    isOpen: true,
+                    message: response.data.error,
+                    type: 'error'
+                });
+            }
+            else {
+                props.resetForm();
+                history.push("/auth");
             }
         });
-        props.resetForm();
     }
+
     return (
         <div>
+            <Notification
+                notify={notify}
+                setNotify={setNotify}
+            />
             <CssBaseline />
             <div className={classes.forgotPass}>
                 <Grid container >
