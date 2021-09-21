@@ -132,6 +132,9 @@ router.put("/:types_id", async (req,res) => {
                             res.json({ data: 1 });
 
                         }
+                        else{
+                            res.json({ data: 0 });
+                        }
                           
                 
                     }
@@ -145,6 +148,9 @@ router.put("/:types_id", async (req,res) => {
                         const updateTypes = await sequelize.query(query, {type: sequelize.QueryTypes.UPDATE});
                         res.json({ data: 1 });
                   
+                        }
+                        else{
+                            res.json({ data: 0 });
                         }
             
                         
@@ -160,11 +166,20 @@ router.put("/:types_id", async (req,res) => {
                             const updateTypes = await sequelize.query(query, {type: sequelize.QueryTypes.UPDATE});
                             res.json({ data: 1 });
                             }
+                            else{
+                                res.json({ data: 0 });
+                            }
                             
                 
                         }
+                        else{
+                            res.json({ data: 0 });
+                        }
             
                           
+                        }
+                        else{
+                            res.json({ data: 0 });
                         }
             
             

@@ -7,6 +7,8 @@ import VpnKeyIcon from '@material-ui/icons/VpnKey';
 import Controls from "../Controls";
 import Popup from "../Popup";
 import ChangePassword from "./ChangePassword";
+import EditProfile from "./EditProfile";
+import Notification from "../Notification";
 import axios from 'axios';
 import {API_URL }from '../../../_constants';
 
@@ -15,7 +17,10 @@ export default function Profile() {
   const [records,setRecords]=useState([]);
   const [open,setOpen]=useState(false);
   const [openPopup, setOpenPopup] = useState(false);
+  const [openEditPopup, setOpenEditPopup] = useState(false);
   const [anchorEl, setAnchorEl] =useState('top');
+  const [recordForEdit, setRecordForEdit] = useState(null);
+  const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' });
 
   const handleClick = (event) => {
     setAnchorEl('top');
@@ -23,9 +28,41 @@ export default function Profile() {
     
   };
   const addOrEdit = (data, resetForm) => {
-     
+    axios.put(`/auth/${data.id}`, data);
+    resetForm();
+    setRecordForEdit(null);
+    setOpenEditPopup(false);
+    setNotify({
+      isOpen: true,
+      message: 'Profile Edited Successfully !',
+      type: 'info'
+    }); 
+    setOpen(false);
+    window.location.reload(true);
 }
 
+const addOrEditPwd = (data, resetForm) => {
+  var uid = localStorage.getItem("userId");
+  console.log(uid);
+  console.log(data);
+  axios.put(`/auth/changePassword/${uid}`, data);
+  resetForm();
+  setRecordForEdit(null);
+  setOpenPopup(false);
+  setNotify({
+    isOpen: true,
+    message: 'Password Edited Successfully !',
+    type: 'info'
+  }); 
+  setOpen(false);
+  window.location.reload(true);
+}
+
+
+const openInPopup = item => {
+  setRecordForEdit(item);
+  setOpenEditPopup(true);
+}
 
 useEffect(() => {
   var uid = localStorage.getItem("userId");
@@ -35,7 +72,7 @@ useEffect(() => {
   });
 }, []);
  
-//console.log(records.firstName.charAt(0));
+
   return (
     <>
     <Tooltip title="Hi,Admin!">
@@ -78,13 +115,14 @@ useEffect(() => {
                                 <Typography className={classes.profileDetail} variant="subtitle1" color="textSecondary">{records.type}</Typography>
                  </Grid>
               </Grid>
-          {/* <Grid container style={{ justifyContent: 'center',marginTop:'35px'}}>
+          <Grid container style={{ justifyContent: 'center',marginTop:'35px'}}>
               <Controls.Button
                             text="Edit Profile"
                             variant="contained"
                             color="default"
                             startIcon={<EditIcon />}
                             className={classes.newButton}
+                            onClick={() => { openInPopup(records) }}
                         />
                <Controls.Button
                             text="Change Password"
@@ -92,11 +130,21 @@ useEffect(() => {
                             color="secondary"
                             startIcon={<VpnKeyIcon/>}
                             className={classes.newButton}
-                            onClick={() => { setOpenPopup(true); }}
+                            onClick={() => { setOpenPopup(true);}}
                         />
-          </Grid> */}
+          </Grid>
               </div>
 
+              <Popup
+                    title="Edit Profile Form"
+                    openPopup={openEditPopup}
+                    setOpenPopup={setOpenEditPopup}
+                >
+                    <EditProfile
+                        recordForEdit={recordForEdit}
+                        addOrEdit={addOrEdit}
+                    />
+                </Popup>
 
               <Popup
                     title="Change Password"
@@ -104,9 +152,15 @@ useEffect(() => {
                     setOpenPopup={setOpenPopup}
                 >
                     <ChangePassword
-                        addOrEdit={addOrEdit}
+                        recordForEdit={recordForEdit}
+                        addOrEditPwd={addOrEditPwd}
                     />
                 </Popup>
+
+                <Notification
+                    notify={notify}
+                    setNotify={setNotify}
+                />
                 
       </Drawer>
 

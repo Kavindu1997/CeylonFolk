@@ -17,6 +17,7 @@ import {
     ListItem,
     ListItemAvatar,
     ListItemText,
+    InputAdornment
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import { Link } from "react-router-dom";
@@ -32,6 +33,9 @@ import CommonNav from "../../components/Navbars/CommonNav";
 import ceylonforkapi from '../../api/index';
 import axios from 'axios';
 import { API_URL } from "../../_constants";
+import useTable from "../../components/Reusable/useTable";
+import Controls from "../../components/Reusable/Controls";
+import { Search } from "@material-ui/icons";
 
 export default function OrderHistory(props) {
     const classes = useStyles();
@@ -129,6 +133,30 @@ export default function OrderHistory(props) {
         })
     }
 
+    const [filterFn, setFilterFn] = useState({ fn: items => { return items; } });
+    const {
+        TblContainer,
+        TblHead,
+        TblPagination,
+        recordsAfterPagingAndSorting
+    } = useTable(orders, "", filterFn);
+
+
+
+    const handleSearch = e => {
+        let target = e.target;
+        setFilterFn({
+            fn: items => {
+                if (target.value === "")
+                    return items;
+                else
+                return items.filter(x => x.orderId.toLowerCase().includes(target.value) ||
+                x.placedDate.toLowerCase().includes(target.value) ||
+                x.status.toLowerCase().includes(target.value))
+            }
+        })
+    }
+
     return (
         <div>
             <CommonNav />
@@ -155,34 +183,6 @@ export default function OrderHistory(props) {
                         </Grid>
                         <Divider orientation="vertical" flexItem />
                         <Grid item xs={12} sm={12} md={8} lg={7}>
-                        {/* <div className={classes.info}>
-                    <div className={classes.pageLinks}>
-                        <Button onClick={() => pending()} style={{ borderRadius: '50px', borderWidth: '2px', borderColor: 'black', marginRight: '40px', fontWeight: 'bold', backgroundColor: '#bbd8ff' }} variant="outlined" color="primary">
-                        Pending Orders
-                        </Button>
-                        <Button onClick={() => placed()} style={{ borderRadius: '50px', borderWidth: '2px', borderColor: 'black', marginRight: '40px', fontWeight: 'bold' }} variant="outlined" color="primary">
-                        Placed Orders
-                        </Button>
-                        <Button onClick={() => notDeposited()} style={{ borderRadius: '50px', borderWidth: '2px', borderColor: 'black', marginRight: '40px', fontWeight: 'bold' }} variant="outlined" color="primary">
-                        Waiting to Deposit Oders
-                        </Button>
-                        <Button onClick={() => deposited()} style={{ borderRadius: '50px', borderWidth: '2px', borderColor: 'black', marginRight: '40px', fontWeight: 'bold' }} variant="outlined" color="primary">
-                        Deposit Verifying Orders
-                        </Button>
-                        <Button onClick={() => accepted()} style={{ borderRadius: '50px', borderWidth: '2px', borderColor: 'black', marginRight: '40px', fontWeight: 'bold' }} variant="outlined" color="primary">
-                        Processing Orders
-                        </Button>
-                        <Button onClick={() => dispatched()} style={{ borderRadius: '50px', borderWidth: '2px', borderColor: 'black', marginRight: '40px', fontWeight: 'bold' }} variant="outlined" color="primary">
-                        Dispatched Orders
-                        </Button>
-                        <Button onClick={() => closed()} style={{ borderRadius: '50px', borderWidth: '2px', borderColor: 'black', marginRight: '40px', fontWeight: 'bold' }} variant="outlined" color="primary">
-                        Deposit Verification failed Orders
-                        </Button>
-                        <Button onClick={() => all()} style={{ borderRadius: '50px', borderWidth: '2px', borderColor: 'black', marginRight: '40px', fontWeight: 'bold' }} variant="outlined" color="primary">
-                        All Orders
-                        </Button>
-                    </div>
-                </div> */}
                             <Box style={{ display: 'flex', padding: '24px 10px 0px 48px' }}>
                                 <Divider orientation="vertical" flexItem />
                                 <Button onClick={() => pending()}>Pending Orders</Button>
@@ -202,6 +202,21 @@ export default function OrderHistory(props) {
                                 <Button onClick={() => all()}>All</Button>
                                 <Divider orientation="vertical" flexItem />
                             </Box>
+                            <div style={{padding:"10px",marginTop:"25px"}}>
+                            <Controls.Input
+                            label="Search Collection"
+                            className={classes.searchInput}
+                            InputProps={{
+                                startAdornment: (
+                                    <InputAdornment position="start">
+                                        <Search />
+                                    </InputAdornment>
+
+                                ),
+                            }}
+                            onChange={handleSearch}
+                        />
+                        </div>
                             <TableContainer style={{ marginTop: "30px" }}>
                                 <Table className={classes.table} aria-label="simple table">
                                     <TableHead>
@@ -239,7 +254,7 @@ export default function OrderHistory(props) {
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                        {orders.map((row, i) => (
+                                        {recordsAfterPagingAndSorting().map((row, i) => (
                                             <TableRow key={`row-${i}`}>
                                                 <TableCell
                                                     align="center"

@@ -58,7 +58,7 @@ try {
   
 if(countDesigns[0].count==0){
     if(countInventory[0].cnt!=0){
-        if(price>0){
+        if(price>0 && color!=''){
 
             Designs.create({
                 collection_id:collection_id,

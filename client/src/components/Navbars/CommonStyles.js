@@ -15,7 +15,8 @@ const useStyles = makeStyles((theme) => ({
         width: '100%',
         justifyContent: 'spaceBetween',
         alignItems: 'center',
-        background: 'white'
+        background: 'white',
+        borderBottom: '1px solid rgb(236, 236, 236)'
 
     },
     appbarsolid: {

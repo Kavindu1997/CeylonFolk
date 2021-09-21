@@ -71,29 +71,37 @@ const UserTable = () => {
 
     const addOrEdit = (data, resetForm) => {
         if (data.id === 0) {
-            axios.post(API_URL+"/auth/", data).then(() => {
+            axios.post(API_URL+"/auth/", data).then((response) => {
+                if (response.data.error) {
+                    setNotify({
+                        isOpen: true,
+                        message: response.data.error,
+                        type: 'error'
+                    });
+                }else{
                 axios.get(API_URL+"/auth/").then((response) => {
                     setRecords(response.data);
                 });
+                resetForm();
+                setRecordForEdit(null);
+                setOpenPopup(false);
+                axios.get(API_URL+"/auth/").then((response) => {
+                    setRecords(response.data);
+                });
+                setNotify({
+                    isOpen: true,
+                    message: 'Added Successfully !',
+                    type: 'success'
+                });
+            }
             });
-            resetForm();
-            setRecordForEdit(null);
-            setOpenPopup(false);
-            axios.get(API_URL+"/auth/").then((response) => {
-                setRecords(response.data);
-            });
-            setNotify({
-                isOpen: true,
-                message: 'Added Successfully !',
-                type: 'success'
-            });
-
+           
         } else {
             axios.put(`/auth/${data.id}`, data).then(() => {
                 axios.get(API_URL+"/auth/").then((response) => {
                     setRecords(response.data);
                 });
-            });;
+            });
             resetForm();
             setRecordForEdit(null);
             setOpenEditPopup(false);

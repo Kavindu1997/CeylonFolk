@@ -14,10 +14,13 @@ router.post("/", async(req, res) => {
         console.log(countColors[0].cnt);
 
         if(countColors[0].cnt==0){
-            const query = "INSERT INTO colors (color,color_name,price) VALUES ('" + color + "','" + color_name + "','" + price + "')";
-        const addColors = await sequelize.query(query, {type: sequelize.QueryTypes.INSERT});
-        // res.json(addSize); 
-        res.json({data:1});
+            if(color!='' && price>0){
+                const query = "INSERT INTO colors (color,color_name,price) VALUES ('" + color + "','" + color_name + "','" + price + "')";
+                const addColors = await sequelize.query(query, {type: sequelize.QueryTypes.INSERT});
+                // res.json(addSize); 
+                res.json({data:1});
+            }
+           
         }
         else{
             res.json({data:0});

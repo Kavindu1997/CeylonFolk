@@ -101,6 +101,9 @@ const useStyles = makeStyles((theme) => ({
         // marginLeft: '400px',
         padding: '30px',
     },
+    searchInput: {
+        width: "50%",
+      },
 
 }));
 

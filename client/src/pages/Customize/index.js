@@ -563,7 +563,7 @@ const Customize = () => {
             </div>
             <div>
               <div style={{display:'none'}}>{imageSrcArray.length===1 && pickerColorArray.length === 1 ?  price=2200 : imageSrcArray.length===1 && pickerColorArray.length > 1 ? price=2400 :imageSrcArray.length > 1 && pickerColorArray.length === 1 ? price=2300: pickerColorArray.length === 1 ? price=1700 : pickerColorArray.length > 1 ? price=1800 :imageSrcArray.length===1 && pickerColorArray.length === 1 ? price=2200 : imageSrcArray.length === 1 ?  price=1900 : imageSrcArray.length > 1 ?  price=2100 : price=1100}</div>              
-              <div className={classes.customizePrice}>Price = LKR {price}.00</div>             
+              <div className={classes.customizePrice}>Approximate Price = LKR {price}.00</div>             
               </div>
               
           </Grid>
@@ -662,7 +662,7 @@ const Customize = () => {
           <center>
           <Grid >
             <Box style={{textAlign:'center', padding: '10px', fontSize:'16px'}}>You are approximate price is LKR {price}.00</Box>
-            <Box style={{textAlign:'center', padding: '10px', fontSize:'14px'}}>The actial price of the design could be change with the admin acceptance</Box>
+            <Box style={{textAlign:'center', padding: '10px', fontSize:'14px'}}>The real price of the design could be change with the admin acceptance</Box>
 
           </Grid>
           <Grid item xs={6}>
