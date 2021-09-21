@@ -91,9 +91,12 @@ router.post("/inventory", async (req, res) => {
                 }
 
             }
+            else{
+                res.json({ data: 3 });
+            }
         }
         else {
-            res.json({ data: 3 });
+            res.json({ data: 0 });
         }
 
 

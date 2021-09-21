@@ -92,6 +92,7 @@ function DesignImageEdit({ selectedDesignId }) {
                                 variant="outlined"
                                 name="photo"
                                 type="file"
+                                required
                                 onChange={onInputChange}
                             />
 
