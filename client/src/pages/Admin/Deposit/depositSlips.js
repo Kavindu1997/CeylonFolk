@@ -210,8 +210,8 @@ const DepositSlips = () => {
                                                         </TableCell>
                                                         <TableCell align="center">
                                                             <Button name="accept"
-                                                                disabled={value.isValidated == '1' && value.isProcessed == '1' || value.isRejected == '1' ? true : false}
                                                                 style={{ backgroundColor: 'green', color: 'white', margin: '8px' }}
+                                                                className={value.isValidated == '1' && value.isProcessed == '1' || value.isRejected == '1' ? classes.quantity : classes.activeQuantity}
                                                                 variant="contained"
                                                                 onClick={() => {
                                                                     setConfirmDialog({
@@ -226,7 +226,7 @@ const DepositSlips = () => {
                                                                 ACCEPT PAYMENT
                                                             </Button>
                                                             <Button name="reject"
-                                                                disabled={value.isValidated == '1' && value.isProcessed == '1' || value.isRejected == '1' ? true : false}
+                                                                className={value.isValidated == '1' && value.isProcessed == '1' || value.isRejected == '1' ? classes.quantity : classes.activeQuantity}
                                                                 style={{ backgroundColor: 'red', color: 'white', margin: '8px' }}
                                                                 variant="contained"
                                                                 onClick={() => {
