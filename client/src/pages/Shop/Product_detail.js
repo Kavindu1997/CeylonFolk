@@ -372,10 +372,11 @@ export default function Product_detail() {
 
                                                                     </Typography>
                                                                     <div>
-                                                                        <Typography style={{ marginLeft: '10px', paddingLeft: '10px', background: '#31c5ee' }} className={classes.offer}>
+                                                                    <span className={classes.offer22}
+                                                                    style={{    padding: '0.6rem 0'}}
+                                                                    >
                                                                             {rate}%
-                                                                            {type_id}
-                                                                        </Typography>
+                                                                        </span>
 
                                                                     </div>
                                                                 </div>
@@ -471,12 +472,13 @@ export default function Product_detail() {
           </Popup>
 
                     {quantity &&
-                    <Box className={productSize == undefined ? classes.activeQuantity : classes.quantity}>
+                    <Box className={productSize == undefined && quantity[index1].quantity === 0 ? classes.activeQuantity : classes.quantity}>
 
                     <Box className={classes.tBox}>
                       <Typography className={classes.productColor}>QUANTITY</Typography>
                       <div>{quantity && <NumericInput mobile min={1} max={quantity[index1].quantity} value={1} size={1} onChange={getQty} />}</div>
                     </Box>
+                    <Button style={{ background: '#2c2d2d', color: 'white' }} onClick={addToCart}>ADD TO CART</Button>
                     </Box>}
 
                     {quantity &&

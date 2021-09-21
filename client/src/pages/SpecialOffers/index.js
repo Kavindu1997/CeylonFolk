@@ -320,9 +320,9 @@ const Shop = () => {
 
                                                                     </Typography>
                                                                     <div>
-                                                                        <Typography style={{ marginLeft: '10px', paddingLeft: '10px', background: '#31c5ee' }} className={classes.offer}>
+                                                                    <span className={classes.offer22}>
                                                                             {rate}%
-                                                                        </Typography>
+                                                                        </span>
 
                                                                     </div>
                                                                 </div>
