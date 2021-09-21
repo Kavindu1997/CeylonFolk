@@ -136,6 +136,8 @@ router.post("/", async (req, res) => {
     const { firstName, lastName, email, contactNo, password, user_type_id } = req.body;
 
     const user = await Users.findOne({ where: { email: email } });
+    if ((user)) res.json({ error: "Email already Existed!" });
+    else{
     bcrypt.hash(password, 10).then((hash) => {
         Users.create({
             firstName: firstName,
@@ -147,7 +149,8 @@ router.post("/", async (req, res) => {
         })
         res.json("SUCCESS");
     });
-    if ((user.email == email)) res.json({ error: "Email already Exist!" });
+}
+    //if ((user.email == email)) res.json({ error: "Email already Exist!" });
 });
 
 

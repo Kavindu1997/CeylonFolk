@@ -48,7 +48,7 @@ const addOrEditPwd = (data, resetForm) => {
   axios.put(`/auth/changePassword/${uid}`, data);
   resetForm();
   setRecordForEdit(null);
-  setOpenEditPopup(false);
+  setOpenPopup(false);
   setNotify({
     isOpen: true,
     message: 'Password Edited Successfully !',
