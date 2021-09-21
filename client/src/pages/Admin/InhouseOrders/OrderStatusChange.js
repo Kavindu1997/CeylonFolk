@@ -266,7 +266,7 @@ function OrderStatusChange({ selectedOrderId }) {
                                     <div>
                                         <Button
                                             style={{ margin: '20px' }}
-                                            onClick={() => { history.push(`/depositlips`); }}
+                                            onClick={() => { history.push(`/depositlips/${value.orderId}`); }}
                                             variant="contained"
                                             color="primary"
                                         >Check the validity of Bank Slip</Button>
