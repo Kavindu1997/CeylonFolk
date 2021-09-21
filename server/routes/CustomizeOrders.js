@@ -907,7 +907,7 @@ const multer = require('multer');
             recievedOrders: '',
         }
     
-        const query4 = "SELECT COUNT(status) AS recievedCount FROM customizeorders WHERE status='Closed'";
+        const query4 = "SELECT COUNT(status) AS recievedCount FROM customizeorders WHERE status='Recieved'";
         const printed = await sequelize.query(query4, { type: sequelize.QueryTypes.SELECT });
         data = {
             pendingOrders: pending[0].pendingCount,

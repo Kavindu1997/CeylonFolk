@@ -194,7 +194,7 @@ const CustomizeOrderTable = () => {
                     </Paper>
                     <Paper elevation={3} className={classes.featured}>
                         <div className={classes.featuredItem}>
-                            <span className={classes.featuredTitle}>Dispatched Orders</span>
+                            <span className={classes.featuredTitle}>Printed Orders</span>
                             <div className={classes.featuredItemCount}>
                                 <span className={classes.featuredCount}>{printedcount}</span>
                             </div>
@@ -202,7 +202,7 @@ const CustomizeOrderTable = () => {
                     </Paper>
                     <Paper elevation={3} className={classes.featured}>
                         <div className={classes.featuredItem}>
-                            <span className={classes.featuredTitle}>Rejected Orders</span>
+                            <span className={classes.featuredTitle}>Completed Orders</span>
                             <div className={classes.featuredItemCount}>
                                 <span className={classes.featuredCount}>{recievedcount}</span>
                             </div>
