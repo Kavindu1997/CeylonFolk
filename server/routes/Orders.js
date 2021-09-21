@@ -5,7 +5,7 @@ const nodemailer = require('nodemailer');
 
 router.get("/getHistory/:id", async (req, res) => {
     const id = req.params.id;
-    const query = "SELECT orders.orderId, orders.fullAmount, orders.status, STR_TO_DATE(orders.placedDate, '%Y-%m-%d') AS placedDate, masterdata.decription FROM orders INNER JOIN masterdata ON orders.status = masterdata.id WHERE orders.customerId = '" + id + "' AND orders.isDeleted='0' ORDER BY placedDate DESC";
+    const query = "SELECT orders.orderId, orders.fullAmount, orders.status, STR_TO_DATE(orders.placedDate, '%Y-%m-%d') AS placedDate, masterdata.decription FROM orders INNER JOIN masterdata ON orders.status = masterdata.id WHERE orders.customerId = '" + id + "' AND orders.isDeleted='0' ORDER BY orders.orderId DESC";
     const orderHistoryDetails = await sequelize.query(query, { type: sequelize.QueryTypes.SELECT });
     res.json(orderHistoryDetails);
 });
