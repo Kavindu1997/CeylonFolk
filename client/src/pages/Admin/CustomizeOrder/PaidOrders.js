@@ -3,7 +3,7 @@ import PageHeader from "../PageHeader";
 import LayersIcon from "@material-ui/icons/Layers";
 import { Search } from "@material-ui/icons";
 import AddIcon from "@material-ui/icons/Add";
-import { makeStyles, Paper, TableBody, TableRow, TableCell, Toolbar, InputAdornment, Typography, Table, TableContainer, TableHead, Button, Link } from "@material-ui/core";
+import { makeStyles, Paper, TableBody, TableRow, TableCell, Box, Toolbar, InputAdornment, Typography, Table, TableContainer, TableHead, Button, Link } from "@material-ui/core";
 import Controls from "../../../components/Reusable/Controls";
 import Popup from "../../../components/Reusable/Popup";
 import Notification from "../../../components/Reusable/Notification";
@@ -20,6 +20,8 @@ const PaidOrders = () => {
     
     const classes = useStyles();
     const [openPopup, setOpenPopup] = useState(false);
+    const [order, setOrder] = useState();
+    const [openViewPopup, setOpenViewPopup] = useState(false)
     const [notify, setNotify] = useState({
         isOpen: false,
         message: "",
@@ -37,6 +39,8 @@ const PaidOrders = () => {
     const onDispatched = () => {
         // console.log(id)
 
+        setOpenPopup(false);
+
         const data = {
             id: oId,
             orderNo: oNo,
@@ -51,6 +55,7 @@ const PaidOrders = () => {
                 message: 'Order Dispatched !',
                 type: 'success'
             });
+            window.location.reload(false);
             // setlistOfOrderDetails(response.data);
         })
 
@@ -114,6 +119,21 @@ const PaidOrders = () => {
         // setToggleState(2);
     };
 
+    const onView = (id) => {
+
+        axios.get('http://localhost:3001/customizeOrders/allOrders/' + id).then((response) => {
+            setOrder(response.data);
+            setOpenViewPopup(true);
+        })
+
+        setOpenViewPopup(true);
+
+    }
+
+
+
+
+
 
     return (
 
@@ -137,7 +157,8 @@ const PaidOrders = () => {
                                             <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Customer Email</TableCell>
                                             <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Order No</TableCell>
                                             <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Order Status</TableCell>
-                                            <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}>Design</TableCell>
+                                            <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}></TableCell>
+                                            <TableCell align="center" style={{ fontFamily: 'Montserrat', fontWeight: 600 }}></TableCell>
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
@@ -151,10 +172,24 @@ const PaidOrders = () => {
                                                         <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.customerEmail}</TableCell>
                                                         <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.orderNo}</TableCell>
                                                         <TableCell align="center" style={{ fontFamily: 'Montserrat' }}>{value.status}</TableCell>
-                                                        <TableCell align="center" style={{ fontFamily: 'Montserrat' }}><img height={100} align="center" src={'http://localhost:3001/' + value.image} alt=""></img></TableCell>                                                       
+                                                        <TableCell align="center">
+                                                                <Button name="view"
+                                                                    onClick={() => {
+                                                                        onView(value.orderId)
+
+                                                                    }}
+                                                                    style={{ backgroundColor: 'black', color: 'white', fontSize: '12px', padding: '6px' }}
+                                                                >
+                                                                    VIEW DESIGN
+                                                                </Button>
+
+
+
+                                                            </TableCell>                                                       
                                                         
                                                         <TableCell align="center">
                                                             <Button name="accept" 
+                                                            style={{ backgroundColor: 'green', color: 'white', fontSize: '12px', padding: '6px' }}
                                                             onClick={() => {
                                                                 // onDispatched(value.orderId)
                                                                 setOpenPopup(true);
@@ -180,6 +215,7 @@ const PaidOrders = () => {
                         openPopup={openPopup}
                         setOpenPopup={setOpenPopup}
                     >
+                        <center>
                         <Typography>Are sure order is ready to dispatch</Typography>
                         <Controls.Button
                             type="submit"
@@ -189,7 +225,32 @@ const PaidOrders = () => {
                                 // console.log(value.orderId)
                             }}
                         />
+                        </center>
                     </Popup>
+
+                    {order &&
+
+<Popup
+    title="Design"
+    openPopup={openViewPopup}
+    setOpenPopup={setOpenViewPopup}
+>
+    <center>
+    <Box>
+
+        <TableCell align="center" ><img height={200} align="center" src={'http://localhost:3001/' + order.image} alt=""></img></TableCell>
+
+        <Typography style={{ fontFamily: 'Montserrat', fontWeight:'700' }}>Design Info</Typography>
+        <Typography>Order Id: {order.orderNo}</Typography>
+        {order.textCount === 0 ? <Typography>No Texts</Typography> :<Typography>No of Text : {order.textCount}</Typography>}
+        {order.imageCount === 0 ? <Typography>No Images</Typography> : <Typography>No of Images: {order.imageCount}</Typography>}
+        {order.note === ' ' ? <Typography>No Notes</Typography> : <Typography>Note: {order.note}</Typography>}
+    </Box>
+    </center>
+</Popup>
+
+
+}
 
                     <Notification notify={notify} setNotify={setNotify} />
 

@@ -103,7 +103,15 @@ export default function OrderView() {
 
     axios.put('http://localhost:3001/customizeOrders/advancePaid/', data).then((response) => {
       console.log(response.data);
-      alert('Successsfully Paid Advance')
+      // alert('Successsfully Paid Advance')
+      setNotify({
+        isOpen: true,
+        message: 'Successsfully Paid Advance !',
+        type: 'success'
+    });
+
+    history.push('/custcustomizeOrders')
+
       // setlistOfOrderDetails(response.data);
     })
 
@@ -181,13 +189,15 @@ export default function OrderView() {
             // console.log(response.data);
             // alert('Order Canceled')
             // setlistOfOrderDetails(response.data);
+            setNotify({
+              isOpen: true,
+              message: 'Status Changed to Pending !',
+              type: 'success'
+          });
+          history.push('/custcustomizeOrders')
         })
 
-        setNotify({
-          isOpen: true,
-          message: 'Status Changed to Pending !',
-          type: 'success'
-      });
+        
 
   }
 
@@ -212,6 +222,7 @@ export default function OrderView() {
               message: 'Order Canceled !',
               type: 'success'
           });
+          history.push('/custcustomizeOrders')
             // setlistOfOrderDetails(response.data);
         })
   }
@@ -237,6 +248,7 @@ export default function OrderView() {
               message: 'Order Closed !',
               type: 'success'
           });
+          history.push('/custcustomizeOrders')
             // setlistOfOrderDetails(response.data);
         })
   }
@@ -255,7 +267,7 @@ export default function OrderView() {
                 <Typography variant="h4">Order Summery</Typography>
 
 
-                <Stepper style={{ backgroundColor: '#ebf9fd' }} activeStep={orderDetails.status === 'Pending' ? 1 : orderDetails.status === 'Accept' ? 2 : orderDetails.status === 'Advance Paid' ? 3 : orderDetails.status === 'Printing' ? 4 : orderDetails.status === 'Printed' ? 5 : orderDetails.status === 'Paid' ? 6 : orderDetails.status === 'Dispatched' ? 7 : null} alternativeLabel>
+                <Stepper style={{ backgroundColor: '#ebf9fd' }} activeStep={orderDetails.status === 'Pending' ? 1 : orderDetails.status === 'Accept' ? 2 : orderDetails.status === 'Advance Paid' ? 3 : orderDetails.status === 'Printing' ? 4 : orderDetails.status === 'Printed' ? 5 : orderDetails.status === 'Paid' ? 6 : orderDetails.status === 'Dispatched' ? 7 : 8} alternativeLabel>
                   {steps.map((label) => (
                     <Step key={label}>
                       <StepLabel>{label}</StepLabel>
@@ -341,15 +353,14 @@ export default function OrderView() {
                   </Box>
 
                 <Popup
-                  title="Send the Estimated Price"
+                  title="Make Advance Payment"
                   openPopup={openPopup}
                   setOpenPopup={setOpenPopup}
                 >
-                  <Grid item xs={4}>
+                  <center>
+                  <Grid>
                     <Typography>You Have to make 50% of your full amount to confirm your order</Typography>
-                    <Typography>Your payment</Typography>
-
-                    <Typography>{orderDetails.price / 2}</Typography>
+                    <Typography style={{color:'red', padding:'20px'}}>Your Advance Payment : LKR {orderDetails.price / 2}.00</Typography>
 
                   </Grid>
                   <Grid item md={12} >
@@ -368,6 +379,7 @@ export default function OrderView() {
                     // }}
                     />
                   </Grid>
+                  </center>
                 </Popup>
 
                 <Popup
@@ -425,13 +437,14 @@ export default function OrderView() {
                 </Popup>
 
                 <Popup
-                  title="Recieved Order"
+                  title="Order Recieved"
                   openPopup={openClosePopup}
                   setOpenPopup={setOpenClosePopup}
                 >
+                  <center>
                   <Grid>
-                    <Typography>Have you recieved the order</Typography>
-                    <Box>Then Close the Order</Box>
+                    <Typography>Have you recieved the order ?</Typography>
+                    <Box style={{color:'red', padding:'20px'}}>Then Close the Order</Box>
                   </Grid>
                   <Grid item md={12} >
                     <Controls.Button
@@ -439,9 +452,10 @@ export default function OrderView() {
                         onRecieved()
                       }}
                       type="submit"
-                      text="Recieved Order"
+                      text="Close Order"
                     />
                   </Grid>
+                  </center>
                 </Popup>
                 <Notification notify={notify} setNotify={setNotify} />
               </div>
