@@ -59,7 +59,7 @@ router.get("/fetchColors/:colour_id", async (req,res) => {
     const colour_id = req.params.colour_id;
     const query = "SELECT id, color,color_name, price FROM `colors` WHERE id='" + colour_id + "'";
     const colorList = await sequelize.query(query, {type: sequelize.QueryTypes.SELECT});
-    console.log(colorList);
+  
     res.json(colorList);
 });
 
@@ -67,24 +67,52 @@ router.put("/editColorName/:colour_id", async(req, res) => {
     const colour_id = req.params.colour_id;
     const colorName= req.body.colorName;
 
+
+    const count = "SELECT count(id) as cnt FROM `colors` where colors.color_name='" + colorName + "'";
+    const countColors = await sequelize.query(count, {type: sequelize.QueryTypes.SELECT});
+    console.log(countColors[0].cnt);
+
+    if(countColors[0].cnt==0){
+
     const query = "UPDATE colors SET color_name='" + colorName + "'WHERE colors.id='" + colour_id + "'";
     const updateColors = await sequelize.query(query, {type: sequelize.QueryTypes.UPDATE});
-    res.json(updateColors); 
+ 
     res.status(200).json({
         success: "Success"
     })
+}
+});
+
+router.put("/editColor/:colour_id", async(req, res) => {
+    const colour_id = req.params.colour_id;
+    const color= req.body.color;
+
+    const count = "SELECT count(id) as cnt FROM `colors` where colors.color='" + color + "'";
+    const countColors = await sequelize.query(count, {type: sequelize.QueryTypes.SELECT});
+    console.log(countColors[0].cnt);
+
+    if(countColors[0].cnt==0){
+    const query = "UPDATE colors SET color='" + color + "'WHERE colors.id='" + colour_id + "'";
+    const updateColors = await sequelize.query(query, {type: sequelize.QueryTypes.UPDATE});
+
+    res.status(200).json({
+        success: "Success"
+    })
+}
 });
 
 router.put("/editPrice/:colour_id", async(req, res) => {
     const colour_id = req.params.colour_id;
     const price= req.body.price;
 
+    if(price>0){
     const query = "UPDATE colors SET price='" + price + "'WHERE colors.id='" + colour_id + "'";
     const updatePrice = await sequelize.query(query, {type: sequelize.QueryTypes.UPDATE});
-    res.json(updatePrice); 
+ 
     res.status(200).json({
         success: "Success"
     })
+}
 });
 
 
