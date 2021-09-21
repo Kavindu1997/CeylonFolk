@@ -48,6 +48,7 @@ export default function ContactUs() {
   const onSubmit = (data, props) => {
     axios.post("http://localhost:3001/contact/contactus", data).then((response) => {
       console.log(data);
+      alert('Message Successfully Sent')
       if (response.data.error) {
         setNotify({
           isOpen: true,
@@ -62,6 +63,12 @@ export default function ContactUs() {
                   type: 'success'
                 });
               }
+
+              setNotify({
+                isOpen: true,
+                message: 'Message Successfullt Sent !',
+                type: 'success'
+              });
     });
     console.log(data);
     props.resetForm();
