@@ -221,7 +221,8 @@ export default function CustomizeCheckout() {
             id: id,
             totalAmount: Number(price) + Number(districtvalue) + Number(price),
             delivery: address,
-            placedDate: date
+            placedDate: date,
+            restPayment: Number(price) + Number(districtvalue),
           }
 
           axios.put('http://localhost:3001/customizeOrders/orderPaid/',data).then((response) => {

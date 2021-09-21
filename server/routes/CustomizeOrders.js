@@ -577,8 +577,9 @@ const multer = require('multer');
         <h3>${customerDetails[0].firstName} ${customerDetails[0].lastName} Succseccfully made the rest payment</h3>
                 <h4>Customer ID: ${customerDetails[0].id}</h4>
                 <h4>Order No: ${custoorderDetails[0].orderNo} </h4>
-                <h4>Customer Name: ${customerDetails[0].firsName} ${customerDetails[0].lastName} </h4>
+                <h4>Customer Name: ${customerDetails[0].firstName} ${customerDetails[0].lastName} </h4>
                 <h4>Customer Emali: ${customerDetails[0].email} </h4>
+                <h4>Rest Payment: ${req.body.restPayment} </h4>
             <center>`
 
             const transporter = nodemailer.createTransport({
@@ -689,7 +690,7 @@ const multer = require('multer');
         <h3>${customerDetails[0].firstName} ${customerDetails[0].lastName} Recieved the Order</h3>
                 <h4>Customer ID: ${customerDetails[0].id}</h4>
                 <h4>Order No: ${custoorderDetails[0].orderNo} </h4>
-                <h4>Customer Name: ${customerDetails[0].firsName} ${customerDetails[0].lastName} </h4>
+                <h4>Customer Name: ${customerDetails[0].firstName} ${customerDetails[0].lastName} </h4>
                 <h4>Customer Emali: ${customerDetails[0].email} </h4>
             <center>`
 

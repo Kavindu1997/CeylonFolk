@@ -105,6 +105,17 @@ const useStyles = makeStyles((theme) => ({
         width: "50%",
       },
 
+      toggleButton: {
+        padding: '0px',
+    margin: '4px',
+    fontSize: '12px',
+    fontWeight: 'bold',
+    borderColor: '#acacac',
+    borderWidth: '2px',
+    borderRadius: '10px',
+    
+      },
+
 }));
 
 export default useStyles;

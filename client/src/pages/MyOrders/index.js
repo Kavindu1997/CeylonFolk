@@ -152,7 +152,7 @@ export default function OrderHistory(props) {
                 else
                 return items.filter(x => x.orderId.toLowerCase().includes(target.value) ||
                 x.placedDate.toLowerCase().includes(target.value) ||
-                x.status.toLowerCase().includes(target.value))
+                x.decription.toLowerCase().includes(target.value))
             }
         })
     }
@@ -184,27 +184,27 @@ export default function OrderHistory(props) {
                         <Divider orientation="vertical" flexItem />
                         <Grid item xs={12} sm={12} md={8} lg={7}>
                             <Box style={{ display: 'flex', padding: '24px 10px 0px 48px' }}>
-                                <Divider orientation="vertical" flexItem />
-                                <Button onClick={() => pending()}>Pending Orders</Button>
-                                <Divider orientation="vertical" flexItem />
-                                <Button onClick={() => placed()}>Placed Orders</Button>
-                                <Divider orientation="vertical" flexItem />
-                                <Button onClick={() => notDeposited()}>Waiting to Deposit Oders</Button>
-                                <Divider orientation="vertical" flexItem />
-                                <Button onClick={() => deposited()}>Deposit Verifying Orders</Button>
-                                <Divider orientation="vertical" flexItem />
-                                <Button onClick={() => closed()}>Deposit Verification Falied Orders</Button>
-                                <Divider orientation="vertical" flexItem />
-                                <Button onClick={() => accepted()}>Processing Orders</Button>
-                                <Divider orientation="vertical" flexItem />
-                                <Button onClick={() => dispatched()}>Dispatched Orders</Button>
-                                <Divider orientation="vertical" flexItem />
-                                <Button onClick={() => all()}>All</Button>
-                                <Divider orientation="vertical" flexItem />
+                                
+                                <Button className={classes.toggleButton} variant="outlined" onClick={() => pending()}>Pending Orders</Button>
+                                
+                                <Button className={classes.toggleButton} variant="outlined" onClick={() => placed()}>Placed Orders</Button>
+                                
+                                <Button className={classes.toggleButton} variant="outlined" onClick={() => notDeposited()}>Waiting to Deposit Oders</Button>
+                                
+                                <Button className={classes.toggleButton} variant="outlined" onClick={() => deposited()}>Deposit Verifying Orders</Button>
+                                
+                                <Button className={classes.toggleButton} variant="outlined" onClick={() => closed()}>Deposit Verification Falied Orders</Button>
+                                
+                                <Button className={classes.toggleButton} variant="outlined" onClick={() => accepted()}>Processing Orders</Button>
+                                
+                                <Button className={classes.toggleButton} variant="outlined" onClick={() => dispatched()}>Dispatched Orders</Button>
+                                
+                                <Button className={classes.toggleButton} variant="outlined" onClick={() => all()}>All</Button>
+                                
                             </Box>
                             <div style={{padding:"10px",marginTop:"25px"}}>
                             <Controls.Input
-                            label="Search Collection"
+                            label="Search"
                             className={classes.searchInput}
                             InputProps={{
                                 startAdornment: (

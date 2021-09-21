@@ -16,12 +16,13 @@ const useStyles = makeStyles((theme) => ({
         justifyContent: 'spaceBetween',
         alignItems: 'center',
         background: 'none',
-        borderBottom: '1px solid rgb(236, 236, 236)'
+        
 
     },
     appbarsolid: {
         backgroundColor: 'white',
-        border: '#2d2d2d'
+        border: '#2d2d2d',
+        borderBottom: '1px solid rgb(236, 236, 236)'
 
     },
     icon: {

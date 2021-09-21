@@ -219,7 +219,7 @@ const CustomizeOrderTable = () => {
                         <Button className={classes.toggleButton} variant="outlined" onClick={() => toggleTab(4)}>Printed Orders</Button>
                         <Button className={classes.toggleButton} variant="outlined" onClick={() => toggleTab(8)}>Paid Orders</Button>
                         <Button className={classes.toggleButton} variant="outlined" onClick={() => toggleTab(5)}>Dispatched</Button>
-                        <Button className={classes.toggleButton} variant="outlined" onClick={() => toggleTab(6)}>Closed Orders</Button>
+                        <Button className={classes.toggleButton} variant="outlined" onClick={() => toggleTab(6)}>Completed Orders</Button>
                     </Box>
 
 
