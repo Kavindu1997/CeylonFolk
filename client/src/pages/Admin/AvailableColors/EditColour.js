@@ -43,7 +43,7 @@ function  EditColour({ selectedColourId }) {
 
         }
         axios.put(`http://localhost:3001/availableColors/editColor/${selectedColourId.colour_id}`, colors).then((response) => {
-            // alert('Image upload Successfull');
+         
             history.push('/availableColors');
 
 

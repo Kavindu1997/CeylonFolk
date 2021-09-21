@@ -129,6 +129,12 @@ router.put("/inventory/:inventory_id", async (req, res) => {
                     const updateInvent = await sequelize.query(query, { type: sequelize.QueryTypes.UPDATE });
                     res.json({ data: 1 });
                 }
+                else{
+                    res.json({ data: 0 });
+                }
+            }
+            else{
+                res.json({ data: 0 });
             }
 
 
@@ -142,8 +148,12 @@ router.put("/inventory/:inventory_id", async (req, res) => {
                     const updateInvent = await sequelize.query(query, { type: sequelize.QueryTypes.UPDATE });
                     res.json({ data: 1 });
                 }
+                else{
+                    res.json({ data: 0 });
+                }
 
             }
+            else{res.json({ data: 0 });}
         }
         else if (quantity != '' && margin != '') {
             if (quantity > 0 && margin > 0) {
@@ -153,8 +163,17 @@ router.put("/inventory/:inventory_id", async (req, res) => {
                     res.json({ data: 1 });
 
                 }
+                else{
+                    res.json({ data: 0 });
+                }
+            }
+            else{
+                res.json({ data: 0 });
             }
 
+        }
+        else{
+            res.json({ data: 0 });
         }
 
 
