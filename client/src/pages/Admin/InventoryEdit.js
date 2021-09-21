@@ -53,13 +53,62 @@ function InventoryEdit ({ selectedInventoryId }) {
                     message: 'Not successfully edited !',
                     type: 'error'
                 });
-            } else {
+            } else if(response.data.data == 1){
                 setNotify({
                     isOpen: true,
                     message: 'Successfully edited !',
                     type: 'success'
                 });
             }
+            else  if (response.data.data == 2) {
+                setNotify({
+                    isOpen: true,
+                    message: 'This margin is greater than Current quantity!',
+                    type: 'error'
+                });
+            } 
+            else  if (response.data.data == 3) {
+                setNotify({
+                    isOpen: true,
+                    message: 'Margin should be greater than 0!',
+                    type: 'error'
+                });
+            } 
+            else  if (response.data.data == 4) {
+                setNotify({
+                    isOpen: true,
+                    message: 'This quantity is less than Current margin!',
+                    type: 'error'
+                });
+            } 
+            else  if (response.data.data == 5) {
+                setNotify({
+                    isOpen: true,
+                    message: 'Quantity should be greater than 0!',
+                    type: 'error'
+                });
+            }
+            else  if (response.data.data == 6) {
+                setNotify({
+                    isOpen: true,
+                    message: 'Quantity shouldnt be less than margin!',
+                    type: 'error'
+                });
+            } 
+            else  if (response.data.data == 7) {
+                setNotify({
+                    isOpen: true,
+                    message: 'Quantity should be greater than 0!',
+                    type: 'error'
+                });
+            } 
+            else  if (response.data.data == 8) {
+                setNotify({
+                    isOpen: true,
+                    message: 'Margin should be greater than 0!',
+                    type: 'error'
+                });
+            }  
            
         });
       

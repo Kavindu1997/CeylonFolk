@@ -53,6 +53,20 @@ function TypesEdit({ selectedTypeId }) {
                     type: 'success'
                 });
             } 
+            else  if (response.data.data == 2) {
+                setNotify({
+                    isOpen: true,
+                    message: 'Invalid Price !',
+                    type: 'error'
+                });
+            }
+            else  if (response.data.data == 3) {
+                setNotify({
+                    isOpen: true,
+                    message:  'This type is Already exist!',
+                    type: 'error'
+                });
+            }
 
         });
     };

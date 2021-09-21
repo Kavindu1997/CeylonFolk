@@ -243,7 +243,11 @@ router.put("/bankDeposits", async (req, res) => {
 });
 
 router.put("/unsolvedInquiries/:contactus_id", async (req, res) => {
+    
 
+    try{
+       
+        
     const contactus_id = req.params.contactus_id;
     const { response } = req.body;
 
@@ -308,7 +312,13 @@ const mailOptions = {
     const query = "UPDATE `contactus` SET status='solved' , response='" + response + "' WHERE id='" + contactus_id + "'";
     const updateContactus = await sequelize.query(query, { type: sequelize.QueryTypes.UPDATE });
 
-         
+     
+        res.json({data:1});
+    }
+    catch(e){
+        res.json({data:0});
+    }
+
 
 });
 
