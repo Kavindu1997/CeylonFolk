@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
         padding:'10px',
         justifyContent:'space-between',
         alignItems:'center',
-        height: '400px'
+        height: '420px'
     },
     bar3:{
         // display:'flex',

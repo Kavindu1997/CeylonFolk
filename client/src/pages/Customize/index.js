@@ -561,9 +561,10 @@ const Customize = () => {
             </Box>
             
             </div>
-            <div>
+            <div className={classes.customizePrice}>
               <div style={{display:'none'}}>{imageSrcArray.length===1 && pickerColorArray.length === 1 ?  price=2200 : imageSrcArray.length===1 && pickerColorArray.length > 1 ? price=2400 :imageSrcArray.length > 1 && pickerColorArray.length === 1 ? price=2300: pickerColorArray.length === 1 ? price=1700 : pickerColorArray.length > 1 ? price=1800 :imageSrcArray.length===1 && pickerColorArray.length === 1 ? price=2200 : imageSrcArray.length === 1 ?  price=1900 : imageSrcArray.length > 1 ?  price=2100 : price=1100}</div>              
-              <div className={classes.customizePrice}>Approximate Price = LKR {price}.00</div>             
+              <div >Approximate Price</div>
+              <div >LKR {price}.00</div>                
               </div>
               
           </Grid>
