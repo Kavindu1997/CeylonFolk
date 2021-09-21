@@ -122,7 +122,8 @@ const handleSearch = e => {
                 return items;
             else
                 return items.filter(x => x.collection_name.toLowerCase().includes(target.value))
-        }
+              
+            }
     })
 }
 

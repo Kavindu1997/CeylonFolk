@@ -136,6 +136,9 @@ router.put("/:collection_id", async (req,res) => {
                         const updateOffers = await sequelize.query(query, {type: sequelize.QueryTypes.UPDATE});
                         res.json({ data: 1 });
                         }
+                        else{
+                            res.json({ data: 0 });
+                        }
                 
                     }
                     else if(rate!='' && to==''){
@@ -168,6 +171,9 @@ router.put("/:collection_id", async (req,res) => {
                             }
                             res.json({ data: 1 });
             
+                        }
+                        else{
+                            res.json({ data: 0 });
                         }
                         
                   
@@ -203,10 +209,16 @@ router.put("/:collection_id", async (req,res) => {
                         }
                         res.json({ data: 1 });
                         }
+                        else{
+                            res.json({ data: 0 });
+                        }
             
                   
                         
                        
+                        }
+                        else{
+                            res.json({ data: 0 });
                         }
             
                
