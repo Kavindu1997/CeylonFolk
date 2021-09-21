@@ -34,13 +34,13 @@ function DesignPriceEdit({ selectedDesignId }) {
         }
 
         axios.put(`http://localhost:3001/designs/editPrice/${selectedDesignId.design_id}`,Data).then((response) => {
-            if (response.data.data == 0) {
+            if (response.data == 0) {
                 setNotify({
                     isOpen: true,
                     message: 'Not successfully edited',
                     type: 'error'
                 });
-            }else if (response.data.data == 1) {
+            }else if (response.data == 1) {
                 setNotify({
                     isOpen: true,
                     message: 'Successfully edited!',
@@ -48,7 +48,7 @@ function DesignPriceEdit({ selectedDesignId }) {
                 });
             } 
             
-            else if(response.data.data == 2) {
+            else if(response.data == 2) {
                 setNotify({
                     isOpen: true,
                     message: 'Invalid Price !',
@@ -79,6 +79,7 @@ function DesignPriceEdit({ selectedDesignId }) {
 
     return (
         <div>
+             <main className={classes.content}>
             <div>
                 <form onSubmit={onFormSubmit}>
 
@@ -116,6 +117,7 @@ function DesignPriceEdit({ selectedDesignId }) {
                 </form>
             </div>
             <Notification notify={notify} setNotify={setNotify} />
+            </main>
         </div >
        
 

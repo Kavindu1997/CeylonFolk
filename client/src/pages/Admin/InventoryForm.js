@@ -99,7 +99,7 @@ const InventoryForm = () => {
             else if(response.data.data == 2) {
                 setNotify({
                     isOpen: true,
-                    message: 'Quantity couldnt be greater than margin!',
+                    message: 'Margin couldnt be greater than Quantity!',
                     type: 'error'
                 });
             }
@@ -107,6 +107,20 @@ const InventoryForm = () => {
                 setNotify({
                     isOpen: true,
                     message: 'This item is already exist ',
+                    type: 'error'
+                });
+            }
+            else if(response.data.data == 4) {
+                setNotify({
+                    isOpen: true,
+                    message: 'Quantity should be greater than 0',
+                    type: 'error'
+                });
+            }
+            else if(response.data.data == 5) {
+                setNotify({
+                    isOpen: true,
+                    message: 'Margin should be greater than 0',
                     type: 'error'
                 });
             }

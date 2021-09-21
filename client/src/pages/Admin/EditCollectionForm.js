@@ -4,10 +4,11 @@ import Controls from '../../components/Reusable/Controls';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
 import Notification from "../../components/Reusable/Notification";
-
+import useStyles from './style';
 
 function EditCollectionForm({ selectedCollectionId }) {
 
+    const classes = useStyles();
     const [file, setfile] = useState(null);
     const [collectionName, setCollectionName] = useState([]);
   
@@ -33,13 +34,13 @@ function EditCollectionForm({ selectedCollectionId }) {
 
         axios.put(`http://localhost:3001/collection/edit/${selectedCollectionId.collection_id}`, formData, config).then((response) => {
            
-            if (response.data.data == 0) {
+            if (response.data== 0) {
                 setNotify({
                     isOpen: true,
                     message: 'Not successfully edited',
                     type: 'error'
                 });
-            }else if (response.data.data == 1) {
+            }else if (response.data == 1) {
                 setNotify({
                     isOpen: true,
                     message: 'Successfully Edited!',
@@ -47,7 +48,7 @@ function EditCollectionForm({ selectedCollectionId }) {
                 });
             } 
             
-            else if(response.data.data == 2) {
+            else if(response.data == 2) {
                 setNotify({
                     isOpen: true,
                     message: 'This collection is already exist !',
@@ -81,6 +82,7 @@ function EditCollectionForm({ selectedCollectionId }) {
 
     return (
         <div>
+             <main className={classes.content}>
             <div>
                 <form onSubmit={onFormSubmit}>
                 {listOfCollection
@@ -124,6 +126,7 @@ function EditCollectionForm({ selectedCollectionId }) {
             </div>
             
             <Notification notify={notify} setNotify={setNotify} />
+            </main>
         </div >
        
     );

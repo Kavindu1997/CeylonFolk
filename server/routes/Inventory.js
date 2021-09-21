@@ -76,7 +76,8 @@ router.post("/inventory", async (req, res) => {
         const count1 = await sequelize.query(count_query, { type: sequelize.QueryTypes.SELECT });
         const cnt = count1[0].co;
 
-        if (quantity > 0 && margin > 0) {
+        if(margin>0){
+        if (quantity > 0 ) {
             if (cnt == 0) {
 
                 if (quantity > margin) {
@@ -96,9 +97,12 @@ router.post("/inventory", async (req, res) => {
             }
         }
         else {
-            res.json({ data: 0 });
+            res.json({ data: 4 });
         }
-
+    }
+    else{
+        res.json({ data: 5 });
+    }
 
     }
     catch (e) {
@@ -130,11 +134,11 @@ router.put("/inventory/:inventory_id", async (req, res) => {
                     res.json({ data: 1 });
                 }
                 else{
-                    res.json({ data: 0 });
+                    res.json({ data: 2 });
                 }
             }
             else{
-                res.json({ data: 0 });
+                res.json({ data: 3 });
             }
 
 
@@ -149,14 +153,15 @@ router.put("/inventory/:inventory_id", async (req, res) => {
                     res.json({ data: 1 });
                 }
                 else{
-                    res.json({ data: 0 });
+                    res.json({ data: 4 });
                 }
 
             }
-            else{res.json({ data: 0 });}
+            else{res.json({ data: 5 });}
         }
         else if (quantity != '' && margin != '') {
-            if (quantity > 0 && margin > 0) {
+            if(margin > 0){
+            if (quantity > 0 ) {
                 if (quantity >= margin) {
                     const query = "UPDATE inventories SET quantity='" + quantity + "' ,margin='" + margin + "' WHERE inventories.id='" + inventory_id + "'";
                     const updateInvent = await sequelize.query(query, { type: sequelize.QueryTypes.UPDATE });
@@ -164,18 +169,19 @@ router.put("/inventory/:inventory_id", async (req, res) => {
 
                 }
                 else{
-                    res.json({ data: 0 });
+                    res.json({ data: 6 });
                 }
             }
             else{
-                res.json({ data: 0 });
+                res.json({ data: 7 });
             }
-
         }
         else{
-            res.json({ data: 0 });
+            res.json({ data:8});
         }
 
+        }
+       
 
     }
     catch (e) {
