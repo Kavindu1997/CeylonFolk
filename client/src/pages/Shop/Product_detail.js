@@ -357,8 +357,9 @@ export default function Product_detail() {
 
 
                   <Box className={classes.goback}>
-                    <ArrowBackIcon />
-                    <IconButton onClick={() => { history.goBack() }}>
+                    
+                    <IconButton style={{borderRadius: '0px',fontSize: '18px', color:'black', padding: '0px'}} onClick={() => { history.goBack() }}>
+                    <ArrowBackIcon style={{marginRight:'10px'}}/>
                       <span>Go Back</span>
                     </IconButton>
                   </Box>
@@ -482,9 +483,12 @@ export default function Product_detail() {
                       setOpenPopup={setopenSleevePopup}
                     >
                       <center>
+                      <Typography style={{fontSize:'16px', padding:'10px', fontWeight:'700'}}>MATERIAL : SINGLE JERSEY 190 GSM</Typography>
                         {typ === 6 ? <img src={sizeTshirt} style={{ width: '30%' }} /> : typ === 8 ? <img src={sizeCropTop} style={{ width: '30%' }} /> : typ === 9 ? <img src={sizeKids} style={{ width: '30%' }} /> : null}
                       </center>
                     </Popup>
+
+                    
 
 
                     {quantity &&
