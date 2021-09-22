@@ -147,8 +147,8 @@ async function sendEmail(emailDetails) {
     });
     const mailOptions = {
         from: 'testceylonfolk@gmail.com', // sender address
-        to: 'januyash8@gmail.com', // list of receivers
-        replyTo: emailDetails.email,
+        to: emailDetails.email, // list of receivers
+        replyTo:'testceylonfolk@gmail.com',
         subject: emailDetails.subject, // Subject line
         text: emailDetails.message, // plain text body
         html: htmlEmail
