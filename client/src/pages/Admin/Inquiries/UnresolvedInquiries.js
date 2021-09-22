@@ -5,6 +5,7 @@ import Controls from '../../../components/Reusable/Controls';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
 import useStyles from '../style';
+import Notification from "../../../components/Reusable/Notification";
 
 var contactus_id = localStorage.getItem("contactus_id");
 
@@ -15,6 +16,11 @@ function UnresolvedInquiries({ selectedInquiryId }) {
     
     let history = useHistory();
 
+    const [notify, setNotify] = useState({
+        isOpen: false,
+        message: "",
+        type: "",
+    });
             
     const [listOfUnsolvedInquiries, setListOfUnsolvedInquiries] = useState([]);
 
@@ -34,8 +40,20 @@ function UnresolvedInquiries({ selectedInquiryId }) {
 
 
         axios.put(`http://localhost:3001/notifications/unsolvedInquiries/${selectedInquiryId.contactus_id}`, Data).then((response) => {
-            alert('insert Successfull');
-           
+          
+            if (response.data.data == 0) {
+                setNotify({
+                    isOpen: true,
+                    message: 'Not successfully Send the email',
+                    type: 'error'
+                });
+            }else{
+                setNotify({
+                    isOpen: true,
+                    message: 'Successfully Send the email !',
+                    type: 'success'
+                });
+            }  
 
 
         }).catch((err) => {
@@ -83,6 +101,7 @@ function UnresolvedInquiries({ selectedInquiryId }) {
             </div>
               );
             })}
+            <Notification notify={notify} setNotify={setNotify} />
         </div >
        
     );

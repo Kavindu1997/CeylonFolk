@@ -64,7 +64,7 @@ router.post("/", upload.single('photo'), async (req, res) => {
 });
 
 router.get("/allDepositSlips", async (req, res) => {
-    const query = "SELECT * FROM deposits INNER JOIN users ON users.id=deposits.customerId INNER JOIN orders ON orders.orderId=deposits.orderId INNER JOIN orderitems ON orderitems.orderId=orders.orderId INNER JOIN masterdata ON masterdata.id=orders.status GROUP BY deposits.orderId ORDER BY `orders`.`status` DESC";
+    const query = "SELECT * FROM deposits INNER JOIN users ON users.id=deposits.customerId INNER JOIN orders ON orders.orderId=deposits.orderId INNER JOIN orderitems ON orderitems.orderId=orders.orderId INNER JOIN masterdata ON masterdata.id=orders.status GROUP BY deposits.orderId ORDER BY `orders`.`status` DESC, `deposits`.`uploadedDate` ASC";
     const deposits = await sequelize.query(query, { type: sequelize.QueryTypes.SELECT });
     res.json(deposits);
 })

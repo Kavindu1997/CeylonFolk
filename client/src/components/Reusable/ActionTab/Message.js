@@ -455,7 +455,7 @@ export default function Messages() {
   <WarningIcon/>
 </Avatar>
 </ListItemAvatar>      
-        <Typography className={UnsolvedValue == 1 && listOfUnsolvedInquiries.length != 0 ? classes.activeNotifi : classes.notifi} variant="h8" component="div" whiteSpace="normal" >You {(listOfUnsolvedInquiries.length)} more inquiries to resolve </Typography>
+        <Typography className={UnsolvedValue == 1 && listOfUnsolvedInquiries.length != 0 ? classes.activeNotifi : classes.notifi} variant="h8" component="div" whiteSpace="normal" >You have{(listOfUnsolvedInquiries.length)} more inquiries to resolve </Typography>
 
             </ListItem>
             <Divider variant="inset" component="li" />

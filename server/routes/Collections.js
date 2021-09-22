@@ -35,7 +35,6 @@ const upload = multer({
 
 router.post("/", upload.single('photo'), async (req, res) => {
       
-
         try {
   
             const { collectionName } = req.body;
@@ -58,24 +57,24 @@ router.post("/", upload.single('photo'), async (req, res) => {
                     //     success: "Success"
                     // })
     
-                    res.json({ data: 1 });
+                    res.json(1);
         
                 }
                 else{
     
-                    res.json({ data: 2 });
+                    res.json(2);
                 }
 
 
             }
             else{
-                res.json({ data: 3 });
+                res.json(3);
             }
 
           
         }
         catch (e) {
-            res.json({ data: 0 });
+            res.json(0);
         }
 
 
@@ -132,7 +131,7 @@ router.put("/edit/:collection_id", upload.single('photo'), async (req, res) => {
     
             const query = "UPDATE collections SET collection_name='" + collectionName + "'  WHERE collections.id='" + collection_id + "'";
             const updateCollection = await sequelize.query(query, { type: sequelize.QueryTypes.UPDATE });
-            res.json({ data: 1 });
+            res.json(1);
     
         }
         else if (collectionName == '' && photo == null) {
@@ -141,7 +140,7 @@ router.put("/edit/:collection_id", upload.single('photo'), async (req, res) => {
     
             const query = "UPDATE collections SET coverImage='" + imagePath + "' WHERE collections.id='" + collection_id + "'";
             const updateCollection = await sequelize.query(query, { type: sequelize.QueryTypes.UPDATE });
-            res.json({ data: 1 });
+            res.json(1);
     
         }
         else if (photo == null && collectionName != '') {
@@ -149,19 +148,19 @@ router.put("/edit/:collection_id", upload.single('photo'), async (req, res) => {
             const imagePath = 'public/collections/' + req.file.filename;
             const query = "UPDATE collections SET collection_name='" + collectionName + "' , coverImage='" + imagePath + "' WHERE collections.id='" + collection_id + "'";
             const updateCollection = await sequelize.query(query, { type: sequelize.QueryTypes.UPDATE });
-            res.json({ data: 1 });
+            res.json(1);
     
         }
       
     }
     else{
         
-        res.json({ data: 2 });
+        res.json(2);
     }
         
     }
     catch (e) {
-        res.json({ data: 0 });
+        res.json(0);
     }
 
   

@@ -133,7 +133,7 @@ router.put("/:types_id", async (req,res) => {
 
                         }
                         else{
-                            res.json({ data: 0 });
+                            res.json({ data: 2 });
                         }
                           
                 
@@ -150,7 +150,7 @@ router.put("/:types_id", async (req,res) => {
                   
                         }
                         else{
-                            res.json({ data: 0 });
+                            res.json({ data: 3});
                         }
             
                         
@@ -167,22 +167,18 @@ router.put("/:types_id", async (req,res) => {
                             res.json({ data: 1 });
                             }
                             else{
-                                res.json({ data: 0 });
+                                res.json({ data: 3 });
                             }
                             
                 
                         }
                         else{
-                            res.json({ data: 0 });
+                            res.json({ data: 2 });
                         }
             
                           
                         }
-                        else{
-                            res.json({ data: 0 });
-                        }
-            
-            
+                      
               
             }
             catch (e) {

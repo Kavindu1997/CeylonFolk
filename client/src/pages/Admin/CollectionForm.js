@@ -35,13 +35,13 @@ const CollectionForm = () => {
         
         axios.post("http://localhost:3001/collection", formData, config).then((response) => {
 
-            if (response.data.data == 0) {
+            if (response.data== 0) {
                 setNotify({
                     isOpen: true,
                     message: 'Not successfully added ! Image not found',
                     type: 'error'
                 });
-            }else if (response.data.data == 1) {
+            }else if (response.data == 1) {
                 setNotify({
                     isOpen: true,
                     message: 'Successfully Added !',
@@ -49,14 +49,14 @@ const CollectionForm = () => {
                 });
             } 
             
-            else if(response.data.data == 2) {
+            else if(response.data == 2) {
                 setNotify({
                     isOpen: true,
                     message: 'This collection is already exist !',
                     type: 'error'
                 });
             }
-            else if(response.data.data == 3) {
+            else if(response.data == 3) {
                 setNotify({
                     isOpen: true,
                     message: 'Not successfully added ! Add Collection Name',
@@ -82,6 +82,8 @@ const CollectionForm = () => {
 
     return (
         <div>
+              <main className={classes.content}>
+         
             <div>
                 <form onSubmit={onFormSubmit}>
                     <Grid container>
@@ -114,9 +116,10 @@ const CollectionForm = () => {
                     </Grid>
 
                 </form>
-             
+                
             </div>
             <Notification notify={notify} setNotify={setNotify} />
+            </main>
         </div >
       
     );

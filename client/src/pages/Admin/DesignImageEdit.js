@@ -47,7 +47,7 @@ function DesignImageEdit({ selectedDesignId }) {
        
         axios.put(`http://localhost:3001/designs/editImage/${selectedDesignId.design_id}`, formData, config).then((response) => {
 
-            if (response.data.data == 0) {
+            if (response.data== 0) {
                 setNotify({
                     isOpen: true,
                     message: 'Not successfully Edited',
@@ -82,6 +82,7 @@ function DesignImageEdit({ selectedDesignId }) {
 
     return (
         <div>
+             <main className={classes.content}>
             <div>
                 <form onSubmit={onFormSubmit}>
 
@@ -114,6 +115,7 @@ function DesignImageEdit({ selectedDesignId }) {
                 </form>
             </div>
             <Notification notify={notify} setNotify={setNotify} />
+            </main>
         </div >
        
 

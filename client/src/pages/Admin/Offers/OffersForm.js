@@ -57,16 +57,44 @@ const OffersForm = () => {
             if (response.data.data == 0) {
                 setNotify({
                     isOpen: true,
-                    message: 'Not successfully Added',
+                    message: 'Not successfully Added!',
                     type: 'error'
                 });
-            }else {
+            }else if(response.data.data == 1){
                 setNotify({
                     isOpen: true,
                     message: 'Successfully Added !',
                     type: 'success'
                 });
-            } 
+            }
+            else if (response.data.data == 2) {
+                setNotify({
+                    isOpen: true,
+                    message: 'Collection name is empty!',
+                    type: 'error'
+                });
+            }
+            else if (response.data.data == 3) {
+                setNotify({
+                    isOpen: true,
+                    message: 'Rate should be between 0-100!',
+                    type: 'error'
+                });
+            }
+            else if (response.data.data == 4) {
+                setNotify({
+                    isOpen: true,
+                    message: 'Date shoudnt be a Past Date!',
+                    type: 'error'
+                });
+            }
+            else if (response.data.data == 5) {
+                setNotify({
+                    isOpen: true,
+                    message: 'Offer is already exist!',
+                    type: 'error'
+                });
+            }
            
         });
        

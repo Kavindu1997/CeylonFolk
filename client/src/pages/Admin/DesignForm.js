@@ -59,38 +59,45 @@ const DesignForm = () => {
         axios.post("http://localhost:3001/designs", formData, config).then((response) => {
 
 
-            if (response.data.data == 0) {
+            if (response.data== 0) {
                 setNotify({
                     isOpen: true,
                     message: 'Not successfully Added!',
                     type: 'error'
                 });
             }
-            else if (response.data.data == 1) {
+            else if (response.data== 1) {
                 setNotify({
                     isOpen: true,
                     message: 'Successfully Added !',
                     type: 'success'
                 });
             }
-            else if (response.data.data == 2) {
+            else if (response.data== 2) {
                 setNotify({
                     isOpen: true,
                     message: 'This type and Colour is not in the inventory !',
                     type: 'error'
                 });
             }
-            else if (response.data.data == 3) {
+            else if (response.data == 3) {
                 setNotify({
                     isOpen: true,
                     message: 'This Design name is already exist !',
                     type: 'error'
                 });
             }
-            else if (response.data.data == 4) {
+            else if (response.data == 4) {
                 setNotify({
                     isOpen: true,
                     message: 'Price is not valid!',
+                    type: 'error'
+                });
+            }
+            else if (response.data == 5) {
+                setNotify({
+                    isOpen: true,
+                    message: 'Select a type!',
                     type: 'error'
                 });
             }
@@ -143,6 +150,7 @@ const DesignForm = () => {
 
     return (
         <div>
+            <main className={classes.content}>
             <div>
                 <form onSubmit={onFormSubmit}>
 
@@ -235,11 +243,12 @@ const DesignForm = () => {
 
 
                     </Grid>
-
+                  
 
                 </form>
             </div>
             <Notification notify={notify} setNotify={setNotify} />
+            </main>
         </div >
        
     );
