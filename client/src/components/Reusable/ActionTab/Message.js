@@ -389,6 +389,16 @@ export default function Messages() {
     var canceledCOCnt = 0;
   }
 
+  
+  if (reOrderLevel.length > 0) {
+    var reOrderLevelCnt = 1;
+  }
+  else {
+    var reOrderLevelCnt = 0;
+  }
+
+
+
   return (
 
     <>
@@ -399,7 +409,7 @@ export default function Messages() {
         color='inherit'>
         {/* <Badge badgeContent={(listOfContactUs.length + listOfContactUs.length)} color='secondary'> */}
 
-        <Badge badgeContent={ContactUsValue + UnsolvedValue + reOrderLevel.length + offerDate.length + editedOrdersCnt + placedOrdersCnt + deletedOrdersCnt + bankDepositsCnt + pendingCOCnt + recievedCOCnt + advancepaidCOCnt + paidCOCnt + canceledCOCnt} color='secondary'>
+        <Badge badgeContent={ContactUsValue + UnsolvedValue + reOrderLevelCnt + offerDate.length + editedOrdersCnt + placedOrdersCnt + deletedOrdersCnt + bankDepositsCnt + pendingCOCnt + recievedCOCnt + advancepaidCOCnt + paidCOCnt + canceledCOCnt} color='secondary'>
 
           <ForumIcon />
         </Badge>

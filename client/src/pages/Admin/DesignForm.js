@@ -101,6 +101,13 @@ const DesignForm = () => {
                     type: 'error'
                 });
             }
+            else if (response.data == 6) {
+                setNotify({
+                    isOpen: true,
+                    message: 'Select a colour!',
+                    type: 'error'
+                });
+            }
 
         });
     };
