@@ -452,7 +452,7 @@ export default function OrderView() {
                         onRecieved()
                       }}
                       type="submit"
-                      text="Close Order"
+                      text="Complete Order"
                     />
                   </Grid>
                   </center>

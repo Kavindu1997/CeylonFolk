@@ -44,7 +44,6 @@ export default function CustomizeCheckout() {
     const [customerName, setCustomerName] = useState([]);
     const [value, setValue] = React.useState('payment');
     let paymentItem;
-    const customerDetails = useSelector((state) => state.checkout.detail)
     const deliveryDetails = useSelector((state) => state.checkout.delivery)
     const totalDetails = useSelector(state => state.cart.totalAmount)
     const [districtvalue, setDistrict] = useState([]);
@@ -58,6 +57,7 @@ export default function CustomizeCheckout() {
     const [districtError,setDistrictError] = useState(false);
     const [specialNote,setSpecialNote] = useState([]);
     const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' });
+    const customerDetails = useSelector((state) => state.checkout.detail)
   
     const getDistrictValue = (event) => {
         setDistrictNameValue(event.target.value)
@@ -187,6 +187,7 @@ export default function CustomizeCheckout() {
         var date = moment().format();
         var total = Number(price) + Number(districtvalue) + Number(price);
         var totalAmount = Number(price) + Number(districtvalue) + Number(price);
+        var tPrice =  Number(price)+Number(districtvalue);
         var address = "";
         if (isDeliveryDiffAdd != true) {
             address = cutomerAddress1 + ' ' + cutomerAddress2 + ' ' + cutomerAddress3;
@@ -196,12 +197,14 @@ export default function CustomizeCheckout() {
         const item = {
             userId: uid,
             orderId: orderId,
-            totalAmount:  Number(districtvalue) + Number(price),
+            totalAmount:  tPrice,
             payment: 'pm',
             status: 'status',
             // itemArray: itemDetails,
             delivery: address,
             placedDate: date,
+            name:customerDetails[0].firstName + " " + customerDetails[0].lastName,
+
             
         }
         return item;
