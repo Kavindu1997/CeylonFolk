@@ -105,8 +105,8 @@ router.post("/cancelItem", async (req, res) => {
         const totalItemValue = await sequelize.query(quety1, { type: sequelize.QueryTypes.SELECT });
         const quety2 = "SELECT deliveryValue, couponValue FROM orders WHERE orders.orderId = '" + orderId + "'";
         const ordervalues = await sequelize.query(quety2, { type: sequelize.QueryTypes.SELECT });
-        var totals = Number(totalItemValue[0].itemTotal)+Number(ordervalues[0].deliveryValue)-Number(ordervalues[0].couponValue)
-        const query3 = "UPDATE orders SET orders.notifications='edited',orders.flag='0', orders.fullAmount = "+totals+" WHERE orders.orderId = '"+orderId+"'";
+        var totals = Number(totalItemValue[0].itemTotal) + Number(ordervalues[0].deliveryValue) - Number(ordervalues[0].couponValue)
+        const query3 = "UPDATE orders SET orders.notifications='edited',orders.flag='0', orders.fullAmount = " + totals + " WHERE orders.orderId = '" + orderId + "'";
         const deleteItem2 = await sequelize.query(query3, { type: sequelize.QueryTypes.UPDATE });
 
     }
@@ -157,8 +157,8 @@ router.put("/updateOrder", async (req, res) => {
         const totalItemValue = await sequelize.query(quety1, { type: sequelize.QueryTypes.SELECT });
         const quety2 = "SELECT deliveryValue, couponValue FROM orders WHERE orders.orderId = '" + oId + "'";
         const ordervalues = await sequelize.query(quety2, { type: sequelize.QueryTypes.SELECT });
-        var totals = Number(totalItemValue[0].itemTotal)+Number(ordervalues[0].deliveryValue)-Number(ordervalues[0].couponValue)
-        const query3 = "UPDATE orders SET orders.notifications='edited',orders.flag='0',orders.fullAmount = "+totals+" WHERE orders.orderId = '"+oId+"'";
+        var totals = Number(totalItemValue[0].itemTotal) + Number(ordervalues[0].deliveryValue) - Number(ordervalues[0].couponValue)
+        const query3 = "UPDATE orders SET orders.notifications='edited',orders.flag='0',orders.fullAmount = " + totals + " WHERE orders.orderId = '" + oId + "'";
         const totalUpdate = await sequelize.query(query3, { type: sequelize.QueryTypes.UPDATE });
         // const query1 = "UPDATE orders SET orders.notifications='edited', orders.fullAmount =( SELECT SUM( designs.price * orderitems.quantity ) FROM orderitems INNER JOIN designs ON designs.id = orderitems.itemId WHERE orderitems.orderId = orders.orderId ) WHERE orders.orderId = '" + oId + "'";
         // const totalUpdate = await sequelize.query(query1, { type: sequelize.QueryTypes.UPDATE });
@@ -461,15 +461,63 @@ router.post("/statusChange", async (req, res) => {
     const orderId = req.body.orderId;
     const status = req.body.status;
 
+
+    //     console.log(customerDetails[0].email);
+    //     res.json("SUCCESS");
+
+    // })
     if (status == 1 || status == 6 || status == 5) {
         const query = "UPDATE orders SET status = '3' WHERE orderId='" + orderId + "'";
         const statusChanged = await sequelize.query(query, { type: sequelize.QueryTypes.UPDATE });
         res.json(statusChanged);
     }
     else {
-        const query = "UPDATE orders SET status = '40' WHERE orderId='" + orderId + "'";
-        const statusChanged = await sequelize.query(query, { type: sequelize.QueryTypes.UPDATE });
-        res.json(statusChanged);
+        const query1 = "SELECT users.email,orders.fullAmount FROM users INNER JOIN orders ON users.id=orders.customerId WHERE orders.orderId='" + orderId + "'";
+        const customerDetails = await sequelize.query(query1, { type: sequelize.QueryTypes.SELECT });
+
+        const query2 = "UPDATE orders SET status = '40' WHERE orderId='" + orderId + "'";
+        const statusChanged = await sequelize.query(query2, { type: sequelize.QueryTypes.UPDATE });
+
+        const htmlEmail = `
+            <h2> Your Order has been Dispatched </h2>
+            <h3> Order details </h3>
+            <l
+            <h4>Order ID: ${orderId} </h4>
+            <h4>Full Amount (LKR) : ${customerDetails[0].fullAmount}.00</h4>
+            <p>Please collect your order during this week. If its not received please contact ceylonfolk</p>
+            <p>Contact number:+94 71 951 4902</p>
+            `
+
+        const transporter = nodemailer.createTransport({
+            host: 'smtp.gmail.com',
+            port: 465,
+            secure: true,
+            auth: {
+                user: "testceylonfolk@gmail.com",
+                pass: "pkjjt@1234"
+            }
+        });
+
+        const mailOptions = {
+            from: 'testceylonfolk@gmail.com',
+            to: customerDetails[0].email,
+            replyTo: customerDetails[0].email,
+            subject: "Order Dispatched",
+            html: htmlEmail
+        };
+
+        transporter.sendMail(mailOptions, (err, info) => {
+            if (err) {
+                console.log("error in sending mail", err)
+                return res.status(400).json({
+                    message: `error in sending the mail${err}`
+                })
+            }
+            else {
+                res.json(statusChanged);
+            }
+        })
+
     }
 })
 

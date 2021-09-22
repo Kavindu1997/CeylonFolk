@@ -89,8 +89,6 @@ router.post("/forgotPassword", async (req, res) => {
                     return res.json({ message: "Successfully sent Email." })
                 }
             });
-
-
         })
     })
 });
@@ -120,13 +118,13 @@ router.put("/changePassword/:uid", async (req, res) => {
     const userId = req.params.uid
     console.log(userId);
 
-    const { newPassword,confirmPassword } = req.body;
+    const { newPassword, confirmPassword } = req.body;
     bcrypt.hash(newPassword, 10).then(async (hash) => {
-    const query = "UPDATE users SET password='" + hash + "'  WHERE id='" + userId + "'";
+        const query = "UPDATE users SET password='" + hash + "'  WHERE id='" + userId + "'";
 
-    const result = await sequelize.query(query, { type: sequelize.QueryTypes.UPDATE });
-    res.json(result);
-   });
+        const result = await sequelize.query(query, { type: sequelize.QueryTypes.UPDATE });
+        res.json(result);
+    });
 });
 
 
@@ -135,19 +133,19 @@ router.post("/", async (req, res) => {
 
     const user = await Users.findOne({ where: { email: email } });
     if ((user)) res.json({ error: "Email already Existed!" });
-    else{
-    bcrypt.hash(password, 10).then((hash) => {
-        Users.create({
-            firstName: firstName,
-            lastName: lastName,
-            email: email,
-            contactNo: contactNo,
-            password: hash,
-            user_type_id: user_type_id
-        })
-        res.json("SUCCESS");
-    });
-}
+    else {
+        bcrypt.hash(password, 10).then((hash) => {
+            Users.create({
+                firstName: firstName,
+                lastName: lastName,
+                email: email,
+                contactNo: contactNo,
+                password: hash,
+                user_type_id: user_type_id
+            })
+            res.json("SUCCESS");
+        });
+    }
     //if ((user.email == email)) res.json({ error: "Email already Exist!" });
 });
 
