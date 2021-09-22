@@ -200,7 +200,7 @@ const multer = require('multer');
     
             
 
-        const query = "UPDATE customizeorders SET status='Accept', price='"+price+"', notificationStatus='false' WHERE orderId='"+id+"'";
+        const query = "UPDATE customizeorders SET status='Accept', price='"+price+"', fixedPrice='"+price+"', notificationStatus='false' WHERE orderId='"+id+"'";
         const updateStatus = await sequelize.query(query, { type: sequelize.QueryTypes.UPDATE });
 
         const query2 = "SELECT * FROM customizeorders WHERE (status='Pending' AND deleteFlag='false')";
