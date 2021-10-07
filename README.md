@@ -25,7 +25,7 @@ Navigate to the downloaded folder and open the terminal. Then type following com
   npm start
 ```
 
-#### Step 05
+#### Step 04
 
 Run the database server.
 
