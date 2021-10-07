@@ -31,7 +31,7 @@ Run the database server.
 
 #### Step 05
 
-Same as the step 03, change the directory to the “ Server ” from the root directory and install the dependencies and runt he server side of the application by typing following commands on terminal.
+Same as the step 03, change the directory to the “ Server ” from the root directory and install the dependencies and run the server side of the application by typing following commands on terminal.
 
 ```bash
   cd server
